@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "u-checkbox": "/uview-ui/components/u-checkbox/u-checkbox",
+    "u-picker": "/uview-ui/components/u-picker/u-picker",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

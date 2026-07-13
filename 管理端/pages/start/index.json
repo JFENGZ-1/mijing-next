@@ -1,0 +1,6 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

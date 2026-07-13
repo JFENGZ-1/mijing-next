@@ -1,0 +1,13 @@
+{
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "hint": "/pageConfig/components/top-hint/index",
+    "navigation": "/components/navigation/index",
+    "nodata": "/components/nodata/nodata",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

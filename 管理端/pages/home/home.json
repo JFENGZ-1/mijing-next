@@ -1,0 +1,18 @@
+{
+  "enablePullDownRefresh": true,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "appoint-item": "/pages/home/components/appoint-item",
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "expired-alert": "/components/expiredAlert/expiredAlert",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "loading-pulse": "/components/zero-loading/static/loading-pulse",
+    "nodata": "/components/nodata/nodata",
+    "privacy": "/components/privacy/privacy",
+    "remark-order-popup": "/components/ff-textarea/ff-textarea",
+    "u-divider": "/uview-ui/components/u-divider/u-divider",
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

@@ -1,0 +1,21 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-786e06cd" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="指预约但还没有上课的次数" title="提前预约次数限制" value="{{show}}" vueId="e441b5cc-1" vueSlots="{{['default','confrimBtn']}}">
+    <view class="com-button-f1 data-v-786e06cd" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-786e06cd" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'e441b5cc-2'+','+'e441b5cc-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-786e06cd">
+        <u-radio-group bind:__l="__l" bind:input="__e" class="radio-group data-v-786e06cd" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','selectValue','$event',[] ] ] ] ] ]}}" value="{{selectValue}}" vueId="{{'e441b5cc-3'+','+'e441b5cc-1'}}" vueSlots="{{['default']}}">
+            <u-radio bind:__l="__l" class="radio data-v-786e06cd" name="{{0}}" vueId="{{'e441b5cc-4'+','+'e441b5cc-3'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-786e06cd',selectValue===0?'active':'']}}">不限制</view>
+            </u-radio>
+            <u-radio bind:__l="__l" class="radio data-v-786e06cd" name="{{1}}" vueId="{{'e441b5cc-5'+','+'e441b5cc-3'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-786e06cd',selectValue===1?'active':'']}}">最多可提前预约<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-786e06cd" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','selectParam','$event',[] ] ] ] ] ]}}" disabled="{{selectValue!=1}}" type="number" value="{{selectParam}}" vueId="{{'e441b5cc-6'+','+'e441b5cc-5'}}"></u-input>次</view>
+            </u-radio>
+        </u-radio-group>
+        <view class="sample data-v-786e06cd">
+            <view class="data-v-786e06cd">举例：</view>
+            <view class="data-v-786e06cd">* 如填写1次，则最多只能约1个课，上完预约的课并签到后才可以预约下次的课</view>
+            <view class="data-v-786e06cd">* 如填写3次，最多只能约3个课，上完一节并签到后，才可以再约一节</view>
+        </view>
+        <view class="data-v-786e06cd" style="padding-top:160rpx;"></view>
+    </view>
+</ff-popup>

@@ -1,0 +1,97 @@
+<view bindtap="__e" class="data-v-61b3fd0b" data-event-opts="{{[ [ 'tap',[ [ 'cancelBubbling',['$event'] ] ] ] ]}}" style="background-color:#FFF;">
+    <view class="bg-img data-v-61b3fd0b" style="{{'top:'+(StatusBar+CustomBar<90?StatusBar+CustomBar-92:0)+'px'+';'+'background:'+'#fff url('+$root.m0+')'+';'+'background-size:'+'100% auto'+';'+'background-repeat:'+'no-repeat'+';'}}"></view>
+    <navigation background="rgba(255, 255, 255, 0)" bind:__l="__l" class="data-v-61b3fd0b" headUrl="{{userFaceurl}}" text="{{userRealname}}" vueId="2a0fa456-1"></navigation>
+    <view class="main data-v-61b3fd0b" style="{{'padding-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="head data-v-61b3fd0b" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="summarize data-v-61b3fd0b">
+                <view class="num data-v-61b3fd0b">{{totalCount}}</view>
+                <view class="num-text data-v-61b3fd0b">有效积分</view>
+                <view class="edit-point data-v-61b3fd0b">
+                    <view bindtap="__e" class="but data-v-61b3fd0b" data-event-opts="{{[ [ 'tap',[ [ 'addPoint',[1] ] ] ] ]}}" wx:if="{{!$root.m1}}">
+                        <image class="img data-v-61b3fd0b" src="{{$root.m2}}"></image>
+                        <text class="data-v-61b3fd0b">加积分</text>
+                    </view>
+                    <view bindtap="__e" class="but data-v-61b3fd0b" data-event-opts="{{[ [ 'tap',[ [ 'addPoint',[2] ] ] ] ]}}" wx:if="{{!$root.m3}}">
+                        <image class="img data-v-61b3fd0b" src="{{$root.m4}}"></image>
+                        <text class="data-v-61b3fd0b">减积分</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="content data-v-61b3fd0b">
+            <view class="setting_wrap data-v-61b3fd0b">
+                <view class="list data-v-61b3fd0b">
+                    <view class="item data-v-61b3fd0b" wx:if="{{$root.g0}}">
+                        <view class="data-v-61b3fd0b" style="padding-top:28rpx;" wx:for="{{$root.l0}}" wx:key="index">
+                            <view class="sale-item data-v-61b3fd0b">
+                                <view class="detail-info data-v-61b3fd0b">
+                                    <view class="detail-info-wrap data-v-61b3fd0b">
+                                        <view class="l-info data-v-61b3fd0b">
+                                            <view class="l-info-head data-v-61b3fd0b">{{item.$orig.pointTitle+''}}<view class="tag_wrap data-v-61b3fd0b" wx:if="{{item.$orig.tagData&&item.$orig.tagData!='不指定'}}">
+                                                    <image class="img data-v-61b3fd0b" src="{{item.m5}}"></image>
+                                                    <view class="tag_text data-v-61b3fd0b">{{item.$orig.tagData}}</view>
+                                                </view>
+                                            </view>
+                                            <view class="time-and-type data-v-61b3fd0b">
+                                                <text class="data-v-61b3fd0b" wx:if="{{item.$orig.createTime}}">{{item.$orig.createTime}}</text>
+                                                <text class="data-v-61b3fd0b" wx:else>--</text>
+                                            </view>
+                                        </view>
+                                        <view class="r-info data-v-61b3fd0b">
+                                            <view class="data-v-61b3fd0b">
+                                                <view class="{{['day-num','data-v-61b3fd0b',item.$orig.pointVal<0?'redtext':'']}}">
+                                                    <text class="data-v-61b3fd0b" style="padding-right:2rpx;" wx:if="{{item.$orig.pointVal>0}}">+</text>{{''+item.$orig.pointVal+''}}</view>
+                                                <view class="day-num1 data-v-61b3fd0b">
+                                                    <text class="oper data-v-61b3fd0b" wx:if="{{item.$orig.reasonId==4||item.$orig.reasonId==5}}">{{item.m6+'操作'}}</text>
+                                                    <text class="{{['data-v-61b3fd0b',item.$orig.pointVal>0?'greentext':'redtext']}}">{{item.$orig.reasonText}}</text>
+                                                </view>
+                                            </view>
+                                            <view class="handle_module data-v-61b3fd0b" wx:if="{{item.m7}}">
+                                                <view catchtap="__e" class="icon_wrap data-v-61b3fd0b" data-event-opts="{{[ [ 'tap',[ [ 'showDrop',[index] ] ] ] ]}}">
+                                                    <image class="more-icon data-v-61b3fd0b" src="{{item.m8}}"></image>
+                                                </view>
+                                                <view class="drop_down data-v-61b3fd0b" hidden="{{!item.$orig.showDown}}">
+                                                    <view class="image_wrap data-v-61b3fd0b">
+                                                        <image class="data-v-61b3fd0b" src="{{item.m9}}"></image>
+                                                    </view>
+                                                    <view class="drop_down_list data-v-61b3fd0b">
+                                                        <view catchtap="__e" class="item data-v-61b3fd0b" data-event-opts="{{[ [ 'tap',[ [ 'editPoint',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}">
+                                                            <image class="data-v-61b3fd0b" src="{{item.m10}}" style="width:34rpx;height:33rpx;"></image>
+                                                            <text class="data-v-61b3fd0b">重新编辑</text>
+                                                        </view>
+                                                        <view catchtap="__e" class="item data-v-61b3fd0b" data-event-opts="{{[ [ 'tap',[ [ 'delPoint',['$0'],[ [ ['list','',index,'nnid'] ] ] ] ] ] ]}}">
+                                                            <image class="data-v-61b3fd0b" src="{{item.m11}}" style="width:39rpx;height:39rpx;"></image>
+                                                            <text class="data-v-61b3fd0b">删除记录</text>
+                                                        </view>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-61b3fd0b" color="#F0F0F0" margin="24rpx 0rpx 0rpx 18rpx" vueId="{{'2a0fa456-2-'+index}}" wx:if="{{item.g1-1!=index}}"></u-line>
+                        </view>
+                    </view>
+                    <view class="data-v-61b3fd0b" wx:else>
+                        <view class="noCourseData data-v-61b3fd0b">
+                            <image class="icon data-v-61b3fd0b" src="{{$root.m12}}"></image>
+                            <text class="explain data-v-61b3fd0b">~ 没有积分记录 ~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="nodata data-v-61b3fd0b" wx:if="{{notdata&&ismore}}">
+        <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-61b3fd0b" color="#bfbfbf" halfWidth="74" vueId="2a0fa456-3" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+    </view>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-61b3fd0b vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ] ]}}" data-ref="confirmModal" title="确认删除?" vueId="2a0fa456-4" vueSlots="{{['content']}}">
+        <view class="data-v-61b3fd0b" slot="content">
+            <text class="data-v-61b3fd0b" style="{{'display:block;'}}">点击确定后将删除这条记录</text>
+        </view>
+    </confirm-modal>
+    <ff-bottom-logo bind:__l="__l" class="data-v-61b3fd0b" vueId="2a0fa456-5"></ff-bottom-logo>
+    <add-point bind:__l="__l" bind:submit="__e" class="data-v-61b3fd0b vue-ref" data-event-opts="{{[ [ '^submit',[ ['reGetList'] ] ] ]}}" data-ref="addPointRef" vueId="2a0fa456-6"></add-point>
+    <edit-point bind:__l="__l" bind:submit="__e" class="data-v-61b3fd0b vue-ref" data-event-opts="{{[ [ '^submit',[ ['reGetList'] ] ] ]}}" data-ref="editPointRef" vueId="2a0fa456-7"></edit-point>
+</view>

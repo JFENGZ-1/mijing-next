@@ -1,0 +1,72 @@
+<view class="data-v-1938c5f7">
+    <view class="container data-v-1938c5f7">
+        <view class="card-wrap data-v-1938c5f7" wx:if="{{currentCard}}">
+            <member-card activeClass="large-size" bind:__l="__l" cardInfo="{{currentCard}}" class="data-v-1938c5f7" vueId="5ea719ca-1"></member-card>
+        </view>
+        <view class="record-list data-v-1938c5f7">
+            <view class="tabs-wrap data-v-1938c5f7">
+                <u-tabs barStyle="{{({background:'#22C788'})}}" bind:__l="__l" bind:change="__e" class="data-v-1938c5f7" current="{{tabCurrent}}" data-event-opts="{{[ [ '^change',[ ['tabChange'] ] ] ]}}" isScroll="{{false}}" list="{{list}}" vueId="5ea719ca-2"></u-tabs>
+            </view>
+            <view class="list-wrap data-v-1938c5f7">
+                <view class="appointment-record data-v-1938c5f7" hidden="{{!(tabCurrent==0)}}">
+                    <view class="noData data-v-1938c5f7" wx:if="{{$root.g0}}">
+                        <image class="data-v-1938c5f7" src="{{$root.m0}}"></image>
+                        <text class="data-v-1938c5f7">无预约记录哦</text>
+                    </view>
+                    <view class="data-v-1938c5f7" wx:else>
+                        <view class="item data-v-1938c5f7" wx:for="{{appointmentRecord}}" wx:key="index">
+                            <appointment-list bind:__l="__l" class="data-v-1938c5f7" isHandleBtn="{{false}}" item="{{item}}" vueId="{{'5ea719ca-3-'+index}}"></appointment-list>
+                        </view>
+                    </view>
+                </view>
+                <view class="change-record data-v-1938c5f7" hidden="{{!(tabCurrent==2)}}">
+                    <view class="noData data-v-1938c5f7" wx:if="{{$root.g1}}">
+                        <image class="data-v-1938c5f7" src="{{$root.m1}}"></image>
+                        <text class="data-v-1938c5f7">无变更记录哦</text>
+                    </view>
+                    <view class="data-v-1938c5f7" wx:else>
+                        <view class="item data-v-1938c5f7" wx:for="{{changeRecord}}" wx:key="index">
+                            <view class="change_name data-v-1938c5f7">{{item.modifyTypeName}}</view>
+                            <view class="change_record data-v-1938c5f7">
+                                <view class="change_top data-v-1938c5f7">
+                                    <view class="change_top_time data-v-1938c5f7" wx:for="{{item.textlist}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                                        <view class="{{['data-v-1938c5f7',item1.left.fontsize==1?'change_top_left':'change_top_lefts']}}">{{(item1.left.text||'')+''}}</view>
+                                        <view class="{{['data-v-1938c5f7',item1.right.fontsize==1?'change_top_right':'change_top_rights']}}">{{(item1.right.text||'')+''}}</view>
+                                    </view>
+                                </view>
+                                <view class="change_bottom data-v-1938c5f7">
+                                    <view class="change_bottom_portrait data-v-1938c5f7">
+                                        <image class="data-v-1938c5f7" src="{{item.staffFace}}"></image>
+                                    </view>
+                                    <view class="change_bottom_name data-v-1938c5f7">{{item.operUserName+''}}</view>
+                                    <view class="change_bottom_time data-v-1938c5f7">{{item.happenTime+''}}</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="balance-change-record data-v-1938c5f7" hidden="{{!(tabCurrent==1)}}">
+                    <view class="noData data-v-1938c5f7" wx:if="{{$root.g2}}">
+                        <image class="data-v-1938c5f7" src="{{$root.m2}}"></image>
+                        <text class="data-v-1938c5f7">无变动记录</text>
+                    </view>
+                    <view class="data-v-1938c5f7" wx:else>
+                        <block wx:for="{{$root.l1}}" wx:key="index">
+                            <view class="balance-item data-v-1938c5f7" wx:for="{{item.l0}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                                <view class="{{['data-v-1938c5f7',item1.$orig.left.fontsize==1?'balance_left':item1.$orig.left.fontsize==2?'balance_left2':'balance_left3']}}">
+                                    <image class="balance-arrow data-v-1938c5f7" src="{{item1.m3}}" wx:if="{{index1==0&&item.$orig.changeAmount>=0}}"></image>
+                                    <image class="balance-arrow data-v-1938c5f7" src="{{item1.m4}}" wx:if="{{index1==0&&item.$orig.changeAmount<0}}"></image>{{''+(item1.$orig.left.text||'')+''}}</view>
+                                <view class="{{['data-v-1938c5f7',item1.$orig.right.fontsize==1?'balance_right':item1.$orig.right.fontsize==2?'balance_right2':'balance_right3']}}">{{(item1.$orig.right.text||'')+''}}</view>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-1938c5f7" color="#F0F0F0" length="646rpx" margin="40rpx 31rpx 46rpx 24rpx" vueId="{{'5ea719ca-4-'+index}}"></u-line>
+                        </block>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="load-wrap data-v-1938c5f7" wx:if="{{hasNext==false}}">
+        <u-loadmore bind:__l="__l" class="data-v-1938c5f7" nomoreText="没有更多了" status="{{loadStatus}}" vueId="5ea719ca-5"></u-loadmore>
+    </view>
+    <bottom-logo bind:__l="__l" class="data-v-1938c5f7" vueId="5ea719ca-6"></bottom-logo>
+</view>

@@ -1,0 +1,15 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#181818",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "info": "/pageServer/components/info",
+    "navigation": "/components/navigation/index",
+    "service": "/pageServer/components/service",
+    "service-bottom-logo": "/pageServer/components/service-bottom-logo",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

@@ -1,0 +1,86 @@
+<view class="data-v-27080794">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-27080794" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="1110" tips="多项目：也叫套餐卡，如：一张卡可含普拉提10次、产后恢复20次、赠私教2次三个项目。若只含一种项目，则不必打开" title="卡内额度" value="{{show}}" vueId="ac7ba3be-1" vueSlots="{{['default','tips','customize','confrimBtn']}}">
+        <view class="data-v-27080794" slot="tips" style="display:flex;align-items:baseline;">
+            <u-icon bind:__l="__l" class="data-v-27080794" name="bell" size="26" style="position:relative;top:5rpx;margin-right:5rpx;" vueId="{{'ac7ba3be-2'+','+'ac7ba3be-1'}}"></u-icon>
+            <view bindtap="__e" class="data-v-27080794" data-event-opts="{{[ [ 'tap',[ [ 'showModalChange',['$event'] ] ] ] ]}}">多项目：也叫套餐卡，如一张卡可含普拉提10次、产后恢复20次、赠私教2次三个项目。若只含一种项目，则不必打开　<text class="tip-underline data-v-27080794">示例图</text>
+            </view>
+        </view>
+        <view class="history-list data-v-27080794" slot="customize" wx:if="{{$root.g0}}">
+            <view class="title data-v-27080794">快捷选择</view>
+            <scroll-view class="button-list data-v-27080794" scrollY="true">
+                <view class="button-list-wrap data-v-27080794">
+                    <view bindtap="__e" class="list-item data-v-27080794" data-event-opts="{{[ [ 'tap',[ [ 'setValue',['$0'],[ [ ['projectHistory','',index] ] ] ] ] ] ]}}" wx:for="{{projectHistory}}" wx:key="index">{{''+item+''}}</view>
+                </view>
+            </scroll-view>
+        </view>
+        <view class="com-button-f1 data-v-27080794" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-27080794" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'ac7ba3be-3'+','+'ac7ba3be-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view bindtap="__e" class="main-box data-v-27080794" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">
+            <view class="switch-title data-v-27080794" style="padding-top:60rpx;" wx:if="{{!formData.isGroup}}">
+                <view class="left-box data-v-27080794">卡额度</view>
+                <view class="right-box data-v-27080794">
+                    <u-input bind:__l="__l" bind:input="__e" class="number com-input total-com-input data-v-27080794" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','totalTimes','$event',[] ],['formData'] ],['handleTotalTimesInput'] ] ] ]}}" placeholder="输入数量(次)" style="width:250rpx;padding:8rpx 35rpx !important;" type="digit" value="{{formData.totalTimes}}" vueId="{{'ac7ba3be-4'+','+'ac7ba3be-1'}}"></u-input>
+                </view>
+            </view>
+            <view class="switch-title data-v-27080794" wx:if="{{!edit}}">
+                <view class="left-box data-v-27080794">多项目</view>
+                <view class="right-box data-v-27080794">
+                    <u-switch bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-27080794" data-event-opts="{{[ [ '^change',[ ['groupSwitch'] ] ],[ '^input',[ [ '__set_model',[ '$0','isGroup','$event',[] ],['formData'] ] ] ] ]}}" value="{{formData.isGroup}}" vueId="{{'ac7ba3be-5'+','+'ac7ba3be-1'}}"></u-switch>
+                </view>
+            </view>
+            <view class="form-item-box data-v-27080794" wx:if="{{formData.isGroup}}">
+                <view class="form-item data-v-27080794" wx:for="{{$root.l0}}" wx:key="key">
+                    <view class="com-input-wrap data-v-27080794">
+                        <u-input bind:__l="__l" bind:focus="__e" bind:input="__e" class="name com-input data-v-27080794" data-event-opts="{{[ [ '^focus',[ [ 'nameTap',['groupList',index] ] ] ],[ '^input',[ [ 'valChange',['$event','groupList','groupName',index] ] ] ] ]}}" placeholder="项目名称" type="text" value="{{item.$orig.groupName}}" vueId="{{'ac7ba3be-6-'+index+','+'ac7ba3be-1'}}"></u-input>
+                        <u-input bind:__l="__l" bind:focus="__e" bind:input="__e" class="number com-input data-v-27080794" data-event-opts="{{[ [ '^focus',[ ['e1'] ] ],[ '^input',[ [ '__set_model',[ '$0','timeCount','$event',[] ],[ [ ['groupList','key',item.$orig.key] ] ] ],[ 'valChange',['$event','groupList','timeCount',index] ] ] ] ]}}" focus="{{item.$orig.isFocus}}" placeholder="数量" type="number" value="{{item.$orig.timeCount}}" vueId="{{'ac7ba3be-7-'+index+','+'ac7ba3be-1'}}"></u-input>
+                    </view>
+                    <view class="icon-wrap data-v-27080794">
+                        <u-icon bind:__l="__l" bind:click="__e" class="icon data-v-27080794" data-event-opts="{{[ [ '^click',[ [ 'remove',['groupList',index] ] ] ] ]}}" name="minus-circle" vueId="{{'ac7ba3be-8-'+index+','+'ac7ba3be-1'}}" wx:if="{{item.g1>1}}"></u-icon>
+                        <u-icon bind:__l="__l" bind:click="__e" class="icon data-v-27080794" data-event-opts="{{[ [ '^click',[ [ 'add',['groupList'] ] ] ] ]}}" name="plus-circle" vueId="{{'ac7ba3be-9-'+index+','+'ac7ba3be-1'}}" wx:if="{{item.g2-1===index}}"></u-icon>
+                    </view>
+                </view>
+                <view class="checked-warp data-v-27080794">
+                    <view bindtap="__e" class="checked data-v-27080794" data-event-opts="{{[ [ 'tap',[ [ 'headleStatus',['$event'] ] ] ] ]}}">
+                        <view class="{{['data-v-27080794',status?'checkboxs':'checkbox']}}">
+                            <image class="data-v-27080794" src="{{$root.m0}}"></image>
+                        </view>
+                        <view class="{{['data-v-27080794',status?'remarks':'remark']}}">再赠送</view>
+                    </view>
+                </view>
+                <block wx:if="{{status}}">
+                    <view class="form-item data-v-27080794" wx:for="{{$root.l1}}" wx:key="key">
+                        <view class="com-input-wrap data-v-27080794">
+                            <u-input bind:__l="__l" bind:focus="__e" bind:input="__e" class="name com-input data-v-27080794" data-event-opts="{{[ [ '^input',[ [ 'valChange',['$event','presentList','groupName',index] ] ] ],[ '^focus',[ [ 'nameTap',['presentList',index] ] ] ] ]}}" placeholder="赠送项目" type="text" value="{{item.$orig.groupName}}" vueId="{{'ac7ba3be-10-'+index+','+'ac7ba3be-1'}}"></u-input>
+                            <u-input bind:__l="__l" bind:focus="__e" bind:input="__e" class="number com-input data-v-27080794" data-event-opts="{{[ [ '^focus',[ ['e2'] ] ],[ '^input',[ [ '__set_model',[ '$0','timeCount','$event',[] ],[ [ ['presentList','key',item.$orig.key] ] ] ],[ 'valChange',['$event','presentList','timeCount',index] ] ] ] ]}}" focus="{{item.$orig.isFocus}}" placeholder="赠送数量" type="number" value="{{item.$orig.timeCount}}" vueId="{{'ac7ba3be-11-'+index+','+'ac7ba3be-1'}}"></u-input>
+                        </view>
+                        <view class="icon-wrap data-v-27080794">
+                            <u-icon bind:__l="__l" bind:click="__e" class="icon data-v-27080794" data-event-opts="{{[ [ '^click',[ [ 'remove',['presentList',index] ] ] ] ]}}" name="minus-circle" vueId="{{'ac7ba3be-12-'+index+','+'ac7ba3be-1'}}" wx:if="{{item.g3>1}}"></u-icon>
+                            <u-icon bind:__l="__l" bind:click="__e" class="icon data-v-27080794" data-event-opts="{{[ [ '^click',[ [ 'add',['presentList'] ] ] ] ]}}" name="plus-circle" vueId="{{'ac7ba3be-13-'+index+','+'ac7ba3be-1'}}" wx:if="{{item.g4-1===index}}"></u-icon>
+                        </view>
+                    </view>
+                </block>
+            </view>
+            <view class="data-v-27080794" style="padding-top:60rpx;"></view>
+        </view>
+    </ff-popup>
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-27080794" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','showModal','$event',[] ] ] ] ] ]}}" title="什么叫单项卡和多项卡？" type="{{2}}" value="{{showModal}}" vueId="ac7ba3be-14" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-27080794" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-27080794" data-event-opts="{{[ [ '^click',[ ['showChange'] ] ] ]}}" type="primary" vueId="{{'ac7ba3be-15'+','+'ac7ba3be-14'}}" vueSlots="{{['default']}}">知道了</u-button>
+        </view>
+        <view class="main-box data-v-27080794">
+            <view class="modal-title data-v-27080794">
+                <image class="group-icon data-v-27080794" src="{{$root.m1}}"></image>单项卡：每张卡代表一个项目(用会员卡名称表达意义)</view>
+            <view class="group-img data-v-27080794">
+                <image class="data-v-27080794" src="{{$root.m2}}"></image>
+                <image class="data-v-27080794" src="{{$root.m3}}"></image>
+                <image class="data-v-27080794" src="{{$root.m4}}"></image>
+            </view>
+            <view class="modal-title data-v-27080794">
+                <image class="group-icon data-v-27080794" src="{{$root.m5}}"></image>多项卡：也叫组合套餐，一张卡可包含多个项目</view>
+            <view class="group-img data-v-27080794">
+                <image class="data-v-27080794" src="{{$root.m6}}" style="height:178rpx;"></image>
+            </view>
+        </view>
+    </ff-popup>
+</view>

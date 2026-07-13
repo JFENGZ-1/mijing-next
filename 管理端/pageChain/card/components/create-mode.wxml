@@ -1,0 +1,11 @@
+<view class="data-v-1a543dbe">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-1a543dbe" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" title="选择创建方式" value="{{show}}" vueId="7e1e86e7-1" vueSlots="{{['default']}}">
+        <view class="main-box data-v-1a543dbe">
+            <view bindtap="__e" class="but data-v-1a543dbe" data-event-opts="{{[ [ 'tap',[ [ 'subbranchhome',['$event'] ] ] ] ]}}" style="margin-bottom:100rpx;">去选择分店的卡<view class="fontbig data-v-1a543dbe">升级为通用卡</view>
+            </view>
+            <view bindtap="__e" class="but data-v-1a543dbe" data-event-opts="{{[ [ 'tap',[ [ 'creatcard',['$event'] ] ] ] ]}}">
+                <view class="fontbig data-v-1a543dbe">创建新的通用卡</view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

@@ -1,0 +1,90 @@
+{
+  "permission": {},
+  "componentFramework": "exparser",
+  "tabBar": {
+    "color": "#505050",
+    "selectedColor": "#181818",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tabbar/index_icon.png",
+        "selectedIconPath": "static/tabbar/index_selected_icon.png"
+      },
+      {
+        "pagePath": "pages/appointmentCourse/index",
+        "text": "约课",
+        "iconPath": "static/tabbar/appointment_icon.png",
+        "selectedIconPath": "static/tabbar/appointment_selected_icon.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "static/tabbar/mine_icon.png",
+        "selectedIconPath": "static/tabbar/mine_selected_icon.png"
+      }
+    ]
+  },
+  "subPackages": [
+    {
+      "root": "pageHome/",
+      "pages": [
+        "shopDetails/index",
+        "toggleShop/index",
+        "informDetails/index",
+        "appointmentDetails/index",
+        "buyingCard/index",
+        "buyingCard/buySuccess",
+        "QRcode/QRcode"
+      ]
+    },
+    {
+      "root": "pageCourse/",
+      "pages": [
+        "coachCourse/index",
+        "coachCourse/share-index",
+        "clusterCourse/index",
+        "clusterCourse/share-index"
+      ]
+    },
+    {
+      "root": "pageMine/",
+      "pages": [
+        "myInfo/index",
+        "myInterests/index",
+        "useRecord/index",
+        "removeCard/index",
+        "memberAgreement/index",
+        "totalStatistics/index",
+        "appointmentStatistics/index",
+        "rankingRecord/index",
+        "modifidInfo/index",
+        "point/index"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "我要约课",
+    "navigationBarBackgroundColor": "#F5F5F5",
+    "backgroundColor": "#F5F5F5"
+  },
+  "pages": [
+    "pages/start/index",
+    "pages/index/index",
+    "pages/appointmentCourse/index",
+    "pages/mine/index",
+    "pages/tailor/u-avatar-cropper/u-avatar-cropper",
+    "pages/authorization/info/index",
+    "pages/authorization/noLogin/index",
+    "pages/authorization/phone/index",
+    "pages/receiveCard/authorization/info/index",
+    "pages/receiveCard/authorization/phone/index",
+    "pages/receiveCard/index",
+    "pages/not/index",
+    "pages/webView/index",
+    "pages/myOrder/index"
+  ]
+}

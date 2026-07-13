@@ -1,0 +1,120 @@
+.page-integral.data-v-7493b875 {
+  background: #fff;
+  box-sizing: border-box;
+  min-height: 1100rpx;
+  width: 100%;
+}
+.page-integral .top.data-v-7493b875 {
+  align-items: center;
+  background: #fff;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  padding: 40rpx 40rpx 0rpx;
+}
+.page-integral .top .label.data-v-7493b875 {
+  color: #181818;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+.page-integral .content.data-v-7493b875 {
+  background: #fff;
+  padding: 55rpx 40rpx 50rpx;
+}
+.page-integral .content .get-conditions.data-v-7493b875,
+.page-integral .content .get-conditions.data-v-7493b875 .u-radio-group {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.page-integral .content .get-conditions .label.data-v-7493b875 {
+  color: #181818;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+.page-integral .content .checkbox-item.data-v-7493b875 {
+  color: #181818;
+  font-size: 28rpx;
+  font-weight: 400;
+  justify-content: space-between;
+}
+.page-integral .content .checkbox-item .checkbox-left.data-v-7493b875,
+.page-integral .content .checkbox-item.data-v-7493b875 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.page-integral
+  .content
+  .checkbox-item
+  .checkbox-left
+  .checkbox-label.data-v-7493b875 {
+  color: #8d8f92;
+  font-size: 28rpx;
+  margin-left: 5rpx;
+}
+.page-integral
+  .content
+  .checkbox-item
+  .checkbox-left
+  .label-ation.data-v-7493b875 {
+  color: #606266;
+  font-weight: 500;
+}
+.page-integral .content .checkbox-item-sub.data-v-7493b875 {
+  font-size: 26rpx !important;
+}
+.page-integral .content .check-groups.data-v-7493b875 {
+  box-sizing: border-box;
+  margin-top: 30rpx;
+  padding-left: 56rpx;
+  padding-right: 16rpx;
+}
+.page-integral .content .check-groups .check-item.data-v-7493b875 {
+  display: -webkit-flex;
+  display: flex;
+}
+.page-integral .content .check-groups .radio.data-v-7493b875 {
+  display: block;
+  height: 65rpx;
+}
+.page-integral .content .check-groups .radio-main.data-v-7493b875 {
+  color: #7e7e7e;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 25rpx;
+  width: 100%;
+}
+.page-integral .content .check-groups .radio-main.active.data-v-7493b875 {
+  color: #181818;
+  font-weight: 500;
+}
+.page-integral .content .btn-box.data-v-7493b875 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  margin-top: 120rpx;
+}
+.page-integral .content .btn-box button.data-v-7493b875 {
+  border-radius: 41px;
+  color: #181818;
+  font-size: 32rpx;
+  height: 83rpx;
+  width: 458rpx;
+}
+.page-integral .content .btn-box .save-btn.data-v-7493b875 {
+  background: #fbd128;
+  border: 0rpx;
+  margin-bottom: 39rpx;
+}
+.btn.data-v-7493b875 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+}
+.grey.data-v-7493b875 {
+  background-color: rgba(251, 209, 40, 0.5);
+  border: 1px solid rgba(251, 209, 40, 0.5);
+  color: #7e7e7e;
+}

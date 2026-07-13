@@ -1,0 +1,53 @@
+.QR_layout.data-v-b5afbf14 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  padding-top: 110rpx;
+}
+.QR_layout .QR.data-v-b5afbf14 {
+  background-color: #fff;
+  border-radius: 25rpx;
+  padding: 35rpx;
+  position: relative;
+}
+.QR_layout .QR .QR_pic.data-v-b5afbf14 {
+  height: 520rpx;
+  width: 520rpx;
+}
+.QR_layout .QR .title.data-v-b5afbf14 {
+  font-size: 28rpx;
+  line-height: 30rpx;
+  padding-bottom: 20rpx;
+  text-align: center;
+}
+.QR_layout .QR .icon_wrap.data-v-b5afbf14 {
+  bottom: -70rpx;
+  position: absolute;
+  right: -68rpx;
+}
+.QR_layout .QR .icon_wrap .icon.data-v-b5afbf14 {
+  height: 156rpx;
+  width: 180rpx;
+}
+.shadow_layout.data-v-b5afbf14 {
+  padding-bottom: 65rpx;
+  padding-top: 35rpx;
+  text-align: center;
+}
+.shadow_layout .shadow_pic.data-v-b5afbf14 {
+  height: 22rpx;
+  width: 400rpx;
+}
+.title_layout.data-v-b5afbf14 {
+  color: #181818;
+  text-align: center;
+}
+.title_layout .title.data-v-b5afbf14 {
+  font-size: 90rpx;
+  font-weight: 500;
+  line-height: 160rpx;
+}
+.title_layout .description.data-v-b5afbf14 {
+  font-size: 26rpx;
+  line-height: 50rpx;
+}

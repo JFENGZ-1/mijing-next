@@ -1,0 +1,39 @@
+<view class="data-v-30c40a40">
+    <view class="use_num data-v-30c40a40">
+        <view class="use_bg data-v-30c40a40">{{usercount+'家场馆正在使用'}}</view>
+    </view>
+    <view class="user_info data-v-30c40a40">
+        <view class="title_text data-v-30c40a40">获取你的昵称、头像</view>
+        <view class="info_list data-v-30c40a40">
+            <view class="info_item u-border-bottom data-v-30c40a40">
+                <view class="title data-v-30c40a40">头像</view>
+                <view class="required data-v-30c40a40">*</view>
+                <view class="info_content data-v-30c40a40">
+                    <button bindchooseavatar="__e" class="avatar-wrapper data-v-30c40a40" data-event-opts="{{[ [ 'chooseavatar',[ [ 'onChooseAvatar',['$event'] ] ] ] ]}}" openType="chooseAvatar">
+                        <image class="data-v-30c40a40" src="{{$root.m0}}" wx:if="{{!avatarUrl}}"></image>
+                        <image class="data-v-30c40a40" src="{{avatarUrl}}" wx:else></image>
+                    </button>
+                </view>
+                <view class="more data-v-30c40a40">
+                    <u-icon bind:__l="__l" class="data-v-30c40a40" color="#989898" name="arrow-right" size="28" vueId="23f97356-1"></u-icon>
+                </view>
+            </view>
+            <view class="info_item u-border-bottom data-v-30c40a40">
+                <view class="title data-v-30c40a40">姓名</view>
+                <view class="required data-v-30c40a40">*</view>
+                <view class="info_content data-v-30c40a40">
+                    <input bindchange="__e" bindinput="__e" class="data-v-30c40a40" data-event-opts="{{[ [ 'change',[ [ 'nicknameChange',['$event'] ] ] ],[ 'input',[ [ '__set_model',[ '','nickname','$event',[] ] ] ] ] ]}}" placeholder="请输入昵称" placeholderStyle="color:#DADADA" type="nickname" value="{{nickname}}"></input>
+                </view>
+            </view>
+            <view class="btn-wrap data-v-30c40a40">
+                <button bindtap="__e" class="data-v-30c40a40" data-event-opts="{{[ [ 'tap',[ [ 'confirm',['$event'] ] ] ] ]}}">确定</button>
+            </view>
+        </view>
+    </view>
+    <view class="bottom-text data-v-30c40a40">
+        <view class="visitor-wrap data-v-30c40a40"></view>
+        <view class="data-v-30c40a40">北京小松果未来科技有限公司</view>
+        <view class="data-v-30c40a40">Beijing Xiaosongguo Future Technology Co.Ltd</view>
+    </view>
+    <privacy bind:__l="__l" class="data-v-30c40a40" vueId="23f97356-2"></privacy>
+</view>

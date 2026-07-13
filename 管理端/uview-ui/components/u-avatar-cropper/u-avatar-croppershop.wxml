@@ -1,0 +1,10 @@
+<view class="content data-v-a1b29062">
+    <view class="cropper-wrapper data-v-a1b29062" style="{{'height:'+cropperOpt.height+'px'+';'}}">
+        <canvas bindtouchend="__e" bindtouchmove="__e" bindtouchstart="__e" canvasId="cropper" class="cropper data-v-a1b29062" data-event-opts="{{[ [ 'touchstart',[ [ 'touchStart',['$event'] ] ] ],[ 'touchmove',[ [ 'touchMove',['$event'] ] ] ],[ 'touchend',[ [ 'touchEnd',['$event'] ] ] ] ]}}" disableScroll="{{true}}" id="cropper" style="{{'width:'+cropperOpt.width+';'+'height:'+cropperOpt.height+';'+'background-color:'+'rgba(0, 0, 0, 0.8)'+';'}}"></canvas>
+        <canvas canvasId="targetId" class="cropper data-v-a1b29062" disableScroll="{{true}}" id="targetId" style="{{'position:'+'fixed'+';'+'top:'+'-'+cropperOpt.width*cropperOpt.pixelRatio+'px'+';'+'left:'+'-'+cropperOpt.height*cropperOpt.pixelRatio+'px'+';'+'width:'+cropperOpt.width*cropperOpt.pixelRatio+'px'+';'+'height:'+''+cropperOpt.height*cropperOpt.pixelRatio+';'}}"></canvas>
+    </view>
+    <view class="cropper-buttons safe-area-padding data-v-a1b29062" style="{{'height:'+bottomNavHeight+'px'+';'}}">
+        <view catchtap="__e" class="upload data-v-a1b29062" data-event-opts="{{[ [ 'tap',[ [ 'uploadTap',['$event'] ] ] ] ]}}">重新选择</view>
+        <view catchtap="__e" class="getCropperImage data-v-a1b29062" data-event-opts="{{[ [ 'tap',[ [ 'getCropperImage',[false] ] ] ] ]}}">确定</view>
+    </view>
+</view>

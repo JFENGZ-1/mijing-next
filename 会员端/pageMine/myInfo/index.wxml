@@ -1,0 +1,23 @@
+<view class="data-v-dea11e0c">
+    <view class="content data-v-dea11e0c">
+        <view bindtap="__e" class="photo-wrap data-v-dea11e0c" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}">
+            <view class="photo data-v-dea11e0c">
+                <image class="data-v-dea11e0c" src="{{''+commonData.uploadURL+form.userFaceurl}}" wx:if="{{form.userFaceurl}}"></image>
+            </view>
+            <view class="modifi-photo-wrap data-v-dea11e0c">
+                <image class="data-v-dea11e0c" src="{{$root.m0}}"></image>
+                <text class="data-v-dea11e0c">修改头像</text>
+            </view>
+        </view>
+        <view class="form data-v-dea11e0c">
+            <u-form bind:__l="__l" class="data-v-dea11e0c vue-ref" data-ref="uForm" labelWidth="auto" model="{{form}}" vueId="646c83ba-1" vueSlots="{{['default']}}">
+                <u-form-item bind:__l="__l" class="data-v-dea11e0c" label="{{item.text=='姓名'?'昵称':item.text}}" required="{{item.value==2}}" rightIcon="arrow-right" vueId="{{'646c83ba-2-'+index+','+'646c83ba-1'}}" vueSlots="{{['default']}}" wx:if="{{item.value!=0}}" wx:for="{{infoList}}" wx:key="index">
+                    <u-input bind:__l="__l" bind:click="__e" bind:input="__e" class="data-v-dea11e0c" data-event-opts="{{[ [ '^click',[ [ 'formItemClick',['$0'],[ [ ['infoList','',index] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','$1','$event',[] ],[ 'form',[ ['infoList','',index,'key'] ] ] ] ] ] ]}}" disabled="{{true}}" value="{{form[item.key]}}" vueId="{{'646c83ba-3-'+index+','+'646c83ba-2-'+index}}"></u-input>
+                </u-form-item>
+            </u-form>
+        </view>
+    </view>
+    <bottom-logo bind:__l="__l" class="data-v-dea11e0c" vueId="646c83ba-4"></bottom-logo>
+    <u-select bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-dea11e0c" data-event-opts="{{[ [ '^confirm',[ ['actionSheetCallback'] ] ],[ '^input',[ [ '__set_model',[ '','actionSheetShow','$event',[] ] ] ] ] ]}}" defaultValue="{{defaultValue}}" list="{{actionSheetList}}" value="{{actionSheetShow}}" vueId="646c83ba-5"></u-select>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-dea11e0c" data-event-opts="{{[ [ '^confirm',[ ['timeActionCallback'] ] ],[ '^input',[ [ '__set_model',[ '','timeActionShow','$event',[] ] ] ] ] ]}}" defaultTime="{{defaultTime}}" mode="time" params="{{timeParams}}" value="{{timeActionShow}}" vueId="646c83ba-6"></u-picker>
+</view>

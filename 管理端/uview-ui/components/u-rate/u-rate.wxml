@@ -1,0 +1,5 @@
+<view catchtouchmove="__e" class="u-rate data-v-d628c3b2" data-event-opts="{{[ [ 'touchmove',[ [ 'touchMove',['$event'] ] ] ] ]}}" id="{{elId}}">
+    <view class="{{['u-star-wrap','data-v-d628c3b2',elClass]}}" wx:for="{{$root.l0}}" wx:key="index">
+        <u-icon bind:__l="__l" bind:click="__e" class="data-v-d628c3b2" color="{{activeIndex>index?elActiveColor:inactiveColor}}" customPrefix="{{customPrefix}}" customStyle="{{item.a0}}" data-event-opts="{{[ [ '^click',[ [ 'click',[index+1,'$event'] ] ] ] ]}}" inactiveColor="{{inactiveColor}}" name="{{activeIndex>index?elActiveIcon:inactiveIcon}}" percent="{{decimal}}" showDecimalIcon="{{item.m0}}" vueId="{{'141c1ef4-1-'+index}}"></u-icon>
+    </view>
+</view>

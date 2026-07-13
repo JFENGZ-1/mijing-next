@@ -1,0 +1,72 @@
+page {
+  background: #fff;
+}
+.total.data-v-b237a314 {
+  color: #181818;
+  font-size: 28rpx;
+  margin: 18rpx 27rpx 26rpx;
+}
+.site-list.data-v-b237a314 {
+  margin: 0 38rpx;
+}
+.site-list .item.data-v-b237a314 {
+  background-position: 50%;
+  background-size: cover;
+  border-top-left-radius: 30rpx;
+  border-top-right-radius: 30rpx;
+  height: 320rpx;
+  margin-bottom: 155rpx;
+  position: relative;
+  width: 100%;
+}
+.site-list .item .dx.data-v-b237a314 {
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 26rpx;
+  display: -webkit-flex;
+  display: flex;
+  height: 146rpx;
+  padding: 21rpx 15rpx;
+  position: absolute;
+  top: 300rpx;
+  width: 100%;
+}
+.site-list .item .current-shop.data-v-b237a314 {
+  height: 80rpx;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 132rpx;
+}
+.site-list .item .photo.data-v-b237a314 {
+  border-radius: 50%;
+  height: 104rpx;
+  overflow: hidden;
+  width: 104rpx;
+}
+.site-list .item .photo image.data-v-b237a314 {
+  height: 100%;
+  width: 100%;
+}
+.site-list .item .text-wrap.data-v-b237a314 {
+  display: -webkit-flex;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin: 18rpx 20rpx 11rpx 15rpx;
+}
+.site-list .item .text-wrap .name.data-v-b237a314 {
+  color: #181818;
+  font-size: 35rpx;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+}
+.site-list .item .text-wrap .address.data-v-b237a314 {
+  color: #989898;
+  font-size: 22rpx;
+}
+.site-list .item .more-icon.data-v-b237a314 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}

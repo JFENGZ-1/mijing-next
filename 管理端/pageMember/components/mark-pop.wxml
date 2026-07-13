@@ -1,0 +1,26 @@
+<view class="data-v-2dbc7a3d">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-2dbc7a3d" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="867" tips="编辑标记" title="编辑标记" value="{{show}}" vueId="189e1314-1" vueSlots="{{['default','tips']}}">
+        <view class="data-v-2dbc7a3d" slot="tips" style="display:flex;align-items:baseline;">
+            <u-icon bind:__l="__l" class="data-v-2dbc7a3d" name="bell" size="26" style="position:relative;top:5rpx;" vueId="{{'189e1314-2'+','+'189e1314-1'}}"></u-icon>
+            <view class="data-v-2dbc7a3d">用来快速标记会员，具体含义由店长自己定义<view class="_br data-v-2dbc7a3d"></view>例如，红色代表该会员有意购买私教，兰色代表请求退卡</view>
+        </view>
+        <view class="main-box data-v-2dbc7a3d">
+            <view class="form-box data-v-2dbc7a3d">
+                <view class="list data-v-2dbc7a3d">
+                    <view bindtap="__e" class="item data-v-2dbc7a3d" data-event-opts="{{[ [ 'tap',[ [ 'headleRadio',['$0'],[ [ ['flagList','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                        <view class="flag data-v-2dbc7a3d">
+                            <view class="flag_name data-v-2dbc7a3d">
+                                <image class="data-v-2dbc7a3d" src="{{item.m0}}"></image>
+                            </view>
+                            <view class="remarks data-v-2dbc7a3d" wx:if="{{item.$orig.status==0}}">没有备注</view>
+                        </view>
+                        <u-radio-group bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-2dbc7a3d" data-event-opts="{{[ [ '^change',[ ['radioGroupChange'] ] ],[ '^input',[ [ '__set_model',[ '','flag','$event',[] ] ] ] ] ]}}" value="{{flag}}" vueId="{{'189e1314-3-'+index+','+'189e1314-1'}}" vueSlots="{{['default']}}">
+                            <u-radio bind:__l="__l" class="data-v-2dbc7a3d" name="{{item.$orig.status}}" shape="circle" vueId="{{'189e1314-4-'+index+','+'189e1314-3-'+index}}"></u-radio>
+                        </u-radio-group>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-2dbc7a3d" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+</view>

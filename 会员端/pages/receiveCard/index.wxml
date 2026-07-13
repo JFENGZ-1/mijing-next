@@ -1,0 +1,77 @@
+<view class="data-v-98c6b842">
+    <view class="container data-v-98c6b842">
+        <view class="personalTainerModule data-v-98c6b842">
+            <image class="image data-v-98c6b842" src="{{$root.m0}}"></image>
+            <view class="info-module data-v-98c6b842">
+                <view class="data-v-98c6b842" style="{{'height:'+StatusBar+'px'+';'+'z-index:'+'99'+';'}}"></view>
+                <view class="customBar data-v-98c6b842" style="{{'height:'+CustomBar+'px'+';'+'z-index:'+'99'+';'}}" wx:if="{{type==2}}">
+                    <image bindtap="__e" class="data-v-98c6b842" data-event-opts="{{[ [ 'tap',[ [ 'backHome',['$event'] ] ] ] ]}}" src="{{$root.m1}}"></image>
+                </view>
+                <view class="wrap data-v-98c6b842"></view>
+            </view>
+        </view>
+        <view class="content data-v-98c6b842">
+            <view class="main data-v-98c6b842" wx:if="{{$root.g0}}">
+                <view class="card-info data-v-98c6b842">
+                    <view class="data-v-98c6b842" style="margin-top:-200rpx;">
+                        <image class="notreceive data-v-98c6b842" src="{{$root.m2}}" wx:if="{{type==2&&isTake}}"></image>
+                        <view class="card-list-wrap data-v-98c6b842" style="{{'height:'+($root.g1<=1?371:30*($root.g2-1)+371)+'rpx'+';'}}">
+                            <view bindtap="__e" class="card-item data-v-98c6b842" data-event-opts="{{[ [ 'tap',[ [ 'toggleCard',['$0',index],[ [ ['info.cardlist','',index] ] ] ] ] ] ]}}" style="{{'top:'+index*30+'rpx'+';'+'z-index:'+10*(index+1)+';'}}" wx:for="{{info.cardlist}}" wx:key="index">
+                                <member-card activeClass="large-size" bind:__l="__l" bind:moreProject="__e" cardInfo="{{item}}" class="data-v-98c6b842" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" vueId="{{'7c609079-1-'+index}}"></member-card>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="card1 data-v-98c6b842" wx:else>
+                <image class="data-v-98c6b842" src="{{$root.m3}}"></image>
+            </view>
+            <view class="data-v-98c6b842" style="text-align:center;height:150rpx;" wx:if="{{cardLoadion}}">
+                <loading-pulse bind:__l="__l" class="data-v-98c6b842" vueId="7c609079-2"></loading-pulse>
+            </view>
+            <block wx:else>
+                <block wx:if="{{!isExpire}}">
+                    <view class="data-v-98c6b842" style="text-align:-webkit-center;" wx:if="{{$root.g3}}">
+                        <view bindtap="__e" class="back-home data-v-98c6b842" data-event-opts="{{[ [ 'tap',[ [ 'backHome',['$event'] ] ] ] ]}}" wx:if="{{isTake}}">返回首页</view>
+                        <view bindtap="__e" class="{{['receive','data-v-98c6b842',type==1?'receive-disabled':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'receiveCard',['$event'] ] ] ] ]}}" wx:else>领取</view>
+                    </view>
+                    <view class="data-v-98c6b842" style="text-align:center;" wx:else>
+                        <view class="data-v-98c6b842" style="display:inline-table;">
+                            <view bindtap="__e" class="back-home data-v-98c6b842" data-event-opts="{{[ [ 'tap',[ [ 'backHome',['$event'] ] ] ] ]}}">返回首页</view>
+                        </view>
+                        <view class="nocard-text data-v-98c6b842">该会员卡已被店长删除</view>
+                        <view class="nocard-text data-v-98c6b842" style="text-align:center;">请联系店长</view>
+                    </view>
+                </block>
+                <view class="data-v-98c6b842" style="text-align:center;" wx:else>
+                    <view class="data-v-98c6b842" style="display:inline-table;">
+                        <view bindtap="__e" class="back-home data-v-98c6b842" data-event-opts="{{[ [ 'tap',[ [ 'backHome',['$event'] ] ] ] ]}}">{{time+'返回首页'}}</view>
+                    </view>
+                    <view class="nocard-text data-v-98c6b842">此邀请已经过期</view>
+                    <view class="nocard-text data-v-98c6b842" style="text-align:center;font-size:30rpx;">邀请时长已超7天，请通过其它方式进入</view>
+                </view>
+            </block>
+            <view class="explain data-v-98c6b842" wx:if="{{$root.g4}}">
+                <view class="explain_text data-v-98c6b842">1、领取后会员卡将存入您的微信中<view class="_br data-v-98c6b842"></view>2、可在<text class="text data-v-98c6b842">“微信 → 我 → 卡包”</text>中找到并使用<view class="_br data-v-98c6b842"></view>3、关注“会员预约服务助手”公众号，接收约课/卡消费等通知<view class="_br data-v-98c6b842"></view>4、<text class="text data-v-98c6b842" wx:if="{{phoneNumber}}">{{'请确保领取手机号为：'+phoneNumber}}</text>
+                    <text class="text data-v-98c6b842" wx:else>请确保领取手机号为：--</text>
+                </view>
+            </view>
+            <view class="data-v-98c6b842" style="height:221rpx;" wx:else></view>
+        </view>
+        <view class="footer data-v-98c6b842" wx:if="{{type==1}}">
+            <button class="forward data-v-98c6b842" openType="share">
+                <view class="forward_image data-v-98c6b842">
+                    <image class="data-v-98c6b842" src="{{$root.m4}}"></image>
+                </view>
+                <view class="forward_name data-v-98c6b842">转发给会员</view>
+            </button>
+            <view bindtap="__e" class="self_receive data-v-98c6b842" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}">
+                <view class="self_receive_image data-v-98c6b842">
+                    <image class="data-v-98c6b842" src="{{$root.m5}}"></image>
+                </view>
+                <view class="self_receive_name data-v-98c6b842">返回</view>
+            </view>
+        </view>
+    </view>
+    <hint bind:__l="__l" bind:refresh="__e" class="data-v-98c6b842 vue-ref" currentPhone="{{currentPhoneNumber}}" data-event-opts="{{[ [ '^refresh',[ ['refresh'] ] ] ]}}" data-ref="hint" phone="{{phoneNumber}}" vueId="7c609079-3"></hint>
+</view>

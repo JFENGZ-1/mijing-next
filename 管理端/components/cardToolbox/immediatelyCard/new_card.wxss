@@ -1,0 +1,97 @@
+.card_wrap.data-v-7675f137 {
+  position: relative;
+}
+.card_wrap .mask.data-v-7675f137 {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+}
+.card_wrap .img-wrap.data-v-7675f137 {
+  bottom: -5rpx;
+  color: #fff;
+  font-size: 18rpx;
+  height: 38rpx;
+  position: absolute;
+  right: 20rpx;
+  width: 80rpx;
+  z-index: 110;
+}
+.card_wrap .img-wrap view.data-v-7675f137 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  line-height: 30rpx;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+.card_wrap .img-wrap image.data-v-7675f137 {
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.card_wrap .img-wrap text.data-v-7675f137 {
+  position: absolute;
+}
+.main-box.data-v-7675f137 {
+  position: relative;
+}
+.main-box .search-warp.data-v-7675f137 {
+  background-color: #fff;
+  left: 0;
+  padding: 18rpx 35rpx 15rpx;
+  position: fixed;
+  top: 90rpx;
+  width: 100%;
+  z-index: 199;
+}
+.main-box .form-box.data-v-7675f137 {
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 110rpx 55rpx 24rpx;
+}
+.main-box .form-box .cardList .gray.data-v-7675f137 {
+  filter: grayscale(100%);
+}
+.main-box .form-box .cardList .card.data-v-7675f137 {
+  background: #f5f5f5;
+  border-radius: 21rpx;
+  height: 371rpx;
+  margin-bottom: 18rpx;
+  width: 620rpx;
+}
+.main-box .selected_card.data-v-7675f137 {
+  height: 25rpx;
+  overflow: hidden;
+}
+.noData.data-v-7675f137 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  height: 750rpx;
+}
+.noData .icon.data-v-7675f137 {
+  height: 171rpx;
+  margin-bottom: 40rpx;
+  margin-top: 160rpx;
+  width: 203rpx;
+}
+.noData .explain.data-v-7675f137 {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 45rpx;
+}
+.data-v-7675f137 scroll-view {
+  bottom: 0 !important;
+}

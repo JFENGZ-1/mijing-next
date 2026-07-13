@@ -1,0 +1,52 @@
+<view class="{{['data-v-308cbcf0',activeClass,'card-box']}}" style="{{'background-image:'+'url('+(cardInfo.uploadURL?cardInfo.uploadURL+cardInfo.cardLogo:cardInfo.cardLogo)+')'+';'}}">
+    <view class="data-v-308cbcf0" wx:if="{{cardInfo.isUnionCard==1}}">
+        <view class="ribbonUnion data-v-308cbcf0" style="background:rgba(0, 61, 130, 0.88);">
+            <text class="data-v-308cbcf0">计次卡</text>
+        </view>
+        <view class="ribbonUniversal data-v-308cbcf0" style="background:#F7D29F;">
+            <text class="data-v-308cbcf0">多  店  通  用</text>
+        </view>
+    </view>
+    <view class="ribbonUnion data-v-308cbcf0" style="background:rgba(0, 61, 130, 0.88);" wx:else>
+        <text class="data-v-308cbcf0">计次卡</text>
+    </view>
+    <view class="card-conntent data-v-308cbcf0">
+        <view class="shop-info data-v-308cbcf0" wx:if="{{cardInfo.isUnionCard==1}}">
+            <image class="data-v-308cbcf0" src="{{cardInfo.unLogo}}"></image>
+            <text class="data-v-308cbcf0">{{cardInfo.unName}}</text>
+        </view>
+        <view class="shop-info data-v-308cbcf0" wx:else>
+            <image class="data-v-308cbcf0" src="{{siteTrademark}}"></image>
+            <text class="data-v-308cbcf0">{{siteName}}</text>
+        </view>
+        <view class="{{['card-name','data-v-308cbcf0',$root.g0>6?'card-name-size-max':'']}}">{{cardInfo.cardName+''}}</view>
+    </view>
+    <view class="bottom-info data-v-308cbcf0">
+        <view class="project-box data-v-308cbcf0">
+            <view catchtap="__e" class="project-item-wrap data-v-308cbcf0" data-event-opts="{{[ [ 'tap',[ [ 'moreClick',['$event'] ] ] ] ]}}" wx:if="{{$root.g1}}">
+                <block wx:for="{{cardInfo.orginalAmount.groupList}}" wx:key="index">
+                    <u-line bind:__l="__l" class="line-last data-v-308cbcf0" color="rgba(255, 255, 255, 0.3)" direction="col" length="{{''+(activeClass=='large-size'?'56':activeClass=='medium-sized'?'35rpx':'30rpx')}}" margin="{{''+(activeClass=='large-size'?'0rpx 9rpx':activeClass=='medium-sized'?'0rpx 7rpx':'0rpx 5rpx')}}" vueId="{{'ecbff07c-1-'+index}}" wx:if="{{!item.isPresent&&index<3}}"></u-line>
+                    <view class="{{['project-item','data-v-308cbcf0',item.isPresent?'presenter-course':'']}}" wx:if="{{index<3}}">
+                        <view class="num data-v-308cbcf0">{{item.timeCount+'次'}}</view>
+                        <view class="name data-v-308cbcf0">
+                            <text class="data-v-308cbcf0" wx:if="{{item.isPresent}}">赠</text>{{item.groupName}}</view>
+                    </view>
+                </block>
+                <view class="project-more data-v-308cbcf0" wx:if="{{$root.g2>3}}">
+                    <view class="scale-area data-v-308cbcf0"></view>
+                    <image class="data-v-308cbcf0" src="{{$root.m0}}"></image>
+                </view>
+            </view>
+            <view class="item total-times-wrap data-v-308cbcf0" wx:else>
+                <text class="num count total-times data-v-308cbcf0">{{(cardInfo.orginalAmount.totalTimes?cardInfo.amountTimeCard.totalTimes:0)+'次'}}</text>
+            </view>
+        </view>
+        <view class="period-box data-v-308cbcf0">有效期<block wx:if="{{cardInfo.cardValidForever}}">永久有效</block>
+            <block wx:else>
+                <block wx:if="{{cardInfo.cardValidYear}}">{{cardInfo.cardValidYear+'年'}}</block>
+                <block wx:if="{{cardInfo.cardValidMonth}}">{{cardInfo.cardValidMonth+'个月'}}</block>
+                <block wx:if="{{cardInfo.cardValidDays}}">{{cardInfo.cardValidDays+'天'}}</block>
+            </block>
+        </view>
+    </view>
+</view>

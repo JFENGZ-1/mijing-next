@@ -1,0 +1,53 @@
+.modal.data-v-03e0fc23 {
+  padding: 48rpx 40rpx 0rpx 50rpx;
+}
+.modal .modal-title.data-v-03e0fc23 {
+  color: #181818;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+.modal .modal-content.data-v-03e0fc23 {
+  color: #989898;
+  font-size: 25rpx;
+  line-height: 39rpx;
+  margin-top: 18rpx;
+}
+.modal .btn.data-v-03e0fc23 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 45rpx;
+}
+.modal .button.data-v-03e0fc23 {
+  border-radius: 17px;
+  font-size: 28rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  text-align: center;
+  width: 180rpx;
+}
+.modal .modal-cal-btn.data-v-03e0fc23 {
+  background: #fff;
+  border: none;
+  color: #7e7e7e;
+  position: relative;
+}
+.modal .modal-cal-btn.data-v-03e0fc23::after {
+  border: 1px solid #fbd128;
+  border-radius: 100rpx;
+  content: "";
+  height: 200%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: scale(0.5);
+  transform-origin: left top;
+  width: 200%;
+}
+.modal .modal-btn.data-v-03e0fc23 {
+  background: #fbd128;
+  border: 1rpx solid #fbd128;
+  color: #181818;
+  margin-bottom: 35rpx;
+  margin-left: 31rpx;
+}

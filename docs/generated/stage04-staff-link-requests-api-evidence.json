@@ -1,0 +1,10 @@
+{
+  "verifiedAt": "2026-07-11T12:07+08:00",
+  "tokenPrefix": "35|Vs2***",
+  "linkRequestsCount": 0,
+  "linkRequests": [],
+  "logoutStatus": "ok",
+  "siteId": 1,
+  "apiPath": "/staff/sites/1/member-link-requests",
+  "status": 200
+}

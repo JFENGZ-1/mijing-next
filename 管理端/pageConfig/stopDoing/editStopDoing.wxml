@@ -1,0 +1,137 @@
+<view class="data-v-3c23121f">
+    <view class="main data-v-3c23121f">
+        <view class="list data-v-3c23121f">
+            <view class="item data-v-3c23121f">
+                <view class="item_top data-v-3c23121f">
+                    <view class="more_icon data-v-3c23121f">
+                        <image class="data-v-3c23121f" mode="widthFix" src="{{$root.m0}}"></image>
+                    </view>
+                    <view class="title data-v-3c23121f">停休时间</view>
+                </view>
+                <view class="item_picker data-v-3c23121f">
+                    <view class="time data-v-3c23121f">
+                        <view bindtap="__e" class="{{['time_display','data-v-3c23121f',nstatus===1||nstatus===2?'timedisabled':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'onTime',['$event'] ] ] ] ]}}">{{editList.beginTime+' '+'00:01'+''}}</view>至<view bindtap="__e" class="{{['time_display','data-v-3c23121f',nstatus===2?'timedisabled':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'onTimes',['$event'] ] ] ] ]}}">{{editList.endTime+' '+'23:59'}}</view>
+                    </view>
+                    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-3c23121f" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" defaultTime="{{editList.beginTime}}" mode="time" params="{{params}}" value="{{show}}" vueId="e2743776-1"></u-picker>
+                    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-3c23121f" data-event-opts="{{[ [ '^confirm',[ ['fixhour'] ] ],[ '^input',[ [ '__set_model',[ '','isMust','$event',[] ] ] ] ] ]}}" defaultTime="{{editList.endTime}}" mode="time" params="{{params}}" value="{{isMust}}" vueId="e2743776-2"></u-picker>
+                </view>
+            </view>
+            <view class="item data-v-3c23121f">
+                <view class="item_top data-v-3c23121f">
+                    <view class="more_icon data-v-3c23121f">
+                        <image class="data-v-3c23121f" mode="widthFix" src="{{$root.m1}}"></image>
+                    </view>
+                    <view class="title data-v-3c23121f">停用功能</view>
+                </view>
+                <view class="item_radio data-v-3c23121f">
+                    <view class="checkBox data-v-3c23121f">
+                        <view class="{{['data-v-3c23121f',editList.showTeamMember=='1'?'item_input':'item_all']}}">清除团课（清除该时段团课并展示公告）</view>
+                        <u-switch activeColor="success" bind:__l="__l" bind:input="__e" class="switch data-v-3c23121f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','showTeamMember','$event',[] ],['editList'] ] ] ] ]}}" disabled="{{nstatus==2}}" slot="right" value="{{editList.showTeamMember}}" vueId="e2743776-3"></u-switch>
+                    </view>
+                    <view class="checkBox data-v-3c23121f">
+                        <view class="{{['data-v-3c23121f',editList.showPrivateMember=='1'?'item_input':'item_all']}}">停约私课（清空该时段私教并展示公告）</view>
+                        <u-switch activeColor="success" bind:__l="__l" bind:input="__e" class="switch data-v-3c23121f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','showPrivateMember','$event',[] ],['editList'] ] ] ] ]}}" disabled="{{nstatus==2}}" slot="right" value="{{editList.showPrivateMember}}" vueId="e2743776-4"></u-switch>
+                    </view>
+                    <view class="checkBox data-v-3c23121f">
+                        <view class="{{['data-v-3c23121f',editList.showPayCard=='1'?'item_input':'item_all']}}">停止办卡/续费（展示公告）</view>
+                        <u-switch activeColor="success" bind:__l="__l" bind:input="__e" class="switch data-v-3c23121f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','showPayCard','$event',[] ],['editList'] ] ] ] ]}}" disabled="{{nstatus==2}}" slot="right" value="{{editList.showPayCard}}" vueId="e2743776-5"></u-switch>
+                    </view>
+                </view>
+            </view>
+            <view class="item data-v-3c23121f">
+                <view class="item_top data-v-3c23121f">
+                    <view class="more_icon data-v-3c23121f">
+                        <image class="data-v-3c23121f" mode="widthFix" src="{{$root.m2}}"></image>
+                    </view>
+                    <view class="title data-v-3c23121f">会员卡延期</view>
+                </view>
+                <view class="item_radio data-v-3c23121f">
+                    <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-3c23121f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','delayMode','$event',[] ],['editList'] ] ] ] ]}}" disabled="{{nstatus==1||nstatus==2}}" value="{{editList.delayMode}}" vueId="e2743776-6" vueSlots="{{['default']}}">
+                        <view class="radio data-v-3c23121f">
+                            <view class="{{[ 'data-v-3c23121f',nstatus==1||nstatus==2?[editList.delayMode=='1'?'item_input':'item_all']:[editList.delayMode=='1'?'add_input':'add_all'] ]}}">全部会员延期<u-input bind:__l="__l" bind:input="__e" class="{{['com-input','data-v-3c23121f',editList.delayMode!='1'?'input-disabled':'']}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','delayDays','$event',[] ],['editList'] ] ] ] ]}}" disabled="{{nstatus==1||nstatus==2||editList.delayMode!='1'}}" inputAlign="center" placeholder="{{editList.delayMode=='1'?0:''}}" type="number" value="{{editList.delayDays}}" vueId="{{'e2743776-7'+','+'e2743776-6'}}"></u-input>天</view>
+                            <u-radio bind:__l="__l" class="{{['data-v-3c23121f',editList.delayMode==1?'radio1':'radio2']}}" name="1" vueId="{{'e2743776-8'+','+'e2743776-6'}}"></u-radio>
+                        </view>
+                        <view class="radio data-v-3c23121f">
+                            <view class="{{[ 'data-v-3c23121f',nstatus==1||nstatus==2?[editList.delayMode=='2'?'item_input':'item_all']:[editList.delayMode=='2'?'add_input':'add_all'] ]}}">仅持期限卡的会员延期<u-input bind:__l="__l" bind:input="__e" class="{{['com-input','data-v-3c23121f',editList.delayMode!='2'?'input-disabled':'']}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','delayDay','$event',[] ],['editList'] ] ] ] ]}}" disabled="{{nstatus==1||nstatus==2||editList.delayMode!='2'}}" inputAlign="center" placeholder="{{editList.delayMode=='2'?0:''}}" type="number" value="{{editList.delayDay}}" vueId="{{'e2743776-9'+','+'e2743776-6'}}"></u-input>天</view>
+                            <u-radio bind:__l="__l" class="{{['data-v-3c23121f',editList.delayMode==2?'radio1':'radio2']}}" name="2" vueId="{{'e2743776-10'+','+'e2743776-6'}}"></u-radio>
+                        </view>
+                        <view class="radio data-v-3c23121f">
+                            <view class="{{[ 'data-v-3c23121f',id?[editList.delayMode=='3'?'item_input':'item_all']:[editList.delayMode=='3'?'add_input':'add_all'] ]}}">暂不延期</view>
+                            <u-radio bind:__l="__l" class="{{['data-v-3c23121f',editList.delayMode==3?'radio1':'radio2']}}" name="3" vueId="{{'e2743776-11'+','+'e2743776-6'}}"></u-radio>
+                        </view>
+                    </u-radio-group>
+                    <view class="explain data-v-3c23121f" wx:if="{{nstatus==1||nstatus==2}}">* 延期已执行完毕，不可撤消/编辑</view>
+                    <view class="data-v-3c23121f" wx:else>
+                        <view class="explain data-v-3c23121f" wx:if="{{editList.delayMode=='1'||editList.delayMode=='2'}}">{{'* 将于 '+editList.beginTime+' 凌晨执行延期，执行后不可撤销'}}</view>
+                        <view class="explain data-v-3c23121f" wx:else>* 如开业日期不确定，可先停止排课，待开业时在“会员”内也可批量操作会员卡延期</view>
+                    </view>
+                </view>
+            </view>
+            <view class="item data-v-3c23121f">
+                <view class="item_top data-v-3c23121f">
+                    <view class="more_icon data-v-3c23121f">
+                        <image class="data-v-3c23121f" mode="widthFix" src="{{$root.m3}}"></image>
+                    </view>
+                    <view class="title data-v-3c23121f">公告内容</view>
+                </view>
+                <view class="item_text data-v-3c23121f">
+                    <textarea bindinput="__e" class="textarea data-v-3c23121f" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','noticeText','$event',[] ],['editList'] ] ] ] ]}}" disableDefaultPadding="{{true}}" maxlength="150" placeholder="例如：近日，本店门前马路临休，造成交通受阻，故停业5天。凡本店会员所持会员卡将自动延期8天作为补偿，敬请原谅！" placeholderStyle="line-height: 35rpx;color: #DADADA;" type="textarea" value="{{editList.noticeText}}"></textarea>
+                </view>
+                <view class="num data-v-3c23121f">{{'已写'+(editList.noticeText==''||editList.noticeText==null?0:$root.g0)+'字/ 最多150字'}}</view>
+            </view>
+            <view class="bg bgdisabled data-v-3c23121f" wx:if="{{nstatus==2}}">已执行完毕</view>
+            <view bindtap="__e" class="bg data-v-3c23121f" data-event-opts="{{[ [ 'tap',[ [ 'editClick',['$event'] ] ] ] ]}}" wx:else>保存</view>
+            <view bindtap="__e" class="delete data-v-3c23121f" data-event-opts="{{[ [ 'tap',[ [ 'headledelete',['$event'] ] ] ] ]}}" wx:if="{{id}}">删除</view>
+        </view>
+    </view>
+    <confirm-modal bind:__l="__l" class="data-v-3c23121f vue-ref" customBtn="{{true}}" data-ref="addconfirmModal" title="确认执行停休操作吗？" vueId="e2743776-12" vueSlots="{{['content','btn']}}">
+        <view class="data-v-3c23121f" slot="content">
+            <view class="data-v-3c23121f">
+                <text class="data-v-3c23121f" style="{{'display:block;'}}" wx:if="{{editList.showTeamMember!=0||editList.showPrivateMember!=0||editList.showPayCard!=0}}"> * 将清除该时段团课/私教课程，并展示公告 </text>
+                <text class="data-v-3c23121f" wx:if="{{editList.delayMode==1}}">{{'* 全部会员卡延期'+(editList.delayDays?editList.delayDays:0)+'天'}}<text class="data-v-3c23121f" style="color:#dc3c5c;">（执行后不可撤消）</text>
+                </text>
+                <text class="data-v-3c23121f" wx:if="{{editList.delayMode==2}}">{{'* 仅期限卡会员延期'+(editList.delayDay?editList.delayDay:0)+'天'}}<text class="data-v-3c23121f" style="color:#dc3c5c;">（执行后不可撤消）</text>
+                </text>
+            </view>
+            <view class="content data-v-3c23121f" wx:if="{{editList.delayMode==1||editList.delayMode==2}}">
+                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-3c23121f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','checked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{checked}}" vueId="{{'e2743776-13'+','+'e2743776-12'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-3c23121f" style="{{'font-size:26rpx;line-height:56rpx;color:#606266;'+'font-weight:'+(checked?'500':'normal')+';'}}">我已确认，闭店日期和会员卡延期设置是对的</text>
+                </u-checkbox>
+            </view>
+        </view>
+        <view class="btn_modal data-v-3c23121f" slot="btn">
+            <view bindtap="__e" class="modal-cancel data-v-3c23121f" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',[true] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="{{['modal-btn','data-v-3c23121f',!checked&&(editList.delayMode==1||editList.delayMode==2)?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'handleDeterminebtn',['$0'],['editList.delayMode'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm-modal>
+    <confirm bind:__l="__l" class="data-v-3c23121f vue-ref" data-ref="confirmModal" title="确认保存吗？" vueId="e2743776-14" vueSlots="{{['content','btn']}}">
+        <view class="data-v-3c23121f" slot="content"></view>
+        <view class="btn data-v-3c23121f" slot="btn">
+            <view bindtap="__e" class="modal-cancel data-v-3c23121f" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',[false] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="modal-btn data-v-3c23121f" data-event-opts="{{[ [ 'tap',[ [ 'handleDeterminebtn',[false] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm>
+    <confirm bind:__l="__l" class="data-v-3c23121f vue-ref" data-ref="delConfirmModal" title="确认删除吗？" vueId="e2743776-15" vueSlots="{{['content','btn']}}">
+        <view class="data-v-3c23121f" slot="content">
+            <text class="data-v-3c23121f" style="{{'display:block;color: #989898;font-size: 25rpx;'}}">将立即关闭公告（提示：可在课程表内重新排课）</text>
+        </view>
+        <view class="delete_modal data-v-3c23121f" slot="btn">
+            <view bindtap="__e" class="modal-cancel data-v-3c23121f" data-event-opts="{{[ [ 'tap',[ [ 'handleEditCancelbtn',[false] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="modal-btn data-v-3c23121f" data-event-opts="{{[ [ 'tap',[ [ 'handleEditDeterminebtn',[false] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm>
+    <confirm-modal bind:__l="__l" class="data-v-3c23121f vue-ref" customBtn="{{true}}" data-ref="terminateModal" title="注意，清除课程失败！" vueId="e2743776-16" vueSlots="{{['content','btn']}}">
+        <view slot="content">
+            <view class="data-v-3c23121f">
+                <text class="data-v-3c23121f" style="color:#DC3C5C;font-weight:500;">已有会员预约了</text>
+                <text class="data-v-3c23121f" style="color:#DC3C5C;">{{''+editList.beginTime+''}}</text>
+                <text class="data-v-3c23121f" style="margin:6rpx;margin-right:6rpx;">至</text>
+                <text class="data-v-3c23121f" style="color:#DC3C5C;">{{''+editList.endTime+''}}</text>的课</view>
+            <view class="data-v-3c23121f">解决方法：为避免操作失误造成大量退课，请检查该时段的排课，手动取消会员的约课后再进行闭店操作。</view>
+        </view>
+        <view class="confirmBtn data-v-3c23121f" slot="btn">
+            <view bindtap="__e" class="modal-btn button data-v-3c23121f" data-event-opts="{{[ [ 'tap',[ [ 'terminateConfirm',['$event'] ] ] ] ]}}">知道了</view>
+        </view>
+    </confirm-modal>
+    <ff-bottom-logo bind:__l="__l" class="data-v-3c23121f" vueId="e2743776-17"></ff-bottom-logo>
+</view>

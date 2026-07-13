@@ -1,0 +1,31 @@
+.create-Employee.data-v-f759d990 {
+  background: rgba(251, 209, 40, 0.2);
+  bottom: 180rpx;
+  height: 139rpx;
+  position: fixed;
+  right: 38rpx;
+  width: 139rpx;
+}
+.create-Employee .bg.data-v-f759d990,
+.create-Employee.data-v-f759d990 {
+  align-items: center;
+  border-radius: 50%;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+}
+.create-Employee .bg.data-v-f759d990 {
+  background: #fbd128;
+  flex-direction: column;
+  height: 125rpx;
+  line-height: 1.4;
+  width: 125rpx;
+}
+.create-Employee .bg text.data-v-f759d990 {
+  color: #181818;
+  font-size: 32rpx;
+}
+.create-Employee .bg view.data-v-f759d990 {
+  color: #181818;
+  font-size: 18rpx;
+}

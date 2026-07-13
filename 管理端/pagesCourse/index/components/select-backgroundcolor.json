@@ -1,0 +1,13 @@
+{
+  "component": true,
+  "usingComponents": {
+    "empty-data": "/pagesCourse/index/components/empty-data",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "subject-card": "/pagesCourse/index/components/subject-card",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-radio": "/uview-ui/components/u-radio/u-radio",
+    "u-radio-group": "/uview-ui/components/u-radio-group/u-radio-group",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

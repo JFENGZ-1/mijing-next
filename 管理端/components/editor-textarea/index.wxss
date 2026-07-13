@@ -1,0 +1,9 @@
+.textarea.data-v-12d7eef2 {
+  height: 150rpx !important;
+  min-height: 150rpx !important;
+  width: 100%;
+}
+.ql-editor.data-v-12d7eef2 {
+  color: #7e7e7e;
+  font-style: normal;
+}

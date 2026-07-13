@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "u-badge": "/node-modules/uview-ui/components/u-badge/u-badge",
+    "bottom-logo": "/components/ff-bottom-logo/index"
+  },
+  "component": true
+}

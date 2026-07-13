@@ -1,0 +1,108 @@
+<view class="{{['data-v-2f7e3c1c',cardInfo.cardStatus==2||(cardInfo.cardType==2||cardInfo.cardType==1)&&cardInfo.balanceAmount<=0?'grey':'']}}" style="position:relative;">
+    <view bindtap="__e" class="{{['mask-view','data-v-2f7e3c1c',activeClass]}}" data-event-opts="{{[ [ 'tap',[ ['cardDetail'] ] ] ]}}" wx:if="{{cardInfo.cardStatus==2||(cardInfo.cardType==2||cardInfo.cardType==1)&&cardInfo.balanceAmount<=0}}"></view>
+    <view bindtap="__e" class="{{['data-v-2f7e3c1c',activeClass,'card-box']}}" data-event-opts="{{[ [ 'tap',[ ['cardDetail'] ] ] ]}}" style="{{'background-image:'+'url('+(cardInfo.uploadURL?cardInfo.uploadURL+cardInfo.cardLogo:cardInfo.cardLogo)+')'+';'}}">
+        <view class="data-v-2f7e3c1c" wx:if="{{cardInfo.isUnionCard==1}}">
+            <view class="ribbonUnion data-v-2f7e3c1c" style="{{'background:'+(cardInfo.cardType==1?'rgba(201, 106, 50, 0.88)':cardInfo.cardType==2?'rgba(0, 61, 130, 0.88)':'rgba(52, 159, 145, 0.88)')+';'}}">
+                <text class="data-v-2f7e3c1c" wx:if="{{cardInfo.cardType==1}}">储值卡</text>
+                <block wx:else>
+                    <text class="data-v-2f7e3c1c" wx:if="{{cardInfo.cardType==2}}">计次卡</text>
+                    <text class="data-v-2f7e3c1c" wx:else>期限卡</text>
+                </block>
+            </view>
+            <view class="ribbonUniversal data-v-2f7e3c1c" style="background:#F7D29F;">
+                <text class="data-v-2f7e3c1c">多  店  通  用</text>
+            </view>
+        </view>
+        <view class="ribbonUnion data-v-2f7e3c1c" style="{{'background:'+(cardInfo.cardType==1?'rgba(201, 106, 50, 0.88)':cardInfo.cardType==2?'rgba(0, 61, 130, 0.88)':'rgba(52, 159, 145, 0.88)')+';'}}" wx:else>
+            <text class="data-v-2f7e3c1c" wx:if="{{cardInfo.cardType==1}}">储值卡</text>
+            <block wx:else>
+                <text class="data-v-2f7e3c1c" wx:if="{{cardInfo.cardType==2}}">计次卡</text>
+                <text class="data-v-2f7e3c1c" wx:else>期限卡</text>
+            </block>
+        </view>
+        <view class="card-status data-v-2f7e3c1c" wx:if="{{cardInfo.cardStatus==4}}">
+            <image class="data-v-2f7e3c1c" src="{{$root.m0}}"></image>
+        </view>
+        <view class="card-status data-v-2f7e3c1c" wx:if="{{cardInfo.cardStatus==2}}">
+            <image class="data-v-2f7e3c1c" src="{{$root.m1}}"></image>
+        </view>
+        <view class="card-status data-v-2f7e3c1c" wx:if="{{cardInfo.cardStatus==1&&(cardInfo.cardType==2||cardInfo.cardType==1)&&cardInfo.balanceAmount<=0}}">
+            <image class="data-v-2f7e3c1c" src="{{$root.m2}}"></image>
+        </view>
+        <view class="card-status data-v-2f7e3c1c" wx:if="{{cardInfo.cardStatus==0&&cardInfo.openInfo&&cardInfo.openInfo.openType!=2&&cardInfo.openInfo.openType!=5&&cardInfo.openInfo.openType!=4}}">
+            <image class="data-v-2f7e3c1c" src="{{$root.m3}}"></image>
+        </view>
+        <view class="card-status data-v-2f7e3c1c" wx:if="{{cardInfo.cardStatus==3}}">
+            <image class="data-v-2f7e3c1c" src="{{$root.m4}}"></image>
+        </view>
+        <view class="card-status data-v-2f7e3c1c" wx:if="{{cardInfo.cardStatus==0&&cardInfo.openInfo&&(cardInfo.openInfo.openType==2||cardInfo.openInfo.openType==4)}}">
+            <image class="data-v-2f7e3c1c" src="{{$root.m5}}"></image>
+        </view>
+        <view class="card-status data-v-2f7e3c1c" wx:if="{{cardInfo.cardStatus==0&&cardInfo.openInfo&&cardInfo.openInfo.openType==5}}">
+            <image class="data-v-2f7e3c1c" src="{{$root.m6}}"></image>
+        </view>
+        <view class="card-conntent data-v-2f7e3c1c">
+            <view class="shop-info data-v-2f7e3c1c" wx:if="{{cardInfo.isUnionCard==1}}">
+                <image class="data-v-2f7e3c1c" mode="aspectFill" src="{{cardInfo.unLogo}}"></image>
+                <text class="data-v-2f7e3c1c">{{cardInfo.unName}}</text>
+            </view>
+            <view class="shop-info data-v-2f7e3c1c" wx:else>
+                <image class="data-v-2f7e3c1c" mode="aspectFill" src="{{siteTrademark}}"></image>
+                <text class="data-v-2f7e3c1c">{{siteName}}</text>
+            </view>
+            <view class="{{['card-name','data-v-2f7e3c1c',$root.g0?'card-name-size-max':'']}}">{{''+cardInfo.cardName+''}}</view>
+        </view>
+        <view class="bottom-info data-v-2f7e3c1c" wx:if="{{cardInfo.cardType==2}}">
+            <view class="project-box data-v-2f7e3c1c">
+                <view class="project-item-wrap data-v-2f7e3c1c" wx:if="{{$root.g1}}">
+                    <block wx:for="{{cardInfo.amountInfo.groupList}}" wx:key="index">
+                        <u-line bind:__l="__l" class="line-last data-v-2f7e3c1c" color="rgba(255, 255, 255, 0.3)" direction="col" length="{{''+(activeClass=='large-size'?'56':activeClass=='medium-sized'?'35rpx':'30rpx')}}" margin="{{''+(activeClass=='large-size'?'0rpx 6rpx':activeClass=='medium-sized'?'0rpx 5rpx':'0rpx 4rpx')}}" vueId="{{'662c8e0a-1-'+index}}" wx:if="{{!item.isPresent&&index<3}}"></u-line>
+                        <view class="{{['project-item','data-v-2f7e3c1c',item.isPresent?'presenter-course':'']}}" wx:if="{{index<3}}">
+                            <view class="num data-v-2f7e3c1c">{{item.timeCount+'次'}}</view>
+                            <view class="name data-v-2f7e3c1c">
+                                <text class="data-v-2f7e3c1c" wx:if="{{item.isPresent}}">赠</text>{{item.groupName}}</view>
+                        </view>
+                    </block>
+                    <view bindtap="__e" class="project-more data-v-2f7e3c1c" data-event-opts="{{[ [ 'tap',[ [ 'moreProject',['$0',2],['cardInfo.amountInfo.groupList'] ] ] ] ]}}" wx:if="{{$root.g2}}">
+                        <view class="scale-area data-v-2f7e3c1c"></view>
+                        <image class="data-v-2f7e3c1c" src="{{$root.m7}}"></image>
+                    </view>
+                </view>
+                <view class="balance data-v-2f7e3c1c" wx:else>{{cardInfo.balanceAmount+'次'}}</view>
+            </view>
+            <view class="period-box data-v-2f7e3c1c">{{'有效期'+cardValidEtime+''}}</view>
+        </view>
+        <view class="bottom-info data-v-2f7e3c1c" wx:if="{{cardInfo.cardType==3}}">
+            <view class="card-time-info data-v-2f7e3c1c">
+                <view class="balance data-v-2f7e3c1c">
+                    <block wx:if="{{cardInfo.cardStatus==0}}">{{cardValidEtime}}</block>
+                    <block wx:else>{{(cardInfo.balanceAmount>0?cardInfo.balanceAmount:0)+'天'}}</block>
+                </view>
+            </view>
+            <view class="data-v-2f7e3c1c" style="display:flex;align-items:center;">
+                <view class="present-course data-v-2f7e3c1c" wx:if="{{cardInfo.amountInfo.isGroup}}">
+                    <view class="item-wrap data-v-2f7e3c1c" style="display:flex;" wx:for="{{cardInfo.amountInfo.groupList}}" wx:key="index">
+                        <view class="item data-v-2f7e3c1c" wx:if="{{index<3}}">
+                            <block wx:if="{{item.isPresent}}">赠</block>{{item.groupName+''}}</view>
+                    </view>
+                </view>
+                <view bindtap="__e" class="course-more data-v-2f7e3c1c" data-event-opts="{{[ [ 'tap',[ [ 'moreProject',['$0',3],['cardInfo.amountInfo.groupList'] ] ] ] ]}}" wx:if="{{$root.g3}}">
+                    <view class="scale-area data-v-2f7e3c1c"></view>
+                    <image class="data-v-2f7e3c1c" src="{{$root.m8}}"></image>
+                </view>
+            </view>
+            <view class="period-box data-v-2f7e3c1c">{{'有效期至'+cardValidEtime+''}}</view>
+        </view>
+        <view class="bottom-info data-v-2f7e3c1c" wx:if="{{cardInfo.cardType==1}}">
+            <view class="money-box data-v-2f7e3c1c">
+                <view class="money data-v-2f7e3c1c">
+                    <text class="data-v-2f7e3c1c">{{cardInfo.balanceAmount}}</text>元</view>
+                <view class="extra data-v-2f7e3c1c" wx:if="{{cardInfo.amountInfo.presentAmount}}">赠￥<text class="data-v-2f7e3c1c">{{cardInfo.amountInfo.presentAmount}}</text>
+                </view>
+                <view class="discounts data-v-2f7e3c1c" wx:if="{{cardInfo.amountInfo.discount}}">享<text class="data-v-2f7e3c1c">{{$root.g4[0]}}</text>
+                    <block wx:if="{{$root.g5>1}}">{{'.'+$root.g6[1]}}</block>折</view>
+            </view>
+            <view class="period-box data-v-2f7e3c1c">{{'有效期至'+cardValidEtime+''}}</view>
+        </view>
+    </view>
+</view>

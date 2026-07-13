@@ -1,0 +1,11 @@
+<view class="data-v-022e31b5">
+    <view class="u-index-bar data-v-022e31b5">
+        <slot></slot>
+        <view catchtouchcancel="__e" catchtouchend="__e" catchtouchmove="__e" catchtouchstart="__e" class="u-index-bar__sidebar data-v-022e31b5" data-event-opts="{{[ [ 'touchstart',[ [ 'onTouchMove',['$event'] ] ] ],[ 'touchmove',[ [ 'onTouchMove',['$event'] ] ] ],[ 'touchend',[ [ 'onTouchStop',['$event'] ] ] ],[ 'touchcancel',[ [ 'onTouchStop',['$event'] ] ] ] ]}}" wx:if="{{showSidebar}}">
+            <view class="{{['u-index-bar__index','data-v-022e31b5',activeAnchorIndex===index?'activeAnchor':'']}}" data-index="{{index}}" style="{{'z-index:'+zIndex+1+';'+'color:'+(activeAnchorIndex===index?activeColor:'')+';'}}" wx:for="{{indexList}}" wx:key="index">{{''+item+''}}</view>
+        </view>
+        <view class="u-indexed-list-alert data-v-022e31b5" style="{{'z-index:'+alertZIndex+';'}}" wx:if="{{touchmove&&indexList[touchmoveIndex]}}">
+            <text class="data-v-022e31b5">{{indexList[touchmoveIndex]}}</text>
+        </view>
+    </view>
+</view>

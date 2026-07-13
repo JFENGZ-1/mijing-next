@@ -1,0 +1,28 @@
+<view class="data-v-82ffe76c">
+    <view class="change data-v-82ffe76c" wx:if="{{$root.g0}}">
+        <view class="item data-v-82ffe76c" wx:for="{{recordList}}" wx:key="index">
+            <view class="change_name data-v-82ffe76c">{{item.modifyTypeName}}</view>
+            <view class="change_record data-v-82ffe76c">
+                <view class="change_top data-v-82ffe76c">
+                    <view class="change_top_time data-v-82ffe76c" wx:for="{{item.textlist}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                        <view class="{{['data-v-82ffe76c',item1.left.fontsize==1?'change_top_left':'change_top_lefts']}}">{{item1.left.text}}</view>
+                        <view class="{{['data-v-82ffe76c',item1.right.fontsize==1?'change_top_right':'change_top_rights']}}">{{item1.right.text}}</view>
+                    </view>
+                </view>
+                <view class="change_bottom data-v-82ffe76c">
+                    <view class="change_bottom_portrait data-v-82ffe76c">
+                        <image class="img data-v-82ffe76c" src="{{item.staffFace}}"></image>
+                    </view>
+                    <view class="change_bottom_name data-v-82ffe76c">{{item.operUserName}}</view>
+                    <view class="change_bottom_time data-v-82ffe76c">{{item.happenTime}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="data-v-82ffe76c" wx:else>
+        <view class="noCourseData data-v-82ffe76c">
+            <image class="icon data-v-82ffe76c" src="{{$root.m0}}"></image>
+            <text class="explain data-v-82ffe76c">~ 没有变更记录 ~</text>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,65 @@
+.info-wrap.data-v-12785b80 {
+  background: #fff;
+  border-radius: 21rpx;
+  display: -webkit-flex;
+  display: flex;
+  margin: 25rpx 20rpx;
+  padding: 40rpx 25rpx 60rpx;
+}
+.info-wrap .left.data-v-12785b80 {
+  border-radius: 50%;
+  height: 104rpx;
+  overflow: hidden;
+  width: 104rpx;
+}
+.info-wrap .left image.data-v-12785b80 {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+.info-wrap .right.data-v-12785b80 {
+  flex: 1;
+  margin-left: 20rpx;
+}
+.info-wrap .right .site-name.data-v-12785b80 {
+  color: #181818;
+  font-size: 47rpx;
+  font-weight: 700;
+}
+.info-wrap .right .opening-hours.data-v-12785b80 {
+  margin: 20rpx 0 40rpx;
+}
+.info-wrap .right .opening-hours .item.data-v-12785b80 {
+  color: #181818;
+  font-size: 22rpx;
+  line-height: 22rpx;
+  margin-bottom: 12rpx;
+}
+.info-wrap .right .address.data-v-12785b80,
+.info-wrap .right .phone.data-v-12785b80 {
+  color: #181818;
+  font-size: 25rpx;
+}
+.info-wrap .right .phone.data-v-12785b80 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  margin-top: 13rpx;
+}
+.info-wrap .right .phone text.data-v-12785b80 {
+  margin-right: 14rpx;
+}
+.info-wrap .right .phone.data-v-12785b80 .u-icon {
+  position: relative;
+}
+.info-wrap .right .phone.data-v-12785b80 .u-icon::before {
+  bottom: 0;
+  content: "";
+  height: 50rpx;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50rpx;
+}

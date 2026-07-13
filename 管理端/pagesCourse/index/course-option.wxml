@@ -1,0 +1,96 @@
+<view class="data-v-0228351e">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-0228351e" text="{{headtitle}}" vueId="49253fca-1"></navigation>
+    <view class="data-v-0228351e" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="data-v-0228351e" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="main data-v-0228351e" style="{{'height:100%;min-height:1230rpx; '}}">
+            <view class="course-option data-v-0228351e">
+                <view class="data-v-0228351e">
+                    <view class="hint_wrap data-v-0228351e">
+                        <hint bind:__l="__l" class="data-v-0228351e" vueId="49253fca-2" vueSlots="{{['default']}}">以下设置仅作用于下载的课程表图片</hint>
+                    </view>
+                    <view class="content data-v-0228351e">
+                        <view class="data-v-0228351e">
+                            <view class="item_radio data-v-0228351e">
+                                <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-0228351e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','showBackground','$event',[] ],['data'] ] ] ] ]}}" value="{{data.showBackground}}" vueId="49253fca-3" vueSlots="{{['default']}}">
+                                    <u-radio bind:__l="__l" class="{{['data-v-0228351e',data.showBackground=='1'?'active':'']}}" name="1" vueId="{{'49253fca-4'+','+'49253fca-3'}}" vueSlots="{{['default']}}">
+                                        <view class="{{['radio-main','data-v-0228351e',data.showBackground=='1'?'active':'']}}" style="width:145rpx;">图片背景</view>
+                                    </u-radio>
+                                    <u-radio bind:__l="__l" class="data-v-0228351e" name="0" vueId="{{'49253fca-5'+','+'49253fca-3'}}" vueSlots="{{['default']}}">
+                                        <view class="{{['radio-main','data-v-0228351e',data.showBackground=='0'?'active':'']}}">纯色块<text bindtap="__e" class="radio-font data-v-0228351e" data-event-opts="{{[ [ 'tap',[ [ 'showSchematicPop',['$event'] ] ] ] ]}}" wx:if="{{data.showBackground=='0'}}">如何更换颜色?</text>
+                                        </view>
+                                    </u-radio>
+                                </u-radio-group>
+                            </view>
+                        </view>
+                        <view class="data-v-0228351e">
+                            <view class="data-v-0228351e">
+                                <text class="showcontent data-v-0228351e">显示内容</text>
+                            </view>
+                            <view class="item_checkbox data-v-0228351e">
+                                <u-checkbox-group bind:__l="__l" class="data-v-0228351e" vueId="49253fca-6" vueSlots="{{['default']}}">
+                                    <u-checkbox bind:__l="__l" bind:input="__e" class="check-wrap data-v-0228351e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','checked','$event',[] ],[ [ ['showContent','',index] ] ] ] ] ] ]}}" name="{{item.name}}" shape="circle" value="{{item.checked}}" vueId="{{'49253fca-7-'+index+','+'49253fca-6'}}" vueSlots="{{['default']}}" wx:for="{{showContent}}" wx:key="index">
+                                        <view class="{{['course-name','data-v-0228351e',item.checked?'default':'name-gray']}}">{{''+item.name+''}}</view>
+                                    </u-checkbox>
+                                </u-checkbox-group>
+                            </view>
+                        </view>
+                        <view class="data-v-0228351e">
+                            <view class="data-v-0228351e">
+                                <text class="showcontent data-v-0228351e">筛选课程</text>
+                            </view>
+                            <view class="item_checkbox data-v-0228351e">
+                                <u-checkbox-group bind:__l="__l" class="data-v-0228351e" vueId="49253fca-8" vueSlots="{{['default']}}">
+                                    <u-checkbox bind:__l="__l" bind:input="__e" class="check-wrap data-v-0228351e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','selectVal','$event',[] ],[ [ ['data.tagList','',index] ] ] ] ] ] ]}}" name="{{item.labelText}}" shape="circle" value="{{item.selectVal}}" vueId="{{'49253fca-9-'+index+','+'49253fca-8'}}" vueSlots="{{['default']}}" wx:for="{{data.tagList}}" wx:key="index">
+                                        <view class="{{['course-name','data-v-0228351e',item.selectVal?'default':'name-gray']}}">{{''+item.labelText+''}}</view>
+                                    </u-checkbox>
+                                </u-checkbox-group>
+                            </view>
+                        </view>
+                        <view class="data-v-0228351e">
+                            <view class="data-v-0228351e">
+                                <text class="showcontent data-v-0228351e">地址及电话</text>
+                            </view>
+                            <view class="item_checkbox data-v-0228351e">
+                                <u-checkbox-group bind:__l="__l" class="data-v-0228351e" vueId="49253fca-10" vueSlots="{{['default']}}">
+                                    <u-checkbox bind:__l="__l" bind:input="__e" class="check-wrap data-v-0228351e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','checked','$event',[] ],[ [ ['addressAndPhone','',index] ] ] ] ] ] ]}}" name="{{item.name}}" shape="circle" value="{{item.checked}}" vueId="{{'49253fca-11-'+index+','+'49253fca-10'}}" vueSlots="{{['default']}}" wx:for="{{addressAndPhone}}" wx:key="index">
+                                        <view class="{{['course-name','data-v-0228351e',item.checked?'default':'name-gray']}}">{{''+item.name+''}}</view>
+                                    </u-checkbox>
+                                </u-checkbox-group>
+                            </view>
+                        </view>
+                        <view class="data-v-0228351e">
+                            <view class="data-v-0228351e">
+                                <text class="showcontent data-v-0228351e">装饰图片</text>
+                            </view>
+                            <view class="item_checkbox data-v-0228351e">
+                                <u-checkbox-group bind:__l="__l" class="data-v-0228351e" vueId="49253fca-12" vueSlots="{{['default']}}">
+                                    <u-checkbox bind:__l="__l" bind:input="__e" class="check-wrap data-v-0228351e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','checked','$event',[] ],[ [ ['decorativeImage','',index] ] ] ] ] ] ]}}" name="{{item.name}}" shape="circle" value="{{item.checked}}" vueId="{{'49253fca-13-'+index+','+'49253fca-12'}}" vueSlots="{{['default']}}" wx:for="{{decorativeImage}}" wx:key="index">
+                                        <view class="{{['course-name','data-v-0228351e',item.checked?'default':'name-gray']}}">{{''+item.name+''}}</view>
+                                    </u-checkbox>
+                                </u-checkbox-group>
+                            </view>
+                        </view>
+                        <view class="bt-wrap data-v-0228351e">
+                            <view bindtap="__e" class="create-Employee data-v-0228351e" data-event-opts="{{[ [ 'tap',[ [ 'submitBlog',['$event'] ] ] ] ]}}">
+                                <view class="data-v-0228351e">保存</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-0228351e" vueId="49253fca-14"></ff-bottom-logo>
+    </view>
+    <u-mask bind:__l="__l" bind:click="__e" class="data-v-0228351e" data-event-opts="{{[ [ '^click',[ ['e0'] ] ] ]}}" show="{{schematicShow}}" vueId="49253fca-15" vueSlots="{{['default']}}" zIndex="999">
+        <view class="schematic-popup data-v-0228351e">
+            <view class="content data-v-0228351e">
+                <view class="pic-wrap data-v-0228351e">
+                    <image class="pic data-v-0228351e" src="{{$root.m0}}" wx:if="{{schematicSrc}}"></image>
+                </view>
+                <view class="btn-wrap data-v-0228351e">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-0228351e" customStyle="{{customStyle}}" data-event-opts="{{[ [ '^click',[ ['e1'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'49253fca-16'+','+'49253fca-15'}}" vueSlots="{{['default']}}">知道了</u-button>
+                </view>
+            </view>
+        </view>
+    </u-mask>
+</view>

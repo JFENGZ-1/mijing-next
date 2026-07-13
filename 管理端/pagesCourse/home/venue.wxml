@@ -1,0 +1,33 @@
+<view class="data-v-1165aa48">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-1165aa48" text="切换场馆" vueId="6931b0c9-1"></navigation>
+    <view bindtap="__e" class="staff-container data-v-1165aa48" data-event-opts="{{[ [ 'tap',[ [ 'hideDown',['$event'] ] ] ] ]}}" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-1165aa48">
+            <view class="top data-v-1165aa48">
+                <text class="headcount data-v-1165aa48">{{'共'+shopNum+'个场馆'}}</text>
+            </view>
+            <view class="activeStaff data-v-1165aa48">
+                <view bindtap="__e" class="data-v-1165aa48" data-event-opts="{{[ [ 'tap',[ [ 'handleHome',['$event'] ] ] ] ]}}" data-index="{{item.$orig}}" wx:for="{{$root.l0}}" wx:key="index">
+                    <view class="item data-v-1165aa48">
+                        <view class="item-grid data-v-1165aa48">
+                            <image class="headimg data-v-1165aa48" src="{{item.$orig.siteTrademark}}"></image>
+                            <view class="name-phone-img data-v-1165aa48">
+                                <view class="name-img data-v-1165aa48">
+                                    <view class="name u-line-1 data-v-1165aa48">{{item.$orig.siteName}}</view>
+                                </view>
+                                <view class="item-address data-v-1165aa48">{{item.m0}}</view>
+                            </view>
+                        </view>
+                        <view class="right-operation data-v-1165aa48">
+                            <image class="icon data-v-1165aa48" mode="widthFix" src="{{$root.m1}}"></image>
+                        </view>
+                        <view class="{{['item_stadium','data-v-1165aa48',item.$orig.iscurrent?'down_show':'',!item.$orig.iscurrent?'down_hide':'']}}">
+                            <image class="sign data-v-1165aa48" mode="widthFix" src="{{$root.m2}}"></image>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view bindtap="__e" class="bg data-v-1165aa48" data-event-opts="{{[ [ 'tap',[ [ 'headleManagement',['$event'] ] ] ] ]}}" wx:if="{{hasSoftwareExpire.daynum!==0}}">多店管理</view>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-1165aa48" vueId="6931b0c9-2"></ff-bottom-logo>
+</view>

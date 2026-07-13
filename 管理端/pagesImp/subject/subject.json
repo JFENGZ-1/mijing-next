@@ -1,0 +1,15 @@
+{
+  "disableScroll": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "nodatalongword": "/pagesImp/components/nodata/nodatalongword",
+    "subject-card": "/pagesImp/subject/subject-compontent/subject-card",
+    "subject-persion": "/pagesImp/subject/subject-compontent/subject-persion",
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

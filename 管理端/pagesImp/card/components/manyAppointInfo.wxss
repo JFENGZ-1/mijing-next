@@ -1,0 +1,33 @@
+.main-box .radio-group.data-v-cf91c520 {
+  display: block;
+  padding: 50rpx 58rpx 0;
+}
+.main-box .radio.data-v-cf91c520 {
+  display: block;
+  height: 70rpx;
+}
+.main-box .radio-main.data-v-cf91c520 {
+  align-items: center;
+  color: #7e7e7e;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+  width: 100%;
+}
+.main-box .radio-main.active.data-v-cf91c520 {
+  color: #181818;
+  font-weight: 500;
+}
+.main-box .radio-main .com-input.data-v-cf91c520 {
+  margin: 0 10rpx;
+  width: 100rpx;
+}
+.main-box .u-input__input.data-v-cf91c520 {
+  text-align: center;
+}
+.main-box .sample.data-v-cf91c520 {
+  color: #c96a2f;
+  font-size: 23rpx;
+  line-height: 35rpx;
+  padding: 40rpx 70rpx 0rpx 90rpx;
+}

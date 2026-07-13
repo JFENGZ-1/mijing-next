@@ -1,0 +1,1 @@
+function(){var c=wx.getStorageSync('__shot_purchase');if(!c)return{ok:false};var m={active:'已激活',pending_activation:'待激活',expired:'已过期',frozen:'已冻结'};wx.showModal({title:'购卡成功',content:'「'+(c.name||'会员卡')+'」已发放，状态：'+(m[c.status]||c.status),confirmText:'查看会员卡',cancelText:'留在此页'});return{ok:true}}

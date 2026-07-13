@@ -1,0 +1,11 @@
+{
+  "backgroundColor": "#30314e",
+  "disableScroll": false,
+  "navigationBarBackgroundColor": "#30314e",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

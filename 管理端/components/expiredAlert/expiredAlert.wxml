@@ -1,0 +1,21 @@
+<view class="data-v-038a11c8">
+    <u-popup bind:__l="__l" bind:input="__e" class="data-v-038a11c8" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="680rpx" maskCloseAble="{{false}}" mode="center" value="{{show}}" vueId="e87662bc-1" vueSlots="{{['default']}}" width="576rpx">
+        <view class="close-box data-v-038a11c8">
+            <view bindtap="__e" class="close-popup data-v-038a11c8" data-event-opts="{{[ [ 'tap',[ [ 'handleDoubleClick',['$event'] ] ] ] ]}}"></view>
+        </view>
+        <view class="popuphead data-v-038a11c8">
+            <view class="headimg1 data-v-038a11c8">
+                <image class="pic data-v-038a11c8" src="{{$root.m0}}"></image>
+            </view>
+            <view class="headimg2 data-v-038a11c8">
+                <image class="icon data-v-038a11c8" src="{{$root.m1}}"></image>
+                <view class="day data-v-038a11c8">{{(hasSoftwareExpire?hasSoftwareExpire.daynum:'-')+'天'}}</view>
+                <view class="dayfont data-v-038a11c8">{{daymunTitle}}</view>
+                <view class="btn data-v-038a11c8">
+                    <button catchtap="__e" class="modal-btn1 data-v-038a11c8" data-event-opts="{{[ [ 'tap',[ [ 'renew',['$event'] ] ] ] ]}}" plain="true" style="{{'margin-top:'+(hasSoftwareExpire.daynum==0?'100rpx':'50rpx')+';'}}">去续费</button>
+                    <button bindtap="__e" class="modal-cal-btn data-v-038a11c8" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}" plain="true" wx:if="{{hasSoftwareExpire.daynum>0}}">先不续费</button>
+                </view>
+            </view>
+        </view>
+    </u-popup>
+</view>

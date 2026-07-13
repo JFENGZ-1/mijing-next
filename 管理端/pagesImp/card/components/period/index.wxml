@@ -1,0 +1,43 @@
+<view class="data-v-3998b630">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-3998b630" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="例如：可限定该卡只可以在周一至周三的早9:00至12:00约课" title="可用时段" value="{{show}}" vueId="7ef11e5f-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-3998b630" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-3998b630" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'7ef11e5f-2'+','+'7ef11e5f-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-3998b630">
+            <u-radio-group bind:__l="__l" bind:input="__e" class="radio-group data-v-3998b630" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','isAllTime','$event',[] ] ] ] ] ]}}" value="{{isAllTime}}" vueId="{{'7ef11e5f-3'+','+'7ef11e5f-1'}}" vueSlots="{{['default']}}">
+                <u-radio bind:__l="__l" class="radio data-v-3998b630" name="{{1}}" vueId="{{'7ef11e5f-4'+','+'7ef11e5f-3'}}" vueSlots="{{['default']}}">
+                    <view class="{{['radio-main','data-v-3998b630',isAllTime===1?'active':'']}}">全部时段</view>
+                </u-radio>
+                <u-radio bind:__l="__l" class="radio data-v-3998b630" name="{{2}}" vueId="{{'7ef11e5f-5'+','+'7ef11e5f-3'}}" vueSlots="{{['default']}}">
+                    <view class="{{['radio-main','data-v-3998b630',isAllTime===2?'active':'']}}">自定义时段</view>
+                </u-radio>
+            </u-radio-group>
+            <view class="list-box data-v-3998b630" hidden="{{!(isAllTime===2)}}">
+                <view class="list-item data-v-3998b630" wx:for="{{timelist}}" wx:key="index">
+                    <view bindtap="__e" class="left-icon data-v-3998b630" data-event-opts="{{[ [ 'tap',[ [ 'removeitem',['$0'],[ [ ['timelist','',index] ] ] ] ] ] ]}}">
+                        <u-icon bind:__l="__l" class="data-v-3998b630" color="#DC3C5C" name="minus-circle" size="40" vueId="{{'7ef11e5f-6-'+index+','+'7ef11e5f-1'}}"></u-icon>
+                    </view>
+                    <view bindtap="__e" class="list-item data-v-3998b630" data-event-opts="{{[ [ 'tap',[ [ 'openPopup',['$0'],[ [ ['timelist','',index] ] ] ] ] ] ]}}" style="flex:1 1 auto;padding:0;">
+                        <view class="title-box data-v-3998b630">
+                            <view class="title data-v-3998b630">{{''+item.weekValue+''}}</view>
+                            <view class="time data-v-3998b630">{{''+item.timeValue+''}}</view>
+                        </view>
+                        <view bindtap="__e" class="right-icon data-v-3998b630" data-event-opts="{{[ [ 'tap',[ [ 'openPopup',['$0'],[ [ ['timelist','',index] ] ] ] ] ] ]}}">
+                            <u-icon bind:__l="__l" class="data-v-3998b630" name="arrow-right" size="24" vueId="{{'7ef11e5f-7-'+index+','+'7ef11e5f-1'}}"></u-icon>
+                        </view>
+                    </view>
+                </view>
+                <view bindtap="__e" class="data-v-3998b630" data-event-opts="{{[ [ 'tap',[ ['openPopup'] ] ] ]}}" style="display:flex;">
+                    <view class="icon-add data-v-3998b630">
+                        <u-icon bind:__l="__l" class="data-v-3998b630" color="#E98900" name="plus" vueId="{{'7ef11e5f-8'+','+'7ef11e5f-1'}}"></u-icon>
+                        <text class="data-v-3998b630">添加时段</text>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-3998b630" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+    <view class="data-v-3998b630">
+        <time-popup bind:__l="__l" bind:saveWeekTime="__e" class="data-v-3998b630 vue-ref" data-event-opts="{{[ [ '^saveWeekTime',[ ['saveWeekTime'] ] ] ]}}" data-ref="child" dayDate="{{dayDate}}" imeviewlist="{{imeviewlist}}" opentime="{{timelist}}" showTime="{{showTime}}" title="{{title}}" vueId="7ef11e5f-9"></time-popup>
+    </view>
+</view>

@@ -1,0 +1,21 @@
+.wrap.data-v-356c7ab2 {
+  align-items: center;
+  bottom: 80rpx;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+.wrap image.data-v-356c7ab2 {
+  display: block;
+  height: 55rpx;
+  width: 204rpx;
+}
+.wrap.data-v-356c7ab2 u-line {
+  flex: 0;
+}
+.wrap .text.data-v-356c7ab2 {
+  color: #181818;
+  font-size: 32rpx;
+}

@@ -1,0 +1,30 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "activation": "/pagesImp/card/components/activation",
+    "card-all-project": "/components/card-all-project/index",
+    "card-face": "/pagesImp/card/components/cardFace",
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "efftime": "/pagesImp/card/components/efftime",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "ff-counts-card": "/components/ff-counts-card/ff-counts-card",
+    "ff-date-card": "/components/ff-date-card/ff-date-card",
+    "ff-value-card": "/components/ff-value-card/ff-value-card",
+    "navigation": "/components/navigation/index",
+    "period": "/pagesImp/card/components/period/index",
+    "quantity": "/pagesImp/card/components/quantity",
+    "quota": "/pagesImp/card/components/quota",
+    "time-quota": "/pagesImp/card/components/timeQuota",
+    "u-cell-group": "/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell-item": "/uview-ui/components/u-cell-item/u-cell-item",
+    "u-form": "/uview-ui/components/u-form/u-form",
+    "u-form-item": "/uview-ui/components/u-form-item/u-form-item",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-tag": "/uview-ui/components/u-tag/u-tag",
+    "use-per": "/pagesImp/card/components/usePer",
+    "value-quota": "/pagesImp/card/components/valueQuota/index",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

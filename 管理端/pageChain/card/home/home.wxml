@@ -1,0 +1,73 @@
+<view class="card-container data-v-241ecffe">
+    <zero-loading bind:__l="__l" class="data-v-241ecffe" vueId="37fa874b-1" wx:if="{{!cardList}}"></zero-loading>
+    <view class="data-v-241ecffe" wx:else>
+        <view class="placeholder-view data-v-241ecffe"></view>
+        <view class="content data-v-241ecffe">
+            <view class="card-list data-v-241ecffe" wx:if="{{$root.g0>0}}">
+                <view class="top-info data-v-241ecffe">
+                    <view class="data-v-241ecffe" style="width:700rpx;position:relative;left:-42rpx;">
+                        <u-tabs activeItemStyle="{{activeItemStyle}}" bind:__l="__l" bind:change="__e" class="data-v-241ecffe" current="{{currentIndex}}" data-event-opts="{{[ [ '^change',[ ['changeTab'] ] ] ]}}" fontSize="25" inactiveColor="#989898" isScroll="{{false}}" list="{{tagList}}" vueId="37fa874b-2"></u-tabs>
+                    </view>
+                    <view class="right-info data-v-241ecffe">
+                        <view class="showimg-wrap data-v-241ecffe">
+                            <image bindtap="__e" class="showimg data-v-241ecffe" data-event-opts="{{[ [ 'tap',[ [ 'delshow',['$event'] ] ] ] ]}}" src="{{$root.m0}}"></image>
+                            <text class="shownum data-v-241ecffe" wx:if="{{delCardCount!=0}}">{{delCardCount}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="data-v-241ecffe" wx:for="{{$root.l0}}" wx:key="cardId">
+                    <view bindtap="__e" class="card-type-box data-v-241ecffe" data-event-opts="{{[ [ 'tap',[ [ 'jumpToCardInfo',['$0'],[ [ ['showlist','cardId',item.$orig.cardId] ] ] ] ] ] ]}}">
+                        <view class="card-wrap data-v-241ecffe">
+                            <view class="data-v-241ecffe" wx:if="{{item.$orig.saleStatus==0}}">
+                                <view class="mask data-v-241ecffe"></view>
+                                <view class="img-wrap data-v-241ecffe">
+                                    <view class="data-v-241ecffe">
+                                        <image class="data-v-241ecffe" src="{{item.m1}}"></image>
+                                        <text class="data-v-241ecffe">已停售</text>
+                                    </view>
+                                </view>
+                                <view class="{{['data-v-241ecffe',item.$orig.saleStatus==0?'gray':'']}}"></view>
+                            </view>
+                            <view class="{{['data-v-241ecffe',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item.$orig.cardType==1}}">
+                                <ff-value-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-241ecffe" vueId="{{'37fa874b-3-'+index}}"></ff-value-card>
+                            </view>
+                            <view class="{{['data-v-241ecffe',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item.$orig.cardType==2}}">
+                                <ff-counts-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-241ecffe" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],[ [ ['showlist','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" vueId="{{'37fa874b-4-'+index}}"></ff-counts-card>
+                            </view>
+                            <view class="{{['data-v-241ecffe',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item.$orig.cardType==3}}">
+                                <ff-date-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-241ecffe" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],[ [ ['showlist','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" vueId="{{'37fa874b-5-'+index}}"></ff-date-card>
+                            </view>
+                        </view>
+                        <view class="right-box data-v-241ecffe">
+                            <view class="label data-v-241ecffe">售价</view>
+                            <view class="sale-money data-v-241ecffe">
+                                <view class="data-v-241ecffe">
+                                    <text class="data-v-241ecffe">￥</text>
+                                    <text class="price data-v-241ecffe">{{item.$orig.price}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="divder-line data-v-241ecffe" wx:if="{{item.g1}}"></view>
+                </view>
+            </view>
+            <view class="card-empty data-v-241ecffe" wx:else>
+                <image class="data-v-241ecffe" src="{{$root.m2}}"></image>
+                <text class="data-v-241ecffe">当您有多个连锁店时，请在此添加通用卡，持 
+ 有通用卡的会员即可跨店约课
+
+ 如果您只有一个店，则不要在此创建，该模块
+仅用于连锁店 </text>
+            </view>
+        </view>
+        <view bindtap="__e" class="create-card data-v-241ecffe" data-event-opts="{{[ [ 'tap',[ [ 'creatcard',['$event'] ] ] ] ]}}" wx:if="{{status==1}}">
+            <view class="bg data-v-241ecffe">
+                <text class="data-v-241ecffe">创 建</text>
+                <view class="data-v-241ecffe">会员卡</view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-241ecffe" vueId="37fa874b-6"></ff-bottom-logo>
+    </view>
+    <card-all-project bind:__l="__l" class="data-v-241ecffe vue-ref" data-ref="cardAllProject" vueId="37fa874b-7"></card-all-project>
+    <create-mode bind:__l="__l" bind:saveWeekTime="__e" class="data-v-241ecffe vue-ref" data-event-opts="{{[ [ '^saveWeekTime',[ ['saveWeekTime'] ] ] ]}}" data-ref="createmode" vueId="37fa874b-8"></create-mode>
+</view>

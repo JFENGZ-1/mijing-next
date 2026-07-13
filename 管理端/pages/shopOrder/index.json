@@ -1,0 +1,11 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#181818",
+  "navigationBarTextStyle": "white",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

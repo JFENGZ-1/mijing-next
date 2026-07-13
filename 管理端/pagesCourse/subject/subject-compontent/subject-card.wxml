@@ -1,0 +1,43 @@
+<view class="data-v-5af63be4">
+    <view class="course data-v-5af63be4">
+        <image class="courseimage data-v-5af63be4" src="{{groupData.courseBacklogweb}}" wx:if="{{groupData.courseBacklogweb}}"></image>
+        <image class="courseimage data-v-5af63be4" src="{{groupData.courseBacklog}}" wx:else></image>
+        <view class="coursetext data-v-5af63be4">
+            <view class="data-v-5af63be4" style="display:flex;justify-content:space-between;">
+                <view class="item data-v-5af63be4">
+                    <view class="data-v-5af63be4" style="display:flex;justify-content:flex-start;">
+                        <text class="item1 data-v-5af63be4">{{groupData.courseName}}</text>
+                        <view class="type-box data-v-5af63be4" wx:if="{{groupData.tagData}}">
+                            <image class="renew-icon data-v-5af63be4" src="{{$root.m0}}"></image>
+                            <view class="type-name new-member-label data-v-5af63be4">{{groupData.tagData}}</view>
+                        </view>
+                    </view>
+                    <view class="item2 data-v-5af63be4">
+                        <text class="data-v-5af63be4">{{''+groupData.courseAddr+''}}<text class="data-v-5af63be4" style="margin-left:8rpx;" wx:if="{{groupData.courseAddr}}">|</text>
+                            <text class="item4 data-v-5af63be4">难度</text>
+                        </text>
+                        <u-rate activeColor="#FFA800" bind:__l="__l" bind:input="__e" class="item4img data-v-5af63be4" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','degreeNum','$event',[] ],['groupData'] ] ] ] ]}}" disabled="{{true}}" inactiveColor="rgba(255, 255, 255, 0.0)" minCount="1" size="25" value="{{groupData.degreeNum}}" vueId="47c78ec6-1"></u-rate>
+                    </view>
+                    <view class="item-below data-v-5af63be4">
+                        <image class="item-below-image-big data-v-5af63be4" src="{{groupData.staffFace}}" wx:if="{{groupData.staffFace}}"></image>
+                        <image class="item-below-image-head data-v-5af63be4" src="{{$root.m1}}" wx:else></image>
+                        <view class="item-below-block data-v-5af63be4">
+                            <text class="item-below-name data-v-5af63be4">{{groupData.staffName}}</text>
+                            <view class="course-image-yk data-v-5af63be4" wx:if="{{groupData.openRule}}">
+                                <view class="max-person data-v-5af63be4" wx:if="{{groupData.openRule.maxMan==0&&groupData.openRule.minMan==0}}">不限制</view>
+                                <view class="max-person data-v-5af63be4" wx:if="{{groupData.openRule.maxMan>0}}">{{'限'+groupData.openRule.maxMan+'人'}}</view>
+                                <view class="min-person data-v-5af63be4" wx:if="{{groupData.openRule.minMan>0}}">{{'满'+groupData.openRule.minMan+'人开课'}}</view>
+                            </view>
+                            <view class="course-image-yk data-v-5af63be4" wx:if="{{!groupData.openRule||groupData.openRule.maxMan==undefined}}">
+                                <view class="max-person data-v-5af63be4">开课规则</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="item data-v-5af63be4">
+                    <text class="item1 min data-v-5af63be4">{{groupData.courseDuringTime+'分钟'}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

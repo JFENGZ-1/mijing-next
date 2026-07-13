@@ -1,0 +1,114 @@
+<view class="data-v-b65a7898">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-b65a7898" text="{{title}}" vueId="d21af642-1"></navigation>
+    <view class="main data-v-b65a7898" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-b65a7898">
+            <view class="head data-v-b65a7898" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="hint_wrap data-v-b65a7898">
+                    <hint bind:__l="__l" class="data-v-b65a7898" show="{{hintShow}}" updateTime="{{computeTime.computeTime}}" vueId="d21af642-2" vueSlots="{{['confirmname']}}">
+                        <view class="data-v-b65a7898" slot="confirmname">
+                            <view class="data-v-b65a7898" slot="confirmname">
+                                <view class="data-v-b65a7898">
+                                    <text class="data-v-b65a7898" style="color:#181818;">数据说明：</text>该数据非实时统计，若有变动，将于次日凌晨重新统计并更正</view>
+                            </view>
+                        </view>
+                    </hint>
+                </view>
+                <view class="summarize data-v-b65a7898">
+                    <view class="top_data data-v-b65a7898">
+                        <view class="more-data data-v-b65a7898">
+                            <view class="item data-v-b65a7898">
+                                <view class="info data-v-b65a7898">
+                                    <view class="data-v-b65a7898">团课排课</view>
+                                    <view class="info-foot data-v-b65a7898">
+                                        <text class="info_num data-v-b65a7898">{{data.totalTeamCount==undefined?'--':data.totalTeamCount}}</text>
+                                        <text class="info_name data-v-b65a7898">节</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-b65a7898" color="#DDDDDD" direction="col" length="62rpx" vueId="d21af642-3"></u-line>
+                            <view class="item data-v-b65a7898">
+                                <view class="info data-v-b65a7898">
+                                    <view class="data-v-b65a7898">团课成课</view>
+                                    <view class="info-foot data-v-b65a7898">
+                                        <text class="info_num data-v-b65a7898">{{(data.teamSuccCount==undefined?'--':data.teamSuccCount)+''}}</text>
+                                        <text class="info_name data-v-b65a7898">节</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-b65a7898" color="#DDDDDD" direction="col" length="62rpx" vueId="d21af642-4"></u-line>
+                            <view class="item data-v-b65a7898">
+                                <view class="info data-v-b65a7898">
+                                    <view class="data-v-b65a7898">签到人次</view>
+                                    <view class="info-foot data-v-b65a7898">
+                                        <text class="info_num data-v-b65a7898">{{data.teamsignMancount==undefined?'--':data.teamsignMancount}}</text>
+                                        <text class="info_name data-v-b65a7898">次</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-b65a7898" color="#DDDDDD" direction="col" length="62rpx" vueId="d21af642-5"></u-line>
+                            <view class="item data-v-b65a7898">
+                                <view class="info data-v-b65a7898">
+                                    <view class="data-v-b65a7898">私教</view>
+                                    <view class="info-foot data-v-b65a7898">
+                                        <text class="info_num data-v-b65a7898">{{data.privateCourseCount==undefined?'--':data.privateCourseCount}}</text>
+                                        <text class="info_name data-v-b65a7898">节</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="data_item data-v-b65a7898">
+                    <view class="item_head data-v-b65a7898">
+                        <view class="item_right data-v-b65a7898">
+                            <view class="item_below data-v-b65a7898">
+                                <view class="item_left data-v-b65a7898">月份</view>
+                                <view class="item_explain explain_first data-v-b65a7898">团课排课</view>
+                                <view class="item_explain explain_center data-v-b65a7898">团课成课</view>
+                                <view class="item_explain explain_end data-v-b65a7898">团课签到</view>
+                                <view class="item_explain explain_pri data-v-b65a7898">私教</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-b65a7898">
+                <view class="list data-v-b65a7898">
+                    <view class="item data-v-b65a7898" style="min-height:800rpx;" wx:if="{{!notdata}}">
+                        <view bindtap="__e" class="data-v-b65a7898" data-event-opts="{{[ [ 'tap',[ [ 'headleDelete',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}" wx:for="{{list}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                            <view class="item_con data-v-b65a7898">
+                                <view class="item_right data-v-b65a7898">
+                                    <view class="item_below data-v-b65a7898">
+                                        <view class="item_left data-v-b65a7898">{{''+item1.monthNum+'-'+item1.dayNum+''}}</view>
+                                        <view class="item_explain1 explain_first data-v-b65a7898">{{''+item1.totalTeamCount}}<text class="item_name data-v-b65a7898">节</text>
+                                        </view>
+                                        <view class="item_explain1 explain_center data-v-b65a7898">{{''+item1.teamSuccCount}}<text class="item_name data-v-b65a7898">节</text>
+                                        </view>
+                                        <view class="item_explain1 explain_end data-v-b65a7898">{{''+item1.teamsignMancount}}<text class="item_name data-v-b65a7898">人次</text>
+                                        </view>
+                                        <view class="item_explain1 explain_pri data-v-b65a7898">{{''+item1.privateCourseCount}}<text class="item_name data-v-b65a7898">节</text>
+                                        </view>
+                                        <u-icon bind:__l="__l" class="arrow-right data-v-b65a7898" color="#989898" name="arrow-right" size="15" vueId="{{'d21af642-6-'+index1}}"></u-icon>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="data-v-b65a7898" style="padding-left:160rpx;padding-right:20rpx;">
+                                <u-line bind:__l="__l" class="data-v-b65a7898" color="#F0F0F0" vueId="{{'d21af642-7-'+index1}}"></u-line>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="data-v-b65a7898" wx:else>
+                        <view class="noCourseData data-v-b65a7898">
+                            <image class="icon data-v-b65a7898" src="{{$root.m0}}"></image>
+                            <text class="tips data-v-b65a7898">~ 本月没有约课记录 ~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-b65a7898" wx:if="{{$root.g0!=0}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-b65a7898" color="#bfbfbf" halfWidth="74" vueId="d21af642-8" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-b65a7898" vueId="d21af642-9"></ff-bottom-logo>
+    </view>
+</view>

@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-calendar": "/uview-ui/components/u-calendar/u-calendar",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

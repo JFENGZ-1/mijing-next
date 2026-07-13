@@ -1,0 +1,23 @@
+<dialog bind:__l="__l" bind:input="__e" btnShow="{{true}}" class="data-v-e3b78f22" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" mask="{{mask}}" maskCloseAble="{{false}}" title="{{title}}" value="{{show}}" vueId="7429e840-1" vueSlots="{{['content','btn-wrap']}}">
+    <view class="hint-contet data-v-e3b78f22" slot="content">
+        <view class="{{['data-v-e3b78f22',status=='success'?'success':'',status=='error'?'error':'',status=='exception'?'exception':'']}}">
+            <view class="status-img-wrap data-v-e3b78f22">
+                <image class="icon-img data-v-e3b78f22" src="{{$root.m0}}" wx:if="{{status=='success'}}"></image>
+                <image class="icon-img data-v-e3b78f22" src="{{$root.m1}}" wx:if="{{status=='error'}}"></image>
+                <image class="icon-img data-v-e3b78f22" src="{{$root.m2}}" wx:if="{{status=='exception'}}"></image>
+            </view>
+            <view class="status-text data-v-e3b78f22">
+                <slot name="statusText" wx:if="{{$slots.statusText}}"></slot>
+                <block wx:else>购卡成功</block>
+            </view>
+            <view class="hint-text-sub data-v-e3b78f22">
+                <slot name="statusTextSub"></slot>
+            </view>
+        </view>
+    </view>
+    <view class="data-v-e3b78f22" slot="btn-wrap">
+        <view class="btn-wrap data-v-e3b78f22">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-e3b78f22" customStyle="{{confirBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['close'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" shape="circle" type="custom" vueId="{{'7429e840-2'+','+'7429e840-1'}}" vueSlots="{{['default']}}">知道了</u-button>
+        </view>
+    </view>
+</dialog>

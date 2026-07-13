@@ -1,0 +1,192 @@
+.main_box .form_box.data-v-85f21624 {
+  padding: 36rpx 35rpx 25rpx 49rpx;
+}
+.main_box .form_box .time.data-v-85f21624 {
+  color: #181818;
+}
+.main_box .form_box .time.data-v-85f21624,
+.main_box .form_box .times.data-v-85f21624 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+}
+.main_box .form_box .times.data-v-85f21624 {
+  color: #989898;
+}
+.main_box .form_box .time_name.data-v-85f21624 {
+  color: #181818;
+  font-size: 28rpx;
+  padding-right: 34rpx;
+}
+.main_box .form_box .disable_time_name.data-v-85f21624 {
+  color: #989898;
+  font-size: 28rpx;
+  padding-right: 34rpx;
+}
+.main_box .form_box .startTime.data-v-85f21624 {
+  margin-right: 19rpx;
+}
+.main_box .form_box .endTime.data-v-85f21624,
+.main_box .form_box .startTime.data-v-85f21624 {
+  background: #f5f5f5;
+  border-radius: 35rpx;
+  color: #7e7e7e;
+  height: 69rpx;
+  line-height: 69rpx;
+  text-align: center;
+  width: 215rpx;
+}
+.main_box .form_box .endTime.data-v-85f21624 {
+  margin-left: 19rpx;
+}
+.main_box .form_box .disableendTime.data-v-85f21624 {
+  background: #f8f8f8;
+  border-radius: 35rpx;
+  color: #7e7e7e;
+  color: #989898;
+  height: 69rpx;
+  line-height: 69rpx;
+  margin-left: 19rpx;
+  text-align: center;
+  width: 215rpx;
+}
+.main_box .form_box .choice.data-v-85f21624 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  margin-top: 21rpx;
+}
+.main_box .form_box .choice .delayDays.data-v-85f21624 {
+  color: #989898;
+  margin-left: 8rpx;
+}
+.main_box .form_box .checkbox.data-v-85f21624 {
+  background: #dadada;
+  border-radius: 50%;
+  height: 32rpx;
+  position: relative;
+  width: 32rpx;
+}
+.main_box .form_box .checkbox image.data-v-85f21624 {
+  height: 18rpx;
+  left: 7rpx;
+  position: absolute;
+  top: 8rpx;
+  width: 21rpx;
+}
+.main_box .form_box .disablecheckbox.data-v-85f21624 {
+  background: #dadada;
+  border-radius: 50%;
+  height: 32rpx;
+  position: relative;
+  width: 32rpx;
+}
+.main_box .form_box .disablecheckbox image.data-v-85f21624 {
+  height: 18rpx;
+  left: 7rpx;
+  position: absolute;
+  top: 8rpx;
+  width: 21rpx;
+}
+.main_box .form_box .checkboxs.data-v-85f21624 {
+  background: #00cb83;
+  border-radius: 50%;
+  height: 32rpx;
+  position: relative;
+  width: 32rpx;
+}
+.main_box .form_box .checkboxs image.data-v-85f21624 {
+  height: 18rpx;
+  left: 7rpx;
+  position: absolute;
+  top: 8rpx;
+  width: 21rpx;
+}
+.main_box .form_box .remark.data-v-85f21624 {
+  color: #989898;
+  font-size: 28rpx;
+  margin-left: 10rpx;
+  margin-right: 20rpx;
+}
+.main_box .form_box .remarks.data-v-85f21624 {
+  color: #181818;
+  font-size: 28rpx;
+  margin-left: 10rpx;
+  margin-right: 20rpx;
+}
+.main_box .form_box .disable.data-v-85f21624 {
+  color: #989898;
+  font-size: 28rpx;
+  margin-left: 8rpx;
+}
+.main_box .form_box .checked.data-v-85f21624 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  margin-top: 33rpx;
+}
+.main_box .form_box .conter.data-v-85f21624 {
+  background: #f5f5f5;
+  border: 1rpx solid #f5f5f5;
+  border-radius: 21rpx;
+  margin-top: 22rpx;
+  padding: 20rpx;
+}
+.main_box .form_box .conter.data-v-85f21624 .ql-blank::before {
+  color: #d0d2d7;
+}
+.com-button-f1.data-v-85f21624 {
+  background-color: none;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  height: 260rpx;
+}
+.com-button-f1 .determine.data-v-85f21624 {
+  background: #ffcf00;
+  border-radius: 41rpx;
+}
+.com-button-f1 .cancel.data-v-85f21624,
+.com-button-f1 .determine.data-v-85f21624 {
+  color: #181818;
+  font-size: 32rpx;
+  height: 83rpx;
+  line-height: 83rpx;
+  text-align: center;
+  width: 458rpx;
+}
+.com-button-f1 .cancel.data-v-85f21624 {
+  background: #fff;
+  border: 1px solid #ffcf00;
+  border-radius: 41rpx;
+  margin-top: 40rpx;
+}
+.btn.data-v-85f21624 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 46rpx;
+}
+.btn .modal-btn.data-v-85f21624 {
+  background: #f7d147;
+  border-radius: 35rpx;
+  color: #181818;
+  margin-bottom: 0;
+}
+.btn .modal-btn.data-v-85f21624,
+.btn .modal-cancel.data-v-85f21624 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+  height: 69rpx;
+  justify-content: center;
+  width: 181rpx;
+}
+.btn .modal-cancel.data-v-85f21624 {
+  background: #fff;
+  border: 1px solid #fbd128;
+  border-radius: 35rpx;
+  color: #7e7e7e;
+}

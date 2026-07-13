@@ -1,0 +1,75 @@
+.main-box .form-box.data-v-05e23501 {
+  padding: 53rpx 31rpx 50rpx;
+}
+.main-box .form-box .validity.data-v-05e23501 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.main-box .form-box .validity .name.data-v-05e23501 {
+  color: #181818;
+  font-size: 35rpx;
+}
+.main-box .form-box .validity .time.data-v-05e23501 {
+  background: #f5f5f5;
+  border-radius: 35rpx;
+  height: 69rpx;
+  line-height: 69rpx;
+  margin-left: 18rpx;
+  text-align: center;
+  width: 250rpx;
+}
+.main-box .form-box .checked.data-v-05e23501 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  margin-top: 53rpx;
+}
+.main-box .form-box .checked .checkbox.data-v-05e23501 {
+  background: #dadada;
+  border-radius: 50%;
+  height: 32rpx;
+  position: relative;
+  width: 32rpx;
+}
+.main-box .form-box .checked .checkbox image.data-v-05e23501 {
+  height: 18rpx;
+  left: 7rpx;
+  position: absolute;
+  top: 8rpx;
+  width: 21rpx;
+}
+.main-box .form-box .checked .checkboxs.data-v-05e23501 {
+  background: #00cb83;
+  border-radius: 50%;
+  height: 32rpx;
+  position: relative;
+  width: 32rpx;
+}
+.main-box .form-box .checked .checkboxs image.data-v-05e23501 {
+  height: 18rpx;
+  left: 7rpx;
+  position: absolute;
+  top: 8rpx;
+  width: 21rpx;
+}
+.main-box .form-box .checked .remark.data-v-05e23501 {
+  color: #989898;
+  font-size: 28rpx;
+  margin-left: 8rpx;
+}
+.main-box .form-box .checked .remarks.data-v-05e23501 {
+  color: #181818;
+  font-size: 28rpx;
+  margin-left: 8rpx;
+}
+.main-box .form-box .conter.data-v-05e23501 {
+  background: #f5f5f5;
+  border: 1rpx solid #f5f5f5;
+  border-radius: 21rpx;
+  margin-top: 22rpx;
+  padding: 20rpx;
+}
+.main-box .form-box .conter.data-v-05e23501 .ql-blank::before {
+  color: #d0d2d7;
+}

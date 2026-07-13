@@ -1,0 +1,400 @@
+.tips.data-v-3f37d992 {
+  color: #dadada;
+  font-size: 26rpx;
+  line-height: 32rpx;
+  position: absolute;
+  right: 15rpx;
+  top: 15rpx;
+}
+.tips .u-icon.data-v-3f37d992 {
+  margin-right: 5rpx;
+}
+.data-v-3f37d992 .u-tab-item {
+  margin-right: 40rpx;
+}
+.noData.data-v-3f37d992 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  height: 500rpx;
+}
+.noData image.data-v-3f37d992 {
+  height: 171rpx;
+  margin-bottom: 40rpx;
+  margin-top: 100rpx;
+  width: 203rpx;
+}
+.noData text.data-v-3f37d992 {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 45rpx;
+}
+.flex.data-v-3f37d992 {
+  display: -webkit-flex;
+  display: flex;
+}
+.container.data-v-3f37d992 {
+  background: #fff;
+  padding-bottom: 10rpx;
+}
+.time-wrap.data-v-3f37d992 {
+  color: #181818;
+  font-size: 42rpx;
+  font-weight: 700;
+  padding-bottom: 56rpx;
+  padding-top: 60rpx;
+  text-align: center;
+}
+.statistics-wrap.data-v-3f37d992 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 100rpx;
+}
+.statistics-wrap .item.data-v-3f37d992 {
+  text-align: center;
+}
+.statistics-wrap .item .num.data-v-3f37d992 {
+  color: #ed920f;
+  font-size: 46rpx;
+  font-weight: 700;
+  line-height: 46rpx;
+}
+.statistics-wrap .item .text.data-v-3f37d992 {
+  color: #7e7e7e;
+  font-size: 22rpx;
+  line-height: 22rpx;
+  margin-top: 24rpx;
+}
+.appointment_list.data-v-3f37d992 {
+  margin-top: 70rpx;
+  padding: 0 28rpx;
+}
+.appointment_list .list_wrap.data-v-3f37d992 {
+  margin-top: 40rpx;
+  position: relative;
+}
+.appointment_list .list_wrap .item.data-v-3f37d992 {
+  margin-bottom: 40rpx;
+}
+.appointment_list .list_wrap .item .date.data-v-3f37d992 {
+  font-size: 32rpx;
+  margin-bottom: 40rpx;
+}
+.appointment_list .list_wrap .item .photo_img.data-v-3f37d992 {
+  border-radius: 20rpx;
+  height: 125rpx;
+  overflow: hidden;
+  width: 125rpx;
+}
+.appointment_list .list_wrap .item .photo_img image.data-v-3f37d992 {
+  height: 100%;
+  width: 100%;
+}
+.appointment_list .list_wrap .item .info_box.data-v-3f37d992 {
+  flex: 1;
+  margin-left: 11rpx;
+}
+.appointment_list .list_wrap .item .info_box .info_box_wrap.data-v-3f37d992 {
+  display: -webkit-flex;
+  display: flex;
+  margin-right: 11rpx;
+  min-height: 162rpx;
+}
+.appointment_list .list_wrap .item .info_box .multiterm_info.data-v-3f37d992 {
+  align-items: center;
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 22rpx;
+  margin-top: 13rpx;
+}
+.appointment_list .list_wrap .item .info_box .star-level.data-v-3f37d992 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  margin-left: 10rpx;
+}
+.appointment_list .list_wrap .item .info_box .star-level image.data-v-3f37d992 {
+  height: 22rpx;
+  margin-right: 6rpx;
+  width: 26rpx;
+}
+.appointment_list .list_wrap .item .info_box .balance.data-v-3f37d992 {
+  align-items: center;
+  color: #989898;
+  font-size: 24rpx;
+  justify-content: flex-end;
+  margin-top: 12rpx;
+}
+.appointment_list .list_wrap .item .info_box .classroom_wrap.data-v-3f37d992,
+.appointment_list .list_wrap .item .info_box .difficulty_wrap.data-v-3f37d992,
+.appointment_list .list_wrap .item .info_box .status.data-v-3f37d992,
+.appointment_list .list_wrap .item .info_box .time_info.data-v-3f37d992 {
+  align-items: center;
+}
+.appointment_list .list_wrap .item .info_box .status.data-v-3f37d992 {
+  font-size: 18rpx;
+  justify-content: flex-end;
+  margin-top: 12rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .open_handle_mumber.data-v-3f37d992 {
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 7rpx;
+  display: -webkit-flex;
+  display: flex;
+  height: 33rpx;
+  justify-content: center;
+  margin-top: 8rpx;
+  position: relative;
+  width: 57rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .open_handle_mumber
+  .drop_down.data-v-3f37d992 {
+  position: absolute;
+  right: -10rpx;
+  top: 50rpx;
+  z-index: 10;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .open_handle_mumber
+  .drop_down
+  .image_wrap.data-v-3f37d992 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .open_handle_mumber
+  .drop_down
+  .image_wrap
+  image.data-v-3f37d992 {
+  display: block;
+  height: 19rpx;
+  margin-right: 23rpx;
+  width: 38rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .open_handle_mumber
+  .drop_down
+  .drop_down_list.data-v-3f37d992 {
+  background: hsla(0, 0%, 9%, 0.85);
+  border-radius: 21rpx;
+  padding: 20rpx 26rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .open_handle_mumber
+  .drop_down
+  .drop_down_list
+  .handle_item.data-v-3f37d992 {
+  align-items: center;
+  border-bottom: 1px solid #4d4d4d;
+  display: -webkit-flex;
+  display: flex;
+  padding: 22rpx 0rpx;
+  width: 190rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .open_handle_mumber
+  .drop_down
+  .drop_down_list
+  .handle_item.handle_item.data-v-3f37d992:last-of-type {
+  border-bottom: none;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .open_handle_mumber
+  .drop_down
+  .drop_down_list
+  .handle_item
+  image.data-v-3f37d992 {
+  margin-right: 19rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .open_handle_mumber
+  .drop_down
+  .drop_down_list
+  .handle_item
+  text.data-v-3f37d992 {
+  color: #f5f5f5;
+  font-size: 25rpx;
+}
+.appointment_list .list_wrap .item .info_box .handle_person.data-v-3f37d992 {
+  align-items: center;
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  margin-right: 5rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .handle_person
+  .photo-wrap.data-v-3f37d992 {
+  border-radius: 50%;
+  height: 26rpx;
+  margin-right: 5rpx;
+  overflow: hidden;
+  width: 26rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .handle_person
+  .photo-wrap
+  image.data-v-3f37d992 {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .handle_person
+  text.data-v-3f37d992 {
+  color: #989898;
+}
+.appointment_list .list_wrap .item .info_box .time_info.data-v-3f37d992 {
+  border-radius: 16rpx;
+  font-size: 22rpx;
+  margin-top: 12rpx;
+}
+.appointment_list .list_wrap .item .info_box .time_info text.data-v-3f37d992 {
+  color: #989898;
+  margin-right: 12rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .time_info
+  .time_quantum.data-v-3f37d992 {
+  background: #faf5f8;
+  border-radius: 18rpx;
+  color: #dc3c5c;
+  height: 32rpx;
+  line-height: 32rpx;
+  padding: 0 18rpx;
+}
+.appointment_list .list_wrap .item .info_box .left_box.data-v-3f37d992 {
+  flex: 1;
+  margin-right: 50rpx;
+}
+.appointment_list .list_wrap .item .info_box .right_box.data-v-3f37d992 {
+  align-items: flex-end;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+.appointment_list .list_wrap .item .info_box .course_project.data-v-3f37d992 {
+  display: -webkit-flex;
+  display: flex;
+  margin-top: 8rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .course_project
+  .project_item.data-v-3f37d992 {
+  background: #696b99;
+  border-radius: 16rpx;
+  color: #fff;
+  font-size: 22rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+  padding: 0 15rpx;
+}
+.appointment_list .list_wrap .item .info_box .remake.data-v-3f37d992 {
+  color: #989898;
+  font-size: 24rpx;
+  line-height: 30rpx;
+  margin-top: 8rpx;
+}
+.appointment_list .list_wrap .item .info_box .consumption.data-v-3f37d992,
+.appointment_list .list_wrap .item .info_box .course_name.data-v-3f37d992 {
+  color: #181818;
+  font-size: 32rpx;
+  line-height: 32rpx;
+  margin-top: 5rpx;
+  text-align: right;
+}
+.appointment_list .list_wrap .item .info_box .course_name.data-v-3f37d992 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.appointment_list .list_wrap .item .info_box .course_name text.data-v-3f37d992 {
+  font-weight: 700;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .course_name
+  .tag_wrap.data-v-3f37d992 {
+  display: -webkit-flex;
+  display: flex;
+  margin-left: 10rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .course_name
+  .tag_wrap
+  image.data-v-3f37d992 {
+  height: 28rpx;
+  width: 16rpx;
+}
+.appointment_list
+  .list_wrap
+  .item
+  .info_box
+  .course_name
+  .tag_wrap
+  .tag_text.data-v-3f37d992 {
+  align-items: center;
+  background-color: #fc8c00;
+  border-radius: 0rpx 8rpx 8rpx 0rpx;
+  color: #fff;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 18rpx;
+  height: 28rpx;
+  justify-content: center;
+  padding-right: 8rpx;
+}

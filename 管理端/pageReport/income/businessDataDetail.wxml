@@ -1,0 +1,105 @@
+<view class="data-v-6d9e3207">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-6d9e3207" text="{{title}}" vueId="6a30f9ba-1"></navigation>
+    <view class="main data-v-6d9e3207" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-6d9e3207">
+            <view class="head data-v-6d9e3207" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="hint_wrap data-v-6d9e3207">
+                    <hint bind:__l="__l" class="data-v-6d9e3207" show="{{hintShow}}" updateTime="{{computeTime.computeTime}}" vueId="6a30f9ba-2" vueSlots="{{['confirmname']}}">
+                        <view class="data-v-6d9e3207" slot="confirmname">
+                            <view class="data-v-6d9e3207">
+                                <text class="name data-v-6d9e3207">新增会员：</text>
+                                <text class="value data-v-6d9e3207">新添加的会员且名下至少有一张卡</text>
+                            </view>
+                            <view class="data-v-6d9e3207">
+                                <text class="name data-v-6d9e3207">售卡：</text>
+                                <text class="value data-v-6d9e3207">会员在线购卡张数和手动发卡张数</text>
+                            </view>
+                            <view class="data-v-6d9e3207">
+                                <text class="name data-v-6d9e3207">收款：</text>
+                                <text class="value data-v-6d9e3207">会员在线付款和手动发卡时填写的【实际收款】</text>
+                            </view>
+                        </view>
+                    </hint>
+                </view>
+                <view class="setting_wrap data-v-6d9e3207">
+                    <view class="top_data data-v-6d9e3207">
+                        <view class="more-data data-v-6d9e3207">
+                            <view class="item data-v-6d9e3207">
+                                <view class="info data-v-6d9e3207">
+                                    <view class="data-v-6d9e3207">新增会员</view>
+                                    <view class="info-foot data-v-6d9e3207">
+                                        <text class="info_num data-v-6d9e3207">{{data.newUserCount==undefined?'--':data.newUserCount}}</text>
+                                        <text class="info_name data-v-6d9e3207">名</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-6d9e3207" color="#DDDDDD" direction="col" length="62rpx" margin="50rpx 0 0 0" vueId="6a30f9ba-3"></u-line>
+                            <view class="item data-v-6d9e3207">
+                                <view class="info data-v-6d9e3207">
+                                    <view class="data-v-6d9e3207">售卡</view>
+                                    <view class="info-foot data-v-6d9e3207">
+                                        <text class="info_num data-v-6d9e3207">{{(data.saleCardCount==undefined?'--':data.saleCardCount)+''}}</text>
+                                        <text class="info_name data-v-6d9e3207">张</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-6d9e3207" color="#DDDDDD" direction="col" length="62rpx" margin="50rpx 0 0 0" vueId="6a30f9ba-4"></u-line>
+                            <view class="item data-v-6d9e3207">
+                                <view class="info data-v-6d9e3207">
+                                    <view class="data-v-6d9e3207">收款</view>
+                                    <view class="info-foot data-v-6d9e3207">
+                                        <text class="info_name data-v-6d9e3207">￥</text>
+                                        <text class="info_num data-v-6d9e3207">{{data.saleCash==undefined?'--':data.saleCash}}</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-6d9e3207" height="24" vueId="6a30f9ba-5"></u-gap>
+            </view>
+            <view class="list data-v-6d9e3207">
+                <zero-loading bind:__l="__l" class="data-v-6d9e3207" vueId="6a30f9ba-6" wx:if="{{!list}}"></zero-loading>
+                <view class="data-v-6d9e3207" style="min-height:900rpx;" wx:if="{{!notdata}}">
+                    <view class="item data-v-6d9e3207" wx:for="{{$root.l0}}" wx:for-item="item1" wx:key="index">
+                        <view class="item_con data-v-6d9e3207">
+                            <view class="list_item data-v-6d9e3207">
+                                <view bindtap="__e" class="portrait data-v-6d9e3207" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}">
+                                    <image class="new-member-icon data-v-6d9e3207" src="{{item1.m0}}"></image>
+                                </view>
+                                <view class="right data-v-6d9e3207">
+                                    <view bindtap="__e" class="item_conter data-v-6d9e3207" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}">{{''+item1.m1+''}}<view class="item_below data-v-6d9e3207">
+                                            <view class="item_below_time data-v-6d9e3207">{{item1.g0+''}}</view>
+                                            <view class="type-box data-v-6d9e3207" wx:if="{{item1.$orig.isnewtag==1}}">
+                                                <image class="new-member-icon data-v-6d9e3207" src="{{item1.m2}}"></image>
+                                                <view class="type-name new-member-label data-v-6d9e3207">新会员</view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="item_card data-v-6d9e3207">{{item1.m3}}</view>
+                                    <view class="item_price data-v-6d9e3207">{{'￥'+item1.$orig.orderAmount+''}}<view class="item_price_status data-v-6d9e3207">{{item1.$orig.payMethodName}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <ivew bind:__l="__l" class="remark data-v-6d9e3207" vueId="{{'6a30f9ba-7-'+index}}" vueSlots="{{['default']}}" wx:if="{{item1.$orig.orderRemark!=null}}">
+                                <label class="remarkfont _span data-v-6d9e3207">备注：</label>
+                                <label class="remarkcontent _span data-v-6d9e3207">{{item1.$orig.orderRemark!=null?item1.$orig.orderRemark:''}}</label>
+                            </ivew>
+                        </view>
+                        <u-line bind:__l="__l" class="data-v-6d9e3207" color="#F0F0F0" length="582rpx" margin="0rpx 0rpx 0 120rpx" vueId="{{'6a30f9ba-8-'+index}}" wx:if="{{item1.g1-1!=index}}"></u-line>
+                    </view>
+                </view>
+                <view class="data-v-6d9e3207" wx:else>
+                    <view class="noCourseData data-v-6d9e3207">
+                        <image class="icon data-v-6d9e3207" src="{{$root.m4}}"></image>
+                        <text class="tips data-v-6d9e3207">~ 今日没有收款记录 ~</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-6d9e3207" wx:if="{{$root.g2}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-6d9e3207" color="#bfbfbf" halfWidth="74" vueId="6a30f9ba-9" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-6d9e3207" vueId="6a30f9ba-10"></ff-bottom-logo>
+    </view>
+</view>

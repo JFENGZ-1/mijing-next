@@ -1,0 +1,39 @@
+<view class="zzx-calendar data-v-1ee187ed">
+    <view class="calendar-content data-v-1ee187ed">
+        <swiper autoplay="{{false}}" bindchange="__e" circular="{{true}}" class="calendar-swiper data-v-1ee187ed" current="{{current}}" data-event-opts="{{[ [ 'change',[ [ 'changeSwp',['$event'] ] ] ] ]}}" disableProgrammaticAnimation="{{true}}" duration="{{duration}}" indicatorDots="{{false}}" style="{{'width:'+'100%'+';'}}">
+            <swiper-item class="calendar-item data-v-1ee187ed" wx:for="{{$root.l3}}" wx:for-index="__i0__" wx:for-item="sitem" wx:key="$orig">
+                <view class="calendar-weeks data-v-1ee187ed">
+                    <view bindtap="__e" class="{{['calendar-week','data-v-1ee187ed',week.fullDate===selectedDate?'week-checked':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'clickItem',['$0'],[ [ ['days','',index] ] ] ] ] ] ]}}" wx:for="{{days}}" wx:for-item="week" wx:key="index">
+                        <view class="{{['data-v-1ee187ed',week.isToday&&!(week.fullDate===selectedDate)?'is-today':'']}}">{{weeks[week.weekIndex-1]}}</view>
+                    </view>
+                </view>
+                <view class="calendar-days data-v-1ee187ed">
+                    <block wx:if="{{sitem.$orig===current}}">
+                        <view bindtap="__e" class="{{['calendar-day','data-v-1ee187ed',!item.$orig.show?'day-hidden':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'clickItem',['$0'],[ [ ['days','',index] ] ] ] ] ] ]}}" wx:for="{{sitem.l0}}" wx:key="index">
+                            <view class="{{['date','data-v-1ee187ed',item.$orig.fullDate===selectedDate?checkedClass:'']}}">
+                                <view class="{{['data-v-1ee187ed',item.$orig.isToday&&!(item.$orig.fullDate===selectedDate)?'is-today':'']}}">{{''+(item.$orig.isToday?'今':item.g0)+''}}</view>
+                            </view>
+                            <view class="dot-show data-v-1ee187ed" style="{{dotStyle}}" wx:if="{{item.$orig.info}}"></view>
+                        </view>
+                    </block>
+                    <block wx:else>
+                        <block wx:if="{{current-sitem.$orig===1||current-sitem.$orig===-2}}">
+                            <view class="{{['calendar-day','data-v-1ee187ed',!item.$orig.show?'day-hidden':'']}}" wx:for="{{sitem.l1}}" wx:key="index">
+                                <view class="date data-v-1ee187ed">
+                                    <view class="{{['data-v-1ee187ed',item.$orig.isToday&&!(item.$orig.fullDate===selectedDate)?'is-today':'']}}">{{item.$orig.isToday?'今':item.g1}}</view>
+                                </view>
+                            </view>
+                        </block>
+                        <block wx:else>
+                            <view class="{{['calendar-day','data-v-1ee187ed',!item.$orig.show?'day-hidden':'']}}" wx:for="{{sitem.l2}}" wx:key="index">
+                                <view class="date data-v-1ee187ed">
+                                    <view class="{{['data-v-1ee187ed',item.$orig.isToday&&!(item.$orig.fullDate===selectedDate)?'is-today':'']}}">{{item.$orig.isToda?'今':item.g2}}</view>
+                                </view>
+                            </view>
+                        </block>
+                    </block>
+                </view>
+            </swiper-item>
+        </swiper>
+    </view>
+</view>

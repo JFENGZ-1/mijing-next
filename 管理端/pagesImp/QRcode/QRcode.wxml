@@ -1,0 +1,19 @@
+<page-meta class="data-v-b5afbf14" pageStyle="background-color: #f4d818;"></page-meta>
+<view class="data-v-b5afbf14">
+    <view class="QR_layout data-v-b5afbf14">
+        <view class="QR data-v-b5afbf14">
+            <image class="QR_pic data-v-b5afbf14" showMenuByLongpress="{{true}}" src="{{$root.m0}}"></image>
+            <view class="title data-v-b5afbf14">长按图片识别</view>
+            <view class="icon_wrap data-v-b5afbf14">
+                <image class="icon data-v-b5afbf14" src="{{$root.m1}}"></image>
+            </view>
+        </view>
+    </view>
+    <view class="shadow_layout data-v-b5afbf14">
+        <image class="shadow_pic data-v-b5afbf14" src="{{$root.m2}}"></image>
+    </view>
+    <view class="title_layout data-v-b5afbf14">
+        <view class="title data-v-b5afbf14">【消息提醒】</view>
+        <view class="description data-v-b5afbf14">关注公众号即可收到会员预约、课程取消等通知</view>
+    </view>
+</view>

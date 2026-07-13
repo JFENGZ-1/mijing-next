@@ -1,0 +1,11 @@
+{
+  "component": true,
+  "usingComponents": {
+    "editor-textarea": "/components/editor-textarea/index",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-picker": "/uview-ui/components/u-picker/u-picker",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

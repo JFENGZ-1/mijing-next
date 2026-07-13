@@ -1,0 +1,43 @@
+<view class="data-v-e85371ea">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-e85371ea" text="{{title}}" vueId="e011aa22-1"></navigation>
+    <view class="card-container data-v-e85371ea" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <zero-loading bind:__l="__l" class="data-v-e85371ea" vueId="e011aa22-2" wx:if="{{!cardList}}"></zero-loading>
+        <view class="data-v-e85371ea" wx:else>
+            <view class="data-v-e85371ea" style="{{'height:100%;min-height:1230rpx;'}}">
+                <view class="placeholder-view data-v-e85371ea"></view>
+                <view class="content data-v-e85371ea">
+                    <view class="card-list data-v-e85371ea" wx:if="{{$root.g0>0}}">
+                        <view class="top-info data-v-e85371ea">
+                            <text class="total-num data-v-e85371ea">{{'共删除'+$root.g1+'张'}}</text>
+                        </view>
+                        <view class="data-v-e85371ea" wx:for="{{$root.l0}}" wx:key="cardId">
+                            <view class="card-type-box data-v-e85371ea">
+                                <view class="card-wrap data-v-e85371ea">
+                                    <member-card activeClass="medium-sized" bind:__l="__l" bind:moreProject="__e" cardInfo="{{item.$orig}}" class="data-v-e85371ea" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" vueId="{{'e011aa22-3-'+index}}"></member-card>
+                                </view>
+                                <view class="right-box data-v-e85371ea">
+                                    <view class="btn-box data-v-e85371ea" wx:if="{{!item.m0}}">
+                                        <button bindtap="__e" class="delete-btn data-v-e85371ea" data-event-opts="{{[ [ 'tap',[ [ 'delmodal',['$0'],[ [ ['cardList','cardId',item.$orig.cardId,'userCardId'] ] ] ] ] ] ]}}" plain="true">恢复</button>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="divder-line data-v-e85371ea" wx:if="{{item.$orig.delStaffUserid}}">
+                                <image class="data-v-e85371ea" src="{{item.$orig.delStaffFace}}"></image>
+                                <text class="data-v-e85371ea">{{''+item.$orig.delStaffName+''}}</text>
+                                <text class="data-v-e85371ea">{{''+item.$orig.delDate+' 操作删除'}}</text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="card-empty data-v-e85371ea" wx:else>
+                        <image class="tips-pic data-v-e85371ea" src="{{$root.m1}}"></image>
+                        <text class="tips-text data-v-e85371ea">没有删除的会员卡哦</text>
+                    </view>
+                </view>
+            </view>
+            <ff-bottom-logo bind:__l="__l" class="data-v-e85371ea" vueId="e011aa22-4"></ff-bottom-logo>
+        </view>
+        <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-e85371ea vue-ref" data-event-opts="{{[ [ '^confirm',[ ['deleteBtnClick'] ] ] ]}}" data-ref="confirmModal" title="确定恢复吗？" vueId="e011aa22-5" vueSlots="{{['content']}}">
+            <text slot="content">点击确定后即可恢复</text>
+        </confirm-modal>
+    </view>
+</view>

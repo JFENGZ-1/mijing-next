@@ -1,0 +1,16 @@
+{
+  "verifiedAt": "2026-07-11T12:11+08:00",
+  "memberLinkRequests": {
+    "count": 1,
+    "status": "pending_staff_review"
+  },
+  "staffLinkRequests": {
+    "count": 1,
+    "status": "pending_staff_review",
+    "leadMemberName": "自动化验证潜客-064442"
+  },
+  "screenshots": [
+    "docs/generated/stage04-seed-member-home.png",
+    "docs/generated/stage04-seed-staff-link-requests.png"
+  ]
+}

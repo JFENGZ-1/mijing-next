@@ -1,0 +1,214 @@
+.trainer-popup-container.data-v-3242933a {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+.trainer-popup-container .trainer-popup .head.data-v-3242933a {
+  background: #fef9de;
+  border-radius: 7px;
+  color: #c96a2f;
+  font-size: 22rpx;
+  margin: 20rpx 28rpx 0rpx;
+  padding: 10rpx 20rpx;
+}
+.trainer-popup-container .trainer-popup .head text.data-v-3242933a {
+  padding-left: 8rpx;
+}
+.trainer-popup-container .trainer-popup .headbut.data-v-3242933a {
+  margin: 0rpx 28rpx;
+  padding: 30rpx 0rpx 30rpx 8rpx;
+}
+.trainer-popup-container .trainer-popup .headbut .button-list.data-v-3242933a {
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 26rpx;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainer-content.data-v-3242933a {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 36rpx;
+  margin-left: 12rpx;
+  margin-right: 12rpx;
+  text-align: center;
+  width: 145rpx;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainer-content
+  .head-img.data-v-3242933a {
+  border-radius: 12rpx;
+  height: 126rpx;
+  width: 126rpx;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainer-content
+  .trainer-sex.data-v-3242933a {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  padding-top: 14rpx;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainer-content
+  .trainer-sex
+  .sex-warp.data-v-3242933a {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainer-content
+  .trainer-sex
+  .seximg1.data-v-3242933a {
+  height: 24rpx;
+  margin-left: 8rpx;
+  width: 18rpx;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainer-content
+  .trainer-sex
+  .seximg.data-v-3242933a {
+  height: 20rpx;
+  margin-left: 8rpx;
+  margin-top: 5rpx;
+  width: 20rpx;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainer-content
+  .trainer-sex
+  .trainer-text.data-v-3242933a {
+  font-weight: 500;
+  max-width: 138rpx;
+  min-width: none;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainerContent.data-v-3242933a {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 36rpx;
+  margin-left: 12rpx;
+  margin-right: 12rpx;
+  text-align: center;
+  width: 145rpx;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainerContent
+  .img.data-v-3242933a {
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  display: -webkit-flex;
+  display: flex;
+  height: 126rpx;
+  justify-content: center;
+  width: 126rpx;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainerContent
+  .headImg.data-v-3242933a {
+  border-radius: 12rpx;
+  height: 66rpx;
+  width: 66rpx;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainerContent
+  .trainer-sex.data-v-3242933a {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  padding-top: 14rpx;
+}
+.trainer-popup-container
+  .trainer-popup
+  .headbut
+  .button-list
+  .trainerContent
+  .trainer-sex
+  .trainer-text.data-v-3242933a {
+  font-weight: 500;
+  max-width: 138rpx;
+  min-width: none;
+}
+.trainer-popup-container .modal.data-v-3242933a {
+  padding: 48rpx 40rpx 0rpx 45rpx;
+}
+.trainer-popup-container .modal .modal-title.data-v-3242933a {
+  color: #181818;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+.trainer-popup-container .modal .modal-content.data-v-3242933a {
+  align-items: center;
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 24rpx;
+  justify-content: start;
+  line-height: 38rpx;
+  padding-top: 30rpx;
+}
+.trainer-popup-container .modal .modal-content text.data-v-3242933a {
+  margin-left: 18rpx;
+}
+.trainer-popup-container .modal .btn.data-v-3242933a {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-start;
+  margin: 42rpx 0rpx 0rpx 380rpx;
+}
+.trainer-popup-container .modal .btn button.data-v-3242933a {
+  border-radius: 17px;
+  color: #181818;
+  font-size: 28rpx;
+  height: 70rpx;
+  width: 220rpx;
+}
+.trainer-popup-container .modal .btn button.data-v-3242933a::after {
+  border: none;
+}
+.trainer-popup-container .modal .btn .modal-btn.data-v-3242933a {
+  background: #fbd128;
+  margin-bottom: 39rpx;
+}

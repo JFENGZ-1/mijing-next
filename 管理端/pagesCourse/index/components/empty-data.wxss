@@ -1,0 +1,17 @@
+.no-data-warp.data-v-0a13186e {
+  padding-bottom: 200rpx;
+  padding-top: 200rpx;
+  text-align: center;
+}
+.no-data-warp .img.data-v-0a13186e {
+  height: 180rpx;
+  padding-bottom: 80rpx;
+  width: 202rpx;
+}
+.no-data-warp .text.data-v-0a13186e {
+  color: #bfbfbf;
+  font-size: 26rpx;
+  line-height: 21px;
+  padding: 0 60rpx;
+  text-align: center;
+}

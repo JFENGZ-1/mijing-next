@@ -1,0 +1,13 @@
+<view class="calendarMonth-container data-v-a2e3a4aa">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-a2e3a4aa" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','calendarMonthPopupShow','$event',[] ] ] ] ] ]}}" height="{{868}}" title="选择年份" value="{{calendarMonthPopupShow}}" vueId="6a0cdb0a-1" vueSlots="{{['default']}}">
+        <view class="calendarMonth data-v-a2e3a4aa">
+            <view class="month data-v-a2e3a4aa">
+                <view class="item_box data-v-a2e3a4aa" wx:for="{{calendarList}}" wx:for-index="key" wx:key="key">
+                    <text bindtap="__e" class="{{['data-v-a2e3a4aa','item_month',key==year?'aa':'bb']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeDate',[key] ] ] ] ]}}">
+                        <text class="data-v-a2e3a4aa">{{key}}</text>
+                    </text>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

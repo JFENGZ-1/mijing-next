@@ -1,0 +1,83 @@
+<view class="data-v-ce8c5d7c">
+    <navigation bind:__l="__l" class="data-v-ce8c5d7c" text="如何设置连锁" vueId="3c8ee3b3-1"></navigation>
+    <view class="placeholder-view data-v-ce8c5d7c" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-ce8c5d7c" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="wechat-wrap data-v-ce8c5d7c">
+            <view class="item-wrap data-v-ce8c5d7c">
+                <view class="left-pic data-v-ce8c5d7c">
+                    <view class="logo-wrap data-v-ce8c5d7c">
+                        <image class="pic data-v-ce8c5d7c" src="{{$root.m0}}"></image>
+                    </view>
+                    <view class="text-wrap data-v-ce8c5d7c">分店管理</view>
+                </view>
+                <view class="right-text data-v-ce8c5d7c">
+                    <text class="title data-v-ce8c5d7c">1、如何启用连锁分店功能？</text>
+                    <text class="data-v-ce8c5d7c" userSelect="{{true}}"> a）填写品牌名称及LOGO b）添加分店（至少2个） 在分店管理中，满足以上两个条件后即可自动激活分店功能 </text>
+                </view>
+            </view>
+            <view class="item-wrap data-v-ce8c5d7c">
+                <view class="left-pic data-v-ce8c5d7c">
+                    <view class="logo-wrap data-v-ce8c5d7c">
+                        <image class="pic data-v-ce8c5d7c" src="{{$root.m1}}"></image>
+                    </view>
+                    <view class="text-wrap data-v-ce8c5d7c">连锁通用卡</view>
+                </view>
+                <view class="right-text data-v-ce8c5d7c">
+                    <text class="title data-v-ce8c5d7c">2、如何实现跨店约课？</text>
+                    <text class="data-v-ce8c5d7c" userSelect="{{true}}"> 您只需要发行【多店通用卡】并将通用卡发给分店的会员，凡持有【多店通用卡】的会员即可跨店约课。 若要求不需要跨店约课，那么各分店发行分店的卡即可，无需添加多店通用卡，或者不发给会员【多店通用卡】。 注：<text class="keynote data-v-ce8c5d7c">分店不可编辑和修改总店发行的【多店通用卡】，仅总店享有编辑权限</text>
+                    </text>
+                </view>
+            </view>
+            <view class="item-wrap data-v-ce8c5d7c">
+                <view class="left-pic data-v-ce8c5d7c">
+                    <view class="logo-wrap data-v-ce8c5d7c">
+                        <image class="pic data-v-ce8c5d7c" src="{{$root.m2}}"></image>
+                    </view>
+                    <view class="text-wrap data-v-ce8c5d7c">适用店与课</view>
+                </view>
+                <view class="right-text data-v-ce8c5d7c">
+                    <text class="title data-v-ce8c5d7c">3、如何控制多店通用卡在哪些店可用，约什么课？</text>
+                    <text class="data-v-ce8c5d7c" userSelect="{{true}}"> 可在此指定【多店通用卡】适用哪些分店，当选择支持某个分店后，该分店享有编辑支持哪些课的权限 注：由总店控制哪些店可用，总店也可控制该卡具体可约分店的哪些课 </text>
+                </view>
+            </view>
+            <view class="item-wrap data-v-ce8c5d7c">
+                <view class="left-pic data-v-ce8c5d7c">
+                    <view class="logo-wrap data-v-ce8c5d7c">
+                        <image class="pic data-v-ce8c5d7c" src="{{$root.m3}}"></image>
+                    </view>
+                    <view class="text-wrap data-v-ce8c5d7c">总店员工</view>
+                </view>
+                <view class="right-text data-v-ce8c5d7c">
+                    <text class="title data-v-ce8c5d7c">4、如何添加同事管理总店？</text>
+                    <text class="data-v-ce8c5d7c" userSelect="{{true}}"> 默认仅馆长可查看和管理总店，但可在此模块将同事添加进来，凡在此添加的员工视为总店管理员，可以进入到所有分店，并享有查看和编辑所有分店的权限 注：<text class="keynote data-v-ce8c5d7c">仅馆长和总店员工可看到和编辑“总店・连锁管理”模块，所有分店人员无法进入</text>
+                    </text>
+                </view>
+            </view>
+            <view class="item-wrap data-v-ce8c5d7c">
+                <view class="left-pic data-v-ce8c5d7c">
+                    <view class="logo-wrap data-v-ce8c5d7c">
+                        <image class="pic data-v-ce8c5d7c" src="{{$root.m4}}"></image>
+                    </view>
+                    <view class="text-wrap data-v-ce8c5d7c">售卡统计</view>
+                </view>
+                <view class="right-text data-v-ce8c5d7c">
+                    <text class="title data-v-ce8c5d7c">5、查看【多店通用卡】销售数据</text>
+                    <text class="data-v-ce8c5d7c" userSelect="{{true}}"> 仅统计多店通用卡的售出和持有情况（不统计各分店的卡） </text>
+                </view>
+            </view>
+            <view class="item-wrap data-v-ce8c5d7c">
+                <view class="left-pic data-v-ce8c5d7c">
+                    <view class="logo-wrap data-v-ce8c5d7c">
+                        <image class="pic data-v-ce8c5d7c" src="{{$root.m5}}"></image>
+                    </view>
+                    <view class="text-wrap data-v-ce8c5d7c">课时费统计</view>
+                </view>
+                <view class="right-text data-v-ce8c5d7c">
+                    <text class="title data-v-ce8c5d7c">6、查看所有教练的上课课时</text>
+                    <text class="data-v-ce8c5d7c" userSelect="{{true}}"> 统计全部（所有分店）教练的团课和私教实际上课节数 </text>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-ce8c5d7c" vueId="3c8ee3b3-2"></ff-bottom-logo>
+    </view>
+</view>

@@ -1,0 +1,34 @@
+<view class="classroom-container data-v-5c817bea">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-5c817bea" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','classroomPopupShow','$event',[] ] ] ] ] ]}}" height="{{1100}}" title="选择教室" value="{{classroomPopupShow}}" vueId="343cf285-1" vueSlots="{{['default']}}">
+        <view class="classroom data-v-5c817bea">
+            <view class="head data-v-5c817bea">
+                <u-icon bind:__l="__l" class="data-v-5c817bea" color="#C96B30" name="bell" size="20rpx" vueId="{{'343cf285-2'+','+'343cf285-1'}}"></u-icon>
+                <text class="note data-v-5c817bea">如果有多个教室，则可在此填写</text>
+            </view>
+            <view class="headbut data-v-5c817bea">
+                <view class="button-list data-v-5c817bea">
+                    <view class="taglist data-v-5c817bea">
+                        <view bindtap="__e" class="{{['data-v-5c817bea',classroomName==''||classroomName==null?'active-list-item':'list-item']}}" data-event-opts="{{[ [ 'tap',[ ['changeclassroom'] ] ] ]}}">不指定</view>
+                    </view>
+                    <view class="taglist data-v-5c817bea" wx:for="{{classroomList}}" wx:key="index">
+                        <view bindtap="__e" class="{{['data-v-5c817bea',classroomName==item?'active-list-item':'list-item',!updateOrSaveShow?'iconupdate':'',!updateOrSaveShow?'list-item1':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeclassroom',['$0'],[ [ ['classroomList','',index] ] ] ] ] ] ]}}">{{''+item+''}}</view>
+                        <image bindtap="__e" class="iconclose data-v-5c817bea" data-event-opts="{{[ [ 'tap',[ [ 'clickClose',['$0'],[ [ ['classroomList','',index] ] ] ] ] ] ]}}" src="{{$root.m0}}" wx:if="{{closeshow}}"></image>
+                    </view>
+                    <view bindtap="__e" class="iconsave data-v-5c817bea" data-event-opts="{{[ [ 'tap',[ [ 'clickSaveclassroom',['$event'] ] ] ] ]}}" wx:if="{{!updateOrSaveShow&&updateOrSave}}">
+                        <image class="icon data-v-5c817bea" src="{{$root.m1}}"></image>
+                        <view class="data-v-5c817bea">保存</view>
+                    </view>
+                    <view bindtap="__e" class="iconedit data-v-5c817bea" data-event-opts="{{[ [ 'tap',[ [ 'clickEditclassroom',['$event'] ] ] ] ]}}" wx:if="{{updateOrSaveShow&&updateOrSave}}">
+                        <image class="icon data-v-5c817bea" src="{{$root.m2}}"></image>
+                        <view class="data-v-5c817bea">编辑</view>
+                    </view>
+                </view>
+            </view>
+            <view class="content data-v-5c817bea">
+                <text class="data-v-5c817bea">添加新的</text>
+                <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-5c817bea" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','addclassroom','$event',[] ] ] ] ] ]}}" placeholder="请填写" placeholderStyle="font-size:28rpx;color:#DADADA" type="text" value="{{addclassroom}}" vueId="{{'343cf285-3'+','+'343cf285-1'}}"></u-input>
+                <button bindtap="__e" class="but data-v-5c817bea" data-event-opts="{{[ [ 'tap',[ [ 'saveclassroom',['$event'] ] ] ] ]}}">确 定</button>
+            </view>
+        </view>
+    </ff-popup>
+</view>

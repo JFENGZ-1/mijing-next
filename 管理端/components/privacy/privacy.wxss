@@ -1,0 +1,70 @@
+.privacy.data-v-275d1021 {
+  align-items: flex-end;
+  background: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 9999999;
+}
+.privacy .content.data-v-275d1021 {
+  background: #fff;
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+  box-sizing: border-box;
+  padding: 50rpx 60rpx 80rpx;
+  width: 100%;
+}
+.privacy .content .title.data-v-275d1021 {
+  color: #333;
+  font-size: 34rpx;
+  font-weight: 700;
+  text-align: center;
+}
+.privacy .content .des.data-v-275d1021 {
+  color: #666;
+  font-size: 26rpx;
+  line-height: 1.6;
+  margin-top: 40rpx;
+  text-align: justify;
+}
+.privacy .content .des .link.data-v-275d1021 {
+  color: #003d82;
+  display: block;
+  padding-bottom: 15rpx;
+  padding-top: 15rpx;
+  text-decoration: none;
+}
+.privacy .content .btns.data-v-275d1021 {
+  margin-top: 60rpx;
+}
+.privacy .content .btns .item.data-v-275d1021,
+.privacy .content .btns.data-v-275d1021 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+}
+.privacy .content .btns .item.data-v-275d1021 {
+  align-items: center;
+  border: none;
+  border-radius: 18rpx;
+  box-sizing: border-box;
+  height: 80rpx;
+  justify-content: center;
+  width: 220rpx;
+}
+.privacy .content .btns .item.data-v-275d1021::after {
+  border: none;
+}
+.privacy .content .btns .reject.data-v-275d1021 {
+  background: #f4f4f5;
+  color: #909399;
+}
+.privacy .content .btns .agree.data-v-275d1021 {
+  background: #07c160;
+  color: #fff;
+}

@@ -1,0 +1,216 @@
+<view class="data-v-786c887a">
+    <view class="page-wrap data-v-786c887a">
+        <view class="personalTainerModule data-v-786c887a" style="{{'height:'+StatusBar+CustomBar+$root.m0+'px'+';'}}">
+            <view class="info-module nav_floating data-v-786c887a" style="{{'opacity:'+fixedBarOpacity+';'+'height:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="data-v-786c887a" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+                <view class="capsule-wrap data-v-786c887a" style="{{'display:flex;'+'height:'+CustomBar+'px'+';'}}">
+                    <view bindtap="__e" class="back data-v-786c887a" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}" style="{{'width:'+CustomBar+'px'+';'+'height:'+CustomBar+'px'+';'}}">
+                        <image class="data-v-786c887a" src="{{$root.m1}}"></image>
+                    </view>
+                    <view class="head-img data-v-786c887a">
+                        <image class="img-head data-v-786c887a" src="{{personalTainerInfo.userFaceurl}}"></image>
+                        <text class="head-realName data-v-786c887a">{{$root.m2}}</text>
+                    </view>
+                </view>
+            </view>
+            <view class="info-module data-v-786c887a">
+                <view class="data-v-786c887a" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+                <view class="capsule-wrap data-v-786c887a" style="{{'height:'+CustomBar+'px'+';'}}">
+                    <view bindtap="__e" class="back data-v-786c887a" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}" style="{{'width:'+CustomBar+'px'+';'+'height:'+CustomBar+'px'+';'}}">
+                        <image class="data-v-786c887a" src="{{$root.m3}}"></image>
+                    </view>
+                    <view class="head-img data-v-786c887a">
+                        <text class="head-realName data-v-786c887a">{{$root.m4}}</text>
+                    </view>
+                </view>
+                <view class="{{[ 'data-v-786c887a',''+(noLogin==0?'photo-filter':'photo-filter-grey') ]}}" style="{{'height:'+StatusBar+CustomBar+$root.m5+'px'+';'+'background:'+'url('+personalTainerInfo.userFaceurl+')'+';'+'background-repeat:'+'no-repeat'+';'+'background-size:'+'100% 100%'+';'}}">
+                    <view class="data-v-786c887a" style="{{'background:'+'#000000'+';'+'opacity:'+'0.3'+';'+'width:'+'100%'+';'+'height:'+' 100%'+';'}}"></view>
+                </view>
+            </view>
+        </view>
+        <view class="content data-v-786c887a" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="card-box data-v-786c887a">
+                <member-card activeClass="large-size" bind:__l="__l" cardInfo="{{card}}" class="member-card data-v-786c887a" vueId="0629d833-1"></member-card>
+            </view>
+            <view class="card-content data-v-786c887a">
+                <view class="card-bottom-outter data-v-786c887a"></view>
+                <view class="consuption-panel data-v-786c887a">
+                    <view class="panel-title data-v-786c887a">耗卡价值折算</view>
+                    <view class="formula-box1 data-v-786c887a">
+                        <view class="formula data-v-786c887a">
+                            <operation-data bind:__l="__l" class="data-v-786c887a" digit="￥" position="prefix" value="{{card.initSalePrice}}" vueId="0629d833-2" vueSlots="{{['default']}}">
+                                <view bindtap="__e" class="edit-data data-v-786c887a" data-event-opts="{{[ [ 'tap',[ [ 'fundsReceived',['$event'] ] ] ] ]}}">实收款<image class="icon-edit data-v-786c887a" src="{{$root.m6}}"></image>
+                                </view>
+                            </operation-data>
+                            <view class="operator data-v-786c887a">÷</view>
+                            <operation-data bind:__l="__l" class="data-v-786c887a" digit="次" position="suffix" value="{{card.initSaleAmount}}" vueId="0629d833-3" vueSlots="{{['default']}}" wx:if="{{card.cardType==2}}">
+                                <view bindtap="__e" class="edit-data data-v-786c887a" data-event-opts="{{[ [ 'tap',[ [ 'balanceMoney',['$event'] ] ] ] ]}}">卡初始总额<image class="icon-edit data-v-786c887a" src="{{$root.m7}}"></image>
+                                </view>
+                            </operation-data>
+                            <operation-data bind:__l="__l" class="data-v-786c887a" digit="￥" position="prefix" value="{{card.initSaleAmount}}" vueId="0629d833-4" vueSlots="{{['default']}}" wx:if="{{card.cardType==1}}">
+                                <view bindtap="__e" class="edit-data data-v-786c887a" data-event-opts="{{[ [ 'tap',[ [ 'balanceMoney',['$event'] ] ] ] ]}}">卡初始总额<image class="icon-edit data-v-786c887a" src="{{$root.m8}}"></image>
+                                </view>
+                            </operation-data>
+                            <operation-data bind:__l="__l" class="data-v-786c887a" digit="天" position="suffix" value="{{card.initSaleAmount}}" vueId="0629d833-5" vueSlots="{{['default']}}" wx:if="{{card.cardType==3}}">
+                                <view bindtap="__e" class="edit-data data-v-786c887a" data-event-opts="{{[ [ 'tap',[ [ 'balanceMoney',['$event'] ] ] ] ]}}">卡初始总额<image class="icon-edit data-v-786c887a" src="{{$root.m9}}"></image>
+                                </view>
+                            </operation-data>
+                            <view class="operator data-v-786c887a">=</view>
+                            <operation-data bind:__l="__l" class="data-v-786c887a" desc="{{balanceUnit}}" descColor="#989898" digit="￥" position="prefix" value="{{card.unitPrice}}" vueId="0629d833-6"></operation-data>
+                        </view>
+                        <view class="divider data-v-786c887a">
+                            <u-line bind:__l="__l" class="u-line data-v-786c887a" color="#F0F0F0" margin="50rpx  0" vueId="0629d833-7"></u-line>
+                        </view>
+                        <view class="formula data-v-786c887a">
+                            <operation-data bind:__l="__l" class="data-v-786c887a" desc="{{balanceUnit}}" descColor="#989898" digit="￥" position="prefix" value="{{card.unitPrice}}" vueId="0629d833-8"></operation-data>
+                            <view class="operator data-v-786c887a">×</view>
+                            <operation-data bind:__l="__l" class="data-v-786c887a" desc="卡余额" descColor="#989898" digit="{{card.cardType===1?'元':card.cardType===2?'次':'天'}}" position="suffix" value="{{card.balanceAmount}}" vueId="0629d833-9"></operation-data>
+                            <view class="operator data-v-786c887a">=</view>
+                            <operation-data bind:__l="__l" class="data-v-786c887a" desc="剩余价值" descColor="#989898" digit="￥" fontWeight="500" position="prefix" style="position:relative;" value="{{card.price}}" valueColor="#E77D00" vueId="0629d833-10"></operation-data>
+                        </view>
+                        <view class="divider data-v-786c887a">
+                            <u-line bind:__l="__l" class="u-line data-v-786c887a" color="#F0F0F0" margin="50rpx  0" vueId="0629d833-11"></u-line>
+                        </view>
+                        <view class="formula data-v-786c887a">
+                            <operation-data bind:__l="__l" class="data-v-786c887a" desc="实收款" descColor="#989898" digit="￥" position="prefix" value="{{card.initSalePrice}}" vueId="0629d833-12"></operation-data>
+                            <view class="operator data-v-786c887a">-</view>
+                            <operation-data bind:__l="__l" class="data-v-786c887a" desc="剩余价值" descColor="#989898" digit="￥" position="prefix" value="{{card.price}}" vueId="0629d833-13"></operation-data>
+                            <view class="operator data-v-786c887a">=</view>
+                            <operation-data bind:__l="__l" class="data-v-786c887a" desc="已消耗" descColor="#989898" digit="￥" fontWeight="500" position="prefix" value="{{card.payTotalAmount}}" valueColor="#E77D00" vueId="0629d833-14"></operation-data>
+                        </view>
+                    </view>
+                    <view class="ref-tips data-v-786c887a" wx:if="{{isrelaod}}">
+                        <view class="desc data-v-786c887a">
+                            <view class="box-button data-v-786c887a">
+                                <view bindtap="__e" class="cancel data-v-786c887a" data-event-opts="{{[ [ 'tap',[ [ 'reconsumption',['$event'] ] ] ] ]}}">立即重算</view>
+                            </view>
+                            <view class="box-color data-v-786c887a">{{'每日限用5次 今日剩余'+5-num+'次'}}</view>
+                        </view>
+                    </view>
+                    <view class="box-center data-v-786c887a">
+                        <view class="desc data-v-786c887a">
+                            <view class="box-top data-v-786c887a">修改【实收款】或【卡初始总额】会重新计算单次（天/元）价值，因此，此会员历史上用该卡约过的课程的“课程耗卡”“每月耗卡”等相关统计需要重新计算，请慎重修改！</view>
+                            <view class="box-foot data-v-786c887a">自动重新计算：每日凌晨 0:00 ~ 5:00</view>
+                        </view>
+                    </view>
+                    <view class="desc-box data-v-786c887a">
+                        <view class="desc data-v-786c887a">
+                            <view class="rule data-v-786c887a">
+                                <text class="bold-text data-v-786c887a">实收款：</text>
+                                <text class="data-v-786c887a">在发卡时填写的实际收款金额（该卡的实际价值）</text>
+                            </view>
+                            <view class="rule data-v-786c887a">
+                                <text class="bold-text data-v-786c887a">已消耗：</text>
+                                <text class="data-v-786c887a">经过折算后，会员已经消耗掉卡的价值</text>
+                            </view>
+                            <view class="rule data-v-786c887a">
+                                <text class="bold-text data-v-786c887a">剩余价值：</text>
+                                <text class="data-v-786c887a">指该卡还剩余的价值</text>
+                            </view>
+                            <view class="divider data-v-786c887a">
+                                <u-line bind:__l="__l" class="u-line data-v-786c887a" color="#dadada" margin="30rpx  0" vueId="0629d833-15"></u-line>
+                            </view>
+                            <view class="qa-wrap data-v-786c887a">
+                                <view class="qa-item data-v-786c887a">
+                                    <view class="question data-v-786c887a">
+                                        <view class="icon-question data-v-786c887a"></view>
+                                        <text class="data-v-786c887a">※ 如何调整换算？</text>
+                                    </view>
+                                    <view class="answer data-v-786c887a">通过修改【实收款】和【卡初始总额】即可调整折算结果</view>
+                                </view>
+                                <view class="qa-item data-v-786c887a">
+                                    <view class="question data-v-786c887a">
+                                        <view class="icon-question data-v-786c887a"></view>
+                                        <text class="data-v-786c887a">※ 什么是卡初始总额？ </text>
+                                    </view>
+                                    <view class="answer data-v-786c887a">
+                                        <view class="data-v-786c887a">指该会员卡的总额度（默认取开卡时的额度，后期赠送或手动加减的均不统计在内。若要统计，请手动修改上面的“卡内总额”即可重新计算）</view>
+                                        <view class="tip data-v-786c887a">该总额仅用于耗卡计算，并不影响现有实际卡内的额度</view>
+                                    </view>
+                                </view>
+                                <view class="qa-item data-v-786c887a">
+                                    <view class="question data-v-786c887a">
+                                        <view class="icon-question data-v-786c887a"></view>
+                                        <text class="data-v-786c887a">※ 约课时，实际扣除的价值是多少（课时费）？ </text>
+                                    </view>
+                                    <view class="answer data-v-786c887a">
+                                        <view class="data-v-786c887a">1、次卡约课耗卡计算：</view>
+                                        <view class="data-v-786c887a" style="padding-left:34rpx;">假设：会员实付2800元购入20节，约课时应扣除1.2次</view>
+                                        <view class="formula-box2 data-v-786c887a">
+                                            <view class="formula data-v-786c887a">
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="实收款" digit="￥" position="prefix" value="{{3000}}" vueId="0629d833-16"></operation-data>
+                                                <view class="operator data-v-786c887a">÷</view>
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="卡初始总额" digit="次" position="suffix" value="{{15}}" vueId="0629d833-17"></operation-data>
+                                                <view class="operator data-v-786c887a">=</view>
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="每次折算" digit="￥" position="prefix" value="{{200}}" vueId="0629d833-18"></operation-data>
+                                            </view>
+                                            <view class="formula data-v-786c887a">
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="每次折算" digit="￥" position="prefix" value="{{200}}" vueId="0629d833-19"></operation-data>
+                                                <view class="operator data-v-786c887a">×</view>
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="约课扣次" digit="次" position="suffix" value="{{1.2}}" vueId="0629d833-20"></operation-data>
+                                                <view class="operator data-v-786c887a">=</view>
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="约课耗卡" digit="￥" fontWeight="500" position="prefix" value="{{240}}" valueColor="#E77D00" vueId="0629d833-21"></operation-data>
+                                            </view>
+                                            <view class="formula data-v-786c887a">
+                                                <view class="tips-left data-v-786c887a">实收款/卡初始总额</view>
+                                                <view class="tips-center data-v-786c887a">约课时扣除的次数</view>
+                                                <view class="tips-right data-v-786c887a">换算后约课扣费</view>
+                                            </view>
+                                        </view>
+                                        <view class="data-v-786c887a">2、期限卡约课耗卡计算：</view>
+                                        <view class="data-v-786c887a" style="padding-left:34rpx;">期限卡是根据自然天数，每过一天则自动扣除一天的价值，一般与是否约课，约的什么课无必然关系。</view>
+                                        <view class="mt-40 data-v-786c887a">3、储值卡约课耗卡计算：</view>
+                                        <view class="data-v-786c887a" style="padding-left:34rpx;">因售卡时可能做一些促销活动，如充3000送300等，致使在约课销卡时所扣除的1元，并非真正是1元的价值，具体换算方法如下（假设：约课时应扣除200元）</view>
+                                        <view class="formula-box3 data-v-786c887a">
+                                            <view class="formula data-v-786c887a">
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="实收款" digit="￥" position="prefix" value="{{3000}}" vueId="0629d833-22"></operation-data>
+                                                <view class="operator data-v-786c887a">÷</view>
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="卡初始总额" digit="元" position="suffix" value="{{3300}}" vueId="0629d833-23"></operation-data>
+                                                <view class="operator data-v-786c887a">=</view>
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="每元折算" digit="￥" position="prefix" value="{{0.9}}" vueId="0629d833-24"></operation-data>
+                                            </view>
+                                            <view class="formula data-v-786c887a">
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="每元折算" digit="￥" position="prefix" value="{{0.9}}" vueId="0629d833-25"></operation-data>
+                                                <view class="operator data-v-786c887a">×</view>
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="约课扣费" digit="元" position="suffix" value="{{200}}" vueId="0629d833-26"></operation-data>
+                                                <view class="operator data-v-786c887a">=</view>
+                                                <operation-data bind:__l="__l" class="data-v-786c887a" desc="约课耗卡" digit="￥" fontWeight="500" position="prefix" value="{{180}}" valueColor="#E77D00" vueId="0629d833-27"></operation-data>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <ff-bottom-logo bind:__l="__l" class="data-v-786c887a" vueId="0629d833-28"></ff-bottom-logo>
+        </view>
+        <amount-paid bind:__l="__l" bind:submit="__e" class="data-v-786c887a vue-ref" data-event-opts="{{[ [ '^submit',[ ['fundsReceivedSubmit'] ] ] ]}}" data-ref="fundsReceivedRef" vueId="0629d833-29"></amount-paid>
+        <balance-money bind:__l="__l" bind:submit="__e" class="data-v-786c887a vue-ref" data-event-opts="{{[ [ '^submit',[ ['balanceMoneySubmit'] ] ] ]}}" data-ref="balanceMoneyRef" vueId="0629d833-30"></balance-money>
+    </view>
+    <confirm-modal bind:__l="__l" class="data-v-786c887a vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="请求成功，后台正在计算中" vueId="0629d833-31" vueSlots="{{['content','btn']}}">
+        <view class="data-v-786c887a" slot="content">
+            <view class="data-v-786c887a" style="color:#DC3C5C;">约10分钟后重新计算完毕</view>将重新计算历史每日耗卡以及负债表等相关数据</view>
+        <view class="data-v-786c887a" slot="btn">
+            <view bindtap="__e" class="modal-btn button data-v-786c887a" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtn',['$event'] ] ] ] ]}}" style="margin-bottom:39rpx;width:180rpx;">知道了</view>
+        </view>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" class="data-v-786c887a vue-ref" customBtn="{{true}}" data-ref="hintconfirmModal" title="提示：立即重新计算吗？" vueId="0629d833-32" vueSlots="{{['content','btn']}}">
+        <view class="data-v-786c887a" slot="content">
+            <view class="data-v-786c887a">1、将立即重算历史上所有与该卡有关的约课耗卡以及报表，<text class="data-v-786c887a" style="color:#DC3C5C;">引起月报表、年报表及负债表金额变动。 </text>
+            </view>
+            <view class="data-v-786c887a">2、若您需要多处修改，无需每次都点，仅需最后点击一次即可，<text class="data-v-786c887a" style="color:#DC3C5C;">即使不点击，每日凌晨也会自动重算</text>
+            </view>
+            <view class="content data-v-786c887a">
+                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-786c887a" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','cardChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{cardChecked}}" vueId="{{'0629d833-33'+','+'0629d833-32'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-786c887a" style="{{'line-height:56rpx;font-size:25rpx;'+'color:'+(cardChecked?'#181818':'#7E7E7E')+';'}}">我已清楚，仍要立即重算</text>
+                </u-checkbox>
+            </view>
+        </view>
+        <view class="btn data-v-786c887a" slot="btn" style="margin-bottom:30rpx;">
+            <view bindtap="__e" class="modal-cal-btn button data-v-786c887a" data-event-opts="{{[ [ 'tap',[ [ 'hintcancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="{{['modal-btn1','button','data-v-786c887a',!cardChecked?'grey1':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'hintconfirm',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm-modal>
+</view>

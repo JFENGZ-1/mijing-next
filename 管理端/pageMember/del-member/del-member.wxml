@@ -1,0 +1,77 @@
+<view class="data-v-89857f24">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-89857f24" text="{{title}}" vueId="3e83606f-1"></navigation>
+    <view class="card-container data-v-89857f24" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-89857f24">
+            <view class="data-v-89857f24" style="{{'height:100%;min-height:1230rpx;'}}">
+                <view class="placeholder-view data-v-89857f24"></view>
+                <view class="content data-v-89857f24">
+                    <view class="card-list data-v-89857f24">
+                        <view class="top-info data-v-89857f24">
+                            <text class="total-num data-v-89857f24">{{'共'+totalCount+'名'}}</text>
+                        </view>
+                        <view class="setting_wrap data-v-89857f24">
+                            <view class="list data-v-89857f24">
+                                <view class="item data-v-89857f24" wx:if="{{$root.g0}}">
+                                    <view class="data-v-89857f24" style="padding-top:28rpx;" wx:for="{{$root.l0}}" wx:for-index="index1" wx:key="index1">
+                                        <view class="sale-item data-v-89857f24">
+                                            <image bindtap="__e" class="avator data-v-89857f24" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['list','',index1,'userId'] ] ] ] ] ] ]}}" src="{{item.$orig.userFaceurl}}"></image>
+                                            <view class="detail-info data-v-89857f24">
+                                                <view class="detail-info-wrap data-v-89857f24">
+                                                    <view bindtap="__e" class="l-info data-v-89857f24" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['list','',index1,'userId'] ] ] ] ] ] ]}}">{{''+item.m0+''}}<view class="time-and-type data-v-89857f24">
+                                                            <text class="data-v-89857f24" wx:if="{{item.$orig.lastClassDate}}">{{item.g1}}</text>
+                                                            <text class="surplus data-v-89857f24" wx:if="{{item.$orig.cardType==1}}">{{'余'+item.$orig.balanceAmount+'元'}}</text>
+                                                            <block wx:else>
+                                                                <text class="surplus data-v-89857f24" wx:if="{{item.$orig.cardType==2}}">{{'余'+item.$orig.balanceAmount+'次'}}</text>
+                                                                <block wx:else>
+                                                                    <text class="surplus data-v-89857f24" wx:if="{{item.$orig.cardType==3}}">{{'余'+item.$orig.balanceAmount+'天'}}</text>
+                                                                </block>
+                                                            </block>
+                                                        </view>
+                                                    </view>
+                                                    <view class="right-box data-v-89857f24">
+                                                        <view class="btn-box data-v-89857f24" wx:if="{{!item.m1}}">
+                                                            <button bindtap="__e" class="delete-btn data-v-89857f24" data-event-opts="{{[ [ 'tap',[ [ 'delmodal',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}" plain="true">恢复</button>
+                                                        </view>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                        <u-line bind:__l="__l" class="data-v-89857f24" color="#F0F0F0" length="576rpx" margin="0rpx 0rpx 0rpx 98rpx" vueId="{{'3e83606f-2-'+index1}}"></u-line>
+                                        <view class="delstaff data-v-89857f24" wx:if="{{item.$orig.staffFace}}">
+                                            <view class="data-v-89857f24">
+                                                <image class="img data-v-89857f24" src="{{item.$orig.staffFace}}"></image>
+                                            </view>
+                                            <view class="tex data-v-89857f24">{{item.$orig.staffName}}<text class="tex1 data-v-89857f24">{{item.$orig.delDate}}</text>
+                                                <text class="tex1 data-v-89857f24">操作删除</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="data-v-89857f24" wx:else>
+                                    <view class="noCourseData data-v-89857f24">
+                                        <image class="icon data-v-89857f24" src="{{$root.m2}}"></image>
+                                        <text class="explain data-v-89857f24">~ 没有删除的会员卡哦~</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <ff-bottom-logo bind:__l="__l" class="data-v-89857f24" vueId="3e83606f-3"></ff-bottom-logo>
+        </view>
+        <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-89857f24 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['deleteBtnClick'] ] ] ]}}" data-ref="confirmModal" title="确定恢复吗？" vueId="3e83606f-4" vueSlots="{{['content']}}">
+            <text slot="content">点击确定后即可恢复</text>
+        </confirm-modal>
+        <confirm-modal bind:__l="__l" class="data-v-89857f24 vue-ref" customBtn="{{true}}" data-ref="terminateModal" title="{{userRealnametitle}}" vueId="3e83606f-5" vueSlots="{{['content','btn']}}">
+            <view slot="content">
+                <view class="data-v-89857f24">存在相同手机号会员，您可以</view>
+                <view class="data-v-89857f24">1、删除原会员后再操作恢复</view>
+                <view class="data-v-89857f24">2、或者点击头像，修改手机号之后再恢复</view>
+            </view>
+            <view class="confirmBtn data-v-89857f24" slot="btn">
+                <view bindtap="__e" class="modal-btn button data-v-89857f24" data-event-opts="{{[ [ 'tap',[ [ 'terminateConfirm',['$event'] ] ] ] ]}}">知道了</view>
+            </view>
+        </confirm-modal>
+    </view>
+</view>

@@ -1,0 +1,53 @@
+<view class="data-v-eaf50486">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-eaf50486" text="{{title}}" vueId="3beef142-1"></navigation>
+    <view class="main data-v-eaf50486" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-eaf50486">
+            <view class="head data-v-eaf50486" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="item data-v-eaf50486">
+                    <view class="item_head data-v-eaf50486">
+                        <view class="item_right data-v-eaf50486">{{'共'+$root.g0+'名会籍'}}</view>
+                        <view class="filter data-v-eaf50486">
+                            <view bindtap="__e" class="{{['data-v-eaf50486',sortMode==item.$orig.id?'active':'filter-item']}}" data-event-opts="{{[ [ 'tap',[ [ 'headlememberStatus',['$0'],[ [ ['memberStatus','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="tag data-v-eaf50486">{{item.$orig.name+''}}<view class="triangle data-v-eaf50486">
+                                        <image class="icon data-v-eaf50486" mode="widthFix" src="{{item.m0}}" wx:if="{{sortMode==item.$orig.id}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-eaf50486">
+                <view class="list data-v-eaf50486">
+                    <view class="item data-v-eaf50486" wx:if="{{!notdata}}">
+                        <view class="coach-box data-v-eaf50486">
+                            <view bindtap="__e" class="item data-v-eaf50486" data-event-opts="{{[ [ 'tap',[ [ 'membershipRank',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l1}}" wx:key="index">
+                                <image class="coach-avator data-v-eaf50486" mode="widthFix" src="{{item.m1}}"></image>
+                                <view class="info data-v-eaf50486">
+                                    <text class="name data-v-eaf50486">{{item.m2}}</text>
+                                    <view class="bottom data-v-eaf50486">
+                                        <view class="num data-v-eaf50486">
+                                            <text class="num-count data-v-eaf50486">{{item.$orig.userCount+'名'}}</text>
+                                            <view class="num-text data-v-eaf50486">会员</view>
+                                        </view>
+                                        <view class="num data-v-eaf50486" style="width:100rpx;">
+                                            <text class="num-count data-v-eaf50486">{{item.$orig.cardCount+'张'}}</text>
+                                            <view class="num-text data-v-eaf50486">会员卡</view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="data-v-eaf50486" wx:else>
+                        <view class="noCourseData data-v-eaf50486">
+                            <image class="icon data-v-eaf50486" src="{{$root.m3}}"></image>
+                            <text class="explain data-v-eaf50486">~ 没有会籍顾问哦 ~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-eaf50486" vueId="3beef142-2"></ff-bottom-logo>
+    </view>
+</view>

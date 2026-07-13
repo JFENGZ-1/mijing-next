@@ -1,0 +1,20 @@
+{
+  "capturedAt": "2026-07-11T12:05:00+08:00",
+  "project": "staff-miniapp",
+  "page": "pages/members/link-requests",
+  "requests": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8010/api/v1/me",
+      "status": 200,
+      "notes": "staffProfiles[0].permissions includes crm.member.link.review"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8010/api/v1/staff/sites/1/member-link-requests",
+      "status": 200,
+      "responseDataCount": 0
+    }
+  ],
+  "authorizationHeader": "Bearer [REDACTED]"
+}

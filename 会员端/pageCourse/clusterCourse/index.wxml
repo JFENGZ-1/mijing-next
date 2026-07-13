@@ -1,0 +1,191 @@
+<view class="data-v-d0ae0a30">
+    <block wx:if="{{info}}">
+        <view class="header data-v-d0ae0a30" style="{{'height:'+totalH+'px'+';'}}">
+            <view class="fixed_bg data-v-d0ae0a30" style="{{'background:'+'url('+info.courseBacklog+')'+';'+'background-size:'+'100% 100%'+';'+'height:'+totalH+'px'+';'}}"></view>
+            <view class="fixed_content data-v-d0ae0a30" style="{{'height:'+totalH+'px'+';'}}">
+                <view class="statusBar data-v-d0ae0a30" style="{{'height:'+statusBar+'px'+';'}}"></view>
+                <view class="customBar data-v-d0ae0a30" style="{{'height:'+customBar+'px'+';'}}">
+                    <view bindtap="__e" class="back-wrap data-v-d0ae0a30" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}">
+                        <u-icon bind:__l="__l" class="data-v-d0ae0a30" color="#181818" name="arrow-left" size="35" vueId="310e0ab6-1"></u-icon>
+                    </view>
+                </view>
+                <view class="content data-v-d0ae0a30"></view>
+            </view>
+        </view>
+        <view class="main data-v-d0ae0a30">
+            <view class="first_group data-v-d0ae0a30">
+                <view class="info_top flex data-v-d0ae0a30">
+                    <view class="left data-v-d0ae0a30">
+                        <view class="flex vertical_center data-v-d0ae0a30" style="margin-top:26rpx;margin-right:25rpx;">
+                            <view class="course_name data-v-d0ae0a30">{{$root.m0}}</view>
+                            <view class="tag_wrap flex data-v-d0ae0a30" wx:if="{{info.tagData&&info.tagData!='不指定'}}">
+                                <image class="data-v-d0ae0a30" src="{{$root.m1}}"></image>
+                                <text class="data-v-d0ae0a30">{{info.tagData}}</text>
+                            </view>
+                        </view>
+                        <view class="time data-v-d0ae0a30">{{$root.f0}}{{$root.f1}}</view>
+                    </view>
+                    <view class="right data-v-d0ae0a30">
+                        <view class="photo_image data-v-d0ae0a30">
+                            <image class="data-v-d0ae0a30" src="{{info.staffFace}}"></image>
+                        </view>
+                        <view class="coach_name data-v-d0ae0a30">{{''+$root.m2+''}}</view>
+                    </view>
+                </view>
+                <view class="info_center data-v-d0ae0a30">
+                    <view class="row data-v-d0ae0a30">
+                        <view class="item data-v-d0ae0a30">
+                            <view class="title data-v-d0ae0a30">时间</view>
+                            <view class="text data-v-d0ae0a30">{{info.strtime+'~'+info.strEndtime}}</view>
+                        </view>
+                        <view class="item data-v-d0ae0a30">
+                            <view class="title data-v-d0ae0a30">时长</view>
+                            <view class="text data-v-d0ae0a30">{{info.courseDuringTime+'Min'}}</view>
+                        </view>
+                        <view class="item data-v-d0ae0a30">
+                            <view class="title data-v-d0ae0a30">难度</view>
+                            <view class="content flex data-v-d0ae0a30">
+                                <image class="data-v-d0ae0a30" src="{{item.m3}}" wx:for="{{$root.l0}}" wx:for-index="__i0__" wx:key="$orig"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="row data-v-d0ae0a30" style="margin-top:40rpx;" wx:if="{{info.courseAddr}}">
+                        <view class="item data-v-d0ae0a30">
+                            <view class="title data-v-d0ae0a30">教室</view>
+                            <view class="text data-v-d0ae0a30">{{info.courseAddr}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="info_bottom data-v-d0ae0a30">
+                    <view class="current_num data-v-d0ae0a30" wx:if="{{info.showPeopleTeam==150||info.showPeopleTeam==152}}">已约<text class="data-v-d0ae0a30">{{info.manCount+'/'+info.teamOpenRule.maxMan}}</text>
+                    </view>
+                    <view class="full-icon data-v-d0ae0a30" wx:if="{{info.manCount>=info.teamOpenRule.maxMan}}">爆满</view>
+                    <view class="max_num data-v-d0ae0a30" wx:else>{{'满'+info.teamOpenRule.minMan+'人开课'}}</view>
+                    <view class="appointment_member data-v-d0ae0a30" wx:if="{{info.showPeopleTeam==150}}">
+                        <view bindtap="__e" class="member_photo data-v-d0ae0a30" data-event-opts="{{[ [ 'tap',[ [ 'lookMemberList',['$event'] ] ] ] ]}}" wx:for="{{$root.l1}}" wx:key="index">
+                            <image class="data-v-d0ae0a30" src="{{item.userFaceurl}}"></image>
+                        </view>
+                        <view bindtap="__e" class="more_member data-v-d0ae0a30" data-event-opts="{{[ [ 'tap',[ [ 'lookMemberList',['$event'] ] ] ] ]}}" wx:if="{{$root.g0>7}}">
+                            <u-icon bind:__l="__l" class="data-v-d0ae0a30" name="more-dot-fill" size="15" vueId="310e0ab6-2"></u-icon>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="second_group data-v-d0ae0a30" wx:if="{{info.courseDesc&&info.courseDesc!=='<p><br></p>'}}">
+                <view class="title data-v-d0ae0a30">课程简介</view>
+                <u-parse bind:__l="__l" class="text data-v-d0ae0a30" html="{{info.courseDesc}}" vueId="310e0ab6-3"></u-parse>
+            </view>
+            <view class="last_group data-v-d0ae0a30" wx:if="{{kindReminder.text}}">
+                <view class="title data-v-d0ae0a30" wx:if="{{kindReminder.title}}">{{kindReminder.title}}</view>
+                <u-parse bind:__l="__l" class="text data-v-d0ae0a30" html="{{kindReminder.text}}" vueId="310e0ab6-4"></u-parse>
+            </view>
+            <view class="last_group data-v-d0ae0a30">
+                <view class="title data-v-d0ae0a30">注意事项</view>
+                <view class="text data-v-d0ae0a30">
+                    <text class="data-v-d0ae0a30" wx:for="{{info.msglist}}" wx:key="index">{{item}}</text>
+                </view>
+            </view>
+        </view>
+        <bottom-logo bind:__l="__l" class="data-v-d0ae0a30" vueId="310e0ab6-5"></bottom-logo>
+        <view class="data-v-d0ae0a30" style="{{'padding-bottom:'+(info.showBnt==3||info.showBnt==10?220:140)+'rpx'+';'}}"></view>
+        <view class="bottom-fixed data-v-d0ae0a30" wx:if="{{!browse}}">
+            <view class="line-up-info info-color data-v-d0ae0a30" wx:if="{{(info.showBnt==3||info.showBnt==10)&&userQueue>0}}">
+                <view class="textcenter data-v-d0ae0a30">
+                    <u-icon bind:__l="__l" class="data-v-d0ae0a30" color="#DC3C5C" name="error-circle" size="30" vueId="310e0ab6-6"></u-icon>
+                    <text class="data-v-d0ae0a30" style="color:#DC3C5C;padding-left:8rpx;">排队中<text class="data-v-d0ae0a30" wx:if="{{userQueue>1}}">{{'「共'+userQueue+'次」'}}</text>
+                    </text>
+                    <text class="text1 data-v-d0ae0a30">{{'，前面还有'+(queueIndex?queueIndex:0)+'人，你排在第'+queueIndex+1+'名'}}</text>
+                </view>
+                <view bindtap="__e" class="data-v-d0ae0a30" data-event-opts="{{[ [ 'tap',[ [ 'queueUp',['$event'] ] ] ] ]}}">
+                    <text class="data-v-d0ae0a30" style="color:#C96A2F;">我要排队 </text>
+                    <u-icon bind:__l="__l" class="arrow-right data-v-d0ae0a30" color="#C96A2F" name="arrow-right" size="20" vueId="310e0ab6-7"></u-icon>
+                </view>
+            </view>
+            <view class="line-up-info info-color data-v-d0ae0a30" wx:if="{{info.showBnt==9&&userQueue==0&&info.manCount==info.teamOpenRule.maxMan}}">
+                <view class="textcenter data-v-d0ae0a30">
+                    <u-icon bind:__l="__l" class="data-v-d0ae0a30" color="#DC3C5C" name="error-circle" size="30" vueId="310e0ab6-8"></u-icon>
+                    <text class="data-v-d0ae0a30" style="color:#DC3C5C;padding-left:8rpx;">该课已约满</text>
+                    <text class="text1 data-v-d0ae0a30"></text>
+                </view>
+                <view bindtap="__e" class="data-v-d0ae0a30" data-event-opts="{{[ [ 'tap',[ [ 'queueUp',['$event'] ] ] ] ]}}">
+                    <text class="data-v-d0ae0a30" style="color:#C96A2F;">我要排队 </text>
+                    <u-icon bind:__l="__l" class="arrow-right data-v-d0ae0a30" color="#C96A2F" name="arrow-right" size="20" vueId="310e0ab6-9"></u-icon>
+                </view>
+            </view>
+            <view class="line-up-info info-color1 data-v-d0ae0a30" wx:if="{{userAppointment>0&&info.showBnt!=1}}">
+                <view class="textcenter data-v-d0ae0a30">
+                    <u-icon bind:__l="__l" class="data-v-d0ae0a30" color="#DC3C5C" name="error-circle" size="30" vueId="310e0ab6-10"></u-icon>
+                    <text class="data-v-d0ae0a30" style="padding-left:8rpx;color:#DC3C5C;">已预约成功<text class="data-v-d0ae0a30" style="color:#DC3C5C;" wx:if="{{userAppointment>1}}">{{'「共'+userAppointment+'次」'}}</text>
+                    </text>
+                </view>
+                <view bindtap="__e" class="data-v-d0ae0a30" data-event-opts="{{[ [ 'tap',[ [ 'appointmentCourse',['$event'] ] ] ] ]}}" wx:if="{{info.manCount<info.teamOpenRule.maxMan}}">
+                    <text class="data-v-d0ae0a30" style="color:#C96A2F;">我要预约 </text>
+                    <u-icon bind:__l="__l" class="arrow-right data-v-d0ae0a30" color="#C96A2F" name="arrow-right" size="25" vueId="310e0ab6-11"></u-icon>
+                </view>
+            </view>
+            <view class="btn-wrap data-v-d0ae0a30">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-d0ae0a30" customStyle="{{$root.a0}}" data-event-opts="{{[ [ '^click',[ ['appointmentCourse'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="310e0ab6-12" vueSlots="{{['default']}}" wx:if="{{info.showBnt==2}}">预约</u-button>
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-d0ae0a30" customStyle="{{$root.a1}}" data-event-opts="{{[ [ '^click',[ ['queueUp'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="310e0ab6-13" vueSlots="{{['default']}}" wx:if="{{info.showBnt==3}}">我要排队</u-button>
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-d0ae0a30" customStyle="{{$root.a2}}" data-event-opts="{{[ [ '^click',[ ['cancelAppointment'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" loading="{{isBTloading}}" vueId="310e0ab6-14" vueSlots="{{['default']}}" wx:if="{{info.showBnt==9}}">取消预约</u-button>
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-d0ae0a30" customStyle="{{$root.a3}}" data-event-opts="{{[ [ '^click',[ ['cancelQueueUp'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" loading="{{isBTloading}}" vueId="310e0ab6-15" vueSlots="{{['default']}}" wx:if="{{info.showBnt==10}}">取消排队</u-button>
+                <u-button bind:__l="__l" class="data-v-d0ae0a30" customStyle="{{$root.a4}}" hairLine="{{false}}" hoverClass="none" loading="{{isBTloading}}" vueId="310e0ab6-16" vueSlots="{{['default']}}" wx:if="{{info.showBnt==12&&isCountDown}}">还剩<u-count-down bgColor="#F1F2F3" bind:__l="__l" bind:end="__e" class="data-v-d0ae0a30" color="#DC3C5C" data-event-opts="{{[ [ '^end',[ ['endTimeOut'] ] ] ]}}" fontSize="32" separator="colon" separatorColor="#DC3C5C" showDays="{{false}}" showHours="{{false}}" style="margin-left:6rpx;margin-right:6rpx;" timestamp="{{info.timeOpenSecond}}" vueId="{{'310e0ab6-17'+','+'310e0ab6-16'}}"></u-count-down>开放</u-button>
+                <view class="status_text data-v-d0ae0a30" style="{{'color:'+statusTextColor+';'}}" wx:if="{{info.showBnt==12&&!isCountDown}}">{{''+$root.f2+''}}</view>
+                <view class="status_text data-v-d0ae0a30" style="{{'color:'+statusTextColor+';'}}" wx:if="{{info.showBnt!=12}}">{{''+$root.f3+''}}</view>
+            </view>
+        </view>
+        <view class="browse_view data-v-d0ae0a30" wx:else>
+            <view class="item first data-v-d0ae0a30">
+                <button class="data-v-d0ae0a30" openType="share">
+                    <view class="icon_img data-v-d0ae0a30">
+                        <image class="data-v-d0ae0a30" mode="widthFix" src="{{$root.m4}}" style="width:66rpx;"></image>
+                    </view>
+                    <view class="title data-v-d0ae0a30">转发到群</view>
+                    <view class="hint data-v-d0ae0a30">会员打开页面后可直接约课</view>
+                </button>
+            </view>
+            <view bindtap="__e" class="item data-v-d0ae0a30" data-event-opts="{{[ [ 'tap',[ [ 'quit',['$event'] ] ] ] ]}}">
+                <view class="icon_img data-v-d0ae0a30">
+                    <image class="data-v-d0ae0a30" mode="widthFix" src="{{$root.m5}}" style="width:53rpx;"></image>
+                </view>
+                <view class="title data-v-d0ae0a30">返回</view>
+                <view class="hint data-v-d0ae0a30"></view>
+            </view>
+        </view>
+    </block>
+    <member-list bind:__l="__l" class="data-v-d0ae0a30 vue-ref" data-ref="memberList" vueId="310e0ab6-18"></member-list>
+    <selected-member-card bind:__l="__l" bind:onPaymentSuccess="__e" class="data-v-d0ae0a30 vue-ref" data-event-opts="{{[ [ '^onPaymentSuccess',[ ['onPaymentSuccess'] ] ] ]}}" data-ref="selectedMemberCard" vueId="310e0ab6-19"></selected-member-card>
+    <success bind:__l="__l" class="data-v-d0ae0a30 vue-ref" data-ref="success" mask="{{true}}" status="cancel-text" vueId="310e0ab6-20"></success>
+    <confrim-moadl bind:__l="__l" bind:confirm="__e" class="data-v-d0ae0a30 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['handleCancel'] ] ] ]}}" data-ref="confrimMoadl" title="{{confrimTitle}}" vueId="310e0ab6-21" vueSlots="{{['content']}}">
+        <view class="data-v-d0ae0a30" slot="content">
+            <view class="data-v-d0ae0a30">(若有扣)将退还已扣相应费用</view>
+            <u-checkbox-group bind:__l="__l" class="data-v-d0ae0a30" vueId="{{'310e0ab6-22'+','+'310e0ab6-21'}}" vueSlots="{{['default']}}">
+                <view class="data-v-d0ae0a30" wx:if="{{$root.g1}}" wx:for="{{$root.l2}}" wx:key="index">
+                    <view class="cancel data-v-d0ae0a30">
+                        <view class="leftmodel data-v-d0ae0a30">
+                            <view class="faceimg data-v-d0ae0a30">
+                                <image class="data-v-d0ae0a30" src="{{item.$orig.userFaceurl}}"></image>
+                            </view>
+                            <view class="leftText data-v-d0ae0a30">
+                                <view class="headText data-v-d0ae0a30">{{''+item.m6+''}}</view>
+                                <view class="foottext data-v-d0ae0a30">{{''+item.$orig.createTime+''}}</view>
+                            </view>
+                        </view>
+                        <view class="rightmodel data-v-d0ae0a30">
+                            <view class="data-v-d0ae0a30" style="text-align:right;">
+                                <view class="headText data-v-d0ae0a30">{{item.m7}}</view>
+                                <view class="data-v-d0ae0a30" style="color:#22C788;font-size:22rpx;" wx:if="{{item.$orig.status==1}}">已预约</view>
+                                <view class="data-v-d0ae0a30" style="color:#DC3C5C;font-size:22rpx;" wx:if="{{item.$orig.status==2}}">排队中</view>
+                            </view>
+                            <view class="checkbox data-v-d0ae0a30">
+                                <u-checkbox activeColor="#22C788" bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-d0ae0a30" data-event-opts="{{[ [ '^change',[ ['checkboxChange'] ] ],[ '^input',[ [ '__set_model',[ '$0','checkbox','$event',[] ],[ [ ['userAppointmentAndLineUp','',index] ] ] ] ] ] ]}}" name="{{item.$orig.appointId}}" shape="circle" value="{{item.$orig.checkbox}}" vueId="{{'310e0ab6-23-'+index+','+'310e0ab6-22'}}" width="50"></u-checkbox>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="data-v-d0ae0a30" style="margin-left:75rpx;">
+                        <u-line bind:__l="__l" class="data-v-d0ae0a30" color="#F0F0F0" vueId="{{'310e0ab6-24-'+index+','+'310e0ab6-22'}}"></u-line>
+                    </view>
+                </view>
+            </u-checkbox-group>
+        </view>
+    </confrim-moadl>
+</view>

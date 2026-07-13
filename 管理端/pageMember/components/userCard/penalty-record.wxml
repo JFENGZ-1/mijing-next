@@ -1,0 +1,24 @@
+<view class="penalty-record data-v-007567ef">
+    <view class="change data-v-007567ef" wx:if="{{$root.g0}}">
+        <view class="item data-v-007567ef" wx:for="{{penaltyRecord}}" wx:key="index">
+            <view class="change_name data-v-007567ef">{{item.punishTypeName}}</view>
+            <view class="change_record data-v-007567ef">
+                <view class="change_top data-v-007567ef">
+                    <view class="change_top_time data-v-007567ef" wx:for="{{item.textlist}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                        <view class="{{['data-v-007567ef',item1.left.fontsize==1?'change_top_left':'change_top_lefts']}}">{{item1.left.text}}</view>
+                        <view class="{{['data-v-007567ef',item1.right.fontsize==1?'change_top_right':'change_top_rights']}}">{{item1.right.text}}</view>
+                    </view>
+                </view>
+                <view class="change_bottom data-v-007567ef">
+                    <view class="change_bottom_time data-v-007567ef">{{item.createTime}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="data-v-007567ef" wx:else>
+        <view class="noCourseData data-v-007567ef">
+            <image class="icon data-v-007567ef" src="{{$root.m0}}"></image>
+            <text class="explain data-v-007567ef">~ 无惩罚记录 ~</text>
+        </view>
+    </view>
+</view>

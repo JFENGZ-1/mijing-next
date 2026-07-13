@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "confirm": "/components/confirm-modal/confirm-modal",
+    "u-modal": "/uview-ui/components/u-modal/u-modal",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

@@ -1,0 +1,42 @@
+<page-meta class="data-v-14d44ed8" pageStyle="{{'overflow:'+(overflowShow?'hidden':'visible')}}"></page-meta>
+<view class="data-v-14d44ed8">
+    <navigation bind:__l="__l" class="data-v-14d44ed8" text="{{title}}" vueId="c0c67982-1"></navigation>
+    <zero-loading bind:__l="__l" class="data-v-14d44ed8" vueId="c0c67982-2" wx:if="{{pageLoading}}"></zero-loading>
+    <view class="placeholder-view data-v-14d44ed8" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view bindtap="__e" class="course-warp data-v-14d44ed8" data-event-opts="{{[ [ 'tap',[ [ 'hideDown',['$event'] ] ] ] ]}}" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-14d44ed8" style="{{'min-height:1230rpx;background: #FFFFFF;border-radius: 20rpx 20rpx 0rpx 0rpx;'}}">
+            <view class="content-warp content-height data-v-14d44ed8">
+                <view class="tool-warp data-v-14d44ed8">
+                    <view bindtap="__e" class="item data-v-14d44ed8" data-event-opts="{{[ [ 'tap',[ [ 'copyTimetable',['$event'] ] ] ] ]}}">
+                        <image mode class="icon data-v-14d44ed8" src="{{$root.m0}}"></image>
+                        <text class="text data-v-14d44ed8">复制课表</text>
+                    </view>
+                    <view bindtap="__e" class="item data-v-14d44ed8" data-event-opts="{{[ [ 'tap',[ [ 'clearTimetable',['$event'] ] ] ] ]}}">
+                        <image mode class="icon data-v-14d44ed8" src="{{$root.m1}}"></image>
+                        <text class="text data-v-14d44ed8">批量清除</text>
+                    </view>
+                    <view bindtap="__e" class="item data-v-14d44ed8" data-event-opts="{{[ [ 'tap',[ [ 'downloadTimetable',['$event'] ] ] ] ]}}">
+                        <image mode class="icon data-v-14d44ed8" src="{{$root.m2}}"></image>
+                        <text class="text data-v-14d44ed8">下载课表</text>
+                    </view>
+                    <view bindtap="__e" class="item data-v-14d44ed8" data-event-opts="{{[ [ 'tap',[ [ 'allCourse',['$event'] ] ] ] ]}}">
+                        <image mode class="icon data-v-14d44ed8" src="{{$root.m3}}"></image>
+                        <text class="text data-v-14d44ed8">全部课表</text>
+                    </view>
+                </view>
+                <view class="course-banner-warp data-v-14d44ed8">
+                    <course-scroll bind:__l="__l" bind:addCourse="__e" bind:changover="__e" bind:courseDeatail="__e" class="data-v-14d44ed8 vue-ref" data-event-opts="{{[ [ '^addCourse',[ ['addCourse'] ] ],[ '^courseDeatail',[ ['courseDeatail'] ] ],[ '^changover',[ ['changover'] ] ] ]}}" data-ref="courseScroll" vueId="c0c67982-3"></course-scroll>
+                </view>
+            </view>
+            <view class="{{['drop-down','data-v-14d44ed8',item.isShowHandelSelect?'down_show':'',!item.isShowHandelSelect?'down_hide':'']}}"></view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-14d44ed8" vueId="c0c67982-4"></ff-bottom-logo>
+        <select-courses bind:__l="__l" bind:headleClose="__e" bind:openTime="__e" class="data-v-14d44ed8 vue-ref" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^openTime',[ ['openTime'] ] ] ]}}" data-ref="selectCourses" vueId="c0c67982-5"></select-courses>
+        <select-time bind:__l="__l" bind:submit="__e" class="data-v-14d44ed8 vue-ref" data-event-opts="{{[ [ '^submit',[ ['submitAddCourse'] ] ] ]}}" data-ref="selectTime" vueId="c0c67982-6"></select-time>
+        <course-management bind:__l="__l" bind:success="__e" class="data-v-14d44ed8 vue-ref" data-event-opts="{{[ [ '^success',[ ['e0'] ] ] ]}}" data-ref="courseManagement" vueId="c0c67982-7"></course-management>
+        <copy-timetable bind:__l="__l" bind:success="__e" class="data-v-14d44ed8 vue-ref" data-event-opts="{{[ [ '^success',[ ['e1'] ] ] ]}}" data-ref="copyTimetable" vueId="c0c67982-8"></copy-timetable>
+        <clear-timetable bind:__l="__l" bind:success="__e" class="data-v-14d44ed8 vue-ref" data-event-opts="{{[ [ '^success',[ ['e2'] ] ] ]}}" data-ref="clearTimetable" vueId="c0c67982-9"></clear-timetable>
+        <download-timetable bind:__l="__l" class="data-v-14d44ed8 vue-ref" data-ref="downloadTimetable" vueId="c0c67982-10"></download-timetable>
+    </view>
+    <view class="PC-tips data-v-14d44ed8" wx:if="{{isPC}}">左右滑动日历：按住Shift+鼠标中部滚轮</view>
+</view>

@@ -1,0 +1,22 @@
+{
+  "flow": "staff",
+  "verifiedAt": "2026-07-11T16:55+08:00",
+  "devtoolsClient": "cursor",
+  "skillVersion": "0.2.5",
+  "loginMethod": "session_inject_after_staff_bind_wechat_code",
+  "bindCommand": "php artisan staff:bind-wechat-code <wx.login code> --employee-no=ADMIN001",
+  "blockerResolved": "Initial STAFF_ACCESS_DENIED before binding DevTools openid to bootstrap staff ADMIN001",
+  "pages": [
+  {
+    "path": "pages/report/index",
+    "screenshot": "docs/generated/staff-report-hub.png",
+    "permissions": ["report.dashboard.read"]
+  },
+  {
+    "path": "pages/report/finance/index",
+    "screenshot": "docs/generated/staff-report-finance.png",
+    "permissions": ["report.finance.read"]
+  }
+  ],
+  "sessionInject": "docs/generated/staff-report-session.js"
+}

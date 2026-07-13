@@ -1,0 +1,19 @@
+.notdata.data-v-49a6b5a6 {
+  padding-bottom: 200rpx;
+  padding-top: 190rpx;
+  text-align: center;
+}
+.notdata image.data-v-49a6b5a6 {
+  height: 180rpx;
+  padding-bottom: 80rpx;
+  width: 202rpx;
+}
+.notdata view.data-v-49a6b5a6 {
+  color: #bfbfbf;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 26rpx;
+  line-height: 21px;
+  padding: 0rpx 45rpx;
+  text-align: left;
+}

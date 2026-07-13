@@ -1,0 +1,83 @@
+.permission-edit-container.data-v-4ebf2080 {
+  background: #fff;
+}
+.permission-edit-container .permission-edit.data-v-4ebf2080 {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+.permission-edit-container .permission-edit .content.data-v-4ebf2080 {
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+  justify-content: space-between;
+  padding: 80rpx 34rpx 0rpx 40rpx;
+}
+.permission-edit-container
+  .permission-edit
+  .content
+  .title
+  view.data-v-4ebf2080 {
+  padding-top: 40rpx;
+}
+.permission-edit-container
+  .permission-edit
+  .content
+  .title
+  view
+  image.data-v-4ebf2080 {
+  height: 10rpx;
+  margin-left: 8rpx;
+  width: 10rpx;
+}
+.permission-edit-container .permission-edit .content .text.data-v-4ebf2080 {
+  margin: 0rpx 0rpx 22rpx 25rpx;
+}
+.permission-edit-container
+  .permission-edit
+  .content
+  .text
+  .text-list.data-v-4ebf2080 {
+  background: #fff;
+  border-radius: 5px;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  width: 620rpx;
+}
+.permission-edit-container
+  .permission-edit
+  .content
+  .text
+  .text-list
+  .detail-warp.data-v-4ebf2080 {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+.permission-edit-container
+  .permission-edit
+  .content
+  .text
+  .text-list
+  .detail-warp
+  .name.data-v-4ebf2080 {
+  color: #181818;
+  font-size: 30rpx;
+  font-weight: 400;
+}
+.permission-edit-container
+  .permission-edit
+  .content
+  .text
+  .text-list
+  .detail-warp
+  .detail.data-v-4ebf2080 {
+  color: #989898;
+  font-size: 24rpx;
+  line-height: 46rpx;
+}
+.permission-edit-container .com-button-f1.data-v-4ebf2080 {
+  margin-top: 22rpx;
+}

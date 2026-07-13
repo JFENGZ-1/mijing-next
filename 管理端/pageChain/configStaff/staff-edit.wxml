@@ -1,0 +1,52 @@
+<view class="data-v-98ab7ede">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-98ab7ede" text="{{title}}" vueId="31383653-1"></navigation>
+    <view class="staff-edit-container data-v-98ab7ede" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-98ab7ede" style="{{'height:100%;min-height:1230rpx;'}}">
+            <view class="subsection-box data-v-98ab7ede" wx:if="{{!model.siteOwner&&model.staffUserid&&model.roleName!=='总店长'}}">
+                <u-subsection activeColor="#ffffff" bind:__l="__l" bind:change="__e" buttonColor="{{subsectionIndex==0?'#22C788':'#DC3C5C'}}" class="data-v-98ab7ede" current="{{subsectionIndex}}" data-event-opts="{{[ [ '^change',[ ['sectionChange'] ] ] ]}}" fontSize="22" inactiveColor="#7E7E7E" list="{{subsectionList}}" vueId="31383653-2"></u-subsection>
+            </view>
+            <u-form bind:__l="__l" class="data-v-98ab7ede vue-ref" data-ref="uForm" errorType="{{['toast']}}" model="{{model}}" vueId="31383653-3" vueSlots="{{['default']}}">
+                <view class="imghead data-v-98ab7ede">
+                    <image class="img data-v-98ab7ede" src="{{imgurl}}" wx:if="{{imgurl}}"></image>
+                    <image class="headimg data-v-98ab7ede" src="{{$root.m0}}" wx:else></image>
+                    <view bindtap="__e" class="slot-btn data-v-98ab7ede" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}" hoverClass="slot-btn__hover" hoverStayTime="150" slot="addBtn" style=";" wx:if="{{title!='添加员工/教练'}}">
+                        <view class="imghead-text data-v-98ab7ede">
+                            <image class="cameraicon data-v-98ab7ede" src="{{$root.m1}}"></image>
+                            <text class="data-v-98ab7ede">修改头像</text>
+                        </view>
+                    </view>
+                </view>
+                <u-form-item bind:__l="__l" class="data-v-98ab7ede" label="姓名" labelWidth="100" prop="staffName" required="{{true}}" vueId="{{'31383653-4'+','+'31383653-3'}}" vueSlots="{{['default']}}">
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-98ab7ede" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','staffName','$event',[] ],['model'] ] ] ] ]}}" placeholder="请输入姓名" placeholderStyle="font-size:28rpx;color:#DADADA" type="text" value="{{model.staffName}}" vueId="{{'31383653-5'+','+'31383653-4'}}"></u-input>
+                </u-form-item>
+                <u-cell-item bind:__l="__l" bind:click="__e" class="uni-form-item-required data-v-98ab7ede" data-event-opts="{{[ [ '^click',[ ['e0'] ] ] ]}}" hoverClass="none" require="{{true}}" title="性别" titleStyle="{{titleStyle}}" vueId="{{'31383653-6'+','+'31383653-3'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-98ab7ede" hidden="{{!model.staffSexName}}">{{model.staffSexName}}</text>
+                </u-cell-item>
+                <u-action-sheet bind:__l="__l" bind:click="__e" bind:input="__e" class="data-v-98ab7ede" data-event-opts="{{[ [ '^click',[ ['actionSheetCallback'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" list="{{list}}" tips="{{tips}}" value="{{show}}" vueId="{{'31383653-7'+','+'31383653-3'}}"></u-action-sheet>
+                <u-form-item bind:__l="__l" class="data-v-98ab7ede" label="手机" labelWidth="100" prop="staffTel" required="{{true}}" vueId="{{'31383653-8'+','+'31383653-3'}}" vueSlots="{{['default']}}">
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-98ab7ede" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','staffTel','$event',[] ],['model'] ] ] ] ]}}" placeholder="请输入手机" placeholderStyle="font-size:28rpx;color:#DADADA" type="number" value="{{model.staffTel}}" vueId="{{'31383653-9'+','+'31383653-8'}}"></u-input>
+                </u-form-item>
+            </u-form>
+            <view class="btn-box data-v-98ab7ede">
+                <button bindtap="__e" class="save-btn data-v-98ab7ede" data-event-opts="{{[ [ 'tap',[ [ 'savedata',['$event'] ] ] ] ]}}" plain="true">保存</button>
+                <button bindtap="__e" class="delete-btn data-v-98ab7ede" data-event-opts="{{[ [ 'tap',[ [ 'delmodal',['$event'] ] ] ] ]}}" plain="true" wx:if="{{!model.siteOwner&&model.staffUserid&&model.roleName!=='总店长'}}">删除</button>
+            </view>
+        </view>
+        <confirm-modal bind:__l="__l" bind:cancel="__e" bind:confirm="__e" class="data-v-98ab7ede vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirmbtn'] ] ],[ '^cancel',[ ['cancelbtn'] ] ] ]}}" data-ref="confirmModal" title="{{modal.modalTitle}}" vueId="31383653-10" vueSlots="{{['content']}}">
+            <view class="data-v-98ab7ede" slot="content">
+                <view class="data-v-98ab7ede">{{modal.modalText}}</view>
+            </view>
+        </confirm-modal>
+        <u-modal bind:__l="__l" bind:input="__e" class="data-v-98ab7ede" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','delShow','$event',[] ] ] ] ] ]}}" showConfirmButton="{{false}}" showTitle="{{false}}" value="{{delShow}}" vueId="31383653-11" vueSlots="{{['default']}}" width="{{680}}">
+            <view class="modal data-v-98ab7ede">
+                <text class="modal-title data-v-98ab7ede">{{modal.modalTitle}}</text>
+                <view class="modal-content data-v-98ab7ede">{{''+modal.modalText+''}}</view>
+                <view class="btn data-v-98ab7ede">
+                    <button bindtap="__e" class="modal-cal-btn data-v-98ab7ede" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}" plain="true">取消</button>
+                    <button bindtap="__e" class="modal-btn data-v-98ab7ede" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtn',['$event'] ] ] ] ]}}" plain="true">确定</button>
+                </view>
+            </view>
+        </u-modal>
+        <ff-bottom-logo bind:__l="__l" class="data-v-98ab7ede" vueId="31383653-12"></ff-bottom-logo>
+    </view>
+</view>

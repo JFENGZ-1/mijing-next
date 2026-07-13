@@ -1,0 +1,10 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "privacy": "/components/privacy/privacy",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

@@ -1,0 +1,38 @@
+<view class="data-v-05e23501">
+    <ff-popup bind:__l="__l" bind:headleClose="__e" bind:input="__e" class="data-v-05e23501" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="867" tips="可选择是否向该会员发送有效期变动通知" title="有效期调整" value="{{show}}" vueId="eda764b8-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-05e23501" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-05e23501" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'eda764b8-2'+','+'eda764b8-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-05e23501">
+            <view class="form-box data-v-05e23501">
+                <view class="validity data-v-05e23501">
+                    <view class="name data-v-05e23501">有效期</view>
+                    <view bindtap="__e" class="time data-v-05e23501" data-event-opts="{{[ [ 'tap',[ [ 'headleTime',['$event'] ] ] ] ]}}" wx:if="{{itemList.cardStatus==0}}">
+                        <block wx:if="{{parameter.validAmount.cardValidYear!=0}}">{{''+parameter.validAmount.cardValidYear+'年'}}</block>
+                        <block wx:if="{{parameter.validAmount.cardValidMonth!=0}}">{{''+parameter.validAmount.cardValidMonth+'个月'}}</block>
+                        <block wx:if="{{parameter.validAmount.cardValidDays!=0}}">{{''+parameter.validAmount.cardValidDays+'天'}}</block>
+                    </view>
+                    <view bindtap="__e" class="time data-v-05e23501" data-event-opts="{{[ [ 'tap',[ [ 'headleTime',['$event'] ] ] ] ]}}" wx:else>{{parameter.endDate}}</view>
+                </view>
+                <view bindtap="__e" class="checked data-v-05e23501" data-event-opts="{{[ [ 'tap',[ [ 'headlemsg',['$event'] ] ] ] ]}}">
+                    <view class="{{['data-v-05e23501',statusMsg?'checkboxs':'checkbox']}}">
+                        <image class="data-v-05e23501" src="{{$root.m0}}"></image>
+                    </view>
+                    <view class="{{['data-v-05e23501',statusMsg?'remarks':'remark']}}">通知该会员「有效期变动」</view>
+                </view>
+                <view bindtap="__e" class="checked data-v-05e23501" data-event-opts="{{[ [ 'tap',[ [ 'headleStatus',['$event'] ] ] ] ]}}">
+                    <view class="{{['data-v-05e23501',status?'checkboxs':'checkbox']}}">
+                        <image class="data-v-05e23501" src="{{$root.m1}}"></image>
+                    </view>
+                    <view class="{{['data-v-05e23501',status?'remarks':'remark']}}">写备注</view>
+                </view>
+                <view class="conter data-v-05e23501" hidden="{{!status}}">
+                    <editor-textarea bind:__l="__l" bind:customChange="__e" class="data-v-05e23501 vue-ref" data-event-opts="{{[ [ '^customChange',[ ['customChange'] ] ] ]}}" data-ref="editorTextarea" vueId="{{'eda764b8-3'+','+'eda764b8-1'}}"></editor-textarea>
+                </view>
+            </view>
+            <view class="data-v-05e23501" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-05e23501" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^input',[ [ '__set_model',[ '','flag','$event',[] ] ] ] ] ]}}" defaultTime="{{defaultTime}}" endYear="2050" mode="time" params="{{params}}" startYear="2020" value="{{flag}}" vueId="eda764b8-4"></u-picker>
+    <time-picker bind:__l="__l" bind:submit="__e" class="data-v-05e23501 vue-ref" data-event-opts="{{[ [ '^submit',[ ['timeConfirm'] ] ] ]}}" data-ref="timePicker" vueId="eda764b8-5"></time-picker>
+</view>

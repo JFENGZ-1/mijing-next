@@ -1,0 +1,16 @@
+<view class="data-v-3a418e64">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-3a418e64" text="{{title}}" vueId="2f5e019b-1"></navigation>
+    <view class="placeholder-view data-v-3a418e64" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-3a418e64" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-3a418e64">
+            <view class="radio-main data-v-3a418e64">当期限卡低于<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-3a418e64" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','limitCardVal','$event',[] ] ] ] ] ]}}" type="number" value="{{limitCardVal}}" vueId="2f5e019b-2"></u-input>天时提醒</view>
+            <view class="radio-main data-v-3a418e64">当计次卡低于<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-3a418e64" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','timeCardVal','$event',[] ] ] ] ] ]}}" type="number" value="{{timeCardVal}}" vueId="2f5e019b-3"></u-input>次时提醒</view>
+            <view class="radio-main data-v-3a418e64">当储值卡低于<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-3a418e64" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','dipositCardVal','$event',[] ] ] ] ] ]}}" type="number" value="{{dipositCardVal}}" vueId="2f5e019b-4"></u-input>元时提醒</view>
+            <view class="prompt data-v-3a418e64">* 修改设置后，将于明日凌晨生效并重新统计</view>
+            <view class="btn-box data-v-3a418e64">
+                <button bindtap="__e" class="save-btn data-v-3a418e64" data-event-opts="{{[ [ 'tap',[ [ 'savedata',['$event'] ] ] ] ]}}" plain="true">保存</button>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-3a418e64" vueId="2f5e019b-5"></ff-bottom-logo>
+    </view>
+</view>

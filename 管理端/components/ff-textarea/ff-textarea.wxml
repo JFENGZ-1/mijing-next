@@ -1,0 +1,20 @@
+<view class="data-v-3bb89c43">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-3bb89c43" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="{{1100}}" tips="{{tips}}" title="{{title}}" value="{{show}}" vueId="11470732-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-3bb89c43" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-3bb89c43" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'11470732-2'+','+'11470732-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="main-box data-v-3bb89c43">
+            <textarea bindfocus="__e" bindinput="__e" class="{{['data-v-3bb89c43',explainText=='请填写'?'textareainit':'textarea']}}" data-event-opts="{{[ [ 'focus',[ [ 'onfocusTextArea',['$event'] ] ] ],[ 'input',[ [ '__set_model',[ '','explainText','$event',[] ] ],[ 'input',['$event'] ] ] ] ]}}" maxlength="{{maxLength}}" value="{{explainText}}"></textarea>
+            <view class="main data-v-3bb89c43">
+                <view class="data-v-3bb89c43" style="display:flex;">
+                    <view bindtap="__e" class="icon-add data-v-3bb89c43" data-event-opts="{{[ [ 'tap',[ [ 'del',['$event'] ] ] ] ]}}">
+                        <text class="con data-v-3bb89c43">清除</text>
+                    </view>
+                </view>
+                <view class="census data-v-3bb89c43">
+                    <text class="data-v-3bb89c43">{{'已写'+$root.g0+'字/ 最多'+maxLength+'字'}}</text>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

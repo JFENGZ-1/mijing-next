@@ -1,0 +1,81 @@
+<view class="appoint-item data-v-6e48cd88">
+    <image catchtap="__e" class="avator data-v-6e48cd88" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$event'] ] ] ] ]}}" src="{{appointInfo.userFaceurl}}"></image>
+    <view bindtap="__e" class="detail-info data-v-6e48cd88" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],['appointInfo'] ] ] ] ]}}">
+        <view class="info-box data-v-6e48cd88" style="{{'padding-bottom:'+(appointInfo.remark||appointInfo.staffRemark||appointInfo.otherSiteName?'8rpx':'30rpx')+';'}}">
+            <view class="left-info-box data-v-6e48cd88">
+                <view class="row-item data-v-6e48cd88" style="line-height:40rpx;">
+                    <view catchtap="__e" class="nick-name data-v-6e48cd88" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$event'] ] ] ] ]}}">{{''+appointInfo.userRealname+''}}</view>
+                    <view class="{{['value','data-v-6e48cd88',appointInfo.cardChangeAmount==0?'visibility':'']}}">
+                        <text class="plus-minus data-v-6e48cd88" wx:if="{{appointInfo.plusMinus}}">{{appointInfo.plusMinus}}</text>{{''+''+appointInfo.cardChangeAmount+appointInfo.unitName+(appointInfo.groupName||'')+''}}</view>
+                </view>
+                <view class="row-item data-v-6e48cd88">
+                    <view class="course-info data-v-6e48cd88">
+                        <text class="day data-v-6e48cd88" wx:if="{{appointInfo.weekName}}">{{appointInfo.weekName}}</text>
+                        <text class="project-name data-v-6e48cd88" wx:if="{{appointInfo.dataidType==0}}">{{$root.m0+''}}<block wx:if="{{appointInfo.staffName}}">{{'-'+$root.m1}}</block>
+                        </text>
+                        <text class="personal data-v-6e48cd88" wx:else>{{(appointInfo.courseName?$root.m2:'私教')+'-'+$root.m3}}</text>
+                    </view>
+                    <view class="balance data-v-6e48cd88">
+                        <text class="card-name data-v-6e48cd88" wx:if="{{appointInfo.cardName}}">{{appointInfo.cardName}}</text>
+                        <text class="residue data-v-6e48cd88">{{'余'+''+appointInfo.leftAmount+appointInfo.unitName}}</text>
+                    </view>
+                </view>
+                <view class="row-item data-v-6e48cd88">
+                    <view class="item-02 data-v-6e48cd88">
+                        <text class="time data-v-6e48cd88">{{$root.g0}}</text>
+                        <text class="truancy data-v-6e48cd88" wx:if="{{appointInfo.absenceCount>0}}">{{'本月旷课'+appointInfo.absenceCount+'次'}}</text>
+                    </view>
+                    <view class="status data-v-6e48cd88">
+                        <view class="handle_person data-v-6e48cd88" wx:if="{{appointInfo.helpStaffName&&appointInfo.helpStaffFace}}">
+                            <view class="photo-wrap data-v-6e48cd88">
+                                <image class="img data-v-6e48cd88" src="{{appointInfo.helpStaffFace}}"></image>
+                            </view>
+                            <text class="tips data-v-6e48cd88" wx:if="{{appointInfo.helpStaffName}}">{{appointInfo.helpStaffName+'操作'}}</text>
+                        </view>
+                        <text class="data-v-6e48cd88" style="{{'color:'+$root.m4+';'}}">{{''+appointInfo.unionStatusName+''}}<text class="data-v-6e48cd88" style="margin-left:3rpx;" wx:if="{{appointInfo.manCount>1}}">{{'('+appointInfo.manCount+'人)'}}</text>
+                        </text>
+                    </view>
+                </view>
+                <view class="remake-box data-v-6e48cd88" wx:if="{{appointInfo.remark}}">
+                    <text class="remarkfont data-v-6e48cd88">留言：</text>
+                    <text class="staff-remarkcontent data-v-6e48cd88">{{appointInfo.remark?appointInfo.remark:''}}</text>
+                </view>
+                <view class="remake-box data-v-6e48cd88" style="{{'margin-top:'+(appointInfo.remark?'0':'8rpx')+';'}}" wx:if="{{appointInfo.staffRemark}}">
+                    <text class="remarkfont data-v-6e48cd88">备注：</text>
+                    <text class="remarkcontent data-v-6e48cd88">{{appointInfo.staffRemark?appointInfo.staffRemark:''}}</text>
+                </view>
+                <view class="remake-box data-v-6e48cd88" style="{{'margin-top:'+(appointInfo.remark||appointInfo.staffRemark?'0':'8rpx')+';'}}" wx:if="{{appointInfo.otherSiteName}}">
+                    <text class="other-site data-v-6e48cd88">门店</text>
+                    <text class="other-name data-v-6e48cd88">{{appointInfo.otherSiteName?appointInfo.otherSiteName:''}}</text>
+                </view>
+            </view>
+            <view class="handle_module data-v-6e48cd88" wx:if="{{!$root.m5}}">
+                <view catchtap="__e" class="icon_wrap data-v-6e48cd88" data-event-opts="{{[ [ 'tap',[ [ 'showDrop',['$0'],['appointInfo.appointId'] ] ] ] ]}}">
+                    <image class="img data-v-6e48cd88" src="{{$root.m6}}"></image>
+                </view>
+                <view class="drop_down data-v-6e48cd88" hidden="{{!appointInfo.showDown}}">
+                    <view class="image_wrap data-v-6e48cd88">
+                        <image class="img data-v-6e48cd88" src="{{$root.m7}}"></image>
+                    </view>
+                    <view class="drop_down_list data-v-6e48cd88">
+                        <view catchtap="__e" class="drop_down_item data-v-6e48cd88" data-event-opts="{{[ [ 'tap',[ [ 'cancelAppointment',['$0'],['appointInfo'] ] ] ] ]}}" wx:if="{{appointInfo.ifcancel==1}}">
+                            <image class="img data-v-6e48cd88" src="{{$root.m8}}" style="width:34rpx;height:33rpx;"></image>
+                            <text class="tips data-v-6e48cd88">取消预约</text>
+                        </view>
+                        <view catchtap="__e" class="drop_down_item data-v-6e48cd88" data-event-opts="{{[ [ 'tap',[ ['remarkPopup'] ] ] ]}}">
+                            <image class="img data-v-6e48cd88" src="{{$root.m9}}" style="width:34rpx;height:33rpx;"></image>
+                            <text class="tips data-v-6e48cd88">写备注</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <u-line bind:__l="__l" class="data-v-6e48cd88" color="#ececed" vueId="316e8665-1"></u-line>
+    </view>
+    <confirm-modal bind:__l="__l" bind:cancel="__e" bind:confirm="__e" class="data-v-6e48cd88 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^cancel',[ ['cancel'] ] ] ]}}" data-ref="confirmModal" title="{{confirmModalTitle}}" vueId="316e8665-2" vueSlots="{{['content']}}">
+        <view class="data-v-6e48cd88" slot="content">
+            <view class="data-v-6e48cd88">将退还已扣（若有）相应费用</view>
+        </view>
+    </confirm-modal>
+    <remark-order-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-6e48cd88 vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editremarkOrder'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkOrderChild" vueId="316e8665-3"></remark-order-popup>
+</view>

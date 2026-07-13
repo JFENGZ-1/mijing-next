@@ -1,0 +1,13 @@
+{
+  "component": true,
+  "usingComponents": {
+    "balance": "/components/cardToolbox/administer/balance",
+    "card-stopping": "/components/cardToolbox/administer/card_stopping",
+    "confirm": "/components/confirm-modal/confirm-modal",
+    "leave": "/components/cardToolbox/administer/leave",
+    "remark-order-card-popup": "/components/ff-textarea/ff-textarea",
+    "renew": "/components/cardToolbox/administer/renew",
+    "vaildity": "/components/cardToolbox/administer/validity",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

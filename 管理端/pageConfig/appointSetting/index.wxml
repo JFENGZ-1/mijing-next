@@ -1,0 +1,254 @@
+<view class="data-v-1c3958e2">
+    <navigation bind:__l="__l" class="data-v-1c3958e2" text="预约设置" vueId="4fd4e4b4-1"></navigation>
+    <view class="placeholder-view data-v-1c3958e2" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-1c3958e2" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-1c3958e2">
+            <view class="setting_wrap data-v-1c3958e2">
+                <view class="top data-v-1c3958e2">
+                    <u-icon bind:__l="__l" class="icon data-v-1c3958e2" color="#C96B30" name="bell" vueId="4fd4e4b4-2"></u-icon>
+                    <view class="top-info data-v-1c3958e2">
+                        <view class="data-v-1c3958e2">以下设置仅对会员约课端起作用，教练端作为管理端不受限制</view>
+                    </view>
+                </view>
+                <view class="setting_group first data-v-1c3958e2">
+                    <view class="setting_title data-v-1c3958e2">
+                        <view class="title_color data-v-1c3958e2"></view>
+                        <text class="title_text data-v-1c3958e2">签到设置</text>
+                    </view>
+                    <view class="item_wrap data-v-1c3958e2">
+                        <view bindtap="__e" class="item no_border data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['signTime_team'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">系统签到时间</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.signTime_team.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m0}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="setting_group second data-v-1c3958e2">
+                    <view class="setting_title data-v-1c3958e2">
+                        <view class="title_color data-v-1c3958e2"></view>
+                        <text class="title_text data-v-1c3958e2">约团课</text>
+                    </view>
+                    <view class="item_wrap data-v-1c3958e2">
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['aheadAppointTime_team'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">提前预约时间</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.aheadAppointTime_team.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m1}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['endAppointTime_team'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">截止预约时间</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.endAppointTime_team.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m2}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['cancelAppointTime_team'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">取消预约时间</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.cancelAppointTime_team.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m3}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['lineup_team'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">排队候补</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.lineup_team.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m4}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['showPeople_team'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">是否显示已约人数</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.showPeople_team.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m5}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['cancelOpenCourse_team'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">未满足最低开课人数，自动取消开课</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.cancelOpenCourse_team.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m6}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['showCourseCalendar_team'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">显示几天的课表</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.showCourseCalendar_team.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m7}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="setting_group last data-v-1c3958e2">
+                    <view class="setting_title data-v-1c3958e2">
+                        <view class="title_color data-v-1c3958e2"></view>
+                        <text class="title_text data-v-1c3958e2">约私教</text>
+                    </view>
+                    <view class="item_wrap data-v-1c3958e2">
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['aheadAppointTime_private'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">提前预约时间</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.aheadAppointTime_private.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m8}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['endAppointTime_private'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">截止预约时间</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.endAppointTime_private.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m9}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['cancelAppointTime_private'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">取消预约时间</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.cancelAppointTime_private.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m10}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['privateTimeInterval'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">时间列表的时间间隔</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.privateTimeInterval.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m11}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['courseRestTime'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">课前休息与准备时间</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.courseRestTime.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m12}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['beyondTime_private'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">已预约时间置灰</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.beyondTime_private.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m13}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ [ 'openConfig',['teamCourse_private'] ] ] ] ]}}">
+                            <view class="item_title data-v-1c3958e2">与团课重合时</view>
+                            <view class="item_select data-v-1c3958e2">
+                                <text class="select_text data-v-1c3958e2">{{allConfig.teamCourse_private.selectText}}</text>
+                                <image class="data-v-1c3958e2" mode="widthFix" src="{{$root.m14}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-1c3958e2" vueId="4fd4e4b4-3"></ff-bottom-logo>
+    </view>
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-1c3958e2" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="{{tips}}" title="{{title}}" value="{{show}}" vueId="4fd4e4b4-4" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-1c3958e2" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-1c3958e2" data-event-opts="{{[ [ '^click',[ ['confirm'] ] ] ]}}" type="primary" vueId="{{'4fd4e4b4-5'+','+'4fd4e4b4-4'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main_box_last data-v-1c3958e2" wx:if="{{currentKey==='cancelOpenCourse_team'}}">
+            <view class="radio-main data-v-1c3958e2" wx:for="{{currentConfig.options}}" wx:key="index">在课前<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','paramval','$event',[] ],[ [ ['currentConfig.options','',index] ] ] ] ] ] ]}}" placeholder=" " type="number" value="{{item.paramval}}" vueId="{{'4fd4e4b4-6-'+index+','+'4fd4e4b4-4'}}"></u-input>分钟进行判断</view>
+        </view>
+        <block wx:else>
+            <view class="main_box_second data-v-1c3958e2" wx:if="{{currentKey==='absent_team'||currentKey==='absent_private'}}">
+                <view class="select_wrap data-v-1c3958e2">
+                    <view class="selected_tab data-v-1c3958e2">
+                        <u-radio-group bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-1c3958e2" data-event-opts="{{[ [ '^change',[ ['punishChange'] ] ],[ '^input',[ [ '__set_model',[ '$0','isPunish','$event',[] ],['currentConfig'] ] ] ] ]}}" value="{{currentConfig.isPunish}}" vueId="{{'4fd4e4b4-7'+','+'4fd4e4b4-4'}}" vueSlots="{{['default']}}" width="220">
+                            <u-radio bind:__l="__l" class="radio data-v-1c3958e2" name="1" vueId="{{'4fd4e4b4-8'+','+'4fd4e4b4-7'}}" vueSlots="{{['default']}}">
+                                <view class="{{['radio-main','data-v-1c3958e2',currentConfig.isPunish==1?'active':'']}}">处罚</view>
+                            </u-radio>
+                            <u-radio bind:__l="__l" class="radio data-v-1c3958e2" name="0" vueId="{{'4fd4e4b4-9'+','+'4fd4e4b4-7'}}" vueSlots="{{['default']}}">
+                                <view class="{{['radio-main','data-v-1c3958e2',currentConfig.isPunish==0?'active':'']}}">不处罚</view>
+                            </u-radio>
+                        </u-radio-group>
+                    </view>
+                    <view class="punish_condition data-v-1c3958e2" wx:if="{{currentConfig.isPunish==1}}">
+                        <view class="{{['item','data-v-1c3958e2',currentConfig.selectItem==1?'active':'']}}" style="margin-bottom:32rpx;">
+                            <text class="punish_title punish_total data-v-1c3958e2">每月旷课累计达到</text>
+                            <u-input bind:__l="__l" bind:click="__e" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^click',[ [ 'punishBlue',[1] ] ] ],[ '^input',[ [ '__set_model',[ '$0','monthTime','$event',[] ],['currentConfig'] ] ] ] ]}}" placeholder=" " type="number" value="{{currentConfig.monthTime}}" vueId="{{'4fd4e4b4-10'+','+'4fd4e4b4-4'}}"></u-input>
+                            <text class="data-v-1c3958e2">次</text>
+                        </view>
+                        <view class="{{['item','data-v-1c3958e2',currentConfig.selectItem==2?'active':'']}}">
+                            <text class="punish_title data-v-1c3958e2">计次卡扣除</text>
+                            <u-input bind:__l="__l" bind:click="__e" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^click',[ [ 'punishBlue',[2] ] ] ],[ '^input',[ [ '__set_model',[ '$0','timeCardNum','$event',[] ],['currentConfig'] ] ] ] ]}}" placeholder=" " type="number" value="{{currentConfig.timeCardNum}}" vueId="{{'4fd4e4b4-11'+','+'4fd4e4b4-4'}}"></u-input>
+                            <text class="data-v-1c3958e2">次</text>
+                        </view>
+                        <view class="{{['item','data-v-1c3958e2',currentConfig.selectItem==3?'active':'']}}">
+                            <text class="punish_title data-v-1c3958e2">储值卡扣除</text>
+                            <u-input bind:__l="__l" bind:click="__e" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^click',[ [ 'punishBlue',[3] ] ] ],[ '^input',[ [ '__set_model',[ '$0','depositCardNum','$event',[] ],['currentConfig'] ] ] ] ]}}" placeholder=" " type="number" value="{{currentConfig.depositCardNum}}" vueId="{{'4fd4e4b4-12'+','+'4fd4e4b4-4'}}"></u-input>
+                            <text class="data-v-1c3958e2">元</text>
+                        </view>
+                        <view class="{{['item','data-v-1c3958e2',currentConfig.selectItem==4?'active':'']}}">
+                            <text class="punish_title data-v-1c3958e2">期限卡扣除</text>
+                            <u-input bind:__l="__l" bind:click="__e" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^click',[ [ 'punishBlue',[4] ] ] ],[ '^input',[ [ '__set_model',[ '$0','limitCardNum','$event',[] ],['currentConfig'] ] ] ] ]}}" placeholder=" " type="number" value="{{currentConfig.limitCardNum}}" vueId="{{'4fd4e4b4-13'+','+'4fd4e4b4-4'}}"></u-input>
+                            <text class="data-v-1c3958e2">天</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="main_box_first data-v-1c3958e2" wx:else>
+                <view class="select_wrap data-v-1c3958e2">
+                    <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-1c3958e2" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','selectIdVal','$event',[] ],['currentConfig'] ] ] ] ]}}" value="{{currentConfig.selectIdVal}}" vueId="{{'4fd4e4b4-14'+','+'4fd4e4b4-4'}}" vueSlots="{{['default']}}">
+                        <view class="select_item data-v-1c3958e2" wx:for="{{currentConfig.options}}" wx:key="index">
+                            <u-radio bind:__l="__l" class="radio data-v-1c3958e2" name="{{item.id}}" vueId="{{'4fd4e4b4-15-'+index+','+'4fd4e4b4-14'}}" vueSlots="{{['default']}}">
+                                <view class="{{['radio-main','radio-main-wrap','data-v-1c3958e2',currentConfig.selectIdVal==item.id?'active':'']}}" wx:if="{{currentKey=='aheadAppointTime_team'&&item.hasParam}}">最多提前<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','paramval','$event',[] ],[ [ ['currentConfig.options','',index] ] ] ] ] ] ]}}" disabled="{{!(currentConfig.selectIdVal==item.id)}}" placeholder=" " type="number" value="{{item.paramval}}" vueId="{{'4fd4e4b4-16-'+index+','+'4fd4e4b4-15-'+index}}"></u-input>天预约<view class="appoint-tips data-v-1c3958e2" wx:if="{{allConfig.aheadAppointTime_team&&currentConfig.selectIdVal==112}}">{{'每日\n\t\t\t\t\t\t\t\t\t\t'+(refreshTime!==null?refreshTime:currentConfig.selectParamVal2)+':'}}<block wx:if="{{minute<10}}">{{'0'+minute}}</block>
+                                        <block wx:else>{{minute}}</block>开放最新可约课程<view bindtap="__e" class="modify-button data-v-1c3958e2" data-event-opts="{{[ [ 'tap',[ ['openTime'] ] ] ]}}">修改</view>
+                                    </view>
+                                </view>
+                                <block wx:else>
+                                    <view class="{{['radio-main','data-v-1c3958e2',currentConfig.selectIdVal==item.id?'active':'']}}" wx:if="{{currentKey=='endAppointTime_team'&&item.hasParam}}">课前<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','paramval','$event',[] ],[ [ ['currentConfig.options','',index] ] ] ] ] ] ]}}" disabled="{{!(currentConfig.selectIdVal==item.id)}}" placeholder=" " type="number" value="{{item.paramval}}" vueId="{{'4fd4e4b4-17-'+index+','+'4fd4e4b4-15-'+index}}"></u-input>分钟停止约课</view>
+                                    <block wx:else>
+                                        <view class="{{['radio-main','data-v-1c3958e2',currentConfig.selectIdVal==item.id?'active':'']}}" wx:if="{{currentKey=='endAppointTime_private'&&item.hasParam}}">至少提前<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','paramval','$event',[] ],[ [ ['currentConfig.options','',index] ] ] ] ] ] ]}}" disabled="{{!(currentConfig.selectIdVal==item.id)}}" placeholder=" " type="number" value="{{item.paramval}}" vueId="{{'4fd4e4b4-18-'+index+','+'4fd4e4b4-15-'+index}}"></u-input>分钟预约</view>
+                                        <block wx:else>
+                                            <view class="{{['radio-main','radio-main-wrap','data-v-1c3958e2',currentConfig.selectIdVal==item.id?'active':'']}}" wx:if="{{currentKey=='cancelAppointTime_team'&&item.hasParam}}">
+                                                <view class="data-v-1c3958e2">截止开课前</view>
+                                                <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','paramval','$event',[] ],[ [ ['currentConfig.options','',index] ] ] ] ] ] ]}}" disabled="{{!(currentConfig.selectIdVal==item.id)}}" placeholder=" " type="number" value="{{item.paramval}}" vueId="{{'4fd4e4b4-19-'+index+','+'4fd4e4b4-15-'+index}}"></u-input>
+                                                <view class="data-v-1c3958e2">分钟，之后不允许会员</view>
+                                                <view class="data-v-1c3958e2">取消预约</view>
+                                            </view>
+                                            <block wx:else>
+                                                <view class="{{['radio-main','data-v-1c3958e2',currentConfig.selectIdVal==item.id?'active':'']}}" wx:if="{{currentKey=='showCourseCalendar_team'&&item.hasParam}}">显示未来（含今天）<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','paramval','$event',[] ],[ [ ['currentConfig.options','',index] ] ] ] ] ] ]}}" disabled="{{!(currentConfig.selectIdVal==item.id)}}" placeholder=" " type="number" value="{{item.paramval}}" vueId="{{'4fd4e4b4-20-'+index+','+'4fd4e4b4-15-'+index}}"></u-input>天的课程</view>
+                                                <block wx:else>
+                                                    <view class="{{['radio-main','data-v-1c3958e2',currentConfig.selectIdVal==item.id?'active':'']}}" wx:if="{{currentKey=='aheadAppointTime_private'&&item.hasParam}}">最多提前<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','paramval','$event',[] ],[ [ ['currentConfig.options','',index] ] ] ] ] ] ]}}" disabled="{{!(currentConfig.selectIdVal==item.id)}}" placeholder=" " type="number" value="{{item.paramval}}" vueId="{{'4fd4e4b4-21-'+index+','+'4fd4e4b4-15-'+index}}"></u-input>天预约</view>
+                                                    <block wx:else>
+                                                        <view class="{{['radio-main','radio-main-wrap','data-v-1c3958e2',currentConfig.selectIdVal==item.id?'active':'']}}" wx:if="{{currentKey=='cancelAppointTime_private'&&item.hasParam}}">
+                                                            <view class="data-v-1c3958e2">截止开课前</view>
+                                                            <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','paramval','$event',[] ],[ [ ['currentConfig.options','',index] ] ] ] ] ] ]}}" disabled="{{!(currentConfig.selectIdVal==item.id)}}" placeholder=" " type="number" value="{{item.paramval}}" vueId="{{'4fd4e4b4-22-'+index+','+'4fd4e4b4-15-'+index}}"></u-input>
+                                                            <view class="data-v-1c3958e2">分钟，之后不允许会员</view>
+                                                            <view class="data-v-1c3958e2">取消预约</view>
+                                                        </view>
+                                                        <block wx:else>
+                                                            <view class="{{['radio-main','radio-main-wrap','data-v-1c3958e2',currentConfig.selectIdVal==item.id?'active':'']}}" wx:if="{{currentKey=='courseRestTime'&&item.hasParam}}">
+                                                                <view class="data-v-1c3958e2">预留</view>
+                                                                <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1c3958e2" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','paramval','$event',[] ],[ [ ['currentConfig.options','',index] ] ] ] ] ] ]}}" disabled="{{!(currentConfig.selectIdVal==item.id)}}" placeholder=" " type="number" value="{{item.paramval}}" vueId="{{'4fd4e4b4-23-'+index+','+'4fd4e4b4-15-'+index}}"></u-input>
+                                                                <view class="data-v-1c3958e2">分钟(两个课之间的休息时间)</view>
+                                                                <view class="tips-wrap data-v-1c3958e2" wx:if="{{allConfig.privateTimeInterval&&currentConfig.selectIdVal==261}}">
+                                                                    <view class="data-v-1c3958e2">受【时间列表的时间间隔】设置影响：</view>
+                                                                    <view class="data-v-1c3958e2">若间隔是10分钟，则最少时间为10分钟</view>
+                                                                    <view class="data-v-1c3958e2">若间隔是15分钟，则最少时间为15分钟</view>
+                                                                    <view class="data-v-1c3958e2">若间隔是30分钟，则最少时间为30分钟</view>
+                                                                </view>
+                                                            </view>
+                                                            <view class="{{['radio-main','data-v-1c3958e2',currentConfig.selectIdVal==item.id?'active':'']}}" wx:else>{{item.name}}</view>
+                                                        </block>
+                                                    </block>
+                                                </block>
+                                            </block>
+                                        </block>
+                                    </block>
+                                </block>
+                            </u-radio>
+                        </view>
+                        <view class="select_item data-v-1c3958e2" wx:if="{{currentKey==='signTime_team'}}">
+                            <u-radio bind:__l="__l" class="radio data-v-1c3958e2" disabled="{{true}}" vueId="{{'4fd4e4b4-24'+','+'4fd4e4b4-14'}}" vueSlots="{{['default']}}">
+                                <view class="radio-main radio-main-disabled data-v-1c3958e2">由会员自主签到(暂不开放)</view>
+                            </u-radio>
+                        </view>
+                    </u-radio-group>
+                </view>
+            </view>
+        </block>
+    </ff-popup>
+    <select-time bind:__l="__l" bind:submit="__e" class="data-v-1c3958e2 vue-ref" data-event-opts="{{[ [ '^submit',[ ['changeTime'] ] ] ]}}" data-ref="selectTime" vueId="4fd4e4b4-25"></select-time>
+</view>

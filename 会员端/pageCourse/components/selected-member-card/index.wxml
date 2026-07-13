@@ -1,0 +1,66 @@
+<view class="data-v-a5fd0660">
+    <dialog bind:__l="__l" bind:input="__e" btnShow="{{btnShow}}" class="data-v-a5fd0660" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="{{950}}" mask="{{mask}}" title="{{title}}" value="{{show}}" vueId="25d19e20-1" vueSlots="{{['content','btn-wrap']}}">
+        <view class="data-v-a5fd0660" slot="content">
+            <view class="step1 data-v-a5fd0660">
+                <view class="data-v-a5fd0660" wx:if="{{$root.g0>0}}">
+                    <view class="{{['card-wrap','data-v-a5fd0660',cardInfo.cardStatus==2||cardInfo.balanceAmount==0?'gary':'']}}">
+                        <view class="card-item data-v-a5fd0660">
+                            <member-card activeClass="medium-sized" bind:__l="__l" bind:moreProject="__e" cardInfo="{{currentCard}}" class="data-v-a5fd0660" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" vueId="{{'25d19e20-2'+','+'25d19e20-1'}}"></member-card>
+                        </view>
+                    </view>
+                    <view class="data-v-a5fd0660" wx:if="{{$root.g1>1}}">
+                        <u-button bind:__l="__l" bind:click="__e" class="data-v-a5fd0660" customStyle="{{customStyle}}" data-event-opts="{{[ [ '^click',[ ['selectioncard'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'25d19e20-3'+','+'25d19e20-1'}}" vueSlots="{{['default']}}">选择其它卡<u-icon bind:__l="__l" class="data-v-a5fd0660" color="#989898" name="arrow-down" size="15rpx" style="margin-left:7rpx;" vueId="{{'25d19e20-4'+','+'25d19e20-3'}}"></u-icon>
+                        </u-button>
+                    </view>
+                    <view class="payment-wrap data-v-a5fd0660">
+                        <view class="data-v-a5fd0660" wx:if="{{currentCard.unitPrice!=null}}">
+                            <view class="unit-price data-v-a5fd0660">
+                                <block wx:if="{{currentCard.cardType==1}}">¥</block>
+                                <text class="data-v-a5fd0660">{{''+(currentCard.cardType==1&&currentCard.unitPrice*numberValue%1!==0?$root.g2:currentCard.unitPrice*numberValue)+(currentCard.cardType==1?'':currentCard.cardType==2?'次':'天')}}</text>
+                            </view>
+                            <view class="hint-text data-v-a5fd0660">
+                                <block wx:if="{{currentCard.amountInfo.isGroup}}">{{'应扣除「'+currentCard.groupName+'」'}}</block>
+                                <block wx:else>应扣除课时费</block>
+                            </view>
+                        </view>
+                        <view class="data-v-a5fd0660" wx:if="{{currentCard.canPay&&currentCard.manyRule.ruleId!=1}}">
+                            <u-line bind:__l="__l" class="data-v-a5fd0660" color="#F0F0F0" direction="row" length="278rpx" margin="25rpx auto" vueId="{{'25d19e20-5'+','+'25d19e20-1'}}" wx:if="{{appointmentData.appointmentStatus==1}}"></u-line>
+                            <view class="appointment-info-wrap data-v-a5fd0660" wx:if="{{appointmentData.appointmentStatus==1}}">
+                                <text class="title data-v-a5fd0660">预约人数:</text>
+                                <text class="number-value data-v-a5fd0660">{{numberValue}}</text>
+                                <view class="number-box data-v-a5fd0660">
+                                    <view bindtap="__e" class="minus data-v-a5fd0660" data-event-opts="{{[ [ 'tap',[ [ 'minus',['$event'] ] ] ] ]}}">
+                                        <u-icon bind:__l="__l" class="data-v-a5fd0660" color="#989898" name="minus" size="24rpx" vueId="{{'25d19e20-6'+','+'25d19e20-1'}}"></u-icon>
+                                    </view>
+                                    <view bindtap="__e" class="plus data-v-a5fd0660" data-event-opts="{{[ [ 'tap',[ [ 'plus',['$event'] ] ] ] ]}}" style="margin-left:14rpx;">
+                                        <u-icon bind:__l="__l" class="data-v-a5fd0660" color="#989898" name="plus" size="24rpx" vueId="{{'25d19e20-7'+','+'25d19e20-1'}}"></u-icon>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="fail-msg data-v-a5fd0660" wx:if="{{!currentCard.canPay}}">
+                            <text class="data-v-a5fd0660">{{currentCard.failPaymsg}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="data-v-a5fd0660" wx:else>
+                    <view class="no-card data-v-a5fd0660" style="height:240rpx;">
+                        <image class="data-v-a5fd0660" src="{{$root.m0}}"></image>
+                    </view>
+                    <view class="fail-msg data-v-a5fd0660">
+                        <text class="data-v-a5fd0660">请先购买会员卡后再约课</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="data-v-a5fd0660" slot="btn-wrap">
+            <view class="com-button-f1 data-v-a5fd0660">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-a5fd0660" customStyle="{{confirBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['confirm'] ] ] ]}}" disabled="{{!currentCard||!currentCard.canPay}}" hairLine="{{false}}" hoverClass="none" loading="{{isBTloading}}" shape="circle" type="custom" vueId="{{'25d19e20-8'+','+'25d19e20-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+            </view>
+        </view>
+    </dialog>
+    <success bind:__l="__l" bind:ok="__e" class="data-v-a5fd0660 vue-ref" data-event-opts="{{[ [ '^ok',[ ['close'] ] ] ]}}" data-ref="successModal" mask="{{true}}" vueId="25d19e20-9"></success>
+    <line-up-success bind:__l="__l" class="data-v-a5fd0660 vue-ref" data-ref="lineUpSuccess" vueId="25d19e20-10"></line-up-success>
+    <chosecard bind:__l="__l" bind:choseCard="__e" class="data-v-a5fd0660 vue-ref" data-event-opts="{{[ [ '^choseCard',[ ['selectCard'] ] ] ]}}" data-ref="chosecard" vueId="25d19e20-11"></chosecard>
+    <card-all-project bind:__l="__l" class="data-v-a5fd0660 vue-ref" data-ref="cardAllProject" vueId="25d19e20-12"></card-all-project>
+</view>

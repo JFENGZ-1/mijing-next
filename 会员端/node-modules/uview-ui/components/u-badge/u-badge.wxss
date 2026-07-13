@@ -1,0 +1,39 @@
+.u-badge.data-v-22c24a7a {
+  align-items: center;
+  border-radius: 100rpx;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  justify-content: center;
+  line-height: 24rpx;
+  padding: 4rpx 8rpx;
+  z-index: 9;
+}
+.u-badge--bg--primary.data-v-22c24a7a {
+  background-color: #22c788;
+}
+.u-badge--bg--error.data-v-22c24a7a {
+  background-color: #fa3534;
+}
+.u-badge--bg--success.data-v-22c24a7a {
+  background-color: #19be6b;
+}
+.u-badge--bg--info.data-v-22c24a7a {
+  background-color: #909399;
+}
+.u-badge--bg--warning.data-v-22c24a7a {
+  background-color: #f90;
+}
+.u-badge-dot.data-v-22c24a7a {
+  border-radius: 100rpx;
+  height: 16rpx;
+  line-height: 1;
+  width: 16rpx;
+}
+.u-badge-mini.data-v-22c24a7a {
+  transform: scale(0.8);
+  transform-origin: center center;
+}
+.u-info.data-v-22c24a7a {
+  background-color: #909399;
+  color: #fff;
+}

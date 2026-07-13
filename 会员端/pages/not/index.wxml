@@ -1,0 +1,18 @@
+<view class="content data-v-64f60627">
+    <view class="icon-wrap data-v-64f60627">
+        <u-icon bind:__l="__l" class="data-v-64f60627" color="#ffffff" name="error" size="114" vueId="0b416739-1"></u-icon>
+    </view>
+    <view class="text-wrap data-v-64f60627">
+        <view class="h1-text data-v-64f60627">没有找到关联的场馆</view>
+        <view class="text-min data-v-64f60627">您刚刚注册的手机号为<text class="data-v-64f60627" style="color:#dc3c5c;margin-left:10rpx;">{{phone}}</text>
+        </view>
+        <view class="text-min data-v-64f60627" style="margin-bottom:38rpx;">
+            <text class="data-v-64f60627" style="font-weight:500;">请检查以下两个原因：</text>
+            <view class="_br data-v-64f60627"></view>1、该场馆没有添加您成为会员，询问场馆是否已经添加<view class="_br data-v-64f60627"></view>2、若已添加，请检查填写的手机号与上面是否一致，若不一致请联系馆长修改</view>
+        <view bindtap="__e" class="change-phone data-v-64f60627" data-event-opts="{{[ [ 'tap',[ [ 'changePhone',['$event'] ] ] ] ]}}">重新匹配</view>
+    </view>
+    <view class="bottom-view data-v-64f60627">
+        <image class="pic data-v-64f60627" src="{{$root.m0}}"></image>
+        <text class="client data-v-64f60627">会员端</text>
+    </view>
+</view>

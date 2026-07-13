@@ -1,0 +1,32 @@
+<view class="data-v-11ffa2a2">
+    <navigation bind:__l="__l" class="data-v-11ffa2a2" text="收款管理" vueId="8db3724a-1"></navigation>
+    <view class="placeholder-view data-v-11ffa2a2" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-11ffa2a2" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="card-icon-wrap data-v-11ffa2a2">
+            <image class="card-icon data-v-11ffa2a2" src="{{$root.m0}}"></image>
+        </view>
+        <view class="points-wrap data-v-11ffa2a2">
+            <view class="points-box data-v-11ffa2a2">
+                <view class="em data-v-11ffa2a2">通常不需要开通收款功能</view>
+                <view class="data-v-11ffa2a2">场馆可自行收款，由馆长或教练收款后，在“会员”-点击会员姓名右侧的“<image class="img data-v-11ffa2a2" src="{{$root.m1}}"></image>”直接发卡即可</view>
+            </view>
+        </view>
+        <view class="explain-wrap data-v-11ffa2a2">
+            <view class="title data-v-11ffa2a2">您可以选择是否开通</view>
+            <view class="description data-v-11ffa2a2">开通后，会员可直接在会员端付款购买会员卡（馆长会收到“会员购卡”通知）。开通收款请提供以下资料：</view>
+            <text class="list data-v-11ffa2a2" userSelect="{{true}}"> 1、营业执照正本照片 2、法人身份证正反面照片 3、个体工商：提供法人同名银行卡号、开户行   　公司企业：提供公户帐号、开户行 4、联系人手机号码 5、联系人邮箱 </text>
+            <view class="data-v-11ffa2a2">资金不流经本公司，由微信收取并于第二个工作日凌晨扣除手续费后统一转（合为一笔）至您银行卡中。</view>
+            <text class="data-v-11ffa2a2" style="font-weight:400;" userSelect="{{true}}">手续费：0.6%（每100元收取6毛）</text>
+        </view>
+        <view class="services-wrap data-v-11ffa2a2">
+            <view class="icon-box data-v-11ffa2a2">
+                <image class="services-icon data-v-11ffa2a2" src="{{$root.m2}}"></image>
+            </view>
+            <view class="tel-box data-v-11ffa2a2">
+                <text class="data-v-11ffa2a2">客服微信</text>
+                <text class="tel data-v-11ffa2a2">177-1088-3152</text>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-11ffa2a2" vueId="8db3724a-2"></ff-bottom-logo>
+    </view>
+</view>

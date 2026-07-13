@@ -1,0 +1,57 @@
+<view class="data-v-0259cc8f">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-0259cc8f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="{{1200}}" showConfrim="{{btnShow}}" title="{{title}}" value="{{show}}" vueId="3d48bf96-1" vueSlots="{{['default']}}">
+        <view class="data-v-0259cc8f">
+            <view class="step2 data-v-0259cc8f">
+                <view bindtap="__e" class="data-v-0259cc8f" data-event-opts="{{[ [ 'tap',[ [ 'selectCard',['$0',index],[ [ ['cardList','',index] ] ] ] ] ] ]}}" wx:for="{{cardList}}" wx:key="index">
+                    <view class="step2card-wrap data-v-0259cc8f" wx:if="{{item.cardStatus!=2&&item.balanceAmount!=0}}">
+                        <view class="{{['card-wrap','data-v-0259cc8f',item.cardStatus==2||item.balanceAmount==0?'gary':'']}}">
+                            <view class="card-item data-v-0259cc8f">
+                                <member-card activeClass="medium-sized" bind:__l="__l" bind:moreProject="__e" cardInfo="{{item}}" class="data-v-0259cc8f" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" vueId="{{'3d48bf96-2-'+index+','+'3d48bf96-1'}}"></member-card>
+                            </view>
+                        </view>
+                        <view class="payment-wrap data-v-0259cc8f">
+                            <view class="fail-msg data-v-0259cc8f" wx:if="{{item.canPay}}">
+                                <view class="fail-text data-v-0259cc8f" wx:if="{{item.userCardId==currentCard.userCardId}}">
+                                    <u-icon bind:__l="__l" class="data-v-0259cc8f" color="#00CB82" name="checkbox-mark" size="50" vueId="{{'3d48bf96-3-'+index+','+'3d48bf96-1'}}"></u-icon>
+                                </view>
+                                <view class="fail-text data-v-0259cc8f" wx:else>可选</view>
+                            </view>
+                            <view class="fail-msg data-v-0259cc8f" wx:if="{{!item.canPay}}">
+                                <text class="fail-msg-text data-v-0259cc8f">{{item.failPaymsg}}</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="selectMore data-v-0259cc8f" wx:if="{{isshowmore}}">
+                    <u-line bind:__l="__l" class="data-v-0259cc8f" color="#F0F0F0" vueId="{{'3d48bf96-4'+','+'3d48bf96-1'}}"></u-line>
+                    <view bindtap="__e" class="tips data-v-0259cc8f" data-event-opts="{{[ [ 'tap',[ [ 'selectinvalidMore',['$event'] ] ] ] ]}}">{{'已折叠'+failureNum+'张无效卡'}}<view class="arrow-box data-v-0259cc8f">
+                            <u-icon bind:__l="__l" class="data-v-0259cc8f" color="#989898" name="arrow-down" size="16rpx" style="margin-left:7rpx;" vueId="{{'3d48bf96-5'+','+'3d48bf96-1'}}" wx:if="{{selectMore}}"></u-icon>
+                            <u-icon bind:__l="__l" class="data-v-0259cc8f" color="#989898" name="arrow-up" size="16rpx" style="margin-left:7rpx;" vueId="{{'3d48bf96-6'+','+'3d48bf96-1'}}" wx:else></u-icon>
+                        </view>
+                    </view>
+                </view>
+                <view class="data-v-0259cc8f" wx:if="{{selectMore}}" wx:for="{{cardList}}" wx:key="index">
+                    <view class="step2card-wrap data-v-0259cc8f" wx:if="{{item.cardStatus==2||item.balanceAmount==0}}">
+                        <view class="{{['card-wrap','data-v-0259cc8f',item.cardStatus==2||item.balanceAmount==0?'gary':'']}}">
+                            <view class="card-item data-v-0259cc8f">
+                                <member-card activeClass="medium-sized" bind:__l="__l" bind:moreProject="__e" cardInfo="{{item}}" class="data-v-0259cc8f" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" vueId="{{'3d48bf96-7-'+index+','+'3d48bf96-1'}}"></member-card>
+                            </view>
+                        </view>
+                        <view class="payment-wrap data-v-0259cc8f">
+                            <view class="fail-msg data-v-0259cc8f" wx:if="{{item.canPay}}">
+                                <view class="fail-text data-v-0259cc8f" wx:if="{{item.userCardId==currentCard.userCardId}}">
+                                    <u-icon bind:__l="__l" class="data-v-0259cc8f" color="#00CB82" name="checkbox-mark" size="31" vueId="{{'3d48bf96-8-'+index+','+'3d48bf96-1'}}"></u-icon>
+                                </view>
+                                <view class="fail-text data-v-0259cc8f" wx:else>可选</view>
+                            </view>
+                            <view class="fail-msg data-v-0259cc8f" wx:if="{{!item.canPay}}">
+                                <text class="fail-msg-text data-v-0259cc8f">{{item.failPaymsg}}</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="placeholder data-v-0259cc8f"></view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

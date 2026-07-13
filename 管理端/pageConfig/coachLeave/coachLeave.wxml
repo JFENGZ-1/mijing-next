@@ -1,0 +1,68 @@
+<view class="data-v-6af9b0ea">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-6af9b0ea" text="教练休假" vueId="e9ac0d32-1"></navigation>
+    <view class="placeholder-view data-v-6af9b0ea" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-6af9b0ea" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="top data-v-6af9b0ea">
+            <view class="top_portrait data-v-6af9b0ea">
+                <image class="data-v-6af9b0ea" mode="widthFix" src="{{coachData.staffFace}}"></image>
+            </view>
+            <view class="top_name data-v-6af9b0ea">{{coachData.staffName}}</view>
+        </view>
+        <view class="data-v-6af9b0ea" wx:if="{{$root.g0}}">
+            <nodata bind:__l="__l" class="data-v-6af9b0ea" msg="{{3}}" vueId="e9ac0d32-2"></nodata>
+        </view>
+        <view class="first_text data-v-6af9b0ea" wx:if="{{$root.g1}}">{{'共'+allNumTimes+'次记录'}}</view>
+        <view bindtap="__e" class="list data-v-6af9b0ea" data-event-opts="{{[ [ 'tap',[ [ 'headleEdit',['$0'],[ [ ['list','',index,'holidayId'] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+            <view class="list_item data-v-6af9b0ea">
+                <view class="info_wrap data-v-6af9b0ea">
+                    <view class="info_top data-v-6af9b0ea">
+                        <view class="info_item data-v-6af9b0ea">
+                            <view class="item_title data-v-6af9b0ea">
+                                <view class="item_img data-v-6af9b0ea">
+                                    <image class="data-v-6af9b0ea" src="{{$root.m0}}"></image>
+                                </view>
+                                <text class="info_title data-v-6af9b0ea">时间：</text>
+                                <text class="info_text data-v-6af9b0ea">{{item.$orig.beginTime+' ~ '+item.$orig.endTime}}</text>
+                            </view>
+                            <view class="item_title data-v-6af9b0ea">
+                                <view class="item_img data-v-6af9b0ea">
+                                    <image class="data-v-6af9b0ea" src="{{$root.m1}}"></image>
+                                </view>
+                                <text class="info_title data-v-6af9b0ea">团课：</text>
+                                <text class="info_text data-v-6af9b0ea">{{item.$orig.actionTeamName}}</text>
+                            </view>
+                            <view class="item_title data-v-6af9b0ea">
+                                <view class="item_img data-v-6af9b0ea"></view>
+                                <text class="info_title data-v-6af9b0ea">私教：</text>
+                                <text class="info_text data-v-6af9b0ea">{{item.$orig.actionPrivateName}}</text>
+                            </view>
+                            <view class="item_title data-v-6af9b0ea">
+                                <view class="item_img data-v-6af9b0ea">
+                                    <image class="data-v-6af9b0ea" src="{{$root.m2}}"></image>
+                                </view>
+                                <text class="info_title data-v-6af9b0ea">备注：</text>
+                                <text class="info_text data-v-6af9b0ea">{{!item.$orig.remark?'无':item.$orig.remark}}</text>
+                            </view>
+                        </view>
+                        <view class="data-v-6af9b0ea" style="padding:0 26rpx;">
+                            <u-line bind:__l="__l" class="data-v-6af9b0ea" color="#dadada" vueId="{{'e9ac0d32-3-'+index}}"></u-line>
+                        </view>
+                        <view class="info_bottom data-v-6af9b0ea">
+                            <view class="rofile data-v-6af9b0ea">
+                                <image class="data-v-6af9b0ea" mode="widthFix" src="{{item.$orig.operUserFaceurl}}"></image>
+                                <view class="info_portrait data-v-6af9b0ea"></view>
+                            </view>
+                            <view class="name data-v-6af9b0ea">{{item.$orig.operUserName}}</view>
+                            <view class="date data-v-6af9b0ea">{{item.$orig.createTime}}</view>
+                        </view>
+                    </view>
+                </view>
+                <image class="info_going data-v-6af9b0ea" mode="widthFix" src="{{item.m3}}" wx:if="{{item.$orig.nstatus==0}}"></image>
+                <image class="info_going data-v-6af9b0ea" mode="widthFix" src="{{item.m4}}" wx:if="{{item.$orig.nstatus==1}}"></image>
+                <image class="info_going data-v-6af9b0ea" mode="widthFix" src="{{item.m5}}" wx:if="{{item.$orig.nstatus==2}}"></image>
+            </view>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-6af9b0ea" vueId="e9ac0d32-4"></ff-bottom-logo>
+    <fixed-btn bind:Click="__e" bind:__l="__l" class="data-v-6af9b0ea" data-event-opts="{{[ [ '^Click',[ ['Click'] ] ] ]}}" vueId="e9ac0d32-5" vueSlots="{{['default']}}">添加</fixed-btn>
+</view>

@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "u-tag": "/uview-ui/components/u-tag/u-tag",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

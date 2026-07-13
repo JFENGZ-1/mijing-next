@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "efftime": "/pagesImp/card/components/efftime",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-switch": "/uview-ui/components/u-switch/u-switch",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

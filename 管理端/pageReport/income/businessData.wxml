@@ -1,0 +1,105 @@
+<view class="data-v-5729087a">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-5729087a" text="{{title}}" vueId="ae93f518-1"></navigation>
+    <view class="main data-v-5729087a" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-5729087a">
+            <view class="head data-v-5729087a" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="hint_wrap data-v-5729087a">
+                    <hint bind:__l="__l" class="data-v-5729087a" show="{{hintShow}}" updateTime="{{computeTime.computeTime}}" vueId="ae93f518-2" vueSlots="{{['confirmname']}}">
+                        <view class="data-v-5729087a" slot="confirmname">
+                            <view class="data-v-5729087a">
+                                <text class="data-v-5729087a" style="color:#181818;">新增会员：</text>新添加的会员且名下至少有一张卡</view>
+                            <view class="data-v-5729087a">
+                                <text class="data-v-5729087a" style="color:#181818;">售卡：</text>会员在线购卡张数和手动发卡张数</view>
+                            <view class="data-v-5729087a">
+                                <text class="data-v-5729087a" style="color:#181818;">收款：</text>在线购卡或手动发卡时填写的【实际收款】</view>
+                        </view>
+                    </hint>
+                </view>
+                <view class="setting_wrap data-v-5729087a">
+                    <view class="top_data data-v-5729087a">
+                        <view class="more-data data-v-5729087a">
+                            <view class="item data-v-5729087a">
+                                <view class="info data-v-5729087a">
+                                    <view class="data-v-5729087a">新增会员</view>
+                                    <view class="info-foot data-v-5729087a">
+                                        <text class="info_num data-v-5729087a">{{data.totalUsercount==undefined?'--':data.totalUsercount}}</text>
+                                        <text class="info_name data-v-5729087a">名</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-5729087a" color="#DADADA" direction="col" length="58rpx" margin="50rpx 0 0 0" vueId="ae93f518-3"></u-line>
+                            <view class="item data-v-5729087a">
+                                <view class="info data-v-5729087a">
+                                    <view class="data-v-5729087a">售卡</view>
+                                    <view class="info-foot data-v-5729087a">
+                                        <text class="info_num data-v-5729087a">{{(data.totalCardCount==undefined?'--':data.totalCardCount)+''}}</text>
+                                        <text class="info_name data-v-5729087a">张</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-5729087a" color="#DADADA" direction="col" length="58rpx" margin="50rpx 0 0 0" vueId="ae93f518-4"></u-line>
+                            <view class="item data-v-5729087a">
+                                <view class="info data-v-5729087a">
+                                    <view class="data-v-5729087a">收款</view>
+                                    <view class="info-foot data-v-5729087a">
+                                        <text class="info_name data-v-5729087a">￥</text>
+                                        <text class="info_num data-v-5729087a">{{data.totalCash==undefined?'--':data.totalCash}}</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="head_item data-v-5729087a">
+                    <view class="item data-v-5729087a">
+                        <view class="data-v-5729087a">
+                            <view class="item_head data-v-5729087a">
+                                <view class="item_right data-v-5729087a" style="padding-bottom:10rpx;">
+                                    <view class="item_below data-v-5729087a">
+                                        <view class="item_left data-v-5729087a">日期</view>
+                                        <view class="item_explain explain_first data-v-5729087a">新增会员</view>
+                                        <view class="item_explain explain_center data-v-5729087a">售卡</view>
+                                        <view class="item_explain explain_last data-v-5729087a">收款</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="list data-v-5729087a">
+                <view class="item data-v-5729087a" style="min-height:900rpx;" wx:if="{{$root.g0}}">
+                    <view bindtap="__e" class="data-v-5729087a" data-event-opts="{{[ [ 'tap',[ [ 'headleDelete',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}" wx:for="{{list}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                        <view class="item_con data-v-5729087a">
+                            <view class="item_right data-v-5729087a">
+                                <view class="item_below data-v-5729087a">
+                                    <view class="item_left data-v-5729087a">{{''+item1.monthNum+'-'+item1.dayNum+''}}</view>
+                                    <view class="item_explain explain_first num_font data-v-5729087a">{{''+item1.newUserCount}}<text class="unit data-v-5729087a">名</text>
+                                    </view>
+                                    <view class="item_explain explain_center num_font data-v-5729087a">{{''+item1.saleCardCount}}<text class="unit data-v-5729087a">张</text>
+                                    </view>
+                                    <view class="item_explain explain_last num_font data-v-5729087a" style="text-align:end;">
+                                        <text class="unit data-v-5729087a">￥</text>{{item1.saleCash+''}}</view>
+                                    <u-icon bind:__l="__l" class="arrow-right data-v-5729087a" color="#989898" name="arrow-right" size="15" vueId="{{'ae93f518-5-'+index1}}"></u-icon>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="data-v-5729087a" style="padding-left:150rpx;padding-right:20rpx;">
+                            <u-line bind:__l="__l" class="data-v-5729087a" color="#F0F0F0" vueId="{{'ae93f518-6-'+index1}}"></u-line>
+                        </view>
+                    </view>
+                </view>
+                <view class="data-v-5729087a" wx:else>
+                    <view class="noCourseData data-v-5729087a">
+                        <image class="icon data-v-5729087a" src="{{$root.m0}}"></image>
+                        <text class="tips data-v-5729087a">~ 本月没有收款记录 ~</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-5729087a" wx:if="{{$root.g1}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-5729087a" color="#bfbfbf" halfWidth="74" vueId="ae93f518-7" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-5729087a" vueId="ae93f518-8"></ff-bottom-logo>
+    </view>
+</view>

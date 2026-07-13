@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "约课",
+  "navigationBarBackgroundColor": "#FBD128",
+  "usingComponents": {
+    "u-line": "/node-modules/uview-ui/components/u-line/u-line",
+    "week-calendar": "/components/week-calendar/week-calendar",
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "u-calendar": "/node-modules/uview-ui/components/u-calendar/u-calendar",
+    "loading-pulse": "/components/loading/loading-pulse",
+    "dialog": "/components/dialog/index",
+    "bottom-logo": "/components/ff-bottom-logo/index"
+  }
+}

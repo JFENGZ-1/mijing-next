@@ -1,0 +1,35 @@
+<view class="data-v-43b2fe55">
+    <navigation background="#181818" bind:__l="__l" bind:back="__e" class="data-v-43b2fe55" data-event-opts="{{[ [ '^back',[ ['backHome'] ] ] ]}}" isBack="{{isBack}}" text="订购记录" vueId="3f5ab634-1"></navigation>
+    <view class="placeholder-view data-v-43b2fe55" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="content data-v-43b2fe55" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-43b2fe55" wx:if="{{$root.g0>0}}">
+            <view class="total-num data-v-43b2fe55">{{'共'+$root.g1+'条'}}</view>
+            <view class="list-wrap data-v-43b2fe55">
+                <view class="item data-v-43b2fe55" wx:for="{{list}}" wx:key="index">
+                    <view class="item-wrap data-v-43b2fe55">
+                        <view class="left-item data-v-43b2fe55">
+                            <view class="validity data-v-43b2fe55">
+                                <text class="year data-v-43b2fe55">{{item.yearName}}</text>
+                                <text class="validity-data data-v-43b2fe55">{{'('+item.beginTime+' 至 '+item.endTime+')'}}</text>
+                            </view>
+                            <view class="versions data-v-43b2fe55">{{item.versionName}}</view>
+                            <view class="order-info data-v-43b2fe55">
+                                <text class="order-data data-v-43b2fe55">{{item.createTime}}</text>
+                                <text class="order-status data-v-43b2fe55">{{item.payStatus==1?'订购成功':'订购失败'}}</text>
+                            </view>
+                        </view>
+                        <view class="right-item data-v-43b2fe55">
+                            <view class="price data-v-43b2fe55">{{item.payMoney+'元'}}</view>
+                        </view>
+                    </view>
+                    <view class="remark data-v-43b2fe55" wx:if="{{item.remark}}">{{'备注：'+item.remark}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="noData data-v-43b2fe55" wx:else>
+            <image class="data-v-43b2fe55" src="{{$root.m0}}"></image>
+            <text class="data-v-43b2fe55">~还没有购买记录哦~</text>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-43b2fe55" vueId="3f5ab634-2"></ff-bottom-logo>
+</view>

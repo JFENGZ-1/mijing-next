@@ -1,0 +1,8 @@
+{
+  "backgroundColor": "#f4d818",
+  "navigationBarBackgroundColor": "#f4d818",
+  "navigationBarTitleText": "老师・管理端",
+  "usingComponents": {
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

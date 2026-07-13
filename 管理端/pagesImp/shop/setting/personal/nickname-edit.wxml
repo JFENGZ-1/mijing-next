@@ -1,0 +1,14 @@
+<view class="data-v-3fec6509">
+    <navigation background="#ffffff" bind:__l="__l" class="data-v-3fec6509" text="{{title}}" vueId="c9415e26-1"></navigation>
+    <view class="nickname-container data-v-3fec6509" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-3fec6509" style="{{'height:100%;min-height:1230rpx;'}}">
+            <u-form bind:__l="__l" class="data-v-3fec6509 vue-ref" data-ref="uForm" errorType="{{errorType}}" model="{{staff}}" vueId="c9415e26-2" vueSlots="{{['default']}}">
+                <u-form-item bind:__l="__l" borderBottom="{{false}}" class="data-v-3fec6509" label="请输入姓名" labelPosition="top" prop="staffName" required="{{true}}" vueId="{{'c9415e26-3'+','+'c9415e26-2'}}" vueSlots="{{['default']}}">
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-3fec6509" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','staffName','$event',[] ],['staff'] ] ] ] ]}}" maxlength="20" placeholder="请输入姓名" value="{{staff.staffName}}" vueId="{{'c9415e26-4'+','+'c9415e26-3'}}"></u-input>
+                </u-form-item>
+            </u-form>
+            <button bindtap="__e" class="save-btn data-v-3fec6509" data-event-opts="{{[ [ 'tap',[ [ 'saveNickname',['$event'] ] ] ] ]}}" plain="true">保存</button>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-3fec6509" vueId="c9415e26-5"></ff-bottom-logo>
+    </view>
+</view>

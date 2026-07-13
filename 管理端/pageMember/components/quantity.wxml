@@ -1,0 +1,61 @@
+<view class="data-v-0333c1b6">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-0333c1b6" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="1100" tips="所涉及会员将收到余额变动通知" title="批量调整余额" value="{{show}}" vueId="74363bcc-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-0333c1b6" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-0333c1b6" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'74363bcc-2'+','+'74363bcc-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-0333c1b6">
+            <view class="form-box data-v-0333c1b6" wx:if="{{balanceCardList}}">
+                <view class="data-v-0333c1b6" style="margin:27rpx 40rpx 0 29rpx;" wx:for="{{$root.l1}}" wx:key="cardId">
+                    <view class="card-type-box data-v-0333c1b6">
+                        <ff-value-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-0333c1b6" vueId="{{'74363bcc-3-'+index+','+'74363bcc-1'}}" wx:if="{{item.$orig.cardType==1}}"></ff-value-card>
+                        <ff-counts-card activeClass="minimum-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-0333c1b6" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],[ [ ['balanceCardList','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" vueId="{{'74363bcc-4-'+index+','+'74363bcc-1'}}" wx:if="{{item.$orig.cardType==2}}"></ff-counts-card>
+                        <ff-date-card activeClass="minimum-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-0333c1b6" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],[ [ ['balanceCardList','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" vueId="{{'74363bcc-5-'+index+','+'74363bcc-1'}}" wx:if="{{item.$orig.cardType==3}}"></ff-date-card>
+                        <view class="right-box data-v-0333c1b6">
+                            <view class="label data-v-0333c1b6">{{'共'+item.$orig.ownerCount+'名持有'}}</view>
+                            <view class="sale-money data-v-0333c1b6" wx:if="{{item.$orig.cardType==2&&item.$orig.amountTimeCard!=null&&item.$orig.amountTimeCard.isGroup==true}}">
+                                <view class="right_content data-v-0333c1b6" wx:for="{{item.l0}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                                    <view class="isDel data-v-0333c1b6" wx:if="{{item1.$orig.isDel==false}}">
+                                        <text class="name data-v-0333c1b6">{{item1.$orig.groupName}}</text>
+                                        <view bindtap="__e" class="add data-v-0333c1b6" data-event-opts="{{[ [ 'tap',[ [ 'healdAdd',['$0',index1],[ [ ['balanceCardList','cardId',item.$orig.cardId] ] ] ] ] ] ]}}">
+                                            <image class="data-v-0333c1b6" src="{{item1.m0}}" wx:if="{{item1.$orig.flag==false}}"></image>
+                                            <image class="data-v-0333c1b6" src="{{item1.m1}}" wx:else></image>
+                                        </view>
+                                        <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-0333c1b6" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','num','$event',[] ],[ [ ['balanceCardList','cardId',item.$orig.cardId],['amountTimeCard.groupList','',index1] ] ] ] ] ] ]}}" placeholder="请输入" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="number" value="{{item1.$orig.num}}" vueId="{{'74363bcc-6-'+index+'-'+index1+','+'74363bcc-1'}}"></u-input>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="sale-money data-v-0333c1b6" wx:else>
+                                <view class="right_contents data-v-0333c1b6">
+                                    <text class="name data-v-0333c1b6">余额</text>
+                                    <view bindtap="__e" class="add data-v-0333c1b6" data-event-opts="{{[ [ 'tap',[ [ 'healdAdd',['$0','$1'],[ [ ['balanceCardList','cardId',item.$orig.cardId] ],'index1' ] ] ] ] ]}}">
+                                        <image class="data-v-0333c1b6" src="{{item.m2}}" wx:if="{{item.$orig.flag==false}}"></image>
+                                        <image class="data-v-0333c1b6" src="{{item.m3}}" wx:else></image>
+                                    </view>
+                                    <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-0333c1b6" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','num','$event',[] ],[ [ ['balanceCardList','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" placeholder="请输入" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="number" value="{{item.$orig.num}}" vueId="{{'74363bcc-7-'+index+','+'74363bcc-1'}}"></u-input>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="divder-line data-v-0333c1b6" wx:if="{{index==item.g0-1}}"></view>
+                </view>
+            </view>
+            <view class="data-v-0333c1b6" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+    <confirm-modal bind:__l="__l" class="data-v-0333c1b6 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="注意，是否执行调整余额？" vueId="74363bcc-8" vueSlots="{{['content','btn']}}">
+        <view class="data-v-0333c1b6" slot="content" style="color:#989898;font-size:25rpx;">
+            <view class="data-v-0333c1b6">
+                <text class="data-v-0333c1b6">该操作是批量操作，务必谨慎确认</text>
+            </view>
+            <view class="content data-v-0333c1b6">
+                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-0333c1b6" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','balanceChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{balanceChecked}}" vueId="{{'74363bcc-9'+','+'74363bcc-8'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-0333c1b6" style="{{'line-height:56rpx;font-size:25rpx;'+'color:'+(balanceChecked?'#181818':'#7E7E7E')+';'}}">我已确认，执行调整余额</text>
+                </u-checkbox>
+            </view>
+        </view>
+        <view class="btn data-v-0333c1b6" slot="btn" style="margin-bottom:30rpx;">
+            <view bindtap="__e" class="modal-cal-btn button data-v-0333c1b6" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="{{['modal-btn1','button','data-v-0333c1b6',!balanceChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'confirm',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm-modal>
+</view>

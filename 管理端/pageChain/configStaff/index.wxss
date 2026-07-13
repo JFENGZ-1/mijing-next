@@ -1,0 +1,365 @@
+.down_hide.data-v-014d5ea4 {
+  visibility: hidden;
+}
+.down_show.data-v-014d5ea4 {
+  visibility: visible;
+}
+.noListData.data-v-014d5ea4 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  height: 965rpx;
+}
+.noListData image.data-v-014d5ea4 {
+  height: 171rpx;
+  margin-bottom: 40rpx;
+  margin-top: 260rpx;
+  width: 203rpx;
+}
+.noListData .memberData.data-v-014d5ea4 {
+  align-items: center;
+  color: #bfbfbf;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  font-size: 25rpx;
+  justify-content: center;
+  line-height: 46rpx;
+  margin-top: 45rpx;
+}
+.staff-container.data-v-014d5ea4 {
+  background: #fff;
+  border-radius: 20rpx 20rpx 0rpx 0rpx;
+  font-size: 28rpx;
+}
+.staff-container .content.data-v-014d5ea4 {
+  background: #fff;
+  border-radius: 20rpx 20rpx 0rpx 0rpx;
+  padding: 42rpx 26rpx 70rpx;
+}
+.staff-container .content .top.data-v-014d5ea4 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+}
+.staff-container .content .top .headcount.data-v-014d5ea4 {
+  color: #181818;
+  font-weight: 400;
+}
+.staff-container .content .top .activeStaffEmployee.data-v-014d5ea4 {
+  color: #989898;
+  font-size: 22rpx;
+}
+.staff-container
+  .content
+  .top
+  .activeStaffEmployee
+  .leaveOfficeEmployee.data-v-014d5ea4 {
+  padding-left: 20rpx;
+}
+.staff-container .content .activeStaff.data-v-014d5ea4 {
+  padding: 30rpx 5rpx 60rpx 13rpx;
+}
+.staff-container .content .activeStaff .item.data-v-014d5ea4 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20rpx;
+}
+.staff-container .content .activeStaff .item .item-grid.data-v-014d5ea4 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-start;
+}
+.staff-container
+  .content
+  .activeStaff
+  .item
+  .item-grid
+  .headimg.data-v-014d5ea4 {
+  border-radius: 10rpx;
+  height: 96rpx;
+  width: 96rpx;
+}
+.staff-container
+  .content
+  .activeStaff
+  .item
+  .item-grid
+  .name-phone-img.data-v-014d5ea4 {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  margin-top: 17rpx;
+  padding-left: 20rpx;
+  vertical-align: middle;
+}
+.staff-container
+  .content
+  .activeStaff
+  .item
+  .item-grid
+  .name-phone-img
+  .name-img.data-v-014d5ea4 {
+  display: -webkit-flex;
+  display: flex;
+  line-height: 26rpx;
+  vertical-align: middle;
+}
+.staff-container
+  .content
+  .activeStaff
+  .item
+  .item-grid
+  .name-phone-img
+  .name-img
+  .seximg1.data-v-014d5ea4 {
+  height: 26rpx;
+  margin-left: 8rpx;
+  width: 18rpx;
+}
+.staff-container
+  .content
+  .activeStaff
+  .item
+  .item-grid
+  .name-phone-img
+  .name-img
+  .seximg.data-v-014d5ea4 {
+  height: 20rpx;
+  margin-left: 8rpx;
+  margin-top: 5rpx;
+  width: 20rpx;
+}
+.staff-container
+  .content
+  .activeStaff
+  .item
+  .item-grid
+  .name-phone-img
+  .name-img
+  .name.data-v-014d5ea4 {
+  color: #181818;
+  font-weight: 500;
+  line-height: 30rpx;
+  max-width: 260rpx;
+}
+.staff-container
+  .content
+  .activeStaff
+  .item
+  .item-grid
+  .name-phone-img
+  .phone.data-v-014d5ea4 {
+  color: #989898;
+  font-family: Arial;
+  font-size: 26rpx;
+  font-weight: 300;
+  margin-top: 15rpx;
+}
+.staff-container .content .activeStaff .item .right-operation.data-v-014d5ea4 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+  line-height: 96rpx;
+  text-align: center;
+  vertical-align: middle;
+  width: 347rpx;
+}
+.staff-container
+  .content
+  .activeStaff
+  .item
+  .right-operation
+  .position.data-v-014d5ea4 {
+  color: #989898;
+  font-family: Adobe Heiti Std;
+  font-size: 26rpx;
+  font-weight: 400;
+  padding-right: 12rpx;
+}
+.staff-container .content .activeStaff .inviteBtnStyle1.data-v-014d5ea4 {
+  border: 1px solid #e98932;
+  border-radius: 12px;
+  color: #e98933;
+  font-size: 20rpx;
+  height: 44rpx;
+  line-height: 21px;
+  margin-right: 17rpx;
+  padding-left: 23rpx;
+  padding-right: 23rpx;
+  width: 114rpx;
+}
+.staff-container
+  .content
+  .activeStaff
+  .inviteBtnStyle1
+  button[plain].data-v-014d5ea4 {
+  border: 0;
+}
+.staff-container .content .activeleaveOffice.data-v-014d5ea4 {
+  padding: 0 5rpx 0 13rpx;
+}
+.staff-container .content .activeleaveOffice .leaveOffice.data-v-014d5ea4 {
+  color: #181818;
+  font-family: Source Han Sans CN;
+  font-size: 28rpx;
+  font-weight: 400;
+  padding: 0rpx 0rpx 40rpx 0;
+}
+.staff-container .content .activeleaveOffice .item.data-v-014d5ea4 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  opacity: 0.8;
+  padding-top: 18rpx;
+}
+.staff-container .content .activeleaveOffice .item .item-grid.data-v-014d5ea4 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-start;
+}
+.staff-container
+  .content
+  .activeleaveOffice
+  .item
+  .item-grid
+  .headimg.data-v-014d5ea4 {
+  border-radius: 10rpx;
+  filter: grayscale(100%);
+  height: 96rpx;
+  width: 96rpx;
+}
+.staff-container
+  .content
+  .activeleaveOffice
+  .item
+  .item-grid
+  .name-phone-img.data-v-014d5ea4 {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  padding-left: 20rpx;
+  vertical-align: middle;
+}
+.staff-container
+  .content
+  .activeleaveOffice
+  .item
+  .item-grid
+  .name-phone-img
+  .name-img
+  .seximg1.data-v-014d5ea4 {
+  height: 26rpx;
+  margin-left: 8rpx;
+  width: 18rpx;
+}
+.staff-container
+  .content
+  .activeleaveOffice
+  .item
+  .item-grid
+  .name-phone-img
+  .name-img
+  .seximg.data-v-014d5ea4 {
+  height: 20rpx;
+  margin-left: 8rpx;
+  margin-top: 5rpx;
+  width: 20rpx;
+}
+.staff-container
+  .content
+  .activeleaveOffice
+  .item
+  .item-grid
+  .name-phone-img
+  .name-img
+  .name.data-v-014d5ea4 {
+  color: #989898;
+  font-weight: bolder;
+}
+.staff-container
+  .content
+  .activeleaveOffice
+  .item
+  .item-grid
+  .name-phone-img
+  .phone.data-v-014d5ea4 {
+  color: #dadada;
+  font-family: Arial;
+  font-size: 26rpx;
+  font-weight: 300;
+  margin-top: 14rpx;
+}
+.staff-container
+  .content
+  .activeleaveOffice
+  .item
+  .right-operation.data-v-014d5ea4 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+  line-height: 96rpx;
+  text-align: center;
+  vertical-align: middle;
+  width: 300rpx;
+}
+.staff-container
+  .content
+  .activeleaveOffice
+  .item
+  .right-operation
+  .leaveOfficestatus.data-v-014d5ea4 {
+  background: #faf5f8;
+  border-radius: 24rpx;
+  color: #d95872;
+  font-family: Source Han Sans CN;
+  font-size: 18rpx;
+  font-weight: 400;
+  line-height: 14px;
+  margin-right: 20rpx;
+  padding: 4rpx 15rpx;
+}
+.staff-container
+  .content
+  .activeleaveOffice
+  .item
+  .right-operation
+  .position.data-v-014d5ea4 {
+  color: #dadada;
+  font-family: Adobe Heiti Std;
+  font-size: 26rpx;
+  font-weight: 400;
+  padding-right: 12rpx;
+}
+.staff-container .create-Employee.data-v-014d5ea4 {
+  background: #fff6de;
+  bottom: 180rpx;
+  font-size: 32rpx;
+  height: 139rpx;
+  position: fixed;
+  right: 38rpx;
+  width: 139rpx;
+}
+.staff-container .create-Employee .bg.data-v-014d5ea4,
+.staff-container .create-Employee.data-v-014d5ea4 {
+  align-items: center;
+  border-radius: 50%;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+}
+.staff-container .create-Employee .bg.data-v-014d5ea4 {
+  background: #fbd128;
+  flex-direction: column;
+  height: 125rpx;
+  width: 125rpx;
+}
+.staff-container .create-Employee .bg text.data-v-014d5ea4 {
+  color: #181818;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+}

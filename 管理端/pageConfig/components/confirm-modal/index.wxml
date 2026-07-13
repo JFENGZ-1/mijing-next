@@ -1,0 +1,11 @@
+<u-modal bind:__l="__l" bind:input="__e" class="data-v-2d330090" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" showConfirmButton="{{false}}" showTitle="{{false}}" value="{{show}}" vueId="c81ea448-1" vueSlots="{{['default']}}" width="{{700}}">
+    <view class="modal data-v-2d330090">
+        <view class="modal-title data-v-2d330090">{{title||''}}</view>
+        <view class="modal-content data-v-2d330090">
+            <slot name="content"></slot>
+        </view>
+        <view class="btn data-v-2d330090">
+            <slot name="btn"></slot>
+        </view>
+    </view>
+</u-modal>

@@ -1,0 +1,26 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-2f63ec74" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="开卡时间：指用户所购卡的有效期从何时开始计算" title="开卡时间" value="{{show}}" vueId="29b440cd-1" vueSlots="{{['default','confrimBtn']}}">
+    <view class="com-button-f1 data-v-2f63ec74" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-2f63ec74" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'29b440cd-2'+','+'29b440cd-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-2f63ec74">
+        <u-radio-group bind:__l="__l" bind:input="__e" class="radio-group data-v-2f63ec74" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','openType','$event',[] ] ] ] ] ]}}" placement="column" value="{{openType}}" vueId="{{'29b440cd-3'+','+'29b440cd-1'}}" vueSlots="{{['default']}}">
+            <u-radio bind:__l="__l" class="radio data-v-2f63ec74" name="{{1}}" vueId="{{'29b440cd-4'+','+'29b440cd-3'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-2f63ec74',openType===1?'active':'']}}">购卡后立即开卡</view>
+            </u-radio>
+            <u-radio bind:__l="__l" class="radio opencard data-v-2f63ec74" name="{{3}}" vueId="{{'29b440cd-5'+','+'29b440cd-3'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-2f63ec74',openType===3?'active':'']}}">购卡后不开卡</view>
+                <view class="opencard-tips data-v-2f63ec74">会员购卡后，不允许使用，必须管理员手动开卡后才可使用</view>
+            </u-radio>
+            <u-radio bind:__l="__l" class="radio data-v-2f63ec74" name="{{2}}" vueId="{{'29b440cd-6'+','+'29b440cd-3'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-2f63ec74',openType===2?'active':'']}}">首次约课时自动开卡</view>
+            </u-radio>
+            <u-radio bind:__l="__l" class="radio opencard data-v-2f63ec74" name="{{4}}" vueId="{{'29b440cd-7'+','+'29b440cd-3'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-2f63ec74',openType===4?'active':'']}}">首约自动开卡，若<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-2f63ec74" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','days','$event',[] ] ] ] ] ]}}" disabled="{{openType!==4}}" placeholder="多少" type="number" value="{{days}}" vueId="{{'29b440cd-8'+','+'29b440cd-7'}}"></u-input>天仍未约课自动开卡</view>
+            </u-radio>
+            <u-radio bind:__l="__l" class="radio data-v-2f63ec74" name="{{5}}" vueId="{{'29b440cd-9'+','+'29b440cd-3'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-2f63ec74',openType===5?'active':'']}}">首次上课时自动开卡</view>
+            </u-radio>
+        </u-radio-group>
+        <view class="data-v-2f63ec74" style="padding-top:160rpx;"></view>
+    </view>
+</ff-popup>

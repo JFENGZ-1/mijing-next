@@ -1,0 +1,26 @@
+<view class="data-v-1730e31c">
+    <navigation bind:__l="__l" class="data-v-1730e31c" text="场馆展示图" vueId="1896c92a-1"></navigation>
+    <view class="placeholder-view data-v-1730e31c" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-1730e31c" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="fixed data-v-1730e31c"></view>
+        <view class="hint_wrap data-v-1730e31c">
+            <hint bind:__l="__l" class="data-v-1730e31c" vueId="1896c92a-2" vueSlots="{{['default']}}">
+                <view class="hint_text_wrap data-v-1730e31c">
+                    <view class="item data-v-1730e31c" style="margin-bottom:2rpx;">显示于【会员约课端】顶部，可上传场馆的照片或活动海报</view>
+                </view>
+            </hint>
+        </view>
+        <view class="content data-v-1730e31c">
+            <view bindtap="__e" class="head data-v-1730e31c" data-event-opts="{{[ [ 'tap',[ [ 'Click',['$event'] ] ] ] ]}}">
+                <u-swiper bind:__l="__l" bind:click="__e" borderRadius="18" class="data-v-1730e31c" data-event-opts="{{[ [ '^click',[ ['Click'] ] ] ]}}" height="360" imgMode="widthFix" indicatorPos="bottomCenter" list="{{imglist}}" vueId="1896c92a-3"></u-swiper>
+                <text class="deffont data-v-1730e31c" wx:if="{{defImage==1}}"> 展示图区 </text>
+            </view>
+            <view class="shop-skeleton data-v-1730e31c">
+                <image mode class="data-v-1730e31c" src="{{$root.m0}}"></image>
+            </view>
+        </view>
+        <view class="foot data-v-1730e31c">此为【会员约课端】示意图</view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-1730e31c" vueId="1896c92a-4"></ff-bottom-logo>
+    <fixed-btn bind:Click="__e" bind:__l="__l" class="data-v-1730e31c" data-event-opts="{{[ [ '^Click',[ ['Click'] ] ] ]}}" vueId="1896c92a-5" vueSlots="{{['default']}}">编辑</fixed-btn>
+</view>

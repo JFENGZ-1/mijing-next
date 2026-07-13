@@ -1,0 +1,41 @@
+.main-box .class-hourse.data-v-51744ecf {
+  align-items: center;
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 39rpx;
+  padding: 51rpx 0 0 43rpx;
+  width: 100%;
+}
+.main-box .class-hourse .com-input.data-v-51744ecf {
+  background: #f5f5f5;
+  color: #7e7e7e;
+  font-size: 35rpx;
+  height: 80rpx;
+  line-height: 60rpx;
+  margin: 17rpx;
+  text-align: center;
+  width: 120rpx;
+}
+.main-box .push-money.data-v-51744ecf {
+  align-items: center;
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+  padding: 20rpx 0 0 43rpx;
+  width: 100%;
+}
+.main-box .push-money .com-input.data-v-51744ecf {
+  background: #f5f5f5;
+  color: #7e7e7e;
+  font-size: 35rpx;
+  height: 80rpx;
+  line-height: 60rpx;
+  margin: 15rpx 8rpx;
+  text-align: center;
+  width: 80rpx;
+}
+.main-box .u-input__input.data-v-51744ecf {
+  text-align: center;
+}

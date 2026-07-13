@@ -1,0 +1,39 @@
+<view class="data-v-98e9bdd2">
+    <navigation background="#ffffff" bind:__l="__l" class="data-v-98e9bdd2" text="适用门店/课程" vueId="798a3ae4-1"></navigation>
+    <zero-loading bind:__l="__l" class="data-v-98e9bdd2" vueId="798a3ae4-2" wx:if="{{loading}}"></zero-loading>
+    <view class="data-v-98e9bdd2" wx:else>
+        <view class="course-info data-v-98e9bdd2" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="course-name data-v-98e9bdd2">{{$root.m0}}</view>
+            <view class="total-course-text data-v-98e9bdd2">{{'支持'+(ownerCount==null?0:ownerCount)+'家店  '+data.supportTeamCount+'个团课  '+data.supportPrivateCount+'个私教'}}</view>
+        </view>
+        <view class="data-v-98e9bdd2" style="{{'height:'+'281rpx'+';'+'margin-top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+        <view class="main data-v-98e9bdd2" style="min-height:441px;padding-top:20rpx;">
+            <view class="data-v-98e9bdd2" wx:for="{{$root.l0}}" wx:key="index">
+                <view class="show-box data-v-98e9bdd2">
+                    <view class="title data-v-98e9bdd2">
+                        <image class="pic data-v-98e9bdd2" src="{{item.$orig.siteTrademark}}"></image>
+                        <text class="branch data-v-98e9bdd2" style="{{'color:'+(item.$orig.canOpen?'#181818':'')+';'}}">{{item.$orig.siteName}}</text>
+                    </view>
+                    <view class="sw-box data-v-98e9bdd2">
+                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-98e9bdd2" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','canOpen','$event',[] ],[ [ ['sitelist','',index] ] ] ] ] ] ]}}" inactiveColor="#ECECED" value="{{item.$orig.canOpen}}" vueId="{{'798a3ae4-3-'+index}}"></u-switch>
+                    </view>
+                </view>
+                <view class="course-setting-wrap data-v-98e9bdd2" wx:if="{{item.$orig.canOpen}}">
+                    <view class="course-setting-item data-v-98e9bdd2">
+                        <more-grcl bind:LeagueClassChange="__e" bind:LeagueClassFdeduction="__e" bind:__l="__l" bind:activeAll="__e" bind:fdeductionBlur="__e" bind:fdeductionFocus="__e" bind:selectDeductWay="__e" bind:setTeamList="__e" canOpen="{{item.$orig.canOpen}}" cardInfo="{{data}}" class="course data-v-98e9bdd2 vue-ref-in-for" data="{{item.$orig.teamList}}" data-event-opts="{{[ [ '^setTeamList',[ ['setTeamList'] ] ],[ '^activeAll',[ ['activeAll'] ] ],[ '^LeagueClassChange',[ ['LeagueClassChange'] ] ],[ '^LeagueClassFdeduction',[ ['LeagueClassFdeduction'] ] ],[ '^fdeductionBlur',[ ['fdeductionBlur'] ] ],[ '^fdeductionFocus',[ ['fdeductionFocus'] ] ],[ '^selectDeductWay',[ ['selectDeductWay'] ] ] ]}}" data-ref="grcl" siteId="{{item.$orig.siteId}}" vueId="{{'798a3ae4-4-'+index}}" wx:if="{{item.g0>0}}"></more-grcl>
+                    </view>
+                    <view class="course-setting-item data-v-98e9bdd2">
+                        <more-priv bind:__l="__l" bind:activeAll="__e" bind:coachSelect="__e" bind:courseSelect="__e" bind:personaltainerBlur="__e" bind:personaltainerChange="__e" bind:personaltainerFocus="__e" bind:selectDeductWay="__e" canOpen="{{item.$orig.canOpen}}" cardInfo="{{data}}" class="course data-v-98e9bdd2 vue-ref-in-for" data="{{item.$orig.plist}}" data-event-opts="{{[ [ '^coachSelect',[ ['coachSelect'] ] ],[ '^courseSelect',[ ['courseSelect'] ] ],[ '^activeAll',[ ['checkAll'] ] ],[ '^personaltainerChange',[ ['personaltainerChange'] ] ],[ '^personaltainerBlur',[ ['personaltainerBlur'] ] ],[ '^personaltainerFocus',[ ['personaltainerFocus'] ] ],[ '^selectDeductWay',[ ['selectDeductWay'] ] ] ]}}" data-ref="priv" siteId="{{item.$orig.siteId}}" vueId="{{'798a3ae4-5-'+index}}" wx:if="{{item.g1>0}}"></more-priv>
+                    </view>
+                    <view class="data-v-98e9bdd2" style="background-color:#fff;padding-bottom:150rpx;margin-left:17rpx;margin-right:17rpx;border-radius:14px;" wx:if="{{item.g2}}">
+                        <nodata bind:__l="__l" class="data-v-98e9bdd2" msg="{{12}}" vueId="{{'798a3ae4-6-'+index}}"></nodata>
+                    </view>
+                </view>
+                <view class="btn-wrap data-v-98e9bdd2">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-98e9bdd2" customStyle="{{custom_style}}" data-event-opts="{{[ [ '^click',[ ['save'] ] ] ]}}" hairLine="{{false}}" hoverClass="no" vueId="{{'798a3ae4-7-'+index}}" vueSlots="{{['default']}}">保存</u-button>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-98e9bdd2" vueId="798a3ae4-8"></ff-bottom-logo>
+    </view>
+</view>

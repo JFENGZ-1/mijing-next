@@ -1,0 +1,17 @@
+.wrap.data-v-38fb0c16 {
+  align-items: flex-start;
+  background: #fef9de;
+  border-radius: 14rpx;
+  display: -webkit-flex;
+  display: flex;
+  padding: 17rpx 20rpx;
+}
+.wrap .icon.data-v-38fb0c16 {
+  margin-top: -4rpx;
+}
+.wrap .hint-text.data-v-38fb0c16 {
+  color: #c96a2f;
+  flex: 1;
+  font-size: 22rpx;
+  margin-left: 10rpx;
+}

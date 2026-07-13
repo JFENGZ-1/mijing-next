@@ -1,0 +1,50 @@
+<view class="data-v-85f21624">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-85f21624" confrimBtnH="200" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','shows','$event',[] ] ] ] ] ]}}" height="867" tips="请假设置" title="请假设置" value="{{shows}}" vueId="82432c22-1" vueSlots="{{['default','tips','confrimBtn']}}">
+        <view class="data-v-85f21624" slot="tips" style="display:flex;align-items:baseline;">
+            <u-icon bind:__l="__l" class="data-v-85f21624" name="bell" size="26" style="position:relative;top:5rpx;" vueId="{{'82432c22-2'+','+'82432c22-1'}}"></u-icon>
+            <view class="data-v-85f21624">1.请假后停止计算有效期；结束请假后仍是请假前剩余的天数<view class="_br data-v-85f21624"></view>2.与停卡区别：可指定结束日期到期自动解除；停卡须手动解除</view>
+        </view>
+        <view class="com-button-f1 data-v-85f21624" slot="confrimBtn">
+            <view bindtap="__e" class="determine data-v-85f21624" data-event-opts="{{[ [ 'tap',[ [ 'submit',['$event'] ] ] ] ]}}">确　定</view>
+            <view bindtap="__e" class="cancel data-v-85f21624" data-event-opts="{{[ [ 'tap',[ [ 'leaveSubmit',['$event'] ] ] ] ]}}" wx:if="{{itemList.holidayMsg}}">结束休假</view>
+        </view>
+        <view class="main_box data-v-85f21624">
+            <view class="form_box data-v-85f21624">
+                <view class="{{['data-v-85f21624',cardValidinfoSimple=='永久'?'times':'time']}}">
+                    <view class="{{['data-v-85f21624',cardValidinfoSimple=='永久'?'disable_time_name':'time_name']}}">请假时间</view>
+                    <view bindtap="__e" class="{{['data-v-85f21624',cardValidinfoSimple=='永久'?'disableendTime':'startTime']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleStartTime',['$event'] ] ] ] ]}}">{{parameter.beginTime}}</view>至<view bindtap="__e" class="{{['data-v-85f21624',cardValidinfoSimple=='永久'?'disableendTime':'endTime']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleEndTime',['$event'] ] ] ] ]}}">{{parameter.endTime}}</view>
+                </view>
+                <view class="choice data-v-85f21624">
+                    <view class="{{['data-v-85f21624',choiceStatus?cardValidinfoSimple=='永久'?'disable':'time_name':'time_name']}}">请假天数</view>
+                    <view class="delayDays data-v-85f21624">{{delayDays+'天'}}</view>
+                </view>
+                <view bindtap="__e" class="checked data-v-85f21624" data-event-opts="{{[ [ 'tap',[ [ 'headlemsg',['$event'] ] ] ] ]}}" wx:if="{{itemList&&!itemList.holidayMsg}}">
+                    <view class="{{['data-v-85f21624',statusMsg?'checkboxs':'checkbox']}}">
+                        <image class="data-v-85f21624" src="{{$root.m0}}"></image>
+                    </view>
+                    <view class="{{['data-v-85f21624',statusMsg?'remarks':'remark']}}">通知该会员「已办理请假」</view>
+                </view>
+                <view bindtap="__e" class="checked data-v-85f21624" data-event-opts="{{[ [ 'tap',[ [ 'headleStatus',['$event'] ] ] ] ]}}">
+                    <view class="{{['data-v-85f21624',status?'checkboxs':'checkbox']}}">
+                        <image class="data-v-85f21624" src="{{$root.m1}}"></image>
+                    </view>
+                    <view class="{{['data-v-85f21624',status?'remarks':'remark']}}">写备注</view>
+                </view>
+                <view class="conter data-v-85f21624" hidden="{{!status}}">
+                    <editor-textarea bind:__l="__l" bind:customChange="__e" class="data-v-85f21624 vue-ref" data-event-opts="{{[ [ '^customChange',[ ['customChange'] ] ] ]}}" data-ref="editorTextarea" vueId="{{'82432c22-3'+','+'82432c22-1'}}"></editor-textarea>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-85f21624" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^input',[ [ '__set_model',[ '','flag','$event',[] ] ] ] ] ]}}" defaultTime="{{defaultStartTime}}" mode="time" params="{{params}}" value="{{flag}}" vueId="82432c22-4"></u-picker>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-85f21624" data-event-opts="{{[ [ '^confirm',[ ['confirms'] ] ],[ '^input',[ [ '__set_model',[ '','timeFlag','$event',[] ] ] ] ] ]}}" defaultTime="{{defaultEndTime}}" mode="time" params="{{params}}" value="{{timeFlag}}" vueId="82432c22-5"></u-picker>
+    <confirm bind:__l="__l" class="data-v-85f21624 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="提前结束请假？" vueId="82432c22-6" vueSlots="{{['content']}}">
+        <view class="data-v-85f21624" slot="content">
+            <text class="data-v-85f21624" style="{{'display:block;'}}">注意：确定后，将立即结束请假</text>
+            <view class="btn data-v-85f21624" slot="btn">
+                <view bindtap="__e" class="modal-cancel data-v-85f21624" data-event-opts="{{[ [ 'tap',[ [ 'headleCancel',['$event'] ] ] ] ]}}">取 消</view>
+                <view bindtap="__e" class="modal-btn data-v-85f21624" data-event-opts="{{[ [ 'tap',[ [ 'headleBtn',['$event'] ] ] ] ]}}">确 定</view>
+            </view>
+        </view>
+    </confirm>
+</view>

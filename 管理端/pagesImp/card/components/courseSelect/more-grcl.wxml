@@ -1,0 +1,27 @@
+<view class="card-item data-v-4213c9ba">
+    <view class="title data-v-4213c9ba">
+        <view bindtap="__e" class="left-box data-v-4213c9ba" data-event-opts="{{[ [ 'tap',[ [ 'activeAll',['$event'] ] ] ] ]}}">
+            <u-checkbox bind:__l="__l" class="data-v-4213c9ba" label="团课" name="团课" shape="circle" value="{{allShow}}" vueId="01031a2f-1"></u-checkbox>
+            <text class="title-txt data-v-4213c9ba">团课</text>
+        </view>
+        <view class="right-box time-card data-v-4213c9ba">每节扣费(次)</view>
+    </view>
+    <view class="list-box data-v-4213c9ba">
+        <view class="list-item data-v-4213c9ba" wx:for="{{$root.l0}}" wx:key="index">
+            <view bindtap="__e" class="list-item-left data-v-4213c9ba" data-event-opts="{{[ [ 'tap',[ [ 'activeCourse',[index,'$0'],[ [ ['data','',index] ] ] ] ] ] ]}}">
+                <u-checkbox bind:__l="__l" class="check-wrap data-v-4213c9ba" disabled="{{item.$orig.disabled}}" name="{{item.$orig.courseName}}" shape="circle" value="{{item.$orig.active}}" vueId="{{'01031a2f-2-'+index}}"></u-checkbox>
+                <view class="{{['course-name','data-v-4213c9ba',item.$orig.active?'default':'name-gray']}}">{{''+item.m0+''}}</view>
+                <block wx:if="{{item.$orig.tagData}}">
+                    <view class="tag-wrap data-v-4213c9ba" wx:if="{{item.$orig.tagData}}">
+                        <view class="{{['tag-bg','data-v-4213c9ba',item.$orig.active?'tag-active':'tag-no-active']}}"></view>
+                        <view class="{{['tag-content','data-v-4213c9ba',item.$orig.active?'tag-content-active':'tag-content-no-active']}}">{{''+item.$orig.tagData+''}}</view>
+                    </view>
+                </block>
+                <view class="user-name data-v-4213c9ba">{{'-'+item.m1+''}}</view>
+            </view>
+            <view catchtap="__e" class="{{['input-box','data-v-4213c9ba',!item.$orig.active||item.$orig.disabled?'input-box-disable':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">
+                <input bindblur="__e" bindfocus="__e" bindinput="__e" class="com-input data-v-4213c9ba" data-event-opts="{{[ [ 'focus',[ [ 'fdeductionFocus',['$0',index,'$event'],[ [ ['data','',index] ] ] ] ] ],[ 'input',[ [ 'fdeductionChange',['$0',index,'$event'],[ [ ['data','',index] ] ] ] ] ],[ 'blur',[ [ 'fdeductionBlur',['$0',index,'$event'],[ [ ['data','',index] ] ] ] ] ] ]}}" disabled="{{!item.$orig.active||item.$orig.disabled}}" type="digit" value="{{item.$orig.deductAmount}}"></input>
+            </view>
+        </view>
+    </view>
+</view>

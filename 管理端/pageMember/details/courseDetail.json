@@ -1,0 +1,14 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "calendar-month": "/pageMember/components/calendar-month",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/pageMember/components/navigation/headPhoto",
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

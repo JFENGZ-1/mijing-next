@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "trees": "/uview-ui/components/u-parse/libs/trees",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

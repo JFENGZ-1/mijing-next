@@ -1,0 +1,77 @@
+<view class="data-v-4a795929">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-4a795929" text="{{title}}" vueId="e868b9da-1"></navigation>
+    <view class="main data-v-4a795929" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-4a795929">
+            <view class="head data-v-4a795929" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="hint_wrap data-v-4a795929">
+                    <hint bgcolor="#ECF8F3" bind:__l="__l" class="data-v-4a795929" color="#22C788" show="{{hintShow}}" type="2" updateTime="{{computeTime}}" vueId="e868b9da-2" vueSlots="{{['confirmname']}}">
+                        <view class="data-v-4a795929" slot="confirmname">
+                            <view class="data-v-4a795929">
+                                <text class="data-v-4a795929" style="color:#181818;">统计说明：</text>
+                                <text class="value data-v-4a795929">仅显示未过期的会员卡（不含已过期的）</text>
+                            </view>
+                        </view>
+                    </hint>
+                </view>
+                <view class="summarize data-v-4a795929">
+                    <view class="top_data data-v-4a795929">
+                        <view class="more-data data-v-4a795929">
+                            <view class="top_content data-v-4a795929">{{'期限卡低于'+config.limitCardVal+'天'}}<u-line bind:__l="__l" class="data-v-4a795929" color="#c5c6d9" direction="col" length="25rpx" margin="5rpx 10rpx 0rpx 10rpx" vueId="e868b9da-3"></u-line>{{'次卡低于'+config.timeCardVal+'次'}}<u-line bind:__l="__l" class="data-v-4a795929" color="#c5c6d9" direction="col" length="25rpx" margin="5rpx 10rpx 0rpx 10rpx" vueId="e868b9da-4"></u-line>{{'储值卡低于'+config.dipositCardVal+'元提醒'}}</view>
+                            <view bindtap="__e" class="data-v-4a795929" data-event-opts="{{[ [ 'tap',[ ['handleSet'] ] ] ]}}" style="display:flex;">
+                                <image class="icon data-v-4a795929" src="{{$root.m0}}"></image>
+                                <u-icon bind:__l="__l" class="arrow-right data-v-4a795929" color="#989898" name="arrow-right" size="16" vueId="e868b9da-5"></u-icon>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="item data-v-4a795929">
+                    <view class="item_head data-v-4a795929">
+                        <view class="item_right data-v-4a795929">{{'共有'+totalCount+'张会员卡'}}</view>
+                        <view class="filter data-v-4a795929">
+                            <view bindtap="__e" class="{{['data-v-4a795929',userStatus==item.$orig.id?'active':'filter-item']}}" data-event-opts="{{[ [ 'tap',[ [ 'headlememberStatus',['$0'],[ [ ['memberStatus','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="tag data-v-4a795929">{{item.$orig.name+''}}<view class="triangle data-v-4a795929">
+                                        <image class="icon data-v-4a795929" mode="widthFix" src="{{item.m1}}" wx:if="{{userStatus==item.$orig.id}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-4a795929">
+                <view class="list data-v-4a795929">
+                    <view class="item data-v-4a795929" wx:if="{{!notdata}}">
+                        <view class="data-v-4a795929" style="padding-top:20rpx;" wx:for="{{$root.l1}}" wx:for-index="index1" wx:key="index1">
+                            <view bindtap="__e" class="sale-item data-v-4a795929" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}">
+                                <image class="avator data-v-4a795929" src="{{item.$orig.userFaceurl}}"></image>
+                                <view class="detail-info data-v-4a795929">
+                                    <view class="detail-info-wrap data-v-4a795929">
+                                        <view class="l-info data-v-4a795929">{{''+item.m2+''}}<view class="time-and-type data-v-4a795929">{{'最后上课：'+item.$orig.lastClassDate+''}}</view>
+                                        </view>
+                                        <view class="r-info data-v-4a795929">
+                                            <u-icon bind:__l="__l" class="arrow-right data-v-4a795929" color="#989898" name="arrow-right" size="15" vueId="{{'e868b9da-6-'+index1}}"></u-icon>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="foot_card data-v-4a795929">
+                                <member-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-4a795929" jumpcardDetail="{{true}}" vueId="{{'e868b9da-7-'+index1}}"></member-card>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-4a795929" color="#F0F0F0" length="570rpx" margin="0rpx 0rpx 0rpx 100rpx" vueId="{{'e868b9da-8-'+index1}}" wx:if="{{item.g0-1!=index1}}"></u-line>
+                        </view>
+                    </view>
+                    <view class="data-v-4a795929" wx:else>
+                        <view class="noCourseData data-v-4a795929">
+                            <image class="icon data-v-4a795929" src="{{$root.m3}}"></image>
+                            <text class="explain data-v-4a795929">~ 没有余额不足的会员 ~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-4a795929" wx:if="{{!notdata&&ismore}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-4a795929" color="#bfbfbf" halfWidth="74" vueId="e868b9da-9" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-4a795929" vueId="e868b9da-10"></ff-bottom-logo>
+    </view>
+</view>

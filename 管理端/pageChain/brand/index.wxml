@@ -1,0 +1,26 @@
+<view class="data-v-eb2a6a4a">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-eb2a6a4a" text="{{title}}" vueId="280abad7-1"></navigation>
+    <view class="setting-container data-v-eb2a6a4a" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-eb2a6a4a" style="{{'min-height:1230rpx; background: #FFFFFF;'}}">
+            <view class="imghead data-v-eb2a6a4a">
+                <image bindtap="__e" class="img data-v-eb2a6a4a" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}" src="{{unioninfo.fullUnLogo}}" wx:if="{{unioninfo.unLogo}}"></image>
+                <view bindtap="__e" class="headimg data-v-eb2a6a4a" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}" wx:else>
+                    <text class="data-v-eb2a6a4a">logo</text>
+                </view>
+                <view class="slot-btn data-v-eb2a6a4a" hoverClass="slot-btn__hover" hoverStayTime="150" slot="addBtn">
+                    <view class="imghead-text data-v-eb2a6a4a">
+                        <view bindtap="__e" class="data-v-eb2a6a4a" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}">
+                            <image class="cameraicon data-v-eb2a6a4a" src="{{$root.m0}}"></image>
+                        </view>
+                        <view bindtap="__e" class="data-v-eb2a6a4a" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}">修改品牌LOGO</view>
+                    </view>
+                </view>
+            </view>
+            <view class="content-grid data-v-eb2a6a4a">
+                <u-input bind:__l="__l" bind:input="__e" class="data-v-eb2a6a4a" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','unName','$event',[] ],['unioninfo'] ] ] ] ]}}" maxlength="20" placeholder="输入品牌名称" value="{{unioninfo.unName}}" vueId="280abad7-2"></u-input>
+                <button bindtap="__e" class="save-btn data-v-eb2a6a4a" data-event-opts="{{[ [ 'tap',[ [ 'saveLinkInfo',['$event'] ] ] ] ]}}" plain="true">保 存</button>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-eb2a6a4a" vueId="280abad7-3"></ff-bottom-logo>
+    </view>
+</view>

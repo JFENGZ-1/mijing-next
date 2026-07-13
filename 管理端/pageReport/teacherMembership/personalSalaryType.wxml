@@ -1,0 +1,54 @@
+<view class="data-v-7493b875">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-7493b875" text="工资统计方式" vueId="6796183d-1"></navigation>
+    <view class="main data-v-7493b875" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="head data-v-7493b875" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="page-integral data-v-7493b875">
+                <view class="top data-v-7493b875">
+                    <view class="label data-v-7493b875">开启统计工资统计</view>
+                    <u-switch bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-7493b875" data-event-opts="{{[ [ '^change',[ ['headlestart'] ] ],[ '^input',[ [ '__set_model',[ '','started','$event',[] ] ] ] ] ]}}" value="{{started}}" vueId="6796183d-2"></u-switch>
+                </view>
+                <view class="content data-v-7493b875">
+                    <view class="data-v-7493b875">
+                        <view class="get-conditions data-v-7493b875">
+                            <text class="label data-v-7493b875">工资统计方式：</text>
+                        </view>
+                        <view class="check-groups data-v-7493b875">
+                            <u-radio-group bind:__l="__l" bind:input="__e" class="radio-group data-v-7493b875" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','mode','$event',[] ] ] ] ] ]}}" value="{{mode}}" vueId="6796183d-3" vueSlots="{{['default']}}">
+                                <view bindtap="__e" class="check-item data-v-7493b875" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">
+                                    <view class="{{['radio-main','data-v-7493b875',mode===1?'active':'']}}">按固定课时费（即上课节数）计算</view>
+                                    <u-radio bind:__l="__l" class="radio data-v-7493b875" name="{{1}}" vueId="{{'6796183d-4'+','+'6796183d-3'}}"></u-radio>
+                                </view>
+                                <view bindtap="__e" class="check-item data-v-7493b875" data-event-opts="{{[ [ 'tap',[ [ 'e1',['$event'] ] ] ] ]}}">
+                                    <view class="{{['radio-main','data-v-7493b875',mode===2?'active':'']}}">按实际上课人次计算</view>
+                                    <u-radio bind:__l="__l" class="radio data-v-7493b875" name="{{2}}" vueId="{{'6796183d-5'+','+'6796183d-3'}}"></u-radio>
+                                </view>
+                                <view bindtap="__e" class="check-item data-v-7493b875" data-event-opts="{{[ [ 'tap',[ [ 'e2',['$event'] ] ] ] ]}}">
+                                    <view class="{{['radio-main','data-v-7493b875',mode===3?'active':'']}}">按学员实际耗课金额计算</view>
+                                    <u-radio bind:__l="__l" class="radio data-v-7493b875" name="{{3}}" vueId="{{'6796183d-6'+','+'6796183d-3'}}"></u-radio>
+                                </view>
+                            </u-radio-group>
+                        </view>
+                    </view>
+                    <view class="btn-box data-v-7493b875">
+                        <button bindtap="__e" class="save-btn data-v-7493b875" data-event-opts="{{[ [ 'tap',[ [ 'submit',['$event'] ] ] ] ]}}" plain="true">保存</button>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-7493b875" vueId="6796183d-7"></ff-bottom-logo>
+    </view>
+    <confirm-modal bind:__l="__l" class="data-v-7493b875 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="警示！确定要关闭工资统计吗？" vueId="6796183d-8" vueSlots="{{['content','btn']}}">
+        <view class="data-v-7493b875" slot="content">
+            <view class="data-v-7493b875">确定后，将不再统计工资</view>
+            <view class="content data-v-7493b875">
+                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-7493b875" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','eChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{eChecked}}" vueId="{{'6796183d-9'+','+'6796183d-8'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-7493b875" style="{{'font-size:26rpx;color:#606266;line-height:56rpx;'+'font-weight:'+(eChecked?'500':'normal')+';'}}"> 我已清楚，仍要关闭 </text>
+                </u-checkbox>
+            </view>
+        </view>
+        <view class="btn data-v-7493b875" slot="btn">
+            <view bindtap="__e" class="modal-cal-btn button data-v-7493b875" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn1',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="{{['modal-btn','button','data-v-7493b875',!eChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'pointConfirm',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm-modal>
+</view>

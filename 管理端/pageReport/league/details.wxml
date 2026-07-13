@@ -1,0 +1,86 @@
+<view class="data-v-3dfa9153">
+    <view class="main data-v-3dfa9153">
+        <view class="content data-v-3dfa9153">
+            <view class="top_data data-v-3dfa9153">
+                <view class="time data-v-3dfa9153">
+                    <view class="title_color data-v-3dfa9153"></view>
+                    <view class="title_text data-v-3dfa9153">{{parameter.year+'年'+parameter.month+'月'}}</view>
+                </view>
+            </view>
+            <view class="display data-v-3dfa9153">
+                <view class="display_type data-v-3dfa9153">
+                    <view class="complete data-v-3dfa9153">
+                        <view class="complete_num data-v-3dfa9153">{{completeNum}}</view>
+                        <view class="complete_title data-v-3dfa9153">成课(节)</view>
+                    </view>
+                    <view class="complete data-v-3dfa9153">
+                        <view class="complete_num data-v-3dfa9153">{{cancelNum}}</view>
+                        <view class="complete_title data-v-3dfa9153">取消(节)</view>
+                    </view>
+                </view>
+                <view class="member data-v-3dfa9153">
+                    <view class="member_type data-v-3dfa9153">
+                        <view class="member_num data-v-3dfa9153">{{courseNum}}<text class="text data-v-3dfa9153">人次</text>
+                        </view>
+                        <view class="member_text data-v-3dfa9153">约课人次</view>
+                    </view>
+                    <view class="line data-v-3dfa9153">
+                        <u-line bind:__l="__l" class="data-v-3dfa9153" color="#A7A7A7" direction="col" length="61rpx" vueId="fcf1e354-1"></u-line>
+                    </view>
+                    <view class="member_type data-v-3dfa9153">
+                        <view class="member_num data-v-3dfa9153">{{consumeNum}}<text class="text data-v-3dfa9153">次</text>
+                        </view>
+                        <view class="member_text data-v-3dfa9153">消耗次卡</view>
+                    </view>
+                    <view class="line data-v-3dfa9153">
+                        <u-line bind:__l="__l" class="data-v-3dfa9153" color="#A7A7A7" direction="col" length="61rpx" vueId="fcf1e354-2"></u-line>
+                    </view>
+                    <view class="member_type data-v-3dfa9153">
+                        <view class="member_num data-v-3dfa9153">{{storageNum}}<text class="text data-v-3dfa9153">元</text>
+                        </view>
+                        <view class="member_text data-v-3dfa9153">消耗储值卡</view>
+                    </view>
+                </view>
+            </view>
+            <view class="list data-v-3dfa9153">
+                <view class="item data-v-3dfa9153" wx:for="{{$root.l1}}" wx:key="index">
+                    <view class="item_time data-v-3dfa9153">{{item.$orig.fullDayName}}<text class="week data-v-3dfa9153">{{item.$orig.weekName}}</text>
+                    </view>
+                    <view bindtap="__e" class="item_list data-v-3dfa9153" data-event-opts="{{[ [ 'tap',[ [ 'leagueClassDetails',['$0'],[ [ ['list','',index],['list','',index1] ] ] ] ] ] ]}}" wx:for="{{item.l0}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                        <view class="background_picture data-v-3dfa9153">
+                            <image class="data-v-3dfa9153" src="{{item1.m0}}" wx:if="{{item1.$orig.showBnt==5}}"></image>
+                            <image class="data-v-3dfa9153" src="{{item1.m1}}" wx:if="{{item1.$orig.showBnt==7}}"></image>
+                            <image class="data-v-3dfa9153" src="{{item1.m2}}" wx:if="{{item1.$orig.showBnt==6}}"></image>
+                        </view>
+                        <view class="mask data-v-3dfa9153" wx:if="{{item1.$orig.showBnt==5||item1.$orig.showBnt==6||item1.$orig.showBnt==7}}"></view>
+                        <view class="{{['item_flex','data-v-3dfa9153',item1.$orig.showBnt==6||item1.$orig.showBnt==7||item1.$orig.showBnt==5||item1.$orig.showBnt==11?'grey':'']}}" style="{{'background:'+'url('+item1.$orig.courseBacklog+')'+';'+'background-size:'+'100% auto'+';'}}">
+                            <view class="item_curriculum data-v-3dfa9153">
+                                <view class="curriculum_flex data-v-3dfa9153">
+                                    <view class="item_curriculum_name data-v-3dfa9153">{{''+item1.m3+''}}</view>
+                                    <view class="type-box data-v-3dfa9153" wx:if="{{item1.$orig.tagData}}">
+                                        <image class="renew-icon data-v-3dfa9153" src="{{item1.m4}}"></image>
+                                        <view class="type-name new-member-label data-v-3dfa9153">{{item1.$orig.tagData}}</view>
+                                    </view>
+                                </view>
+                                <view class="item_information data-v-3dfa9153">
+                                    <view class="small_portrait data-v-3dfa9153">
+                                        <image class="data-v-3dfa9153" src="{{item1.m5}}"></image>
+                                    </view>
+                                    <view class="item_name data-v-3dfa9153">{{item1.$orig.staffName}}</view>
+                                </view>
+                            </view>
+                            <view class="item_times data-v-3dfa9153">
+                                <view class="start_time data-v-3dfa9153">{{item1.$orig.strtime}}</view>
+                                <view class="end_time data-v-3dfa9153">{{item1.$orig.strEndtime+'结束'}}</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-3dfa9153">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-3dfa9153" color="#bfbfbf" halfWidth="74" vueId="fcf1e354-3" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-3dfa9153" vueId="fcf1e354-4"></ff-bottom-logo>
+    </view>
+</view>

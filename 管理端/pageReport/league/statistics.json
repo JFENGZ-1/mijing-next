@@ -1,0 +1,10 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "会籍工资",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "u-divider": "/uview-ui/components/u-divider/u-divider",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

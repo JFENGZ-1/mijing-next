@@ -1,0 +1,130 @@
+<view class="data-v-62daf21b">
+    <navigation bind:__l="__l" class="data-v-62daf21b" text="显示/隐藏" vueId="6feb718f-1"></navigation>
+    <view class="placeholder-view data-v-62daf21b" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-62daf21b" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-62daf21b">
+            <view class="setting_wrap data-v-62daf21b">
+                <view class="top data-v-62daf21b">
+                    <u-icon bind:__l="__l" class="icon data-v-62daf21b" color="#C96B30" name="bell" vueId="6feb718f-2"></u-icon>
+                    <view class="top-info data-v-62daf21b">
+                        <view class="data-v-62daf21b">配置完成后，若需立即查看效果，则需在会员端点击右上角三个点，然后选择“重新进入小程序”可立即生效</view>
+                    </view>
+                </view>
+                <view class="setting_group first data-v-62daf21b">
+                    <view class="setting_title data-v-62daf21b">
+                        <view class="title_color data-v-62daf21b"></view>
+                        <text class="title_text data-v-62daf21b">首页</text>
+                    </view>
+                    <view class="item_wrap data-v-62daf21b" wx:for="{{cHome}}" wx:key="index">
+                        <view class="item data-v-62daf21b">
+                            <view class="wrap data-v-62daf21b">
+                                <view class="item_laber data-v-62daf21b">{{''+item.configName+''}}</view>
+                                <view class="item_title data-v-62daf21b">{{''+item.configDesc+''}}<text bindtap="__e" class="schematic_text data-v-62daf21b" data-event-opts="{{[ [ 'tap',[ [ 'showSchematicPop',['$0'],[ [ ['cHome','',index,'configId'] ] ] ] ] ] ]}}"> 图示 </text>
+                                </view>
+                            </view>
+                            <u-switch activeColor="success" activeValue="{{1}}" bind:__l="__l" bind:change="__e" bind:input="__e" class="switch data-v-62daf21b" data-event-opts="{{[ [ '^change',[ [ 'headleStatus',['$0','$1'],[ [ ['cHome','',index,'configId'] ],[ ['cHome','',index,'configValue'] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','configValue','$event',[] ],[ [ ['cHome','',index] ] ] ] ] ] ]}}" inactiveValue="{{0}}" size="{{60}}" slot="right" value="{{item.configValue}}" vueId="{{'6feb718f-3-'+index}}"></u-switch>
+                        </view>
+                    </view>
+                </view>
+                <view class="setting_group first data-v-62daf21b">
+                    <view class="setting_title data-v-62daf21b">
+                        <view class="title_color data-v-62daf21b"></view>
+                        <text class="title_text data-v-62daf21b">约课</text>
+                    </view>
+                    <view class="item_wrap data-v-62daf21b" wx:for="{{cCourse}}" wx:key="index">
+                        <view class="item data-v-62daf21b">
+                            <view class="wrap data-v-62daf21b">
+                                <view class="item_laber data-v-62daf21b">{{''+item.configName}}</view>
+                                <view class="item_title data-v-62daf21b">{{''+item.configDesc+''}}<text bindtap="__e" class="schematic_text data-v-62daf21b" data-event-opts="{{[ [ 'tap',[ [ 'showSchematicPop',['$0'],[ [ ['cCourse','',index,'configId'] ] ] ] ] ] ]}}"> 图示 </text>
+                                </view>
+                            </view>
+                            <u-switch activeColor="success" bind:__l="__l" bind:change="__e" bind:input="__e" class="switch data-v-62daf21b" data-event-opts="{{[ [ '^change',[ [ 'headleStatus',['$0','$1'],[ [ ['cCourse','',index,'configId'] ],[ ['cCourse','',index,'configValue'] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','configValue','$event',[] ],[ [ ['cCourse','',index] ] ] ] ] ] ]}}" size="{{60}}" slot="right" value="{{item.configValue}}" vueId="{{'6feb718f-4-'+index}}"></u-switch>
+                        </view>
+                    </view>
+                </view>
+                <view class="setting_group first data-v-62daf21b">
+                    <view class="setting_title data-v-62daf21b">
+                        <view class="title_color data-v-62daf21b"></view>
+                        <text class="title_text data-v-62daf21b">我的</text>
+                    </view>
+                    <view class="item_wrap data-v-62daf21b" wx:for="{{cMine}}" wx:key="index">
+                        <view class="item data-v-62daf21b">
+                            <view class="wrap data-v-62daf21b">
+                                <view class="item_laber data-v-62daf21b">{{''+item.configName}}</view>
+                                <view class="item_title data-v-62daf21b">{{''+item.configDesc+''}}<text bindtap="__e" class="schematic_text data-v-62daf21b" data-event-opts="{{[ [ 'tap',[ [ 'showSchematicPop',['$0'],[ [ ['cMine','',index,'configId'] ] ] ] ] ] ]}}"> 图示 </text>
+                                </view>
+                            </view>
+                            <u-switch activeColor="success" bind:__l="__l" bind:change="__e" bind:input="__e" class="switch data-v-62daf21b" data-event-opts="{{[ [ '^change',[ [ 'headleStatus',['$0','$1'],[ [ ['cMine','',index,'configId'] ],[ ['cMine','',index,'configValue'] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','configValue','$event',[] ],[ [ ['cMine','',index] ] ] ] ] ] ]}}" size="{{60}}" slot="right" value="{{item.configValue}}" vueId="{{'6feb718f-5-'+index}}"></u-switch>
+                        </view>
+                    </view>
+                </view>
+                <view class="setting_group first data-v-62daf21b">
+                    <view class="setting_title data-v-62daf21b">
+                        <view class="title_color data-v-62daf21b"></view>
+                        <text class="title_text data-v-62daf21b">屏蔽会员</text>
+                    </view>
+                    <view class="item_wrap data-v-62daf21b" wx:for="{{refuse}}" wx:key="index">
+                        <view class="item data-v-62daf21b">
+                            <view class="wrap data-v-62daf21b">
+                                <view class="item_laber data-v-62daf21b">{{''+item.configName}}</view>
+                                <view class="item_title data-v-62daf21b">{{''+item.configDesc+''}}</view>
+                            </view>
+                            <u-switch activeColor="success" bind:__l="__l" bind:change="__e" bind:input="__e" class="switch data-v-62daf21b" data-event-opts="{{[ [ '^change',[ [ 'headleStatus',['$0','$1'],[ [ ['refuse','',index,'configId'] ],[ ['refuse','',index,'configValue'] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','configValue','$event',[] ],[ [ ['refuse','',index] ] ] ] ] ] ]}}" size="{{60}}" slot="right" value="{{item.configValue}}" vueId="{{'6feb718f-6-'+index}}"></u-switch>
+                        </view>
+                    </view>
+                </view>
+                <view class="setting_group first data-v-62daf21b">
+                    <view class="setting_title data-v-62daf21b">
+                        <view class="title_color data-v-62daf21b"></view>
+                        <text class="title_text data-v-62daf21b">其它</text>
+                    </view>
+                    <view class="item_wrap data-v-62daf21b" wx:for="{{Other}}" wx:key="index">
+                        <view class="item data-v-62daf21b">
+                            <view class="wrap data-v-62daf21b">
+                                <view class="item_laber data-v-62daf21b">{{''+item.configName}}</view>
+                                <view class="item_title data-v-62daf21b">{{''+item.configDesc+''}}</view>
+                            </view>
+                            <u-switch activeColor="success" bind:__l="__l" bind:change="__e" bind:input="__e" class="switch data-v-62daf21b" data-event-opts="{{[ [ '^change',[ [ 'headleStatus',['$0','$1'],[ [ ['Other','',index,'configId'] ],[ ['Other','',index,'configValue'] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','configValue','$event',[] ],[ [ ['Other','',index] ] ] ] ] ] ]}}" size="{{60}}" slot="right" value="{{item.configValue}}" vueId="{{'6feb718f-7-'+index}}"></u-switch>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-62daf21b" vueId="6feb718f-8"></ff-bottom-logo>
+    </view>
+    <u-mask bind:__l="__l" bind:click="__e" class="data-v-62daf21b" data-event-opts="{{[ [ '^click',[ ['e0'] ] ] ]}}" show="{{schematicShow}}" vueId="6feb718f-9" vueSlots="{{['default']}}" zIndex="999">
+        <view class="schematic-popup data-v-62daf21b">
+            <view class="content data-v-62daf21b">
+                <view class="pic-wrap data-v-62daf21b">
+                    <image class="pic data-v-62daf21b" src="{{$root.m0}}" wx:if="{{schematicSrc}}"></image>
+                </view>
+                <view class="btn-wrap data-v-62daf21b">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-62daf21b" customStyle="{{customStyle}}" data-event-opts="{{[ [ '^click',[ ['e1'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'6feb718f-10'+','+'6feb718f-9'}}" vueSlots="{{['default']}}">知道了</u-button>
+                </view>
+            </view>
+        </view>
+    </u-mask>
+    <confirm-modal bind:__l="__l" class="data-v-62daf21b vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="{{configId=='refuseUserFocus'?'严重警告：确定关闭吗？':'严重警告：确定开启屏蔽进入？'}}" vueId="6feb718f-11" vueSlots="{{['content','btn']}}">
+        <view class="data-v-62daf21b" slot="content">
+            <block wx:if="{{configId=='refuseUserFocus'}}">
+                <view class="data-v-62daf21b">1、关闭后，会员可能将<text class="data-v-62daf21b" style="color:#DC3C5C;">无法收到【课程取消】等通知</text>
+                </view>
+                <view class="data-v-62daf21b">2、如果您不能清楚的知道该功能的作用，请不要关闭</view>
+            </block>
+            <block wx:else>
+                <view class="data-v-62daf21b">1、相关会员将<text class="data-v-62daf21b" style="color:#DC3C5C;">【禁止进入到会员端】</text>
+                </view>
+                <view class="data-v-62daf21b">2、如您不清楚该功能的作用，请不要打开</view>
+            </block>
+            <view class="content data-v-62daf21b">
+                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-62daf21b" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','refuseChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{refuseChecked}}" vueId="{{'6feb718f-12'+','+'6feb718f-11'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-62daf21b" style="{{'font-size:26rpx;color:#606266;line-height:56rpx;'+'font-weight:'+(refuseChecked?'500':'normal')+';'}}">{{'我已清楚，'+(configId=='refuseUserFocus'?'仍要关闭':'仍要屏蔽')+''}}</text>
+                </u-checkbox>
+            </view>
+        </view>
+        <view class="btn data-v-62daf21b" slot="btn">
+            <view bindtap="__e" class="modal-cal-btn button data-v-62daf21b" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="{{['modal-btn','button','data-v-62daf21b',!refuseChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'refuseconfirm',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm-modal>
+</view>

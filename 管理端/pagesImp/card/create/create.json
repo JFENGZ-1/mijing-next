@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "选择类型",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

@@ -1,0 +1,115 @@
+page {
+  background: #fff;
+}
+.bottom-text.data-v-9c1189dc {
+  bottom: 74rpx;
+  color: #989898;
+  font-size: 19rpx;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+.use_num.data-v-9c1189dc {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 126rpx;
+  margin-top: 300rpx;
+}
+.use_num .use_bg.data-v-9c1189dc {
+  background: #ffe9f6;
+  border-radius: 50rpx;
+  color: #dc3c5c;
+  font-size: 28rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  padding: 0rpx 31rpx;
+  text-align: center;
+}
+.visitor-wrap.data-v-9c1189dc {
+  align-items: center;
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 26rpx;
+  height: 56rpx;
+  justify-content: center;
+  line-height: 56rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+.visitor-wrap .arrow.data-v-9c1189dc {
+  font-size: 16rpx;
+}
+.visitor-wrap .arrow-left.data-v-9c1189dc {
+  margin-right: 10rpx;
+}
+.visitor-wrap .arrow-right.data-v-9c1189dc {
+  margin-left: 10rpx;
+}
+.user_info.data-v-9c1189dc {
+  padding: 0 35rpx;
+}
+.user_info .title_text.data-v-9c1189dc {
+  color: #181818;
+  font-size: 36rpx;
+  font-weight: 500;
+  margin-bottom: 60rpx;
+  margin-top: 50rpx;
+}
+.user_info .info_list.data-v-9c1189dc {
+  padding: 0 30rpx;
+}
+.user_info .info_list .info_item.data-v-9c1189dc {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 112rpx;
+}
+.user_info .info_list .info_item .required.data-v-9c1189dc {
+  color: #dc3c5c;
+  font-size: 26rpx;
+  margin-left: 3rpx;
+}
+.user_info .info_list .info_item .info_content.data-v-9c1189dc {
+  flex: 1;
+  margin-left: 30rpx;
+}
+.user_info .info_list .info_item .info_content button.data-v-9c1189dc {
+  align-items: center;
+  background: #fff;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-start;
+  margin: unset;
+  outline: none;
+  padding: unset;
+}
+.user_info .info_list .info_item .info_content button.data-v-9c1189dc::after {
+  border: none;
+}
+.user_info .info_list .info_item .info_content image.data-v-9c1189dc {
+  border-radius: 13rpx;
+  height: 80rpx;
+  width: 80rpx;
+}
+.user_info .info_list .btn-wrap button.data-v-9c1189dc {
+  align-items: center;
+  background: #fbd128;
+  border: none;
+  border-radius: 41rpx;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 34rpx;
+  height: 83rpx;
+  justify-content: center;
+  margin: 150rpx auto 0;
+  outline: none;
+  position: relative;
+  width: 458rpx;
+  z-index: 99;
+}
+.user_info .info_list .btn-wrap button.data-v-9c1189dc::after {
+  border: none;
+}

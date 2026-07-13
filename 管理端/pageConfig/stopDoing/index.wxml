@@ -1,0 +1,76 @@
+<view class="data-v-47124523">
+    <navigation bind:__l="__l" class="data-v-47124523" text="节假日闭店" vueId="aefaa104-1"></navigation>
+    <view class="placeholder-view data-v-47124523" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-47124523" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="fixed data-v-47124523"></view>
+        <view class="hint_wrap data-v-47124523">
+            <hint bind:__l="__l" class="data-v-47124523" vueId="aefaa104-2" vueSlots="{{['default']}}">
+                <view class="hint_text_wrap data-v-47124523">
+                    <view class="item data-v-47124523" style="margin-bottom:2rpx;">1、当遇节假日/装修/疫情防控等特殊情况需暂停营业时使用</view>
+                    <view class="item data-v-47124523">2、可关闭约课、会员卡延期、展示停休公告等<text bindtap="__e" class="schematic_text data-v-47124523" data-event-opts="{{[ [ 'tap',[ ['showSchematicPop'] ] ] ]}}"> 展示样式 </text>
+                    </view>
+                </view>
+            </hint>
+        </view>
+        <view class="data-v-47124523" wx:if="{{$root.g0==0}}">
+            <nodata bind:__l="__l" class="data-v-47124523" msg="{{5}}" vueId="aefaa104-3"></nodata>
+        </view>
+        <view class="data-v-47124523" wx:else>
+            <view class="num_times_wrap data-v-47124523">
+                <text class="first_text data-v-47124523">{{'共'+allNumTimes+'次'}}</text>
+                <text class="last_text data-v-47124523">{{'已结束'+finishNumTimes+'次'}}</text>
+            </view>
+            <view class="list data-v-47124523">
+                <view bindtap="__e" class="list_item data-v-47124523" data-event-opts="{{[ [ 'tap',[ [ 'headleEdit',['$0'],[ [ ['list','',index,'stopLogid'] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                    <view class="finish_wrap data-v-47124523" wx:if="{{item.$orig.nstatus==2}}"></view>
+                    <view class="title data-v-47124523">
+                        <view class="title_color data-v-47124523"></view>
+                        <view class="stop_day_num data-v-47124523">{{'停业'+item.$orig.stopDays+'天'}}</view>
+                        <view class="{{['data-v-47124523',item.$orig.nstatus==0?'status':item.$orig.nstatus==1?'business':'closed']}}">{{item.$orig.nstatus==0?'未开始':item.$orig.nstatus==1?'停业中':'已结束'}}</view>
+                        <view class="more_icon data-v-47124523">
+                            <image class="data-v-47124523" mode="widthFix" src="{{item.m0}}"></image>
+                        </view>
+                    </view>
+                    <view class="info_wrap data-v-47124523">
+                        <view class="info_top data-v-47124523">
+                            <view class="info_item data-v-47124523">
+                                <text class="info_title data-v-47124523">时间</text>
+                                <text class="info_text data-v-47124523">{{item.$orig.beginTime+' 至 '+item.$orig.endTime}}</text>
+                            </view>
+                            <view class="info_item data-v-47124523">
+                                <text class="info_title data-v-47124523">功能</text>
+                                <text class="info_text data-v-47124523">{{item.$orig.funcText}}</text>
+                            </view>
+                            <view class="info_item data-v-47124523">
+                                <text class="info_title data-v-47124523">会员卡</text>
+                                <text class="info_text data-v-47124523">{{item.$orig.cardText}}</text>
+                            </view>
+                        </view>
+                        <u-line bind:__l="__l" class="data-v-47124523" color="#dadada" vueId="{{'aefaa104-4-'+index}}"></u-line>
+                        <view class="info_bottom data-v-47124523">
+                            <view class="rofile data-v-47124523">
+                                <image class="data-v-47124523" mode="widthFix" src="{{item.m1}}"></image>
+                            </view>
+                            <view class="name data-v-47124523">{{item.$orig.operUserName}}</view>
+                            <view class="date data-v-47124523">{{item.$orig.createTime}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-47124523" vueId="aefaa104-5"></ff-bottom-logo>
+    <fixed-btn bind:Click="__e" bind:__l="__l" class="data-v-47124523" data-event-opts="{{[ [ '^Click',[ ['Click'] ] ] ]}}" vueId="aefaa104-6" vueSlots="{{['default']}}">添加</fixed-btn>
+    <u-mask bind:__l="__l" bind:click="__e" class="data-v-47124523" data-event-opts="{{[ [ '^click',[ ['e0'] ] ] ]}}" show="{{schematicShow}}" vueId="aefaa104-7" vueSlots="{{['default']}}" zIndex="999">
+        <view class="schematic-popup data-v-47124523">
+            <view class="content data-v-47124523">
+                <view class="pic-wrap data-v-47124523">
+                    <image class="pic data-v-47124523" src="{{$root.m2}}" wx:if="{{schematicSrc}}"></image>
+                </view>
+                <view class="btn-wrap data-v-47124523">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-47124523" customStyle="{{customStyle}}" data-event-opts="{{[ [ '^click',[ ['e1'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'aefaa104-8'+','+'aefaa104-7'}}" vueSlots="{{['default']}}">知道了</u-button>
+                </view>
+            </view>
+        </view>
+    </u-mask>
+</view>

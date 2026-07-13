@@ -1,0 +1,3 @@
+<view class="lin-no-more-warp data-v-61632feb">
+    <u-divider bgColor="F5F5F5" bind:__l="__l" borderColor="#C0C0C0" class="data-v-61632feb" color="#BFBFBF" halfWidth="60" vueId="64804a03-1" vueSlots="{{['default']}}">{{text||'没有更多了哦'}}</u-divider>
+</view>

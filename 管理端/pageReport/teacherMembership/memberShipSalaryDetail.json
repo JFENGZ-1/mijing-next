@@ -1,0 +1,17 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "appoint-item": "/pages/home/components/appoint-item",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "ff-counts-card": "/components/ff-counts-card/ff-counts-card",
+    "ff-date-card": "/components/ff-date-card/ff-date-card",
+    "ff-value-card": "/components/ff-value-card/ff-value-card",
+    "member-card": "/components/mumber-card/index",
+    "navigation": "/components/navigation/index",
+    "u-divider": "/uview-ui/components/u-divider/u-divider",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

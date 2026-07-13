@@ -1,0 +1,688 @@
+.card-box.data-v-609b287a {
+  background-size: 100% 100%;
+  border-radius: 18rpx;
+  box-shadow: 0-2rpx 5rpx rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+.shop-info.data-v-609b287a {
+  align-items: center;
+  color: #fff;
+  display: -webkit-flex;
+  display: flex;
+}
+.shop-info image.data-v-609b287a {
+  align-items: center;
+  border-radius: 50%;
+  display: block;
+}
+.ribbon.data-v-609b287a {
+  overflow: hidden;
+  position: absolute;
+  transform: rotate(45deg);
+  white-space: nowrap;
+}
+.ribbon text.data-v-609b287a {
+  color: #fff;
+  display: block;
+  font-weight: 500;
+  padding: 0 36rpx;
+  text-align: center;
+}
+.ribbonUnion.data-v-609b287a {
+  overflow: hidden;
+  position: absolute;
+  transform: rotate(45deg);
+  white-space: nowrap;
+}
+.ribbonUnion text.data-v-609b287a {
+  color: #fff;
+  display: block;
+  font-weight: 500;
+  padding: 0 29rpx;
+  text-align: center;
+}
+.ribbonUniversal.data-v-609b287a {
+  overflow: hidden;
+  position: absolute;
+  transform: rotate(45deg);
+  white-space: nowrap;
+}
+.ribbonUniversal text.data-v-609b287a {
+  color: #9f6e29;
+  display: block;
+  font-weight: 500;
+  padding: 0 46rpx;
+  text-align: center;
+}
+.card-status.data-v-609b287a {
+  bottom: 20rpx;
+  position: absolute;
+  right: 5rpx;
+  z-index: 10;
+}
+.card-status image.data-v-609b287a {
+  height: 100%;
+  width: 100%;
+}
+.card-name.data-v-609b287a {
+  align-items: center;
+  color: #fff;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  overflow: hidden;
+  text-align: center;
+}
+.bottom-info.data-v-609b287a {
+  color: #fff;
+  position: absolute;
+  z-index: 20;
+}
+.card-time-info.data-v-609b287a {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.present-time.data-v-609b287a {
+  background: hsla(0, 0%, 9%, 0.38);
+}
+.present-course.data-v-609b287a,
+.present-time.data-v-609b287a {
+  display: -webkit-flex;
+  display: flex;
+}
+.present-course .item.data-v-609b287a {
+  background: hsla(0, 0%, 9%, 0.38);
+}
+.project-box .line-last.data-v-609b287a:first-child {
+  display: none;
+}
+.project-box .project-item-wrap.data-v-609b287a {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.project-box .project-item-wrap .project-item.data-v-609b287a {
+  border-radius: 14rpx;
+}
+.project-box .project-item-wrap .presenter-course.data-v-609b287a {
+  background: hsla(0, 0%, 9%, 0.38);
+}
+.money-box.data-v-609b287a {
+  display: -webkit-flex;
+  display: flex;
+}
+.money-box .discounts.data-v-609b287a,
+.money-box .extra.data-v-609b287a {
+  background: hsla(0, 0%, 9%, 0.38);
+}
+.course-more.data-v-609b287a,
+.project-more.data-v-609b287a {
+  align-items: center;
+  background: hsla(0, 0%, 9%, 0.38);
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.course-more .scale-area.data-v-609b287a,
+.project-more .scale-area.data-v-609b287a {
+  position: absolute;
+  z-index: 25;
+}
+.course-more image.data-v-609b287a,
+.project-more image.data-v-609b287a {
+  display: block;
+  transform: rotate(180deg);
+}
+.large-size.data-v-609b287a {
+  height: 370rpx;
+  width: 620rpx;
+}
+.large-size .shop-info.data-v-609b287a {
+  margin-left: 35rpx;
+  margin-top: 30rpx;
+}
+.large-size .shop-info image.data-v-609b287a {
+  height: 70rpx;
+  width: 70rpx;
+}
+.large-size .shop-info text.data-v-609b287a {
+  font-size: 32rpx;
+  margin-left: 10rpx;
+}
+.large-size .ribbon.data-v-609b287a {
+  right: -30rpx;
+  top: 18rpx;
+}
+.large-size .ribbon text.data-v-609b287a {
+  font-size: 20rpx;
+  height: 35rpx;
+  line-height: 35rpx;
+}
+.large-size .ribbonUnion.data-v-609b287a {
+  right: -36rpx;
+  top: -3rpx;
+}
+.large-size .ribbonUnion text.data-v-609b287a {
+  font-size: 20rpx;
+  height: 52rpx;
+  line-height: 65rpx;
+  padding-top: 2rpx;
+}
+.large-size .ribbonUniversal.data-v-609b287a {
+  right: -42rpx;
+  top: 34rpx;
+}
+.large-size .ribbonUniversal text.data-v-609b287a {
+  font-size: 18rpx;
+  height: 35rpx;
+  line-height: 35rpx;
+}
+.large-size .card-status.data-v-609b287a {
+  height: 135rpx;
+  width: 135rpx;
+}
+.large-size .card-name.data-v-609b287a {
+  font-size: 80rpx;
+  height: 135rpx;
+  width: 530rpx;
+}
+.large-size .bottom-info.data-v-609b287a {
+  bottom: 25rpx;
+  left: 35rpx;
+}
+.large-size .card-name-size-max.data-v-609b287a {
+  font-size: 65rpx;
+  line-height: 65rpx;
+}
+.large-size .card-time-info.data-v-609b287a {
+  font-size: 35rpx;
+  line-height: 36rpx;
+}
+.large-size .present-time.data-v-609b287a {
+  border-radius: 18rpx;
+  font-size: 22rpx;
+  height: 36rpx;
+  margin-left: 17rpx;
+  padding: 0 16rpx;
+}
+.large-size .present-time-num.data-v-609b287a {
+  font-size: 22rpx;
+}
+.large-size .present-course.data-v-609b287a {
+  margin-left: -5rpx;
+  margin-top: 6rpx;
+}
+.large-size .present-course .item.data-v-609b287a {
+  border-radius: 18rpx;
+  font-size: 22rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  margin-right: 10rpx;
+  padding: 0 17rpx;
+}
+.large-size .period-box.data-v-609b287a {
+  font-size: 24rpx;
+  line-height: 28rpx;
+  margin-top: 4rpx;
+}
+.large-size .balance.data-v-609b287a,
+.large-size .total-times-wrap.data-v-609b287a {
+  font-size: 35rpx;
+  line-height: 31rpx;
+}
+.large-size .project-box .project-more.data-v-609b287a {
+  border-radius: 12rpx;
+  height: 70rpx;
+  margin-left: 8rpx;
+  width: 24rpx;
+}
+.large-size .project-box .project-more .scale-area.data-v-609b287a {
+  height: 100rpx;
+  right: -15rpx;
+  top: -15rpx;
+  width: 50rpx;
+}
+.large-size .project-box .project-more image.data-v-609b287a {
+  height: 28rpx;
+  width: 12rpx;
+}
+.large-size .project-box .project-item-wrap.data-v-609b287a {
+  margin-left: -9rpx;
+}
+.large-size .project-box .project-item-wrap .presenter-course.data-v-609b287a {
+  margin-left: 8rpx;
+}
+.large-size .project-box .project-item-wrap .project-item.data-v-609b287a {
+  padding: 8rpx 10rpx;
+}
+.large-size .project-box .project-item-wrap .project-item .num.data-v-609b287a {
+  font-size: 35rpx;
+  line-height: 35rpx;
+  margin-bottom: 6rpx;
+}
+.large-size
+  .project-box
+  .project-item-wrap
+  .project-item
+  .name.data-v-609b287a {
+  font-size: 24rpx;
+  line-height: 24rpx;
+}
+.large-size .course-more.data-v-609b287a {
+  border-radius: 12rpx;
+  height: 36rpx;
+  margin-left: 8rpx;
+  margin-top: 6rpx;
+  width: 24rpx;
+}
+.large-size .course-more .scale-area.data-v-609b287a {
+  height: 80rpx;
+  right: -15rpx;
+  top: -15rpx;
+  width: 50rpx;
+}
+.large-size .course-more image.data-v-609b287a {
+  height: 18rpx;
+  margin-left: 5rpx;
+  width: 12rpx;
+}
+.large-size .money-box .money.data-v-609b287a {
+  font-size: 28rpx;
+  line-height: 46rpx;
+}
+.large-size .money-box .money text.data-v-609b287a {
+  font-size: 42rpx;
+  margin-left: 6rpx;
+}
+.large-size .money-box .discounts.data-v-609b287a,
+.large-size .money-box .extra.data-v-609b287a {
+  border-radius: 18rpx;
+  font-size: 25rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  margin-left: 10rpx;
+  margin-top: 4rpx;
+  padding: 0 15rpx;
+}
+.large-size .money-box .discounts text.data-v-609b287a,
+.large-size .money-box .extra text.data-v-609b287a {
+  font-size: 30rpx;
+}
+.medium-sized.data-v-609b287a {
+  height: 240rpx;
+  width: 403rpx;
+}
+.medium-sized .shop-info.data-v-609b287a {
+  margin-left: 22rpx;
+  margin-top: 19rpx;
+}
+.medium-sized .shop-info image.data-v-609b287a {
+  height: 45rpx;
+  width: 45rpx;
+}
+.medium-sized .shop-info text.data-v-609b287a {
+  font-size: 21rpx;
+  margin-left: 7rpx;
+}
+.medium-sized .ribbon.data-v-609b287a {
+  right: -32rpx;
+  top: 15rpx;
+}
+.medium-sized .ribbon text.data-v-609b287a {
+  font-size: 15rpx;
+  height: 25rpx;
+  line-height: 25rpx;
+}
+.medium-sized .ribbonUnion.data-v-609b287a {
+  right: -32rpx;
+}
+.medium-sized .ribbonUnion text.data-v-609b287a {
+  font-size: 15rpx;
+  height: 41rpx;
+  line-height: 43rpx;
+  padding-top: 4rpx;
+}
+.medium-sized .ribbonUniversal.data-v-609b287a {
+  right: -38rpx;
+  top: 28rpx;
+}
+.medium-sized .ribbonUniversal text.data-v-609b287a {
+  font-size: 13rpx;
+  height: 25rpx;
+  line-height: 25rpx;
+}
+.medium-sized .card-status.data-v-609b287a {
+  height: 100rpx;
+  width: 100rpx;
+}
+.medium-sized .card-name.data-v-609b287a {
+  font-size: 54rpx;
+  height: 100rpx;
+  width: 325rpx;
+}
+.medium-sized .bottom-info.data-v-609b287a {
+  bottom: 16rpx;
+  left: 19rpx;
+}
+.medium-sized .card-name-size-max.data-v-609b287a {
+  font-size: 40rpx;
+  line-height: 40rpx;
+}
+.medium-sized .card-time-info.data-v-609b287a {
+  font-size: 26rpx;
+  line-height: 26rpx;
+}
+.medium-sized .present-time.data-v-609b287a {
+  border-radius: 18rpx;
+  font-size: 16rpx;
+  height: 22rpx;
+  line-height: 23rpx;
+  margin-left: 17rpx;
+  padding: 0 9rpx;
+}
+.medium-sized .present-time-num.data-v-609b287a {
+  font-size: 16rpx;
+}
+.medium-sized .present-course.data-v-609b287a {
+  margin-left: -3rpx;
+  margin-top: 6rpx;
+}
+.medium-sized .present-course .item.data-v-609b287a {
+  border-radius: 18rpx;
+  font-size: 16rpx;
+  height: 22rpx;
+  line-height: 23rpx;
+  margin-right: 7rpx;
+  padding: 0 9rpx;
+}
+.medium-sized .period-box.data-v-609b287a {
+  font-size: 15rpx;
+  line-height: 16rpx;
+  margin-top: 7rpx;
+}
+.medium-sized .balance.data-v-609b287a,
+.medium-sized .total-times-wrap.data-v-609b287a {
+  font-size: 26rpx;
+  line-height: 26rpx;
+}
+.medium-sized .project-box .project-more.data-v-609b287a {
+  border-radius: 12rpx;
+  height: 45rpx;
+  margin-left: 9rpx;
+  width: 17rpx;
+}
+.medium-sized .project-box .project-more .scale-area.data-v-609b287a {
+  height: 64rpx;
+  right: -11rpx;
+  top: -10rpx;
+  width: 45rpx;
+}
+.medium-sized .project-box .project-more image.data-v-609b287a {
+  height: 15rpx;
+  width: 6rpx;
+}
+.medium-sized .project-box .project-item-wrap.data-v-609b287a {
+  margin-left: -4rpx;
+}
+.medium-sized
+  .project-box
+  .project-item-wrap
+  .presenter-course.data-v-609b287a {
+  margin-left: 5rpx;
+}
+.medium-sized .project-box .project-item-wrap .project-item.data-v-609b287a {
+  border-radius: 10rpx;
+  padding: 5rpx 8rpx;
+}
+.medium-sized
+  .project-box
+  .project-item-wrap
+  .project-item
+  .num.data-v-609b287a {
+  font-size: 23rpx;
+  line-height: 23rpx;
+  margin-bottom: 3rpx;
+}
+.medium-sized
+  .project-box
+  .project-item-wrap
+  .project-item
+  .name.data-v-609b287a {
+  font-size: 15rpx;
+  line-height: 18rpx;
+}
+.medium-sized .uicon-arrow-right.data-v-609b287a {
+  font-size: 15rpx !important;
+}
+.medium-sized .course-more.data-v-609b287a {
+  border-radius: 12rpx;
+  height: 22rpx;
+  margin-left: 3rpx;
+  margin-top: 6rpx;
+  width: 15rpx;
+}
+.medium-sized .course-more .scale-area.data-v-609b287a {
+  height: 65rpx;
+  right: -15rpx;
+  top: -23rpx;
+  width: 50rpx;
+}
+.medium-sized .course-more image.data-v-609b287a {
+  height: 12rpx;
+  margin-left: 3rpx;
+  width: 7rpx;
+}
+.medium-sized .money-box .money.data-v-609b287a {
+  font-size: 18rpx;
+  line-height: 30rpx;
+}
+.medium-sized .money-box .money text.data-v-609b287a {
+  font-size: 30rpx;
+  margin-left: 6rpx;
+}
+.medium-sized .money-box .discounts.data-v-609b287a,
+.medium-sized .money-box .extra.data-v-609b287a {
+  border-radius: 18rpx;
+  font-size: 16rpx;
+  height: 22rpx;
+  line-height: 21rpx;
+  margin-left: 5rpx;
+  margin-top: 2rpx;
+  padding: 0 9rpx;
+}
+.medium-sized .money-box .discounts text.data-v-609b287a,
+.medium-sized .money-box .extra text.data-v-609b287a {
+  font-size: 19rpx;
+}
+.minimum-sized.data-v-609b287a {
+  height: 178rpx;
+  width: 299rpx;
+}
+.minimum-sized.data-v-609b287a .shop-info {
+  margin-left: 17rpx;
+  margin-top: 14rpx;
+}
+.minimum-sized.data-v-609b287a .shop-info image {
+  height: 35rpx;
+  width: 35rpx;
+}
+.minimum-sized.data-v-609b287a .shop-info text {
+  font-size: 15rpx;
+  margin-left: 5rpx;
+}
+.minimum-sized.data-v-609b287a .ribbon {
+  right: -32rpx;
+  top: 15rpx;
+}
+.minimum-sized.data-v-609b287a .ribbon text {
+  font-size: 13rpx;
+  height: 20rpx;
+  line-height: 20rpx;
+}
+.minimum-sized.data-v-609b287a .ribbonUnion {
+  right: -31rpx;
+}
+.minimum-sized.data-v-609b287a .ribbonUnion text {
+  font-size: 13rpx;
+  height: 34rpx;
+  line-height: 36rpx;
+  padding-top: 2rpx;
+}
+.minimum-sized.data-v-609b287a .ribbonUniversal {
+  right: -43rpx;
+  top: 23rpx;
+}
+.minimum-sized.data-v-609b287a .ribbonUniversal text {
+  font-size: 13rpx;
+  height: 25rpx;
+  line-height: 25rpx;
+}
+.minimum-sized .card-status.data-v-609b287a {
+  height: 70rpx;
+  width: 70rpx;
+}
+.minimum-sized.data-v-609b287a .card-name {
+  font-size: 38rpx;
+  height: 65rpx;
+  width: 236rpx;
+}
+.minimum-sized.data-v-609b287a .bottom-info {
+  bottom: 12rpx;
+  left: 15rpx;
+}
+.minimum-sized.data-v-609b287a .card-name-size-max {
+  font-size: 28rpx;
+  line-height: 30rpx;
+}
+.minimum-sized.data-v-609b287a .card-time-info {
+  font-size: 20rpx;
+  line-height: 20rpx;
+}
+.minimum-sized.data-v-609b287a .present-time {
+  border-radius: 18rpx;
+  font-size: 12rpx;
+  height: 16rpx;
+  line-height: 18rpx;
+  margin-left: 7rpx;
+  padding: 0 6rpx;
+}
+.minimum-sized.data-v-609b287a .present-time-num {
+  font-size: 12rpx;
+}
+.minimum-sized.data-v-609b287a .present-course {
+  margin-bottom: 2rpx;
+  margin-left: -3rpx;
+  margin-top: 3rpx;
+}
+.minimum-sized.data-v-609b287a .present-course .item {
+  border-radius: 18rpx;
+  font-size: 12rpx;
+  height: 16rpx;
+  line-height: 16rpx;
+  margin-right: 7rpx;
+  padding: 0 6rpx;
+}
+.minimum-sized.data-v-609b287a .period-box {
+  font-size: 12rpx;
+  line-height: 13rpx;
+  margin-top: 3rpx;
+}
+.minimum-sized .balance.data-v-609b287a,
+.minimum-sized.data-v-609b287a .total-times-wrap {
+  font-size: 20rpx;
+  line-height: 20rpx;
+}
+.minimum-sized.data-v-609b287a .project-box .project-more {
+  border-radius: 12rpx;
+  height: 40rpx;
+  margin-left: 4rpx;
+  width: 14rpx;
+}
+.minimum-sized.data-v-609b287a .project-box .project-more .scale-area {
+  height: 53rpx;
+  right: -10rpx;
+  top: -6rpx;
+  width: 34rpx;
+}
+.minimum-sized.data-v-609b287a .project-box .project-more image {
+  height: 15rpx;
+  width: 4rpx;
+}
+.minimum-sized.data-v-609b287a .project-box .project-item-wrap {
+  margin-left: -4rpx;
+}
+.minimum-sized.data-v-609b287a
+  .project-box
+  .project-item-wrap
+  .presenter-course {
+  margin-left: 3rpx;
+}
+.minimum-sized.data-v-609b287a .project-box .project-item-wrap .project-item {
+  border-radius: 10rpx;
+  padding: 4rpx 7rpx;
+}
+.minimum-sized.data-v-609b287a
+  .project-box
+  .project-item-wrap
+  .project-item
+  .num {
+  font-size: 16rpx;
+  line-height: 19rpx;
+  margin-bottom: 3rpx;
+}
+.minimum-sized.data-v-609b287a
+  .project-box
+  .project-item-wrap
+  .project-item
+  .name {
+  font-size: 12rpx;
+  line-height: 14rpx;
+}
+.minimum-sized.data-v-609b287a .u-line {
+  height: 28rpx !important;
+  margin: 0rpx 3rpx !important;
+}
+.minimum-sized.data-v-609b287a .course-more {
+  border-radius: 12rpx;
+  height: 18rpx;
+  margin-left: 6rpx;
+  margin-top: 6rpx;
+  width: 12rpx;
+}
+.minimum-sized.data-v-609b287a .course-more .scale-area {
+  height: 65rpx;
+  right: -15rpx;
+  top: -23rpx;
+  width: 50rpx;
+}
+.minimum-sized.data-v-609b287a .course-more image {
+  height: 8rpx;
+  margin-left: 3rpx;
+  width: 5rpx;
+}
+.minimum-sized.data-v-609b287a .money-box .money {
+  font-size: 13rpx;
+  line-height: 22rpx;
+}
+.minimum-sized.data-v-609b287a .money-box .money text {
+  font-size: 22rpx;
+  margin-left: 6rpx;
+}
+.minimum-sized.data-v-609b287a .money-box .discounts,
+.minimum-sized.data-v-609b287a .money-box .extra {
+  border-radius: 18rpx;
+  font-size: 12rpx;
+  height: 16rpx;
+  line-height: 16rpx;
+  margin-left: 5rpx;
+  margin-top: 3rpx;
+  padding: 0 5rpx;
+}
+.minimum-sized.data-v-609b287a .money-box .discounts text,
+.minimum-sized.data-v-609b287a .money-box .extra text {
+  font-size: 15rpx;
+}

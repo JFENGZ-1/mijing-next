@@ -1,0 +1,269 @@
+<view bindtap="__e" class="data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'cancelBubbling',['$event'] ] ] ] ]}}">
+    <view class="container data-v-fd1cd360">
+        <view class="personalTainerModule data-v-fd1cd360" style="{{'height:'+StatusBar+CustomBar+$root.m0+'px'+';'}}">
+            <view class="info-module nav_floating data-v-fd1cd360" style="{{'opacity:'+fixedBarOpacity+';'+'height:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="data-v-fd1cd360" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+                <view class="capsule-wrap data-v-fd1cd360" style="{{'display:flex;'+'height:'+CustomBar+'px'+';'}}">
+                    <view bindtap="__e" class="back data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}" style="{{'width:'+CustomBar+'px'+';'+'height:'+CustomBar+'px'+';'}}">
+                        <image class="data-v-fd1cd360" src="{{$root.m1}}"></image>
+                    </view>
+                    <view class="head-img data-v-fd1cd360">
+                        <image class="img-head data-v-fd1cd360" src="{{personalTainerInfo.userFaceurl}}"></image>
+                        <text class="head-realName data-v-fd1cd360">{{$root.m2}}</text>
+                    </view>
+                </view>
+            </view>
+            <view class="info-module data-v-fd1cd360">
+                <view class="data-v-fd1cd360" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+                <view class="capsule-wrap data-v-fd1cd360" style="{{'height:'+CustomBar+'px'+';'}}">
+                    <view bindtap="__e" class="back data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}" style="{{'width:'+CustomBar+'px'+';'+'height:'+CustomBar+'px'+';'}}">
+                        <image class="data-v-fd1cd360" src="{{$root.m3}}"></image>
+                    </view>
+                </view>
+                <view class="{{[ 'data-v-fd1cd360',''+(noLogin==0?'photo-filter':'photo-filter-grey') ]}}" style="{{'height:'+StatusBar+CustomBar+$root.m4+'px'+';'+'background:'+'url('+personalTainerInfo.userFaceurl+')'+';'+'background-repeat:'+'no-repeat'+';'+'background-size:'+'100% 100%'+';'}}">
+                    <view class="data-v-fd1cd360" style="{{'background:'+'#000000'+';'+'opacity:'+'0.3'+';'+'width:'+'100%'+';'+'height:'+' 100%'+';'}}"></view>
+                </view>
+                <view class="wrap data-v-fd1cd360">
+                    <view class="center-wrap data-v-fd1cd360">
+                        <view class="info-wrap data-v-fd1cd360">
+                            <view class="photo-wrap data-v-fd1cd360">
+                                <image class="{{['photo-image','data-v-fd1cd360',noLogin==1?'photo-image-grey':'']}}" src="{{personalTainerInfo.userFaceurl}}"></image>
+                            </view>
+                            <view class="forbidden-img data-v-fd1cd360" wx:if="{{noLogin==1}}">
+                                <image class="data-v-fd1cd360" src="{{$root.m5}}" style="width:44rpx;height:44rpx;"></image>
+                            </view>
+                            <view class="name data-v-fd1cd360">{{nameText}}</view>
+                            <view class="handle-wrap data-v-fd1cd360">
+                                <view class="data-v-fd1cd360" style="display:flex;">
+                                    <view bindtap="__e" class="img-wrap data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'headleMark',['$event'] ] ] ] ]}}">
+                                        <image class="tags data-v-fd1cd360" src="{{$root.m6}}" wx:if="{{personalTainerInfo.tagValue==0}}"></image>
+                                        <image class="tags data-v-fd1cd360" src="{{$root.m7}}" wx:if="{{personalTainerInfo.tagValue==1}}"></image>
+                                        <image class="tags data-v-fd1cd360" src="{{$root.m8}}" wx:if="{{personalTainerInfo.tagValue==2}}"></image>
+                                        <image class="tags data-v-fd1cd360" src="{{$root.m9}}" wx:if="{{personalTainerInfo.tagValue==3}}"></image>
+                                        <image class="tags data-v-fd1cd360" src="{{$root.m10}}" wx:if="{{personalTainerInfo.tagValue==4}}"></image>
+                                        <image class="tags data-v-fd1cd360" src="{{$root.m11}}" wx:if="{{personalTainerInfo.tagValue==5}}"></image>
+                                    </view>
+                                    <view bindtap="__e" class="img-wrap first data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'headleSetUp',['$event'] ] ] ] ]}}" wx:if="{{!$root.m12}}">
+                                        <image class="tag data-v-fd1cd360" src="{{$root.m13}}"></image>
+                                    </view>
+                                </view>
+                                <view class="data-v-fd1cd360" style="display:flex;justify-content:flex-end;" wx:if="{{!$root.m14}}">
+                                    <view bindtap="__e" class="img-wrap first img-wrap-top data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'changeShowDrop',['$event'] ] ] ] ]}}">
+                                        <image class="tags1 data-v-fd1cd360" src="{{$root.m15}}"></image>
+                                    </view>
+                                </view>
+                                <view class="drop_down data-v-fd1cd360" hidden="{{!changeShowDrop1}}">
+                                    <view class="image_wrap data-v-fd1cd360">
+                                        <image class="data-v-fd1cd360" src="{{$root.m16}}"></image>
+                                    </view>
+                                    <view class="drop_down_list data-v-fd1cd360">
+                                        <view catchtap="__e" class="item data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',[true] ] ] ] ]}}" wx:if="{{noLogin==0}}">
+                                            <image class="data-v-fd1cd360" src="{{$root.m17}}" style="width:39rpx;height:39rpx;"></image>
+                                            <text class="data-v-fd1cd360">屏蔽访问</text>
+                                        </view>
+                                        <view catchtap="__e" class="item data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ ['forbidden'] ] ] ]}}" wx:else>
+                                            <image class="data-v-fd1cd360" src="{{$root.m18}}" style="width:39rpx;height:39rpx;"></image>
+                                            <text class="data-v-fd1cd360">取消屏蔽</text>
+                                        </view>
+                                        <view catchtap="__e" class="item data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ ['makeOver'] ] ] ]}}">
+                                            <image class="data-v-fd1cd360" src="{{$root.m19}}" style="width:39rpx;height:39rpx;"></image>
+                                            <text class="data-v-fd1cd360">转让账号</text>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="information data-v-fd1cd360">
+                        <view class="information_phone data-v-fd1cd360">
+                            <view bindtap="__e" class="data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'freeTell',['$event'] ] ] ] ]}}" wx:if="{{$root.m20}}">{{'手机号：'+personalTainerInfo.userPhone+''}}</view>
+                            <view class="data-v-fd1cd360" wx:if="{{$root.m21}}">{{'姓 名：'+(personalTainerInfo.userRealname?personalTainerInfo.userRealname:'')+''}}</view>
+                            <view class="data-v-fd1cd360">{{'昵 称：'+(personalTainerInfo.userNickname?personalTainerInfo.userNickname:'')+''}}</view>
+                            <view class="data-v-fd1cd360" wx:if="{{$root.m22}}">{{'性 别：'+personalTainerInfo.userSexName+''}}</view>
+                            <view class="data-v-fd1cd360" wx:if="{{$root.m23}}">{{'生\n\t\t\t\t\t\t\t\t\t日：'+(personalTainerInfo.userBirthday?$root.g0:'')+''}}</view>
+                            <view class="data-v-fd1cd360" wx:if="{{$root.m24}}">{{'身份证：'+(personalTainerInfo.userIdent?personalTainerInfo.userIdent:'')+''}}</view>
+                            <view class="data-v-fd1cd360" wx:if="{{$root.m25}}">{{'身 高：'+(personalTainerInfo.userHeight?personalTainerInfo.userHeight:'')+''}}</view>
+                            <view class="data-v-fd1cd360" wx:if="{{$root.m26}}">{{'体 重：'+(personalTainerInfo.userWeight?personalTainerInfo.userWeight:'')+''}}</view>
+                            <view class="data-v-fd1cd360" wx:if="{{$root.m27}}">{{'会籍：'+(personalTainerInfo.salestaffuserName?personalTainerInfo.salestaffuserName:'')+''}}</view>
+                        </view>
+                        <view class="information_remarks data-v-fd1cd360">
+                            <text class="data-v-fd1cd360">备注：</text>
+                            <view class="remarks data-v-fd1cd360">{{''+(personalTainerInfo.userRemark?personalTainerInfo.userRemark:'')+''}}</view>
+                            <view bindtap="__e" class="icon-wrap data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'headleRemarks',['$event'] ] ] ] ]}}" wx:if="{{!$root.m28}}">
+                                <image class="data-v-fd1cd360" src="{{$root.m29}}"></image>
+                            </view>
+                        </view>
+                        <image class="member_status_imgs data-v-fd1cd360" src="{{$root.m30}}" wx:if="{{noClassDays==1}}"></image>
+                        <image class="member_status_imgs data-v-fd1cd360" src="{{$root.m31}}" wx:if="{{noClassDays==2}}"></image>
+                        <image class="member_status_imgs data-v-fd1cd360" src="{{$root.m32}}" wx:if="{{noClassDays==3}}"></image>
+                        <image class="member_status_imgs data-v-fd1cd360" src="{{$root.m33}}" wx:if="{{noClassDays==4}}"></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="list-wrap data-v-fd1cd360">
+            <view class="list-wrap-item data-v-fd1cd360">
+                <scroll-view class="data-v-fd1cd360" scrollX="true" showScrollbar="false" style="white-space:nowrap;">
+                    <view class="appointment-info data-v-fd1cd360" style="display:inline-flex;white-space:nowrap;">
+                        <view bindtap="__e" class="appointment_con data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ ['rechargeAmount'] ] ] ]}}">
+                            <view class="appointment_num data-v-fd1cd360">{{totalPayAmount.total_pay_amount!=null?totalPayAmount.total_pay_amount:'--'}}</view>
+                            <view class="appointment_text data-v-fd1cd360">累计</view>
+                            <view class="appointment_Recharge data-v-fd1cd360">总消费(元)</view>
+                        </view>
+                        <u-line bind:__l="__l" class="u-line data-v-fd1cd360" color="#DDDDDD" direction="col" length="67rpx" vueId="2dfcf759-1"></u-line>
+                        <view bindtap="__e" class="appointment_con data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ ['courseDetail'] ] ] ]}}">
+                            <view class="appointment_num data-v-fd1cd360">{{(totalPayAmount.teamclass_month_count!=undefined?totalPayAmount.teamclass_month_count:'-')+''}}<view class="cumulative data-v-fd1cd360">{{'/'+(totalPayAmount.teamclass_total_count!=null?totalPayAmount.teamclass_total_count:'-')}}</view>
+                            </view>
+                            <view class="appointment_text data-v-fd1cd360">本月/累计</view>
+                            <view class="appointment_Recharge data-v-fd1cd360">团课</view>
+                        </view>
+                        <u-line bind:__l="__l" class="u-line data-v-fd1cd360" color="#DDDDDD" direction="col" length="67rpx" vueId="2dfcf759-2"></u-line>
+                        <view bindtap="__e" class="appointment_con data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ ['personalDetail'] ] ] ]}}">
+                            <view class="appointment_num data-v-fd1cd360">{{(totalPayAmount.priclass_month_count!=undefined?totalPayAmount.priclass_month_count:'--')+''}}<view class="cumulative data-v-fd1cd360">{{'/'+(totalPayAmount.priclass_total_count!=null?totalPayAmount.priclass_total_count:'-')}}</view>
+                            </view>
+                            <view class="appointment_text data-v-fd1cd360">本月/累计</view>
+                            <view class="appointment_Recharge data-v-fd1cd360">私教</view>
+                        </view>
+                        <u-line bind:__l="__l" class="u-line data-v-fd1cd360" color="#DDDDDD" direction="col" length="67rpx" vueId="2dfcf759-3"></u-line>
+                        <view bindtap="__e" class="appointment_con data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ ['pointDetail'] ] ] ]}}" wx:if="{{totalPayAmount.pointStart==1}}">
+                            <view class="appointment_num data-v-fd1cd360">{{(totalPayAmount.last_month_point!=undefined?totalPayAmount.last_month_point:'-')+''}}<view class="cumulative data-v-fd1cd360">{{'/'+(totalPayAmount.total_point!=null?totalPayAmount.total_point:'-')}}</view>
+                            </view>
+                            <view class="appointment_text data-v-fd1cd360">本月/累计</view>
+                            <view class="appointment_Recharge data-v-fd1cd360">积分</view>
+                        </view>
+                        <u-line bind:__l="__l" class="u-line data-v-fd1cd360" color="#DDDDDD" direction="col" length="67rpx" vueId="2dfcf759-4" wx:if="{{totalPayAmount.pointStart==1}}"></u-line>
+                        <view bindtap="__e" class="appointment_con data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ ['truantDetail'] ] ] ]}}">
+                            <view class="appointment_num data-v-fd1cd360">{{(totalPayAmount.absence_count!=undefined?totalPayAmount.absence_count:'-')+''}}<view class="cumulative data-v-fd1cd360">{{'/'+(totalPayAmount.absent_count_total!=null?totalPayAmount.absent_count_total:'-')}}</view>
+                            </view>
+                            <view class="appointment_text data-v-fd1cd360">本月/累计</view>
+                            <view class="appointment_Recharge data-v-fd1cd360">旷课</view>
+                        </view>
+                        <u-line bind:__l="__l" class="u-line data-v-fd1cd360" color="#DDDDDD" direction="col" length="67rpx" vueId="2dfcf759-5"></u-line>
+                        <view class="appointment_con data-v-fd1cd360" style="width:auto;">
+                            <view class="appointment_num data-v-fd1cd360">{{totalPayAmount.expend_price!=null?totalPayAmount.expend_price:'--'}}</view>
+                            <view class="appointment_text data-v-fd1cd360">合计</view>
+                            <view class="appointment_Recharge data-v-fd1cd360">已耗卡</view>
+                        </view>
+                        <u-line bind:__l="__l" class="u-line data-v-fd1cd360" color="#DDDDDD" direction="col" length="67rpx" vueId="2dfcf759-6"></u-line>
+                        <view class="appointment_con data-v-fd1cd360" style="width:auto;">
+                            <view class="appointment_num data-v-fd1cd360">{{totalPayAmount.left_price!=null?totalPayAmount.left_price:'--'}}</view>
+                            <view class="appointment_text data-v-fd1cd360">合计</view>
+                            <view class="appointment_Recharge data-v-fd1cd360">剩余价值</view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </view>
+            <view class="notice-card data-v-fd1cd360">
+                <view bindtap="__e" class="card_explain data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'headleReceive',['$event'] ] ] ] ]}}" wx:if="{{$root.g1}}">该会员还没领取此卡，通知会员领取<image class="data-v-fd1cd360" src="{{$root.m34}}"></image>
+                </view>
+            </view>
+            <view class="new_card data-v-fd1cd360" wx:if="{{$root.g2!=0}}">
+                <view class="center data-v-fd1cd360">
+                    <view class="new_card_text cark_title data-v-fd1cd360">{{'共'+$root.g3+'张卡'}}</view>
+                </view>
+                <view bindtap="__e" class="center data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'recycle',['$event'] ] ] ] ]}}" wx:if="{{$root.g4>0}}">
+                    <view class="new_card_text data-v-fd1cd360">删除的卡</view>
+                    <u-icon bind:__l="__l" class="arrow-right data-v-fd1cd360" color="#989898" name="arrow-right" size="16" vueId="2dfcf759-7"></u-icon>
+                </view>
+            </view>
+            <view class="no_card data-v-fd1cd360" wx:else>
+                <view class="no_card_image data-v-fd1cd360">
+                    <image class="renew-icon data-v-fd1cd360" mode="widthFix" src="{{$root.m35}}"></image>
+                </view>
+                <view bindtap="__e" class="recovery-del-bt data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'recycle',['$event'] ] ] ] ]}}" wx:if="{{$root.g5}}">
+                    <view class="new_card_text data-v-fd1cd360">删除的卡</view>
+                    <u-icon bind:__l="__l" class="arrow-right data-v-fd1cd360" color="#989898" name="arrow-right" size="16" vueId="2dfcf759-8"></u-icon>
+                </view>
+            </view>
+            <view class="cardList data-v-fd1cd360" wx:if="{{$root.g6!=0}}">
+                <view class="card_face data-v-fd1cd360">
+                    <view class="card-wrap data-v-fd1cd360" style="{{'top:'+top+';'+'position:'+'relative'+';'}}" wx:if="{{$root.g7>0}}">
+                        <block wx:if="{{isshowCardmore}}">
+                            <view bindtap="__e" class="card-item data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'toggleCard',['$0',index],[ [ ['cardlist','',index] ] ] ] ] ] ]}}" wx:if="{{item.$orig.cardStatus!=2&&item.$orig.balanceAmount!=0}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <member-card activeClass="large-size" bind:__l="__l" bind:moreProject="__e" cardInfo="{{item.$orig}}" class="data-v-fd1cd360" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" vueId="{{'2dfcf759-9-'+index}}"></member-card>
+                                <view catchtap="__e" class="remake-box data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'remarkCard',['$0'],[ [ ['cardlist','',index] ] ] ] ] ] ]}}" wx:if="{{item.$orig.cardRemark}}">
+                                    <text class="remarkfont data-v-fd1cd360">备注：</text>
+                                    <text class="remarkcontent data-v-fd1cd360">{{item.$orig.cardRemark?item.m36:''}}</text>
+                                </view>
+                            </view>
+                        </block>
+                        <view class="data-v-fd1cd360" wx:if="{{$root.g8}}">
+                            <u-divider bind:__l="__l" class="data-v-fd1cd360" color="#989898" fontSize="25rpx" halfWidth="{{180}}" marginBottom="{{45}}" vueId="2dfcf759-10" vueSlots="{{['default']}}">已无余额或已过期</u-divider>
+                        </view>
+                        <block wx:if="{{isshowmore}}">
+                            <view bindtap="__e" class="card-item data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'toggleCard',['$0',index],[ [ ['cardlist','',index] ] ] ] ] ] ]}}" wx:if="{{item.$orig.cardStatus==2||item.$orig.balanceAmount==0}}" wx:for="{{$root.l1}}" wx:key="index">
+                                <member-card activeClass="large-size" bind:__l="__l" bind:moreProject="__e" cardInfo="{{item.$orig}}" class="data-v-fd1cd360" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" vueId="{{'2dfcf759-11-'+index}}"></member-card>
+                                <view catchtap="__e" class="remake-box data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'remarkCard',['$0'],[ [ ['cardlist','',index] ] ] ] ] ] ]}}" wx:if="{{item.$orig.cardRemark}}">
+                                    <text class="remarkfont data-v-fd1cd360">备注：</text>
+                                    <text class="remarkcontent data-v-fd1cd360">{{item.$orig.cardRemark?item.m37:''}}</text>
+                                </view>
+                            </view>
+                        </block>
+                        <view class="click-description data-v-fd1cd360">点击会员卡，查看更多信息</view>
+                    </view>
+                </view>
+            </view>
+            <view bindtap="__e" class="create-card data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'headleNewCard',['$event'] ] ] ] ]}}" wx:if="{{$root.m38}}">
+                <view class="bg data-v-fd1cd360">
+                    <text class="data-v-fd1cd360">发卡</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <remarks bind:__l="__l" bind:remarksSubmit="__e" class="data-v-fd1cd360 vue-ref" data-event-opts="{{[ [ '^remarksSubmit',[ ['remarksSubmit'] ] ] ]}}" data-ref="remarksRef" personalTainerInfo="{{personalTainerInfo}}" vueId="2dfcf759-12"></remarks>
+    <mark-pop bind:__l="__l" bind:radioGroupSubmit="__e" class="data-v-fd1cd360 vue-ref" data-event-opts="{{[ [ '^radioGroupSubmit',[ ['radioGroupSubmit'] ] ] ]}}" data-ref="markpopRef" personalTainerInfo="{{personalTainerInfo}}" vueId="2dfcf759-13"></mark-pop>
+    <member-cards bind:__l="__l" bind:aa="__e" bind:submit="__e" bind:updateDetailsPage="__e" class="data-v-fd1cd360 vue-ref" data-event-opts="{{[ [ '^submit',[ ['headleDelUserCard'] ] ],[ '^aa',[ ['headleRecordList'] ] ],[ '^updateDetailsPage',[ ['updateDetailsPage'] ] ] ]}}" data-ref="membercardRef" itemList="{{itemList}}" vueId="2dfcf759-14"></member-cards>
+    <confirm-modal bind:__l="__l" class="data-v-fd1cd360 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="会员领取会员卡的三种方式" vueId="2dfcf759-15" vueSlots="{{['content','btn']}}">
+        <view class="data-v-fd1cd360" slot="content">
+            <view class="content_qr_code data-v-fd1cd360">
+                <view class="qr_code data-v-fd1cd360">
+                    <image class="data-v-fd1cd360" src="{{qrCode}}"></image>
+                </view>
+                <view class="qr_code_name data-v-fd1cd360">让会员扫码领取</view>
+            </view>
+            <view class="border data-v-fd1cd360"></view>
+            <view class="receive data-v-fd1cd360">
+                <view bindtap="__e" class="forward data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'headleForward',['$event'] ] ] ] ]}}">
+                    <view class="forward_image data-v-fd1cd360">
+                        <image class="data-v-fd1cd360" src="{{$root.m39}}"></image>
+                    </view>
+                    <view class="forward_name data-v-fd1cd360">转发给会员</view>
+                </view>
+                <view bindtap="__e" class="self_receive data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'headleSelf',['$event'] ] ] ] ]}}">
+                    <view class="self_receive_image data-v-fd1cd360">
+                        <image class="data-v-fd1cd360" src="{{$root.m40}}"></image>
+                    </view>
+                    <view class="self_receive_name data-v-fd1cd360">会员自领取</view>
+                </view>
+            </view>
+        </view>
+        <view class="Cancel data-v-fd1cd360" slot="btn">
+            <view bindtap="__e" class="modal-btn data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">关闭</view>
+        </view>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" class="data-v-fd1cd360 vue-ref" customBtn="{{true}}" data-ref="addconfirmModal" title="可将该文字发给会员" vueId="2dfcf759-16" vueSlots="{{['content','btn']}}">
+        <view class="data-v-fd1cd360" slot="content">
+            <view class="explain data-v-fd1cd360">
+                <view class="explain_text data-v-fd1cd360">{{''+oneList}}<view class="_br data-v-fd1cd360"></view>{{''+twoList}}<view class="_br data-v-fd1cd360"></view>
+                    <text class="text data-v-fd1cd360">{{threeList+personalTainerInfo.userPhone}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="btn_modal data-v-fd1cd360" slot="btn">
+            <view bindtap="__e" class="modal-cancel data-v-fd1cd360" data-event-opts="{{[ [ 'tap',[ [ 'handleCopy',['$event'] ] ] ] ]}}">复制并关闭</view>
+        </view>
+    </confirm-modal>
+    <new-card bind:__l="__l" bind:submit="__e" class="data-v-fd1cd360 vue-ref" data-event-opts="{{[ [ '^submit',[ ['newCardSubmit'] ] ] ]}}" data-ref="newcardRef" vueId="2dfcf759-17"></new-card>
+    <make-over bind:__l="__l" bind:submit="__e" class="data-v-fd1cd360 vue-ref" data-event-opts="{{[ [ '^submit',[ ['makeOverSubmit'] ] ] ]}}" data-ref="makeOverRef" vueId="2dfcf759-18"></make-over>
+    <card-all-project bind:__l="__l" class="data-v-fd1cd360 vue-ref" data-ref="cardAllProject" vueId="2dfcf759-19"></card-all-project>
+    <remark-order-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-fd1cd360 vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editRemark'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkAppointment" vueId="2dfcf759-20"></remark-order-popup>
+    <remark-order-card-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-fd1cd360 vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editRemarkCard'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkAppointmentCard" vueId="2dfcf759-21"></remark-order-card-popup>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-fd1cd360 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['forbiddenConfirmBtn'] ] ] ]}}" data-ref="forbiddenConfirmModal" title="确认屏蔽该会员进入？" vueId="2dfcf759-22" vueSlots="{{['content']}}">
+        <view class="data-v-fd1cd360" slot="content">
+            <view class="data-v-fd1cd360">1、该会员将<text class="data-v-fd1cd360" style="color:#DC3C5C;">【禁止进入到会员端】 </text>
+            </view>
+            <view class="data-v-fd1cd360">2、该会员将无法看到本馆的排课及所有信息</view>
+        </view>
+    </confirm-modal>
+    <ff-bottom-logo bind:__l="__l" class="data-v-fd1cd360" vueId="2dfcf759-23"></ff-bottom-logo>
+</view>

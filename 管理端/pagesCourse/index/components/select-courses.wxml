@@ -1,0 +1,12 @@
+<view class="data-v-7fc29bf7">
+    <ff-popup bind:__l="__l" bind:headleClose="__e" bind:input="__e" class="data-v-7fc29bf7" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" showConfrim="{{false}}" title="选择课程" type="{{3}}" value="{{show}}" vueId="56490d5e-1" vueSlots="{{['default']}}">
+        <view class="main-box data-v-7fc29bf7">
+            <view class="data-v-7fc29bf7">
+                <u-search bind:__l="__l" bind:input="__e" class="data-v-7fc29bf7" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','keyword','$event',[] ] ] ] ] ]}}" height="69" placeholder="团课名称" searchIconColor="#FBD128" showAction="{{false}}" value="{{keyword}}" vueId="{{'56490d5e-2'+','+'56490d5e-1'}}"></u-search>
+            </view>
+            <view class="tip data-v-7fc29bf7">{{'共'+$root.g0+'个课程'}}</view>
+            <subject-card bind:__l="__l" bindtap="__e" class="data-v-7fc29bf7" data-event-opts="{{[ [ 'tap',[ [ 'openTime',['$0'],[ [ ['showList','',index] ] ] ] ] ] ]}}" groupData="{{item}}" vueId="{{'56490d5e-3-'+index+','+'56490d5e-1'}}" wx:for="{{showList}}" wx:key="index"></subject-card>
+            <empty-data bind:__l="__l" class="data-v-7fc29bf7" text="没有找到相关课目" vueId="{{'56490d5e-4'+','+'56490d5e-1'}}" wx:if="{{!$root.g1}}"></empty-data>
+        </view>
+    </ff-popup>
+</view>

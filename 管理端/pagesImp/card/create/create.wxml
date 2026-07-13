@@ -1,0 +1,29 @@
+<view class="data-v-0c9ec07d">
+    <view class="create-container content-height data-v-0c9ec07d">
+        <view bindtap="__e" class="type-item u-border-bottom data-v-0c9ec07d" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/card/member-card/index?type=2'] ] ] ] ] ] ]}}">
+            <image class="img-icon data-v-0c9ec07d" src="{{$root.m0}}"></image>
+            <view class="content data-v-0c9ec07d">
+                <text class="data-v-0c9ec07d">计次卡</text>
+                <view class="data-v-0c9ec07d">即次卡，按次进行消费</view>
+            </view>
+            <image class="arrow data-v-0c9ec07d" src="{{$root.m1}}"></image>
+        </view>
+        <view bindtap="__e" class="type-item u-border-bottom data-v-0c9ec07d" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/card/member-card/index?type=3'] ] ] ] ] ] ]}}">
+            <image class="img-icon data-v-0c9ec07d" src="{{$root.m2}}"></image>
+            <view class="content data-v-0c9ec07d">
+                <text class="data-v-0c9ec07d">期限卡</text>
+                <view class="data-v-0c9ec07d">即包月\季\年卡，可设置任意天数，中间允许停卡</view>
+            </view>
+            <image class="arrow data-v-0c9ec07d" src="{{$root.m3}}"></image>
+        </view>
+        <view bindtap="__e" class="type-item u-border-bottom data-v-0c9ec07d" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/card/member-card/index?type=1'] ] ] ] ] ] ]}}">
+            <image class="img-icon data-v-0c9ec07d" src="{{$root.m4}}"></image>
+            <view class="content data-v-0c9ec07d">
+                <text class="data-v-0c9ec07d">储值卡</text>
+                <view class="data-v-0c9ec07d">即充值卡，每次消费时支付相应的金额</view>
+            </view>
+            <image class="arrow data-v-0c9ec07d" src="{{$root.m5}}"></image>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-0c9ec07d" vueId="6a36bf0d-1"></ff-bottom-logo>
+</view>

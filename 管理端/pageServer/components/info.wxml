@@ -1,0 +1,16 @@
+<view class="info-main data-v-00ec14cc">
+    <view class="shop-logo data-v-00ec14cc">
+        <image class="data-v-00ec14cc" src="{{shopInfo.siteTrademark}}"></image>
+    </view>
+    <view class="shop-text data-v-00ec14cc">
+        <view class="shop-name data-v-00ec14cc">{{''+shopInfo.siteName+''}}</view>
+        <view class="{{['renew-status','data-v-00ec14cc',stopServeInfo.versionId==1?'vip':'']}}">
+            <image class="data-v-00ec14cc" src="{{$root.m0}}" wx:if="{{stopServeInfo.versionId==1}}"></image>
+            <view class="versions-status data-v-00ec14cc">{{''+stopServeInfo.versionName+''}}</view>
+            <view class="indate data-v-00ec14cc" wx:if="{{stopServeInfo.endTime}}">{{'有效期至'+stopServeInfo.endTime+''}}</view>
+        </view>
+    </view>
+    <view class="renew-btn data-v-00ec14cc">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-00ec14cc" customStyle="{{custom_style}}" data-event-opts="{{[ [ '^click',[ ['orderClick'] ] ] ]}}" type="primary" vueId="7ca3524e-1" vueSlots="{{['default']}}" wx:if="{{btnShow}}">订购/续费</u-button>
+    </view>
+</view>

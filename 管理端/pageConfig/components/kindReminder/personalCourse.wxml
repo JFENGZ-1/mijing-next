@@ -1,0 +1,72 @@
+<view>
+    <view class="teamCourse">
+        <view class="head">
+            <view>
+                <image></image>
+            </view>
+            <view>
+                <view class="title"></view>
+            </view>
+        </view>
+        <view class="headContent">
+            <view>
+                <view class="info_top">
+                    <view class="left">
+                        <view class="flex vertical_center">
+                            <view class="course_name"></view>
+                        </view>
+                        <view class="time"></view>
+                    </view>
+                </view>
+                <view class="info_center">
+                    <view class="row">
+                        <view class="item">
+                            <view class="title"></view>
+                        </view>
+                        <view class="item">
+                            <view class="title"></view>
+                        </view>
+                        <view class="item">
+                            <view class="title"></view>
+                        </view>
+                    </view>
+                </view>
+                <view class="kind_reminder">
+                    <view class="kind_reminder1"></view>
+                    <view class="cautions1" style="margin-top:-26rpx;">
+                        <text>我的预约</text>
+                        <view class="appointment">
+                            <view class="item1 item">
+                                <image></image>
+                                <view class="item2 item">
+                                    <view class="col1"></view>
+                                    <view class="col2"></view>
+                                </view>
+                            </view>
+                            <view class="item3 item">
+                                <view class="col1"></view>
+                                <view class="col2"></view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="content" wx:if="{{!kindReminder.text}}">
+                        <text>私教提示区</text>
+                    </view>
+                    <view class="content_exist" wx:if="{{kindReminder.text}}">
+                        <text wx:if="{{kindReminder.title}}">{{kindReminder.title}}</text>
+                        <view class="item" wx:if="{{kindReminder.text}}">
+                            <u-parse bind:__l="__l" class="rich-text" html="{{kindReminder.text}}" vueId="a4cf854a-1"></u-parse>
+                        </view>
+                    </view>
+                    <view class="cautions">
+                        <text>注意事项</text>
+                        <view class="item1 item" style="margin-top:26rpx;"></view>
+                        <view class="item2 item"></view>
+                        <view class="item3 item"></view>
+                        <view class="item4 item"></view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,70 @@
+::veep canvas {
+  height: 229px;
+}
+.main {
+  background: #fff;
+  padding: 0 30rpx;
+}
+.main .content {
+  padding: 10rpx 31rpx 150rpx 50rpx;
+}
+.main .content .item {
+  display: -webkit-flex;
+  display: flex;
+  padding-top: 20rpx;
+}
+.main .content .item image {
+  border-radius: 22rpx;
+  height: 305rpx;
+  width: 527rpx;
+}
+.main .content .item .tag-group {
+  display: contents;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-left: 21rpx;
+}
+.main .content .item .tag-group text {
+  color: #181818;
+  font-size: 22rpx;
+  line-height: 28rpx;
+  padding-top: 1rpx;
+}
+.main .content .item .tag-group .tag-del {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10rpx;
+  padding-top: 26rpx;
+}
+.main .content .item .tag-group .tag-del image {
+  height: 48rpx;
+  width: 48rpx;
+}
+.main .content .item .tag-group .tag {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+.main .content .item .tag-group .tag image {
+  height: 48rpx;
+  width: 48rpx;
+}
+.main .content .add {
+  align-items: center;
+  background: #fbd128;
+  border-radius: 50rpx;
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+  height: 68rpx;
+  justify-content: center;
+  margin: 45rpx auto 20rpx;
+  width: 400rpx;
+}
+.hint_wrap {
+  padding-top: 20rpx;
+}

@@ -1,0 +1,61 @@
+<view class="permission-edit-container data-v-6e33059b">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-6e33059b" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','permissionShow','$event',[] ] ] ] ] ]}}" height="{{1200}}" title="权限设置" value="{{permissionShow}}" vueId="7db9ee1e-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-6e33059b" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-6e33059b" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'7db9ee1e-2'+','+'7db9ee1e-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="permission-edit data-v-6e33059b">
+            <view class="head data-v-6e33059b" wx:if="{{i.checked&&i.isCustom==0}}" wx:for="{{permissionList}}" wx:for-item="i" wx:key="index">
+                <u-icon bind:__l="__l" class="data-v-6e33059b" color="#C96B30" name="bell" size="22rpx" vueId="{{'7db9ee1e-3-'+index+','+'7db9ee1e-1'}}"></u-icon>
+                <text class="data-v-6e33059b">{{i.roleDesc}}</text>
+            </view>
+            <view class="headbut data-v-6e33059b">
+                <view class="button-list data-v-6e33059b">
+                    <view bindtap="__e" class="{{['list-item','data-v-6e33059b',i.checked?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeRole',['$0'],[ [ ['permissionList','',index] ] ] ] ] ] ]}}" wx:for="{{permissionList}}" wx:for-item="i" wx:key="index">{{''+i.roleName+''}}<u-icon bind:__l="__l" class="icon data-v-6e33059b" data-custom-hidden="{{!i.checked}}" name="checkmark-circle-fill" vueId="{{'7db9ee1e-4-'+index+','+'7db9ee1e-1'}}"></u-icon>
+                    </view>
+                </view>
+            </view>
+            <view class="content data-v-6e33059b">
+                <view class="title data-v-6e33059b">
+                    <view bindtap="__e" class="{{['nav','data-v-6e33059b',i.checked?'is-checked':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changePFunction',['$0'],[ [ ['pfunction','',index] ] ] ] ] ] ]}}" wx:for="{{pfunction}}" wx:for-item="i" wx:key="index">{{''+i.funcName+''}}<image class="pic data-v-6e33059b" hidden="{{!i.checked}}" src="{{$root.m0}}"></image>
+                    </view>
+                </view>
+                <view class="text data-v-6e33059b">
+                    <view class="data-v-6e33059b" wx:if="{{i.$orig.show}}" wx:for="{{$root.l1}}" wx:for-item="i" wx:key="index">
+                        <view class="function-item data-v-6e33059b">
+                            <view class="text-list data-v-6e33059b">
+                                <view class="data-v-6e33059b">
+                                    <text class="name data-v-6e33059b">{{i.$orig.funcName}}</text>
+                                    <text class="detail data-v-6e33059b">{{i.$orig.funcDesc}}</text>
+                                </view>
+                                <u-switch bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-6e33059b" data-event-opts="{{[ [ '^change',[ [ 'parentSwitchChange',['$0'],[ [ ['cfunction','',index] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','checked','$event',[] ],[ [ ['cfunction','',index] ] ] ] ] ] ]}}" disabled="{{i.$orig.disabled}}" value="{{i.$orig.checked}}" vueId="{{'7db9ee1e-5-'+index+','+'7db9ee1e-1'}}"></u-switch>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-6e33059b" color="#F0F0F0" length="520rpx" margin="28rpx 0 15rpx" vueId="{{'7db9ee1e-6-'+index+','+'7db9ee1e-1'}}" wx:if="{{i.g0}}"></u-line>
+                            <view class="children-list data-v-6e33059b" wx:if="{{i.g1}}">
+                                <view class="children-image-list data-v-6e33059b" wx:if="{{i.$orig.funcId===51}}">
+                                    <view bindtap="__e" class="image-item data-v-6e33059b" data-event-opts="{{[ [ 'tap',[ [ 'toggleImageChild',['$0','$1'],[ [ ['cfunction','',index] ],[ ['cfunction','',index],['children','',childIndex] ] ] ] ] ] ]}}" wx:for="{{i.l0}}" wx:for-index="childIndex" wx:for-item="child" wx:key="childIndex">
+                                        <view class="{{['logo-wrap','data-v-6e33059b',child.$orig.selected?'logo-wrap-selected':'']}}">
+                                            <image class="data-v-6e33059b" mode="widthFix" src="{{child.m1}}"></image>
+                                            <view class="{{['check-icon','data-v-6e33059b',child.$orig.selected?'check-icon-selected':'']}}">
+                                                <u-icon bind:__l="__l" class="data-v-6e33059b" color="#fff" name="checkmark" size="26" vueId="{{'7db9ee1e-7-'+index+'-'+childIndex+','+'7db9ee1e-1'}}" wx:if="{{child.$orig.selected}}"></u-icon>
+                                            </view>
+                                        </view>
+                                        <view class="{{['text-wrap','data-v-6e33059b',child.$orig.selected?'text-selected':'']}}">{{child.$orig.funcName}}</view>
+                                    </view>
+                                </view>
+                                <view class="data-v-6e33059b" wx:else>
+                                    <u-radio-group bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-6e33059b" data-event-opts="{{[ [ '^change',[ [ 'childRadioChange',['$0','$event'],[ [ ['cfunction','',index] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','selectedRadioValue','$event',[] ],[ [ ['cfunction','',index] ] ] ] ] ] ]}}" value="{{i.$orig.selectedRadioValue}}" vueId="{{'7db9ee1e-8-'+index+','+'7db9ee1e-1'}}" vueSlots="{{['default']}}">
+                                        <view class="child-item data-v-6e33059b" wx:for="{{i.$orig.children}}" wx:for-index="childIndex" wx:for-item="child" wx:key="childIndex">
+                                            <u-radio appearance="circle" bind:__l="__l" class="data-v-6e33059b" disabled="{{i.$orig.disabled}}" name="{{child.funcId}}" vueId="{{'7db9ee1e-9-'+index+'-'+childIndex+','+'7db9ee1e-8-'+index}}" vueSlots="{{['default']}}">
+                                                <text class="{{['child-name','data-v-6e33059b',i.$orig.selectedRadioValue===child.funcId?'child-name-active':'']}}">{{child.funcName}}</text>
+                                            </u-radio>
+                                        </view>
+                                    </u-radio-group>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

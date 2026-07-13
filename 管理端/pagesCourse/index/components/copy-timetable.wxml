@@ -1,0 +1,68 @@
+<view class="data-v-ed31a10e">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-ed31a10e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" title="复制课表" value="{{show}}" vueId="bffadca2-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-ed31a10e" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-ed31a10e" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'bffadca2-2'+','+'bffadca2-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="main-box data-v-ed31a10e">
+            <view class="btn-warp data-v-ed31a10e">
+                <view bindtap="__e" class="{{['item','data-v-ed31a10e',type==1?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeType',[1] ] ] ] ]}}">本周到下周</view>
+                <view bindtap="__e" class="{{['item','data-v-ed31a10e',type==2?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeType',[2] ] ] ] ]}}">本周到本月月底</view>
+                <view bindtap="__e" class="{{['item','data-v-ed31a10e',type==3?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeType',[3] ] ] ] ]}}">上周到本周</view>
+                <view bindtap="__e" class="{{['item','data-v-ed31a10e',type==4?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeType',[4] ] ] ] ]}}">自定义时段</view>
+            </view>
+            <view class="{{['time-warp','data-v-ed31a10e',type==4?'time-warp-bg':'']}}">
+                <view class="item data-v-ed31a10e">
+                    <text class="text data-v-ed31a10e">{{$root.f0}}</text>
+                    <text bindtap="__e" class="btn data-v-ed31a10e" data-event-opts="{{[ [ 'tap',[ [ 'openDate',['start'] ] ] ] ]}}">{{startTime+' '+startWeek}}</text>
+                    <text class="text2 data-v-ed31a10e">至</text>
+                    <text bindtap="__e" class="{{['btn','data-v-ed31a10e',type==4?'btn-clickable':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'openDate',['startEnd'] ] ] ] ]}}">{{endTime+' '+endWeek}}</text>
+                </view>
+                <view class="item data-v-ed31a10e">
+                    <text class="text data-v-ed31a10e">粘贴到</text>
+                    <text bindtap="__e" class="btn data-v-ed31a10e" data-event-opts="{{[ [ 'tap',[ [ 'openDate',['end'] ] ] ] ]}}">{{startTime2+' '+startWeek2}}</text>
+                    <text class="text2 data-v-ed31a10e">至</text>
+                    <text bindtap="__e" class="{{['btn','data-v-ed31a10e',type==4?'btn-clickable':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'openDate',['endEnd'] ] ] ] ]}}">{{endTime2+' '+endWeek2}}</text>
+                </view>
+            </view>
+            <view class="tip-warp data-v-ed31a10e">
+                <view class="tip data-v-ed31a10e" wx:if="{{type==4}}">将<text class="text data-v-ed31a10e">{{startTime+startWeek}}</text>与<text class="text data-v-ed31a10e">{{startTime2+startWeek2}}</text>为对应起点，进行循环复制</view>
+            </view>
+        </view>
+    </ff-popup>
+    <u-calendar bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-ed31a10e vue-ref" data-event-opts="{{[ [ '^change',[ ['change'] ] ],[ '^input',[ [ '__set_model',[ '','calendarShow','$event',[] ] ] ] ] ]}}" data-ref="calendar" maxDate="2100-01-01" mode="{{type==4?'date':'range'}}" showConfirm="{{false}}" value="{{calendarShow}}" vueId="bffadca2-3"></u-calendar>
+    <u-calendar bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-ed31a10e" data-event-opts="{{[ [ '^change',[ ['change2'] ] ],[ '^input',[ [ '__set_model',[ '','calendarShow2','$event',[] ] ] ] ] ]}}" maxDate="2100-01-01" mode="date" showConfirm="{{false}}" value="{{calendarShow2}}" vueId="bffadca2-4"></u-calendar>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-ed31a10e vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirmCopy'] ] ] ]}}" data-ref="confirmModal" title="注意，确认日期是否正确？" vueId="bffadca2-5" vueSlots="{{['content']}}">
+        <text class="data-v-ed31a10e" slot="content"> 将课表<text class="confirm-date data-v-ed31a10e">{{''+startTime+' '+startWeek}}</text>至<text class="confirm-date data-v-ed31a10e">{{endTime+' '+endWeek}}</text>
+复制到<text class="confirm-date data-v-ed31a10e">{{''+startTime2+' '+startWeek2}}</text>至<text class="confirm-date data-v-ed31a10e">{{endTime2+' '+endWeek2}}</text>
+        </text>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" class="data-v-ed31a10e vue-ref" customBtn="{{true}}" data-ref="confirmModal2" title="严重警告！该时段内已有排课" vueId="bffadca2-6" vueSlots="{{['content','btn']}}">
+        <view class="data-v-ed31a10e" slot="content">
+            <view class="data-v-ed31a10e">1、日期是否正确：<text class="data-v-ed31a10e" style="color:#DC3C5C;">{{''+startTime2+' '+startWeek2}}</text>
+                <text class="data-v-ed31a10e" style="margin:6rpx;margin-right:6rpx;">至</text>
+                <text class="data-v-ed31a10e" style="color:#DC3C5C;">{{endTime2+' '+endWeek2}}</text>
+            </view>
+            <view class="data-v-ed31a10e">2、是否清除这个时段的原有排课</view>
+            <view class="content data-v-ed31a10e">
+                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-ed31a10e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','refuseChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{refuseChecked}}" vueId="{{'bffadca2-7'+','+'bffadca2-6'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-ed31a10e" style="{{'font-size:26rpx;color:#606266;line-height:56rpx;'+'font-weight:'+(refuseChecked?'500':'normal')+';'}}">以上两点我均已确认，仍要复制</text>
+                </u-checkbox>
+            </view>
+        </view>
+        <view class="confirmBtn data-v-ed31a10e" slot="btn">
+            <view bindtap="__e" class="modal-cal-btn button data-v-ed31a10e" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="{{['modal-btn','button','data-v-ed31a10e',!refuseChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'confirmCopy2',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" class="data-v-ed31a10e vue-ref" customBtn="{{true}}" data-ref="terminateModal" title="注意，未执行复制！" vueId="bffadca2-8" vueSlots="{{['content','btn']}}">
+        <view slot="content">
+            <view class="data-v-ed31a10e">原因：<text class="data-v-ed31a10e" style="color:#DC3C5C;">{{''+startTime2+' '+startWeek2}}</text>
+                <text class="data-v-ed31a10e" style="margin:6rpx;margin-right:6rpx;">至</text>
+                <text class="data-v-ed31a10e" style="color:#DC3C5C;">{{endTime2+' '+endWeek2}}</text>存在<text class="data-v-ed31a10e" style="color:#DC3C5C;font-weight:500;">已有会员预约</text>的课</view>
+            <view class="data-v-ed31a10e">方法：为避免操作失误造成大量的退课，请您检查该时段的排课，手动取消会员的约课后再进行覆盖。</view>
+        </view>
+        <view class="confirmBtn data-v-ed31a10e" slot="btn">
+            <view bindtap="__e" class="modal-btn button data-v-ed31a10e" data-event-opts="{{[ [ 'tap',[ [ 'terminateConfirm',['$event'] ] ] ] ]}}">知道了</view>
+        </view>
+    </confirm-modal>
+</view>

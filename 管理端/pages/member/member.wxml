@@ -1,0 +1,180 @@
+<page-meta class="data-v-47d3e7e4" pageStyle="{{'overflow:'+(show?'hidden':'visible')}}"></page-meta>
+<view class="{{['data-v-47d3e7e4',forbidScroll?'forbidScroll':'']}}">
+    <view class="{{['data-v-47d3e7e4',cardFlag==true?'max-fixed-boxs':'max-fixed-box']}}" style="{{'height:'+StatusBar+CustomBar+$root.m0+'px'+';'}}">
+        <view class="fixed-box data-v-47d3e7e4" style="{{'height:'+StatusBar+CustomBar+$root.m1+'px'+';'}}">
+            <view class="cu-status data-v-47d3e7e4" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+            <view class="cu-capsule data-v-47d3e7e4" style="{{'height:'+CustomBar+'px'+';'}}">会员管理</view>
+            <view class="top-search-box data-v-47d3e7e4">
+                <view class="search-box-flex data-v-47d3e7e4">
+                    <view class="search-content data-v-47d3e7e4">
+                        <view bindtap="__e" class="input-box data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleSearch',['$event'] ] ] ] ]}}">
+                            <image class="pic data-v-47d3e7e4" src="{{$root.m2}}"></image>
+                            <text class="tips data-v-47d3e7e4">会员名/手机号</text>
+                        </view>
+                        <view class="headbut data-v-47d3e7e4">
+                            <view bindtap="__e" class="filter data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleScreen',[1] ] ] ] ]}}" wx:if="{{!$root.m3}}">
+                                <image class="icon data-v-47d3e7e4" src="{{$root.m4}}"></image>
+                                <text class="te data-v-47d3e7e4">批量</text>
+                            </view>
+                            <view bindtap="__e" class="filter data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleScreen',[2] ] ] ] ]}}">
+                                <image class="icon data-v-47d3e7e4" src="{{$root.m5}}"></image>
+                                <text class="te data-v-47d3e7e4">筛选</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="placeholder-view data-v-47d3e7e4" style="{{'top:'+StatusBar+CustomBar+$root.m6+'px'+';'}}"></view>
+    <view class="fixed-loading-wrap data-v-47d3e7e4" style="{{'top:'+StatusBar+CustomBar+$root.m7+20+'px'+';'}}">
+        <view class="fixed-loading data-v-47d3e7e4"></view>
+    </view>
+    <view class="data-v-47d3e7e4">
+        <view class="member-data data-v-47d3e7e4">
+            <view bindtap="__e" class="help_img data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'openData',['$event'] ] ] ] ]}}">
+                <image class="help data-v-47d3e7e4" src="{{$root.m8}}"></image>
+            </view>
+            <view class="top-data data-v-47d3e7e4">
+                <view bindtap="__e" class="item data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleFilter',[0] ] ] ] ]}}">
+                    <view class="data-v-47d3e7e4" wx:if="{{$root.g0}}">~</view>
+                    <view class="data-v-47d3e7e4" wx:else>{{reportData.totalCount}}</view>
+                    <text class="data-v-47d3e7e4">全部会员</text>
+                </view>
+                <u-line bind:__l="__l" class="line data-v-47d3e7e4" color="#F0F0F0" direction="col" length="63rpx" vueId="31fc4540-1"></u-line>
+                <view bindtap="__e" class="item data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleFilter',[11] ] ] ] ]}}">
+                    <view class="data-v-47d3e7e4" wx:if="{{$root.g1}}">~</view>
+                    <view class="data-v-47d3e7e4" wx:else>{{reportData.monthCount}}</view>
+                    <text class="data-v-47d3e7e4">本月新增</text>
+                </view>
+            </view>
+            <view class="data-box data-v-47d3e7e4">
+                <view bindtap="__e" class="item data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleFilter',[1] ] ] ] ]}}">
+                    <text class="tex data-v-47d3e7e4" wx:if="{{$root.g2}}">~</text>
+                    <text class="tex data-v-47d3e7e4" wx:else>{{reportData.validUserCount}}</text>
+                    <view class="vie data-v-47d3e7e4">有效会员</view>
+                </view>
+                <u-line bind:__l="__l" class="u-line data-v-47d3e7e4" color="#F0F0F0" direction="col" length="63rpx" vueId="31fc4540-2"></u-line>
+                <view bindtap="__e" class="item data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleFilter',[2] ] ] ] ]}}">
+                    <text class="tex data-v-47d3e7e4" wx:if="{{$root.g3}}">~</text>
+                    <text class="tex data-v-47d3e7e4" wx:else>{{reportData.invalidUserCount}}</text>
+                    <view class="vie data-v-47d3e7e4">无效会员</view>
+                </view>
+                <u-line bind:__l="__l" class="u-line data-v-47d3e7e4" color="#F0F0F0" direction="col" length="63rpx" vueId="31fc4540-3"></u-line>
+                <view bindtap="__e" class="item data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleFilter',[9] ] ] ] ]}}">
+                    <text class="tex data-v-47d3e7e4" wx:if="{{$root.g4}}">~</text>
+                    <text class="tex data-v-47d3e7e4" wx:else>{{reportData.nocardUserCount}}</text>
+                    <view class="vie data-v-47d3e7e4">无卡/访客</view>
+                </view>
+                <u-line bind:__l="__l" class="u-line data-v-47d3e7e4" color="#F0F0F0" direction="col" length="63rpx" vueId="31fc4540-4"></u-line>
+                <view bindtap="__e" class="item data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleFilter',[10] ] ] ] ]}}">
+                    <text class="tex data-v-47d3e7e4" wx:if="{{$root.g5}}">~</text>
+                    <text class="tex data-v-47d3e7e4" wx:else>{{reportData.nologinUserCount}}</text>
+                    <view class="vie data-v-47d3e7e4">屏蔽会员</view>
+                </view>
+                <u-line bind:__l="__l" class="u-line data-v-47d3e7e4" color="#F0F0F0" direction="col" length="63rpx" vueId="31fc4540-5"></u-line>
+                <view bindtap="__e" class="item data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleFilter',[6] ] ] ] ]}}">
+                    <image class="img data-v-47d3e7e4" src="{{$root.m9}}"></image>
+                    <view class="vie data-v-47d3e7e4">更多分析</view>
+                </view>
+            </view>
+        </view>
+        <u-gap bgColor="#f5f5f5" bind:__l="__l" class="message data-v-47d3e7e4" height="24" vueId="31fc4540-6"></u-gap>
+        <view class="member-list data-v-47d3e7e4">
+            <view class="user-list data-v-47d3e7e4" wx:if="{{!noData&&hasMemberPermission}}">
+                <view class="filter data-v-47d3e7e4">
+                    <view class="left-box data-v-47d3e7e4">
+                        <u-checkbox-group bind:__l="__l" class="data-v-47d3e7e4" vueId="31fc4540-7" vueSlots="{{['default']}}">
+                            <u-checkbox bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-47d3e7e4" data-event-opts="{{[ [ '^change',[ ['changeUser'] ] ],[ '^input',[ [ '__set_model',[ '','isUser','$event',[] ] ] ] ] ]}}" shape="circle" size="30" value="{{isUser}}" vueId="{{'31fc4540-8'+','+'31fc4540-7'}}" vueSlots="{{['default']}}">
+                                <text class="data-v-47d3e7e4" style="font-size:22rpx;">含无卡/访客</text>
+                            </u-checkbox>
+                        </u-checkbox-group>
+                    </view>
+                    <view class="right-box data-v-47d3e7e4">
+                        <view bindtap="__e" class="item data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleRanking',['$0'],[ [ ['rightList','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                            <text class="data-v-47d3e7e4">{{item.$orig.name}}</text>
+                            <view class="{{['triangle','data-v-47d3e7e4',item.g6-1==index?'no-triangle':'']}}"></view>
+                            <u-icon bind:__l="__l" class="arrow-right data-v-47d3e7e4" color="#989898" name="arrow-right" size="16" vueId="{{'31fc4540-9-'+index}}"></u-icon>
+                        </view>
+                    </view>
+                </view>
+                <view class="loading-wrap data-v-47d3e7e4" wx:if="{{$root.g7===0}}">
+                    <loading-pulse bind:__l="__l" class="data-v-47d3e7e4" vueId="31fc4540-10"></loading-pulse>
+                </view>
+                <u-index-list StatusBar="{{StatusBar}}" bind:__l="__l" bind:activeIndex="__e" bind:select="__e" class="data-v-47d3e7e4" data-event-opts="{{[ [ '^select',[ ['changeChat'] ] ],[ '^activeIndex',[ ['activeIndex'] ] ] ]}}" indexList="{{indexList}}" scrollTop="{{scrollTop}}" sticky="{{false}}" vueId="31fc4540-11" vueSlots="{{['default']}}" zIndex="{{99}}">
+                    <view class="data-v-47d3e7e4">
+                        <view class="data-v-47d3e7e4" wx:for="{{$root.l2}}" wx:for-index="__i0__" wx:key="letter">
+                            <view class="data-v-47d3e7e4">
+                                <u-index-anchor bind:__l="__l" class="data-v-47d3e7e4" index="{{item.$orig.letter}}" vueId="{{'31fc4540-12-'+__i0__+','+'31fc4540-11'}}"></u-index-anchor>
+                                <view class="member-item data-v-47d3e7e4" wx:for="{{item.l1}}" wx:for-index="__i1__" wx:for-item="subItem" wx:key="userId">
+                                    <view class="data-v-47d3e7e4">
+                                        <image bindtap="__e" class="{{['avator','data-v-47d3e7e4',subItem.$orig.noLogin==1?'photo-image-grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['list','letter',item.$orig.letter],['data','userId',subItem.$orig.userId,'userId'] ] ] ] ] ] ]}}" src="{{subItem.$orig.userFaceurl}}"></image>
+                                        <view class="forbidden-img data-v-47d3e7e4" wx:if="{{subItem.$orig.noLogin==1}}">
+                                            <image class="data-v-47d3e7e4" src="{{subItem.m10}}" style="width:26rpx;height:26rpx;"></image>
+                                        </view>
+                                    </view>
+                                    <view class="content data-v-47d3e7e4">
+                                        <view bindtap="__e" class="center data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['list','letter',item.$orig.letter],['data','userId',subItem.$orig.userId,'userId'] ] ] ] ] ] ]}}">
+                                            <view class="top-info data-v-47d3e7e4">
+                                                <text class="name data-v-47d3e7e4">{{subItem.$orig.userRealname}}</text>
+                                                <image class="remark data-v-47d3e7e4" src="{{subItem.m11}}" wx:if="{{subItem.$orig.hasremark==1}}"></image>
+                                                <image class="tag data-v-47d3e7e4" src="{{subItem.m12}}" wx:if="{{subItem.$orig.tagValue==1}}"></image>
+                                                <image class="tag data-v-47d3e7e4" src="{{subItem.m13}}" wx:if="{{subItem.$orig.tagValue==2}}"></image>
+                                                <image class="tag data-v-47d3e7e4" src="{{subItem.m14}}" wx:if="{{subItem.$orig.tagValue==3}}"></image>
+                                                <image class="tag data-v-47d3e7e4" src="{{subItem.m15}}" wx:if="{{subItem.$orig.tagValue==4}}"></image>
+                                                <image class="tag data-v-47d3e7e4" src="{{subItem.m16}}" wx:if="{{subItem.$orig.tagValue==5}}"></image>
+                                            </view>
+                                            <view class="bottom-info data-v-47d3e7e4">
+                                                <text class="date data-v-47d3e7e4">{{subItem.$orig.lastAppointDate}}</text>
+                                                <text class="surplus data-v-47d3e7e4" wx:if="{{subItem.$orig.cardType==1}}">{{'余'+subItem.$orig.balanceAmount+'元'}}</text>
+                                                <block wx:else>
+                                                    <text class="surplus data-v-47d3e7e4" wx:if="{{subItem.$orig.cardType==2}}">{{'余'+subItem.$orig.balanceAmount+'次'}}</text>
+                                                    <block wx:else>
+                                                        <text class="surplus data-v-47d3e7e4" wx:if="{{subItem.$orig.cardType==3}}">{{'余'+subItem.$orig.balanceAmount+'天'}}</text>
+                                                    </block>
+                                                </block>
+                                                <view class="status data-v-47d3e7e4" wx:if="{{subItem.$orig.holidayDate}}">
+                                                    <image class="renew-icon data-v-47d3e7e4" src="{{subItem.m17}}"></image>
+                                                    <view class="type-name data-v-47d3e7e4">{{''+subItem.$orig.holidayDate+''}}</view>
+                                                </view>
+                                                <view class="hintmsg data-v-47d3e7e4" wx:if="{{subItem.$orig.hintMsg}}">
+                                                    <image class="renew-icon data-v-47d3e7e4" src="{{subItem.m18}}"></image>
+                                                    <view class="type-name data-v-47d3e7e4">{{''+subItem.$orig.hintMsg+''}}</view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                        <view bindtap="__e" class="card-type data-v-47d3e7e4" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}" data-event-params="{{ ({subItem:subItem.$orig}) }}">
+                                            <image class="single-icon data-v-47d3e7e4" src="{{subItem.m19}}" wx:if="{{subItem.$orig.cardCount==1}}"></image>
+                                            <image class="multi-icon data-v-47d3e7e4" src="{{subItem.m20}}" wx:if="{{subItem.$orig.cardCount>1}}"></image>
+                                            <image class="no_card_type data-v-47d3e7e4" src="{{subItem.m21}}" wx:if="{{subItem.$orig.cardCount==0}}"></image>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </u-index-list>
+            </view>
+            <view class="noCourseData data-v-47d3e7e4" wx:else>
+                <image class="data-v-47d3e7e4" src="{{$root.m22}}"></image>
+                <view class="memberData data-v-47d3e7e4" wx:if="{{!hasMemberPermission}}">
+                    <view class="add_btn data-v-47d3e7e4">仅管理员可见</view>
+                </view>
+                <view class="memberData data-v-47d3e7e4" wx:else>
+                    <view class="add_btn data-v-47d3e7e4">点击右下方“添加”按钮</view>
+                    <view class="add_btns data-v-47d3e7e4" style="padding-top:10rpx;">录入场馆的会员</view>
+                </view>
+            </view>
+            <fixed-btn bind:Click="__e" bind:__l="__l" class="data-v-47d3e7e4" data-event-opts="{{[ [ '^Click',[ ['Click'] ] ] ]}}" vueId="31fc4540-13" vueSlots="{{['default']}}" wx:if="{{$root.m23}}">添加</fixed-btn>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-47d3e7e4" vueId="31fc4540-14"></ff-bottom-logo>
+    </view>
+    <member-details bind:__l="__l" bind:headleClose="__e" bind:memberUpdate="__e" class="data-v-47d3e7e4 vue-ref" data-event-opts="{{[ [ '^memberUpdate',[ ['memberUpdate'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="cardIndexRef" vueId="31fc4540-15"></member-details>
+    <u-modal bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-47d3e7e4" confirmText="知道了" data-event-opts="{{[ [ '^confirm',[ ['confirmKnow'] ] ],[ '^input',[ [ '__set_model',[ '','showData','$event',[] ] ] ] ] ]}}" title="数据说明：" titleStyle="{{({color:'#181818'})}}" value="{{showData}}" vueId="31fc4540-16" vueSlots="{{['default']}}" width="{{681}}">
+        <view class="slot-content data-v-47d3e7e4">
+            <rich-text class="data-v-47d3e7e4" nodes="{{content}}"></rich-text>
+        </view>
+    </u-modal>
+    <expired-alert bind:__l="__l" class="data-v-47d3e7e4" page="other" vueId="31fc4540-17"></expired-alert>
+    <view class="max-mask data-v-47d3e7e4" wx:if="{{!hasMemberPermission}}"></view>
+</view>

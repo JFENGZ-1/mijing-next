@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-mask": "/node-modules/uview-ui/components/u-mask/u-mask",
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "bottom-logo": "/components/ff-bottom-logo/index"
+  }
+}

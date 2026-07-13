@@ -1,0 +1,25 @@
+<u-popup bind:__l="__l" bind:close="__e" bind:input="__e" borderRadius="20" class="ff-popup-box data-v-1843f18d" closeable="{{true}}" data-event-opts="{{[ [ '^close',[ ['headleClose'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" mask="{{mask}}" maskCloseAble="{{maskCloseAble}}" mode="bottom" value="{{show}}" vueId="7b32aebc-1" vueSlots="{{['default']}}">
+    <view class="ff-popup-content data-v-1843f18d" style="{{'height:'+newHeight+';'}}">
+        <u-icon bind:__l="__l" bind:click="__e" class="back-icon data-v-1843f18d" color="#989898" data-event-opts="{{[ [ '^click',[ ['back'] ] ] ]}}" name="arrow-left" size="36" vueId="{{'7b32aebc-2'+','+'7b32aebc-1'}}" wx:if="{{visible}}"></u-icon>
+        <view class="title-box data-v-1843f18d" style="{{'text-align:'+(visible?'center':'left')+';'}}" wx:if="{{title}}">{{title}}</view>
+        <view class="data-v-1843f18d">
+            <slot name="customize"></slot>
+        </view>
+        <scroll-view bounces="{{true}}" catchtouchmove="{{true}}" class="scroll-main data-v-1843f18d" enhanced="{{true}}" scrollY="{{true}}" style="{{'bottom:'+(showConfrim?confrimBtnH+'rpx':'0')+';'}}">
+            <view class="tips-box data-v-1843f18d" wx:if="{{tips}}">
+                <slot name="tips" wx:if="{{$slots.tips}}"></slot>
+                <view class="tips_wrap data-v-1843f18d" wx:else>
+                    <u-icon bind:__l="__l" class="tips_icon data-v-1843f18d" name="{{tipIcon}}" size="26" vueId="{{'7b32aebc-3'+','+'7b32aebc-1'}}" wx:if="{{tipIcon}}"></u-icon>
+                    <text class="data-v-1843f18d">{{tips}}</text>
+                </view>
+            </view>
+            <view class="data-v-1843f18d" wx:else>
+                <slot name="tips"></slot>
+            </view>
+            <slot></slot>
+        </scroll-view>
+        <view class="confrim-btn data-v-1843f18d" wx:if="{{showConfrim}}">
+            <slot name="confrimBtn"></slot>
+        </view>
+    </view>
+</u-popup>

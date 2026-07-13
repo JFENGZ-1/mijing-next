@@ -1,0 +1,15 @@
+node_modules/
+dist/
+unpackage/
+.env
+.env.*.local
+vendor/
+storage/*.key
+storage/logs/*.log
+bootstrap/cache/*.php
+.phpunit.cache/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+

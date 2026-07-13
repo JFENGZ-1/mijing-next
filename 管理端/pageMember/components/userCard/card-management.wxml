@@ -1,0 +1,43 @@
+<view class="data-v-7e8c2280">
+    <view class="main-box data-v-7e8c2280">
+        <view class="form-box data-v-7e8c2280">
+            <view class="list data-v-7e8c2280">
+                <view class="item data-v-7e8c2280" wx:for="{{$root.l0}}" wx:key="index">
+                    <view bindtap="__e" class="flag data-v-7e8c2280" data-event-opts="{{[ [ 'tap',[ [ 'headleType',['$0'],[ [ ['cardList','',index,'id'] ] ] ] ] ] ]}}">
+                        <view class="flag_img data-v-7e8c2280">
+                            <image class="img data-v-7e8c2280" src="{{item.m0}}"></image>
+                        </view>
+                        <view class="flag_name data-v-7e8c2280">
+                            <view class="data-v-7e8c2280">{{item.$orig.name}}</view>
+                        </view>
+                        <view class="vacations data-v-7e8c2280" wx:if="{{item.$orig.id==3&&itemList&&itemList.holidayMsg}}">{{''+itemList.holidayMsg+''}}</view>
+                        <view class="vacation data-v-7e8c2280" wx:if="{{item.$orig.id==4&&itemList.stopCardMsg}}">{{''+itemList.stopCardMsg+''}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <balance balanceList="{{itemList}}" bind:AdjustmentSubmit="__e" bind:__l="__l" class="data-v-7e8c2280 vue-ref" data-event-opts="{{[ [ '^AdjustmentSubmit',[ ['AdjustmentSubmit'] ] ] ]}}" data-ref="balanceRef" vueId="243f0eb9-1"></balance>
+    <vaildity bind:__l="__l" bind:vailditySubmit="__e" class="data-v-7e8c2280 vue-ref" data-event-opts="{{[ [ '^vailditySubmit',[ ['vailditySubmit'] ] ] ]}}" data-ref="vaildityRef" itemList="{{itemList}}" usercardId="{{itemList.userCardId}}" vueId="243f0eb9-2"></vaildity>
+    <leave bind:__l="__l" bind:leaveSubmit="__e" class="data-v-7e8c2280 vue-ref" data-event-opts="{{[ [ '^leaveSubmit',[ ['leaveSubmit'] ] ] ]}}" data-ref="leaveRef" itemList="{{itemList}}" leaveList="{{leaveList}}" vueId="243f0eb9-3"></leave>
+    <card-stopping balanceList="{{itemList}}" bind:__l="__l" bind:cardStoppingSubmit="__e" class="data-v-7e8c2280 vue-ref" data-event-opts="{{[ [ '^cardStoppingSubmit',[ ['cardStoppingSubmit'] ] ] ]}}" data-ref="stoppingRef" vueId="243f0eb9-4"></card-stopping>
+    <remark-order-card-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-7e8c2280 vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editRemarkCard'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkAppointmentCard" vueId="243f0eb9-5"></remark-order-card-popup>
+    <renew bind:__l="__l" bind:headleRenew="__e" cardId="{{itemList.cardId}}" class="data-v-7e8c2280 vue-ref" data-event-opts="{{[ [ '^headleRenew',[ ['headleRenew'] ] ] ]}}" data-ref="renewRef" itemList="{{itemList}}" usercardId="{{itemList.userCardId}}" vueId="243f0eb9-6"></renew>
+    <confirm bind:__l="__l" class="data-v-7e8c2280 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="警告：确认删除吗？" vueId="243f0eb9-7" vueSlots="{{['content','btn']}}">
+        <view class="data-v-7e8c2280" slot="content">
+            <text class="data-v-7e8c2280" style="{{'display:block;color: #989898;font-size: 25rpx;'}}">将删除该卡以及该卡的约课记录</text>
+            <view class="data-v-7e8c2280" wx:if="{{itemList&&itemList.hasOrderPay}}">
+                <view bindtap="__e" class="checked data-v-7e8c2280" data-event-opts="{{[ [ 'tap',[ [ 'headleStatus',['$event'] ] ] ] ]}}">
+                    <view class="{{['data-v-7e8c2280',delChecked?'checkboxs':'checkbox']}}">
+                        <image class="data-v-7e8c2280" src="{{$root.m1}}"></image>
+                    </view>
+                    <text class="data-v-7e8c2280" style="{{'display:block;color: #CB4A5F;font-size: 25rpx;'}}"> 同时从「营业收入」里删除掉此笔收入</text>
+                </view>
+            </view>
+        </view>
+        <view class="btn data-v-7e8c2280" slot="btn">
+            <view bindtap="__e" class="modal-cancel data-v-7e8c2280" data-event-opts="{{[ [ 'tap',[ [ 'headleCancel',['$event'] ] ] ] ]}}">取 消</view>
+            <view bindtap="__e" class="modal-btn data-v-7e8c2280" data-event-opts="{{[ [ 'tap',[ [ 'headleBtn',['$event'] ] ] ] ]}}">确 定</view>
+        </view>
+    </confirm>
+</view>

@@ -1,0 +1,1 @@
+function(){return new Promise(function(r){var p=getCurrentPages().pop(),v=p.$vm;if(!v||!v.setupState)return r({ok:false});var x=v.setupState.products.value[0];if(!x)return r({ok:false});v.setupState.purchaseProduct(x).then(function(){r({ok:true})}).catch(function(e){r({ok:false,reason:String(e)})})})}

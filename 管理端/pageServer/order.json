@@ -1,0 +1,15 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#181818",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "info": "/pageServer/components/info",
+    "navigation": "/components/navigation/index",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

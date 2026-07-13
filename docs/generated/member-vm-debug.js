@@ -1,0 +1,1 @@
+function(){var v=getCurrentPages().pop().$vm;return{keys:v?Object.keys(v):[],setup:!!(v&&v.setupState),exposed:v&&v.$&&v.$.exposed?Object.keys(v.$.exposed):[],type:v&&v.$?v.$.type&&Object.keys(v.$.type):[]}}

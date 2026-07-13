@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "loading": "/components/zero-loading/static/loading-pulse",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

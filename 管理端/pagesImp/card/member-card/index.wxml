@@ -1,0 +1,168 @@
+<page-meta class="data-v-2cdc0256" pageStyle="{{'overflow:'+(show?'hidden':'visible')}}"></page-meta>
+<view class="counts-card-container data-v-2cdc0256">
+    <navigation background="#ffffff" bind:__l="__l" class="data-v-2cdc0256" text="{{navigationText}}" vueId="840ab494-1"></navigation>
+    <view class="data-v-2cdc0256">
+        <view class="content-height data-v-2cdc0256" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="subsection-box data-v-2cdc0256" wx:if="{{formData.cardId!=null}}">
+                <u-subsection activeColor="#ffffff" bind:__l="__l" bind:change="__e" buttonColor="{{subsectionIndex==0?'#22C788':'#DC3C5C'}}" class="data-v-2cdc0256" current="{{subsectionIndex}}" data-event-opts="{{[ [ '^change',[ ['sectionChange'] ] ] ]}}" fontSize="22" inactiveColor="#7E7E7E" list="{{subsectionList}}" vueId="840ab494-2"></u-subsection>
+            </view>
+            <view class="{{['top-card','data-v-2cdc0256',subsectionIndex==1?'gray':'']}}">
+                <ff-value-card activeClass="large-size" bind:__l="__l" cardInfo="{{formData}}" class="data-v-2cdc0256" vueId="840ab494-3" wx:if="{{formData.cardType==1}}"></ff-value-card>
+                <ff-counts-card activeClass="large-size" bind:__l="__l" bind:moreClick="__e" cardInfo="{{formData}}" class="data-v-2cdc0256" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="840ab494-4" wx:if="{{formData.cardType==2}}"></ff-counts-card>
+                <ff-date-card activeClass="large-size" bind:__l="__l" bind:moreClick="__e" cardInfo="{{formData}}" class="data-v-2cdc0256" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="840ab494-5" wx:if="{{formData.cardType==3}}"></ff-date-card>
+            </view>
+            <view bindtap="__e" class="change-card-bg-btn data-v-2cdc0256" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">更换图案</view>
+            <u-form bind:__l="__l" class="data-v-2cdc0256 vue-ref" data-ref="uForm" errorType="{{['toast']}}" model="{{formData}}" rules="{{rules}}" vueId="840ab494-6" vueSlots="{{['default']}}">
+                <u-form-item bind:__l="__l" class="uni-form-item-required data-v-2cdc0256" label="卡名称" labelWidth="120" prop="cardName" require="{{true}}" vueId="{{'840ab494-7'+','+'840ab494-6'}}" vueSlots="{{['default']}}">
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-2cdc0256" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','cardName','$event',[] ],['formData'] ] ] ] ]}}" placeholder="请输入卡名称" type="text" value="{{formData.cardName}}" vueId="{{'840ab494-8'+','+'840ab494-7'}}"></u-input>
+                </u-form-item>
+                <u-form-item bind:__l="__l" class="uni-form-item-required data-v-2cdc0256" label="售　价" labelWidth="120" prop="price" require="{{true}}" vueId="{{'840ab494-9'+','+'840ab494-6'}}" vueSlots="{{['default']}}">
+                    <u-input bind:__l="__l" bind:blur="__e" bind:focus="__e" bind:input="__e" class="data-v-2cdc0256" data-event-opts="{{[ [ '^blur',[ ['priceBlur'] ] ],[ '^focus',[ ['priceFocus'] ] ],[ '^input',[ [ '__set_model',[ '$0','price','$event',[] ],['formData'] ],['handlePriceInput'] ] ] ]}}" placeholder="请输入售价" type="digit" value="{{formData.price}}" vueId="{{'840ab494-10'+','+'840ab494-9'}}"></u-input>
+                </u-form-item>
+                <u-cell-group bind:__l="__l" border="{{false}}" class="top-cell data-v-2cdc0256" vueId="{{'840ab494-11'+','+'840ab494-6'}}" vueSlots="{{['default']}}">
+                    <u-cell-item bind:__l="__l" bind:click="__e" class="uni-form-item-required data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ [ 'openDialog',['valueQuotaRef','$0'],['formData.amountDepositCard'] ] ] ] ]}}" hoverClass="none" prop="amountDepositCard" require="{{true}}" title="卡额度" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-12'+','+'840ab494-11'}}" vueSlots="{{['default']}}" wx:if="{{formData.cardType==1}}">
+                        <view class="card-money-box data-v-2cdc0256" wx:if="{{formData.amountDepositCard.cardAmount!==''}}">
+                            <text class="money data-v-2cdc0256">{{formData.amountDepositCard.cardAmount+'元'}}</text>
+                            <u-tag bgColor="#FAF3F7" bind:__l="__l" class="extra data-v-2cdc0256" color="#DC3C5C" mode="dark" shape="circle" size="mini" style="margin-left:15rpx;" text="{{'赠￥'+formData.amountDepositCard.presentAmount}}" vueId="{{'840ab494-13'+','+'840ab494-12'}}" wx:if="{{formData.amountDepositCard.presentAmount}}"></u-tag>
+                            <u-tag bgColor="#FAF3F7" bind:__l="__l" class="extra data-v-2cdc0256" color="#DC3C5C" mode="dark" shape="circle" size="mini" style="margin-left:15rpx;" text="{{'享'+formData.amountDepositCard.discount+'折'}}" vueId="{{'840ab494-14'+','+'840ab494-12'}}" wx:if="{{formData.amountDepositCard.discount}}"></u-tag>
+                        </view>
+                        <text class="default data-v-2cdc0256" wx:else>填写卡内的额度</text>
+                    </u-cell-item>
+                    <u-cell-item bind:__l="__l" bind:click="__e" class="uni-form-item-required data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ [ 'openDialog',['quotaRef','$0'],['formData.orginalAmount'] ] ] ] ]}}" hoverClass="none" require="{{true}}" title="卡额度" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-15'+','+'840ab494-11'}}" vueSlots="{{['default']}}" wx:if="{{formData.cardType==2}}">
+                        <block wx:if="{{$root.g0}}">
+                            <text class="{{['data-v-2cdc0256',item.$orig.isPresent?'present':'']}}" wx:for="{{$root.l0}}" wx:key="key">{{item.$orig.groupName+item.$orig.timeCount+'次'+(index<item.g1-1?'、':'')}}</text>
+                        </block>
+                        <block wx:else>
+                            <text class="data-v-2cdc0256" wx:if="{{formData.orginalAmount.totalTimes!==''}}">{{formData.orginalAmount.totalTimes+'次'}}</text>
+                            <text class="default data-v-2cdc0256" wx:else>填写卡内的额度</text>
+                        </block>
+                    </u-cell-item>
+                    <u-cell-item bind:__l="__l" bind:click="__e" class="uni-form-item-required data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ [ 'openDialog',['efftimeRef','$0'],['formData'] ] ] ] ]}}" hoverClass="none" require="{{true}}" title="有效期" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-16'+','+'840ab494-11'}}" vueSlots="{{['default']}}" wx:if="{{formData.cardType!=3}}">
+                        <block wx:if="{{$root.m0}}">永久有效</block>
+                        <block wx:else>
+                            <text class="default data-v-2cdc0256" wx:if="{{formData.cardValidYear==0&&formData.cardValidMonth==0&&formData.cardValidDays==0}}">请选择有效期</text>
+                            <block wx:else>
+                                <block wx:if="{{formData.cardValidYear}}">{{formData.cardValidYear+'年'}}</block>
+                                <block wx:if="{{formData.cardValidMonth}}">{{formData.cardValidMonth+'个月'}}</block>
+                                <block wx:if="{{formData.cardValidDays}}">{{formData.cardValidDays+'天'}}</block>
+                            </block>
+                        </block>
+                    </u-cell-item>
+                    <u-cell-item bind:__l="__l" bind:click="__e" class="uni-form-item-required data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ [ 'openDialog',['timeQuota','$0'],['formData.limitCardValid'] ] ] ] ]}}" hoverClass="none" require="{{true}}" title="卡额度" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-17'+','+'840ab494-11'}}" vueSlots="{{['default']}}" wx:if="{{formData.cardType==3}}">
+                        <text class="data-v-2cdc0256" wx:if="{{formData.limitCardValid.year||formData.limitCardValid.month||formData.limitCardValid.day}}">
+                            <block wx:if="{{formData.limitCardValid.year}}">{{formData.limitCardValid.year+'年'}}</block>
+                            <block wx:if="{{formData.limitCardValid.month}}">{{formData.limitCardValid.month+'个月'}}</block>
+                            <block wx:if="{{formData.limitCardValid.day}}">{{formData.limitCardValid.day+'天'}}</block>
+                        </text>
+                        <text class="default data-v-2cdc0256" wx:else>请选择额度</text>
+                        <text class="present data-v-2cdc0256" wx:if="{{formData.limitCardValid.hasPresent}}"> 赠 <block wx:if="{{formData.limitCardValid.pyear}}">{{formData.limitCardValid.pyear+'年'}}</block>
+                            <block wx:if="{{formData.limitCardValid.pmonth}}">{{formData.limitCardValid.pmonth+'个月'}}</block>
+                            <block wx:if="{{formData.limitCardValid.pday}}">{{formData.limitCardValid.pday+'天'}}</block>
+                        </text>
+                    </u-cell-item>
+                </u-cell-group>
+                <view bindtap="__e" class="more-title data-v-2cdc0256" data-event-opts="{{[ [ 'tap',[ [ 'e1',['$event'] ] ] ] ]}}">
+                    <view class="data-v-2cdc0256" style="font-weight:500;">更多<text class="data-v-2cdc0256">高级选项</text>
+                    </view>
+                    <image class="r-icon data-v-2cdc0256" src="{{$root.m1}}" wx:if="{{isShowMoreAdvance}}"></image>
+                    <image class="r-icon data-v-2cdc0256" src="{{$root.m2}}" wx:else></image>
+                </view>
+                <view class="more-advance-box data-v-2cdc0256" wx:if="{{isShowMoreAdvance}}">
+                    <u-cell-group bind:__l="__l" class="data-v-2cdc0256" vueId="{{'840ab494-18'+','+'840ab494-6'}}" vueSlots="{{['default']}}">
+                        <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ ['e2'] ] ] ]}}" hoverClass="none" title="可用时段" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-19'+','+'840ab494-18'}}" vueSlots="{{['default']}}">
+                            <view class="data-v-2cdc0256" wx:if="{{formData.useTime.isAllTime}}">全部时段</view>
+                            <block wx:else>
+                                <view class="data-v-2cdc0256" style="overflow:hidden;width:100%;white-space:nowrap;text-overflow:ellipsis;" wx:if="{{$root.g2>0}}">
+                                    <block wx:for="{{$root.l1}}" wx:key="index">{{item.$orig}}<block wx:if="{{index!=item.g3-1}}">、</block>
+                                    </block>
+                                </view>
+                            </block>
+                        </u-cell-item>
+                        <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ ['e3'] ] ] ]}}" hoverClass="none" title="开卡时间" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-20'+','+'840ab494-18'}}" vueSlots="{{['default']}}">
+                            <text class="data-v-2cdc0256" wx:if="{{formData.cardOpenType.openType!=4}}">{{cardOpenTypeDesList[formData.cardOpenType.openType]}}</text>
+                            <text class="data-v-2cdc0256" wx:else>{{'购卡'+formData.cardOpenType.days+'天后自动开卡'}}</text>
+                        </u-cell-item>
+                        <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ ['e4'] ] ] ]}}" hoverClass="none" title="每日/周/月可预约上限" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-21'+','+'840ab494-18'}}" vueSlots="{{['default']}}">
+                            <text class="data-v-2cdc0256" wx:if="{{formData.maxRule.maxDay==0&&formData.maxRule.maxWeek==0&&formData.maxRule.maxMonth==0}}">不限制</text>
+                            <view class="max-rule u-line-1 data-v-2cdc0256">
+                                <block wx:if="{{formData.maxRule.maxDay}}">{{'每日最多'+formData.maxRule.maxDay+'次、'}}</block>
+                                <block wx:if="{{formData.maxRule.maxWeek}}">{{'每周最多'+formData.maxRule.maxWeek+'次、'}}</block>
+                                <block wx:if="{{formData.maxRule.maxMonth}}">{{'每月最多'+formData.maxRule.maxMonth+'次'}}</block>
+                            </view>
+                        </u-cell-item>
+                        <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ ['e5'] ] ] ]}}" hoverClass="none" title="提前预约次数限制" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-22'+','+'840ab494-18'}}" vueSlots="{{['default']}}">
+                            <text class="data-v-2cdc0256" wx:if="{{!formData.cardExtend.aheadappointInfo.selectValue||formData.cardExtend.aheadappointInfo.selectValue==0}}">不限制</text>
+                            <view class="max-rule u-line-1 data-v-2cdc0256" wx:else>{{'最多预约'+formData.cardExtend.aheadappointInfo.selectParam+'次'}}</view>
+                        </u-cell-item>
+                        <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ ['e6'] ] ] ]}}" hoverClass="none" title="取消预约次数限制" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-23'+','+'840ab494-18'}}" vueSlots="{{['default']}}">
+                            <text class="data-v-2cdc0256" wx:if="{{!formData.cardExtend.cancelappointInfo.selectValue||formData.cardExtend.cancelappointInfo.selectValue==0}}">不限制</text>
+                            <view class="max-rule u-line-1 data-v-2cdc0256" wx:else>
+                                <block wx:if="{{formData.cardExtend.cancelappointInfo.dayLimit&&formData.cardExtend.cancelappointInfo.dayLimit.itemVal==1}}">{{'每日最多取消'+formData.cardExtend.cancelappointInfo.dayLimit.itemParamVal+'次'}}</block>
+                                <block wx:if="{{formData.cardExtend.cancelappointInfo.weekLimit&&formData.cardExtend.cancelappointInfo.weekLimit.itemVal==1}}">{{'每周最多取消'+formData.cardExtend.cancelappointInfo.weekLimit.itemParamVal+'次'}}</block>
+                                <block wx:if="{{formData.cardExtend.cancelappointInfo.monthLimit&&formData.cardExtend.cancelappointInfo.monthLimit.itemVal==1}}">{{'每月最多取消'+formData.cardExtend.cancelappointInfo.monthLimit.itemParamVal+'次'}}</block>
+                            </view>
+                        </u-cell-item>
+                        <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ ['e7'] ] ] ]}}" hoverClass="none" title="旷课处罚" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-24'+','+'840ab494-18'}}" vueSlots="{{['default']}}">
+                            <text class="data-v-2cdc0256" wx:if="{{!formData.cardExtend.absentpunishInfo.selectValue||formData.cardExtend.absentpunishInfo.selectValue==0}}">不限制</text>
+                            <view class="max-rule u-line-1 data-v-2cdc0256" wx:else>
+                                <block wx:if="{{formData.cardExtend.absentpunishInfo.weekLimit&&formData.cardExtend.absentpunishInfo.weekLimit.itemVal==1}}">{{'每周累计达'+formData.cardExtend.absentpunishInfo.weekLimit.itemParamVal+'次，'}}</block>
+                                <block wx:if="{{formData.cardExtend.absentpunishInfo.monthLimit&&formData.cardExtend.absentpunishInfo.monthLimit.itemVal==1}}">{{'每月累计达'+formData.cardExtend.absentpunishInfo.monthLimit.itemParamVal+'次，'}}</block>
+                                <block wx:if="{{formData.cardExtend.absentpunishInfo.action&&formData.cardExtend.absentpunishInfo.action.itemVal==1}}">
+                                    <block wx:if="{{formData.cardType==3}}">仅标记旷课</block>
+                                    <block wx:else>不退课费</block>
+                                </block>
+                                <block wx:if="{{formData.cardExtend.absentpunishInfo.action&&formData.cardExtend.absentpunishInfo.action.itemVal==2}}">{{'禁止约课'+formData.cardExtend.absentpunishInfo.action.itemParamVal+'天'}}</block>
+                                <block wx:if="{{formData.cardExtend.absentpunishInfo.action&&formData.cardExtend.absentpunishInfo.action.itemVal==3}}">{{'扣除'+formData.cardExtend.absentpunishInfo.action.itemParamVal+''}}<text class="data-v-2cdc0256" wx:if="{{formData.cardType==1}}">元</text>
+                                    <text class="data-v-2cdc0256" wx:if="{{formData.cardType==2}}">次</text>
+                                    <text class="data-v-2cdc0256" wx:if="{{formData.cardType==3}}">天</text>
+                                </block>
+                            </view>
+                        </u-cell-item>
+                        <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ ['e8'] ] ] ]}}" hoverClass="none" title="是否允许同一课程重复预约" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-25'+','+'840ab494-18'}}" vueSlots="{{['default']}}">
+                            <view class="max-rule u-line-1 data-v-2cdc0256">
+                                <text class="data-v-2cdc0256" wx:if="{{formData.cardExtend.manyAppointInfo.itemVal&&formData.cardExtend.manyAppointInfo.itemVal==1}}">不允许</text>
+                                <text class="data-v-2cdc0256" wx:if="{{formData.cardExtend.manyAppointInfo.itemVal&&formData.cardExtend.manyAppointInfo.itemVal==3}}">{{'最多可预约'+formData.cardExtend.manyAppointInfo.itemParamVal+'次'}}</text>
+                                <text class="data-v-2cdc0256" wx:if="{{formData.cardExtend.manyAppointInfo.itemVal&&formData.cardExtend.manyAppointInfo.itemVal==2}}">允许且不限制次数</text>
+                            </view>
+                        </u-cell-item>
+                        <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ ['e9'] ] ] ]}}" hoverClass="none" title="是否允许一次预约多人" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-26'+','+'840ab494-18'}}" vueSlots="{{['default']}}">
+                            <text class="data-v-2cdc0256" wx:if="{{formData.useRule.ruleId!=3}}">{{useRuleDesList[formData.useRule.ruleId]}}</text>
+                            <text class="data-v-2cdc0256" wx:else>{{'允许预约多人，最多'+formData.useRule.manCount+'人'}}</text>
+                        </u-cell-item>
+                        <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-2cdc0256" data-event-opts="{{[ [ '^click',[ ['e10'] ] ] ]}}" hoverClass="none" title="权益说明" valueStyle="{{valStyleBig}}" vueId="{{'840ab494-27'+','+'840ab494-18'}}" vueSlots="{{['default']}}">
+                            <view class="data-v-2cdc0256" wx:if="{{!formData.privilegeDesc||formData.privilegeDesc=='无'}}">无</view>
+                            <text class="rights-des u-line-1 data-v-2cdc0256" wx:else>{{''+$root.m3+''}}</text>
+                        </u-cell-item>
+                    </u-cell-group>
+                </view>
+            </u-form>
+            <view class="btn-box data-v-2cdc0256">
+                <button bindtap="__e" class="save-btn data-v-2cdc0256" data-event-opts="{{[ [ 'tap',[ [ 'saveClick',['$event'] ] ] ] ]}}">保存</button>
+                <button bindtap="__e" class="delete-btn data-v-2cdc0256" data-event-opts="{{[ [ 'tap',[ [ 'e11',['$event'] ] ] ] ]}}" wx:if="{{formData.cardId!=null}}">删除</button>
+            </view>
+        </view>
+        <quota bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['quotaSubmit'] ] ] ]}}" data-ref="quotaRef" vueId="840ab494-28"></quota>
+        <time-quota bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['timeQuotaSubmit'] ] ] ]}}" data-ref="timeQuota" vueId="840ab494-29"></time-quota>
+        <value-quota bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['valueQuotaSubmit'] ] ] ]}}" data-ref="valueQuotaRef" vueId="840ab494-30"></value-quota>
+        <efftime bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['efftimeSubmit'] ] ] ]}}" data-ref="efftimeRef" vueId="840ab494-31"></efftime>
+        <activation bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['activationSubmit'] ] ] ]}}" data-ref="activationRef" vueId="840ab494-32"></activation>
+        <use-per bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['usePerSubmit'] ] ] ]}}" data-ref="usePerRef" vueId="840ab494-33"></use-per>
+        <quantity bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['quantitySubmit'] ] ] ]}}" data-ref="quantityRef" vueId="840ab494-34"></quantity>
+        <appointment bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['appointmentSubmit'] ] ] ]}}" data-ref="appointmentRef" vueId="840ab494-35"></appointment>
+        <many-appoint-info bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['manyAppointInfoSubmit'] ] ] ]}}" data-ref="manyAppointInfoRef" vueId="840ab494-36"></many-appoint-info>
+        <cancelappoint-info bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['cancelappointInfoSubmit'] ] ] ]}}" data-ref="cancelappointInfoRef" vueId="840ab494-37"></cancelappoint-info>
+        <absentpunish-info bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['absentpunishInfoSubmit'] ] ] ]}}" data-ref="absentpunishInfoRef" vueId="840ab494-38"></absentpunish-info>
+        <period bind:__l="__l" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['periodRefSubmit'] ] ] ]}}" data-ref="periodRef" vueId="840ab494-39"></period>
+        <legal bind:__l="__l" bind:textarea="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^textarea',[ ['legalSubmit'] ] ] ]}}" data-ref="legalRef" maxLength="{{1000}}" vueId="840ab494-40"></legal>
+        <card-face bind:__l="__l" bind:headleClose="__e" bind:submit="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^submit',[ ['cardFaceSubmit'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="cardFaceRef" list="{{list}}" vueId="840ab494-41"></card-face>
+        <confirm-modal bind:__l="__l" bind:cancel="__e" bind:confirm="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['offSaleClick'] ] ],[ '^cancel',[ ['e12'] ] ] ]}}" data-ref="isShowOffSaleModal" title="确定停售？" vueId="840ab494-42" vueSlots="{{['content']}}">
+            <text slot="content">确定后，会员约课端的购卡列表中不再显示该卡</text>
+        </confirm-modal>
+        <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-2cdc0256 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['deleteBtnClick'] ] ] ]}}" data-ref="confirmModal" title="警示!确定删除吗？" vueId="840ab494-43" vueSlots="{{['content']}}">
+            <view slot="content">1. 若已有会员持有该卡，建议“停售”，不建议删除<view class="_br data-v-2cdc0256"></view>2. 删除后，可在右上角回收站内恢复</view>
+        </confirm-modal>
+        <ff-bottom-logo bind:__l="__l" class="data-v-2cdc0256" vueId="840ab494-44"></ff-bottom-logo>
+        <card-all-project bind:__l="__l" class="data-v-2cdc0256 vue-ref" data-ref="cardAllProject" vueId="840ab494-45"></card-all-project>
+        <view class="mask data-v-2cdc0256" hidden="{{!isOpen}}"></view>
+    </view>
+</view>

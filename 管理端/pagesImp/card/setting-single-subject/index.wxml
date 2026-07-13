@@ -1,0 +1,40 @@
+<view class="data-v-559b8e91">
+    <navigation background="#ffffff" bind:__l="__l" class="data-v-559b8e91" text="设置关联课程" vueId="1bf03cce-1"></navigation>
+    <zero-loading bind:__l="__l" class="data-v-559b8e91" vueId="1bf03cce-2" wx:if="{{loading}}"></zero-loading>
+    <view class="data-v-559b8e91" wx:else>
+        <view class="card-info data-v-559b8e91" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="{{['card_wrap','data-v-559b8e91',cardInfo.saleStatus==0?'gray':'']}}">
+                <view class="data-v-559b8e91" wx:if="{{cardInfo.saleStatus==0}}">
+                    <view class="mask data-v-559b8e91"></view>
+                    <view class="img-wrap data-v-559b8e91">
+                        <view class="data-v-559b8e91">
+                            <image class="data-v-559b8e91" src="{{$root.m0}}"></image>
+                            <text class="data-v-559b8e91">已停售</text>
+                        </view>
+                    </view>
+                    <view class="{{['data-v-559b8e91',item.saleStatus==0?'gray':'']}}"></view>
+                </view>
+                <ff-value-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{cardInfo}}" class="data-v-559b8e91" vueId="1bf03cce-3" wx:if="{{cardInfo.cardType==1}}"></ff-value-card>
+                <ff-counts-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{cardInfo}}" class="data-v-559b8e91" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="1bf03cce-4" wx:if="{{cardInfo.cardType==2}}"></ff-counts-card>
+                <ff-date-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{cardInfo}}" class="data-v-559b8e91" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="1bf03cce-5" wx:if="{{cardInfo.cardType==3}}"></ff-date-card>
+            </view>
+            <view class="total-course-text data-v-559b8e91">{{'支持'+cardInfo.supportTeamCount+'个团课 '+cardInfo.supportPrivateCount+'个私教'}}</view>
+        </view>
+        <view class="data-v-559b8e91" style="{{'height:'+'370rpx'+';'+'margin-top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+        <view class="main data-v-559b8e91">
+            <view class="course-setting-wrap data-v-559b8e91">
+                <view class="course-setting-item data-v-559b8e91">
+                    <single-grcl bind:LeagueClassChange="__e" bind:LeagueClassFdeduction="__e" bind:__l="__l" bind:activeAll="__e" bind:fdeductionBlur="__e" bind:fdeductionFocus="__e" bind:selectDeductWay="__e" cardInfo="{{cardInfo}}" class="course data-v-559b8e91 vue-ref" data="{{LeagueClassList}}" data-event-opts="{{[ [ '^activeAll',[ ['activeAll'] ] ],[ '^LeagueClassChange',[ ['LeagueClassChange'] ] ],[ '^LeagueClassFdeduction',[ ['LeagueClassFdeduction'] ] ],[ '^fdeductionBlur',[ ['fdeductionBlur'] ] ],[ '^fdeductionFocus',[ ['fdeductionFocus'] ] ],[ '^selectDeductWay',[ ['selectDeductWay'] ] ] ]}}" data-ref="grcl" vueId="1bf03cce-6" wx:if="{{$root.g0>0}}"></single-grcl>
+                </view>
+                <view class="course-setting-item data-v-559b8e91">
+                    <single-priv bind:__l="__l" bind:activeAll="__e" bind:coachSelect="__e" bind:courseSelect="__e" bind:personaltainerBlur="__e" bind:personaltainerChange="__e" bind:personaltainerFocus="__e" bind:selectDeductWay="__e" cardInfo="{{cardInfo}}" class="course data-v-559b8e91 vue-ref" data="{{personaltainerList}}" data-event-opts="{{[ [ '^coachSelect',[ ['coachSelect'] ] ],[ '^courseSelect',[ ['courseSelect'] ] ],[ '^activeAll',[ ['checkAll'] ] ],[ '^personaltainerChange',[ ['personaltainerChange'] ] ],[ '^personaltainerBlur',[ ['personaltainerBlur'] ] ],[ '^personaltainerFocus',[ ['personaltainerFocus'] ] ],[ '^selectDeductWay',[ ['selectDeductWay'] ] ] ]}}" data-ref="priv" vueId="1bf03cce-7" wx:if="{{$root.g1>0}}"></single-priv>
+                </view>
+            </view>
+            <view class="btn-wrap data-v-559b8e91">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-559b8e91" customStyle="{{custom_style}}" data-event-opts="{{[ [ '^click',[ ['save'] ] ] ]}}" hairLine="{{false}}" hoverClass="no" vueId="1bf03cce-8" vueSlots="{{['default']}}">保存</u-button>
+            </view>
+            <ff-bottom-logo bind:__l="__l" class="data-v-559b8e91" vueId="1bf03cce-9"></ff-bottom-logo>
+            <deduction-days bind:__l="__l" bind:submit="__e" class="data-v-559b8e91 vue-ref" data-event-opts="{{[ [ '^submit',[ ['deductionDaysSubmit'] ] ] ]}}" data-ref="deductionDays" vueId="1bf03cce-10"></deduction-days>
+        </view>
+    </view>
+</view>

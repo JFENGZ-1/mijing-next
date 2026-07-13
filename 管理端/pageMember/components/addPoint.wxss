@@ -1,0 +1,29 @@
+.main-box.data-v-a3dac94c {
+  padding: 32rpx 0 0 43rpx;
+}
+.main-box .textc-box.data-v-a3dac94c {
+  padding-top: 15rpx;
+}
+.main-box .textc.data-v-a3dac94c {
+  align-items: center;
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 32rpx;
+  padding-top: 15rpx;
+}
+.main-box .textc .title.data-v-a3dac94c {
+  width: 130rpx;
+}
+.main-box .textc1.data-v-a3dac94c {
+  display: -webkit-flex;
+  display: flex;
+}
+.main-box .textc1 .desc.data-v-a3dac94c {
+  color: #989898;
+  font-size: 25rpx;
+  line-height: 42rpx;
+  padding-right: 70rpx;
+  text-align: end;
+  width: 100%;
+}

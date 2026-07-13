@@ -1,0 +1,25 @@
+.container.data-v-16513fcb {
+  background: #fff;
+  font-size: 25rpx;
+  line-height: 40rpx;
+  min-height: 1280rpx;
+  padding: 50rpx;
+}
+.noData.data-v-16513fcb {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  height: 500rpx;
+}
+.noData image.data-v-16513fcb {
+  height: 171rpx;
+  margin-bottom: 40rpx;
+  margin-top: 100rpx;
+  width: 203rpx;
+}
+.noData text.data-v-16513fcb {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 45rpx;
+}

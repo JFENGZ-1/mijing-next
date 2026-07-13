@@ -1,0 +1,7 @@
+<view bindtap="__e" class="{{['container','data-v-60249828',mask?'mask':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'handleClick',['$event'] ] ] ] ]}}" style="{{'position:'+position+';'+'z-index:'+zIndex+';'}}">
+    <view class="data-v-60249828">
+        <view class="main data-v-60249828">
+            <loading bind:__l="__l" class="data-v-60249828" vueId="92817abc-1"></loading>
+        </view>
+    </view>
+</view>

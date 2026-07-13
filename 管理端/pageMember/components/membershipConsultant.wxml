@@ -1,0 +1,44 @@
+<view class="trainer-popup-container data-v-3242933a">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-3242933a" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','trainerPopupShow','$event',[] ] ] ] ] ]}}" height="{{1100}}" showConfrim="{{false}}" title="选择会籍顾问" value="{{trainerPopupShow}}" vueId="2375d618-1" vueSlots="{{['default']}}">
+        <view class="trainer-popup data-v-3242933a">
+            <view class="head data-v-3242933a" wx:if="{{coursetype==0}}">
+                <u-icon bind:__l="__l" class="data-v-3242933a" color="#C96B30" name="bell" size="20rpx" vueId="{{'2375d618-2'+','+'2375d618-1'}}"></u-icon>
+                <text class="data-v-3242933a">在“员工/教练”内，设置身份为会籍顾问后，可出现在这里</text>
+            </view>
+            <view class="headbut data-v-3242933a">
+                <view class="button-list data-v-3242933a">
+                    <view bindtap="__e" class="trainer-content data-v-3242933a" data-event-opts="{{[ [ 'tap',[ [ 'changetrainer',['$0'],[ [ ['trainerList','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                        <image class="head-img data-v-3242933a" src="{{item.$orig.staffFace}}"></image>
+                        <view class="trainer-sex data-v-3242933a">
+                            <view class="trainer-text u-line-1 data-v-3242933a">{{item.$orig.staffName}}</view>
+                            <view class="sex-warp data-v-3242933a">
+                                <image class="seximg1 data-v-3242933a" src="{{item.m0}}" wx:if="{{item.$orig.staffSex==2}}"></image>
+                                <image class="seximg data-v-3242933a" src="{{item.m1}}" wx:if="{{item.$orig.staffSex==1}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view bindtap="__e" class="trainerContent data-v-3242933a" data-event-opts="{{[ [ 'tap',[ [ 'changetrainer',[ [ 'o',['staffUserid',0] ] ] ] ] ] ]}}">
+                        <view class="img data-v-3242933a">
+                            <image class="headImg data-v-3242933a" src="{{$root.m2}}"></image>
+                        </view>
+                        <view class="trainer-sex data-v-3242933a">
+                            <view class="trainer-text u-line-1 data-v-3242933a">空</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+    <u-modal bind:__l="__l" bind:input="__e" class="data-v-3242933a" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','delShow','$event',[] ] ] ] ] ]}}" showConfirmButton="{{false}}" showTitle="{{false}}" value="{{delShow}}" vueId="2375d618-3" vueSlots="{{['default']}}" width="{{700}}">
+        <view class="modal data-v-3242933a">
+            <text class="modal-title data-v-3242933a">提示：没有可选择的会籍顾问</text>
+            <view class="modal-content data-v-3242933a">
+                <u-icon bind:__l="__l" class="data-v-3242933a" color="#2979ff" name="error-circle-fill" size="70" vueId="{{'2375d618-4'+','+'2375d618-3'}}"></u-icon>
+                <text class="data-v-3242933a">请先在 “员工/教练”内，设置身份为会籍顾问</text>
+            </view>
+            <view class="btn data-v-3242933a">
+                <button bindtap="__e" class="modal-btn data-v-3242933a" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}">知道了</button>
+            </view>
+        </view>
+    </u-modal>
+</view>

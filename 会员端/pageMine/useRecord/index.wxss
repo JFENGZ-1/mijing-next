@@ -1,0 +1,234 @@
+.flex.data-v-1938c5f7 {
+  display: -webkit-flex;
+  display: flex;
+}
+.container.data-v-1938c5f7 {
+  background: #fff;
+  min-height: 1000rpx;
+  padding-bottom: 20rpx;
+  padding-top: 20rpx;
+}
+.card-wrap.data-v-1938c5f7 {
+  height: 371rpx;
+  margin: 0 auto;
+  position: relative;
+  width: 620rpx;
+}
+.tabs-wrap.data-v-1938c5f7 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 35rpx;
+  margin-top: 45rpx;
+}
+.list-wrap.data-v-1938c5f7 {
+  padding: 0 25rpx;
+}
+.noData.data-v-1938c5f7 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  height: 665rpx;
+}
+.noData image.data-v-1938c5f7 {
+  height: 171rpx;
+  margin-bottom: 40rpx;
+  margin-top: 100rpx;
+  width: 203rpx;
+}
+.noData text.data-v-1938c5f7 {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 45rpx;
+}
+.appointment-record.data-v-1938c5f7 {
+  margin: 0 5rpx 60rpx;
+}
+.appointment-record .item.data-v-1938c5f7 {
+  margin-bottom: 40rpx;
+}
+.appointment-record .item .date.data-v-1938c5f7 {
+  font-size: 32rpx;
+  margin-bottom: 40rpx;
+}
+.change-record.data-v-1938c5f7 {
+  margin: 0 5rpx 60rpx;
+}
+.change-record .item.data-v-1938c5f7 {
+  margin-bottom: 43rpx;
+}
+.change-record .item .change_name.data-v-1938c5f7 {
+  color: #181818;
+  font-size: 35rpx;
+  margin-bottom: 17rpx;
+}
+.change-record .item .change_record.data-v-1938c5f7 {
+  background: #f5f5f5;
+  border-radius: 21rpx;
+  padding: 32rpx 21rpx 0 22rpx;
+}
+.change-record .item .change_record .change_top.data-v-1938c5f7 {
+  padding-bottom: 17rpx;
+  position: relative;
+}
+.change-record
+  .item
+  .change_record
+  .change_top
+  .change_top_time.data-v-1938c5f7 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10rpx;
+}
+.change-record
+  .item
+  .change_record
+  .change_top
+  .change_top_time
+  .change_top_left.data-v-1938c5f7 {
+  color: #7e7e7e;
+  flex: 1;
+  font-size: 21rpx;
+  margin-right: 10rpx;
+}
+.change-record
+  .item
+  .change_record
+  .change_top
+  .change_top_time
+  .change_top_lefts.data-v-1938c5f7 {
+  color: #181818;
+  flex: 1;
+  font-size: 32rpx;
+  margin-right: 10rpx;
+}
+.change-record
+  .item
+  .change_record
+  .change_top
+  .change_top_time
+  .change_top_right.data-v-1938c5f7 {
+  color: #7e7e7e;
+  flex: 1;
+  font-size: 21rpx;
+  margin-left: 10rpx;
+  text-align: right;
+}
+.change-record
+  .item
+  .change_record
+  .change_top
+  .change_top_time
+  .change_top_rights.data-v-1938c5f7 {
+  color: #181818;
+  flex: 1;
+  font-size: 32rpx;
+  margin-left: 10rpx;
+  text-align: right;
+}
+.change-record .item .change_record .change_top.data-v-1938c5f7:after {
+  border-bottom: 1px solid #dadada;
+  box-sizing: border-box;
+  content: " ";
+  height: 200%;
+  left: -50%;
+  pointer-events: none;
+  position: absolute;
+  top: -50%;
+  transform: scale(0.5);
+  width: 200%;
+  z-index: 2;
+}
+.change-record .item .change_record .change_bottom.data-v-1938c5f7 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  padding: 21rpx 0 30rpx;
+}
+.change-record
+  .item
+  .change_record
+  .change_bottom
+  .change_bottom_portrait.data-v-1938c5f7 {
+  border-radius: 50%;
+  height: 35rpx;
+  width: 35rpx;
+}
+.change-record
+  .item
+  .change_record
+  .change_bottom
+  .change_bottom_portrait
+  image.data-v-1938c5f7 {
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+}
+.change-record
+  .item
+  .change_record
+  .change_bottom
+  .change_bottom_name.data-v-1938c5f7 {
+  color: #7e7e7e;
+  font-size: 21rpx;
+  padding: 0 20rpx 0 10rpx;
+}
+.change-record
+  .item
+  .change_record
+  .change_bottom
+  .change_bottom_time.data-v-1938c5f7 {
+  color: #7e7e7e;
+  font-size: 21rpx;
+}
+.balance-change-record.data-v-1938c5f7 {
+  color: #181818;
+  font-size: 25rpx;
+  margin: 0 5rpx 60rpx;
+}
+.balance-change-record .balance-item.data-v-1938c5f7 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 17rpx;
+}
+.balance-change-record .balance-item .balance-arrow.data-v-1938c5f7 {
+  height: 26rpx;
+  margin-right: 6rpx;
+  width: 26rpx;
+}
+.balance-change-record .balance_left.data-v-1938c5f7 {
+  align-items: center;
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+}
+.balance-change-record .balance_left2.data-v-1938c5f7 {
+  color: #181818;
+  font-size: 32rpx;
+  font-weight: 500;
+  line-height: 35rpx;
+  margin-left: 32rpx;
+}
+.balance-change-record .balance_left3.data-v-1938c5f7 {
+  color: #989898;
+  font-size: 24rpx;
+  line-height: 28rpx;
+  margin-left: 32rpx;
+}
+.balance-change-record .balance_right.data-v-1938c5f7 {
+  margin-left: 18rpx;
+}
+.balance-change-record .balance_right2.data-v-1938c5f7 {
+  color: #181818;
+  font-size: 32rpx;
+  font-weight: 500;
+  line-height: 35rpx;
+}
+.balance-change-record .balance_right3.data-v-1938c5f7 {
+  color: #989898;
+  font-size: 24rpx;
+  line-height: 28rpx;
+}

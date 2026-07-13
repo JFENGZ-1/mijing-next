@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "remark-order-popup": "/components/ff-textarea/ff-textarea",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

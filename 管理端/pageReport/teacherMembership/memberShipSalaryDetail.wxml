@@ -1,0 +1,164 @@
+<view class="data-v-5d57f314">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-5d57f314" text="{{title}}" vueId="63d0a8e0-1"></navigation>
+    <view class="main data-v-5d57f314" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-5d57f314">
+            <view class="head data-v-5d57f314" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="summarize data-v-5d57f314">
+                    <view class="top_data data-v-5d57f314">
+                        <view class="coach-staff data-v-5d57f314">
+                            <view class="brand_location data-v-5d57f314">
+                                <image class="coach-avator data-v-5d57f314" src="{{$root.m0}}"></image>
+                            </view>
+                            <view class="coach_name data-v-5d57f314">{{data.staffName}}</view>
+                        </view>
+                        <view class="more-data data-v-5d57f314">
+                            <view class="item data-v-5d57f314" style="width:400rpx;">
+                                <view class="info data-v-5d57f314">
+                                    <view class="data-v-5d57f314">会员</view>
+                                    <view class="info-foot data-v-5d57f314">
+                                        <text class="info_num data-v-5d57f314">{{data.manCount==undefined?'--':data.manCount}}</text>
+                                        <text class="info_name1 data-v-5d57f314" wx:if="{{data.manCount!=undefined}}">名</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="item data-v-5d57f314" style="width:400rpx;">
+                                <view class="info data-v-5d57f314">
+                                    <view class="data-v-5d57f314">会员卡</view>
+                                    <view class="info-foot data-v-5d57f314">
+                                        <text class="info_num data-v-5d57f314">{{(data.cardCount==undefined?'--':data.cardCount)+''}}</text>
+                                        <text class="info_name1 data-v-5d57f314" wx:if="{{data.cardCount!=undefined}}">张</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="item data-v-5d57f314">
+                                <view class="info data-v-5d57f314">
+                                    <view class="data-v-5d57f314">销售额</view>
+                                    <view class="info-foot data-v-5d57f314">
+                                        <text class="info_name1 data-v-5d57f314" wx:if="{{data.saleAmount!=undefined}}">￥</text>
+                                        <text class="info_num data-v-5d57f314">{{data.saleAmount==undefined?'--':data.saleAmount}}</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="item data-v-5d57f314">
+                                <view class="info data-v-5d57f314">
+                                    <view class="data-v-5d57f314">工资提成</view>
+                                    <view class="info-foot data-v-5d57f314">
+                                        <text class="info_name data-v-5d57f314" wx:if="{{data.salaryAmount!=undefined}}">￥</text>
+                                        <text class="info_num1 data-v-5d57f314">{{data.salaryAmount==undefined?'--':data.salaryAmount}}</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="item data-v-5d57f314">
+                    <view class="item_head data-v-5d57f314">
+                        <view class="item_right data-v-5d57f314">共<text class="data-v-5d57f314" wx:if="{{status==1}}">{{cardCount+'张会员卡'}}</text>
+                            <text class="data-v-5d57f314" wx:if="{{status==2}}">{{totalCount+'名会员'}}</text>
+                        </view>
+                        <view class="filter data-v-5d57f314">
+                            <view bindtap="__e" class="{{['data-v-5d57f314',status==item.$orig.id?'active':'filter-item']}}" data-event-opts="{{[ [ 'tap',[ [ 'headlememberStatus',['$0'],[ [ ['memberStatus','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="tag data-v-5d57f314">{{item.$orig.name+''}}<view class="triangle data-v-5d57f314">
+                                        <image class="icon data-v-5d57f314" mode="widthFix" src="{{item.m1}}" wx:if="{{status==item.$orig.id}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-5d57f314">
+                <view class="list data-v-5d57f314">
+                    <view class="coach data-v-5d57f314">
+                        <view class="data-v-5d57f314">
+                            <view class="data-v-5d57f314" wx:if="{{status==1}}">
+                                <view class="data-v-5d57f314" style="min-height:750rpx;" wx:if="{{$root.g0}}">
+                                    <view class="data-v-5d57f314" style="padding-top:32rpx;" wx:for="{{$root.l1}}" wx:for-index="index1" wx:key="index1">
+                                        <view bindtap="__e" class="sale-item data-v-5d57f314" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['carList','',index1] ] ] ] ] ] ]}}">
+                                            <image class="avator data-v-5d57f314" src="{{item.$orig.userFaceurl}}"></image>
+                                            <view class="detail-info data-v-5d57f314">
+                                                <view class="detail-info-wrap data-v-5d57f314">
+                                                    <view class="l-info data-v-5d57f314">{{''+item.m2+''}}<view class="time-and-type data-v-5d57f314">发卡时间:<text class="data-v-5d57f314" wx:if="{{item.$orig.lastClassDate}}">{{item.g1}}</text>
+                                                            <text class="data-v-5d57f314" wx:else>--</text>
+                                                        </view>
+                                                    </view>
+                                                    <view class="r-info data-v-5d57f314">
+                                                        <u-icon bind:__l="__l" class="arrow-right data-v-5d57f314" color="#989898" name="arrow-right" size="15" vueId="{{'63d0a8e0-2-'+index1}}"></u-icon>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                        <view class="foot_card data-v-5d57f314">
+                                            <view bindtap="__e" class="{{['data-v-5d57f314',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'moreClick',['$0'],[ [ ['carList','',index1] ] ] ] ] ] ]}}" wx:if="{{item.$orig.cardType==1}}">
+                                                <ff-value-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-5d57f314" vueId="{{'63d0a8e0-3-'+index1}}"></ff-value-card>
+                                            </view>
+                                            <view bindtap="__e" class="{{['data-v-5d57f314',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'moreClick',['$0'],[ [ ['carList','',index1] ] ] ] ] ] ]}}" wx:if="{{item.$orig.cardType==2}}">
+                                                <ff-counts-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-5d57f314" vueId="{{'63d0a8e0-4-'+index1}}"></ff-counts-card>
+                                            </view>
+                                            <view bindtap="__e" class="{{['data-v-5d57f314',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'moreClick',['$0'],[ [ ['carList','',index1] ] ] ] ] ] ]}}" wx:if="{{item.$orig.cardType==3}}">
+                                                <ff-date-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-5d57f314" vueId="{{'63d0a8e0-5-'+index1}}"></ff-date-card>
+                                            </view>
+                                            <view class="foot_card-right data-v-5d57f314">
+                                                <view class="will_but data-v-5d57f314">收款<view class="will_content data-v-5d57f314">￥<text class="will_time data-v-5d57f314">{{item.$orig.saleAmount}}</text>
+                                                    </view>
+                                                </view>
+                                                <view class="will_tag data-v-5d57f314">￥<text class="will_num data-v-5d57f314">{{item.$orig.salaryAmount}}</text>
+                                                </view>
+                                            </view>
+                                        </view>
+                                        <u-line bind:__l="__l" class="data-v-5d57f314" color="#F0F0F0" length="570rpx" margin="0rpx 0rpx 0rpx 100rpx" vueId="{{'63d0a8e0-6-'+index1}}" wx:if="{{item.g2-1!=index1}}"></u-line>
+                                    </view>
+                                </view>
+                                <view class="data-v-5d57f314" wx:else>
+                                    <view class="noCourseData data-v-5d57f314">
+                                        <image class="icon data-v-5d57f314" src="{{$root.m3}}"></image>
+                                        <text class="tips data-v-5d57f314">~ 没有相关记录 ~</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="data-v-5d57f314" wx:if="{{status==2}}">
+                                <view class="data-v-5d57f314" style="min-height:750rpx;" wx:if="{{$root.g3}}">
+                                    <view class="data-v-5d57f314" style="padding-top:28rpx;" wx:for="{{$root.l2}}" wx:for-index="index1" wx:key="index1">
+                                        <view class="sale-item data-v-5d57f314">
+                                            <image bindtap="__e" class="avator data-v-5d57f314" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['detailList','',index1] ] ] ] ] ] ]}}" src="{{item.$orig.userFaceurl}}" style="margin-bottom:35rpx;"></image>
+                                            <view class="detail-info data-v-5d57f314">
+                                                <view bindtap="__e" class="detail-info-wrap data-v-5d57f314" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['detailList','',index1] ] ] ] ] ] ]}}">
+                                                    <view class="l-info data-v-5d57f314">{{''+item.m4+''}}<view class="time-and-type data-v-5d57f314">最后上课：<text class="data-v-5d57f314" wx:if="{{item.$orig.lastClassDate}}">{{item.g4}}</text>
+                                                            <text class="data-v-5d57f314" wx:else>--</text>
+                                                        </view>
+                                                    </view>
+                                                    <view class="r-info data-v-5d57f314">
+                                                        <view class="data-v-5d57f314" style="text-align:end;">
+                                                            <view class="day-num data-v-5d57f314">
+                                                                <text class="num-tag data-v-5d57f314">￥</text>{{''+item.$orig.salaryAmount+''}}</view>
+                                                            <view class="day-tex data-v-5d57f314">共收款<text class="daytime data-v-5d57f314">{{'￥'+item.$orig.saleAmount}}</text>{{'（'+item.$orig.cardCount+'张）'}}</view>
+                                                        </view>
+                                                        <u-icon bind:__l="__l" class="arrow-right data-v-5d57f314" color="#989898" name="arrow-right" size="15" vueId="{{'63d0a8e0-7-'+index1}}"></u-icon>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                        <u-line bind:__l="__l" class="data-v-5d57f314" color="#F0F0F0" length="576rpx" margin="0rpx 0rpx 0rpx 98rpx" vueId="{{'63d0a8e0-8-'+index1}}" wx:if="{{item.g5-1!=index1}}"></u-line>
+                                    </view>
+                                </view>
+                                <view class="data-v-5d57f314" wx:else>
+                                    <view class="noCourseData data-v-5d57f314">
+                                        <image class="icon data-v-5d57f314" src="{{$root.m5}}"></image>
+                                        <text class="tips data-v-5d57f314">~ 没有相关记录 ~</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="nodata data-v-5d57f314" w="{{true}}" wx:if="{{status==2&&!notdata&&!ismore}}">
+        <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-5d57f314" color="#bfbfbf" halfWidth="74" vueId="63d0a8e0-9" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+    </view>
+    <view class="nodata data-v-5d57f314" wx:if="{{status==1&&!memberNoData&&!ispremore}}">
+        <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-5d57f314" color="#bfbfbf" halfWidth="74" vueId="63d0a8e0-10" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-5d57f314" vueId="63d0a8e0-11"></ff-bottom-logo>
+</view>

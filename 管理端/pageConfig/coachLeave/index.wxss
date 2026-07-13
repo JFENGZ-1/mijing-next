@@ -1,0 +1,182 @@
+.fixed.data-v-6dc12d02 {
+  background: #fbd128;
+  height: 30rpx;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: -99;
+}
+.main.data-v-6dc12d02 {
+  background: #fff;
+  border-top-left-radius: 21rpx;
+  border-top-right-radius: 21rpx;
+  min-height: 1230rpx;
+  overflow: hidden;
+  padding: 0 30rpx;
+}
+.main .hint_wrap.data-v-6dc12d02 {
+  margin-top: 30rpx;
+}
+.main .hint_wrap .top.data-v-6dc12d02 {
+  align-items: center;
+  background: #fef9de;
+  border-radius: 14rpx;
+  color: #c96a2f;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 22rpx;
+  height: 61rpx;
+  line-height: 61rpx;
+}
+.main .hint_wrap .top .icon.data-v-6dc12d02 {
+  height: 23rpx;
+  margin: 0 10rpx 0 20rpx;
+  width: 20rpx;
+}
+.main .hint_wrap .top .notes.data-v-6dc12d02 {
+  flex: 1;
+  padding: 0 0 0 20rpx;
+}
+.main .num_times_wrap.data-v-6dc12d02 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  padding: 30rpx 0rpx 10rpx;
+}
+.main .num_times_wrap .first_text.data-v-6dc12d02 {
+  color: #181818;
+  flex: 1;
+  font-size: 28rpx;
+}
+.main .num_times_wrap .last_text.data-v-6dc12d02 {
+  color: #989898;
+  font-size: 22rpx;
+}
+.main .num_times_wrap .last_text .vacation_text.data-v-6dc12d02 {
+  padding: 0 0 0 20rpx;
+}
+.main .list.data-v-6dc12d02 {
+  padding-bottom: 100rpx;
+}
+.main .list .list_item.data-v-6dc12d02 {
+  border-radius: 21rpx;
+  overflow: hidden;
+  padding: 30rpx 5rpx 0 0rpx;
+}
+.main .list .list_item .title.data-v-6dc12d02 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 105rpx;
+  padding-right: 22rpx;
+}
+.main .list .list_item .title .title_portrait.data-v-6dc12d02 {
+  height: 100%;
+  width: 105rpx;
+}
+.main .list .list_item .title .title_portrait image.data-v-6dc12d02 {
+  border-radius: 12rpx;
+  height: 100%;
+  width: 100%;
+}
+.main .list .list_item .title .title_name.data-v-6dc12d02 {
+  color: #181818;
+  flex: 1;
+  font-size: 28rpx;
+  margin-left: 12rpx;
+}
+.main .list .list_item .title .title_see.data-v-6dc12d02 {
+  color: #989898;
+  font-size: 25rpx;
+  margin-right: 12rpx;
+}
+.main .list .list_item .title .nothing.data-v-6dc12d02 {
+  color: #dadada;
+  font-size: 25rpx;
+  margin-right: 18rpx;
+}
+.main .list .list_item .title image.data-v-6dc12d02 {
+  display: block;
+  height: 21rpx;
+  width: 11rpx;
+}
+.main .list .list_item .info_wrap.data-v-6dc12d02 {
+  background: #f5f5f5;
+  border-radius: 21rpx;
+  margin: 0 0 26rpx 120rpx;
+  position: relative;
+}
+.main .list .list_item .info_wrap.data-v-6dc12d02:last-of-type {
+  margin-bottom: 0;
+}
+.main .list .list_item .info_wrap .info_going.data-v-6dc12d02 {
+  height: 111rpx;
+  position: absolute;
+  right: -3rpx;
+  top: -3px;
+  width: 128rpx;
+}
+.main .list .list_item .info_wrap .info_item.data-v-6dc12d02 {
+  font-size: 22rpx;
+  padding: 30rpx 60rpx 10rpx 26rpx;
+}
+.main .list .list_item .info_wrap .info_item .item_title.data-v-6dc12d02 {
+  padding: 0 0 10rpx;
+}
+.main
+  .list
+  .list_item
+  .info_wrap
+  .info_item
+  .item_title
+  .info_title.data-v-6dc12d02 {
+  color: #7e7e7e;
+}
+.main
+  .list
+  .list_item
+  .info_wrap
+  .info_item
+  .item_title
+  .info_text.data-v-6dc12d02 {
+  color: #7e7e7e;
+  flex: 1;
+}
+.main
+  .list
+  .list_item
+  .info_wrap
+  .info_item
+  .item_title
+  .branch.data-v-6dc12d02 {
+  color: #ccc;
+  margin-left: 5rpx;
+}
+.main .list .list_item .info_wrap .info_bottom.data-v-6dc12d02 {
+  align-items: center;
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 20rpx;
+  padding: 17rpx 28rpx 22rpx 29rpx;
+}
+.main .list .list_item .info_wrap .info_bottom .rofile.data-v-6dc12d02 {
+  border-radius: 50%;
+  height: 35rpx;
+  overflow: hidden;
+  width: 35rpx;
+}
+.main .list .list_item .info_wrap .info_bottom .rofile image.data-v-6dc12d02 {
+  height: 100%;
+  width: 100%;
+}
+.main .list .list_item .info_wrap .info_bottom .name.data-v-6dc12d02 {
+  margin-left: 10rpx;
+  margin-right: 32rpx;
+}
+.main .list .list_item .border.data-v-6dc12d02 {
+  border-top: 1px solid #f0f0f0;
+  margin: 17rpx 35rpx 0 115rpx;
+  opacity: 0.5;
+}

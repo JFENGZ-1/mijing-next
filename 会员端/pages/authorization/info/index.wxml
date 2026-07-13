@@ -1,0 +1,36 @@
+<view class="data-v-43b013f8">
+    <view class="use_num data-v-43b013f8"></view>
+    <view class="user_info data-v-43b013f8">
+        <view class="title_text data-v-43b013f8">获取你的昵称、头像</view>
+        <view class="info_list data-v-43b013f8">
+            <view class="info_item data-v-43b013f8">
+                <view class="title data-v-43b013f8">头像</view>
+                <view class="required data-v-43b013f8">*</view>
+                <view class="info_content data-v-43b013f8">
+                    <button bindchooseavatar="__e" class="avatar-wrapper data-v-43b013f8" data-event-opts="{{[ [ 'chooseavatar',[ [ 'onChooseAvatar',['$event'] ] ] ] ]}}" openType="chooseAvatar">
+                        <image class="data-v-43b013f8" src="{{$root.m0}}" wx:if="{{!avatarUrl}}"></image>
+                        <image class="data-v-43b013f8" src="{{avatarUrl}}" wx:else></image>
+                    </button>
+                </view>
+                <view class="more data-v-43b013f8">
+                    <u-icon bind:__l="__l" class="data-v-43b013f8" color="#989898" name="arrow-right" size="28" vueId="9bf664f4-1"></u-icon>
+                </view>
+            </view>
+            <view class="info_item data-v-43b013f8">
+                <view class="title data-v-43b013f8">姓名</view>
+                <view class="required data-v-43b013f8">*</view>
+                <view class="info_content data-v-43b013f8">
+                    <input bindchange="__e" bindinput="__e" class="data-v-43b013f8" data-event-opts="{{[ [ 'change',[ [ 'nicknameChange',['$event'] ] ] ],[ 'input',[ [ '__set_model',[ '','nickname','$event',[] ] ] ] ] ]}}" placeholder="请输入昵称" placeholderStyle="color:#d0d2d7" type="nickname" value="{{nickname}}"></input>
+                </view>
+            </view>
+            <view class="btn-wrap data-v-43b013f8">
+                <button bindtap="__e" class="data-v-43b013f8" data-event-opts="{{[ [ 'tap',[ [ 'confirm',['$event'] ] ] ] ]}}">确定</button>
+            </view>
+        </view>
+    </view>
+    <view class="bottom-text data-v-43b013f8">
+        <view class="data-v-43b013f8">松果约课提供技术支持</view>
+        <view class="data-v-43b013f8">Beijing Xiaosongguo Future Technology Co.Ltd</view>
+    </view>
+    <privacy bind:__l="__l" class="data-v-43b013f8" vueId="9bf664f4-2"></privacy>
+</view>

@@ -1,0 +1,13 @@
+<view class="data-v-28f12c2c">
+    <view class="welcome-text data-v-28f12c2c">
+        <view class="data-v-28f12c2c">欢迎您</view>
+        <view class="data-v-28f12c2c">成为我们的一员</view>
+    </view>
+    <view class="profile-photo data-v-28f12c2c">
+        <image class="data-v-28f12c2c" src="{{showUrl}}"></image>
+    </view>
+    <view class="nickname data-v-28f12c2c">{{nickname}}</view>
+    <view class="btn-wrap data-v-28f12c2c">
+        <button bindgetphonenumber="__e" class="data-v-28f12c2c" data-event-opts="{{[ [ 'getphonenumber',[ [ 'getPhoneNumber',['$event'] ] ] ] ]}}" openType="getPhoneNumber">授权手机号码</button>
+    </view>
+</view>

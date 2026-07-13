@@ -1,0 +1,14 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "more-grcl": "/pageChain/components/courseSelect/more-grcl",
+    "more-priv": "/pageChain/components/courseSelect/more-priv",
+    "navigation": "/components/navigation/index",
+    "nodata": "/components/nodata/nodata",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-switch": "/uview-ui/components/u-switch/u-switch",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

@@ -1,0 +1,35 @@
+<view class="data-v-0047d47e">
+    <view class="container data-v-0047d47e">
+        <view class="card-list data-v-0047d47e">
+            <view class="title-total data-v-0047d47e">{{'共'+$root.g0+'种'}}</view>
+            <view bindtap="__e" class="item data-v-0047d47e" data-event-opts="{{[ [ 'tap',[ [ 'cardDetails',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}" wx:for="{{list}}" wx:key="index">
+                <view class="card-wrap data-v-0047d47e">
+                    <ff-value-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item}}" class="data-v-0047d47e" vueId="{{'20ea0b34-1-'+index}}" wx:if="{{item.cardType==1}}"></ff-value-card>
+                    <ff-counts-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item}}" class="data-v-0047d47e" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}" vueId="{{'20ea0b34-2-'+index}}" wx:if="{{item.cardType==2}}"></ff-counts-card>
+                    <ff-date-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item}}" class="data-v-0047d47e" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}" vueId="{{'20ea0b34-3-'+index}}" wx:if="{{item.cardType==3}}"></ff-date-card>
+                </view>
+                <view class="price data-v-0047d47e">
+                    <view class="title data-v-0047d47e">售价</view>
+                    <view class="price-text data-v-0047d47e">
+                        <text class="unit data-v-0047d47e">¥</text>
+                        <text class="data-v-0047d47e">{{isShowBuyCardPrice?item.price:'-'}}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="no-date data-v-0047d47e" wx:if="{{$root.g1}}">
+            <image class="data-v-0047d47e" src="{{$root.m0}}"></image>
+            <text class="data-v-0047d47e">~ 没有会员卡出售哦 ~</text>
+        </view>
+        <view class="stop-doing-wrap data-v-0047d47e" style="{{'background:'+'url('+$root.m1+')'+';'+'background-size:'+'100% 100%'+';'}}" wx:if="{{exists}}">
+            <image class="data-v-0047d47e" mode="scaleToFill" src="{{$root.m2}}"></image>
+            <view class="text-wrap data-v-0047d47e">
+                <view class="data-v-0047d47e">{{'闭馆时间：'+beginTime+' 至 '+endTime}}</view>
+                <view class="data-v-0047d47e">{{noticeText}}</view>
+            </view>
+        </view>
+    </view>
+    <bottom-logo bind:__l="__l" class="data-v-0047d47e" vueId="20ea0b34-4"></bottom-logo>
+    <confirm-card-info bind:__l="__l" class="data-v-0047d47e vue-ref" data-ref="confirmCardInfo" vueId="20ea0b34-5"></confirm-card-info>
+    <card-all-project bind:__l="__l" class="data-v-0047d47e vue-ref" data-ref="cardAllProject" vueId="20ea0b34-6"></card-all-project>
+</view>

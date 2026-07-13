@@ -1,0 +1,15 @@
+<view class="data-v-ad5c3722">
+    <navigation background="#ffffff" bind:__l="__l" class="data-v-ad5c3722" text="{{title}}" vueId="b936d9c6-1"></navigation>
+    <view class="phone-container data-v-ad5c3722" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-ad5c3722" style="{{'height:100%;min-height:1230rpx;'}}">
+            <u-form bind:__l="__l" class="data-v-ad5c3722 vue-ref" data-ref="uForm" errorType="{{errorType}}" model="{{staff}}" vueId="b936d9c6-2" vueSlots="{{['default']}}">
+                <u-form-item bind:__l="__l" borderBottom="{{false}}" class="data-v-ad5c3722" label="请输入手机号" labelPosition="top" prop="staffTel" required="{{true}}" vueId="{{'b936d9c6-3'+','+'b936d9c6-2'}}" vueSlots="{{['default']}}">
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-ad5c3722" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','staffTel','$event',[] ],['staff'] ] ] ] ]}}" maxlength="20" placeholder="请输入手机号" type="number" value="{{staff.staffTel}}" vueId="{{'b936d9c6-4'+','+'b936d9c6-3'}}"></u-input>
+                    <button bindgetphonenumber="__e" class="{{['phone-btn','data-v-ad5c3722',staff.staffTel!=''?'a':'b']}}" data-event-opts="{{[ [ 'getphonenumber',[ [ 'getPhoneNumber',['$event'] ] ] ] ]}}" openType="getPhoneNumber" plain="true">{{''+phone+''}}</button>
+                </u-form-item>
+            </u-form>
+            <button bindtap="__e" class="{{['save-btn','data-v-ad5c3722',savedis?'save-dis':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'saveTel',['$event'] ] ] ] ]}}" plain="true">保存</button>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-ad5c3722" vueId="b936d9c6-5"></ff-bottom-logo>
+    </view>
+</view>

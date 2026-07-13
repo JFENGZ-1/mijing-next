@@ -1,0 +1,30 @@
+<view class="embershipAgreement-container data-v-5b865632">
+    <navigation bind:__l="__l" class="data-v-5b865632" text="会员协议" vueId="3d7cfb48-1"></navigation>
+    <view class="placeholder-view data-v-5b865632" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="content data-v-5b865632" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="embershipAgreement-top data-v-5b865632">
+            <view class="top data-v-5b865632">
+                <u-icon bind:__l="__l" class="icon data-v-5b865632" color="#C96B30" name="bell" vueId="3d7cfb48-2"></u-icon>
+                <view class="top-info data-v-5b865632">
+                    <view class="data-v-5b865632">a、新会员在购卡时，会要求勾选该协议才可以购卡注册</view>
+                    <view class="data-v-5b865632">b、如果不需要，保持为空即可</view>
+                </view>
+            </view>
+        </view>
+        <view class="data-v-5b865632" wx:if="{{textdata==''||textdata=='<p><br></p>'||textdata=='<h3><br></h3>'||textdata=='<h2><br></h2>'}}">
+            <nodata bind:__l="__l" class="data-v-5b865632" msg="{{2}}" vueId="3d7cfb48-3"></nodata>
+        </view>
+        <view class="textdata data-v-5b865632" wx:else>
+            <rich-text class="rich-text data-v-5b865632" nodes="{{textdata}}"></rich-text>
+        </view>
+        <view class="create-Employee data-v-5b865632">
+            <view bindtap="__e" class="bg data-v-5b865632" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pageConfig/embershipAgreement/editAgreement?status=add'] ] ] ] ] ] ]}}" wx:if="{{textdata==''||textdata=='<p><br></p>'||textdata=='<h3><br></h3>'||textdata=='<h2><br></h2>'}}">
+                <text class="data-v-5b865632">添 加</text>
+            </view>
+            <view bindtap="__e" class="bg data-v-5b865632" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pageConfig/embershipAgreement/editAgreement?status=edit'] ] ] ] ] ] ]}}" wx:else>
+                <text class="data-v-5b865632">编 辑</text>
+            </view>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-5b865632" vueId="3d7cfb48-4"></ff-bottom-logo>
+</view>

@@ -1,0 +1,11 @@
+{
+  "disableScroll": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

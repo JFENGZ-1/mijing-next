@@ -1,0 +1,172 @@
+<view bindtap="__e" class="data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">
+    <view class="status-bar-fixed data-v-64eeda88" style="{{'width:'+'100%'+';'+'height:'+StatusBar+CustomBar-fivePX+'px'+';'}}">
+        <view class="fixed-bar-logo data-v-64eeda88" style="{{'opacity:'+fixedBarOpacity+';'}}">
+            <view class="user-box data-v-64eeda88">
+                <image bindtap="__e" class="user-pic data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/myInfo/index'] ] ] ] ]}}" src="{{info.userFaceurl}}"></image>
+            </view>
+            <view bindtap="__e" class="user-name data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/myInfo/index'] ] ] ] ]}}">
+                <block wx:if="{{!userInfo.isVisitor}}">{{info.userNickname||''}}</block>
+                <block wx:else>请点击登录</block>
+            </view>
+        </view>
+    </view>
+    <block wx:if="{{info}}">
+        <view class="header data-v-64eeda88" style="{{'width:'+'100%'+';'+'height:'+headerH+';'}}">
+            <view class="fixation data-v-64eeda88" style="{{'width:'+'100%'+';'+'height:'+headerH+';'}}">
+                <view class="status-bar data-v-64eeda88" style="{{'width:'+'100%'+';'+'height:'+StatusBar+CustomBar-5+'px'+';'}}"></view>
+                <view class="fixed data-v-64eeda88">
+                    <view bindtap="__e" class="top-wrap data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/myInfo/index'] ] ] ] ]}}">
+                        <view class="photo-img data-v-64eeda88">
+                            <image class="data-v-64eeda88" src="{{info.userFaceurl}}"></image>
+                        </view>
+                        <view class="text-info data-v-64eeda88">
+                            <view class="name data-v-64eeda88">
+                                <block wx:if="{{!userInfo.isVisitor}}">{{info.userNickname||''}}</block>
+                                <block wx:else>请点击登录</block>
+                            </view>
+                            <view class="date data-v-64eeda88">{{info.hellomsg}}</view>
+                        </view>
+                        <view class="set-wrap data-v-64eeda88">
+                            <image class="data-v-64eeda88" src="{{$root.m0}}"></image>
+                        </view>
+                    </view>
+                    <view class="bottom-wrap data-v-64eeda88">
+                        <view bindtap="__e" class="item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/totalStatistics/index'] ] ] ] ]}}">
+                            <view class="num data-v-64eeda88">{{info.appointCount||'0'}}</view>
+                            <view class="text data-v-64eeda88">累计上课(次)</view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/appointmentStatistics/index'] ] ] ] ]}}">
+                            <view class="num data-v-64eeda88">{{info.lastMonthAppointCount||'0'}}</view>
+                            <view class="text data-v-64eeda88">本月上课(次)</view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/appointmentStatistics/index'] ] ] ] ]}}" wx:if="{{pointStarted!=1}}">
+                            <view class="num data-v-64eeda88">{{info.absenceCount||'0'}}</view>
+                            <view class="text data-v-64eeda88">本月旷课(次)</view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/point/index'] ] ] ] ]}}" wx:else>
+                            <view class="num data-v-64eeda88">{{(info.totalPoint||'0')+''}}</view>
+                            <view class="text data-v-64eeda88">累计积分</view>
+                        </view>
+                        <view bindtap="__e" class="item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'e1',['$event'] ] ] ] ]}}">
+                            <view class="num data-v-64eeda88">{{''+(userInfo.isVisitor||!isShowMonthRank?'-':info.monthRankNum)+''}}</view>
+                            <view class="text data-v-64eeda88">本月排名</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="main data-v-64eeda88">
+            <view class="card-info data-v-64eeda88">
+                <view class="data-v-64eeda88" wx:if="{{$root.g0}}">
+                    <view class="card-list-wrap data-v-64eeda88" style="{{'height:'+($root.g1<=1?371:30*($root.g2-1)+371)+'rpx'+';'}}">
+                        <view bindtap="__e" class="card-item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'toggleCard',['$0',index],[ [ ['info.cardlist','',index] ] ] ] ] ] ]}}" style="{{'top:'+index*30+'rpx'+';'+'z-index:'+10*(index+1)+';'}}" wx:for="{{info.cardlist}}" wx:key="index">
+                            <member-card activeClass="large-size" bind:__l="__l" bind:moreProject="__e" cardInfo="{{item}}" class="data-v-64eeda88" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" vueId="{{'2efac497-1-'+index}}"></member-card>
+                        </view>
+                    </view>
+                    <view class="handle-wrap data-v-64eeda88">
+                        <view class="wrap data-v-64eeda88">
+                            <view bindtap="__e" class="item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/useRecord/index'] ] ] ] ]}}">
+                                <image class="data-v-64eeda88" src="{{$root.m1}}"></image>
+                                <text class="data-v-64eeda88">预约记录</text>
+                            </view>
+                            <view bindtap="__e" class="item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/useRecord/index?tab=1'] ] ] ] ]}}">
+                                <u-line bind:__l="__l" class="data-v-64eeda88" color="#DADADA" direction="col" length="20" margin="0 25rpx" vueId="2efac497-2"></u-line>
+                                <image class="data-v-64eeda88" src="{{$root.m2}}" style="width:34rpx;height:34rpx;"></image>
+                                <text class="data-v-64eeda88">余额核对</text>
+                            </view>
+                            <view class="item data-v-64eeda88">
+                                <u-line bind:__l="__l" class="data-v-64eeda88" color="#DADADA" direction="col" length="20" margin="0 25rpx" vueId="2efac497-3"></u-line>
+                                <view bindtap="__e" class="equity-box data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/myInterests/index'] ] ] ] ]}}">
+                                    <image class="data-v-64eeda88" src="{{$root.m3}}"></image>
+                                    <text class="data-v-64eeda88">权益</text>
+                                </view>
+                                <u-line bind:__l="__l" class="data-v-64eeda88" color="#DADADA" direction="col" length="20" margin="0 25rpx" vueId="2efac497-4"></u-line>
+                            </view>
+                            <view class="item data-v-64eeda88">
+                                <view catchtap="__e" class="more-wrap data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'showMore',['$event'] ] ] ] ]}}">
+                                    <u-icon bind:__l="__l" class="data-v-64eeda88" color="#696B99" name="more-dot-fill" size="25" vueId="2efac497-5"></u-icon>
+                                </view>
+                                <view class="drop_down data-v-64eeda88" wx:if="{{showMoreStatus}}">
+                                    <view class="image_wrap data-v-64eeda88">
+                                        <image class="data-v-64eeda88" src="{{$root.m4}}"></image>
+                                    </view>
+                                    <view class="drop_down_list data-v-64eeda88">
+                                        <view bindtap="__e" class="handle_item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageHome/buyingCard/index?cardId='+currentCard.cardId+'&userCardId='+currentCard.userCardId] ] ] ] ]}}">
+                                            <image class="data-v-64eeda88" src="{{$root.m5}}" style="width:34rpx;height:33rpx;"></image>
+                                            <text class="data-v-64eeda88">我要续费</text>
+                                        </view>
+                                        <view bindtap="__e" class="handle_item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'removeCard',['$event'] ] ] ] ]}}">
+                                            <image class="data-v-64eeda88" src="{{$root.m6}}" style="width:39rpx;height:39rpx;"></image>
+                                            <text class="data-v-64eeda88">隐藏该卡</text>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="recover-img-wrap data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/removeCard/index'] ] ] ] ]}}" wx:if="{{removeCardNum>0}}">
+                            <image class="data-v-64eeda88" src="{{$root.m7}}"></image>
+                        </view>
+                    </view>
+                    <view class="data-v-64eeda88" wx:if="{{currentCard&&currentCard.isPutWeixin==0}}">
+                        <view bindtap="__e" class="save-card-bag data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'putWxCardPack',['$event'] ] ] ] ]}}">放入微信卡包</view>
+                        <view class="hint data-v-64eeda88">可在<text class="data-v-64eeda88">“微信 → 我 → 卡包”</text>中找到并使用</view>
+                    </view>
+                </view>
+                <view class="no-card data-v-64eeda88" wx:else>
+                    <view class="img-wrap data-v-64eeda88">
+                        <image class="data-v-64eeda88" src="{{$root.m8}}"></image>
+                    </view>
+                    <view class="hint-text data-v-64eeda88">您还没有会员卡哦<view bindtap="__e" class="recover-img-wrap data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/removeCard/index'] ] ] ] ]}}" wx:if="{{removeCardNum>0}}">
+                            <image class="data-v-64eeda88" src="{{$root.m9}}"></image>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="permission-list data-v-64eeda88">
+                <u-line bind:__l="__l" class="data-v-64eeda88" color="#F0F0F0" vueId="2efac497-6"></u-line>
+                <view bindtap="__e" class="item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/totalStatistics/index'] ] ] ] ]}}">
+                    <image class="data-v-64eeda88" src="{{$root.m10}}"></image>
+                    <text class="data-v-64eeda88">约课统计</text>
+                    <u-icon bind:__l="__l" class="arrow-right data-v-64eeda88" color="#BFBFBF" name="arrow-right" size="25" vueId="2efac497-7"></u-icon>
+                </view>
+                <view class="data-v-64eeda88" style="padding-left:60rpx;">
+                    <u-line bind:__l="__l" class="data-v-64eeda88" color="#F0F0F0" vueId="2efac497-8"></u-line>
+                </view>
+                <view bindtap="__e" class="item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/memberAgreement/index'] ] ] ] ]}}">
+                    <image class="data-v-64eeda88" src="{{$root.m11}}"></image>
+                    <text class="data-v-64eeda88">会员协议</text>
+                    <u-icon bind:__l="__l" class="arrow-right data-v-64eeda88" color="#BFBFBF" name="arrow-right" size="25" vueId="2efac497-9"></u-icon>
+                </view>
+                <view class="data-v-64eeda88" style="padding-left:60rpx;">
+                    <u-line bind:__l="__l" class="data-v-64eeda88" color="#F0F0F0" vueId="2efac497-10"></u-line>
+                </view>
+                <view bindtap="__e" class="item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pages/myOrder/index?source=mine'] ] ] ] ]}}">
+                    <image class="data-v-64eeda88" src="{{$root.m12}}"></image>
+                    <text class="data-v-64eeda88">我的订单</text>
+                    <u-icon bind:__l="__l" class="arrow-right data-v-64eeda88" color="#BFBFBF" name="arrow-right" size="25" vueId="2efac497-11"></u-icon>
+                </view>
+                <view class="data-v-64eeda88" style="padding-left:60rpx;">
+                    <u-line bind:__l="__l" class="data-v-64eeda88" color="#F0F0F0" vueId="2efac497-12"></u-line>
+                </view>
+                <view bindtap="__e" class="item data-v-64eeda88" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/myInfo/index'] ] ] ] ]}}">
+                    <image class="data-v-64eeda88" src="{{$root.m13}}"></image>
+                    <text class="data-v-64eeda88">我的资料</text>
+                    <u-icon bind:__l="__l" class="arrow-right data-v-64eeda88" color="#BFBFBF" name="arrow-right" size="25" vueId="2efac497-13"></u-icon>
+                </view>
+            </view>
+            <bottom-show-logo bind:__l="__l" class="data-v-64eeda88" vueId="2efac497-14"></bottom-show-logo>
+        </view>
+    </block>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-64eeda88 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['ok'] ] ] ]}}" data-ref="confirmModal" title="确认隐藏该卡吗？" vueId="2efac497-15" vueSlots="{{['content']}}">
+        <view class="data-v-64eeda88" slot="content">隐藏后，可点击右下角回收站图标进行恢复显示</view>
+    </confirm-modal>
+    <card-all-project bind:__l="__l" class="data-v-64eeda88 vue-ref" data-ref="cardAllProject" vueId="2efac497-16"></card-all-project>
+    <dialog bind:__l="__l" bind:input="__e" class="data-v-64eeda88" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','isShowLoginBT','$event',[] ] ] ] ] ]}}" height="{{320}}" title="提示" value="{{isShowLoginBT}}" vueId="2efac497-17" vueSlots="{{['content']}}">
+        <view class="data-v-64eeda88" slot="content">
+            <view class="show-login-BT data-v-64eeda88">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-64eeda88" customStyle="{{saveBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['jumpLogin'] ] ] ]}}" hoverClass="none" shape="circle" type="primary" vueId="{{'2efac497-18'+','+'2efac497-17'}}" vueSlots="{{['default']}}">马上登录</u-button>
+                <view class="tips data-v-64eeda88">登录后即可进入到场馆，查看自己的会员卡余额、并约课</view>
+            </view>
+        </view>
+    </dialog>
+</view>

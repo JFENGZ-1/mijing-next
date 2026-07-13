@@ -1,0 +1,25 @@
+.main-box.data-v-1a543dbe {
+  justify-items: center;
+  padding-top: 170rpx;
+}
+.main-box .but.data-v-1a543dbe,
+.main-box.data-v-1a543dbe {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+.main-box .but.data-v-1a543dbe {
+  background: #f7d147;
+  border-radius: 69rpx;
+  color: #181818;
+  font-size: 26rpx;
+  height: 141rpx;
+  justify-content: center;
+  text-align: center;
+  width: 631rpx;
+}
+.main-box .but .fontbig.data-v-1a543dbe {
+  font-size: 41.67rpx;
+  font-weight: 400;
+}

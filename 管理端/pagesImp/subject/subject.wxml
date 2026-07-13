@@ -1,0 +1,38 @@
+<view class="data-v-61aee5b7">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-61aee5b7" text="{{title}}" vueId="289fa5d6-1"></navigation>
+    <zero-loading bind:__l="__l" class="data-v-61aee5b7" vueId="289fa5d6-2" wx:if="{{pageLoading}}"></zero-loading>
+    <view class="placeholder-view data-v-61aee5b7" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="subject-container data-v-61aee5b7" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-61aee5b7" style="{{'background:#FFFFFF;border-radius:20rpx 20rpx 0 0;'+'height:100%;min-height:1230rpx;'}}">
+            <view class="body data-v-61aee5b7">
+                <view class="head data-v-61aee5b7">
+                    <u-tabs activeItemStyle="{{activeItemStyle}}" bind:__l="__l" bind:change="__e" class="data-v-61aee5b7" current="{{current}}" data-event-opts="{{[ [ '^change',[ ['changeTab'] ] ] ]}}" fontSize="34" inactiveColor="#7E7E7E" isScroll="{{false}}" list="{{listTabs}}" vueId="289fa5d6-3"></u-tabs>
+                </view>
+                <view class="data-v-61aee5b7" wx:if="{{$root.g0}}">
+                    <nodatalongword bind:__l="__l" class="data-v-61aee5b7" msg="{{0}}" vueId="289fa5d6-4"></nodatalongword>
+                </view>
+                <view class="content data-v-61aee5b7" wx:if="{{$root.g1}}">
+                    <u-search bind:__l="__l" bind:input="__e" class="data-v-61aee5b7" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','keyword','$event',[] ] ] ] ] ]}}" height="69" placeholder="课程名称" searchIconColor="#FBD128" showAction="{{false}}" value="{{keyword}}" vueId="289fa5d6-5"></u-search>
+                    <view class="num data-v-61aee5b7">{{'共'+$root.g2+'个课目'}}</view>
+                    <view class="courseli data-v-61aee5b7">
+                        <subject-card bind:__l="__l" bindtap="__e" class="data-v-61aee5b7" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/subject/subject-edit?courseId='+item.courseId] ] ] ] ] ] ]}}" groupData="{{item}}" vueId="{{'289fa5d6-6-'+index}}" wx:for="{{showGroupDatalist}}" wx:key="index"></subject-card>
+                    </view>
+                </view>
+                <view class="data-v-61aee5b7" wx:if="{{$root.g3}}">
+                    <nodatalongword bind:__l="__l" class="data-v-61aee5b7" msg="{{1}}" vueId="289fa5d6-7"></nodatalongword>
+                </view>
+                <view class="content data-v-61aee5b7" wx:if="{{$root.g4}}">
+                    <view class="num1 data-v-61aee5b7">{{'共'+$root.g5+'名私教'}}</view>
+                    <subject-persion bind:__l="__l" bind:switchUp="__e" class="data-v-61aee5b7" data-event-opts="{{[ [ '^switchUp',[ ['switchUp'] ] ] ]}}" groupData="{{item}}" item="{{index}}" vueId="{{'289fa5d6-8-'+index}}" wx:for="{{personDatalist}}" wx:key="index"></subject-persion>
+                </view>
+            </view>
+            <view bindtap="__e" class="create-Employee data-v-61aee5b7" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">
+                <view class="bg data-v-61aee5b7">
+                    <text class="data-v-61aee5b7" decode="true">创 建</text>
+                    <view class="data-v-61aee5b7">{{current==0?'团课':'私教课'}}</view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-61aee5b7" vueId="289fa5d6-9"></ff-bottom-logo>
+    </view>
+</view>

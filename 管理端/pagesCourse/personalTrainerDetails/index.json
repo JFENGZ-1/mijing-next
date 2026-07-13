@@ -1,0 +1,17 @@
+{
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm-modal": "/pagesCourse/personalTrainerDetails/components/confirm-modal",
+    "course-management": "/pagesCourse/index/components/course-management",
+    "edit-course": "/pagesCourse/components/edit-course",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "loading-pulse": "/components/zero-loading/static/loading-pulse",
+    "member-search": "/pagesCourse/components/member-search",
+    "remark-order-popup": "/components/ff-textarea/ff-textarea",
+    "u-divider": "/uview-ui/components/u-divider/u-divider",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

@@ -1,0 +1,58 @@
+<view class="data-v-e58ab94e">
+    <navigation bind:__l="__l" class="data-v-e58ab94e" text="{{title}}" vueId="af63c4cc-1"></navigation>
+    <view class="placeholder-view data-v-e58ab94e" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="staff-container data-v-e58ab94e" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-e58ab94e" style="{{'height:100%;min-height:1230rpx;background: #FFFFFF;border-radius: 20rpx 20rpx 0rpx 0rpx;'}}">
+            <view class="content data-v-e58ab94e" wx:if="{{$root.g0}}">
+                <view bindtap="__e" class="time_axis data-v-e58ab94e" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">
+                    <view class="time data-v-e58ab94e">
+                        <text class="data-v-e58ab94e">{{parma.year+'年'+parma.month+'月'}}</text>
+                        <u-icon bind:__l="__l" class="data-v-e58ab94e" color="#22C788" name="calendar" size="29" vueId="af63c4cc-2"></u-icon>
+                    </view>
+                </view>
+                <view class="statistics data-v-e58ab94e">
+                    <view class="filter data-v-e58ab94e">
+                        <view bindtap="__e" class="{{['data-v-e58ab94e',coachScreeningNum==index?'active':'filter-item']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleCoachScreening',[index] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                            <text class="data-v-e58ab94e">{{item.$orig.name}}</text>
+                            <view class="triangle data-v-e58ab94e">
+                                <image class="data-v-e58ab94e" mode="widthFix" src="{{item.m0}}" wx:if="{{coachScreeningNum==index}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view bindtap="__e" class="list data-v-e58ab94e" data-event-opts="{{[ [ 'tap',[ [ 'headleDalete',['$0','$1'],[ [ ['list','',index,'staffUserid'] ],[ ['list','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l1}}" wx:key="index">
+                        <view class="item data-v-e58ab94e">
+                            <view class="item_title data-v-e58ab94e">
+                                <view class="item_portrait data-v-e58ab94e">
+                                    <image class="data-v-e58ab94e" src="{{item.m1}}"></image>
+                                </view>
+                                <view class="item_name data-v-e58ab94e">{{item.$orig.staffName}}</view>
+                            </view>
+                            <view class="item_number data-v-e58ab94e">
+                                <view class="item_flex data-v-e58ab94e">
+                                    <view class="iten_num data-v-e58ab94e">{{''+item.$orig.privateCourseCount+'节'}}</view>
+                                    <view class="item_explain data-v-e58ab94e">私教</view>
+                                </view>
+                                <view class="item_flexs data-v-e58ab94e">
+                                    <view class="iten_num data-v-e58ab94e">{{item.$orig.teamCourseCount+'节'}}</view>
+                                    <view class="item_explain data-v-e58ab94e">团课</view>
+                                </view>
+                                <view class="item_report data-v-e58ab94e">
+                                    <image class="data-v-e58ab94e" mode="widthFix" src="{{item.m2}}"></image>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="noListData data-v-e58ab94e" wx:else>
+                <image class="data-v-e58ab94e" src="{{$root.m3}}"></image>
+                <view class="memberData data-v-e58ab94e">
+                    <text class="data-v-e58ab94e">全部连锁店的教练上课课时统计</text>
+                    <text class="data-v-e58ab94e">请先开通连锁功能</text>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-e58ab94e" vueId="af63c4cc-3"></ff-bottom-logo>
+    </view>
+    <calendar-month bind:__l="__l" bind:changeDate="__e" class="data-v-e58ab94e vue-ref" data-event-opts="{{[ [ '^changeDate',[ ['changeDate'] ] ] ]}}" data-ref="calendarMonthChild" vueId="af63c4cc-4"></calendar-month>
+</view>

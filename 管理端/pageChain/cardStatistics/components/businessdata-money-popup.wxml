@@ -1,0 +1,17 @@
+<view class="creatcourse-container data-v-3e3d04f3">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-3e3d04f3" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','businessPopupShow','$event',[] ] ] ] ] ]}}" title="修改金额" value="{{businessPopupShow}}" vueId="cf7de4bc-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-3e3d04f3" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-3e3d04f3" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'cf7de4bc-2'+','+'cf7de4bc-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="creatcourse data-v-3e3d04f3">
+            <view class="textc data-v-3e3d04f3">
+                <text class="title data-v-3e3d04f3">原金额</text>
+                <text class="money data-v-3e3d04f3">{{'￥'+money}}</text>
+            </view>
+            <view class="textc data-v-3e3d04f3">
+                <text class="title data-v-3e3d04f3">修改为</text>
+                <u-input bind:__l="__l" bind:input="__e" class="data-v-3e3d04f3" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','newMoney','$event',[] ] ] ] ] ]}}" height="70" maxlength="10" placeholder="填写金额" placeholderStyle="font-size: 28rpx;color: #DADADA;" type="digit" value="{{newMoney}}" vueId="{{'cf7de4bc-3'+','+'cf7de4bc-1'}}"></u-input>
+            </view>
+        </view>
+    </ff-popup>
+</view>

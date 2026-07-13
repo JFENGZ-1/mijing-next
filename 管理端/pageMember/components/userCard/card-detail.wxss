@@ -1,0 +1,21 @@
+.card-detail.data-v-17531dec {
+  margin-bottom: 60rpx;
+}
+.card-detail .item.data-v-17531dec {
+  display: -webkit-flex;
+  display: flex;
+  margin: 0 25rpx;
+}
+.card-detail .item .name.data-v-17531dec {
+  color: #989898;
+  font-size: 28rpx;
+  line-height: 60rpx;
+  text-align: end;
+  width: 130rpx;
+}
+.card-detail .item .value.data-v-17531dec {
+  color: #181818;
+  font-size: 28rpx;
+  line-height: 60rpx;
+  margin-left: 40rpx;
+}

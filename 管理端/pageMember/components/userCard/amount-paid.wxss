@@ -1,0 +1,54 @@
+.creatcourse-container .toptext.data-v-1b731a81 {
+  color: #181818;
+  font-size: 25rpx;
+  line-height: 54rpx;
+  margin-left: 38rpx;
+}
+.creatcourse-container .creatcourse.data-v-1b731a81 {
+  color: #181818;
+  line-height: 28rpx;
+  padding-bottom: 50rpx;
+}
+.creatcourse-container .creatcourse .textc.data-v-1b731a81 {
+  margin: 34rpx 56rpx;
+}
+.creatcourse-container .creatcourse .textc .textc-content.data-v-1b731a81 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+}
+.creatcourse-container .creatcourse .textc .title.data-v-1b731a81 {
+  color: #989898;
+  font-size: 25rpx;
+  line-height: 76rpx;
+}
+.creatcourse-container .creatcourse .textc .moneyTag.data-v-1b731a81 {
+  font-size: 22rpx;
+}
+.creatcourse-container .creatcourse .textc .userCardId.data-v-1b731a81 {
+  font-size: 34rpx;
+}
+.creatcourse-container .creatcourse .textc .money-icon-wrap.data-v-1b731a81 {
+  height: 17rpx;
+  margin-left: 13rpx;
+  width: 17rpx;
+}
+.creatcourse-container .creatcourse1.data-v-1b731a81 {
+  color: #181818;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  margin: 50rpx 56rpx 90rpx;
+}
+.creatcourse-container .creatcourse1 .textc.data-v-1b731a81 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  padding-bottom: 36rpx;
+}
+.creatcourse-container .creatcourse1 .textc .money.data-v-1b731a81 {
+  color: #000;
+  font-size: 39rpx;
+  font-weight: 400;
+  padding-left: 45rpx;
+}

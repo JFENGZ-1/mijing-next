@@ -1,0 +1,42 @@
+.calendarMonth-container .calendarMonth.data-v-fbe53874 {
+  margin: 20rpx 40rpx 0rpx;
+}
+.calendarMonth-container .calendarMonth .year-box.data-v-fbe53874 {
+  padding-bottom: 65rpx;
+}
+.calendarMonth-container .calendarMonth .year.data-v-fbe53874 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  margin: 0 50rpx;
+}
+.calendarMonth-container .calendarMonth .year .place_holder.data-v-fbe53874 {
+  color: #181818;
+  font-size: 32rpx;
+  margin: 0 32rpx;
+}
+.calendarMonth-container .calendarMonth .month .month-view.data-v-fbe53874 {
+  margin: 47rpx;
+}
+.calendarMonth-container .calendarMonth .month.data-v-fbe53874 .aa {
+  background: #22c788;
+  border-radius: 35rpx;
+  color: #fff;
+  font-weight: 500;
+  padding: 15rpx 37rpx;
+}
+.calendarMonth-container .calendarMonth .month .bb.data-v-fbe53874 {
+  color: #181818;
+}
+.calendarMonth-container .calendarMonth .item_month.data-v-fbe53874 {
+  color: #181818;
+  margin-left: 40rpx;
+  padding: 11rpx 45rpx;
+}
+.calendarMonth-container .calendarMonth .item_month_long.data-v-fbe53874 {
+  margin-left: 37rpx;
+  padding: 11rpx 45rpx 11rpx 30rpx;
+}
+.calendarMonth-container .calendarMonth .item_month_0.data-v-fbe53874 {
+  padding: 11rpx 45rpx;
+}

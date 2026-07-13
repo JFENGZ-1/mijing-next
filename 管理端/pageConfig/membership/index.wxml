@@ -1,0 +1,49 @@
+<view class="membership-container data-v-0600a03e">
+    <navigation bind:__l="__l" class="data-v-0600a03e" text="会员资料" vueId="9f75aa66-1"></navigation>
+    <view class="placeholder-view data-v-0600a03e" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="content data-v-0600a03e" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content-wrap data-v-0600a03e" wx:if="{{!isLoading}}">
+            <view class="membership-top data-v-0600a03e">
+                <view class="top data-v-0600a03e">
+                    <u-icon bind:__l="__l" class="icon data-v-0600a03e" color="#C96B30" name="bell" vueId="9f75aa66-2"></u-icon>
+                    <view class="top-info data-v-0600a03e">
+                        <view class="data-v-0600a03e">a、会员注册时，要求会员提供的信息</view>
+                        <view class="data-v-0600a03e">b、没有实际意义的信息，不推荐要求会员填写或必须填写</view>
+                    </view>
+                </view>
+            </view>
+            <view class="membership-user data-v-0600a03e">
+                <view bindtap="__e" class="{{['data-v-0600a03e',item.value==1||item.value==2?'active':'label']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleName',['$0','$1'],[ [ ['userList','',index,'id'] ],[ ['userList','',index,'value'] ] ] ] ] ] ]}}" wx:for="{{userList}}" wx:key="index">
+                    <view class="data-v-0600a03e">{{item.text}}</view>
+                    <view class="user-icon data-v-0600a03e">
+                        <u-icon bind:__l="__l" class="icon data-v-0600a03e" color="#fff" name="checkbox-mark" vueId="{{'9f75aa66-3-'+index}}" wx:if="{{item.value==1||item.value==2}}"></u-icon>
+                    </view>
+                </view>
+            </view>
+            <view class="membership-form data-v-0600a03e">
+                <view class="form-top data-v-0600a03e">
+                    <text class="data-v-0600a03e">已选资料</text>
+                    <text class="form-laber data-v-0600a03e">是否必填</text>
+                </view>
+                <view class="form-switch data-v-0600a03e" wx:for="{{userList}}" wx:key="index">
+                    <u-form-item bind:__l="__l" class="data-v-0600a03e" label="{{item.text}}" style="font-weight:500;" vueId="{{'9f75aa66-4-'+index}}" vueSlots="{{['default','right']}}" wx:if="{{item.text==='手机号'&&item.value==2}}">
+                        <text class="required data-v-0600a03e" wx:if="{{item.value==2}}">-必填</text>
+                        <u-switch activeColor="success" bind:__l="__l" bind:input="__e" class="switch data-v-0600a03e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','isMust','$event',[] ],[ [ ['userList','',index] ] ] ] ] ] ]}}" disabled="{{true}}" slot="right" value="{{item.isMust}}" vueId="{{'9f75aa66-5-'+index+','+'9f75aa66-4-'+index}}"></u-switch>
+                    </u-form-item>
+                    <u-form-item bind:__l="__l" class="data-v-0600a03e" label="{{item.text}}" style="{{'font-weight:'+(item.value===2?'500':'normal')+';'}}" vueId="{{'9f75aa66-6-'+index}}" vueSlots="{{['default','right']}}" wx:if="{{item.value==1||item.value==2&&item.text!=='手机号'}}">
+                        <text class="required data-v-0600a03e" wx:if="{{item.value==2}}">-必填</text>
+                        <u-switch activeColor="success" bind:__l="__l" bind:change="__e" bind:input="__e" class="switch data-v-0600a03e" data-event-opts="{{[ [ '^change',[ [ 'change',['$0','$1'],[ [ ['userList','',index,'id'] ],[ ['userList','',index,'value'] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','isMust','$event',[] ],[ [ ['userList','',index] ] ] ] ] ] ]}}" slot="right" value="{{item.isMust}}" vueId="{{'9f75aa66-7-'+index+','+'9f75aa66-6-'+index}}"></u-switch>
+                    </u-form-item>
+                </view>
+            </view>
+            <view class="jump-box data-v-0600a03e">
+                <view bindtap="__e" class="jump data-v-0600a03e" data-event-opts="{{[ [ 'tap',[ [ 'goMember',['$event'] ] ] ] ]}}">添加会员<u-icon bind:__l="__l" class="arrow-right data-v-0600a03e" color="#003d82" name="arrow-right" size="15" vueId="9f75aa66-8"></u-icon>
+                </view>
+            </view>
+        </view>
+        <view class="loading-wrap data-v-0600a03e" wx:else>
+            <loading-pulse bind:__l="__l" class="data-v-0600a03e" vueId="9f75aa66-9"></loading-pulse>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-0600a03e" vueId="9f75aa66-10"></ff-bottom-logo>
+</view>

@@ -1,0 +1,24 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-1984fb9a" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="是否允许一次预约多人" title="是否允许一次预约多人" value="{{show}}" vueId="526b5b66-1" vueSlots="{{['default','tips','confrimBtn']}}">
+    <view class="data-v-1984fb9a" slot="tips" style="display:flex;align-items:baseline;">
+        <u-icon bind:__l="__l" class="data-v-1984fb9a" name="bell" size="26" style="position:relative;top:5rpx;" vueId="{{'526b5b66-2'+','+'526b5b66-1'}}"></u-icon>
+        <view class="data-v-1984fb9a" style="padding-left:10rpx;">a. 是否允许预约时，可以选择预约的人数，例如一次预约5人<view class="_br data-v-1984fb9a"></view>b. 若允许，则扣除相应的总费用。如约课时填报5人则扣除5次<view class="_br data-v-1984fb9a"></view>c. 该设置仅作用于此卡<view class="_br data-v-1984fb9a"></view>
+        </view>
+    </view>
+    <view class="com-button-f1 data-v-1984fb9a" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-1984fb9a" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'526b5b66-3'+','+'526b5b66-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-1984fb9a">
+        <u-radio-group bind:__l="__l" bind:input="__e" class="radio-group data-v-1984fb9a" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','ruleId','$event',[] ] ] ] ] ]}}" value="{{ruleId}}" vueId="{{'526b5b66-4'+','+'526b5b66-1'}}" vueSlots="{{['default']}}">
+            <u-radio bind:__l="__l" class="radio data-v-1984fb9a" name="{{1}}" vueId="{{'526b5b66-5'+','+'526b5b66-4'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-1984fb9a',ruleId===1?'active':'']}}">不允许，一次只能预约一人</view>
+            </u-radio>
+            <u-radio bind:__l="__l" class="radio data-v-1984fb9a" name="{{2}}" vueId="{{'526b5b66-6'+','+'526b5b66-4'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-1984fb9a',ruleId===2?'active':'']}}">允许预约多人，且不限制人数</view>
+            </u-radio>
+            <u-radio bind:__l="__l" class="radio data-v-1984fb9a" name="{{3}}" vueId="{{'526b5b66-7'+','+'526b5b66-4'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-1984fb9a',ruleId===3?'active':'']}}">允许预约多人，最多<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1984fb9a" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','manCount','$event',[] ] ] ] ] ]}}" disabled="{{ruleId!==3}}" type="number" value="{{manCount}}" vueId="{{'526b5b66-8'+','+'526b5b66-7'}}"></u-input>人</view>
+            </u-radio>
+        </u-radio-group>
+        <view class="data-v-1984fb9a" style="padding-top:160rpx;"></view>
+    </view>
+</ff-popup>

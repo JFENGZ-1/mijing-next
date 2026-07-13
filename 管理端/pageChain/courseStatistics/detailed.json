@@ -1,0 +1,13 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "详细数据",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "u-divider": "/uview-ui/components/u-divider/u-divider",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "u-radio": "/uview-ui/components/u-radio/u-radio",
+    "u-radio-group": "/uview-ui/components/u-radio-group/u-radio-group",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

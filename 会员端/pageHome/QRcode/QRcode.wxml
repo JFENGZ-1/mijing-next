@@ -1,0 +1,19 @@
+<page-meta class="data-v-670c76c6" pageStyle="background-color: #696B99;"></page-meta>
+<view class="data-v-670c76c6">
+    <view class="QR_layout data-v-670c76c6">
+        <view class="QR data-v-670c76c6">
+            <image class="QR_pic data-v-670c76c6" showMenuByLongpress="{{true}}" src="{{$root.m0}}"></image>
+            <view class="title data-v-670c76c6">长按图片识别</view>
+            <view class="icon_wrap data-v-670c76c6">
+                <image class="icon data-v-670c76c6" src="{{$root.m1}}"></image>
+            </view>
+        </view>
+    </view>
+    <view class="shadow_layout data-v-670c76c6">
+        <image class="shadow_pic data-v-670c76c6" src="{{$root.m2}}"></image>
+    </view>
+    <view class="title_layout data-v-670c76c6">
+        <view class="title data-v-670c76c6">【提醒通知】</view>
+        <view class="description data-v-670c76c6">即可收到课程取消、上课提醒、排队成功等通知</view>
+    </view>
+</view>

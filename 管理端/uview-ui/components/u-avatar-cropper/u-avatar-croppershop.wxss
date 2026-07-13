@@ -1,0 +1,55 @@
+.content.data-v-a1b29062 {
+  background: #fff;
+}
+.cropper.data-v-a1b29062 {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 11;
+}
+.cropper-buttons.data-v-a1b29062 {
+  background-color: #000;
+  color: #eee;
+}
+.cropper-wrapper.data-v-a1b29062 {
+  background-color: #000;
+  position: relative;
+  width: 100%;
+}
+.cropper-buttons.data-v-a1b29062,
+.cropper-wrapper.data-v-a1b29062 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.cropper-buttons.data-v-a1b29062 {
+  bottom: 0;
+  font-size: 28rpx;
+  left: 0;
+  position: fixed;
+  width: 100vw;
+  z-index: 99;
+}
+.cropper-buttons .getCropperImage.data-v-a1b29062,
+.cropper-buttons .upload.data-v-a1b29062 {
+  text-align: center;
+  width: 50%;
+}
+.cropper-buttons .upload.data-v-a1b29062 {
+  color: #eee;
+  height: 56rpx;
+  line-height: 56rpx;
+  padding-left: 50rpx;
+  text-align: left;
+}
+.cropper-buttons .getCropperImage.data-v-a1b29062 {
+  color: #eee;
+  height: 56rpx;
+  line-height: 56rpx;
+  padding-right: 50rpx;
+  text-align: right;
+}

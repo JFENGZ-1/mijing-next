@@ -1,0 +1,107 @@
+.data-v-43b2fe55 .icon-back {
+  filter: drop-shadow(17rpx 29rpx #808080);
+  margin-left: -34rpx;
+  margin-top: -58rpx;
+  transform: translateZ(0);
+}
+.data-v-43b2fe55 .cu-title text {
+  color: #fff;
+}
+.placeholder-view.data-v-43b2fe55 {
+  background: #181818;
+}
+.noData.data-v-43b2fe55 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  margin-top: 200rpx;
+}
+.noData image.data-v-43b2fe55 {
+  height: 171rpx;
+  width: 203rpx;
+}
+.noData text.data-v-43b2fe55 {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 45rpx;
+}
+.content.data-v-43b2fe55 {
+  background: #fff;
+  border-top-left-radius: 30rpx;
+  border-top-right-radius: 30rpx;
+  min-height: 1250rpx;
+  padding: 50rpx 28rpx 30rpx;
+}
+.content .total-num.data-v-43b2fe55 {
+  color: #181818;
+  font-size: 28rpx;
+  margin-left: 6rpx;
+}
+.content .list-wrap .item.data-v-43b2fe55 {
+  margin-top: 20rpx;
+}
+.content .list-wrap .remark.data-v-43b2fe55 {
+  color: #989898;
+  font-size: 22rpx;
+  margin-left: 10rpx;
+  margin-top: 10rpx;
+}
+.content .list-wrap .item-wrap.data-v-43b2fe55 {
+  background: #f5f5f5;
+  border-radius: 21rpx;
+  display: -webkit-flex;
+  display: flex;
+  padding: 20rpx 19rpx 22rpx;
+}
+.content .list-wrap .item-wrap .left-item.data-v-43b2fe55 {
+  flex: 1;
+}
+.content .list-wrap .item-wrap .left-item .validity .year.data-v-43b2fe55 {
+  color: #181818;
+  font-size: 25rpx;
+  font-weight: 500;
+  margin-right: 10rpx;
+}
+.content
+  .list-wrap
+  .item-wrap
+  .left-item
+  .validity
+  .validity-data.data-v-43b2fe55 {
+  color: #7e7e7e;
+  font-size: 22rpx;
+}
+.content .list-wrap .item-wrap .left-item .versions.data-v-43b2fe55 {
+  color: #7e7e7e;
+  font-size: 22rpx;
+  margin: 8rpx 0rpx;
+}
+.content .list-wrap .item-wrap .left-item .order-info.data-v-43b2fe55 {
+  font-size: 22rpx;
+}
+.content
+  .list-wrap
+  .item-wrap
+  .left-item
+  .order-info
+  .order-data.data-v-43b2fe55 {
+  color: #7e7e7e;
+  margin-right: 20rpx;
+}
+.content
+  .list-wrap
+  .item-wrap
+  .left-item
+  .order-info
+  .order-status.data-v-43b2fe55 {
+  color: #22c788;
+  font-weight: 500;
+}
+.content .list-wrap .item-wrap .right-item .price.data-v-43b2fe55 {
+  color: #7e7e7e;
+  font-size: 25rpx;
+}
+page {
+  background: #f5f5f5;
+}

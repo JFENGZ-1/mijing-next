@@ -1,0 +1,45 @@
+<view>
+    <navigation background="#FFFFFF" bind:__l="__l" text="编辑展示图" vueId="f0715784-1"></navigation>
+    <view style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="main" style="height:100%;min-height:1230rpx;">
+            <view class="hint_wrap">
+                <hint bind:__l="__l" vueId="f0715784-2" vueSlots="{{['default']}}">
+                    <view class="hint_text_wrap">
+                        <view class="item" style="margin-bottom:2rpx;">最多上传5张，点击图片可重新上传</view>
+                    </view>
+                </hint>
+            </view>
+            <view class="content">
+                <view class="item" wx:for="{{$root.l0}}" wx:key="index">
+                    <image bindtap="__e" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',[index] ] ] ] ]}}" src="{{item.m0}}"></image>
+                    <view class="tag-group">
+                        <view bindtap="__e" class="tag" data-event-opts="{{[ [ 'tap',[ [ 'moveUp',[index] ] ] ] ]}}" wx:if="{{index!=0}}">
+                            <image mode src="{{item.m1}}"></image>
+                            <text>上移</text>
+                        </view>
+                        <view bindtap="__e" class="tag-del" data-event-opts="{{[ [ 'tap',[ [ 'del',[index] ] ] ] ]}}" wx:if="{{defImage!=1}}">
+                            <image mode src="{{$root.m2}}"></image>
+                            <text>删除</text>
+                        </view>
+                        <view class="tag-del" wx:if="{{defImage==1}}">
+                            <image mode src="{{$root.m3}}"></image>
+                            <text style="color:#DADADA;">删除</text>
+                        </view>
+                    </view>
+                </view>
+                <view bindtap="__e" class="add" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',[-1] ] ] ] ]}}">
+                    <view class="bg">
+                        <view>新增照片</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" vueId="f0715784-3"></ff-bottom-logo>
+        <confirm-modal bind:__l="__l" bind:confirm="__e" class="vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ] ]}}" data-ref="confirmModal" title="删除这张图片？" vueId="f0715784-4" vueSlots="{{['content']}}">
+            <view slot="content">
+                <text style="{{'display:block;'}}">确定后，将删除</text>
+            </view>
+        </confirm-modal>
+    </view>
+</view>

@@ -1,0 +1,89 @@
+<view class="data-v-1a501e98">
+    <view class="data-v-1a501e98" wx:if="{{$root.g0>0}}">
+        <view class="tips data-v-1a501e98">
+            <u-icon bind:__l="__l" class="u-icon data-v-1a501e98" name="info-circle-fill" vueId="e005734a-1"></u-icon>每日凌晨更新</view>
+        <view class="data-v-1a501e98" wx:for="{{list}}" wx:key="index">
+            <view class="curren-year data-v-1a501e98" wx:if="{{index==0}}">
+                <view class="total-num data-v-1a501e98">
+                    <view class="num data-v-1a501e98">{{totalCount}}</view>
+                    <view class="text data-v-1a501e98">累计上课(次)</view>
+                </view>
+                <view class="record-wrap data-v-1a501e98">
+                    <view class="item data-v-1a501e98" wx:for="{{item.monthList}}" wx:for-index="j" wx:for-item="i" wx:key="j">
+                        <view class="month data-v-1a501e98">{{i.month+'月'}}</view>
+                        <view bindtap="__e" class="statistics-wrap data-v-1a501e98" data-event-opts="{{[ [ 'tap',[ [ 'appointmentDetails',['$0'],[ [ ['list','',index],['monthList','',j] ] ] ] ] ] ]}}">
+                            <view class="group data-v-1a501e98">
+                                <view class="num data-v-1a501e98">{{i.teamTimes}}</view>
+                                <view class="text data-v-1a501e98">常规课(次)</view>
+                            </view>
+                            <view class="group data-v-1a501e98">
+                                <view class="num data-v-1a501e98">{{i.teamAbsent}}</view>
+                                <view class="text data-v-1a501e98">旷课(次)</view>
+                            </view>
+                            <view class="group data-v-1a501e98">
+                                <view class="num data-v-1a501e98">{{i.privateTimes}}</view>
+                                <view class="text data-v-1a501e98">私教(次)</view>
+                            </view>
+                            <view class="group data-v-1a501e98">
+                                <view class="num data-v-1a501e98">{{i.privateAbsent}}</view>
+                                <view class="text data-v-1a501e98">旷课(次)</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="history-record data-v-1a501e98" wx:else>
+                <view class="title data-v-1a501e98">{{item.year+'年'}}</view>
+                <view class="current-total-statistics data-v-1a501e98">
+                    <view class="item data-v-1a501e98">
+                        <view class="num data-v-1a501e98">{{item.teamTimes}}</view>
+                        <view class="text data-v-1a501e98">全年常规课(次)</view>
+                    </view>
+                    <view class="item data-v-1a501e98">
+                        <view class="num data-v-1a501e98">{{item.teamAbsent}}</view>
+                        <view class="text data-v-1a501e98">全年旷课(次)</view>
+                    </view>
+                    <view class="item data-v-1a501e98">
+                        <view class="num data-v-1a501e98">{{item.privateTimes}}</view>
+                        <view class="text data-v-1a501e98">全年私教(次)</view>
+                    </view>
+                    <view class="item data-v-1a501e98">
+                        <view class="num data-v-1a501e98">{{item.privateAbsent}}</view>
+                        <view class="text data-v-1a501e98">全年旷课(次)</view>
+                    </view>
+                </view>
+                <view class="record-wrap data-v-1a501e98">
+                    <view class="item data-v-1a501e98" wx:for="{{item.monthList}}" wx:for-index="j" wx:for-item="i" wx:key="j">
+                        <view class="month data-v-1a501e98">{{i.month+'月'}}</view>
+                        <view bindtap="__e" class="statistics-wrap data-v-1a501e98" data-event-opts="{{[ [ 'tap',[ [ 'appointmentDetails',['$0'],[ [ ['list','',index],['monthList','',j] ] ] ] ] ] ]}}">
+                            <view class="group data-v-1a501e98">
+                                <view class="num data-v-1a501e98">{{i.teamTimes}}</view>
+                                <view class="text data-v-1a501e98">常规课(次)</view>
+                            </view>
+                            <view class="group data-v-1a501e98">
+                                <view class="num data-v-1a501e98">{{i.teamAbsent}}</view>
+                                <view class="text data-v-1a501e98">旷课(次)</view>
+                            </view>
+                            <view class="group data-v-1a501e98">
+                                <view class="num data-v-1a501e98">{{i.privateTimes}}</view>
+                                <view class="text data-v-1a501e98">私教(次)</view>
+                            </view>
+                            <view class="group data-v-1a501e98">
+                                <view class="num data-v-1a501e98">{{i.privateAbsent}}</view>
+                                <view class="text data-v-1a501e98">旷课(次)</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="load-wrap data-v-1a501e98">
+            <u-loadmore bind:__l="__l" class="data-v-1a501e98" nomoreText="没有更多了" status="{{loadStatus}}" vueId="e005734a-2"></u-loadmore>
+        </view>
+    </view>
+    <view class="noData data-v-1a501e98" wx:else>
+        <image class="data-v-1a501e98" src="{{$root.m0}}"></image>
+        <text class="data-v-1a501e98">还没有数据哦</text>
+    </view>
+    <bottom-logo bind:__l="__l" class="data-v-1a501e98" vueId="e005734a-3"></bottom-logo>
+</view>

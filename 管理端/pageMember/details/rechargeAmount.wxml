@@ -1,0 +1,70 @@
+<view class="data-v-bd706424">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-bd706424" headUrl="{{userFaceurl}}" text="{{userRealname}}" vueId="531ce412-1"></navigation>
+    <view class="placeholder-view data-v-bd706424" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view bindtap="__e" class="main data-v-bd706424" data-event-opts="{{[ [ 'tap',[ [ 'cancelBubbling',['$event'] ] ] ] ]}}" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-bd706424">
+            <view class="setting_wrap data-v-bd706424">
+                <view class="top_data data-v-bd706424">
+                    <view class="month_income data-v-bd706424">
+                        <view class="month_num data-v-bd706424">{{totalPayAmount?totalPayAmount:'--'}}</view>
+                        <view class="month_text data-v-bd706424">累计消费(元)</view>
+                    </view>
+                </view>
+            </view>
+            <view class="list data-v-bd706424">
+                <zero-loading bind:__l="__l" class="data-v-bd706424" vueId="531ce412-2" wx:if="{{!detailList}}"></zero-loading>
+                <block wx:else>
+                    <view class="item data-v-bd706424" wx:for="{{$root.l1}}" wx:key="index">
+                        <view class="item_time data-v-bd706424">{{item.$orig.fullDayName}}</view>
+                        <view class="item_con data-v-bd706424" wx:for="{{item.l0}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                            <view class="list_item data-v-bd706424">
+                                <view class="right data-v-bd706424">
+                                    <view class="item_conter data-v-bd706424">{{'卡名：'+item1.$orig.cardName+''}}<view class="item_below data-v-bd706424">
+                                            <view class="item_below_time data-v-bd706424">{{item1.g0+''}}</view>
+                                            <view class="type-box data-v-bd706424" wx:if="{{item1.$orig.isnewtag==1}}">
+                                                <image class="new-member-icon data-v-bd706424" src="{{item1.m0}}"></image>
+                                                <view class="type-name new-member-label data-v-bd706424">新会员</view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="item_price data-v-bd706424">{{'￥'+item1.$orig.orderAmount+''}}<view class="item_price_status data-v-bd706424">{{item1.$orig.payMethodName}}</view>
+                                    </view>
+                                </view>
+                                <view class="handle_module data-v-bd706424" wx:if="{{!item.m1}}">
+                                    <view catchtap="__e" class="icon_wrap data-v-bd706424" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}" data-event-params="{{ ({item1:item1.$orig}) }}">
+                                        <image class="data-v-bd706424" src="{{item.m2}}"></image>
+                                    </view>
+                                    <view class="drop_down data-v-bd706424" hidden="{{!item1.$orig.showDown}}">
+                                        <view class="image_wrap data-v-bd706424">
+                                            <image class="data-v-bd706424" src="{{item.m3}}"></image>
+                                        </view>
+                                        <view class="drop_down_list data-v-bd706424">
+                                            <view catchtap="__e" class="item data-v-bd706424" data-event-opts="{{[ [ 'tap',[ [ 'e1',['$event'] ] ] ] ]}}" data-event-params="{{ ({item1:item1.$orig}) }}">
+                                                <image class="data-v-bd706424" src="{{item.m4}}" style="width:39rpx;height:39rpx;"></image>修改金额</view>
+                                            <view catchtap="__e" class="item data-v-bd706424" data-event-opts="{{[ [ 'tap',[ [ 'e2',['$event'] ] ] ] ]}}" data-event-params="{{ ({item1:item1.$orig}) }}">
+                                                <image class="data-v-bd706424" src="{{item.m5}}" style="width:39rpx;height:39rpx;"></image>写备注</view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="border data-v-bd706424">
+                                <view class="remark data-v-bd706424" wx:if="{{item1.$orig.orderRemark!=null}}">
+                                    <text class="remarkfont data-v-bd706424">备注：</text>
+                                    <text class="remarkcontent data-v-bd706424">{{item1.$orig.orderRemark!=null?item1.$orig.orderRemark:''}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-bd706424" vueId="531ce412-3"></ff-bottom-logo>
+    </view>
+    <business-popup bind:__l="__l" bind:headleClose="__e" bind:updateMoney="__e" class="data-v-bd706424 vue-ref" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^updateMoney',[ ['updateMoney'] ] ] ]}}" data-ref="businessPopupChild" vueId="531ce412-4"></business-popup>
+    <remark-order-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-bd706424 vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editremarkOrder'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkOrderChild" vueId="531ce412-5"></remark-order-popup>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-bd706424 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ] ]}}" data-ref="confirmModal" title="删除这条记录?" vueId="531ce412-6" vueSlots="{{['content']}}">
+        <view class="data-v-bd706424" slot="content">
+            <text class="data-v-bd706424" style="{{'display:block;'}}">仅删除该条收款记录，不影响已发出的会员卡</text>
+        </view>
+    </confirm-modal>
+</view>

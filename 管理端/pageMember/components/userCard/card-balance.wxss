@@ -1,0 +1,67 @@
+.card-balance.data-v-e87f90c8 {
+  color: #181818;
+  font-size: 25rpx;
+  margin: 0 20rpx 60rpx;
+}
+.card-balance .item.data-v-e87f90c8 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 17rpx;
+}
+.card-balance .item .arrow.data-v-e87f90c8 {
+  height: 26rpx;
+  margin-right: 6rpx;
+  width: 26rpx;
+}
+.card-balance .change_top_left.data-v-e87f90c8 {
+  align-items: center;
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+}
+.card-balance .change_top_left2.data-v-e87f90c8 {
+  color: #181818;
+  font-size: 32rpx;
+  font-weight: 500;
+  line-height: 35rpx;
+  margin-left: 32rpx;
+}
+.card-balance .change_top_left3.data-v-e87f90c8 {
+  color: #989898;
+  font-size: 24rpx;
+  line-height: 28rpx;
+  margin-left: 32rpx;
+}
+.card-balance .change_top_right.data-v-e87f90c8 {
+  margin-left: 18rpx;
+}
+.card-balance .change_top_right2.data-v-e87f90c8 {
+  color: #181818;
+  font-size: 32rpx;
+  font-weight: 500;
+  line-height: 35rpx;
+}
+.card-balance .change_top_right3.data-v-e87f90c8 {
+  color: #989898;
+  font-size: 24rpx;
+  line-height: 28rpx;
+}
+.card-balance .noCourseData.data-v-e87f90c8 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  height: 665rpx;
+}
+.card-balance .noCourseData .img.data-v-e87f90c8 {
+  height: 171rpx;
+  margin-bottom: 40rpx;
+  margin-top: 160rpx;
+  width: 203rpx;
+}
+.card-balance .noCourseData .tex.data-v-e87f90c8 {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 45rpx;
+}

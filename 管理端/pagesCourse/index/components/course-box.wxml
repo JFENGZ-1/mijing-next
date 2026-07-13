@@ -1,0 +1,20 @@
+<view class="data-v-4667ed16">
+    <view class="course-box-warp data-v-4667ed16">
+        <view class="{{['bg','data-v-4667ed16',data.nstatus==2?'grey':'']}}" style="{{'background-image:'+'url('+data.courseBacklog+')'+';'}}"></view>
+        <view class="data-v-4667ed16" style="position:absolute;top:12rpx;padding-left:12rpx;">
+            <view class="time data-v-4667ed16">
+                <text class="left data-v-4667ed16">{{data.strtime||''}}</text>
+                <text class="data-v-4667ed16">{{'~'+(data.strEndtime||'')}}</text>
+            </view>
+            <view class="title-box data-v-4667ed16">
+                <view class="title data-v-4667ed16">{{$root.m0}}</view>
+                <view class="tag-data data-v-4667ed16" wx:if="{{data.tagData}}">{{$root.m1}}</view>
+            </view>
+            <view class="user data-v-4667ed16">
+                <image alt class="{{['img','_img','data-v-4667ed16',data.nstatus==2?'grey':'']}}" src="{{data.staffFace}}"></image>
+                <text class="name data-v-4667ed16">{{$root.m2}}</text>
+            </view>
+        </view>
+        <image mode class="icon data-v-4667ed16" src="{{$root.m3}}" wx:if="{{data.nstatus==2}}"></image>
+    </view>
+</view>

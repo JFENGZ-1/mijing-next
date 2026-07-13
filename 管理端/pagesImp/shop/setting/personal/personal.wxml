@@ -1,0 +1,36 @@
+<view class="data-v-af11577a">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-af11577a" text="{{title}}" vueId="2bd5c446-1"></navigation>
+    <view class="setting-container data-v-af11577a" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-af11577a" style="{{'min-height:1230rpx; background: #FFFFFF;'}}">
+            <view class="imghead data-v-af11577a">
+                <image bindtap="__e" class="img data-v-af11577a" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}" src="{{staff.staffFace}}" wx:if="{{staff.staffFace}}"></image>
+                <image bindtap="__e" class="headimg data-v-af11577a" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}" src="{{$root.m0}}" wx:else></image>
+                <view class="slot-btn data-v-af11577a" hoverClass="slot-btn__hover" hoverStayTime="150" slot="addBtn" style=";">
+                    <view class="imghead-text data-v-af11577a">
+                        <view bindtap="__e" class="data-v-af11577a" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}">
+                            <image class="cameraicon data-v-af11577a" src="{{$root.m1}}"></image>
+                        </view>
+                        <view bindtap="__e" class="data-v-af11577a" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}">修改头像</view>
+                    </view>
+                </view>
+            </view>
+            <view class="content-grid data-v-af11577a">
+                <view class="grid data-v-af11577a">
+                    <text class="grid-label data-v-af11577a">姓名</text>
+                    <text class="required data-v-af11577a">*</text>
+                    <text bindtap="__e" class="name data-v-af11577a" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/shop/setting/personal/nickname-edit?staffUserid='+staff.staffUserid+'&staffName='+staff.staffName] ] ] ] ] ] ]}}">{{''+staff.staffName+''}}</text>
+                    <u-icon bind:__l="__l" bind:click="__e" class="data-v-af11577a" color="#989898" data-event-opts="{{[ [ '^click',[ [ 'href',[ [ 'o',['url','/pagesImp/shop/setting/personal/nickname-edit?staffUserid='+staff.staffUserid+'&staffName='+staff.staffName] ] ] ] ] ] ]}}" name="arrow-right" vueId="2bd5c446-2"></u-icon>
+                </view>
+                <u-line bind:__l="__l" class="data-v-af11577a" margin="42rpx  0rpx 42rpx 0rpx" vueId="2bd5c446-3"></u-line>
+                <view class="grid data-v-af11577a">
+                    <text class="grid-label data-v-af11577a">电话</text>
+                    <text class="required data-v-af11577a">*</text>
+                    <text bindtap="__e" class="name data-v-af11577a" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/shop/setting/personal/phone-edit?staffUserid='+staff.staffUserid+'&staffTel='+staff.staffTel] ] ] ] ] ] ]}}">{{''+staff.staffTel+''}}</text>
+                    <u-icon bind:__l="__l" bind:click="__e" class="data-v-af11577a" color="#989898" data-event-opts="{{[ [ '^click',[ [ 'href',[ [ 'o',['url','/pagesImp/shop/setting/personal/phone-edit?staffUserid='+staff.staffUserid+'&staffTel='+staff.staffTel] ] ] ] ] ] ]}}" name="arrow-right" vueId="2bd5c446-4"></u-icon>
+                </view>
+                <u-line bind:__l="__l" class="data-v-af11577a" margin="42rpx  0rpx 200rpx 0rpx" vueId="2bd5c446-5"></u-line>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-af11577a" vueId="2bd5c446-6"></ff-bottom-logo>
+    </view>
+</view>

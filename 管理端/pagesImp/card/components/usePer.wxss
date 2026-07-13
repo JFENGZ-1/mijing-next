@@ -1,0 +1,27 @@
+.main-box .radio-group.data-v-1984fb9a {
+  display: block;
+  padding: 30rpx 58rpx 0;
+}
+.main-box .radio.data-v-1984fb9a {
+  display: block;
+  height: 70rpx;
+}
+.main-box .radio-main.data-v-1984fb9a {
+  align-items: center;
+  color: #7e7e7e;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+  width: 100%;
+}
+.main-box .radio-main.active.data-v-1984fb9a {
+  color: #181818;
+  font-weight: 500;
+}
+.main-box .radio-main .com-input.data-v-1984fb9a {
+  margin: 0 10rpx;
+  width: 100rpx;
+}
+.main-box .u-input__input.data-v-1984fb9a {
+  text-align: center;
+}

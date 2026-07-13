@@ -1,0 +1,10 @@
+<view class="operation-data">
+    <view class="top-data" style="{{'color:'+valueColor+';'+'font-weight:'+fontWeight+';'}}">
+        <text class="digit" wx:if="{{position==='prefix'}}">{{digit}}</text>
+        <text class="amount">{{value}}</text>
+        <text class="digit" wx:if="{{position==='suffix'}}">{{digit}}</text>
+    </view>
+    <text class="desc" style="{{'color:'+descColor+';'}}" wx:if="{{desc}}">{{desc}}</text>
+    <text class="extra-desc" wx:if="{{extraDesc}}">{{desc}}</text>
+    <slot></slot>
+</view>

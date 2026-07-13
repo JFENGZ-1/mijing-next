@@ -1,0 +1,242 @@
+.flex {
+  display: -webkit-flex;
+  display: flex;
+}
+.vertical_center {
+  align-items: center;
+  justify-content: space-between;
+}
+.level_center {
+  justify-content: center;
+}
+.teamCourse {
+  background: #f5f5f5;
+  border-radius: 30rpx 35rpx 10rpx 10rpx;
+  box-shadow: 0rpx 6rpx 15rpx 4rpx rgba(112, 123, 139, 0.1);
+  margin: 30rpx 50rpx 0rpx;
+}
+.teamCourse .head {
+  padding-bottom: 37rpx;
+  text-align: center;
+  width: auto;
+}
+.teamCourse .head image {
+  background: #fff;
+  border-radius: 22rpx;
+  height: 92rpx;
+  margin-top: 40rpx;
+  width: 92rpx;
+}
+.teamCourse .head .title {
+  background: #fff;
+  border-radius: 11rpx;
+  height: 23rpx;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 8rpx;
+  width: 59rpx;
+}
+.teamCourse .headContent {
+  background: #fff;
+  border-radius: 35rpx 35rpx 0rpx 0rpx;
+  margin-top: -10rpx;
+  width: auto;
+}
+.teamCourse .info_top {
+  padding: 44rpx 50rpx 0 30rpx;
+}
+.teamCourse .info_top .left {
+  flex: 1;
+}
+.teamCourse .info_top .course_name {
+  background: #f5f5f5;
+  border-radius: 7rpx;
+  height: 23rpx;
+  width: 434rpx;
+}
+.teamCourse .info_top .tag_wrap {
+  height: 32rpx;
+  margin-left: 10rpx;
+  margin-top: -25rpx;
+}
+.teamCourse .info_top .tag_wrap image {
+  background: #f5f5f5;
+  border-radius: 50%;
+  height: 79.86rpx;
+  width: 79.86rpx;
+}
+.teamCourse .info_top .tag_wrap text {
+  background: #f5f5f5;
+  border-radius: 11rpx;
+  height: 23rpx;
+  padding-right: 10rpx;
+  width: 59rpx;
+}
+.teamCourse .info_top .time {
+  background: #f5f5f5;
+  border-radius: 7rpx;
+  height: 23rpx;
+  margin-top: 18rpx;
+  width: 388rpx;
+}
+.teamCourse .info_center {
+  padding: 18rpx 36rpx 0 34rpx;
+}
+.teamCourse .info_center .row {
+  display: -webkit-flex;
+  display: flex;
+}
+.teamCourse .info_center .item {
+  width: 149rpx;
+}
+.teamCourse .info_center .item .title {
+  background: #f5f5f5;
+  border-radius: 7rpx;
+  height: 23rpx;
+  width: 97rpx;
+}
+.teamCourse .kind_reminder {
+  background: #f8f8f8;
+  padding-bottom: 30rpx;
+}
+.teamCourse .kind_reminder .kind_reminder1 {
+  background: #f8f8f8;
+  height: 50rpx;
+  margin-top: 30rpx;
+  width: auto;
+}
+.teamCourse .kind_reminder .content {
+  align-items: center;
+  background: #f9e1e5;
+  border-radius: 22rpx;
+  display: -webkit-flex;
+  display: flex;
+  height: 240rpx;
+  justify-content: center;
+  margin: 18rpx 15rpx 0;
+  text-align: center;
+  width: auto;
+}
+.teamCourse .kind_reminder .content text {
+  color: #dc3c5c;
+  font-size: 54rpx;
+  font-weight: 400;
+  line-height: 89rpx;
+}
+.teamCourse .kind_reminder .content_exist {
+  background: #fff;
+  border-radius: 22rpx;
+  margin: 18rpx 15rpx 0;
+  padding: 30rpx 14.5rpx 31rpx;
+  width: auto;
+}
+.teamCourse .kind_reminder .content_exist text {
+  color: #181818;
+  font-size: 26rpx;
+  font-weight: 400;
+  line-height: 42rpx;
+}
+.teamCourse .kind_reminder .content_exist .item {
+  border-radius: 7rpx;
+  color: #7e7e7e;
+  font-size: 24rpx;
+  line-height: 38rpx;
+  padding: 15rpx 0 0 15rpx;
+}
+.teamCourse .kind_reminder .cautions1 {
+  background: #fff;
+  border-radius: 22rpx;
+  margin: 15rpx 15rpx 0rpx;
+  padding: 30rpx 0rpx 31rpx 18rpx;
+  width: auto;
+}
+.teamCourse .kind_reminder .cautions1 text {
+  color: #e0e0e0;
+  font-size: 25rpx;
+  line-height: 42rpx;
+}
+.teamCourse .kind_reminder .cautions1 .appointment {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  margin: 29rpx 27rpx 0 15rpx;
+}
+.teamCourse .kind_reminder .cautions1 .appointment .item1 {
+  display: -webkit-flex;
+  display: flex;
+}
+.teamCourse .kind_reminder .cautions1 .appointment .item1 image {
+  background: #f5f5f5;
+  border-radius: 39rpx;
+  height: 78rpx;
+  width: 78rpx;
+}
+.teamCourse .kind_reminder .cautions1 .appointment .item2 {
+  display: grid;
+  margin-bottom: 9rpx;
+  margin-top: 9rpx;
+  padding-left: 14rpx;
+}
+.teamCourse .kind_reminder .cautions1 .appointment .item2 .col1 {
+  background: #f5f5f5;
+  border-radius: 7rpx;
+  height: 28rpx;
+  width: 151rpx;
+}
+.teamCourse .kind_reminder .cautions1 .appointment .item2 .col2 {
+  background: #f5f5f5;
+  border-radius: 7rpx;
+  height: 21rpx;
+  margin-top: 14rpx;
+  width: 108rpx;
+}
+.teamCourse .kind_reminder .cautions1 .appointment .item3 {
+  display: grid;
+  justify-items: flex-end;
+  margin-bottom: 9rpx;
+  margin-top: 9rpx;
+}
+.teamCourse .kind_reminder .cautions1 .appointment .item3 .col1 {
+  background: #f5f5f5;
+  border-radius: 7rpx;
+  height: 21rpx;
+  width: 57rpx;
+}
+.teamCourse .kind_reminder .cautions1 .appointment .item3 .col2 {
+  background: #f5f5f5;
+  border-radius: 7rpx;
+  height: 21rpx;
+  margin-top: 17rpx;
+  width: 71rpx;
+}
+.teamCourse .kind_reminder .cautions {
+  background: #fff;
+  border-radius: 22rpx;
+  margin: 20rpx 15rpx 0rpx;
+  padding: 30rpx 0rpx 30rpx 18rpx;
+  width: auto;
+}
+.teamCourse .kind_reminder .cautions text {
+  color: #e0e0e0;
+  font-size: 25rpx;
+  line-height: 42rpx;
+}
+.teamCourse .kind_reminder .cautions .item {
+  background: #f5f5f5;
+  border-radius: 7rpx;
+  height: 22rpx;
+  margin-left: 12.5rpx;
+  margin-top: 15rpx;
+}
+.teamCourse .kind_reminder .cautions .item1 {
+  width: 270rpx;
+}
+.teamCourse .kind_reminder .cautions .item2 {
+  width: 440rpx;
+}
+.teamCourse .kind_reminder .cautions .item3 {
+  width: 474rpx;
+}
+.teamCourse .kind_reminder .cautions .item4 {
+  width: 312rpx;
+}

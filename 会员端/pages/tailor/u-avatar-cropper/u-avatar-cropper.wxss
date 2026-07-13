@@ -1,0 +1,48 @@
+.content.data-v-43c419db {
+  background: #fff;
+}
+.cropper.data-v-43c419db {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 11;
+}
+.cropper-buttons.data-v-43c419db {
+  background-color: #000;
+  color: #eee;
+}
+.cropper-wrapper.data-v-43c419db {
+  background-color: #000;
+  position: relative;
+  width: 100%;
+}
+.cropper-buttons.data-v-43c419db,
+.cropper-wrapper.data-v-43c419db {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.cropper-buttons.data-v-43c419db {
+  bottom: 0;
+  font-size: 28rpx;
+  left: 0;
+  position: fixed;
+  width: 100vw;
+}
+.cropper-buttons .getCropperImage.data-v-43c419db,
+.cropper-buttons .upload.data-v-43c419db {
+  text-align: center;
+  width: 50%;
+}
+.cropper-buttons .upload.data-v-43c419db {
+  padding-left: 50rpx;
+  text-align: left;
+}
+.cropper-buttons .getCropperImage.data-v-43c419db {
+  padding-right: 50rpx;
+  text-align: right;
+}

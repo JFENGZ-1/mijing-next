@@ -1,0 +1,23 @@
+.modal.data-v-ed8035ea {
+  padding: 48rpx 40rpx 0rpx 50rpx;
+}
+.modal .modal-title.data-v-ed8035ea {
+  color: #181818;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+.modal .modal-content.data-v-ed8035ea {
+  color: #989898;
+  font-size: 25rpx;
+  line-height: 39rpx;
+  margin-top: 20rpx;
+}
+.modal .btn.data-v-ed8035ea {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30rpx;
+}
+.modal.data-v-ed8035ea .u-checkbox__label {
+  color: #989898;
+}

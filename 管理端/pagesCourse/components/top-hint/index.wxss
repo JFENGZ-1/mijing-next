@@ -1,0 +1,14 @@
+.wrap.data-v-cd80aad2 {
+  align-items: center;
+  background: #fef9de;
+  border-radius: 14rpx;
+  display: -webkit-flex;
+  display: flex;
+  padding: 13rpx 20rpx;
+}
+.wrap .hint-text.data-v-cd80aad2 {
+  color: #c96a2f;
+  flex: 1;
+  font-size: 22rpx;
+  margin-left: 8rpx;
+}

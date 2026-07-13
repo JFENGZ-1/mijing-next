@@ -1,0 +1,73 @@
+.down_hide.data-v-61aee5b7 {
+  visibility: hidden;
+}
+.down_show.data-v-61aee5b7 {
+  visibility: visible;
+}
+.placeholder-view.data-v-61aee5b7 {
+  background: #fbd128;
+}
+.subject-container.data-v-61aee5b7 {
+  background: #fff;
+  border-radius: 20rpx 20rpx 0rpx 0rpx;
+  font-size: 28rpx;
+}
+.subject-container .body.data-v-61aee5b7 {
+  background: #fff;
+  border-radius: 20rpx 20rpx 0rpx 0rpx;
+  padding: 36rpx 32rpx 0rpx;
+}
+.subject-container .body .head.data-v-61aee5b7 {
+  margin: 0 180rpx;
+}
+.subject-container .body .content.data-v-61aee5b7 {
+  padding-bottom: 100rpx;
+  padding-top: 50rpx;
+}
+.subject-container .body .content .num.data-v-61aee5b7 {
+  color: #181818;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  padding-top: 25rpx;
+}
+.subject-container .body .content .num1.data-v-61aee5b7 {
+  color: #181818;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  margin-bottom: 30rpx;
+}
+.subject-container .body .content .courseli.data-v-61aee5b7 {
+  padding-top: 25rpx;
+  width: 100%;
+}
+.subject-container .create-Employee.data-v-61aee5b7 {
+  background: rgba(251, 209, 40, 0.2);
+  bottom: 180rpx;
+  height: 139rpx;
+  position: fixed;
+  right: 38rpx;
+  width: 139rpx;
+}
+.subject-container .create-Employee .bg.data-v-61aee5b7,
+.subject-container .create-Employee.data-v-61aee5b7 {
+  align-items: center;
+  border-radius: 50%;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+}
+.subject-container .create-Employee .bg.data-v-61aee5b7 {
+  background: #fbd128;
+  flex-direction: column;
+  height: 125rpx;
+  line-height: 1.4;
+  width: 125rpx;
+}
+.subject-container .create-Employee .bg text.data-v-61aee5b7 {
+  color: #181818;
+  font-size: 32rpx;
+}
+.subject-container .create-Employee .bg view.data-v-61aee5b7 {
+  color: #181818;
+  font-size: 18rpx;
+}

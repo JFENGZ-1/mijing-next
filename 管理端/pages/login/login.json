@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "mpweixin": "/pages/login/components/mp-weixin",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

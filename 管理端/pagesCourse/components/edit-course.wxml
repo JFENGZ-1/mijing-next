@@ -1,0 +1,71 @@
+<view class="data-v-4af6fde4">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-4af6fde4" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="{{1280}}" tips="{{tips}}" title="{{title}}" value="{{show}}" vueId="2f894303-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-4af6fde4" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-4af6fde4" data-event-opts="{{[ [ '^click',[ ['confirm'] ] ] ]}}" disabled="{{confrimDisabled}}" type="primary" vueId="{{'2f894303-2'+','+'2f894303-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="course-list data-v-4af6fde4" wx:if="{{$root.g0}}">
+            <view bindtap="__e" class="{{['course-item','data-v-4af6fde4',item.g1?'last':'',item.$orig.selected?'active':'',!item.$orig.selected?'normal':'',item.$orig.isDefault==1?'none':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'selectDrainer',[index] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                <view class="name data-v-4af6fde4">{{item.$orig.courseName}}</view>
+                <view class="duration data-v-4af6fde4">{{'('+item.$orig.courseMinute+'分钟)'}}</view>
+            </view>
+        </view>
+        <view class="time-view data-v-4af6fde4">
+            <view class="group data-v-4af6fde4">
+                <view class="data-v-4af6fde4">
+                    <view class="group-top data-v-4af6fde4">
+                        <text bindtap="__e" class="group-top2 data-v-4af6fde4" data-event-opts="{{[ [ 'tap',[ [ 'goBackTodayClick',['$event'] ] ] ] ]}}" wx:if="{{isGoBackToday}}">返回今天</text>
+                        <image bindtap="__e" class="group-top3 data-v-4af6fde4" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}" src="{{$root.m0}}"></image>
+                    </view>
+                </view>
+                <view class="data-v-4af6fde4" style="margin-top:20rpx;">
+                    <week-calendar bind:__l="__l" bind:daysChange="__e" bind:selectedChange="__e" class="data-v-4af6fde4 vue-ref" data-event-opts="{{[ [ '^selectedChange',[ ['datechange'] ] ],[ '^daysChange',[ ['daysChange'] ] ] ]}}" data-ref="calendarRef" vueId="{{'2f894303-3'+','+'2f894303-1'}}"></week-calendar>
+                </view>
+            </view>
+            <view class="time-quantum-wrap data-v-4af6fde4">
+                <view class="time-quantum data-v-4af6fde4" wx:if="{{$root.g2}}">
+                    <view class="item data-v-4af6fde4" wx:if="{{$root.g3>0}}">
+                        <view class="title data-v-4af6fde4">上午</view>
+                        <view class="time-group data-v-4af6fde4">
+                            <view bindtap="__e" class="time-item-wrap data-v-4af6fde4" data-event-opts="{{[ [ 'tap',[ [ 'timeItemClick',[index,'forenoonList'] ] ] ] ]}}" wx:for="{{forenoonList}}" wx:key="index">
+                                <view class="{{[ 'time-item','data-v-4af6fde4',''+(item.showMode==1?item.oldTime?'past':'normal':'disabled'),''+(item.selected?'active':'') ]}}">
+                                    <text class="data-v-4af6fde4">{{item.stime}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="item data-v-4af6fde4" wx:if="{{$root.g4>0}}">
+                        <view class="title data-v-4af6fde4">下午</view>
+                        <view class="time-group data-v-4af6fde4">
+                            <view bindtap="__e" class="time-item-wrap data-v-4af6fde4" data-event-opts="{{[ [ 'tap',[ [ 'timeItemClick',[index,'afternoonList'] ] ] ] ]}}" wx:for="{{afternoonList}}" wx:key="index">
+                                <view class="{{[ 'time-item','data-v-4af6fde4',''+(item.showMode==1?item.oldTime?'past':'normal':'disabled'),''+(item.selected?'active':'') ]}}">
+                                    <text class="data-v-4af6fde4">{{item.stime}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="item data-v-4af6fde4" wx:if="{{$root.g5>0}}">
+                        <view class="title data-v-4af6fde4">晚上</view>
+                        <view class="time-group data-v-4af6fde4">
+                            <view bindtap="__e" class="time-item-wrap data-v-4af6fde4" data-event-opts="{{[ [ 'tap',[ [ 'timeItemClick',[index,'nightList'] ] ] ] ]}}" wx:for="{{nightList}}" wx:key="index">
+                                <view class="{{[ 'time-item','data-v-4af6fde4',''+(item.showMode==1?item.oldTime?'past':'normal':'disabled'),''+(item.selected?'active':'') ]}}">
+                                    <text class="data-v-4af6fde4">{{item.stime}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <block wx:else>
+                    <view class="noDate data-v-4af6fde4" wx:if="{{isShowNoDate}}">
+                        <image class="data-v-4af6fde4" src="{{$root.m1}}"></image>
+                        <text class="data-v-4af6fde4">~ 今日无排课 ~</text>
+                    </view>
+                </block>
+            </view>
+        </view>
+        <view class="remake-wrap data-v-4af6fde4" hidden="{{!$root.g6}}">
+            <editor bindinput="__e" bindready="__e" class="textarea data-v-4af6fde4" data-event-opts="{{[ [ 'ready',[ [ 'onEditorReady',['$event'] ] ] ],[ 'input',[ [ 'editorInput',['$event'] ] ] ] ]}}" id="editor1" placeholder="注意:会员也可看到此留言内容"></editor>
+            <view class="max-num data-v-4af6fde4">{{'已写'+(remake?$root.g7:0)+'字/ 最多150字'}}</view>
+        </view>
+    </ff-popup>
+    <u-calendar bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-4af6fde4" data-event-opts="{{[ [ '^change',[ ['calendarChange'] ] ],[ '^input',[ [ '__set_model',[ '','showCalendar','$event',[] ] ] ] ] ]}}" maxDate="2050-12-31" mode="{{mode}}" value="{{showCalendar}}" vueId="2f894303-4"></u-calendar>
+</view>

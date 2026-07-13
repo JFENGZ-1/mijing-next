@@ -1,0 +1,32 @@
+<view class="data-v-7340d4c8">
+    <view class="use_num data-v-7340d4c8"></view>
+    <view class="user_info data-v-7340d4c8">
+        <view class="title_text data-v-7340d4c8">获取你的昵称、头像</view>
+        <view class="info_list data-v-7340d4c8">
+            <view class="info_item data-v-7340d4c8">
+                <view class="title data-v-7340d4c8">头像</view>
+                <view class="required data-v-7340d4c8">*</view>
+                <view class="info_content data-v-7340d4c8">
+                    <button bindchooseavatar="__e" class="avatar-wrapper data-v-7340d4c8" data-event-opts="{{[ [ 'chooseavatar',[ [ 'onChooseAvatar',['$event'] ] ] ] ]}}" openType="chooseAvatar">
+                        <image class="data-v-7340d4c8" src="{{$root.m0}}" wx:if="{{!avatarUrl}}"></image>
+                        <image class="data-v-7340d4c8" src="{{avatarUrl}}" wx:else></image>
+                    </button>
+                </view>
+                <view class="more data-v-7340d4c8">
+                    <u-icon bind:__l="__l" class="data-v-7340d4c8" color="#989898" name="arrow-right" size="28" vueId="2fbb9e8a-1"></u-icon>
+                </view>
+            </view>
+            <view class="info_item data-v-7340d4c8">
+                <view class="title data-v-7340d4c8">姓名</view>
+                <view class="required data-v-7340d4c8">*</view>
+                <view class="info_content data-v-7340d4c8">
+                    <input bindchange="__e" bindinput="__e" class="data-v-7340d4c8" data-event-opts="{{[ [ 'change',[ [ 'nicknameChange',['$event'] ] ] ],[ 'input',[ [ '__set_model',[ '','nickname','$event',[] ] ] ] ] ]}}" placeholder="请输入昵称" placeholderStyle="color:#d0d2d7" type="nickname" value="{{nickname}}"></input>
+                </view>
+            </view>
+            <view class="btn-wrap data-v-7340d4c8">
+                <button bindtap="__e" class="data-v-7340d4c8" data-event-opts="{{[ [ 'tap',[ [ 'confirm',['$event'] ] ] ] ]}}">确定</button>
+            </view>
+        </view>
+    </view>
+    <privacy bind:__l="__l" class="data-v-7340d4c8" vueId="2fbb9e8a-2"></privacy>
+</view>

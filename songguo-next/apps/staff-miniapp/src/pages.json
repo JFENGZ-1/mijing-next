@@ -1,0 +1,337 @@
+{
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^u-(.*)": "uview-plus/components/u-$1/u-$1.vue"
+		}
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/login/index",
+			"style": { "navigationBarTitleText": "员工登录" }
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "松果工作台",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/course/index",
+			"style": {
+				"navigationBarTitleText": "课程日程",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/course/session-detail",
+			"style": {
+				"navigationBarTitleText": "课程详情",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/course/session-form",
+			"style": {
+				"navigationBarTitleText": "排课"
+			}
+		},
+		{
+			"path": "pages/course/timetable/index",
+			"style": { "navigationBarTitleText": "课表编辑", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/course/timetable/display-config",
+			"style": { "navigationBarTitleText": "课表展示设置" }
+		},
+		{
+			"path": "pages/sites/index",
+			"style": { "navigationBarTitleText": "场馆管理" }
+		},
+		{
+			"path": "pages/members/index",
+			"style": { "navigationBarTitleText": "会员管理", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/members/detail",
+			"style": { "navigationBarTitleText": "会员档案" }
+		},
+		{
+			"path": "pages/members/card-detail",
+			"style": { "navigationBarTitleText": "会员卡详情" }
+		},
+		{
+			"path": "pages/members/issue-card",
+			"style": { "navigationBarTitleText": "发卡" }
+		},
+		{
+			"path": "pages/members/form",
+			"style": { "navigationBarTitleText": "会员资料" }
+		},
+		{
+			"path": "pages/members/link-requests",
+			"style": { "navigationBarTitleText": "档案关联审核" }
+		},
+		{
+			"path": "pages/members/filter",
+			"style": { "navigationBarTitleText": "会员筛选" }
+		},
+		{
+			"path": "pages/members/deleted",
+			"style": { "navigationBarTitleText": "已删除会员", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/members/batch-import",
+			"style": { "navigationBarTitleText": "批量导入会员" }
+		},
+		{
+			"path": "pages/course/batch-tools",
+			"style": {
+				"navigationBarTitleText": "批量课表"
+			}
+		},
+		{
+			"path": "pages/members/archived-cards/index",
+			"style": { "navigationBarTitleText": "归档会员卡", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/hub/index",
+			"style": { "navigationBarTitleText": "场馆设置", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/crm/field-config/index",
+			"style": { "navigationBarTitleText": "会员资料字段" }
+		},
+		{
+			"path": "pages/settings/member/warm-hint/index",
+			"style": { "navigationBarTitleText": "温馨提示" }
+		},
+		{
+			"path": "pages/settings/member/carousel/index",
+			"style": { "navigationBarTitleText": "场馆展示图" }
+		},
+		{
+			"path": "pages/settings/member/miniapp-layout/index",
+			"style": { "navigationBarTitleText": "显示/隐藏" }
+		},
+		{
+			"path": "pages/settings/member/onboarding-help/index",
+			"style": { "navigationBarTitleText": "会员如何约课" }
+		},
+		{
+			"path": "pages/settings/legal/membership-agreement/index",
+			"style": { "navigationBarTitleText": "会员协议" }
+		},
+		{
+			"path": "pages/settings/defaults/notification-channels/index",
+			"style": { "navigationBarTitleText": "提醒设置" }
+		},
+		{
+			"path": "pages/settings/defaults/payment-marketing/index",
+			"style": { "navigationBarTitleText": "收款帐户" }
+		},
+		{
+			"path": "pages/settings/booking-policy/index",
+			"style": { "navigationBarTitleText": "预约设置" }
+		},
+		{
+			"path": "pages/settings/defaults/card-reminder-config/index",
+			"style": { "navigationBarTitleText": "会员卡提醒阈值" }
+		},
+		{
+			"path": "pages/settings/sharing/staff-miniapp-code/index",
+			"style": { "navigationBarTitleText": "员工小程序码" }
+		},
+		{
+			"path": "pages/settings/platform/subscription-orders/index",
+			"style": { "navigationBarTitleText": "平台订阅订单", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/chain/cross-site-cards/index",
+			"style": { "navigationBarTitleText": "连锁卡种关联" }
+		},
+		{
+			"path": "pages/settings/chain/instructions/index",
+			"style": { "navigationBarTitleText": "如何设置连锁" }
+		},
+		{
+			"path": "pages/settings/chain/stores/index",
+			"style": { "navigationBarTitleText": "分店管理", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/chain/store-courses/index",
+			"style": { "navigationBarTitleText": "适用店与课", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/chain/staff/index",
+			"style": { "navigationBarTitleText": "总店员工", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/support/customer-service/index",
+			"style": { "navigationBarTitleText": "联系客服" }
+		},
+		{
+			"path": "pages/settings/support/video-help/index",
+			"style": { "navigationBarTitleText": "视频帮助" }
+		},
+		{
+			"path": "pages/check-in/scan/index",
+			"style": { "navigationBarTitleText": "扫码签到" }
+		},
+		{
+			"path": "pages/settings/operations/closure-calendar/index",
+			"style": { "navigationBarTitleText": "节假日闭店" }
+		},
+		{
+			"path": "pages/settings/operations/staff-vacations/index",
+			"style": { "navigationBarTitleText": "教练请假" }
+		},
+		{
+			"path": "pages/settings/operations/staff-vacations/detail",
+			"style": { "navigationBarTitleText": "请假详情" }
+		},
+		{
+			"path": "pages/settings/operations/notices/index",
+			"style": { "navigationBarTitleText": "发布公告" }
+		},
+		{
+			"path": "pages/settings/personal/index",
+			"style": { "navigationBarTitleText": "我的资料" }
+		},
+		{
+			"path": "pages/settings/site/index",
+			"style": { "navigationBarTitleText": "场馆资料" }
+		},
+		{
+			"path": "pages/settings/rooms/index",
+			"style": { "navigationBarTitleText": "教室管理", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/rooms/edit",
+			"style": { "navigationBarTitleText": "教室资料" }
+		},
+		{
+			"path": "pages/settings/staff/index",
+			"style": { "navigationBarTitleText": "员工管理", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/staff/edit",
+			"style": { "navigationBarTitleText": "员工资料" }
+		},
+		{
+			"path": "pages/settings/card-products/index",
+			"style": { "navigationBarTitleText": "会员卡种", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/card-products/edit",
+			"style": { "navigationBarTitleText": "卡种资料" }
+		},
+		{
+			"path": "pages/settings/courses/index",
+			"style": { "navigationBarTitleText": "课程库", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/courses/edit",
+			"style": { "navigationBarTitleText": "课程资料" }
+		},
+		{
+			"path": "pages/settings/roles/edit",
+			"style": { "navigationBarTitleText": "角色权限" }
+		},
+		{
+			"path": "pages/invite/accept",
+			"style": { "navigationBarTitleText": "接受邀请" }
+		},
+		{
+			"path": "pages/report/index",
+			"style": { "navigationBarTitleText": "报表中心", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/finance/index",
+			"style": { "navigationBarTitleText": "财务利润" }
+		},
+		{
+			"path": "pages/report/courses/index",
+			"style": { "navigationBarTitleText": "课程统计" }
+		},
+		{
+			"path": "pages/report/rankings/index",
+			"style": { "navigationBarTitleText": "排行榜" }
+		},
+		{
+			"path": "pages/report/member-card-ranks/index",
+			"style": { "navigationBarTitleText": "会员卡排行" }
+		},
+		{
+			"path": "pages/report/card-sales/index",
+			"style": { "navigationBarTitleText": "售卡统计" }
+		},
+		{
+			"path": "pages/report/card-sales/detail",
+			"style": { "navigationBarTitleText": "售卡明细" }
+		},
+		{
+			"path": "pages/report/reminders/index",
+			"style": { "navigationBarTitleText": "会员提醒", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/coaches/index",
+			"style": { "navigationBarTitleText": "教练月报" }
+		},
+		{
+			"path": "pages/report/coaches/detail",
+			"style": { "navigationBarTitleText": "教练预约明细", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/card-reminders/index",
+			"style": { "navigationBarTitleText": "会员卡提醒", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/chain/index",
+			"style": { "navigationBarTitleText": "连锁汇总", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/exports/index",
+			"style": { "navigationBarTitleText": "会员导出", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/payroll/index",
+			"style": { "navigationBarTitleText": "工资报表", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/payroll/config/index",
+			"style": { "navigationBarTitleText": "工资配置", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/payroll/config/coach-rules",
+			"style": { "navigationBarTitleText": "教练工资规则", "enablePullDownRefresh": true }
+		}
+	],
+	"tabBar": {
+		"color": "#667085",
+		"selectedColor": "#1677ff",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "工作台",
+				"iconPath": "static/tabbar/dashboard.png",
+				"selectedIconPath": "static/tabbar/dashboard-active.png"
+			},
+			{
+				"pagePath": "pages/course/index",
+				"text": "课程",
+				"iconPath": "static/tabbar/course.png",
+				"selectedIconPath": "static/tabbar/course-active.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "松果工作台",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F4F6F8"
+	}
+}

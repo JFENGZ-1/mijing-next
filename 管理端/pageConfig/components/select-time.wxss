@@ -1,0 +1,14 @@
+.main-box.data-v-414b1766 {
+  padding-top: 38rpx;
+}
+.main-box .u-select__body__picker-view.data-v-414b1766 {
+  margin: 0 auto;
+  width: 300rpx;
+}
+.main-box .u-select__body__picker-view__item.data-v-414b1766 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 36rpx;
+  justify-content: center;
+}

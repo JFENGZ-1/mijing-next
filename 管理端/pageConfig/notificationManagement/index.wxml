@@ -1,0 +1,79 @@
+<view class="data-v-a896e9fa">
+    <view class="membership-container data-v-a896e9fa">
+        <navigation bind:__l="__l" class="data-v-a896e9fa" text="通知管理" vueId="c1344fd6-1"></navigation>
+        <view class="placeholder-view data-v-a896e9fa" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+        <view class="content data-v-a896e9fa" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="membership-top data-v-a896e9fa">
+                <view class="top data-v-a896e9fa">
+                    <u-icon bind:__l="__l" class="icon data-v-a896e9fa" color="#C96B30" name="bell" vueId="c1344fd6-2"></u-icon>
+                    <view class="top-info data-v-a896e9fa">
+                        <view class="data-v-a896e9fa">将在会员端小程序的首页顶部展示此通知内容<text bindtap="__e" class="schematic_text data-v-a896e9fa" data-event-opts="{{[ [ 'tap',[ ['showSchematicPop'] ] ] ]}}"> 展示样式 </text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-a896e9fa" wx:if="{{$root.g0==0}}">
+                <nodata bind:__l="__l" class="data-v-a896e9fa" msg="{{4}}" vueId="c1344fd6-3"></nodata>
+            </view>
+            <view class="data-v-a896e9fa" wx:else>
+                <view class="num_times_wrap data-v-a896e9fa">
+                    <text class="first_text data-v-a896e9fa">{{'共'+allNumTimes+'条'}}</text>
+                    <text class="last_text data-v-a896e9fa">{{'展示中'+finishNumTimes+'条'}}</text>
+                </view>
+                <view bindtap="__e" class="list data-v-a896e9fa" data-event-opts="{{[ [ 'tap',[ [ 'headleEdit',['$0'],[ [ ['list','',index,'noticeId'] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                    <view class="list_item data-v-a896e9fa">
+                        <view class="finish_wrap data-v-a896e9fa" wx:if="{{item.$orig.noticeStatus==2}}"></view>
+                        <view class="title data-v-a896e9fa">
+                            <view class="title_color data-v-a896e9fa"></view>
+                            <view class="stop_day_num data-v-a896e9fa">{{item.m0}}</view>
+                            <view class="{{['data-v-a896e9fa',item.$orig.noticeStatus==1?'status':'statu']}}">{{item.$orig.noticeStatus==1?'展示中':'已过期'}}</view>
+                            <view class="more_icon data-v-a896e9fa">
+                                <image class="data-v-a896e9fa" mode="widthFix" src="{{item.m1}}"></image>
+                            </view>
+                        </view>
+                        <view class="info_wrap data-v-a896e9fa">
+                            <view class="info_top data-v-a896e9fa">
+                                <view class="info_item data-v-a896e9fa">
+                                    <text class="info_text data-v-a896e9fa">{{'将于'+item.$orig.endTime+'关闭'}}</text>
+                                </view>
+                                <view class="info_item data-v-a896e9fa">
+                                    <text class="info_title data-v-a896e9fa">{{item.$orig.noticeText}}</text>
+                                </view>
+                            </view>
+                        </view>
+                        <u-line bind:__l="__l" class="data-v-a896e9fa" color="#dadada" vueId="{{'c1344fd6-4-'+index}}"></u-line>
+                        <view class="info_bottom data-v-a896e9fa">
+                            <view class="rofile data-v-a896e9fa">
+                                <image class="data-v-a896e9fa" mode="widthFix" src="{{item.m2}}"></image>
+                            </view>
+                            <view class="name data-v-a896e9fa">{{item.$orig.operUserName}}</view>
+                            <view class="date data-v-a896e9fa">{{item.$orig.createTime}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-a896e9fa" vueId="c1344fd6-5"></ff-bottom-logo>
+        <fixed-btn bind:Click="__e" bind:__l="__l" class="data-v-a896e9fa" data-event-opts="{{[ [ '^Click',[ ['Click'] ] ] ]}}" vueId="c1344fd6-6" vueSlots="{{['default']}}">添加</fixed-btn>
+        <confirm bind:__l="__l" class="data-v-a896e9fa vue-ref" data-ref="confirmModal" title="不能添加新的通知" vueId="c1344fd6-7" vueSlots="{{['content','btn']}}">
+            <view class="data-v-a896e9fa" slot="content">
+                <text class="data-v-a896e9fa" style="color:#989898;">最多同时展示三条</text>
+            </view>
+            <view class="data-v-a896e9fa" slot="btn">
+                <view bindtap="__e" class="modal-btn data-v-a896e9fa" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">知道了</view>
+            </view>
+        </confirm>
+    </view>
+    <u-mask bind:__l="__l" bind:click="__e" class="data-v-a896e9fa" data-event-opts="{{[ [ '^click',[ ['e0'] ] ] ]}}" show="{{schematicShow}}" vueId="c1344fd6-8" vueSlots="{{['default']}}" zIndex="999">
+        <view class="schematic-popup data-v-a896e9fa">
+            <view class="content data-v-a896e9fa">
+                <view class="pic-wrap data-v-a896e9fa">
+                    <image class="pic data-v-a896e9fa" src="{{$root.m3}}" wx:if="{{schematicSrc}}"></image>
+                </view>
+                <view class="btn-wrap data-v-a896e9fa">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-a896e9fa" customStyle="{{customStyle}}" data-event-opts="{{[ [ '^click',[ ['e1'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'c1344fd6-9'+','+'c1344fd6-8'}}" vueSlots="{{['default']}}">知道了</u-button>
+                </view>
+            </view>
+        </view>
+    </u-mask>
+</view>

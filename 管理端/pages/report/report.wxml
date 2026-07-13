@@ -1,0 +1,585 @@
+<view class="data-v-a91207a8">
+    <custom-navigation bind:__l="__l" class="data-v-a91207a8" text="统计报表" vueId="31c7be80-1"></custom-navigation>
+    <view class="placeholder-view data-v-a91207a8" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="report-container data-v-a91207a8" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <block wx:if="{{$root.m0}}">
+            <view class="top_data data-v-a91207a8">
+                <view class="income data-v-a91207a8">
+                    <view class="income_num data-v-a91207a8">{{totalProfit}}</view>
+                    <view class="income_title data-v-a91207a8">累计收款(元)</view>
+                </view>
+                <view class="columnChart data-v-a91207a8">
+                    <canvas canvasId="canvasId" class="charts data-v-a91207a8" id="{{canvasId}}" type="2d"></canvas>
+                </view>
+                <view bindtap="__e" class="month-computeTime-warp data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'refreshclick',['$event'] ] ] ] ]}}">
+                    <view class="computeTime-box data-v-a91207a8">
+                        <text class="data-v-a91207a8">{{'更新时间：'+(data&&data.nowCash_computeTime.computeTime?data.nowCash_computeTime.computeTime:'-')}}</text>
+                        <image class="refreshimg data-v-a91207a8" src="{{$root.m1}}"></image>
+                    </view>
+                </view>
+                <view class="month-data data-v-a91207a8">
+                    <view class="data data-v-a91207a8">
+                        <view class="month_text data-v-a91207a8">本月收款</view>
+                        <view class="money-box data-v-a91207a8">
+                            <text class="value data-v-a91207a8" style="{{'font-weight:'+(nowCash.saleCash==null?'400':'500')+';'}}">
+                                <text class="unit data-v-a91207a8">￥</text>{{nowCash.saleCash==null?'–':nowCash.saleCash}}</text>
+                        </view>
+                    </view>
+                    <view class="btn-box data-v-a91207a8">
+                        <u-button bind:__l="__l" bind:click="__e" class="data-v-a91207a8" customStyle="{{customStyle}}" data-event-opts="{{[ [ '^click',[ ['headleMonthlyDetails'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="31c7be80-2" vueSlots="{{['default']}}">
+                            <text class="name data-v-a91207a8" style="font-weight:normal;">往月收款</text>
+                            <image class="arrow data-v-a91207a8" src="{{$root.m2}}"></image>
+                        </u-button>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpModal',['businessData'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">本月售卡</view>
+                            <text class="value data-v-a91207a8">{{nowCash.saleCardCount==null?'~':nowCash.saleCardCount}}</text>
+                            <text class="unit data-v-a91207a8">张</text>
+                        </view>
+                    </view>
+                    <view class="item data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpModal',['businessData'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">本月新增会员</view>
+                            <text class="value data-v-a91207a8">{{''+(nowCash.newUserCount==null?'~':nowCash.newUserCount)}}</text>
+                            <text class="unit data-v-a91207a8">名</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="month-data data-v-a91207a8" style="padding-top:54rpx;">
+                    <view class="data data-v-a91207a8">
+                        <view catchtap="__e" class="month_text data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'handleShowTotalPrice',['$event'] ] ] ] ]}}" style="{{'height:'+(isShowTotalPrice?'auto':'80rpx')+';'}}">{{''+(isShowTotalPrice?'本月耗卡':'本月课程')+''}}<image class="eye-icon data-v-a91207a8" src="{{$root.m3}}" wx:if="{{isShowTotalPrice}}"></image>
+                            <image class="eye-icon data-v-a91207a8" src="{{$root.m4}}" wx:else></image>
+                        </view>
+                        <view class="money-box data-v-a91207a8" wx:if="{{isShowTotalPrice}}">
+                            <text class="value data-v-a91207a8" style="{{'font-weight:'+(nowCourse.totalPrice==null?'400':'500')+';'}}">
+                                <text class="unit data-v-a91207a8">￥</text>{{''+(nowCourse.totalPrice==null?'–':nowCourse.totalPrice)+''}}</text>
+                        </view>
+                    </view>
+                    <view class="btn-box data-v-a91207a8">
+                        <u-button bind:__l="__l" bind:click="__e" class="data-v-a91207a8" customStyle="{{customStyle}}" data-event-opts="{{[ [ '^click',[ ['courseMonthlyDetails'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="31c7be80-3" vueSlots="{{['default']}}">
+                            <text class="name data-v-a91207a8" style="font-weight:normal;">往月课程</text>
+                            <image class="arrow data-v-a91207a8" src="{{$root.m5}}"></image>
+                        </u-button>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item1 data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpModal',['courseReportFormMonth'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">团课排课</view>
+                            <text class="value data-v-a91207a8">{{nowCourse.totalTeamCount==null?'~':nowCourse.totalTeamCount}}</text>
+                            <text class="unit data-v-a91207a8">节</text>
+                        </view>
+                    </view>
+                    <view class="item1 data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpModal',['courseReportFormMonth'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">团课成课</view>
+                            <text class="value data-v-a91207a8">{{''+(nowCourse.teamSuccCount==null?'~':nowCourse.teamSuccCount)}}</text>
+                            <text class="unit data-v-a91207a8">节</text>
+                        </view>
+                    </view>
+                    <view class="item1 data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpModal',['courseReportFormMonth'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">团课签到</view>
+                            <text class="value data-v-a91207a8">{{nowCourse.teamsignMancount==null?'~':nowCourse.teamsignMancount}}</text>
+                            <text class="unit data-v-a91207a8">人次</text>
+                        </view>
+                    </view>
+                    <view class="item1 data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpModal',['courseReportFormMonth'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">私教</view>
+                            <text class="value data-v-a91207a8">{{nowCourse.privateCourseCount==null?'~':nowCourse.privateCourseCount}}</text>
+                            <text class="unit data-v-a91207a8">节</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-a91207a8" height="24" vueId="31c7be80-4"></u-gap>
+        </block>
+        <view class="remind data-v-a91207a8" wx:if="{{$root.m6}}">
+            <view class="data data-v-a91207a8">
+                <view class="head data-v-a91207a8">
+                    <view class="month_text data-v-a91207a8">待办提醒</view>
+                    <view class="money-box data-v-a91207a8">
+                        <view bindtap="__e" class="explain data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'explain',['remind'] ] ] ] ]}}">
+                            <text class="data-v-a91207a8">说明</text>
+                            <image class="icon data-v-a91207a8" src="{{$root.m7}}"></image>
+                        </view>
+                        <view bindtap="__e" class="updateTime data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'refreshclick',['$event'] ] ] ] ]}}">
+                            <text class="data-v-a91207a8">{{'更新时间：'+(data&&data.remindInfo_computeTime.computeTime?data.remindInfo_computeTime.computeTime:'-')}}</text>
+                            <image class="refreshimg data-v-a91207a8" src="{{$root.m8}}"></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item item_remind_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/remind/cardExpires'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">会员卡即将到期</view>
+                            <text class="value data-v-a91207a8">{{remindInfo.willExpireCount==null?'-':remindInfo.willExpireCount}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_remind_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/remind/findBalaceZeroCard'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">余额不足</view>
+                            <text class="value data-v-a91207a8">{{''+(remindInfo.balanceLackCount==null?'-':remindInfo.balanceLackCount)}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_remind_bg data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/remind/missClassRemind'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">{{(data?data.xDayNoclass.commonVal.intValue:'-')+'天未上课'}}</view>
+                            <text class="value data-v-a91207a8">{{''+(remindInfo.noLessionCount==null?'-':remindInfo.noLessionCount)}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item item_remind_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/remind/leavedDue'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">请假到期</view>
+                            <text class="value data-v-a91207a8">{{remindInfo.vacationCount==null?'-':remindInfo.vacationCount}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_remind_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/remind/initiationDay'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">入会纪念日</view>
+                            <text class="value data-v-a91207a8">{{''+(remindInfo.userAnniversary==null?'-':remindInfo.userAnniversary)}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_remind_bg data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/remind/birthdayRemind'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">生日提醒</view>
+                            <text class="value data-v-a91207a8">{{''+(remindInfo.userBirthday==null?'-':remindInfo.userBirthday)}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item item_remind_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/remind/cardWill'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">即将开卡</view>
+                            <text class="value data-v-a91207a8">{{remindInfo.willOpencard==null?'-':remindInfo.willOpencard}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_remind_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/remind/visitorRemind'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">近日访客</view>
+                            <text class="value data-v-a91207a8">{{''+(remindInfo.visitCount==null?'-':remindInfo.visitCount)}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_remind_bg data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/remind/penalizeCard'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">处罚中的卡</view>
+                            <text class="value data-v-a91207a8">{{''+(remindInfo.punishCardCount==null?'-':remindInfo.punishCardCount)}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-a91207a8" height="24" vueId="31c7be80-5"></u-gap>
+        </view>
+        <view class="remind data-v-a91207a8" wx:if="{{$root.m9}}">
+            <view class="data data-v-a91207a8">
+                <view class="head data-v-a91207a8">
+                    <view class="month_text data-v-a91207a8">会员分析</view>
+                    <view class="money-box data-v-a91207a8">
+                        <view bindtap="__e" class="explain data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'explain',['member'] ] ] ] ]}}">
+                            <text class="data-v-a91207a8">说明</text>
+                            <image class="icon data-v-a91207a8" src="{{$root.m10}}"></image>
+                        </view>
+                        <view bindtap="__e" class="updateTime data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'refreshclick',['$event'] ] ] ] ]}}">
+                            <text class="data-v-a91207a8">{{'更新时间：'+(data&&data.userAnalyze_computeTime.computeTime?data.userAnalyze_computeTime.computeTime:'-')}}</text>
+                            <image class="refreshimg data-v-a91207a8" src="{{$root.m11}}"></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=0'] ] ] ] ]}}">
+                            <view class="itemName itemUserName data-v-a91207a8">全部会员</view>
+                            <text class="value data-v-a91207a8">{{userAnalyze.totalUserCount==null?'-':userAnalyze.totalUserCount}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=1'] ] ] ] ]}}">
+                            <view class="itemName itemUserName data-v-a91207a8">有效会员</view>
+                            <text class="value data-v-a91207a8">{{''+(userAnalyze.validUserCount==null?'-':userAnalyze.validUserCount)}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=2'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">无效会员</view>
+                            <text class="value data-v-a91207a8">{{''+(userAnalyze.invalidUserCount==null?'-':userAnalyze.invalidUserCount)}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=3'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">上月上课会员</view>
+                            <text class="value data-v-a91207a8">{{userAnalyze.beforemonthUserCount==null?'-':userAnalyze.beforemonthUserCount}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=4'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">本月上课会员</view>
+                            <text class="value data-v-a91207a8">{{''+(userAnalyze.localmonthUserCount==null?'-':userAnalyze.localmonthUserCount)}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=5'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">30天未上课</view>
+                            <text class="value data-v-a91207a8">{{''+(userAnalyze.noclass30UserCount==null?'-':userAnalyze.noclass30UserCount)}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=6'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">(60天)风险会员</view>
+                            <text class="value data-v-a91207a8">{{userAnalyze.noclass60UserCount==null?'-':userAnalyze.noclass60UserCount}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=7'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">(90天)沉寂会员</view>
+                            <text class="value data-v-a91207a8">{{''+(userAnalyze.noclass90UserCount==null?'-':userAnalyze.noclass90UserCount)}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=8'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">(120天)流失会员</view>
+                            <text class="value data-v-a91207a8">{{''+(userAnalyze.noclass120UserCount==null?'-':userAnalyze.noclass120UserCount)}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=9'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">无卡会员</view>
+                            <text class="value data-v-a91207a8">{{userAnalyze.nocardUserCount==null?'-':userAnalyze.nocardUserCount}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=10'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">屏蔽会员</view>
+                            <text class="value data-v-a91207a8">{{''+(userAnalyze.nologinUserCount==null?'-':userAnalyze.nologinUserCount)}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpPageMember',['/pageMember/screen?flag=11'] ] ] ] ]}}">
+                            <view class="itemName itemUserName data-v-a91207a8">本月新增会员</view>
+                            <text class="value data-v-a91207a8">{{''+(userAnalyze.localmonthnewUserCount==null?'-':userAnalyze.localmonthnewUserCount)}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="data data-v-a91207a8" style="padding-top:0rpx;" wx:if="{{$root.m12}}">
+                <view class="head data-v-a91207a8">
+                    <view class="month_text data-v-a91207a8">会员卡分析</view>
+                    <view class="money-box data-v-a91207a8">
+                        <view bindtap="__e" class="explain data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'explain',['memberCard'] ] ] ] ]}}">
+                            <text class="data-v-a91207a8">说明</text>
+                            <image class="icon data-v-a91207a8" src="{{$root.m13}}"></image>
+                        </view>
+                        <view bindtap="__e" class="updateTime data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'refreshclick',['$event'] ] ] ] ]}}">
+                            <text class="data-v-a91207a8">{{'更新时间：'+(data&&data.cardAnalyze_computeTime.computeTime?data.cardAnalyze_computeTime.computeTime:'-')}}</text>
+                            <image class="refreshimg data-v-a91207a8" src="{{$root.m14}}"></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/memberAnalyze/allMember?title=全部会员卡&type=1'] ] ] ] ]}}">
+                            <view class="itemName itemUserName data-v-a91207a8">总发卡张数</view>
+                            <text class="value data-v-a91207a8">{{cardAnalyze.totalCardCount==null?'-':cardAnalyze.totalCardCount}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/memberAnalyze/allMember?title=有效的会员卡&type=2'] ] ] ] ]}}">
+                            <view class="itemName itemUserName data-v-a91207a8">有效卡张数</view>
+                            <text class="value data-v-a91207a8">{{''+(cardAnalyze.validCardCount==null?'-':cardAnalyze.validCardCount)}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/memberAnalyze/allMember?title=无效的会员卡&type=3'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">无效卡张数</view>
+                            <text class="value data-v-a91207a8">{{''+(cardAnalyze.novalidCardCount==null?'-':cardAnalyze.novalidCardCount)}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/memberAnalyze/allMember?title=已过期的会员卡&type=4'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">已过期张数</view>
+                            <text class="value data-v-a91207a8">{{cardAnalyze.expireCardCount==null?'-':cardAnalyze.expireCardCount}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/memberAnalyze/allMember?title=余额为0的会员卡&type=5'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">余额为0张数</view>
+                            <text class="value data-v-a91207a8">{{''+(cardAnalyze.zeroBalanceCount==null?'-':cardAnalyze.zeroBalanceCount)}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/memberAnalyze/allMember?title=已过期但有余额的会员卡&type=6'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">已过期但有余额</view>
+                            <text class="value data-v-a91207a8">{{''+(cardAnalyze.expireNotZero==null?'-':cardAnalyze.expireNotZero)}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/memberAnalyze/allMember?title=未开卡的会员卡&type=7'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">未开卡</view>
+                            <text class="value data-v-a91207a8">{{cardAnalyze.noOpencard==null?'-':cardAnalyze.noOpencard}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/memberAnalyze/allMember?title=请假中的会员卡&type=8'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">请假中</view>
+                            <text class="value data-v-a91207a8">{{''+(cardAnalyze.holidayCardCount==null?'-':cardAnalyze.holidayCardCount)}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/memberAnalyze/allMember?title=停卡中会员卡&type=9'] ] ] ] ]}}">
+                            <view class="itemName data-v-a91207a8">停卡中</view>
+                            <text class="value data-v-a91207a8">{{''+(cardAnalyze.stopCardCount==null?'-':cardAnalyze.stopCardCount)}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="data data-v-a91207a8" style="padding-top:0rpx;" wx:if="{{$root.m15}}">
+                <view class="head data-v-a91207a8">
+                    <view class="month_text data-v-a91207a8">排行与分析</view>
+                </view>
+                <view class="more-data moreRank data-v-a91207a8">
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/rank/rankTop'] ] ] ] ]}}">
+                        <view class="item2_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m16}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">充值排行</view>
+                    </view>
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/rank/courseRank'] ] ] ] ]}}">
+                        <view class="item2_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m17}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">约课排行</view>
+                    </view>
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/rank/memberConsumptionCardRank'] ] ] ] ]}}">
+                        <view class="item2_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m18}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">耗卡排行</view>
+                    </view>
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/rank/memberPointRank'] ] ] ] ]}}" style="margin-right:0rpx;">
+                        <view class="item2_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m19}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">积分排行</view>
+                    </view>
+                </view>
+                <view class="more-data moreRank data-v-a91207a8">
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/rank/memberCardAnalyze'] ] ] ] ]}}">
+                        <view class="item2_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m20}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">会员卡分析</view>
+                    </view>
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/rank/membershipRank'] ] ] ] ]}}">
+                        <view class="item2_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m21}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">按会籍分析</view>
+                    </view>
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/rank/siteModifyLog'] ] ] ] ]}}" style="margin-top:30rpx;">
+                        <view class="item2_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m22}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">变更记录</view>
+                        <view class="item2_tips data-v-a91207a8">发卡 - 请假 - 停卡 - 删卡</view>
+                    </view>
+                </view>
+            </view>
+            <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-a91207a8" height="24" vueId="31c7be80-6"></u-gap>
+        </view>
+        <view class="remind data-v-a91207a8" wx:if="{{$root.m23}}">
+            <view class="data data-v-a91207a8">
+                <view class="head data-v-a91207a8">
+                    <view class="month_text data-v-a91207a8">课程分析</view>
+                </view>
+                <view class="more-data moreRank data-v-a91207a8">
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/courseAnalyze/teamCourseRank'] ] ] ] ]}}">
+                        <view class="item3_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m24}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">团课课程</view>
+                    </view>
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/courseAnalyze/privateCourseRank'] ] ] ] ]}}">
+                        <view class="item3_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m25}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">私教课程</view>
+                    </view>
+                </view>
+            </view>
+            <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-a91207a8" height="24" vueId="31c7be80-7"></u-gap>
+        </view>
+        <view class="remind data-v-a91207a8" wx:if="{{$root.m26}}">
+            <view class="data data-v-a91207a8">
+                <view class="head data-v-a91207a8">
+                    <view class="month_text data-v-a91207a8">老师・会籍统计</view>
+                </view>
+                <view class="more-data moreRank data-v-a91207a8">
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/teacherMembership/staffCourse'] ] ] ] ]}}">
+                        <view class="item3_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m27}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">课时统计</view>
+                    </view>
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/teacherMembership/personalSalary'] ] ] ] ]}}">
+                        <view class="item3_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m28}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">老师工资</view>
+                    </view>
+                    <view bindtap="__e" class="item2 data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'jumpRemind',['/pageReport/teacherMembership/memberShipSalary'] ] ] ] ]}}">
+                        <view class="item3_info data-v-a91207a8">
+                            <image class="rank data-v-a91207a8" src="{{$root.m29}}"></image>
+                        </view>
+                        <view class="item2_name data-v-a91207a8">会籍工资</view>
+                    </view>
+                </view>
+            </view>
+            <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-a91207a8" height="24" vueId="31c7be80-8"></u-gap>
+        </view>
+        <view class="remind data-v-a91207a8" wx:if="{{$root.m30}}">
+            <view class="data data-v-a91207a8">
+                <view class="head data-v-a91207a8">
+                    <view class="month_text data-v-a91207a8">资产负债表</view>
+                    <view class="money-box data-v-a91207a8">
+                        <view bindtap="__e" class="explain data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'explain',['siteCost'] ] ] ] ]}}">
+                            <text class="data-v-a91207a8">说明</text>
+                            <image class="icon data-v-a91207a8" src="{{$root.m31}}"></image>
+                        </view>
+                        <view bindtap="__e" class="updateTime data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'refreshclick',['$event'] ] ] ] ]}}">
+                            <text class="data-v-a91207a8">{{'更新时间：'+(siteCost&&siteCost.dateVal?siteCost.dateVal:'-')}}</text>
+                            <image class="refreshimg data-v-a91207a8" src="{{$root.m32}}"></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="more-data data-v-a91207a8">
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">
+                            <view class="itemName itemUserName data-v-a91207a8">总收入</view>
+                            <text class="siteCostvalue data-v-a91207a8">{{siteCost.totalPrice==null?'-':siteCost.totalPrice}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'e1',['$event'] ] ] ] ]}}">
+                            <view class="itemName itemUserName data-v-a91207a8">已耗卡金额</view>
+                            <text class="siteCostvalue itemUserName data-v-a91207a8">{{''+(siteCost.expendPrice==null?'-':siteCost.expendPrice)}}</text>
+                        </view>
+                    </view>
+                    <view class="item item_user_bg data-v-a91207a8" style="margin-right:0rpx;">
+                        <view bindtap="__e" class="info itemUserName data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'e2',['$event'] ] ] ] ]}}">
+                            <view class="itemName itemUserName data-v-a91207a8">剩余价值</view>
+                            <text class="siteCostvalue itemUserName data-v-a91207a8">{{''+(siteCost.leftPrice==null?'-':siteCost.leftPrice)}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-a91207a8" height="24" vueId="31c7be80-9"></u-gap>
+        </view>
+        <view class="data-v-a91207a8" style="min-height:1230rpx;padding-top:160rpx;" wx:if="{{!hasAllPermission}}">
+            <nodata bind:__l="__l" class="data-v-a91207a8" vueId="31c7be80-10"></nodata>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-a91207a8" vueId="31c7be80-11"></ff-bottom-logo>
+        <confirm bind:__l="__l" class="data-v-a91207a8 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="数据说明" vueId="31c7be80-12" vueSlots="{{['content','btn']}}">
+            <view class="data-v-a91207a8" slot="content" style="line-height:44rpx;">
+                <view class="data-v-a91207a8">
+                    <text class="name data-v-a91207a8" style="color:#181818;">更新时间：</text>
+                    <text class="value data-v-a91207a8">{{updateTime}}</text>
+                    <text bindtap="__e" class="value-but data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'reconsumption',['$event'] ] ] ] ]}}">立即重算</text>
+                </view>
+                <view class="data-v-a91207a8" wx:if="{{updateTimeData==1}}">
+                    <text class="name data-v-a91207a8" style="color:#181818;">统计说明：</text>
+                    <text class="value data-v-a91207a8">该数据于每日凌晨统计并更新一次</text>
+                </view>
+                <block wx:if="{{updateTimeData==2}}">
+                    <view class="data-v-a91207a8">
+                        <text class="name data-v-a91207a8" style="color:#181818;">有效会员：</text>
+                        <text class="value data-v-a91207a8">名下至少有一张有余额且在有效期内的会员</text>
+                    </view>
+                    <view class="data-v-a91207a8">
+                        <text class="name data-v-a91207a8" style="color:#181818;">无效会员：</text>
+                        <text class="value data-v-a91207a8">名下所有卡均已无余额或已过期</text>
+                    </view>
+                    <view class="data-v-a91207a8">
+                        <text class="name data-v-a91207a8" style="color:#181818;">风险会员：</text>
+                        <text class="value data-v-a91207a8">有余额且在有效期内，但60天未上课</text>
+                    </view>
+                    <view class="data-v-a91207a8">
+                        <text class="name data-v-a91207a8" style="color:#181818;">沉寂会员：</text>
+                        <text class="value data-v-a91207a8">有余额且在有效期内，但90天未上课</text>
+                    </view>
+                    <view class="data-v-a91207a8">
+                        <text class="name data-v-a91207a8" style="color:#181818;">流失会员：</text>
+                        <text class="value data-v-a91207a8">有余额且在有效期内，但120天未上课</text>
+                    </view>
+                    <view class="data-v-a91207a8">
+                        <text class="name data-v-a91207a8" style="color:#181818;">屏蔽会员：</text>
+                        <text class="value data-v-a91207a8">开启屏蔽功能后，被屏蔽进入的会员</text>
+                    </view>
+                </block>
+                <block wx:if="{{updateTimeData==3}}">
+                    <view class="data-v-a91207a8">
+                        <text class="name data-v-a91207a8" style="color:#181818;">有效卡：</text>
+                        <text class="value data-v-a91207a8">有余额且在有效期内的卡</text>
+                    </view>
+                    <view class="data-v-a91207a8">
+                        <text class="name data-v-a91207a8" style="color:#181818;">无效卡：</text>
+                        <text class="value data-v-a91207a8">已无余额或已过期的卡</text>
+                    </view>
+                </block>
+                <block wx:if="{{updateTimeData==4}}">
+                    <view class="data-v-a91207a8">
+                        <text class="name data-v-a91207a8" style="color:#181818;">总收入：</text>
+                        <text class="value data-v-a91207a8">在线购卡或手动发卡时填写的【实际收款】</text>
+                    </view>
+                    <view class="data-v-a91207a8">
+                        <text class="name data-v-a91207a8" style="color:#181818;">已耗卡金额：</text>
+                        <text class="value data-v-a91207a8">会员消耗的卡折算金额</text>
+                    </view>
+                    <view class="data-v-a91207a8">
+                        <text class="name data-v-a91207a8" style="color:#181818;">剩余价值：</text>
+                        <text class="value data-v-a91207a8">剩余的还没有消耗的金额</text>
+                    </view>
+                </block>
+            </view>
+            <view class="data-v-a91207a8" slot="btn">
+                <view bindtap="__e" class="modal-btn button data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtnFail',['$event'] ] ] ] ]}}" style="color:#181818;">知道了</view>
+            </view>
+        </confirm>
+    </view>
+    <expired-alert bind:__l="__l" class="data-v-a91207a8" page="other" vueId="31c7be80-13"></expired-alert>
+    <confirm-modal bind:__l="__l" class="data-v-a91207a8 vue-ref" customBtn="{{true}}" data-ref="succConfirmModal" title="请求成功，后台正在计算中" vueId="31c7be80-14" vueSlots="{{['content','btn']}}">
+        <view class="data-v-a91207a8" slot="content">
+            <view class="data-v-a91207a8">
+                <text class="data-v-a91207a8" style="color:#DC3C5C;">请5分钟后刷新此页面</text>（即重新进入此页或下拉刷新）</view>
+        </view>
+        <view class="data-v-a91207a8" slot="btn">
+            <view bindtap="__e" class="modal-btn button data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'succCconfirmbtn',['$event'] ] ] ] ]}}" style="margin-bottom:39rpx;">知道了</view>
+        </view>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" class="data-v-a91207a8 vue-ref" customBtn="{{true}}" data-ref="consumptionConfirmModal" vueId="31c7be80-15" vueSlots="{{['content','btn']}}">
+        <view class="data-v-a91207a8" slot="content">
+            <view class="data-v-a91207a8" style="font-size:26rpx;color:#181818;line-height:40rpx;">本报表非实时数据，每日凌晨0:00~5:00自动统计一次；若需实时结果，请点击如下按扭，将整店全部重新计算，每次计算用时约2分钟。</view>
+            <view class="consumption-content data-v-a91207a8">
+                <view bindtap="__e" class="{{['consumptionbut','data-v-a91207a8',5-num<=0?'disable':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'ljconsumption',['$event'] ] ] ] ]}}">立即重算</view>
+            </view>
+            <view class="box-color data-v-a91207a8">{{'每日限用5次 今日剩余'+5-num+'次'}}</view>
+        </view>
+        <view class="consumption-Cancel data-v-a91207a8" slot="btn">
+            <view bindtap="__e" class="consumption-modal-btn data-v-a91207a8" data-event-opts="{{[ [ 'tap',[ [ 'consumptionhandleCancelbtn',['$event'] ] ] ] ]}}">关闭</view>
+        </view>
+    </confirm-modal>
+</view>

@@ -1,0 +1,37 @@
+<view class="data-v-7675f137">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-7675f137" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','newCardShow','$event',[] ] ] ] ] ]}}" height="1200" showConfrim="{{false}}" title="选择会员卡" value="{{newCardShow}}" vueId="ab1204e2-1" vueSlots="{{['default']}}">
+        <view class="main-box data-v-7675f137">
+            <view class="search-warp data-v-7675f137">
+                <u-search bind:__l="__l" bind:input="__e" class="data-v-7675f137" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','keyword','$event',[] ] ] ] ] ]}}" height="69" placeholder="会员卡名称" searchIconColor="#FBD128" showAction="{{false}}" value="{{keyword}}" vueId="{{'ab1204e2-2'+','+'ab1204e2-1'}}"></u-search>
+            </view>
+            <view class="form-box data-v-7675f137">
+                <view class="{{['cardList','data-v-7675f137',!( (index+1)%2==0 )?'cardList_first':'',(index+1)%2==0?'cardList_last':'',item.g0?'cardList_bottom_no':'']}}" wx:for="{{$root.l0}}" wx:key="index">
+                    <view bindtap="__e" class="{{['card_wrap','data-v-7675f137',item.$orig.saleStatus==0?'gray':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'cardClick',['$0',index],[ [ ['showCardList','',index] ] ] ] ] ] ]}}">
+                        <view class="data-v-7675f137" wx:if="{{item.$orig.saleStatus==0}}">
+                            <view class="mask data-v-7675f137"></view>
+                            <view class="img-wrap data-v-7675f137">
+                                <view class="data-v-7675f137">
+                                    <image class="data-v-7675f137" src="{{item.m0}}"></image>
+                                    <text class="data-v-7675f137">已停售</text>
+                                </view>
+                            </view>
+                            <view class="{{['data-v-7675f137',item.$orig.saleStatus==0?'gray':'']}}"></view>
+                        </view>
+                        <ff-value-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-7675f137" vueId="{{'ab1204e2-3-'+index+','+'ab1204e2-1'}}" wx:if="{{item.$orig.cardType==1}}"></ff-value-card>
+                        <ff-counts-card activeClass="minimum-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-7675f137" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],[ [ ['showCardList','',index] ] ] ] ] ] ]}}" vueId="{{'ab1204e2-4-'+index+','+'ab1204e2-1'}}" wx:if="{{item.$orig.cardType==2}}"></ff-counts-card>
+                        <ff-date-card activeClass="minimum-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-7675f137" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],[ [ ['showCardList','',index] ] ] ] ] ] ]}}" vueId="{{'ab1204e2-5-'+index+','+'ab1204e2-1'}}" wx:if="{{item.$orig.cardType==3}}"></ff-date-card>
+                    </view>
+                    <view class="{{['selected_card','data-v-7675f137',item.$orig.active?'selected_card_active':'']}}">
+                        <u-icon bind:__l="__l" class="data-v-7675f137" color="#ffffff" name="checkbox-mark" size="22" vueId="{{'ab1204e2-6-'+index+','+'ab1204e2-1'}}"></u-icon>
+                    </view>
+                </view>
+                <view class="noData data-v-7675f137" wx:if="{{isShowNoData}}">
+                    <image class="icon data-v-7675f137" src="{{$root.m1}}"></image>
+                    <text class="explain data-v-7675f137">~先在「场馆--会员卡」中创建会员卡种类-~</text>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+    <crad-limit bind:__l="__l" bind:submit="__e" class="data-v-7675f137 vue-ref" data-event-opts="{{[ [ '^submit',[ ['cardLimitSubmit'] ] ] ]}}" data-ref="cardlimitRef" userId="{{userId}}" vueId="ab1204e2-7"></crad-limit>
+    <card-all-project bind:__l="__l" class="data-v-7675f137 vue-ref" data-ref="cardAllProject" vueId="ab1204e2-8"></card-all-project>
+</view>

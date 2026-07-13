@@ -1,0 +1,28 @@
+<view class="permission-edit-container data-v-4ebf2080">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-4ebf2080" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','identityShow','$event',[] ] ] ] ] ]}}" height="{{868}}" title="选择身份" value="{{identityShow}}" vueId="df7ed162-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-4ebf2080" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-4ebf2080" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'df7ed162-2'+','+'df7ed162-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="permission-edit data-v-4ebf2080">
+            <view class="content data-v-4ebf2080">
+                <view class="text data-v-4ebf2080">
+                    <view class="text-list data-v-4ebf2080">
+                        <view class="detail-warp data-v-4ebf2080">
+                            <text class="name data-v-4ebf2080">兼教练</text>
+                            <text class="detail data-v-4ebf2080">若是上课的老师，请一定打开；若不是，请关闭</text>
+                        </view>
+                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-4ebf2080" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','identity1','$event',[] ] ] ] ] ]}}" value="{{identity1}}" vueId="{{'df7ed162-3'+','+'df7ed162-1'}}"></u-switch>
+                    </view>
+                    <u-line bind:__l="__l" class="data-v-4ebf2080" color="#F0F0F0" direction="row" length="622rpx" margin="28rpx auto" vueId="{{'df7ed162-4'+','+'df7ed162-1'}}"></u-line>
+                    <view class="text-list data-v-4ebf2080">
+                        <view class="detail-warp data-v-4ebf2080">
+                            <text class="name data-v-4ebf2080">兼会籍顾问</text>
+                            <text class="detail data-v-4ebf2080">若是会籍顾问并需统计各自销售额，请打开</text>
+                        </view>
+                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-4ebf2080" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','identity2','$event',[] ] ] ] ] ]}}" value="{{identity2}}" vueId="{{'df7ed162-5'+','+'df7ed162-1'}}"></u-switch>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

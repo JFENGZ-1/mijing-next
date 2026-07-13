@@ -1,0 +1,21 @@
+{
+  "component": true,
+  "usingComponents": {
+    "balance": "/components/cardToolbox/administer/balance",
+    "card-all-project": "/components/card-all-project/index",
+    "card-set": "/components/cardToolbox/administer/card-set",
+    "card-stopping": "/components/cardToolbox/administer/card_stopping",
+    "confirm": "/components/confirm-modal/confirm-modal",
+    "get-card": "/components/cardToolbox/getCard/index",
+    "leave": "/components/cardToolbox/administer/leave",
+    "mark-pop": "/components/cardToolbox/administer/mark-pop",
+    "member-card": "/components/mumber-card/index",
+    "new-card": "/components/cardToolbox/immediatelyCard/new_card",
+    "remark-order-card-popup": "/components/ff-textarea/ff-textarea",
+    "remarks": "/components/cardToolbox/administer/remarks",
+    "renew": "/components/cardToolbox/administer/renew",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "vaildity": "/components/cardToolbox/administer/validity",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

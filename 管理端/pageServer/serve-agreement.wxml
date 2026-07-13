@@ -1,0 +1,3 @@
+<view class="data-v-95dfcc52">
+    <web-view class="data-v-95dfcc52" fullscreen="{{false}}" src="{{stopServeInfo.protocolURL+'?title=服务协议'}}"></web-view>
+</view>

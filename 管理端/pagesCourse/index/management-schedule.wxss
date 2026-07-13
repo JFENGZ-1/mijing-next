@@ -1,0 +1,139 @@
+.all-course-warp.data-v-cebfcb60 {
+  padding-bottom: 200rpx;
+}
+.all-course-warp .content-warp.data-v-cebfcb60 {
+  background: #f5f5f5;
+  border-radius: 21rpx 21rpx 0 0;
+  box-sizing: border-box;
+  padding: 0 0 60rpx;
+  position: relative;
+}
+.all-course-warp .content-warp .tool-warp.data-v-cebfcb60 {
+  background-color: #fff;
+  display: -webkit-flex;
+  display: flex;
+  padding: 60rpx 20rpx 40rpx;
+}
+.all-course-warp .content-warp .tool-warp .item.data-v-cebfcb60 {
+  position: relative;
+  width: 25%;
+}
+.all-course-warp .content-warp .tool-warp .item .icon-warp.data-v-cebfcb60 {
+  align-items: center;
+  background: #fbd128;
+  border-radius: 21rpx;
+  display: -webkit-flex;
+  display: flex;
+  height: 81rpx;
+  justify-content: center;
+  margin: 0 auto;
+  position: relative;
+  width: 81rpx;
+}
+.all-course-warp
+  .content-warp
+  .tool-warp
+  .item
+  .icon-warp
+  .icon.data-v-cebfcb60 {
+  height: 44rpx;
+  width: 50rpx;
+}
+.all-course-warp
+  .content-warp
+  .tool-warp
+  .item
+  .icon-invalid.data-v-cebfcb60::before {
+  background: #fff;
+  content: "";
+  height: 81rpx;
+  left: 0;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  width: 81rpx;
+}
+.all-course-warp .content-warp .tool-warp .item .text.data-v-cebfcb60 {
+  color: #181818;
+  font-size: 25rpx;
+  margin-top: 10rpx;
+  position: relative;
+  text-align: center;
+}
+.all-course-warp
+  .content-warp
+  .tool-warp
+  .item
+  .text
+  .text-tip.data-v-cebfcb60 {
+  color: #ef2359;
+  font-size: 18rpx;
+  left: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 34rpx;
+}
+.all-course-warp .content-warp .tip.data-v-cebfcb60 {
+  color: #989898;
+  font-size: 25rpx;
+  line-height: 28px;
+  padding: 20rpx 28rpx 5rpx;
+}
+.all-course-warp .content-warp .list-warp.data-v-cebfcb60 {
+  padding: 0 9rpx;
+}
+.all-course-warp .content-warp .list-warp .box.data-v-cebfcb60 {
+  background-color: #fff;
+  border-radius: 14rpx;
+  padding: 20rpx 0;
+}
+.all-course-warp .content-warp .list-warp .box .item .date.data-v-cebfcb60 {
+  color: #989898;
+  font-size: 25rpx;
+  line-height: 41rpx;
+  padding-left: 40rpx;
+  position: relative;
+}
+.all-course-warp
+  .content-warp
+  .list-warp
+  .box
+  .item
+  .date.data-v-cebfcb60::after {
+  background: #f5f5f5;
+  border-radius: 50%;
+  content: "";
+  display: block;
+  height: 11rpx;
+  left: 18rpx;
+  position: absolute;
+  top: 15rpx;
+  width: 11rpx;
+}
+.all-course-warp
+  .content-warp
+  .list-warp
+  .box
+  .item
+  .date.active.data-v-cebfcb60 {
+  color: #181818;
+  font-size: 28rpx;
+}
+.all-course-warp
+  .content-warp
+  .list-warp
+  .box
+  .item
+  .date.active.data-v-cebfcb60::after {
+  background: #22c788;
+  height: 21rpx;
+  left: 13rpx;
+  top: 10rpx;
+  width: 21rpx;
+}
+.all-course-warp .content-warp .list-warp .box .item .class.data-v-cebfcb60 {
+  box-sizing: border-box;
+  margin-top: 20rpx;
+  padding-left: 26rpx;
+}

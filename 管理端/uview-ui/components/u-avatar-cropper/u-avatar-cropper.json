@@ -1,0 +1,7 @@
+{
+  "navigationBarBackgroundColor": "#000000",
+  "navigationBarTitleText": "上传头像",
+  "usingComponents": {
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

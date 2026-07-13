@@ -1,0 +1,10 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "会员协议",
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

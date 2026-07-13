@@ -1,0 +1,127 @@
+.subject-persion-container .subject-persion.data-v-2ab5751d {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 10rpx;
+  padding-top: 10rpx;
+}
+.subject-persion-container .subject-persion .imgup.data-v-2ab5751d {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.subject-persion-container .subject-persion .img.data-v-2ab5751d {
+  height: 50rpx;
+  width: 50rpx;
+}
+.subject-persion-container
+  .subject-persion
+  .view-img
+  .image-wrap.data-v-2ab5751d {
+  height: 132rpx;
+  position: relative;
+  width: 132rpx;
+}
+.subject-persion-container
+  .subject-persion
+  .view-img
+  .image-wrap
+  .tag.data-v-2ab5751d {
+  align-items: center;
+  bottom: 0;
+  display: -webkit-flex;
+  display: flex;
+  height: 34rpx;
+  left: -5rpx;
+  position: absolute;
+  width: 120rpx;
+}
+.subject-persion-container
+  .subject-persion
+  .view-img
+  .image-wrap
+  .tag
+  .tag-icon-left.data-v-2ab5751d {
+  display: block;
+  height: 34rpx;
+  width: 8rpx;
+}
+.subject-persion-container
+  .subject-persion
+  .view-img
+  .image-wrap
+  .tag
+  .text.data-v-2ab5751d {
+  background: #fc8c00;
+  color: #fff;
+  font-size: 22rpx;
+  line-height: 30rpx;
+  margin-top: 4rpx;
+  padding: 0 5rpx;
+}
+.subject-persion-container
+  .subject-persion
+  .view-img
+  .image-wrap
+  .tag
+  .tag-icon-right.data-v-2ab5751d {
+  height: 32rpx;
+  margin-top: 1rpx;
+  width: 13rpx;
+}
+.subject-persion-container
+  .subject-persion
+  .view-img
+  .image-wrap
+  .coach-photo.data-v-2ab5751d {
+  border-radius: 12rpx;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+.subject-persion-container
+  .subject-persion
+  .view-img
+  .head-img.data-v-2ab5751d {
+  border-radius: 10px;
+  height: 146rpx;
+  width: 146rpx;
+}
+.subject-persion-container .subject-persion .view-content.data-v-2ab5751d {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  padding: 25rpx 0rpx 0rpx 18rpx;
+}
+.subject-persion-container
+  .subject-persion
+  .view-content
+  .name.data-v-2ab5751d {
+  color: #181818;
+  font-size: 30rpx;
+  font-weight: 500;
+  padding-bottom: 15rpx;
+}
+.subject-persion-container
+  .subject-persion
+  .view-content
+  .notag.data-v-2ab5751d {
+  color: #c1c2c3;
+  font-size: 24rpx;
+}
+.subject-persion-container
+  .subject-persion
+  .view-content
+  .u-tag-wrap.data-v-2ab5751d {
+  display: inline-block;
+  font-size: 26rpx;
+  margin-bottom: 10rpx;
+  margin-right: 20rpx;
+}
+.subject-persion-container
+  .subject-persion
+  .view-content
+  .u-tag-wrap.data-v-2ab5751d
+  .u-size-mini {
+  font-size: 26rpx;
+}

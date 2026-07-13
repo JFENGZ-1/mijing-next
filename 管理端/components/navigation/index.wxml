@@ -1,0 +1,14 @@
+<view class="cu-custom fixed data-v-2b043243" style="{{'height:'+StatusBar+CustomBar+'px'+';'+'background:'+background+';'}}">
+    <view class="data-v-2b043243" style="{{'height:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="cu-status data-v-2b043243" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+        <view class="cu-title data-v-2b043243" style="{{'height:'+CustomBar+'px'+';'}}">
+            <text class="text data-v-2b043243">{{text}}</text>
+            <view bindtap="__e" class="back-wrap data-v-2b043243" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}" wx:if="{{!customBack}}">
+                <image class="icon-back data-v-2b043243" src="{{$root.m0}}"></image>
+            </view>
+            <view class="back-wrap data-v-2b043243" wx:else>
+                <slot name="home"></slot>
+            </view>
+        </view>
+    </view>
+</view>

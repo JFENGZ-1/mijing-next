@@ -1,0 +1,49 @@
+<view class="data-v-72928ead">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-72928ead" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" title="选择清除时段" value="{{show}}" vueId="c288237a-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-72928ead" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-72928ead" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'c288237a-2'+','+'c288237a-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="main-box data-v-72928ead">
+            <view class="btn-warp data-v-72928ead">
+                <view bindtap="__e" class="{{['item','data-v-72928ead',type==1?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeType',[1] ] ] ] ]}}">清除本周</view>
+                <view bindtap="__e" class="{{['item','data-v-72928ead',type==2?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeType',[2] ] ] ] ]}}">清除本月</view>
+                <view bindtap="__e" class="{{['item','data-v-72928ead',type==3?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeType',[3] ] ] ] ]}}">自定义时段</view>
+            </view>
+            <view class="time-warp data-v-72928ead">
+                <view class="item data-v-72928ead">
+                    <text class="text data-v-72928ead">清除时段</text>
+                    <text bindtap="__e" class="btn data-v-72928ead" data-event-opts="{{[ [ 'tap',[ [ 'openDate',['$event'] ] ] ] ]}}" style="{{'background-color:'+(type===1||type===2?'#ffffff':'#F5F5F5')+';'}}">{{startTime+' '+startWeek}}</text>
+                    <text class="text2 data-v-72928ead">至</text>
+                    <text bindtap="__e" class="btn data-v-72928ead" data-event-opts="{{[ [ 'tap',[ [ 'openDate',['$event'] ] ] ] ]}}" style="{{'background-color:'+(type===1||type===2?'#ffffff':'#F5F5F5')+';'}}">{{endTime+' '+endWeek}}</text>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+    <u-calendar bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-72928ead" data-event-opts="{{[ [ '^change',[ ['change'] ] ],[ '^input',[ [ '__set_model',[ '','calendarShow','$event',[] ] ] ] ] ]}}" maxDate="2100-01-01" mode="range" value="{{calendarShow}}" vueId="c288237a-3"></u-calendar>
+    <confirm-modal bind:__l="__l" class="data-v-72928ead vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="警告，确认清除时段？" vueId="c288237a-4" vueSlots="{{['content','btn']}}">
+        <view class="data-v-72928ead" slot="content">
+            <view class="data-v-72928ead">清除时段：<text class="confirm-date data-v-72928ead">{{startTime+startWeek}}</text>至<text class="confirm-date data-v-72928ead">{{endTime+endWeek}}</text>
+            </view>
+            <view class="content data-v-72928ead">
+                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-72928ead" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','refuseChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{refuseChecked}}" vueId="{{'c288237a-5'+','+'c288237a-4'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-72928ead" style="{{'font-size:26rpx;color:#606266;line-height:56rpx;'+'font-weight:'+(refuseChecked?'500':'normal')+';'}}">我确认时段是对的</text>
+                </u-checkbox>
+            </view>
+        </view>
+        <view class="confirmBtn data-v-72928ead" slot="btn">
+            <view bindtap="__e" class="modal-cal-btn button data-v-72928ead" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="{{['modal-btn','button','data-v-72928ead',!refuseChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'confirmClear',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" class="data-v-72928ead vue-ref" customBtn="{{true}}" data-ref="terminateModal" title="注意，未执行清除！" vueId="c288237a-6" vueSlots="{{['content','btn']}}">
+        <view slot="content">
+            <view class="data-v-72928ead">原因：<text class="data-v-72928ead" style="color:#DC3C5C;">{{''+startTime+' '+startWeek}}</text>
+                <text class="data-v-72928ead" style="margin:6rpx;margin-right:6rpx;">至</text>
+                <text class="data-v-72928ead" style="color:#DC3C5C;">{{endTime+' '+endWeek}}</text>存在<text class="data-v-72928ead" style="color:#DC3C5C;font-weight:500;">已有会员预约</text>的课</view>
+            <view class="data-v-72928ead">方法：为避免操作失误造成大量的退课，请您检查该时段的排课，手动取消会员的约课后再进行清除。</view>
+        </view>
+        <view class="confirmBtn data-v-72928ead" slot="btn">
+            <view bindtap="__e" class="modal-btn button data-v-72928ead" data-event-opts="{{[ [ 'tap',[ [ 'terminateConfirm',['$event'] ] ] ] ]}}">知道了</view>
+        </view>
+    </confirm-modal>
+</view>

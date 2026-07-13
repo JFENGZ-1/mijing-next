@@ -1,0 +1,6 @@
+{
+  "capturedAt": "2026-07-11T12:05:00+08:00",
+  "endpoint": "POST /api/v1/auth/logout",
+  "status": "ok",
+  "notes": "Called with staff Bearer token after link-requests list; token invalidated"
+}

@@ -1,0 +1,186 @@
+.placeholder-box.data-v-e3ac91dc {
+  background: #fbd128;
+  height: 20px;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 20;
+}
+.data-v-e3ac91dc .u-label {
+  flex: 0 !important;
+}
+.data-v-e3ac91dc .u-field {
+  padding: 0 !important;
+}
+.fixed-box-wrap.data-v-e3ac91dc {
+  width: 100%;
+}
+.fixed-box-wrap .fixed-box.data-v-e3ac91dc {
+  background: #fbd128;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+}
+.fixed-box-wrap .fixed-box .top-search-box.data-v-e3ac91dc {
+  background: #fbd128;
+  padding: 0 35rpx 20rpx;
+}
+.fixed-box-wrap .fixed-box .top-search-box .search-content.data-v-e3ac91dc {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+}
+.fixed-box-wrap
+  .fixed-box
+  .top-search-box
+  .search-content
+  .input-box.data-v-e3ac91dc {
+  align-items: center;
+  background: #fff;
+  border-radius: 35rpx;
+  box-sizing: border-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 69rpx;
+  width: 680rpx;
+}
+.fixed-box-wrap
+  .fixed-box
+  .top-search-box
+  .search-content
+  .input-box
+  .input.data-v-e3ac91dc {
+  width: 590rpx;
+}
+.fixed-box-wrap
+  .fixed-box
+  .top-search-box
+  .search-content
+  .input-box
+  image.data-v-e3ac91dc {
+  height: 36rpx;
+  margin-left: 22rpx;
+  margin-right: 18rpx;
+  width: 36rpx;
+}
+.fixed-box-wrap
+  .fixed-box
+  .top-search-box
+  .search-content
+  .input-box
+  text.data-v-e3ac91dc {
+  color: rgba(0, 0, 0, 0.53);
+  font-size: 25rpx;
+}
+.member.data-v-e3ac91dc {
+  background: #fff;
+  border-radius: 21rpx 21rpx 0 0;
+  box-sizing: border-box;
+  margin-bottom: 29rpx;
+  min-height: 1100rpx;
+  position: relative;
+  z-index: 30;
+}
+.member .list.data-v-e3ac91dc {
+  padding: 0 14rpx;
+}
+.member .list .num.data-v-e3ac91dc {
+  color: #181818;
+  font-size: 25rpx;
+  line-height: 28rpx;
+  padding: 34rpx 0 0 22rpx;
+}
+.member .list .item.data-v-e3ac91dc {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  padding: 47rpx 0 25rpx 44rpx;
+}
+.member .list .item .item_flex.data-v-e3ac91dc {
+  display: -webkit-flex;
+  display: flex;
+}
+.member .list .item .item_flex .portrait.data-v-e3ac91dc {
+  border-radius: 50%;
+  height: 84rpx;
+  width: 84rpx;
+}
+.member .list .item .item_flex .portrait .photo-image-grey.data-v-e3ac91dc {
+  filter: grayscale(1);
+}
+.member .list .item .item_flex .portrait image.data-v-e3ac91dc {
+  border-radius: 50%;
+  height: 100% !important;
+  width: 100%;
+}
+.member .list .item .item_flex .forbidden-img.data-v-e3ac91dc {
+  margin-left: 55rpx;
+  margin-top: -32rpx;
+  position: absolute;
+}
+.member .list .item .item_flex .item_name.data-v-e3ac91dc {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  padding-left: 19rpx;
+}
+.member .list .item .item_flex .item_name .flag.data-v-e3ac91dc {
+  display: -webkit-flex;
+  display: flex;
+}
+.member .list .item .item_flex .item_name .name.data-v-e3ac91dc {
+  color: #181818;
+  font-size: 25rpx;
+  line-height: 28rpx;
+  padding-bottom: 12rpx;
+}
+.member .list .item .item_flex .item_name .remark.data-v-e3ac91dc {
+  height: 22rpx;
+  padding-left: 5rpx;
+  width: 22rpx;
+}
+.member .list .item .item_flex .item_name .tag.data-v-e3ac91dc {
+  height: 27rpx;
+  margin-right: 9rpx;
+  padding-left: 11rpx;
+  width: 29rpx;
+}
+.member .list .item .item_flex .item_name .item_time.data-v-e3ac91dc {
+  color: #989898;
+  font-size: 21rpx;
+  line-height: 28rpx;
+  padding-bottom: 12rpx;
+}
+.member .list .item .item_flex .item_name .item_time .time.data-v-e3ac91dc {
+  padding-right: 40rpx;
+}
+.member .list .item .item_flex .item_name .telephone.data-v-e3ac91dc {
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 21rpx;
+  line-height: 21rpx;
+  margin-top: 10rpx;
+}
+.member .list .item .card .multi-icon.data-v-e3ac91dc {
+  height: 29rpx;
+  padding-right: 59rpx;
+  width: 42rpx;
+}
+.member .list .border.data-v-e3ac91dc {
+  border-top: 1rpx solid #ddd;
+  margin: 0 41rpx 0 146rpx;
+  opacity: 0.5;
+}
+.member .list .much-warning.data-v-e3ac91dc {
+  color: #dc3c5c;
+  font-size: 22rpx;
+  padding: 15rpx 40rpx 50rpx 146rpx;
+}

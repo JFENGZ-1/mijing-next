@@ -1,0 +1,24 @@
+{
+  "verifiedAt": "2026-07-13T05:50+08:00",
+  "client": "cursor",
+  "authMode": "live",
+  "status": "BLOCKED",
+  "blocker": "DevTools MCP CONNECT_ERROR — wait DevTools MCP port timeout",
+  "unblock": [
+    "Start 微信开发者工具",
+    "设置 → 安全设置 → 服务端口 → 打开",
+    "wechatide auth -c cursor (approve MCP dialog)",
+    "wechatide -c cursor -t check_devtools_status --skill-version 0.2.5 (confirm openid)",
+    "node docs/generated/capture-live-login-sample.js"
+  ],
+  "staffLogin": null,
+  "memberLogin": null,
+  "results": {},
+  "loginFlow": "cleanAll → pages/login → tap .login-page .u-button → API → onboarding (member if needed) → target",
+  "scriptsReady": [
+    "devtools-live-login-lib.js",
+    "capture-live-login-sample.js",
+    "capture-overnight-batch-shots.js",
+    "capture-acceptance-shots-cache-clear.js"
+  ]
+}

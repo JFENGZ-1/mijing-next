@@ -1,0 +1,10 @@
+<view class="data-v-16513fcb">
+    <view class="container data-v-16513fcb">
+        <u-parse bind:__l="__l" class="content data-v-16513fcb" html="{{text}}" userSelect="{{true}}" vueId="6e0465b2-1" wx:if="{{text}}"></u-parse>
+        <view class="noData data-v-16513fcb" wx:else>
+            <image class="data-v-16513fcb" src="{{$root.m0}}"></image>
+            <text class="data-v-16513fcb">还没有数据哦</text>
+        </view>
+    </view>
+    <bottom-logo bind:__l="__l" class="data-v-16513fcb" vueId="6e0465b2-2"></bottom-logo>
+</view>

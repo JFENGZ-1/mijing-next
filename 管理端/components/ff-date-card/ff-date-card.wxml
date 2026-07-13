@@ -1,0 +1,51 @@
+<view class="{{['data-v-24058f06',activeClass,'card-box','data-card']}}" style="{{'background-image:'+'url('+(cardInfo.uploadURL?cardInfo.uploadURL+cardInfo.cardLogo:cardInfo.cardLogo)+')'+';'}}">
+    <view class="data-v-24058f06" wx:if="{{cardInfo.isUnionCard==1}}">
+        <view class="ribbonUnion data-v-24058f06" style="background:rgba(52, 159, 145, 0.88);">
+            <text class="data-v-24058f06">期限卡</text>
+        </view>
+        <view class="ribbonUniversal data-v-24058f06" style="background:#F7D29F;">
+            <text class="data-v-24058f06">多  店  通  用</text>
+        </view>
+    </view>
+    <view class="ribbonUnion data-v-24058f06" style="background:rgba(52, 159, 145, 0.88);" wx:else>
+        <text class="data-v-24058f06">期限卡</text>
+    </view>
+    <view class="card-conntent data-v-24058f06">
+        <view class="shop-info data-v-24058f06" wx:if="{{cardInfo.isUnionCard==1}}">
+            <image class="data-v-24058f06" src="{{cardInfo.unLogo}}"></image>
+            <text class="data-v-24058f06">{{cardInfo.unName}}</text>
+        </view>
+        <view class="shop-info data-v-24058f06" wx:else>
+            <image class="data-v-24058f06" src="{{siteTrademark}}"></image>
+            <text class="data-v-24058f06">{{siteName}}</text>
+        </view>
+        <view class="{{['card-name','data-v-24058f06',$root.g0>6?'card-name-size-max':'']}}">{{cardInfo.cardName+''}}</view>
+    </view>
+    <view class="bottom-info data-v-24058f06">
+        <view class="card-time-info data-v-24058f06">
+            <view class="card-time data-v-24058f06">{{timeText}}</view>
+            <view class="present-time data-v-24058f06" wx:if="{{cardInfo.limitCardValid.hasPresent}}">
+                <view class="data-v-24058f06">赠</view>
+                <view class="data-v-24058f06" wx:if="{{cardInfo.limitCardValid.pyear>0}}">
+                    <text class="present-time-num data-v-24058f06">{{cardInfo.limitCardValid.pyear}}</text>年</view>
+                <view class="data-v-24058f06" wx:if="{{cardInfo.limitCardValid.pmonth>0}}">
+                    <text class="present-time-num data-v-24058f06">{{cardInfo.limitCardValid.pmonth}}</text>个月</view>
+                <view class="data-v-24058f06" wx:if="{{cardInfo.limitCardValid.pday>0}}">
+                    <text class="present-time-num data-v-24058f06">{{cardInfo.limitCardValid.pday}}</text>天</view>
+            </view>
+        </view>
+        <view class="data-v-24058f06" style="display:flex;align-items:center;">
+            <view catchtap="__e" class="present-course data-v-24058f06" data-event-opts="{{[ [ 'tap',[ [ 'moreClick',['$event'] ] ] ] ]}}" wx:if="{{cardInfo.orginalAmount.isGroup&&cardInfo.orginalAmount}}">
+                <view class="item-wrap data-v-24058f06" style="display:flex;" wx:for="{{cardInfo.orginalAmount.groupList}}" wx:key="index">
+                    <view class="item data-v-24058f06" wx:if="{{index<3}}">
+                        <block wx:if="{{item.isPresent}}">赠</block>{{item.groupName+''}}</view>
+                </view>
+            </view>
+            <view class="course-more data-v-24058f06" wx:if="{{$root.g1}}">
+                <view class="scale-area data-v-24058f06"></view>
+                <image class="data-v-24058f06" src="{{$root.m0}}"></image>
+            </view>
+        </view>
+        <view class="period-box data-v-24058f06">{{'有效期'+periodOfValidity+''}}</view>
+    </view>
+</view>

@@ -1,0 +1,15 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "hint": "/pageReport/component/head-hint/head-hint",
+    "member-card": "/components/mumber-card/index",
+    "navigation": "/components/navigation/index",
+    "u-divider": "/uview-ui/components/u-divider/u-divider",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

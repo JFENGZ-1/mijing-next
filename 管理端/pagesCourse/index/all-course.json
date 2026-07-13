@@ -1,0 +1,15 @@
+{
+  "disableScroll": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "empty-data": "/pagesCourse/index/components/empty-data",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "no-more": "/pagesCourse/index/components/no-more",
+    "subject-card": "/pagesCourse/index/components/subject-card",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

@@ -1,0 +1,7 @@
+<view class="data-v-356c7ab2">
+    <view class="wrap data-v-356c7ab2">
+        <image class="data-v-356c7ab2" mode="scaleToFill" src="{{$root.m0}}"></image>
+        <u-line bind:__l="__l" class="data-v-356c7ab2" direction="col" length="35rpx" margin="0 18rpx" vueId="45a714f8-1"></u-line>
+        <view class="text data-v-356c7ab2">商家端</view>
+    </view>
+</view>

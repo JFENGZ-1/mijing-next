@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "dialog": "/components/dialog/index",
+    "member-card": "/components/mumber-card/index",
+    "card-all-project": "/components/card-all-project/index",
+    "bottom-logo": "/components/ff-bottom-logo/index"
+  }
+}

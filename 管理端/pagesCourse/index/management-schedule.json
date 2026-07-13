@@ -1,0 +1,15 @@
+{
+  "disableScroll": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "no-more": "/pagesCourse/index/components/no-more",
+    "nodata": "/components/nodata/nodata",
+    "select-courses": "/pagesCourse/index/components/select-courses",
+    "subject-card": "/pagesCourse/index/components/subject-card",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

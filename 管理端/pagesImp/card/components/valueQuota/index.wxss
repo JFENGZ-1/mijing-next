@@ -1,0 +1,52 @@
+.main-box .form-box .data-input.data-v-f06531aa {
+  background: #f5f5f5;
+  border-radius: 50rpx;
+  color: #7e7e7e;
+  font-size: 32rpx;
+  font-weight: 400;
+  height: 70rpx;
+  line-height: 70rpx;
+  margin-left: 9rpx;
+  padding-left: 30rpx;
+  padding-right: 8rpx;
+  width: 360rpx;
+}
+.main-box .form-box .place-holder.data-v-f06531aa {
+  color: #dadada;
+  font-weight: 400;
+}
+.main-box .form-box .list-box.data-v-f06531aa {
+  padding: 0 30rpx;
+}
+.main-box .form-box .list-box .show-box.data-v-f06531aa {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  padding: 35rpx 14rpx 0rpx;
+}
+.main-box .form-box .list-box .show-box .title.data-v-f06531aa {
+  color: #181818;
+}
+.main-box .form-box .list-box .show-box .sw-box.data-v-f06531aa {
+  margin-left: 32rpx;
+}
+.main-box .form-box .list-box .hidd-box.data-v-f06531aa {
+  align-items: center;
+  color: #7e7e7e;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 25rpx;
+  padding: 10rpx 39rpx 15rpx 114rpx;
+  width: 100%;
+}
+.main-box .form-box .list-box .hidd-box .com-input.data-v-f06531aa {
+  background: #f5f5f5;
+  border-radius: 35rpx;
+  color: #dadada;
+  font-size: 28rpx;
+  font-weight: 400;
+  height: 70rpx;
+  line-height: 28px;
+  margin: 0 10rpx;
+  text-align: center !important;
+}

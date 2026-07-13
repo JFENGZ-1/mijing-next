@@ -1,0 +1,15 @@
+{
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "fixed-btn": "/pageConfig/components/fixed-btn/index",
+    "hint": "/pageConfig/components/top-hint/index",
+    "navigation": "/components/navigation/index",
+    "nodata": "/components/nodata/nodata",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "u-mask": "/uview-ui/components/u-mask/u-mask",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

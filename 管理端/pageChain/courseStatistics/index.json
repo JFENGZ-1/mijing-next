@@ -1,0 +1,12 @@
+{
+  "disableScroll": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "calendar-month": "/pageChain/courseStatistics/compontents/calendar-month",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

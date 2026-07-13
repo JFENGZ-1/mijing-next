@@ -1,0 +1,170 @@
+<view class="course-container data-v-036f7d6a">
+    <view class="placeholder-view data-v-036f7d6a"></view>
+    <view class="main-content data-v-036f7d6a">
+        <view class="{{['body','data-v-036f7d6a',getPrivateShowClass]}}">
+            <view class="pt data-v-036f7d6a" wx:if="{{$root.g0}}">
+                <view class="pt-font data-v-036f7d6a">
+                    <text class="data-v-036f7d6a">约私教</text>
+                </view>
+                <view class="loading-wrap data-v-036f7d6a" wx:if="{{privateLoading}}">
+                    <loading-pulse bind:__l="__l" class="data-v-036f7d6a" vueId="46ba9d52-1"></loading-pulse>
+                </view>
+                <view class="scroll-view-wrap data-v-036f7d6a" wx:if="{{privateList&&!privateLoading}}">
+                    <scroll-view class="data-v-036f7d6a" scrollX="{{isPrivateShow}}" showScrollbar="false">
+                        <view class="pt-scroll data-v-036f7d6a">
+                            <view bindtap="__e" class="pt-scroll-item data-v-036f7d6a" data-event-opts="{{[ [ 'tap',[ [ 'personalTrainerDetails',['$0'],[ [ ['privateList','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="image-wrap data-v-036f7d6a">
+                                    <view class="tag data-v-036f7d6a" wx:if="{{item.$orig.tagText&&item.$orig.tagText!='不指定'}}">
+                                        <image class="tag-icon-left data-v-036f7d6a" src="{{item.m0}}"></image>
+                                        <view class="text data-v-036f7d6a">{{item.$orig.tagText}}</view>
+                                        <image class="tag-icon-right data-v-036f7d6a" src="{{item.m1}}"></image>
+                                    </view>
+                                    <image class="coach-photo data-v-036f7d6a" src="{{item.$orig.staffFace}}"></image>
+                                </view>
+                                <view class="pt-scroll-font data-v-036f7d6a">
+                                    <text class="data-v-036f7d6a">{{item.m2}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </scroll-view>
+                </view>
+                <u-line bind:__l="__l" class="u-line data-v-036f7d6a" color="#DDDDDD" length="694rpx" margin="28rpx" vueId="46ba9d52-2"></u-line>
+            </view>
+            <view class="group data-v-036f7d6a" wx:if="{{isTeamShow}}">
+                <view class="data-v-036f7d6a">
+                    <view class="group-top data-v-036f7d6a">
+                        <text class="group-top1 data-v-036f7d6a">课程表</text>
+                        <image bindtap="__e" class="group-top3 data-v-036f7d6a" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}" src="{{$root.m3}}"></image>
+                        <text bindtap="__e" class="group-top2 data-v-036f7d6a" data-event-opts="{{[ [ 'tap',[ [ 'goBackTodayClick',['$event'] ] ] ] ]}}" wx:if="{{isGoBackToday}}">返回今天</text>
+                    </view>
+                </view>
+                <view class="data-v-036f7d6a" style="padding:15rpx 0;">
+                    <week-calendar bind:__l="__l" bind:daysChange="__e" bind:selectedChange="__e" class="data-v-036f7d6a vue-ref" data-event-opts="{{[ [ '^selectedChange',[ ['datechange'] ] ],[ '^daysChange',[ ['daysChange'] ] ] ]}}" data-ref="calendarRef" vueId="46ba9d52-3"></week-calendar>
+                </view>
+            </view>
+        </view>
+        <view class="courseli data-v-036f7d6a" wx:if="{{isTeamShow}}">
+            <view class="data-v-036f7d6a" wx:if="{{teamList&&!clusterLoading}}">
+                <view class="data-v-036f7d6a" wx:if="{{$root.g1}}">
+                    <view class="{{['course-warp','data-v-036f7d6a',item.g2?'last':'']}}" wx:if="{{!(!isShowTimeoutTeamPlan&&(item.$orig.showBnt==6||item.$orig.showBnt==7)&&compareDateWithToday!='today')}}" wx:for="{{$root.l2}}" wx:key="index">
+                        <view bindtap="__e" class="course data-v-036f7d6a" data-event-opts="{{[ [ 'tap',[ [ 'leagueClassDetails',['$0'],[ [ ['teamList','',index] ] ] ] ] ] ]}}">
+                            <image class="corner_mark data-v-036f7d6a" src="{{item.m4}}" wx:if="{{item.$orig.showBnt==5}}"></image>
+                            <view class="make-white mask data-v-036f7d6a" wx:if="{{item.$orig.showBnt==5||item.$orig.showBnt==6||item.$orig.showBnt==7}}"></view>
+                            <view class="{{['course_item_wrap','data-v-036f7d6a',item.$orig.showBnt==5||item.$orig.showBnt==6||item.$orig.showBnt==7?'gray':'']}}" style="{{'background-image:'+'url('+item.$orig.courseBacklog+')'+';'}}">
+                                <view class="coursetext data-v-036f7d6a">
+                                    <view class="data-v-036f7d6a" style="display:flex;justify-content:space-between;">
+                                        <view class="left-module data-v-036f7d6a">
+                                            <view class="top-view data-v-036f7d6a">
+                                                <text class="courseName data-v-036f7d6a">{{item.m5}}</text>
+                                                <view class="tag-wrap data-v-036f7d6a" wx:if="{{item.$orig.tagData&&item.$orig.tagData!='不指定'}}">
+                                                    <image class="item1-img data-v-036f7d6a" src="{{item.m6}}"></image>
+                                                    <text class="item1-text data-v-036f7d6a">{{item.$orig.tagData}}</text>
+                                                </view>
+                                            </view>
+                                            <view class="center-view data-v-036f7d6a">
+                                                <view class="info-text data-v-036f7d6a">
+                                                    <text class="data-v-036f7d6a" wx:if="{{item.$orig.courseAddr}}">{{item.$orig.courseAddr}}</text>
+                                                    <u-line bind:__l="__l" class="data-v-036f7d6a" color="#ffffff" direction="col" length="24rpx" margin="0 14rpx" vueId="{{'46ba9d52-4-'+index}}" wx:if="{{item.$orig.courseAddr}}"></u-line>
+                                                    <text class="data-v-036f7d6a">难度</text>
+                                                </view>
+                                                <view class="star-level data-v-036f7d6a" wx:if="{{item.$orig.degreeNum>0}}">
+                                                    <image class="item4img data-v-036f7d6a" src="{{i.m7}}" wx:for="{{item.l1}}" wx:for-index="__i0__" wx:for-item="i" wx:key="$orig"></image>
+                                                </view>
+                                            </view>
+                                            <view class="bottom-view data-v-036f7d6a">
+                                                <view class="course-photo data-v-036f7d6a">
+                                                    <image class="data-v-036f7d6a" src="{{item.$orig.staffFace}}"></image>
+                                                </view>
+                                                <view class="member-info data-v-036f7d6a">
+                                                    <view class="member-info-wrap data-v-036f7d6a">
+                                                        <view class="name data-v-036f7d6a">{{item.$orig.staffName}}</view>
+                                                        <view class="photo-info data-v-036f7d6a">
+                                                            <view class="forespeak data-v-036f7d6a">
+                                                                <view class="photo-wrap data-v-036f7d6a" wx:if="{{item.g3}}">
+                                                                    <view class="image-wrap data-v-036f7d6a" wx:for="{{item.$orig.userlist}}" wx:for-index="j" wx:for-item="i" wx:key="j">
+                                                                        <image class="{{['data-v-036f7d6a',j==0?'first':'']}}" src="{{i.userFaceurl}}" wx:if="{{j<=6}}"></image>
+                                                                    </view>
+                                                                    <view class="more data-v-036f7d6a" wx:if="{{item.g4}}">
+                                                                        <u-icon bind:__l="__l" class="data-v-036f7d6a" color="#989898" name="more-dot-fill" size="20rpx" vueId="{{'46ba9d52-5-'+index}}"></u-icon>
+                                                                    </view>
+                                                                </view>
+                                                                <view class="forespeak-num data-v-036f7d6a" wx:if="{{item.g5}}">
+                                                                    <text class="already-preengage data-v-036f7d6a">{{item.$orig.manCount}}</text>/<text class="data-v-036f7d6a">{{item.$orig.teamOpenRule.maxMan}}</text>
+                                                                </view>
+                                                                <view class="min-num data-v-036f7d6a" wx:if="{{item.$orig.manCount<item.$orig.teamOpenRule.maxMan}}">{{'满'+item.$orig.teamOpenRule.minMan+'人开课'}}</view>
+                                                                <view class="full-icon data-v-036f7d6a" wx:else>满</view>
+                                                            </view>
+                                                            <view class="line-up data-v-036f7d6a" wx:if="{{item.g6}}">
+                                                                <view class="image-wrap data-v-036f7d6a" wx:for="{{item.$orig.lineuserlist}}" wx:for-index="j" wx:for-item="i" wx:key="j">
+                                                                    <image class="{{['data-v-036f7d6a',j==0?'first':'']}}" src="{{i.userFaceurl}}" wx:if="{{j<1}}"></image>
+                                                                </view>
+                                                                <view class="more data-v-036f7d6a" wx:if="{{item.g7}}">
+                                                                    <u-icon bind:__l="__l" class="data-v-036f7d6a" color="#989898" name="more-dot-fill" size="20rpx" vueId="{{'46ba9d52-6-'+index}}"></u-icon>
+                                                                </view>
+                                                            </view>
+                                                        </view>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                        <view class="right-module data-v-036f7d6a">
+                                            <view class="start-time data-v-036f7d6a">{{item.$orig.strtime}}</view>
+                                            <view class="end-time data-v-036f7d6a">{{item.$orig.strEndtime+'结束'}}</view>
+                                            <view class="btn-wrap data-v-036f7d6a">
+                                                <u-button bind:__l="__l" class="data-v-036f7d6a" customStyle="{{item.a0}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-7-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==1}}">已截止</u-button>
+                                                <u-button bind:__l="__l" catch:click="__e" class="data-v-036f7d6a" customStyle="{{item.a1}}" data-event-opts="{{[ [ '^click',[ [ 'leagueClassDetails',['$0',true,1],[ [ ['teamList','',index] ] ] ] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-8-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==2}}">约课</u-button>
+                                                <u-button bind:__l="__l" catch:click="__e" class="data-v-036f7d6a" customStyle="{{item.a2}}" data-event-opts="{{[ [ '^click',[ [ 'leagueClassDetails',['$0',true,2],[ [ ['teamList','',index] ] ] ] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-9-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==3}}">去排队</u-button>
+                                                <u-button bind:__l="__l" class="data-v-036f7d6a" customStyle="{{item.a3}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-10-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==4}}">已约满</u-button>
+                                                <u-button bind:__l="__l" class="data-v-036f7d6a" customStyle="{{item.a4}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-11-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==5}}">已停课</u-button>
+                                                <u-button bind:__l="__l" class="data-v-036f7d6a" customStyle="{{item.a5}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-12-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==6}}">已过期</u-button>
+                                                <u-button bind:__l="__l" class="data-v-036f7d6a" customStyle="{{item.a6}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-13-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==7}}">已过期</u-button>
+                                                <u-button bind:__l="__l" class="data-v-036f7d6a" customStyle="{{item.a7}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-14-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==8}}">上课中</u-button>
+                                                <u-button bind:__l="__l" class="data-v-036f7d6a" customStyle="{{item.a8}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-15-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==9}}">已预约</u-button>
+                                                <u-button bind:__l="__l" catch:click="__e" class="data-v-036f7d6a" customStyle="{{item.a9}}" data-event-opts="{{[ [ '^click',[ [ 'leagueClassDetails',['$0'],[ [ ['teamList','',index] ] ] ] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-16-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==10}}">排队中</u-button>
+                                                <u-button bind:__l="__l" class="data-v-036f7d6a" customStyle="{{item.a10}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-17-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==11}}">已下课</u-button>
+                                                <u-button bind:__l="__l" bind:click="__e" class="data-v-036f7d6a" customStyle="{{item.a11}}" data-event-opts="{{[ [ '^click',[ [ 'leagueClassDetails',['$0'],[ [ ['teamList','',index] ] ] ] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-18-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==12&&!isCountDown&&!end}}">未开放</u-button>
+                                                <u-button bind:__l="__l" bind:click="__e" class="data-v-036f7d6a" customStyle="{{item.a12}}" data-event-opts="{{[ [ '^click',[ [ 'leagueClassDetails',['$0'],[ [ ['teamList','',index] ] ] ] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-19-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==12&&isCountDown&&!end}}">{{''+timeOutObj.timeOpenSecondText+''}}</u-button>
+                                                <u-button bind:__l="__l" catch:click="__e" class="data-v-036f7d6a" customStyle="{{item.a13}}" data-event-opts="{{[ [ '^click',[ [ 'leagueClassDetails',['$0',true,1],[ [ ['teamList','',index] ] ] ] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'46ba9d52-20-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==12&&end}}">约课</u-button>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="noCourseData data-v-036f7d6a" wx:if="{{$root.g8}}">
+                    <image class="data-v-036f7d6a" src="{{$root.m8}}"></image>
+                    <text class="data-v-036f7d6a" wx:if="{{compareDateWithToday=='after_tomorrow'||compareDateWithToday=='today'}}">~ 今日无排课 ~</text>
+                    <text class="data-v-036f7d6a" wx:else>~ 已结束 ~</text>
+                </view>
+                <view class="noCourseData data-v-036f7d6a" wx:if="{{$root.g9}}">
+                    <image class="data-v-036f7d6a" src="{{$root.m9}}"></image>
+                    <text class="data-v-036f7d6a">~ 已结束 ~</text>
+                </view>
+            </view>
+            <view class="loading-wrap data-v-036f7d6a" style="height:500rpx;" wx:if="{{clusterLoading}}">
+                <loading-pulse bind:__l="__l" class="data-v-036f7d6a" vueId="46ba9d52-21"></loading-pulse>
+            </view>
+            <view class="stop-doing-wrap data-v-036f7d6a" wx:if="{{shopStatus==2}}">
+                <view class="image-wrap data-v-036f7d6a" style="{{'background:'+'url('+$root.m10+')'+';'+'background-size:'+'100% 100%'+';'}}">
+                    <image class="data-v-036f7d6a" mode="scaleToFill" src="{{$root.m11}}"></image>
+                    <view class="text-wrap data-v-036f7d6a">
+                        <view class="data-v-036f7d6a">{{'闭馆时间：'+stopDoingInfo.beginTime+' 至 '+stopDoingInfo.endTime}}</view>
+                        <view class="data-v-036f7d6a">{{stopDoingInfo.noticeText?stopDoingInfo.noticeText:''}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <bottom-logo bind:__l="__l" class="data-v-036f7d6a" vueId="46ba9d52-22"></bottom-logo>
+    </view>
+    <u-calendar bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-036f7d6a" data-event-opts="{{[ [ '^change',[ ['calendarChange'] ] ],[ '^input',[ [ '__set_model',[ '','showCalendar','$event',[] ] ] ] ] ]}}" maxDate="2050-12-31" mode="{{mode}}" value="{{showCalendar}}" vueId="46ba9d52-23"></u-calendar>
+    <dialog bind:__l="__l" bind:input="__e" class="data-v-036f7d6a" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','isShowLoginBT','$event',[] ] ] ] ] ]}}" height="{{320}}" title="提示" value="{{isShowLoginBT}}" vueId="46ba9d52-24" vueSlots="{{['content']}}">
+        <view class="data-v-036f7d6a" slot="content">
+            <view class="show-login-BT data-v-036f7d6a">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-036f7d6a" customStyle="{{saveBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['jumpLogin'] ] ] ]}}" hoverClass="none" shape="circle" type="primary" vueId="{{'46ba9d52-25'+','+'46ba9d52-24'}}" vueSlots="{{['default']}}">马上登录</u-button>
+                <view class="tips data-v-036f7d6a">登录后即可查看排课，以及自己的会员卡余额</view>
+            </view>
+        </view>
+    </dialog>
+</view>

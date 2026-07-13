@@ -1,0 +1,51 @@
+<view class="card-item data-v-9a11de52">
+    <view class="title data-v-9a11de52">
+        <view bindtap="__e" class="left-box data-v-9a11de52" data-event-opts="{{[ [ 'tap',[ ['activeAll'] ] ] ]}}">
+            <u-checkbox bind:__l="__l" class="data-v-9a11de52" name="私教" shape="circle" value="{{allShow}}" vueId="55ab30e7-1"></u-checkbox>
+            <text class="title-txt data-v-9a11de52">私教</text>
+        </view>
+        <view class="right-box time-card data-v-9a11de52">{{'每节扣费('+(cardInfo.cardType==1?'元':cardInfo.cardType==2?'次':'天')+')'}}</view>
+    </view>
+    <view class="list-box data-v-9a11de52">
+        <view class="render-box data-v-9a11de52" style="{{'margin-top:'+(index==0?'0rpx':'30rpx')+';'}}" wx:for="{{$root.l0}}" wx:key="index">
+            <view class="list-item data-v-9a11de52">
+                <view bindtap="__e" class="list-item-left data-v-9a11de52" data-event-opts="{{[ [ 'tap',[ [ 'coachSelect',[index] ] ] ] ]}}">
+                    <u-checkbox bind:__l="__l" class="data-v-9a11de52" disabled="{{item.$orig.disabled}}" shape="circle" value="{{item.$orig.active}}" vueId="{{'55ab30e7-2-'+index}}"></u-checkbox>
+                    <view class="img-box data-v-9a11de52">
+                        <image class="data-v-9a11de52" src="{{item.$orig.staffFace}}"></image>
+                    </view>
+                    <view class="{{['course-name','parent-course-name','data-v-9a11de52',item.$orig.active?'default':'name-gray']}}" style="font-weight:500;">{{''+item.m0+''}}</view>
+                    <view class="user-name data-v-9a11de52"></view>
+                </view>
+                <block wx:if="{{item.g0}}">
+                    <view bindtap="__e" class="{{['num-box','data-v-9a11de52',item.$orig.courseList[0].active?'default':'gray']}}" data-event-opts="{{[ [ 'tap',[ [ 'selectDeductWay',['$0',index,0],[ [ ['data','',index,'courseList.__$n0'] ] ] ] ] ] ]}}" wx:if="{{cardInfo.cardType==3}}">
+                        <text class="data-v-9a11de52" wx:if="{{item.$orig.courseList[0].deductAmount>0}}">{{'扣除'+item.$orig.courseList[0].deductAmount+'天'}}</text>
+                        <text class="data-v-9a11de52" wx:else>不扣</text>
+                        <u-icon bind:__l="__l" class="icon data-v-9a11de52" color="{{item.$orig.active?'#7E7E7E':'#DADADA'}}" name="arrow-down" size="15" vueId="{{'55ab30e7-3-'+index}}"></u-icon>
+                    </view>
+                    <view catchtap="__e" class="{{['input-box','data-v-9a11de52',!item.$orig.active?'input-box-disable':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'stop',['$event'] ] ] ] ]}}" wx:else>
+                        <input bindblur="__e" bindfocus="__e" bindinput="__e" class="com-input data-v-9a11de52" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','deductAmount','$event',[] ],[ [ ['data','',index,'courseList.__$n0'] ] ] ],[ 'personaltainerChange',[index,0,'$event','$0'],[ [ ['data','',index,'courseList.__$n0'] ] ] ] ] ],[ 'blur',[ [ 'personaltainerBlur',[index,0,'$event'] ] ] ],[ 'focus',[ [ 'personaltainerFocus',[index,0,'$event'] ] ] ] ]}}" disabled="{{!item.$orig.active}}" type="digit" value="{{item.$orig.courseList[0].deductAmount}}"></input>
+                    </view>
+                </block>
+            </view>
+            <view class="data-v-9a11de52" wx:if="{{!item.g1}}">
+                <view class="list-item data-v-9a11de52" style="padding-left:66rpx;margin-top:30rpx;" wx:for="{{item.$orig.courseList}}" wx:for-index="vi" wx:for-item="v" wx:key="vi">
+                    <view bindtap="__e" class="list-item-left data-v-9a11de52" data-event-opts="{{[ [ 'tap',[ [ 'courseSelect',[index,vi] ] ] ] ]}}">
+                        <u-checkbox bind:__l="__l" class="data-v-9a11de52" disabled="{{v.disabled}}" shape="circle" value="{{v.active}}" vueId="{{'55ab30e7-4-'+index+'-'+vi}}" vueSlots="{{['default']}}">
+                            <view class="course-name children-course-name data-v-9a11de52">{{''+v.courseName+''}}</view>
+                        </u-checkbox>
+                        <view class="user-name data-v-9a11de52"></view>
+                    </view>
+                    <view bindtap="__e" class="{{['num-box','data-v-9a11de52',v.active?'default':'gray']}}" data-event-opts="{{[ [ 'tap',[ [ 'selectDeductWay',['$0',index,vi],[ [ ['data','',index],['courseList','',vi] ] ] ] ] ] ]}}" wx:if="{{cardInfo.cardType==3}}">
+                        <text class="data-v-9a11de52" wx:if="{{v.deductAmount>0}}">{{'扣除'+v.deductAmount+'天'}}</text>
+                        <text class="data-v-9a11de52" wx:else>不扣</text>
+                        <u-icon bind:__l="__l" class="icon data-v-9a11de52" color="{{item.$orig.active?'#7E7E7E':'#DADADA'}}" name="arrow-down" size="15" vueId="{{'55ab30e7-5-'+index+'-'+vi}}"></u-icon>
+                    </view>
+                    <view catchtap="__e" class="{{['input-box','data-v-9a11de52',!v.active?'input-box-disable':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'stop',['$event'] ] ] ] ]}}" wx:else>
+                        <input bindblur="__e" bindfocus="__e" bindinput="__e" class="com-input data-v-9a11de52" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','deductAmount','$event',[] ],[ [ ['data','',index],['courseList','',vi] ] ] ],[ 'personaltainerChange',[index,vi,'$event','$0'],[ [ ['data','',index],['courseList','',vi] ] ] ] ] ],[ 'blur',[ [ 'personaltainerBlur',[index,vi,'$event'] ] ] ],[ 'focus',[ [ 'personaltainerFocus',[index,vi,'$event'] ] ] ] ]}}" disabled="{{!v.active}}" type="digit" value="{{v.deductAmount}}"></input>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

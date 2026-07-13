@@ -1,0 +1,56 @@
+<view class="data-v-be321e6c">
+    <ff-popup bind:__l="__l" bind:headleClose="__e" bind:input="__e" class="data-v-be321e6c" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="868" tips="提醒：点击加号即可变为减号" title="修改余额" value="{{show}}" vueId="a47a7a2c-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-be321e6c" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-be321e6c" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'a47a7a2c-2'+','+'a47a7a2c-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-be321e6c">
+            <view class="form-box data-v-be321e6c">
+                <view class="list data-v-be321e6c">
+                    <view class="data-v-be321e6c" wx:if="{{balanceCardlist.cardType==2&&balanceCardlist.amountInfo!=null&&balanceCardlist.amountInfo.isGroup}}">
+                        <view class="data-v-be321e6c" wx:for="{{$root.l0}}" wx:for-item="item1" wx:key="index">
+                            <view class="data-v-be321e6c" wx:if="{{!item1.$orig.isDel}}">
+                                <view class="combination_item data-v-be321e6c">
+                                    <view class="balance data-v-be321e6c">{{item1.$orig.groupName?item1.$orig.groupName:'余额'}}</view>
+                                    <view class="num data-v-be321e6c">{{(item1.$orig.timeCount?item1.$orig.timeCount:0)+(balanceCardlist.cardType=='1'?'元':balanceCardlist.cardType=='2'?'次':'天')}}</view>
+                                    <view bindtap="__e" class="add data-v-be321e6c" data-event-opts="{{[ [ 'tap',[ [ 'healdAdd',['$0',index],[ [ ['balanceCardlist.amountInfo.groupList','',index] ] ] ] ] ] ]}}">
+                                        <image class="data-v-be321e6c" src="{{item1.m0}}" wx:if="{{item1.$orig.isAdd}}"></image>
+                                        <image class="data-v-be321e6c" src="{{item1.m1}}" wx:else></image>
+                                    </view>
+                                    <u-input bind:__l="__l" bind:blur="__e" bind:input="__e" class="com-input data-v-be321e6c" clearable="{{false}}" data-event-opts="{{[ [ '^blur',[ [ 'valChange',['$event','$0'],[ [ ['balanceCardlist.amountInfo.groupList','',index] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','num','$event',[] ],[ [ ['balanceCardlist.amountInfo.groupList','',index] ] ] ] ] ] ]}}" inputAlign="center" placeholder=" " placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="digit" value="{{item1.$orig.num}}" vueId="{{'a47a7a2c-3-'+index+','+'a47a7a2c-1'}}"></u-input>
+                                    <view bindtap="__e" class="plus data-v-be321e6c" data-event-opts="{{[ [ 'tap',[ [ 'headleReduce',['$0'],[ [ ['balanceCardlist.amountInfo.groupList','',index] ] ] ] ] ] ]}}">-</view>
+                                    <view bindtap="__e" class="plus data-v-be321e6c" data-event-opts="{{[ [ 'tap',[ [ 'headlePlus',['$0'],[ [ ['balanceCardlist.amountInfo.groupList','',index] ] ] ] ] ] ]}}">+</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="data-v-be321e6c" wx:else>
+                        <view class="item data-v-be321e6c">
+                            <view class="balance data-v-be321e6c">{{'余额\n\t\t\t\t\t\t\t\t\t'+(balanceCardlist.balanceAmount>0?balanceCardlist.balanceAmount:0)+'\n\t\t\t\t\t\t\t\t\t'+(balanceCardlist.cardType=='1'?'元':balanceCardlist.cardType=='2'?'次':'天')+''}}</view>
+                            <view bindtap="__e" class="add data-v-be321e6c" data-event-opts="{{[ [ 'tap',[ [ 'healdAdds',['$event'] ] ] ] ]}}">
+                                <image class="data-v-be321e6c" src="{{$root.m2}}" wx:if="{{flag}}"></image>
+                                <image class="data-v-be321e6c" src="{{$root.m3}}" wx:else></image>
+                            </view>
+                            <u-input bind:__l="__l" bind:blur="__e" bind:input="__e" class="com-input data-v-be321e6c" clearable="{{false}}" data-event-opts="{{[ [ '^blur',[ ['valChanges'] ] ],[ '^input',[ [ '__set_model',[ '$0','num','$event',[] ],['balanceCardlist.amountInfo'] ] ] ] ]}}" inputAlign="left" placeholder="输入额度" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="digit" value="{{balanceCardlist.amountInfo.num}}" vueId="{{'a47a7a2c-4'+','+'a47a7a2c-1'}}"></u-input>
+                        </view>
+                    </view>
+                    <view bindtap="__e" class="checked data-v-be321e6c" data-event-opts="{{[ [ 'tap',[ [ 'headlemsg',['$event'] ] ] ] ]}}">
+                        <view class="{{['data-v-be321e6c',statusMsg?'checkboxs':'checkbox']}}">
+                            <image class="data-v-be321e6c" src="{{$root.m4}}"></image>
+                        </view>
+                        <view class="{{['data-v-be321e6c',statusMsg?'remarks':'remark']}}">通知该会员「余额变动」</view>
+                    </view>
+                    <view bindtap="__e" class="checked data-v-be321e6c" data-event-opts="{{[ [ 'tap',[ [ 'headleStatus',['$event'] ] ] ] ]}}">
+                        <view class="{{['data-v-be321e6c',status?'checkboxs':'checkbox']}}">
+                            <image class="data-v-be321e6c" src="{{$root.m5}}"></image>
+                        </view>
+                        <view class="{{['data-v-be321e6c',status?'remarks':'remark']}}">写备注</view>
+                    </view>
+                    <view class="conter data-v-be321e6c" hidden="{{!status}}">
+                        <editor-textarea bind:__l="__l" bind:customChange="__e" class="data-v-be321e6c vue-ref" data-event-opts="{{[ [ '^customChange',[ ['customChange'] ] ] ]}}" data-ref="editorTextarea" vueId="{{'a47a7a2c-5'+','+'a47a7a2c-1'}}"></editor-textarea>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-be321e6c" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+</view>

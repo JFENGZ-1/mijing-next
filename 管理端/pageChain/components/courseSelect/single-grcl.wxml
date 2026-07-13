@@ -1,0 +1,32 @@
+<view class="card-item data-v-5ff30310">
+    <view class="title data-v-5ff30310">
+        <view bindtap="__e" class="left-box data-v-5ff30310" data-event-opts="{{[ [ 'tap',[ [ 'activeAll',['$event'] ] ] ] ]}}">
+            <u-checkbox bind:__l="__l" class="data-v-5ff30310" disabled="{{!canOpen}}" label="团课" name="团课" shape="circle" value="{{allShow}}" vueId="9be39932-1"></u-checkbox>
+            <text class="title-txt data-v-5ff30310">团课</text>
+        </view>
+        <view class="right-box time-card data-v-5ff30310">{{'每节扣费('+(cardInfo.cardType==1?'元':cardInfo.cardType==2?'次':'天')+')'}}</view>
+    </view>
+    <view class="list-box data-v-5ff30310">
+        <view class="{{['list-item','data-v-5ff30310',cardInfo.cardType==3?'max-bottom':'',cardInfo.cardType!=3?'min-bottom':'']}}" wx:for="{{$root.l0}}" wx:key="index">
+            <view bindtap="__e" class="list-item-left data-v-5ff30310" data-event-opts="{{[ [ 'tap',[ [ 'activeCourse',[index,'$0'],[ [ ['data','',index] ] ] ] ] ] ]}}">
+                <u-checkbox bind:__l="__l" class="data-v-5ff30310" disabled="{{!canOpen}}" name="{{item.$orig.courseName}}" shape="circle" value="{{item.$orig.active}}" vueId="{{'9be39932-2-'+index}}"></u-checkbox>
+                <view class="{{['course-name','data-v-5ff30310',item.$orig.active?'default':'name-gray']}}">{{''+item.m0+''}}</view>
+                <block wx:if="{{item.$orig.tagData}}">
+                    <view class="tag-wrap data-v-5ff30310" wx:if="{{item.$orig.tagData}}">
+                        <view class="{{['tag-bg','data-v-5ff30310',item.$orig.active?'tag-active':'tag-no-active']}}"></view>
+                        <view class="{{['tag-content','data-v-5ff30310',item.$orig.active?'tag-content-active':'tag-content-no-active']}}">{{''+item.$orig.tagData+''}}</view>
+                    </view>
+                </block>
+                <view class="user-name data-v-5ff30310">{{'-'+item.m1+''}}</view>
+            </view>
+            <view bindtap="__e" class="{{['num-box','data-v-5ff30310',item.$orig.active?'default':'gray']}}" data-event-opts="{{[ [ 'tap',[ [ 'selectDeductWay',['$0',index],[ [ ['data','',index] ] ] ] ] ] ]}}" wx:if="{{cardInfo.cardType=='3'}}">
+                <text class="data-v-5ff30310" wx:if="{{item.$orig.deductAmount>0}}">{{'扣除'+item.$orig.deductAmount+'天'}}</text>
+                <text class="data-v-5ff30310" wx:else>不扣</text>
+                <u-icon bind:__l="__l" class="icon data-v-5ff30310" color="{{item.$orig.active?'#7E7E7E':'#DADADA'}}" name="arrow-down" size="15" vueId="{{'9be39932-3-'+index}}"></u-icon>
+            </view>
+            <view catchtap="__e" class="{{['input-box','data-v-5ff30310',!item.$orig.active?'input-box-disable':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}" wx:else>
+                <input bindblur="__e" bindfocus="__e" bindinput="__e" class="com-input data-v-5ff30310" data-event-opts="{{[ [ 'focus',[ [ 'fdeductionFocus',['$0',index,'$event'],[ [ ['data','',index] ] ] ] ] ],[ 'input',[ [ 'fdeductionChange',['$0',index,'$event'],[ [ ['data','',index] ] ] ] ] ],[ 'blur',[ [ 'fdeductionBlur',['$0',index,'$event'],[ [ ['data','',index] ] ] ] ] ] ]}}" disabled="{{!item.$orig.active||!canOpen}}" type="digit" value="{{item.$orig.deductAmount}}"></input>
+            </view>
+        </view>
+    </view>
+</view>

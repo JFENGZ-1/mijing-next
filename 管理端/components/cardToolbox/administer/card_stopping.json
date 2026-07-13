@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "confirm": "/components/confirm-modal/confirm-modal",
+    "editor-textarea": "/components/editor-textarea/index",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "u-picker": "/uview-ui/components/u-picker/u-picker",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

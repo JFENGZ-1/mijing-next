@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "usingComponents": {
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "privacy": "/components/privacy/privacy",
+    "bottom-logo": "/components/ff-bottom-logo/index"
+  }
+}

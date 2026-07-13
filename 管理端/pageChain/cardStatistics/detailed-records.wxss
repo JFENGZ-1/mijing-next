@@ -1,0 +1,1088 @@
+.card-box.data-v-65089cfe {
+  background-size: 100% 100%;
+  border-radius: 18rpx;
+  box-shadow: 0-2rpx 5rpx rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+.shop-info.data-v-65089cfe {
+  align-items: center;
+  color: #fff;
+  display: -webkit-flex;
+  display: flex;
+}
+.shop-info image.data-v-65089cfe {
+  align-items: center;
+  border-radius: 50%;
+  display: block;
+}
+.ribbon.data-v-65089cfe {
+  overflow: hidden;
+  position: absolute;
+  transform: rotate(45deg);
+  white-space: nowrap;
+}
+.ribbon text.data-v-65089cfe {
+  color: #fff;
+  display: block;
+  font-weight: 500;
+  padding: 0 36rpx;
+  text-align: center;
+}
+.ribbonUnion.data-v-65089cfe {
+  overflow: hidden;
+  position: absolute;
+  transform: rotate(45deg);
+  white-space: nowrap;
+}
+.ribbonUnion text.data-v-65089cfe {
+  color: #fff;
+  display: block;
+  font-weight: 500;
+  padding: 0 29rpx;
+  text-align: center;
+}
+.ribbonUniversal.data-v-65089cfe {
+  overflow: hidden;
+  position: absolute;
+  transform: rotate(45deg);
+  white-space: nowrap;
+}
+.ribbonUniversal text.data-v-65089cfe {
+  color: #9f6e29;
+  display: block;
+  font-weight: 500;
+  padding: 0 46rpx;
+  text-align: center;
+}
+.card-status.data-v-65089cfe {
+  bottom: 20rpx;
+  position: absolute;
+  right: 5rpx;
+  z-index: 10;
+}
+.card-status image.data-v-65089cfe {
+  height: 100%;
+  width: 100%;
+}
+.card-name.data-v-65089cfe {
+  align-items: center;
+  color: #fff;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  overflow: hidden;
+  text-align: center;
+}
+.bottom-info.data-v-65089cfe {
+  color: #fff;
+  position: absolute;
+  z-index: 20;
+}
+.card-time-info.data-v-65089cfe {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.present-time.data-v-65089cfe {
+  background: hsla(0, 0%, 9%, 0.38);
+}
+.present-course.data-v-65089cfe,
+.present-time.data-v-65089cfe {
+  display: -webkit-flex;
+  display: flex;
+}
+.present-course .item.data-v-65089cfe {
+  background: hsla(0, 0%, 9%, 0.38);
+}
+.project-box .line-last.data-v-65089cfe:first-child {
+  display: none;
+}
+.project-box .project-item-wrap.data-v-65089cfe {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.project-box .project-item-wrap .project-item.data-v-65089cfe {
+  border-radius: 14rpx;
+}
+.project-box .project-item-wrap .presenter-course.data-v-65089cfe {
+  background: hsla(0, 0%, 9%, 0.38);
+}
+.money-box.data-v-65089cfe {
+  display: -webkit-flex;
+  display: flex;
+}
+.money-box .discounts.data-v-65089cfe,
+.money-box .extra.data-v-65089cfe {
+  background: hsla(0, 0%, 9%, 0.38);
+}
+.course-more.data-v-65089cfe,
+.project-more.data-v-65089cfe {
+  align-items: center;
+  background: hsla(0, 0%, 9%, 0.38);
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.course-more .scale-area.data-v-65089cfe,
+.project-more .scale-area.data-v-65089cfe {
+  position: absolute;
+  z-index: 25;
+}
+.course-more image.data-v-65089cfe,
+.project-more image.data-v-65089cfe {
+  display: block;
+  transform: rotate(180deg);
+}
+.large-size.data-v-65089cfe {
+  height: 370rpx;
+  width: 620rpx;
+}
+.large-size .shop-info.data-v-65089cfe {
+  margin-left: 35rpx;
+  margin-top: 30rpx;
+}
+.large-size .shop-info image.data-v-65089cfe {
+  height: 70rpx;
+  width: 70rpx;
+}
+.large-size .shop-info text.data-v-65089cfe {
+  font-size: 32rpx;
+  margin-left: 10rpx;
+}
+.large-size .ribbon.data-v-65089cfe {
+  right: -30rpx;
+  top: 18rpx;
+}
+.large-size .ribbon text.data-v-65089cfe {
+  font-size: 20rpx;
+  height: 35rpx;
+  line-height: 35rpx;
+}
+.large-size .ribbonUnion.data-v-65089cfe {
+  right: -36rpx;
+  top: -3rpx;
+}
+.large-size .ribbonUnion text.data-v-65089cfe {
+  font-size: 20rpx;
+  height: 52rpx;
+  line-height: 65rpx;
+  padding-top: 2rpx;
+}
+.large-size .ribbonUniversal.data-v-65089cfe {
+  right: -42rpx;
+  top: 34rpx;
+}
+.large-size .ribbonUniversal text.data-v-65089cfe {
+  font-size: 18rpx;
+  height: 35rpx;
+  line-height: 35rpx;
+}
+.large-size .card-status.data-v-65089cfe {
+  height: 135rpx;
+  width: 135rpx;
+}
+.large-size .card-name.data-v-65089cfe {
+  font-size: 80rpx;
+  height: 135rpx;
+  width: 530rpx;
+}
+.large-size .bottom-info.data-v-65089cfe {
+  bottom: 25rpx;
+  left: 35rpx;
+}
+.large-size .card-name-size-max.data-v-65089cfe {
+  font-size: 65rpx;
+  line-height: 65rpx;
+}
+.large-size .card-time-info.data-v-65089cfe {
+  font-size: 35rpx;
+  line-height: 36rpx;
+}
+.large-size .present-time.data-v-65089cfe {
+  border-radius: 18rpx;
+  font-size: 22rpx;
+  height: 36rpx;
+  margin-left: 17rpx;
+  padding: 0 16rpx;
+}
+.large-size .present-time-num.data-v-65089cfe {
+  font-size: 22rpx;
+}
+.large-size .present-course.data-v-65089cfe {
+  margin-left: -5rpx;
+  margin-top: 6rpx;
+}
+.large-size .present-course .item.data-v-65089cfe {
+  border-radius: 18rpx;
+  font-size: 22rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  margin-right: 10rpx;
+  padding: 0 17rpx;
+}
+.large-size .period-box.data-v-65089cfe {
+  font-size: 24rpx;
+  line-height: 28rpx;
+  margin-top: 4rpx;
+}
+.large-size .balance.data-v-65089cfe,
+.large-size .total-times-wrap.data-v-65089cfe {
+  font-size: 35rpx;
+  line-height: 31rpx;
+}
+.large-size .project-box .project-more.data-v-65089cfe {
+  border-radius: 12rpx;
+  height: 70rpx;
+  margin-left: 8rpx;
+  width: 24rpx;
+}
+.large-size .project-box .project-more .scale-area.data-v-65089cfe {
+  height: 100rpx;
+  right: -15rpx;
+  top: -15rpx;
+  width: 50rpx;
+}
+.large-size .project-box .project-more image.data-v-65089cfe {
+  height: 28rpx;
+  width: 12rpx;
+}
+.large-size .project-box .project-item-wrap.data-v-65089cfe {
+  margin-left: -9rpx;
+}
+.large-size .project-box .project-item-wrap .presenter-course.data-v-65089cfe {
+  margin-left: 8rpx;
+}
+.large-size .project-box .project-item-wrap .project-item.data-v-65089cfe {
+  padding: 8rpx 10rpx;
+}
+.large-size .project-box .project-item-wrap .project-item .num.data-v-65089cfe {
+  font-size: 35rpx;
+  line-height: 35rpx;
+  margin-bottom: 6rpx;
+}
+.large-size
+  .project-box
+  .project-item-wrap
+  .project-item
+  .name.data-v-65089cfe {
+  font-size: 24rpx;
+  line-height: 24rpx;
+}
+.large-size .course-more.data-v-65089cfe {
+  border-radius: 12rpx;
+  height: 36rpx;
+  margin-left: 8rpx;
+  margin-top: 6rpx;
+  width: 24rpx;
+}
+.large-size .course-more .scale-area.data-v-65089cfe {
+  height: 80rpx;
+  right: -15rpx;
+  top: -15rpx;
+  width: 50rpx;
+}
+.large-size .course-more image.data-v-65089cfe {
+  height: 18rpx;
+  margin-left: 5rpx;
+  width: 12rpx;
+}
+.large-size .money-box .money.data-v-65089cfe {
+  font-size: 28rpx;
+  line-height: 46rpx;
+}
+.large-size .money-box .money text.data-v-65089cfe {
+  font-size: 42rpx;
+  margin-left: 6rpx;
+}
+.large-size .money-box .discounts.data-v-65089cfe,
+.large-size .money-box .extra.data-v-65089cfe {
+  border-radius: 18rpx;
+  font-size: 25rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  margin-left: 10rpx;
+  margin-top: 4rpx;
+  padding: 0 15rpx;
+}
+.large-size .money-box .discounts text.data-v-65089cfe,
+.large-size .money-box .extra text.data-v-65089cfe {
+  font-size: 30rpx;
+}
+.medium-sized.data-v-65089cfe {
+  height: 240rpx;
+  width: 403rpx;
+}
+.medium-sized .shop-info.data-v-65089cfe {
+  margin-left: 22rpx;
+  margin-top: 19rpx;
+}
+.medium-sized .shop-info image.data-v-65089cfe {
+  height: 45rpx;
+  width: 45rpx;
+}
+.medium-sized .shop-info text.data-v-65089cfe {
+  font-size: 21rpx;
+  margin-left: 7rpx;
+}
+.medium-sized .ribbon.data-v-65089cfe {
+  right: -32rpx;
+  top: 15rpx;
+}
+.medium-sized .ribbon text.data-v-65089cfe {
+  font-size: 15rpx;
+  height: 25rpx;
+  line-height: 25rpx;
+}
+.medium-sized .ribbonUnion.data-v-65089cfe {
+  right: -32rpx;
+}
+.medium-sized .ribbonUnion text.data-v-65089cfe {
+  font-size: 15rpx;
+  height: 41rpx;
+  line-height: 43rpx;
+  padding-top: 4rpx;
+}
+.medium-sized .ribbonUniversal.data-v-65089cfe {
+  right: -38rpx;
+  top: 28rpx;
+}
+.medium-sized .ribbonUniversal text.data-v-65089cfe {
+  font-size: 13rpx;
+  height: 25rpx;
+  line-height: 25rpx;
+}
+.medium-sized .card-status.data-v-65089cfe {
+  height: 100rpx;
+  width: 100rpx;
+}
+.medium-sized .card-name.data-v-65089cfe {
+  font-size: 54rpx;
+  height: 100rpx;
+  width: 325rpx;
+}
+.medium-sized .bottom-info.data-v-65089cfe {
+  bottom: 16rpx;
+  left: 19rpx;
+}
+.medium-sized .card-name-size-max.data-v-65089cfe {
+  font-size: 40rpx;
+  line-height: 40rpx;
+}
+.medium-sized .card-time-info.data-v-65089cfe {
+  font-size: 26rpx;
+  line-height: 26rpx;
+}
+.medium-sized .present-time.data-v-65089cfe {
+  border-radius: 18rpx;
+  font-size: 16rpx;
+  height: 22rpx;
+  line-height: 23rpx;
+  margin-left: 17rpx;
+  padding: 0 9rpx;
+}
+.medium-sized .present-time-num.data-v-65089cfe {
+  font-size: 16rpx;
+}
+.medium-sized .present-course.data-v-65089cfe {
+  margin-left: -3rpx;
+  margin-top: 6rpx;
+}
+.medium-sized .present-course .item.data-v-65089cfe {
+  border-radius: 18rpx;
+  font-size: 16rpx;
+  height: 22rpx;
+  line-height: 23rpx;
+  margin-right: 7rpx;
+  padding: 0 9rpx;
+}
+.medium-sized .period-box.data-v-65089cfe {
+  font-size: 15rpx;
+  line-height: 16rpx;
+  margin-top: 7rpx;
+}
+.medium-sized .balance.data-v-65089cfe,
+.medium-sized .total-times-wrap.data-v-65089cfe {
+  font-size: 26rpx;
+  line-height: 26rpx;
+}
+.medium-sized .project-box .project-more.data-v-65089cfe {
+  border-radius: 12rpx;
+  height: 45rpx;
+  margin-left: 9rpx;
+  width: 17rpx;
+}
+.medium-sized .project-box .project-more .scale-area.data-v-65089cfe {
+  height: 64rpx;
+  right: -11rpx;
+  top: -10rpx;
+  width: 45rpx;
+}
+.medium-sized .project-box .project-more image.data-v-65089cfe {
+  height: 15rpx;
+  width: 6rpx;
+}
+.medium-sized .project-box .project-item-wrap.data-v-65089cfe {
+  margin-left: -4rpx;
+}
+.medium-sized
+  .project-box
+  .project-item-wrap
+  .presenter-course.data-v-65089cfe {
+  margin-left: 5rpx;
+}
+.medium-sized .project-box .project-item-wrap .project-item.data-v-65089cfe {
+  border-radius: 10rpx;
+  padding: 5rpx 8rpx;
+}
+.medium-sized
+  .project-box
+  .project-item-wrap
+  .project-item
+  .num.data-v-65089cfe {
+  font-size: 23rpx;
+  line-height: 23rpx;
+  margin-bottom: 3rpx;
+}
+.medium-sized
+  .project-box
+  .project-item-wrap
+  .project-item
+  .name.data-v-65089cfe {
+  font-size: 15rpx;
+  line-height: 18rpx;
+}
+.medium-sized .uicon-arrow-right.data-v-65089cfe {
+  font-size: 15rpx !important;
+}
+.medium-sized .course-more.data-v-65089cfe {
+  border-radius: 12rpx;
+  height: 22rpx;
+  margin-left: 3rpx;
+  margin-top: 6rpx;
+  width: 15rpx;
+}
+.medium-sized .course-more .scale-area.data-v-65089cfe {
+  height: 65rpx;
+  right: -15rpx;
+  top: -23rpx;
+  width: 50rpx;
+}
+.medium-sized .course-more image.data-v-65089cfe {
+  height: 12rpx;
+  margin-left: 3rpx;
+  width: 7rpx;
+}
+.medium-sized .money-box .money.data-v-65089cfe {
+  font-size: 18rpx;
+  line-height: 30rpx;
+}
+.medium-sized .money-box .money text.data-v-65089cfe {
+  font-size: 30rpx;
+  margin-left: 6rpx;
+}
+.medium-sized .money-box .discounts.data-v-65089cfe,
+.medium-sized .money-box .extra.data-v-65089cfe {
+  border-radius: 18rpx;
+  font-size: 16rpx;
+  height: 22rpx;
+  line-height: 21rpx;
+  margin-left: 5rpx;
+  margin-top: 2rpx;
+  padding: 0 9rpx;
+}
+.medium-sized .money-box .discounts text.data-v-65089cfe,
+.medium-sized .money-box .extra text.data-v-65089cfe {
+  font-size: 19rpx;
+}
+.minimum-sized.data-v-65089cfe {
+  height: 178rpx;
+  width: 299rpx;
+}
+.minimum-sized.data-v-65089cfe .shop-info {
+  margin-left: 17rpx;
+  margin-top: 14rpx;
+}
+.minimum-sized.data-v-65089cfe .shop-info image {
+  height: 35rpx;
+  width: 35rpx;
+}
+.minimum-sized.data-v-65089cfe .shop-info text {
+  font-size: 18rpx;
+  margin-left: 5rpx;
+}
+.minimum-sized.data-v-65089cfe .ribbon {
+  right: -32rpx;
+  top: 15rpx;
+}
+.minimum-sized.data-v-65089cfe .ribbon text {
+  font-size: 13rpx;
+  height: 20rpx;
+  line-height: 20rpx;
+}
+.minimum-sized.data-v-65089cfe .ribbonUnion {
+  right: -31rpx;
+}
+.minimum-sized.data-v-65089cfe .ribbonUnion text {
+  font-size: 13rpx;
+  height: 34rpx;
+  line-height: 36rpx;
+  padding-top: 2rpx;
+}
+.minimum-sized.data-v-65089cfe .ribbonUniversal {
+  right: -43rpx;
+  top: 23rpx;
+}
+.minimum-sized.data-v-65089cfe .ribbonUniversal text {
+  font-size: 13rpx;
+  height: 25rpx;
+  line-height: 25rpx;
+}
+.minimum-sized .card-status.data-v-65089cfe {
+  height: 70rpx;
+  width: 70rpx;
+}
+.minimum-sized.data-v-65089cfe .card-name {
+  font-size: 38rpx;
+  height: 65rpx;
+  width: 236rpx;
+}
+.minimum-sized.data-v-65089cfe .bottom-info {
+  bottom: 12rpx;
+  left: 15rpx;
+}
+.minimum-sized.data-v-65089cfe .card-name-size-max {
+  font-size: 28rpx;
+  line-height: 30rpx;
+}
+.minimum-sized.data-v-65089cfe .card-time-info {
+  font-size: 20rpx;
+  line-height: 20rpx;
+}
+.minimum-sized.data-v-65089cfe .present-time {
+  border-radius: 18rpx;
+  font-size: 12rpx;
+  height: 16rpx;
+  line-height: 18rpx;
+  margin-left: 7rpx;
+  padding: 0 6rpx;
+}
+.minimum-sized.data-v-65089cfe .present-time-num {
+  font-size: 12rpx;
+}
+.minimum-sized.data-v-65089cfe .present-course {
+  margin-bottom: 2rpx;
+  margin-left: -3rpx;
+  margin-top: 3rpx;
+}
+.minimum-sized.data-v-65089cfe .present-course .item {
+  border-radius: 18rpx;
+  font-size: 12rpx;
+  height: 16rpx;
+  line-height: 16rpx;
+  margin-right: 7rpx;
+  padding: 0 6rpx;
+}
+.minimum-sized.data-v-65089cfe .period-box {
+  font-size: 12rpx;
+  line-height: 13rpx;
+  margin-top: 3rpx;
+}
+.minimum-sized .balance.data-v-65089cfe,
+.minimum-sized.data-v-65089cfe .total-times-wrap {
+  font-size: 20rpx;
+  line-height: 20rpx;
+}
+.minimum-sized.data-v-65089cfe .project-box .project-more {
+  border-radius: 12rpx;
+  height: 40rpx;
+  margin-left: 4rpx;
+  width: 14rpx;
+}
+.minimum-sized.data-v-65089cfe .project-box .project-more .scale-area {
+  height: 53rpx;
+  right: -10rpx;
+  top: -6rpx;
+  width: 34rpx;
+}
+.minimum-sized.data-v-65089cfe .project-box .project-more image {
+  height: 15rpx;
+  width: 4rpx;
+}
+.minimum-sized.data-v-65089cfe .project-box .project-item-wrap {
+  margin-left: -4rpx;
+}
+.minimum-sized.data-v-65089cfe
+  .project-box
+  .project-item-wrap
+  .presenter-course {
+  margin-left: 3rpx;
+}
+.minimum-sized.data-v-65089cfe .project-box .project-item-wrap .project-item {
+  border-radius: 10rpx;
+  padding: 4rpx 7rpx;
+}
+.minimum-sized.data-v-65089cfe
+  .project-box
+  .project-item-wrap
+  .project-item
+  .num {
+  font-size: 16rpx;
+  line-height: 19rpx;
+  margin-bottom: 3rpx;
+}
+.minimum-sized.data-v-65089cfe
+  .project-box
+  .project-item-wrap
+  .project-item
+  .name {
+  font-size: 12rpx;
+  line-height: 14rpx;
+}
+.minimum-sized.data-v-65089cfe .u-line {
+  height: 28rpx !important;
+  margin: 0rpx 3rpx !important;
+}
+.minimum-sized.data-v-65089cfe .course-more {
+  border-radius: 12rpx;
+  height: 18rpx;
+  margin-left: 6rpx;
+  margin-top: 6rpx;
+  width: 12rpx;
+}
+.minimum-sized.data-v-65089cfe .course-more .scale-area {
+  height: 65rpx;
+  right: -15rpx;
+  top: -23rpx;
+  width: 50rpx;
+}
+.minimum-sized.data-v-65089cfe .course-more image {
+  height: 8rpx;
+  margin-left: 3rpx;
+  width: 5rpx;
+}
+.minimum-sized.data-v-65089cfe .money-box .money {
+  font-size: 13rpx;
+  line-height: 22rpx;
+}
+.minimum-sized.data-v-65089cfe .money-box .money text {
+  font-size: 22rpx;
+  margin-left: 6rpx;
+}
+.minimum-sized.data-v-65089cfe .money-box .discounts,
+.minimum-sized.data-v-65089cfe .money-box .extra {
+  border-radius: 18rpx;
+  font-size: 12rpx;
+  height: 16rpx;
+  line-height: 16rpx;
+  margin-left: 5rpx;
+  margin-top: 3rpx;
+  padding: 0 5rpx;
+}
+.minimum-sized.data-v-65089cfe .money-box .discounts text,
+.minimum-sized.data-v-65089cfe .money-box .extra text {
+  font-size: 15rpx;
+}
+.appoint-wrap.data-v-65089cfe:last-of-type .u-line,
+.sale-wrap-wrap.data-v-65089cfe:last-of-type .u-line {
+  visibility: hidden;
+}
+.report-container.data-v-65089cfe {
+  background: #fff;
+  border-radius: 21rpx 21rpx 0 0;
+  overflow: hidden;
+}
+.report-container .time.data-v-65089cfe {
+  padding-top: 34rpx;
+  text-align: center;
+}
+.report-container .time text.data-v-65089cfe {
+  color: #181818;
+  font-size: 28rpx;
+}
+.report-container .card-info.data-v-65089cfe {
+  background: #fff;
+  padding: 38rpx 0rpx 31rpx;
+  z-index: 99;
+}
+.report-container .card-info .card_wrap.data-v-65089cfe {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+}
+.report-container .card-info .card_wrap .gray.data-v-65089cfe {
+  filter: grayscale(100%);
+}
+.report-container .card-info .card_wrap .img-wrap.data-v-65089cfe {
+  bottom: -5rpx;
+  color: #fff;
+  font-size: 18rpx;
+  height: 32rpx;
+  position: absolute;
+  right: 20rpx;
+  width: 72rpx;
+  z-index: 110;
+}
+.report-container .card-info .card_wrap .img-wrap view.data-v-65089cfe {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  line-height: 30rpx;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+.report-container .card-info .card_wrap .img-wrap image.data-v-65089cfe {
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.report-container .card-info .card_wrap .img-wrap text.data-v-65089cfe {
+  position: absolute;
+}
+.report-container .card-info .total-course-text.data-v-65089cfe {
+  font-size: 25rpx;
+  line-height: 25rpx;
+  margin-top: 35rpx;
+  text-align: center;
+}
+.report-container .top_data.data-v-65089cfe {
+  box-sizing: border-box;
+  padding: 0 64rpx 57rpx;
+  position: relative;
+}
+.report-container .top_data .income.data-v-65089cfe {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  padding-right: 13rpx;
+  padding-top: 65rpx;
+}
+.report-container .top_data .income .income_num.data-v-65089cfe {
+  color: #ed920f;
+  font-size: 56rpx;
+  font-weight: 500;
+}
+.report-container .top_data .income .income_title.data-v-65089cfe {
+  color: #989898;
+  font-size: 22rpx;
+  margin-top: 16rpx;
+}
+.report-container .top_data .more-data.data-v-65089cfe {
+  justify-content: space-between;
+  margin-top: 71rpx;
+}
+.report-container .top_data .more-data .item.data-v-65089cfe,
+.report-container .top_data .more-data.data-v-65089cfe {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.report-container .top_data .more-data .item .line.data-v-65089cfe {
+  background: #a7a7a7;
+  height: 62rpx;
+  width: 1rpx;
+}
+.report-container .top_data .more-data .item .info.data-v-65089cfe {
+  text-align: center;
+}
+.report-container .top_data .more-data .item .info text.data-v-65089cfe {
+  color: #ed920f;
+  font-size: 33rpx;
+  font-weight: 500;
+  padding-bottom: 4rpx;
+}
+.report-container .top_data .more-data .item .info view.data-v-65089cfe {
+  color: #989898;
+  font-size: 22rpx;
+  margin-top: 18rpx;
+}
+.report-container .course-setting-wrap.data-v-65089cfe {
+  background: #fff;
+  margin-top: 24rpx;
+  padding-bottom: 60rpx;
+}
+.report-container .course-setting-wrap .course-setting-item.data-v-65089cfe {
+  margin-left: 17rpx;
+  margin-right: 17rpx;
+  margin-top: 25rpx;
+  padding-bottom: 40rpx;
+}
+.report-container
+  .course-setting-wrap
+  .course-setting-item
+  .month-data.data-v-65089cfe {
+  color: #181818;
+  font-size: 35rpx;
+  padding: 40rpx 0 10rpx;
+}
+.report-container .sale-item.data-v-65089cfe {
+  box-sizing: border-box;
+  display: -webkit-flex;
+  display: flex;
+  padding: 30rpx 31rpx 0rpx 50rpx;
+}
+.report-container .sale-item .avator.data-v-65089cfe {
+  border-radius: 50%;
+  flex-shrink: 0;
+  height: 85rpx;
+  margin-bottom: 28rpx;
+  width: 85rpx;
+}
+.report-container .sale-item .detail-info.data-v-65089cfe {
+  flex: 1;
+  position: relative;
+}
+.report-container .sale-item .detail-info .card_u_line.data-v-65089cfe {
+  bottom: 0;
+  left: 15rpx;
+  position: absolute;
+  width: 102%;
+}
+.report-container .sale-item .detail-info .detail-info-wrap.data-v-65089cfe {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5rpx;
+}
+.report-container .sale-item .detail-info .remark.data-v-65089cfe {
+  display: block;
+  font-size: 18rpx;
+  line-height: 26rpx;
+  padding-bottom: 10rpx;
+  padding-left: 15rpx;
+}
+.report-container .sale-item .detail-info .remark .remarkfont.data-v-65089cfe {
+  color: #989898;
+}
+.report-container
+  .sale-item
+  .detail-info
+  .remark
+  .remarkcontent.data-v-65089cfe {
+  color: #c96a2f;
+}
+.report-container .sale-item .detail-info .venue-name.data-v-65089cfe {
+  display: block;
+  padding-bottom: 5rpx;
+  padding-left: 15rpx;
+}
+.report-container
+  .sale-item
+  .detail-info
+  .venue-name
+  .remarkfont.data-v-65089cfe {
+  color: #181818;
+  font-size: 24rpx;
+}
+.report-container .sale-item .detail-info .l-info.data-v-65089cfe {
+  margin-left: 15rpx;
+}
+.report-container .sale-item .detail-info .l-info .nick-name.data-v-65089cfe {
+  color: #181818;
+  font-size: 28rpx;
+  margin-bottom: 7rpx;
+}
+.report-container
+  .sale-item
+  .detail-info
+  .l-info
+  .time-and-type.data-v-65089cfe {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.report-container
+  .sale-item
+  .detail-info
+  .l-info
+  .time-and-type
+  .pay-time.data-v-65089cfe {
+  color: #989898;
+  font-size: 24rpx;
+  margin-right: 15rpx;
+}
+.report-container
+  .sale-item
+  .detail-info
+  .l-info
+  .time-and-type
+  .type-box.data-v-65089cfe {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.report-container
+  .sale-item
+  .detail-info
+  .l-info
+  .time-and-type
+  .type-box
+  .new-member-icon.data-v-65089cfe {
+  height: 26rpx;
+  width: 40rpx;
+}
+.report-container
+  .sale-item
+  .detail-info
+  .l-info
+  .time-and-type
+  .type-box
+  .renew-icon.data-v-65089cfe {
+  height: 26rpx;
+  width: 22rpx;
+}
+.report-container
+  .sale-item
+  .detail-info
+  .l-info
+  .time-and-type
+  .type-box
+  .type-name.data-v-65089cfe {
+  align-items: center;
+  border-radius: 0 19rpx 19rpx 0;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 18rpx;
+  height: 26rpx;
+  justify-content: center;
+  padding: 0rpx 15rpx 0rpx 0;
+}
+.report-container
+  .sale-item
+  .detail-info
+  .l-info
+  .time-and-type
+  .type-box
+  .new-member-label.data-v-65089cfe {
+  background: #ecf8f3;
+  color: #5fc48d;
+}
+.report-container
+  .sale-item
+  .detail-info
+  .l-info
+  .time-and-type
+  .type-box
+  .renew-label.data-v-65089cfe {
+  background: #ffeae1;
+  color: #ee8231;
+}
+.report-container .sale-item .detail-info .card-name.data-v-65089cfe {
+  align-self: flex-start;
+  color: #989898;
+  font-size: 24rpx;
+}
+.report-container .sale-item .detail-info .r-info.data-v-65089cfe {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+.report-container .sale-item .detail-info .r-info .money.data-v-65089cfe {
+  color: #181818;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+.report-container .sale-item .detail-info .r-info .type.data-v-65089cfe {
+  color: #989898;
+  font-size: 24rpx;
+}
+.report-container .sale-item .handle_module.data-v-65089cfe {
+  position: relative;
+}
+.report-container .sale-item .handle_module .icon_wrap.data-v-65089cfe {
+  padding-top: 8rpx;
+  position: relative;
+}
+.report-container .sale-item .handle_module .icon_wrap.data-v-65089cfe::after {
+  content: "";
+  height: 65rpx;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 40rpx;
+}
+.report-container .sale-item .handle_module .icon_wrap image.data-v-65089cfe {
+  height: 47rpx;
+  margin-left: 17rpx;
+  margin-top: 5rpx;
+  width: 8rpx;
+}
+.report-container .sale-item .handle_module .drop_down.data-v-65089cfe {
+  position: absolute;
+  right: -22rpx;
+  top: 60rpx;
+  z-index: 10;
+}
+.report-container
+  .sale-item
+  .handle_module
+  .drop_down
+  .image_wrap.data-v-65089cfe {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+}
+.report-container
+  .sale-item
+  .handle_module
+  .drop_down
+  .image_wrap
+  image.data-v-65089cfe {
+  display: block;
+  height: 19rpx;
+  margin-right: 23rpx;
+  width: 38rpx;
+}
+.report-container
+  .sale-item
+  .handle_module
+  .drop_down
+  .drop_down_list.data-v-65089cfe {
+  background: hsla(0, 0%, 9%, 0.85);
+  border-radius: 21rpx;
+  padding: 20rpx 26rpx;
+}
+.report-container .sale-item .handle_module .drop_down .item.data-v-65089cfe {
+  align-items: center;
+  border-bottom: 1px solid #4d4d4d;
+  display: -webkit-flex;
+  display: flex;
+  padding: 22rpx 0rpx;
+  width: 190rpx;
+}
+.report-container
+  .sale-item
+  .handle_module
+  .drop_down
+  .item.item.data-v-65089cfe:last-of-type {
+  border-bottom: none;
+}
+.report-container
+  .sale-item
+  .handle_module
+  .drop_down
+  .item
+  image.data-v-65089cfe {
+  margin-right: 19rpx;
+}
+.report-container
+  .sale-item
+  .handle_module
+  .drop_down
+  .item
+  text.data-v-65089cfe {
+  color: #f5f5f5;
+  font-size: 25rpx;
+}

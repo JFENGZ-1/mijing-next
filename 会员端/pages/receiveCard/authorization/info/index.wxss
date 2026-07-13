@@ -1,0 +1,91 @@
+page {
+  background: #fff;
+}
+.bottom-text.data-v-7340d4c8 {
+  bottom: 74rpx;
+  color: #989898;
+  font-size: 19rpx;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+.use_num.data-v-7340d4c8 {
+  color: #989898;
+  font-size: 28rpx;
+  margin-bottom: 106rpx;
+  margin-top: 380rpx;
+  text-align: center;
+}
+.user_info.data-v-7340d4c8 {
+  padding: 0 35rpx;
+}
+.user_info .title_text.data-v-7340d4c8 {
+  color: #181818;
+  font-size: 36rpx;
+  font-weight: 500;
+  margin-bottom: 60rpx;
+  margin-top: 100rpx;
+}
+.user_info .info_list.data-v-7340d4c8 {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+.user_info .info_list .info_item.data-v-7340d4c8 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 112rpx;
+  position: relative;
+}
+.user_info .info_list .info_item .required.data-v-7340d4c8 {
+  color: #dc3c5c;
+  font-size: 26rpx;
+  margin-left: 3rpx;
+}
+.user_info .info_list .info_item .info_content.data-v-7340d4c8 {
+  flex: 1;
+  margin-left: 30rpx;
+}
+.user_info .info_list .info_item .info_content button.data-v-7340d4c8 {
+  align-items: center;
+  background: #fff;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-start;
+  margin: unset;
+  outline: none;
+  padding: unset;
+}
+.user_info .info_list .info_item .info_content button.data-v-7340d4c8::after {
+  border: none;
+}
+.user_info .info_list .info_item .info_content image.data-v-7340d4c8 {
+  border-radius: 13rpx;
+  height: 80rpx;
+  width: 80rpx;
+}
+.user_info .info_list .info_item.data-v-7340d4c8:after {
+  border-bottom: 1px solid #f0f0f0;
+  box-sizing: border-box;
+  content: " ";
+  height: 200%;
+  left: -50%;
+  pointer-events: none;
+  position: absolute;
+  top: -50%;
+  transform: scale(0.5);
+  width: 200%;
+  z-index: 2;
+}
+.btn-wrap button.data-v-7340d4c8 {
+  background: #fbd128;
+  border: none;
+  border-radius: 50rpx;
+  height: 90rpx;
+  margin: 150rpx auto 0;
+  outline: none;
+  width: 458rpx;
+}
+.btn-wrap button.data-v-7340d4c8::after {
+  border: none;
+}

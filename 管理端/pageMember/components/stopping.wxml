@@ -1,0 +1,49 @@
+<view class="data-v-39c2ef28">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-39c2ef28" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="867" tips="1、停卡期间，将禁止会员使用会员卡，2、会员将收到停卡通知" title="{{isall?'一键全部停卡':'批量停卡'}}" value="{{show}}" vueId="09c0d05e-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-39c2ef28" slot="confrimBtn">
+            <view bindtap="__e" class="determine data-v-39c2ef28" data-event-opts="{{[ [ 'tap',[ [ 'submit',['$event'] ] ] ] ]}}">确　定</view>
+        </view>
+        <view class="main-box data-v-39c2ef28">
+            <view class="form-box data-v-39c2ef28">
+                <view class="list-box data-v-39c2ef28">
+                    <view class="hidd-box input-main data-v-39c2ef28">开始停卡日期<view bindtap="__e" class="time data-v-39c2ef28" data-event-opts="{{[ [ 'tap',[ [ 'onTime',['$event'] ] ] ] ]}}">{{happenTime}}</view>
+                    </view>
+                    <view class="tex data-v-39c2ef28">
+                        <view class="data-v-39c2ef28">
+                            <text class="text-left data-v-39c2ef28">仅处理：</text>
+                            <text class="data-v-39c2ef28">处于有效期内且余额大于0的卡 </text>
+                        </view>
+                        <view class="data-v-39c2ef28">
+                            <text class="text-left data-v-39c2ef28">不处理：</text>
+                            <text class="data-v-39c2ef28">未开卡、停卡中、请假中、已过期、余额为0的卡</text>
+                        </view>
+                    </view>
+                    <view class="tex data-v-39c2ef28">
+                        <view class="data-v-39c2ef28">
+                            <text class="tip data-v-39c2ef28">如因节假日或外出学习临时闭馆，则不建议使用【批量停卡】，而是推荐【批量延期】功能，直接操作延期即可。</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-39c2ef28" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+    <confirm-modal bind:__l="__l" class="data-v-39c2ef28 vue-ref" customBtn="{{true}}" data-ref="stopCardconfirmModal" title="注意，是否执行批量停卡？" vueId="09c0d05e-2" vueSlots="{{['content','btn']}}">
+        <view class="data-v-39c2ef28" slot="content" style="color:#989898;font-size:25rpx;">
+            <view class="data-v-39c2ef28">
+                <text class="data-v-39c2ef28">停卡日期：</text>
+                <text class="data-v-39c2ef28" style="color:#DC3C5C;">{{happenTime}}</text>
+            </view>
+            <view class="content data-v-39c2ef28">
+                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-39c2ef28" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','refuseChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{refuseChecked}}" vueId="{{'09c0d05e-3'+','+'09c0d05e-2'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-39c2ef28" style="{{'line-height:56rpx;font-size:25rpx;'+'color:'+(refuseChecked?'#181818':'#7E7E7E')+';'}}">我已确认，可以执行停卡</text>
+                </u-checkbox>
+            </view>
+        </view>
+        <view class="btn data-v-39c2ef28" slot="btn" style="margin-bottom:30rpx;">
+            <view bindtap="__e" class="modal-cal-btn button data-v-39c2ef28" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="{{['modal-btn1','button','data-v-39c2ef28',!refuseChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'stopCardconfirm',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm-modal>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-39c2ef28" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^input',[ [ '__set_model',[ '','timeShow','$event',[] ] ] ] ] ]}}" mode="time" params="{{params}}" value="{{timeShow}}" vueId="09c0d05e-4"></u-picker>
+</view>

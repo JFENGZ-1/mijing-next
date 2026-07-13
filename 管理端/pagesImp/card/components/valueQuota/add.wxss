@@ -1,0 +1,24 @@
+.picker-box.data-v-b3f09518 {
+  position: relative;
+}
+.picker-box.data-v-b3f09518::after {
+  content: ".";
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.main-box.data-v-b3f09518 {
+  padding-top: 38rpx;
+}
+.main-box .u-select__body__picker-view.data-v-b3f09518 {
+  margin: 0 auto;
+  width: 500rpx;
+}
+.main-box .u-select__body__picker-view__item.data-v-b3f09518 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 36rpx;
+  justify-content: center;
+}

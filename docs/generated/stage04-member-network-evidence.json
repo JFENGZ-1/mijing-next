@@ -1,0 +1,26 @@
+{
+  "capturedAt": "2026-07-11T12:06:00+08:00",
+  "project": "member-miniapp",
+  "page": "pages/onboarding/profile",
+  "requests": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8010/api/v1/auth/wechat/login",
+      "status": 200,
+      "notes": "Real wx.login code exchanged in simulator"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8010/api/v1/member/onboarding",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8010/api/v1/member/member-link-requests",
+      "status": 200,
+      "responseDataCount": 0,
+      "notes": "Verified via direct API; no pending link requests in local DB"
+    }
+  ],
+  "authorizationHeader": "Bearer [REDACTED]"
+}

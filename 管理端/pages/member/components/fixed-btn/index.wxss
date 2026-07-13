@@ -1,0 +1,31 @@
+.create-Employee.data-v-c2a58b16 {
+  background: rgba(251, 209, 40, 0.2);
+  bottom: 0;
+  font-size: 32rpx;
+  height: 139rpx;
+  margin-bottom: 50rpx;
+  margin-right: 38rpx;
+  position: fixed;
+  right: 0;
+  width: 139rpx;
+  z-index: 99;
+}
+.create-Employee .bg.data-v-c2a58b16,
+.create-Employee.data-v-c2a58b16 {
+  align-items: center;
+  border-radius: 50%;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+}
+.create-Employee .bg.data-v-c2a58b16 {
+  background: #fbd128;
+  flex-direction: column;
+  height: 125rpx;
+  width: 125rpx;
+}
+.create-Employee .bg text.data-v-c2a58b16 {
+  color: #181818;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+}

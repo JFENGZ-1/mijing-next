@@ -1,0 +1,15 @@
+<view class="wrap data-v-fa3c4d88">
+    <view class="portrait-wrap data-v-fa3c4d88">
+        <image class="data-v-fa3c4d88" src="{{stopServeInfo.servicerFaceurl}}"></image>
+    </view>
+    <view class="info-text data-v-fa3c4d88">
+        <view class="text-top data-v-fa3c4d88">联系客服</view>
+        <view class="text-bottom data-v-fa3c4d88">
+            <view class="name data-v-fa3c4d88">{{stopServeInfo.servicerNickName}}</view>
+            <view class="wechat-num data-v-fa3c4d88">{{'微信：'+stopServeInfo.customServicer}}</view>
+        </view>
+    </view>
+    <view bindtap="__e" class="copy-img-wrap data-v-fa3c4d88" data-event-opts="{{[ [ 'tap',[ [ 'copy',['$event'] ] ] ] ]}}">
+        <image class="data-v-fa3c4d88" src="{{$root.m0}}"></image>
+    </view>
+</view>

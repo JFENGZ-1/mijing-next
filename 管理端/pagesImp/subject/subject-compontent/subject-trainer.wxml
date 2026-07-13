@@ -1,0 +1,36 @@
+<view class="trainer-popup-container data-v-32ee426c">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-32ee426c" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','trainerPopupShow','$event',[] ] ] ] ] ]}}" height="{{1100}}" showConfrim="{{false}}" title="选择老师" value="{{trainerPopupShow}}" vueId="4d1f134f-1" vueSlots="{{['default']}}">
+        <view class="trainer-popup data-v-32ee426c">
+            <view class="head data-v-32ee426c" wx:if="{{coursetype==0}}">
+                <u-icon bind:__l="__l" class="data-v-32ee426c" color="#C96B30" name="bell" size="20rpx" vueId="{{'4d1f134f-2'+','+'4d1f134f-1'}}"></u-icon>
+                <text class="data-v-32ee426c">选择主要负责此课的教练即可，在“排课”时可以任意更换教练，</text>
+            </view>
+            <view class="headbut data-v-32ee426c">
+                <view class="button-list data-v-32ee426c">
+                    <view bindtap="__e" class="trainer-content data-v-32ee426c" data-event-opts="{{[ [ 'tap',[ [ 'changetrainer',['$0'],[ [ ['trainerList','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                        <image class="head-img data-v-32ee426c" src="{{item.$orig.staffFace}}"></image>
+                        <view class="trainer-sex data-v-32ee426c">
+                            <view class="trainer-text u-line-1 data-v-32ee426c">{{item.$orig.staffName}}</view>
+                            <view class="data-v-32ee426c">
+                                <image class="seximg1 data-v-32ee426c" src="{{item.m0}}" wx:if="{{item.$orig.staffSex==2}}"></image>
+                                <image class="seximg data-v-32ee426c" src="{{item.m1}}" wx:if="{{item.$orig.staffSex==1}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+    <u-modal bind:__l="__l" bind:input="__e" class="data-v-32ee426c" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','delShow','$event',[] ] ] ] ] ]}}" showConfirmButton="{{false}}" showTitle="{{false}}" value="{{delShow}}" vueId="4d1f134f-3" vueSlots="{{['default']}}" width="{{700}}">
+        <view class="modal data-v-32ee426c">
+            <text class="modal-title data-v-32ee426c">提示：没有可选择的教练</text>
+            <view class="modal-content data-v-32ee426c">
+                <u-icon bind:__l="__l" class="data-v-32ee426c" color="#2979ff" name="error-circle-fill" size="70" vueId="{{'4d1f134f-4'+','+'4d1f134f-3'}}"></u-icon>
+                <text class="data-v-32ee426c">请先在【教练/员工】中添加新的教练</text>
+            </view>
+            <view class="btn data-v-32ee426c">
+                <button bindtap="__e" class="modal-btn data-v-32ee426c" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}">知道了</button>
+            </view>
+        </view>
+    </u-modal>
+</view>

@@ -1,0 +1,12 @@
+{
+  "component": true,
+  "usingComponents": {
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "loading-pulse": "/components/zero-loading/static/loading-pulse",
+    "select-member-card": "/pagesCourse/components/select-member-card",
+    "select-time": "/pagesCourse/components/select-time",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

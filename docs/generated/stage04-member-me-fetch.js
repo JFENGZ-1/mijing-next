@@ -1,0 +1,1 @@
+function(){return new Promise(function(r,j){var t=wx.getStorageSync("access_token");wx.request({url:"http://127.0.0.1:8010/api/v1/me",header:{Authorization:"Bearer "+t},success:function(res){r({flow:"member",tokenPrefix:t?t.substring(0,6)+"***":null,me:res.data.data})},fail:j})})}

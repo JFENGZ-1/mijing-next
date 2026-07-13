@@ -1,0 +1,34 @@
+<view class="data-v-e5cd62b6">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-e5cd62b6" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="868" title="开卡设置" value="{{show}}" vueId="46f652c0-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-e5cd62b6" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-e5cd62b6" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'46f652c0-2'+','+'46f652c0-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-e5cd62b6">
+            <view class="form-box data-v-e5cd62b6">
+                <view class="list data-v-e5cd62b6">
+                    <view class="item data-v-e5cd62b6" wx:for="{{cardList}}" wx:for-index="__i0__" wx:key="id">
+                        <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-e5cd62b6" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','value','$event',[] ] ] ] ] ]}}" value="{{value}}" vueId="{{'46f652c0-3-'+__i0__+','+'46f652c0-1'}}" vueSlots="{{['default']}}">
+                            <view class="data-v-e5cd62b6" style="display:flex;align-items:center;">
+                                <u-radio bind:__l="__l" class="data-v-e5cd62b6" labelSize="28rpx" name="{{item.status}}" shape="circle" vueId="{{'46f652c0-4-'+__i0__+','+'46f652c0-3-'+__i0__}}" vueSlots="{{['default']}}">
+                                    <view class="{{['data-v-e5cd62b6',item.status==value?'radio-checked':'']}}">{{item.name}}</view>
+                                </u-radio>
+                                <text bindtap="__e" class="com-input data-v-e5cd62b6" data-event-opts="{{[ [ 'tap',[ [ 'healdeTime',['$event'] ] ] ] ]}}" wx:if="{{item.id==4}}">{{tiem}}</text>
+                            </view>
+                        </u-radio-group>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-e5cd62b6" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+    <confirm bind:__l="__l" class="data-v-e5cd62b6 vue-ref" customBtn="{{true}}" data-ref="confirmModalcardSet" title="确认开卡吗？" vueId="46f652c0-5" vueSlots="{{['content','btn']}}">
+        <view class="data-v-e5cd62b6" slot="content">
+            <text class="data-v-e5cd62b6" style="{{'display:block;'}}">开卡后立即可用，有效期将从今天开始计算</text>
+        </view>
+        <view class="btn data-v-e5cd62b6" slot="btn">
+            <view bindtap="__e" class="modal_cancel data-v-e5cd62b6" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="modal-btn data-v-e5cd62b6" data-event-opts="{{[ [ 'tap',[ [ 'handleBtncardSet',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-e5cd62b6" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^input',[ [ '__set_model',[ '','timeShow','$event',[] ] ] ] ] ]}}" mode="time" params="{{params}}" value="{{timeShow}}" vueId="46f652c0-6"></u-picker>
+</view>

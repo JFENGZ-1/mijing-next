@@ -1,0 +1,21 @@
+<u-mask bind:__l="__l" bind:click="__e" class="data-v-1f1792aa" data-event-opts="{{[ [ '^click',[ ['e0'] ] ] ]}}" show="{{maskShow}}" vueId="23d94798-1" vueSlots="{{['default']}}" zIndex="999999999">
+    <view class="main data-v-1f1792aa">
+        <view class="content data-v-1f1792aa">
+            <view class="title data-v-1f1792aa">
+                <view class="wrap data-v-1f1792aa">卡内额度</view>
+            </view>
+            <view class="project-list data-v-1f1792aa">
+                <view class="wrap data-v-1f1792aa">
+                    <view class="{{['item','data-v-1f1792aa',item.isPresent?'present':'']}}" wx:for="{{list}}" wx:key="index">
+                        <view class="name data-v-1f1792aa">
+                            <text class="data-v-1f1792aa" wx:if="{{item.isPresent}}">赠</text>{{item.groupName+''}}</view>
+                        <view class="num data-v-1f1792aa" wx:if="{{cardType==2}}">{{item.timeCount+'次'}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="btn-wrap data-v-1f1792aa">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-1f1792aa" customStyle="{{customStyle}}" data-event-opts="{{[ [ '^click',[ ['e1'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'23d94798-2'+','+'23d94798-1'}}" vueSlots="{{['default']}}">知道了</u-button>
+            </view>
+        </view>
+    </view>
+</u-mask>

@@ -1,0 +1,22 @@
+.main-box .class-hourse.data-v-f4a05286 {
+  align-items: center;
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 39rpx;
+  padding: 51rpx 0 0 43rpx;
+  width: 100%;
+}
+.main-box .class-hourse .com-input.data-v-f4a05286 {
+  background: #f5f5f5;
+  color: #7e7e7e;
+  font-size: 35rpx;
+  height: 80rpx;
+  line-height: 60rpx;
+  margin: 17rpx;
+  text-align: center;
+  width: 150rpx;
+}
+.main-box .u-input__input.data-v-f4a05286 {
+  text-align: center;
+}

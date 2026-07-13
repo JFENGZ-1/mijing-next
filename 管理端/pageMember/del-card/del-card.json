@@ -1,0 +1,12 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "member-card": "/components/mumber-card/index",
+    "navigation": "/components/navigation/index",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

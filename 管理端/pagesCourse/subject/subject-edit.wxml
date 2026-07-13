@@ -1,0 +1,66 @@
+<page-meta class="data-v-685f3406" pageStyle="{{'overflow:'+(show?'hidden':'visible')}}"></page-meta>
+<view class="data-v-685f3406">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-685f3406" text="{{title}}" vueId="12e6a0da-1"></navigation>
+    <view class="placeholder-view data-v-685f3406" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="subject-edit-container data-v-685f3406" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-685f3406" style="{{'height:100%;min-height:1230rpx; '}}">
+            <subject-card bind:__l="__l" class="data-v-685f3406" groupData="{{groupDataInit}}" vueId="12e6a0da-2"></subject-card>
+            <u-form bind:__l="__l" class="data-v-685f3406 vue-ref" data-ref="uForm" errorType="{{['toast']}}" model="{{groupData}}" vueId="12e6a0da-3" vueSlots="{{['default']}}">
+                <u-cell-item bind:__l="__l" bind:click="__e" class="uni-form-item-required data-v-685f3406" data-event-opts="{{[ [ '^click',[ ['e0'] ] ] ]}}" hoverClass="none" require="{{true}}" title="教练" titleStyle="{{titleStyle}}" vueId="{{'12e6a0da-4'+','+'12e6a0da-3'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-685f3406" style="font-size:14px;color:#DADADA;" wx:if="{{!groupData.staffName}}">请选择</text>
+                    <text class="data-v-685f3406" wx:if="{{groupData.staffName}}">{{groupData.staffName}}</text>
+                </u-cell-item>
+                <u-form-item bind:__l="__l" class="data-v-685f3406" label="课程时长" labelWidth="170" prop="courseDuringTime" required="{{true}}" vueId="{{'12e6a0da-5'+','+'12e6a0da-3'}}" vueSlots="{{['default']}}">
+                    <u-input bind:__l="__l" bind:blur="__e" bind:focus="__e" bind:input="__e" class="input data-v-685f3406" data-event-opts="{{[ [ '^blur',[ ['addtime'] ] ],[ '^focus',[ ['deltime'] ] ],[ '^input',[ [ '__set_model',[ '$0','courseDuringTime1','$event',[] ],['groupData'] ] ] ] ]}}" placeholder="如60" placeholderStyle="font-size: 14px;color: #DADADA;" type="number" value="{{groupData.courseDuringTime1}}" vueId="{{'12e6a0da-6'+','+'12e6a0da-5'}}"></u-input>
+                    <u-input bind:__l="__l" bind:input="__e" class="input data-v-685f3406" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','courseDuringTime','$event',[] ],['groupData'] ] ] ] ]}}" placeholder="如60" placeholderStyle="font-size: 14px;color: #DADADA;" style="display:none;" type="number" value="{{groupData.courseDuringTime}}" vueId="{{'12e6a0da-7'+','+'12e6a0da-5'}}"></u-input>
+                </u-form-item>
+                <u-form-item bind:__l="__l" class="data-v-685f3406" label="课程难度" labelWidth="170" prop="degreeNum" required="{{true}}" vueId="{{'12e6a0da-8'+','+'12e6a0da-3'}}" vueSlots="{{['default']}}">
+                    <u-rate activeColor="#FFA800" bind:__l="__l" bind:input="__e" class="data-v-685f3406" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','degreeNum','$event',[] ],['groupData'] ] ] ] ]}}" inactiveColor="#E8E8EB" minCount="1" size="36" value="{{groupData.degreeNum}}" vueId="{{'12e6a0da-9'+','+'12e6a0da-8'}}"></u-rate>
+                </u-form-item>
+                <u-cell-item bind:__l="__l" bind:click="__e" class="uni-form-item-required data-v-685f3406" data-event-opts="{{[ [ '^click',[ ['e1'] ] ] ]}}" hoverClass="none" require="{{true}}" title="开课规则" titleStyle="{{titleStyle}}" vueId="{{'12e6a0da-10'+','+'12e6a0da-3'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-685f3406" style="font-size:14px;color:#DADADA;" wx:if="{{$root.g0}}">请选择</text>
+                    <text class="data-v-685f3406" wx:else>
+                        <text class="data-v-685f3406" wx:if="{{groupData.openRule.maxMan==0&&groupData.openRule.minMan==0}}">不限制</text>
+                        <text class="data-v-685f3406" wx:if="{{groupData.openRule.maxMan!=0}}">{{'限'+groupData.openRule.maxMan+'人'}}</text>
+                        <text class="minMan data-v-685f3406" wx:if="{{groupData.openRule.minMan!=0}}">{{'满'+groupData.openRule.minMan+'人开课'}}</text>
+                    </text>
+                </u-cell-item>
+                <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-685f3406" data-event-opts="{{[ [ '^click',[ ['e2'] ] ] ]}}" hoverClass="none" title="分类标签" titleStyle="{{titleStyle}}" vueId="{{'12e6a0da-11'+','+'12e6a0da-3'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-685f3406" style="font-size:14px;color:#DADADA;" wx:if="{{!groupData.tagData}}">可不填写</text>
+                    <text class="data-v-685f3406" wx:if="{{groupData.tagData}}">{{groupData.tagData}}</text>
+                </u-cell-item>
+                <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-685f3406" data-event-opts="{{[ [ '^click',[ ['e3'] ] ] ]}}" hoverClass="none" title="选择教室" titleStyle="{{titleStyle}}" vueId="{{'12e6a0da-12'+','+'12e6a0da-3'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-685f3406" style="font-size:14px;color:#DADADA;" wx:if="{{!groupData.courseAddr}}">可不填写</text>
+                    <text class="data-v-685f3406" wx:if="{{groupData.courseAddr}}">{{groupData.courseAddr}}</text>
+                </u-cell-item>
+            </u-form>
+            <view class="btn-box data-v-685f3406">
+                <button bindtap="__e" class="save-btn data-v-685f3406" data-event-opts="{{[ [ 'tap',[ [ 'savedata',['$event'] ] ] ] ]}}" plain="true">保存</button>
+            </view>
+            <ff-bottom-logo bind:__l="__l" class="data-v-685f3406" vueId="12e6a0da-13"></ff-bottom-logo>
+        </view>
+        <view class="data-v-685f3406">
+            <tag-popup bind:__l="__l" bind:editTag="__e" bind:headleClose="__e" class="data-v-685f3406 vue-ref" clickTagName="{{groupData.tagData}}" data-event-opts="{{[ [ '^editTag',[ ['editTag'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="tagChild" vueId="12e6a0da-14"></tag-popup>
+            <subject-trainer bind:__l="__l" bind:editTrainer="__e" bind:headleClose="__e" class="data-v-685f3406 vue-ref" data-event-opts="{{[ [ '^editTrainer',[ ['editTrainer'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="trainerChild" vueId="12e6a0da-15"></subject-trainer>
+            <suject-classroom bind:__l="__l" bind:editclassroom="__e" bind:headleClose="__e" class="data-v-685f3406 vue-ref" courseAddr="{{groupData.courseAddr}}" data-event-opts="{{[ [ '^editclassroom',[ ['editclassroom'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="classroomChild" vueId="12e6a0da-16"></suject-classroom>
+            <subject-openrule bind:__l="__l" bind:editopenrule="__e" bind:headleClose="__e" class="data-v-685f3406 vue-ref" data-event-opts="{{[ [ '^editopenrule',[ ['editopenrule'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="openruleChild" vueId="12e6a0da-17"></subject-openrule>
+            <suject-choice-card bind:__l="__l" bind:editsujectChoice="__e" bind:headleClose="__e" class="data-v-685f3406 vue-ref" data-event-opts="{{[ [ '^editsujectChoice',[ ['editsujectChoice'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="sujectChoiceChild" vueId="12e6a0da-18"></suject-choice-card>
+        </view>
+        <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-685f3406 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirmModal'] ] ] ]}}" data-ref="confirmModal" title="确认修改本课程" vueId="12e6a0da-19" vueSlots="{{['content']}}">
+            <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-685f3406" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','courseType','$event',[] ] ] ] ] ]}}" slot="content" value="{{courseType}}" vueId="{{'12e6a0da-20'+','+'12e6a0da-19'}}" vueSlots="{{['default']}}" wrap="{{true}}">
+                <view class="data-v-685f3406">
+                    <view class="radio-item data-v-685f3406">
+                        <u-radio bind:__l="__l" class="data-v-685f3406" name="{{1}}" vueId="{{'12e6a0da-21'+','+'12e6a0da-20'}}" vueSlots="{{['default']}}">
+                            <text class="data-v-685f3406" style="font-size:26rpx;color:#7e7e7e;">仅修改当前课</text>
+                        </u-radio>
+                    </view>
+                    <view class="radio-item data-v-685f3406">
+                        <u-radio bind:__l="__l" class="data-v-685f3406" name="{{3}}" vueId="{{'12e6a0da-22'+','+'12e6a0da-20'}}" vueSlots="{{['default']}}">
+                            <text class="data-v-685f3406" style="font-size:26rpx;color:#7e7e7e;">同时修改以后<text class="data-v-685f3406" style="color:#DC3C5C;">{{'每'+week}}</text>的此课</text>
+                        </u-radio>
+                    </view>
+                </view>
+            </u-radio-group>
+        </confirm-modal>
+    </view>
+</view>

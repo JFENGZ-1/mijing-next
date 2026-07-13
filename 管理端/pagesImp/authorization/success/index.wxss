@@ -1,0 +1,38 @@
+page {
+  background: #fff;
+}
+.icon-wrap.data-v-95d6d5e8 {
+  align-items: center;
+  background: #22c788;
+  border-radius: 50%;
+  display: -webkit-flex;
+  display: flex;
+  height: 163rpx;
+  justify-content: center;
+  margin: 114rpx auto 100rpx;
+  width: 163rpx;
+}
+.status-text.data-v-95d6d5e8 {
+  color: #181818;
+  font-size: 69rpx;
+  font-weight: 700;
+  line-height: 70rpx;
+  margin-bottom: 50rpx;
+  margin-top: 100rpx;
+  text-align: center;
+}
+.hint.data-v-95d6d5e8 {
+  color: #181818;
+  font-size: 26rpx;
+  line-height: 26rpx;
+  text-align: center;
+}
+.open-shop.data-v-95d6d5e8 {
+  background: #fbd128;
+  border-radius: 41rpx;
+  height: 83rpx;
+  line-height: 83rpx;
+  margin: 208rpx auto 0;
+  text-align: center;
+  width: 458rpx;
+}

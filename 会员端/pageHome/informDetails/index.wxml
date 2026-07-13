@@ -1,0 +1,9 @@
+<view class="data-v-0cf2c342">
+    <view class="wrap data-v-0cf2c342" wx:if="{{record}}">
+        <view class="title-name data-v-0cf2c342">{{record.noticeTitle}}</view>
+        <view class="time data-v-0cf2c342">{{'发布于：'+record.createTime}}</view>
+        <view class="content data-v-0cf2c342">
+            <text class="info_title data-v-0cf2c342" userSelect="{{true}}" wx:if="{{record.noticeText}}">{{record.noticeText}}</text>
+        </view>
+    </view>
+</view>

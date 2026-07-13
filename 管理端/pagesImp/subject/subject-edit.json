@@ -1,0 +1,24 @@
+{
+  "disableScroll": false,
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "card-face": "/pagesImp/subject/subject-compontent/card-face",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "subject-card": "/pagesImp/subject/subject-compontent/subject-card",
+    "subject-desc-popup": "/pagesImp/components/ff-editor/ff-editor",
+    "subject-openrule": "/pagesImp/subject/subject-compontent/subject-openrule",
+    "subject-trainer": "/pagesImp/subject/subject-compontent/subject-trainer",
+    "suject-classroom": "/pagesImp/subject/subject-compontent/suject-classroom",
+    "tag-popup": "/pagesImp/subject/subject-compontent/tag-popup",
+    "u-cell-item": "/uview-ui/components/u-cell-item/u-cell-item",
+    "u-checkbox": "/uview-ui/components/u-checkbox/u-checkbox",
+    "u-form": "/uview-ui/components/u-form/u-form",
+    "u-form-item": "/uview-ui/components/u-form-item/u-form-item",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-modal": "/uview-ui/components/u-modal/u-modal",
+    "u-rate": "/uview-ui/components/u-rate/u-rate",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

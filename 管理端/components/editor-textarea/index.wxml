@@ -1,0 +1,1 @@
+<editor bindinput="__e" bindready="__e" class="textarea ql-editor data-v-12d7eef2" data-event-opts="{{[ [ 'ready',[ [ 'onEditorReady',['$event'] ] ] ],[ 'input',[ [ 'editorInput',['$event'] ] ] ] ]}}" id="editor" placeholder="仅店长或管理员可见，会员不会看到此备注"></editor>

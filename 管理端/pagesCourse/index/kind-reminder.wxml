@@ -1,0 +1,47 @@
+<view class="data-v-cf18eebc">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-cf18eebc" text="{{headtitle}}" vueId="1aa3b626-1"></navigation>
+    <view class="data-v-cf18eebc" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="data-v-cf18eebc" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-cf18eebc" style="{{'height:100%;min-height:1230rpx; '}}">
+            <view class="data-v-cf18eebc">
+                <view class="membership-container data-v-cf18eebc">
+                    <view class="content data-v-cf18eebc">
+                        <input bindinput="__e" class="data-v-cf18eebc" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','title','$event',[] ] ] ] ] ]}}" maxlength="50" placeholder="请填写标题" placeholderStyle="font-size:32rpx;color:#d0d2d7;" value="{{title}}"></input>
+                        <view class="membership-editor data-v-cf18eebc">
+                            <view class="container data-v-cf18eebc" wx:if="{{flag}}">
+                                <form class="data-v-cf18eebc">
+                                    <view class="form-group form-column data-v-cf18eebc">
+                                        <editor bindblur="__e" bindinput="__e" class="ql-container data-v-cf18eebc" data-event-opts="{{[ [ 'input',[ [ 'onInput',['$event'] ] ] ],[ 'blur',[ [ 'onBlur',['$event'] ] ] ] ]}}" id="editor" placeholder="{{placeholder}}"></editor>
+                                    </view>
+                                </form>
+                            </view>
+                            <view bindtap="__e" class="text data-v-cf18eebc" data-event-opts="{{[ [ 'tap',[ [ 'headFlag',['$event'] ] ] ] ]}}" wx:else>
+                                <rich-text class="rich-text data-v-cf18eebc" nodes="{{blogContent}}"></rich-text>
+                            </view>
+                        </view>
+                        <view class="membership-button data-v-cf18eebc">
+                            <view bindtap="__e" class="clear data-v-cf18eebc" data-event-opts="{{[ [ 'tap',[ [ 'headleCreal',['$event'] ] ] ] ]}}">
+                                <view class="clears data-v-cf18eebc" wx:if="{{flag}}">清除</view>
+                            </view>
+                            <text class="num data-v-cf18eebc">{{'已写'+num+'字/最多500字'}}</text>
+                        </view>
+                        <view class="data-v-cf18eebc">
+                            <view bindtap="__e" class="create-Employee data-v-cf18eebc" data-event-opts="{{[ [ 'tap',[ [ 'submitBlog',['$event'] ] ] ] ]}}">
+                                <view class="data-v-cf18eebc">保存</view>
+                            </view>
+                            <view bindtap="__e" class="bg data-v-cf18eebc" data-event-opts="{{[ [ 'tap',[ [ 'headDelete',['$event'] ] ] ] ]}}" wx:if="{{status=='edit'}}">
+                                <view class="data-v-cf18eebc">删除</view>
+                            </view>
+                        </view>
+                    </view>
+                    <ff-bottom-logo bind:__l="__l" class="data-v-cf18eebc" vueId="1aa3b626-2"></ff-bottom-logo>
+                    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-cf18eebc vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ] ]}}" data-ref="confirmModal" title="确认删除吗？" vueId="1aa3b626-3" vueSlots="{{['content']}}">
+                        <view class="data-v-cf18eebc" slot="content">
+                            <text class="data-v-cf18eebc" style="{{'display:block;'}}">删除后将隐藏此区域</text>
+                        </view>
+                    </confirm-modal>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,9 @@
+<view class="data-v-95d6d5e8">
+    <view class="icon-wrap data-v-95d6d5e8">
+        <u-icon bind:__l="__l" class="data-v-95d6d5e8" color="#ffffff" name="checkbox-mark" size="114" vueId="32e84962-1"></u-icon>
+    </view>
+    <view class="status-text data-v-95d6d5e8">邀请成功</view>
+    <view class="hint data-v-95d6d5e8">你已成为“{{siteName}}{{'”的'+(staffType==1?'总店管理员':'店员/教练')}}</view>
+    <view bindtap="__e" class="open-shop data-v-95d6d5e8" data-event-opts="{{[ [ 'tap',[ [ 'goHome',['$event'] ] ] ] ]}}">进入场馆</view>
+    <bottom-img bind:__l="__l" class="data-v-95d6d5e8" vueId="32e84962-2"></bottom-img>
+</view>

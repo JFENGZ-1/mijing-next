@@ -1,0 +1,54 @@
+<view class="data-v-a0d36012">
+    <navigation bind:__l="__l" class="data-v-a0d36012" text="场馆码" vueId="4cd08434-1"></navigation>
+    <view class="placeholder-view data-v-a0d36012" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-a0d36012" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-a0d36012">
+            <view class="setting_wrap data-v-a0d36012">
+                <view class="setting_group first data-v-a0d36012">
+                    <view class="setting data-v-a0d36012">
+                        <view class="qr_code data-v-a0d36012">
+                            <view class="code data-v-a0d36012">
+                                <image class="data-v-a0d36012" showMenuByLongpress="{{true}}" src="{{url}}"></image>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="bg data-v-a0d36012" data-event-opts="{{[ [ 'tap',[ [ 'saveCode',['$event'] ] ] ] ]}}">保存到手机</view>
+                    </view>
+                </view>
+                <view class="setting_group first data-v-a0d36012">
+                    <view class="setting_title data-v-a0d36012">
+                        <view class="title data-v-a0d36012">什么是场馆码？</view>
+                        <view class="explain data-v-a0d36012">
+                            <view class="data-v-a0d36012">・每个场馆所独有的小程序码</view>
+                            <view class="data-v-a0d36012">・微信扫该码后，自动进入到本场馆的【会员端】</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="setting_group first data-v-a0d36012">
+                    <view class="setting_title data-v-a0d36012">
+                        <view class="title data-v-a0d36012">场馆码可以用来做什么？</view>
+                        <view class="explain data-v-a0d36012">
+                            <view class="tips_text data-v-a0d36012">
+                                <view class="left data-v-a0d36012">1、</view>
+                                <view class="right data-v-a0d36012">做地推时，可印到宣传单上，有意向的顾客扫描后可查看本馆的介绍和排课</view>
+                            </view>
+                            <view class="tips_text data-v-a0d36012">
+                                <view class="left data-v-a0d36012">2、</view>
+                                <view class="right data-v-a0d36012">在发朋友圈时，例如发早安时，可放到图片上。老会员长按识别可快速约课，潜在会员可查看场馆介绍和排课</view>
+                            </view>
+                            <view class="tips_text data-v-a0d36012">
+                                <view class="left data-v-a0d36012">3、</view>
+                                <view class="right data-v-a0d36012">可放到门头招牌或场馆内前台桌面</view>
+                            </view>
+                            <view class="tips_text data-v-a0d36012">
+                                <view class="left data-v-a0d36012">4、</view>
+                                <view class="right data-v-a0d36012">可快速录入会员：将码直接发给会员，会员扫码并注册后自动进入到我们的“会员”列表中</view>
+                            </view>
+                            <view class="highlight data-v-a0d36012">注：顾客扫码后，将启动并进入到您的场馆【会员端】小程序，顾客注册后，则会出现在您的“会员”列表中，但并没有会员卡无法约课（您可以给她发体验卡）。</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-a0d36012" vueId="4cd08434-2"></ff-bottom-logo>
+    </view>
+</view>

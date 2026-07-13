@@ -1,0 +1,58 @@
+<view class="data-v-9cc6afec">
+    <view class="main data-v-9cc6afec">
+        <view class="content data-v-9cc6afec">
+            <view class="time_axis data-v-9cc6afec">
+                <scroll-view class="scroll-view data-v-9cc6afec" scrollIntoView="{{scrollView}}" scrollX="{{true}}">
+                    <view bindtap="__e" class="{{['item','data-v-9cc6afec',item.active?'active':'',item.isToday?'isToday':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'dateClick',['$0'],[ [ ['dateList','',index] ] ] ] ] ] ]}}" id="{{item.str}}" wx:for="{{dateList}}" wx:key="index">
+                        <view class="year data-v-9cc6afec">{{item.year}}</view>
+                        <view class="month data-v-9cc6afec">{{item.month+'月'}}</view>
+                    </view>
+                </scroll-view>
+            </view>
+            <view class="statistics data-v-9cc6afec" wx:if="{{$root.g0>0}}">
+                <view class="filter data-v-9cc6afec">
+                    <view bindtap="__e" class="{{['data-v-9cc6afec',coachScreeningNum==index?'active':'filter-item']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleCoachScreening',[index] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                        <text class="data-v-9cc6afec">{{item.$orig.name}}</text>
+                        <view class="triangle data-v-9cc6afec">
+                            <image class="data-v-9cc6afec" mode="widthFix" src="{{item.m0}}" wx:if="{{coachScreeningNum==index}}"></image>
+                        </view>
+                    </view>
+                </view>
+                <view bindtap="__e" class="list data-v-9cc6afec" data-event-opts="{{[ [ 'tap',[ [ 'headleDalete',['$0','$1'],[ [ ['list','',index,'staffUserid'] ],[ ['list','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l1}}" wx:key="index">
+                    <view class="item data-v-9cc6afec">
+                        <view class="item_title data-v-9cc6afec">
+                            <view class="item_portrait data-v-9cc6afec">
+                                <image class="data-v-9cc6afec" src="{{item.m1}}"></image>
+                            </view>
+                            <view class="item_name data-v-9cc6afec">{{item.$orig.staffName}}</view>
+                        </view>
+                        <view class="item_number data-v-9cc6afec">
+                            <view class="item_flex data-v-9cc6afec">
+                                <view class="iten_num data-v-9cc6afec">{{''+item.$orig.privateCourseCount+'节'}}</view>
+                                <view class="item_explain data-v-9cc6afec">私教</view>
+                            </view>
+                            <view class="item_flexs data-v-9cc6afec">
+                                <view class="iten_num data-v-9cc6afec">{{item.$orig.teamCourseCount+'节'}}</view>
+                                <view class="item_explain data-v-9cc6afec">团课</view>
+                            </view>
+                            <view class="item_report data-v-9cc6afec">
+                                <image class="data-v-9cc6afec" mode="widthFix" src="{{item.m2}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="noListData data-v-9cc6afec" wx:else>
+                <image class="data-v-9cc6afec" src="{{$root.m3}}"></image>
+                <view class="memberData data-v-9cc6afec">
+                    <view class="add_btn data-v-9cc6afec">~ 还没有数据哦 ~</view>
+                </view>
+            </view>
+            <view class="data-v-9cc6afec"></view>
+        </view>
+        <view class="nodata data-v-9cc6afec">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-9cc6afec" color="#bfbfbf" halfWidth="74" vueId="79604e9e-1" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-9cc6afec" vueId="79604e9e-2"></ff-bottom-logo>
+    </view>
+</view>

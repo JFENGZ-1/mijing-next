@@ -1,0 +1,1 @@
+function(){return new Promise(function(r,j){var t=wx.getStorageSync("access_token");wx.request({url:"http://127.0.0.1:8010/api/v1/auth/logout",method:"POST",header:{Authorization:"Bearer "+t},success:function(res){r({logoutStatus:res.statusCode===200?"ok":"fail",tokenPrefix:t?t.substring(0,6)+"***":null})},fail:j})})}

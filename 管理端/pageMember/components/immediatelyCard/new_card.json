@@ -1,0 +1,13 @@
+{
+  "component": true,
+  "usingComponents": {
+    "crad-limit": "/pageMember/components/immediatelyCard/card_limit",
+    "ff-counts-card": "/components/ff-counts-card/ff-counts-card",
+    "ff-date-card": "/components/ff-date-card/ff-date-card",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "ff-value-card": "/components/ff-value-card/ff-value-card",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

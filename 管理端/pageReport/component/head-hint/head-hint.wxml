@@ -1,0 +1,49 @@
+<view class="hint-content data-v-6756aa90">
+    <view class="wrap fade-in data-v-6756aa90" style="{{'background:'+''+bgcolor+';'+'color:'+''+color+';'}}" wx:if="{{show}}">
+        <view class="hint-text data-v-6756aa90">
+            <view class="item data-v-6756aa90">
+                <text class="data-v-6756aa90">{{'统计时间：'+(updateTime?updateTime:'-')+''}}</text>
+                <view bindtap="__e" class="hint-left data-v-6756aa90" data-event-opts="{{[ [ 'tap',[ [ 'dataexplain',['$event'] ] ] ] ]}}" wx:if="{{computeType==0}}">
+                    <text class="data-v-6756aa90">数据说明 </text>
+                    <image class="hint-icon data-v-6756aa90" src="{{$root.m0}}" wx:if="{{type==1}}"></image>
+                    <image class="hint-icon data-v-6756aa90" src="{{$root.m1}}" wx:if="{{type==2}}"></image>
+                </view>
+                <view bindtap="__e" class="refresh-BT data-v-6756aa90" data-event-opts="{{[ [ 'tap',[ [ 'refreshclick',['$event'] ] ] ] ]}}" wx:if="{{computeType==1||computeType==2}}">立即重算</view>
+            </view>
+        </view>
+    </view>
+    <confirm bind:__l="__l" class="data-v-6756aa90 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="数据说明" vueId="677b8386-1" vueSlots="{{['content','btn']}}">
+        <view class="data-v-6756aa90" slot="content">
+            <view class="data-v-6756aa90">
+                <text class="name data-v-6756aa90">统计时间：</text>
+                <text class="value data-v-6756aa90">{{updateTime?updateTime:'-'}}</text>
+            </view>
+            <slot name="confirmname"></slot>
+        </view>
+        <view class="data-v-6756aa90" slot="btn">
+            <view bindtap="__e" class="modal-btn button data-v-6756aa90" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtnFail',['$event'] ] ] ] ]}}" style="color:#181818;">知道了</view>
+        </view>
+    </confirm>
+    <confirm-modal bind:__l="__l" class="data-v-6756aa90 vue-ref" customBtn="{{true}}" data-ref="consumptionConfirmModal" vueId="677b8386-2" vueSlots="{{['content','btn']}}">
+        <view class="data-v-6756aa90" slot="content">
+            <view class="data-v-6756aa90" style="font-size:26rpx;color:#181818;line-height:40rpx;">员工工资为每日0:00~5:00自动计算一次；若您修改员工的工资提成或课时费、补约、更换上课老师等操作后，可点击如下按扭立即重算，用时约20秒。</view>
+            <view class="consumption-content data-v-6756aa90">
+                <view bindtap="__e" class="consumptionbut data-v-6756aa90" data-event-opts="{{[ [ 'tap',[ [ 'ljconsumption',['$event'] ] ] ] ]}}">立即重算</view>
+            </view>
+        </view>
+        <view class="consumption-Cancel data-v-6756aa90" slot="btn">
+            <view bindtap="__e" class="consumption-modal-btn data-v-6756aa90" data-event-opts="{{[ [ 'tap',[ [ 'consumptionhandleCancelbtn',['$event'] ] ] ] ]}}">关闭</view>
+        </view>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" class="data-v-6756aa90 vue-ref" customBtn="{{true}}" data-ref="succConfirmModal" title="请求成功，后台正在计算中" vueId="677b8386-3" vueSlots="{{['content','btn']}}">
+        <view class="data-v-6756aa90" slot="content">
+            <view class="data-v-6756aa90">
+                <view class="data-v-6756aa90">
+                    <text class="data-v-6756aa90" style="color:#DC3C5C;">请2分钟后刷新此页面</text>（退出本页后，再重新进入）</view>
+            </view>
+        </view>
+        <view class="data-v-6756aa90" slot="btn">
+            <view bindtap="__e" class="modal-btn button data-v-6756aa90" data-event-opts="{{[ [ 'tap',[ [ 'succCconfirmbtn',['$event'] ] ] ] ]}}" style="margin-bottom:39rpx;">知道了</view>
+        </view>
+    </confirm-modal>
+</view>

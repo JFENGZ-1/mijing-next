@@ -1,0 +1,44 @@
+<view class="data-v-f06531aa">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-f06531aa" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="充赠额：会员购卡时显示“充50赠5”，购卡后额度合并为55元享折扣：当会员约课付款时，按折扣后的价格进行扣费" title="卡内额度" value="{{show}}" vueId="cb38c34e-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-f06531aa" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-f06531aa" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'cb38c34e-2'+','+'cb38c34e-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-f06531aa">
+            <view class="form-box data-v-f06531aa">
+                <view class="list-box data-v-f06531aa">
+                    <view class="show-box data-v-f06531aa">
+                        <text class="title data-v-f06531aa"> 卡额度 </text>
+                        <u-input bind:__l="__l" bind:input="__e" class="com-input sw-box data-v-f06531aa" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','cardAmount','$event',[] ],['formData'] ],['handleCardAmountInput'] ] ] ]}}" placeholder="输入卡内金额" type="digit" value="{{formData.cardAmount}}" vueId="{{'cb38c34e-3'+','+'cb38c34e-1'}}"></u-input>
+                    </view>
+                </view>
+                <view class="list-box data-v-f06531aa">
+                    <view class="show-box data-v-f06531aa">
+                        <view class="title data-v-f06531aa">充赠额</view>
+                        <view class="sw-box data-v-f06531aa">
+                            <u-switch bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-f06531aa" data-event-opts="{{[ [ '^change',[ [ 'switchHandle',['presentAmount'] ] ] ],[ '^input',[ [ '__set_model',[ '$0','presentAmount','$event',[] ],['swData'] ] ] ] ]}}" value="{{swData.presentAmount}}" vueId="{{'cb38c34e-4'+','+'cb38c34e-1'}}"></u-switch>
+                        </view>
+                    </view>
+                    <view class="hidd-box data-v-f06531aa" wx:if="{{swData.presentAmount}}">
+                        <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-f06531aa" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','presentAmount','$event',[] ],['formData'] ],['handlePresentAmountInput'] ] ] ]}}" placeholder="输入赠送金额" type="digit" value="{{formData.presentAmount}}" vueId="{{'cb38c34e-5'+','+'cb38c34e-1'}}"></u-input>
+                    </view>
+                </view>
+                <view class="list-box data-v-f06531aa">
+                    <view class="show-box data-v-f06531aa">
+                        <view class="title data-v-f06531aa">享折扣</view>
+                        <view class="sw-box data-v-f06531aa">
+                            <u-switch bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-f06531aa" data-event-opts="{{[ [ '^change',[ [ 'switchHandle',['discount'] ] ] ],[ '^input',[ [ '__set_model',[ '$0','discount','$event',[] ],['swData'] ] ] ] ]}}" value="{{swData.discount}}" vueId="{{'cb38c34e-6'+','+'cb38c34e-1'}}"></u-switch>
+                        </view>
+                    </view>
+                    <view class="hidd-box data-v-f06531aa" wx:if="{{swData.discount}}">
+                        <view bindtap="__e" class="data-input data-v-f06531aa" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">
+                            <block wx:if="{{formData.discount}}">{{formData.discount}}</block>
+                            <text class="place-holder data-v-f06531aa" wx:else>输入折扣</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-f06531aa" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+    <add bind:__l="__l" bind:submit="__e" class="data-v-f06531aa vue-ref" data-event-opts="{{[ [ '^submit',[ ['addTime'] ] ] ]}}" data-ref="add" vueId="cb38c34e-7"></add>
+</view>

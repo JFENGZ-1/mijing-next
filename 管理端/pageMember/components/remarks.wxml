@@ -1,0 +1,17 @@
+<view class="data-v-7e896066">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-7e896066" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="867" title="编辑备注" value="{{show}}" vueId="881631b8-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-7e896066" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-7e896066" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'881631b8-2'+','+'881631b8-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-7e896066">
+            <view class="form-box data-v-7e896066">
+                <textarea bindinput="__e" class="data-v-7e896066" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','remarksText','$event',[] ] ] ] ] ]}}" maxlength="200" placeholder="仅管理员可见，会员不会看到此备注" placeholderStyle="color:#d0d2d7;" value="{{remarksText}}"></textarea>
+                <view class="btn data-v-7e896066">
+                    <view bindtap="__e" class="eliminate data-v-7e896066" data-event-opts="{{[ [ 'tap',[ [ 'headleClean',['$event'] ] ] ] ]}}">清除</view>
+                    <view class="title data-v-7e896066">{{'已写'+($root.g0?$root.g1:'0')+'字/ 最多200字'}}</view>
+                </view>
+            </view>
+            <view class="data-v-7e896066" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+</view>

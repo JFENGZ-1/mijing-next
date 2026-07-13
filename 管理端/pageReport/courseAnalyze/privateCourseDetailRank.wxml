@@ -1,0 +1,96 @@
+<view class="data-v-e419b9b2">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-e419b9b2" text="{{title}}" vueId="1b2beb67-1"></navigation>
+    <view class="main data-v-e419b9b2" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-e419b9b2">
+            <view class="head data-v-e419b9b2" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="summarize data-v-e419b9b2">
+                    <image class="coach-avator data-v-e419b9b2" mode="widthFix" src="{{$root.m0}}"></image>
+                    <view class="name data-v-e419b9b2">{{''+item.staffName}}</view>
+                </view>
+                <view class="flex data-v-e419b9b2">
+                    <view class="num data-v-e419b9b2">共<text class="data-v-e419b9b2">{{totalCount+'条记录'}}</text>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-e419b9b2">
+                <view class="list data-v-e419b9b2">
+                    <view class="coach data-v-e419b9b2">
+                        <view class="data-v-e419b9b2" style="min-height:750rpx;" wx:if="{{$root.g0}}">
+                            <view class="item data-v-e419b9b2" wx:for="{{$root.l1}}" wx:key="index">
+                                <view class="top data-v-e419b9b2">
+                                    <text class="{{['date-text','data-v-e419b9b2',!item.g1>0?'grey':'']}}">{{''+item.$orig.dayName+' '+item.$orig.weekName+''}}</text>
+                                </view>
+                                <view class="bottom data-v-e419b9b2" wx:if="{{item.g2>0}}">
+                                    <view class="{{['bottom_item','data-v-e419b9b2',j==0?'bottom_item_first':'']}}" wx:for="{{item.l0}}" wx:for-index="j" wx:for-item="i" wx:key="j">
+                                        <view class="content_wrap data-v-e419b9b2">
+                                            <view class="bottom_tp data-v-e419b9b2">
+                                                <view class="{{['course_date','course_view','data-v-e419b9b2',i.$orig.appointStatus!=0?'disabled_course':'']}}" wx:if="{{i.$orig.beginTime&&i.$orig.endTime}}">{{''+i.m1+''}}</view>
+                                                <view class="{{['course_name','course_view','data-v-e419b9b2',i.$orig.appointStatus!=0?'disabled_course':'']}}" wx:if="{{i.$orig.courseName}}">{{'｢'+i.$orig.courseName+'｣'}}</view>
+                                            </view>
+                                            <view class="bottom_bt data-v-e419b9b2">
+                                                <view bindtap="__e" class="{{['photo','data-v-e419b9b2',i.$orig.appointStatus==2?'photo_grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['detailList','',index],['list','',j] ] ] ] ] ] ]}}">
+                                                    <image class="data-v-e419b9b2" src="{{i.$orig.userFaceurl}}"></image>
+                                                </view>
+                                                <view class="info_content data-v-e419b9b2">
+                                                    <view class="info_item data-v-e419b9b2">
+                                                        <view class="left data-v-e419b9b2">
+                                                            <view bindtap="__e" class="{{['left','name','data-v-e419b9b2',i.$orig.appointStatus==2?'cancel_name':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['detailList','',index],['list','',j] ] ] ] ] ] ]}}">{{''+i.$orig.userRealname+''}}</view>
+                                                            <view class="left date top_17 data-v-e419b9b2">{{i.$orig.createTime}}</view>
+                                                            <view class="left remake top_15 data-v-e419b9b2" wx:if="{{i.$orig.remark}}">留言：<text class="remake-red data-v-e419b9b2">{{i.$orig.remark}}</text>
+                                                            </view>
+                                                            <view class="left remark data-v-e419b9b2" style="{{'margin-top:'+(i.$orig.remark?'5rpx':'15rpx')+';'}}" wx:if="{{i.$orig.staffRemark}}">备注：<text class="remarkcontent data-v-e419b9b2">{{i.$orig.staffRemark?i.$orig.staffRemark:''}}</text>
+                                                            </view>
+                                                            <view class="left remark data-v-e419b9b2" style="{{'margin-top:'+(i.$orig.remark||i.$orig.staffRemark?'5rpx':'15rpx')+';'}}" wx:if="{{i.$orig.otherSiteName}}">
+                                                                <text class="other-site data-v-e419b9b2">门店</text>
+                                                                <text class="other-name data-v-e419b9b2">{{i.$orig.otherSiteName?i.$orig.otherSiteName:''}}</text>
+                                                            </view>
+                                                            <view class="truant top_15 data-v-e419b9b2" wx:if="{{i.$orig.absenceCount}}">
+                                                                <text class="data-v-e419b9b2">本月旷课{{i.$orig.absenceCount+''}}次</text>
+                                                            </view>
+                                                        </view>
+                                                        <view class="right data-v-e419b9b2">
+                                                            <view class="right price data-v-e419b9b2" wx:if="{{i.$orig.cardChangeAmount!=0}}">
+                                                                <text class="plus-minus data-v-e419b9b2" wx:if="{{i.$orig.plusMinus}}">{{i.$orig.plusMinus}}</text>{{''+''+i.$orig.cardChangeAmount+i.$orig.unitName+(i.$orig.groupName||'')+''}}</view>
+                                                            <view class="right card_info top_17 data-v-e419b9b2">
+                                                                <image class="multi-card data-v-e419b9b2" src="{{i.m2}}" wx:if="{{i.$orig.cardCount&&i.$orig.cardCount>1}}"></image>
+                                                                <text class="data-v-e419b9b2">{{i.m3}}</text>
+                                                                <text class="card_balance data-v-e419b9b2">{{'余'+i.$orig.leftAmount+i.$orig.unitName}}</text>
+                                                            </view>
+                                                            <view class="right statue top_15 data-v-e419b9b2">
+                                                                <view class="help_appointment help_wrap data-v-e419b9b2" wx:if="{{i.$orig.helpStaffName&&i.$orig.helpStaffFace}}">
+                                                                    <view class="help_photo data-v-e419b9b2">
+                                                                        <image class="data-v-e419b9b2" src="{{i.$orig.helpStaffFace}}"></image>
+                                                                    </view>
+                                                                    <view class="help_name data-v-e419b9b2">{{''+i.m4+'操作'}}</view>
+                                                                </view>
+                                                                <view class="status_text data-v-e419b9b2" style="margin-left:6rpx;">
+                                                                    <text class="data-v-e419b9b2" style="{{'color:'+i.m5+';'}}">{{''+i.$orig.unionStatusName+''}}<text class="data-v-e419b9b2" style="margin-left:3rpx;" wx:if="{{i.$orig.manCount>1}}">{{'('+i.$orig.manCount+'人)'}}</text>
+                                                                    </text>
+                                                                </view>
+                                                            </view>
+                                                        </view>
+                                                    </view>
+                                                    <u-line bind:__l="__l" class="data-v-e419b9b2" color="#f0f0f0" margin="16rpx 0 0 0" vueId="{{'1b2beb67-2-'+index+'-'+j}}" wx:if="{{j+1!=i.g3}}"></u-line>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="data-v-e419b9b2" wx:else>
+                            <view class="noCourseData data-v-e419b9b2">
+                                <image class="icon data-v-e419b9b2" src="{{$root.m6}}"></image>
+                                <text class="tips data-v-e419b9b2">~ 没有上课记录 ~</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="nodata data-v-e419b9b2" wx:if="{{$root.g4!=0}}">
+        <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-e419b9b2" color="#bfbfbf" halfWidth="74" vueId="1b2beb67-3" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-e419b9b2" vueId="1b2beb67-4"></ff-bottom-logo>
+</view>

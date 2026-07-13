@@ -1,0 +1,52 @@
+<view class="data-v-267609a5">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-267609a5" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','shows','$event',[] ] ] ] ] ]}}" height="867" tips="  停卡后将停止计算有效期；解除时将以当日为起点顺延原有效期" title="停卡" value="{{shows}}" vueId="4508313a-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-267609a5" slot="confrimBtn">
+            <view bindtap="__e" class="determine data-v-267609a5" data-event-opts="{{[ [ 'tap',[ [ 'submit',['$event'] ] ] ] ]}}" wx:if="{{isSubmitBT&&balanceList.cardStatus!==3}}">确　定</view>
+            <view bindtap="__e" class="cancel data-v-267609a5" data-event-opts="{{[ [ 'tap',[ [ 'leaveSubmit',['$event'] ] ] ] ]}}" wx:else>解除停卡</view>
+        </view>
+        <view class="main_boxs data-v-267609a5">
+            <view class="form_boxx data-v-267609a5">
+                <view class="time data-v-267609a5">
+                    <view class="time_name data-v-267609a5">停卡时间</view>
+                    <view bindtap="__e" class="startTime data-v-267609a5" data-event-opts="{{[ [ 'tap',[ [ 'headleStartTime',['$event'] ] ] ] ]}}" style="{{'background:'+(balanceList.cardStatus==3?'none':'#f5f5f5')+';'}}">{{parameter.happenTime}}</view>
+                </view>
+                <view bindtap="__e" class="checked data-v-267609a5" data-event-opts="{{[ [ 'tap',[ [ 'headlemsg',['$event'] ] ] ] ]}}" wx:if="{{isSubmitBT&&balanceList&&balanceList.cardStatus!==3}}">
+                    <view class="{{['data-v-267609a5',statusMsg?'checkboxs':'checkbox']}}">
+                        <image class="data-v-267609a5" src="{{$root.m0}}"></image>
+                    </view>
+                    <view class="{{['data-v-267609a5',statusMsg?'remarks':'remark']}}">通知该会员「已停卡」</view>
+                </view>
+                <view bindtap="__e" class="checked data-v-267609a5" data-event-opts="{{[ [ 'tap',[ [ 'headleStatus',['$event'] ] ] ] ]}}">
+                    <view class="{{['data-v-267609a5',status?'checkboxs':'checkbox']}}">
+                        <image class="data-v-267609a5" src="{{$root.m1}}"></image>
+                    </view>
+                    <view class="{{['data-v-267609a5',status?'remarks':'remark']}}">写备注</view>
+                </view>
+                <view class="conter data-v-267609a5" hidden="{{!status}}">
+                    <editor-textarea bind:__l="__l" bind:customChange="__e" class="data-v-267609a5 vue-ref" data-event-opts="{{[ [ '^customChange',[ ['customChange'] ] ] ]}}" data-ref="editorTextarea" vueId="{{'4508313a-2'+','+'4508313a-1'}}"></editor-textarea>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-267609a5" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^input',[ [ '__set_model',[ '','flag','$event',[] ] ] ] ] ]}}" defaultTime="{{defaultTime}}" mode="time" params="{{params}}" value="{{flag}}" vueId="4508313a-3"></u-picker>
+    <confirm bind:__l="__l" class="data-v-267609a5 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="确认解除停卡？" vueId="4508313a-4" vueSlots="{{['content']}}">
+        <view class="data-v-267609a5" slot="content">
+            <text class="data-v-267609a5" style="{{'display:block;'}}">1、将从今日起顺延原有效期剩余天数</text>
+            <text class="data-v-267609a5" style="{{'display:block;'}}">2、该会员将会收到解除停卡通知</text>
+            <view class="btn data-v-267609a5" slot="btn">
+                <view bindtap="__e" class="modal-cancel data-v-267609a5" data-event-opts="{{[ [ 'tap',[ [ 'headleCancel',['$event'] ] ] ] ]}}">取 消</view>
+                <view bindtap="__e" class="modal-btn data-v-267609a5" data-event-opts="{{[ [ 'tap',[ [ 'headleBtn',['$event'] ] ] ] ]}}">确 定</view>
+            </view>
+        </view>
+    </confirm>
+    <confirm bind:__l="__l" class="data-v-267609a5 vue-ref" customBtn="{{true}}" data-ref="stopConfirmModal" title="确认停卡？" vueId="4508313a-5" vueSlots="{{['content']}}">
+        <view class="data-v-267609a5" slot="content">
+            <text class="data-v-267609a5" style="{{'display:block;'}}">1、将停止计算有效期且会员不可使用</text>
+            <text class="data-v-267609a5" style="{{'display:block;'}}">2、该会员将会收到停卡通知</text>
+            <view class="btn data-v-267609a5" slot="btn">
+                <view bindtap="__e" class="modal-cancel data-v-267609a5" data-event-opts="{{[ [ 'tap',[ [ 'stoppingCancel',['$event'] ] ] ] ]}}">取 消</view>
+                <view bindtap="__e" class="modal-btn data-v-267609a5" data-event-opts="{{[ [ 'tap',[ [ 'stoppingBtn',['$event'] ] ] ] ]}}">确 定</view>
+            </view>
+        </view>
+    </confirm>
+</view>

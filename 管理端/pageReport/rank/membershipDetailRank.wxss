@@ -1,0 +1,205 @@
+.content.data-v-60bab8be {
+  position: relative;
+}
+.content .head.data-v-60bab8be {
+  background: #f5f5f5;
+  position: -webkit-sticky;
+  position: sticky;
+  width: 100%;
+  z-index: 888;
+}
+.content .head .top_content.data-v-60bab8be {
+  background: #fff;
+  border-radius: 21rpx 21rpx 0 0;
+  margin: 23rpx 15rpx 0rpx;
+}
+.content .head .top_content .item_head.data-v-60bab8be {
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 26rpx;
+  justify-content: space-between;
+  line-height: 28rpx;
+  padding-right: 26rpx;
+  padding-top: 10rpx;
+}
+.content .head .top_content .item_right.data-v-60bab8be {
+  color: #181818;
+  font-size: 26rpx;
+  font-weight: 500;
+  padding: 25rpx 0rpx 10rpx 21rpx;
+}
+.summarize.data-v-60bab8be {
+  background: #fff;
+  color: #181818;
+  font-size: 35rpx;
+  line-height: 46rpx;
+  text-align: center;
+}
+.summarize .coach-avator.data-v-60bab8be {
+  border-radius: 12rpx;
+  flex-shrink: 0;
+  height: 160rpx !important;
+  margin-bottom: 3rpx;
+  margin-top: 8rpx;
+  width: 160rpx;
+}
+.summarize .head-data.data-v-60bab8be {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-around;
+}
+.summarize .head-data .top_money.data-v-60bab8be {
+  color: #e77d00;
+  font-size: 50rpx;
+  font-weight: 500;
+  padding-top: 20rpx;
+  text-align: center;
+}
+.summarize .head-data .top_money .fh.data-v-60bab8be {
+  font-size: 22rpx;
+}
+.summarize .head-data .top_text.data-v-60bab8be {
+  color: #989898;
+  font-size: 25rpx;
+  font-weight: 400;
+  line-height: 32rpx;
+  padding-bottom: 30rpx;
+  padding-top: 1rpx;
+  text-align: center;
+}
+.setting_wrap.data-v-60bab8be {
+  background: #fff;
+  border-radius: 0 0 21rpx 21rpx;
+  margin: 0rpx 15rpx 0;
+}
+.setting_wrap .list.data-v-60bab8be {
+  min-height: 1300rpx;
+}
+.setting_wrap .list .item.data-v-60bab8be {
+  color: #181818;
+  font-size: 26rpx;
+  padding-left: 28rpx;
+  padding-right: 24rpx;
+}
+.setting_wrap .list .item .sale-item.data-v-60bab8be {
+  box-sizing: border-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.setting_wrap .list .item .sale-item .avator.data-v-60bab8be {
+  border-radius: 50%;
+  flex-shrink: 0;
+  height: 84rpx;
+  margin-bottom: 34rpx;
+  width: 84rpx;
+}
+.setting_wrap .list .item .sale-item .detail-info.data-v-60bab8be {
+  flex: 1;
+  position: relative;
+}
+.setting_wrap .list .item .sale-item .detail-info .card_u_line.data-v-60bab8be {
+  bottom: 0;
+  left: 15rpx;
+  position: absolute;
+  width: 102%;
+}
+.setting_wrap
+  .list
+  .item
+  .sale-item
+  .detail-info
+  .detail-info-wrap.data-v-60bab8be {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  line-height: 36rpx;
+  padding-bottom: 5rpx;
+  padding-top: 8rpx;
+}
+.setting_wrap .list .item .sale-item .detail-info .l-info.data-v-60bab8be {
+  color: #181818;
+  font-size: 28rpx;
+  margin-left: 15rpx;
+  min-width: 200rpx;
+}
+.setting_wrap
+  .list
+  .item
+  .sale-item
+  .detail-info
+  .l-info
+  .time-and-type.data-v-60bab8be {
+  align-items: center;
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 21rpx;
+  margin-top: 5rpx;
+}
+.setting_wrap .list .item .sale-item .detail-info .r-info.data-v-60bab8be {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.setting_wrap
+  .list
+  .item
+  .sale-item
+  .detail-info
+  .r-info
+  .info-count.data-v-60bab8be {
+  color: #989898;
+  font-size: 21rpx;
+  padding-right: 8rpx;
+  text-align: end;
+}
+.setting_wrap
+  .list
+  .item
+  .sale-item
+  .detail-info
+  .r-info
+  .day-num.data-v-60bab8be {
+  color: #c96a2f;
+  font-size: 31rpx;
+  line-height: 39rpx;
+  padding-right: 8rpx;
+  text-align: end;
+}
+.setting_wrap
+  .list
+  .item
+  .sale-item
+  .detail-info
+  .r-info.data-v-60bab8be
+  .u-icon {
+  display: block;
+}
+.setting_wrap .list .item .foot_card.data-v-60bab8be {
+  margin-bottom: 32rpx;
+  margin-left: 100rpx;
+}
+.noCourseData.data-v-60bab8be {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  height: 750rpx;
+}
+.noCourseData .icon.data-v-60bab8be {
+  height: 171rpx;
+  margin-bottom: 40rpx;
+  margin-top: 160rpx;
+  width: 203rpx;
+}
+.noCourseData .explain.data-v-60bab8be {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 45rpx;
+}
+.nodata.data-v-60bab8be {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  padding-top: 36rpx;
+}

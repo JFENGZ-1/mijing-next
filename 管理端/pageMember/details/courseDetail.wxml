@@ -1,0 +1,123 @@
+<view class="data-v-0d123723">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-0d123723" headUrl="{{userFaceurl}}" text="{{userRealname}}" vueId="63c80a85-1"></navigation>
+    <view class="report-container data-v-0d123723" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-0d123723" style="{{'height:100%;min-height:1230rpx;background: #FFFFFF;'}}">
+            <view class="content data-v-0d123723">
+                <view catchtap="__e" class="time_axis data-v-0d123723" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">
+                    <view class="time data-v-0d123723">
+                        <text class="data-v-0d123723">{{parma.year+'年'+parma.month+'月'}}</text>
+                        <u-icon bind:__l="__l" class="data-v-0d123723" color="#22C788" name="calendar" size="29" vueId="63c80a85-2"></u-icon>
+                    </view>
+                </view>
+                <view class="data-v-0d123723">
+                    <view class="top_data data-v-0d123723">
+                        <view class="more-data data-v-0d123723">
+                            <view class="item data-v-0d123723">
+                                <view class="info data-v-0d123723">
+                                    <text class="info_num data-v-0d123723">{{monthcount}}</text>
+                                    <view class="data-v-0d123723">{{'本月'+titleName+'（节）'}}</view>
+                                </view>
+                            </view>
+                            <view class="item data-v-0d123723">
+                                <view class="info data-v-0d123723">
+                                    <text class="info_num data-v-0d123723">{{totalcount}}</text>
+                                    <view class="data-v-0d123723">{{'累计'+titleName+'（节）'}}</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-0d123723" height="24" vueId="63c80a85-3"></u-gap>
+                </view>
+                <view class="statistics data-v-0d123723">
+                    <view class="data-v-0d123723" style="padding-bottom:120rpx;">
+                        <view class="item data-v-0d123723" wx:for="{{$root.l1}}" wx:key="index">
+                            <view bindtap="__e" class="flex data-v-0d123723" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['appointmentList','',index] ] ] ] ] ] ]}}">
+                                <view class="photo_img data-v-0d123723">
+                                    <image class="data-v-0d123723" src="{{item.$orig.staffFace}}"></image>
+                                </view>
+                                <view class="info_box data-v-0d123723">
+                                    <view class="info_left_box data-v-0d123723">
+                                        <view class="info_box_wrap data-v-0d123723">
+                                            <view class="row_item first_row_item data-v-0d123723">
+                                                <view class="course_name data-v-0d123723">
+                                                    <text class="data-v-0d123723">{{item.$orig.dataidType==0?item.$orig.courseName:item.$orig.staffName}}</text>
+                                                    <view class="tag_wrap data-v-0d123723" wx:if="{{item.$orig.tagData&&item.$orig.tagData!='不指定'}}">
+                                                        <image class="data-v-0d123723" src="{{item.m0}}"></image>
+                                                        <view class="tag_text data-v-0d123723">{{item.$orig.tagData}}</view>
+                                                    </view>
+                                                </view>
+                                                <view class="{{['consumption','data-v-0d123723',item.$orig.cardChangeAmount==0?'visibility':'']}}">
+                                                    <text class="plus-minus data-v-0d123723" wx:if="{{item.$orig.plusMinus}}">{{item.$orig.plusMinus}}</text>{{''+''+item.$orig.cardChangeAmount+item.$orig.unitName+(item.$orig.groupName||'')+''}}</view>
+                                            </view>
+                                            <view class="row_item data-v-0d123723">
+                                                <view class="multiterm_info data-v-0d123723" wx:if="{{item.$orig.dataidType==0}}">
+                                                    <view class="coach_name data-v-0d123723" wx:if="{{item.$orig.staffName}}">{{''+item.m1+''}}</view>
+                                                    <view class="classroom_wrap flex data-v-0d123723" wx:if="{{item.$orig.courseAddr}}">
+                                                        <u-line bind:__l="__l" class="data-v-0d123723" color="#989898" direction="col" length="22" margin="0 15rpx" vueId="{{'63c80a85-4-'+index}}"></u-line>
+                                                        <text class="data-v-0d123723">{{item.$orig.courseAddr}}</text>
+                                                    </view>
+                                                    <view class="difficulty_wrap flex data-v-0d123723" wx:if="{{item.$orig.degreeNum>0}}">
+                                                        <u-line bind:__l="__l" class="data-v-0d123723" color="#989898" direction="col" length="22" margin="0 15rpx" vueId="{{'63c80a85-5-'+index}}"></u-line>
+                                                        <text class="data-v-0d123723">难度</text>
+                                                        <view class="star-level data-v-0d123723">
+                                                            <image class="data-v-0d123723" src="{{i.m2}}" wx:for="{{item.l0}}" wx:for-index="__i0__" wx:for-item="i" wx:key="$orig"></image>
+                                                        </view>
+                                                    </view>
+                                                </view>
+                                                <view class="time_info flex data-v-0d123723" wx:else>
+                                                    <text class="data-v-0d123723">{{item.m3.month+'-'+item.m4.day+' '+item.$orig.weekName}}</text>
+                                                    <view class="time_quantum data-v-0d123723">{{item.m5.hours+':'+item.m6.minutesurs+'~'+item.m7.hours+':'+item.m8.minutesurs}}</view>
+                                                </view>
+                                                <view class="balance flex data-v-0d123723">{{'余'+''+item.$orig.leftAmount+item.$orig.unitName}}</view>
+                                            </view>
+                                            <view class="row_item data-v-0d123723" style="margin-top:8rpx;">
+                                                <view class="time_info flex data-v-0d123723" wx:if="{{item.$orig.dataidType==0}}">
+                                                    <text class="data-v-0d123723">{{item.m9.month+'-'+item.m10.day+' '+item.$orig.weekName}}</text>
+                                                    <view class="time_quantum data-v-0d123723">{{''+item.m11.hours+':'+item.m12.minutesurs+'~'+item.m13.hours+':'+item.m14.minutesurs+''}}</view>
+                                                </view>
+                                                <view class="course_project data-v-0d123723" wx:if="{{item.$orig.dataidType==1&&item.$orig.courseName}}">
+                                                    <view class="project_item data-v-0d123723">{{item.$orig.courseName}}</view>
+                                                </view>
+                                                <view class="status flex data-v-0d123723">
+                                                    <view class="handle_person data-v-0d123723" wx:if="{{item.$orig.helpStaffFace&&item.$orig.helpStaffName}}">
+                                                        <view class="photo-wrap data-v-0d123723">
+                                                            <image class="data-v-0d123723" src="{{item.$orig.helpStaffFace}}"></image>
+                                                        </view>
+                                                        <text class="data-v-0d123723" wx:if="{{item.$orig.helpStaffName}}">{{item.m15+'操作'}}</text>
+                                                    </view>
+                                                    <text class="data-v-0d123723" style="{{'color:'+item.m16+';'}}">{{''+item.$orig.unionStatusName+''}}<text class="data-v-0d123723" style="margin-left:3rpx;" wx:if="{{item.$orig.manCount>1}}">{{'('+item.$orig.manCount+'人)'}}</text>
+                                                    </text>
+                                                </view>
+                                            </view>
+                                            <view class="remake-box row_item data-v-0d123723" style="{{'margin-top:8rpx;justify-content:flex-start;'+'padding-bottom:'+(item.$orig.staffRemark?0:'10rpx')+';'}}" wx:if="{{item.$orig.remark}}">
+                                                <text class="remarkfont data-v-0d123723">留言：</text>
+                                                <text class="remarkcontent data-v-0d123723">{{item.$orig.remark?item.$orig.remark:''}}</text>
+                                            </view>
+                                            <view class="remake-box row_item data-v-0d123723" style="margin-top:8rpx;justify-content:flex-start;" wx:if="{{item.$orig.staffRemark}}">
+                                                <text class="remarkfont data-v-0d123723">备注：</text>
+                                                <text class="remarkcontent data-v-0d123723">{{item.$orig.staffRemark?item.$orig.staffRemark:''}}</text>
+                                            </view>
+                                            <view class="remake-box data-v-0d123723" style="{{'justify-content:flex-start;'+'margin-top:'+(item.$orig.staffRemark?'0':'8rpx')+';'}}" wx:if="{{item.$orig.otherSiteName}}">
+                                                <text class="other-site data-v-0d123723">门店</text>
+                                                <text class="other-name data-v-0d123723">{{item.$orig.otherSiteName?item.$orig.otherSiteName:''}}</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <u-line bind:__l="__l" class="data-v-0d123723" color="#F0F0F0" vueId="{{'63c80a85-6-'+index}}"></u-line>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="data-v-0d123723" wx:if="{{$root.g0==0}}">
+                            <view class="noCourseData data-v-0d123723">
+                                <image class="data-v-0d123723" src="{{$root.m17}}"></image>
+                                <text class="data-v-0d123723">本月没有预约记录哦</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <calendar-month bind:__l="__l" bind:changeDate="__e" class="data-v-0d123723 vue-ref" data-event-opts="{{[ [ '^changeDate',[ ['changeDate'] ] ] ]}}" data-ref="calendarMonthChild" vueId="63c80a85-7"></calendar-month>
+        <ff-bottom-logo bind:__l="__l" class="data-v-0d123723" vueId="63c80a85-8"></ff-bottom-logo>
+    </view>
+</view>

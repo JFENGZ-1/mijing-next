@@ -1,0 +1,13 @@
+<u-popup bind:__l="__l" bind:close="__e" bind:input="__e" class="ff-popup-box data-v-00f26fe6" customStyle="{{$root.a0}}" data-event-opts="{{[ [ '^close',[ ['cancelbtn'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="{{height}}" mode="top" value="{{show}}" vueId="c23b7528-1" vueSlots="{{['default']}}" width="{{750}}" zIndex="100">
+    <view catchtouchmove="__e" class="ff-popup-content data-v-00f26fe6" data-event-opts="{{[ [ 'touchmove',[ [ '',['$event'] ] ] ] ]}}" style="{{'height:'+height+';'}}">
+        <view class="data-v-00f26fe6">
+            <slot name="customize"></slot>
+        </view>
+        <scroll-view bounces="{{true}}" catchtouchmove="{{true}}" class="scroll-main data-v-00f26fe6" enhanced="{{true}}" scrollY="{{scrolly}}" style="{{'bottom:'+(showConfrim?confrimBtnH+'rpx':'0')+';'}}">
+            <slot name="content"></slot>
+        </scroll-view>
+        <view class="confrim-btn data-v-00f26fe6" wx:if="{{showConfrim}}">
+            <slot name="btn"></slot>
+        </view>
+    </view>
+</u-popup>

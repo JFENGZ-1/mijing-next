@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-mask": "/uview-ui/components/u-mask/u-mask",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

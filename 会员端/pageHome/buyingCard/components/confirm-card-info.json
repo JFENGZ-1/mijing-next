@@ -1,0 +1,16 @@
+{
+  "component": true,
+  "usingComponents": {
+    "ff-value-card": "/components/ff-value-card/ff-value-card",
+    "ff-counts-card": "/components/ff-counts-card/ff-counts-card",
+    "ff-date-card": "/components/ff-date-card/ff-date-card",
+    "u-checkbox": "/node-modules/uview-ui/components/u-checkbox/u-checkbox",
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "u-popup": "/node-modules/uview-ui/components/u-popup/u-popup",
+    "dialog": "/components/dialog/index",
+    "counts-card": "/pageHome/buyingCard/components/counts-card",
+    "date-card": "/pageHome/buyingCard/components/date-card",
+    "value-card": "/pageHome/buyingCard/components/value-card",
+    "panel-active": "/components/alert-panel/panel-active"
+  }
+}

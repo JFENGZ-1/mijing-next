@@ -1,0 +1,10 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "详细信息",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

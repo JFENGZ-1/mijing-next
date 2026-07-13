@@ -1,0 +1,20 @@
+.fixed.data-v-4adc7070 {
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+}
+.cu-title.data-v-4adc7070 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  position: relative;
+  width: 100%;
+  z-index: 99;
+}
+.cu-title .text.data-v-4adc7070 {
+  font-size: 44rpx;
+  font-weight: 700;
+  text-indent: 27rpx;
+}

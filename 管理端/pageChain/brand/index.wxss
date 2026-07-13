@@ -1,0 +1,90 @@
+.placeholder-style.data-v-eb2a6a4a {
+  align-items: center;
+  color: #d0d2d7;
+}
+.setting-container .content.data-v-eb2a6a4a {
+  font-size: 28rpx;
+  padding: 0rpx 65rpx 400rpx;
+}
+.setting-container .content .imghead.data-v-eb2a6a4a {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  padding-top: 50rpx;
+  text-align: center;
+}
+.setting-container .content .imghead .img.data-v-eb2a6a4a {
+  border-radius: 50%;
+  height: 180rpx;
+  width: 180rpx;
+}
+.setting-container .content .imghead .headimg.data-v-eb2a6a4a {
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 50%;
+  display: -webkit-flex;
+  display: flex;
+  height: 180rpx;
+  justify-content: center;
+  width: 180rpx;
+}
+.setting-container .content .imghead .headimg text.data-v-eb2a6a4a {
+  color: #d0d2d7;
+  font-size: 37rpx;
+  font-weight: 400;
+}
+.setting-container .content .imghead .u-upload.data-v-eb2a6a4a {
+  justify-content: center;
+  width: 100%;
+}
+.setting-container .content .imghead .imghead-text.data-v-eb2a6a4a {
+  color: #003d82;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 22rpx;
+  justify-content: center;
+  line-height: 30rpx;
+  margin-top: 16rpx;
+  text-align: center;
+  vertical-align: middle;
+}
+.setting-container .content .imghead .imghead-text .cameraicon.data-v-eb2a6a4a {
+  height: 24rpx;
+  margin-right: 6rpx;
+  margin-top: 5rpx;
+  width: 28rpx;
+}
+.setting-container .content .content-grid.data-v-eb2a6a4a {
+  margin: 66rpx 0rpx;
+}
+.setting-container .content .content-grid .grid-label.data-v-eb2a6a4a {
+  color: #181818;
+  font-weight: 400;
+}
+.setting-container .content .content-grid .grid.data-v-eb2a6a4a {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+}
+.setting-container
+  .content
+  .u-hairline-border[data-v-6e15e680].data-v-eb2a6a4a:after {
+  border: 1px solid #fbd128;
+}
+.setting-container .content .save-btn.data-v-eb2a6a4a {
+  background: #ffcf00;
+  border: 1rpx solid #fbd128;
+  border-radius: 20px;
+  color: #181818;
+  font-size: 32rpx;
+  font-weight: 400;
+  height: 84rpx;
+  margin-bottom: 39rpx;
+  margin-top: 164rpx;
+  width: 458rpx;
+}
+.setting-container .content .save-btn button[plain].data-v-eb2a6a4a {
+  border: 0;
+}

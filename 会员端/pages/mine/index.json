@@ -1,0 +1,16 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#FBD128",
+  "usingComponents": {
+    "u-line": "/node-modules/uview-ui/components/u-line/u-line",
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "bottom-show-logo": "/components/ff-bottom-logo/showLogo",
+    "member-card": "/components/mumber-card/index",
+    "confirm-modal": "/pages/index/components/confirm-modal",
+    "card-all-project": "/components/card-all-project/index",
+    "dialog": "/components/dialog/index",
+    "bottom-logo": "/components/ff-bottom-logo/index"
+  }
+}

@@ -1,0 +1,371 @@
+<page-meta class="data-v-7b4249e7" pageStyle="{{'overflow:'+(show?'hidden':'visible')}}"></page-meta>
+<view class="data-v-7b4249e7">
+    <view class="data-v-7b4249e7">
+        <view class="top-search-box data-v-7b4249e7" id="search_view" style="{{'height:'+StatusBar+CustomBar+$root.m0+'px'+';'}}">
+            <view class="search_view_wrap data-v-7b4249e7" style="{{'height:'+StatusBar+CustomBar+$root.m1+'px'+';'}}">
+                <view class="data-v-7b4249e7">
+                    <navigation bind:__l="__l" class="navigation data-v-7b4249e7" text="筛选会员" vueId="27065cf2-1"></navigation>
+                    <search-header bind:__l="__l" bind:headleScreen="__e" bind:headleSearch="__e" bind:pl="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^headleSearch',[ ['headleSearch'] ] ],[ '^headleScreen',[ ['headleScreen'] ] ],[ '^pl',[ ['pl'] ] ] ]}}" isAllSearch="{{isCheck}}" listCheck="{{listCheck}}" vueId="27065cf2-2"></search-header>
+                </view>
+            </view>
+        </view>
+        <view class="placeholder-box data-v-7b4249e7" style="{{'top:'+StatusBar+CustomBar+$root.m2+'px'+';'}}"></view>
+        <view class="member-data data-v-7b4249e7">
+            <view class="screen_condition data-v-7b4249e7">
+                <view class="screen data-v-7b4249e7">
+                    <text class="condition data-v-7b4249e7">筛选条件</text>
+                    <view class="condition_content data-v-7b4249e7">
+                        <view class="screen_card data-v-7b4249e7" wx:if="{{$root.g0}}">
+                            <block wx:if="{{$root.g1}}">
+                                <view class="data-v-7b4249e7" wx:if="{{item.$orig.active==true}}" wx:for="{{$root.l0}}" wx:key="cardId">
+                                    <view class="{{['card-type-boxs','data-v-7b4249e7',item.$orig.saleStatus==0?'gray':'']}}">
+                                        <view class="data-v-7b4249e7" wx:if="{{item.$orig.saleStatus==0}}">
+                                            <view class="mask data-v-7b4249e7"></view>
+                                            <view class="img-wrap data-v-7b4249e7">
+                                                <view class="data-v-7b4249e7">
+                                                    <image class="data-v-7b4249e7" src="{{item.m3}}"></image>
+                                                    <text class="data-v-7b4249e7">已停售</text>
+                                                </view>
+                                            </view>
+                                            <view class="{{['data-v-7b4249e7',item.$orig.saleStatus==0?'gray':'']}}"></view>
+                                        </view>
+                                        <ff-value-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-7b4249e7" vueId="{{'27065cf2-3-'+index}}" wx:if="{{item.$orig.cardType==1}}"></ff-value-card>
+                                        <ff-counts-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-7b4249e7" vueId="{{'27065cf2-4-'+index}}" wx:if="{{item.$orig.cardType==2}}"></ff-counts-card>
+                                        <ff-date-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-7b4249e7" vueId="{{'27065cf2-5-'+index}}" wx:if="{{item.$orig.cardType==3}}"></ff-date-card>
+                                    </view>
+                                </view>
+                            </block>
+                            <view class="on_cards data-v-7b4249e7" wx:if="{{$root.g2}}">
+                                <view class="on-card data-v-7b4249e7" wx:for="{{$root.l1}}" wx:key="index">
+                                    <image class="img data-v-7b4249e7" mode="widthFix" src="{{item.m4}}"></image>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="condition_flex data-v-7b4249e7" style="display:flex;flex-wrap:wrap;">
+                            <view class="condition_remarks condition_width data-v-7b4249e7" wx:if="{{$root.g3==0}}">全部会员</view>
+                            <text class="condition_remarks condition_width data-v-7b4249e7" wx:if="{{paramShow.validUserTag}}">{{''+paramShow.validUserTag.name+''}}</text>
+                            <block wx:if="{{$root.g4}}">
+                                <text class="condition_remarks staffsshow data-v-7b4249e7" wx:for="{{$root.l2}}" wx:key="index">{{''+item.m5+''}}</text>
+                            </block>
+                            <view class="picture data-v-7b4249e7" wx:for="{{$root.l3}}" wx:key="index">
+                                <image class="data-v-7b4249e7" mode="widthFix" src="{{item.m6}}"></image>
+                            </view>
+                            <block wx:if="{{$root.g5}}">
+                                <text class="condition_remarks condition_width data-v-7b4249e7" wx:for="{{paramShow.statusList}}" wx:key="index">{{''+item.name+''}}</text>
+                            </block>
+                            <block wx:if="{{$root.g6}}">
+                                <text class="condition_remarks condition_width data-v-7b4249e7" wx:for="{{paramShow.membershipActiveList}}" wx:key="index">{{''+item.name+''}}</text>
+                            </block>
+                            <block wx:if="{{$root.g7}}">
+                                <text class="condition_remarks condition_width data-v-7b4249e7" wx:for="{{paramShow.noClassList}}" wx:key="index">{{''+item.name+''}}</text>
+                            </block>
+                            <block wx:if="{{$root.g8}}">
+                                <text class="condition_remarks condition_width data-v-7b4249e7" wx:for="{{paramShow.GroupClassList}}" wx:key="index">{{''+item.name+''}}</text>
+                            </block>
+                            <block wx:if="{{$root.g9}}">
+                                <text class="condition_remarks condition_width data-v-7b4249e7" wx:for="{{paramShow.sexList}}" wx:key="index">{{''+item.name+''}}</text>
+                            </block>
+                        </view>
+                        <view class="explain data-v-7b4249e7">
+                            <view class="explains data-v-7b4249e7" wx:if="{{paramShow.startTime&&paramShow.endTime}}">{{'注册时间：'+paramShow.startTime+' 至 '+paramShow.startTime}}</view>
+                            <view class="explains data-v-7b4249e7" wx:if="{{paramShow.defaultbirthdayStrartTime&&paramShow.defaultbirthdayEndTime}}">生<text class="title_text data-v-7b4249e7">日</text>{{'：'+paramShow.defaultbirthdayStrartTime+' 至\n\t\t\t\t\t\t\t\t\t'+paramShow.defaultbirthdayEndTime+''}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="member_list data-v-7b4249e7">
+                <view class="filter data-v-7b4249e7">
+                    <view class="left-box data-v-7b4249e7">
+                        <text class="data-v-7b4249e7">{{'共找到'+allNumTimes+'人'}}</text>
+                    </view>
+                </view>
+                <view class="list data-v-7b4249e7">
+                    <view class="loading-wrap data-v-7b4249e7" wx:if="{{isloadingPulse}}">
+                        <loading-pulse bind:__l="__l" class="data-v-7b4249e7" vueId="27065cf2-6"></loading-pulse>
+                    </view>
+                    <view class="data-v-7b4249e7" wx:for="{{$root.l4}}" wx:key="index">
+                        <view class="{{['data-v-7b4249e7',rankingNum==3?'items':'item']}}">
+                            <view class="left data-v-7b4249e7">
+                                <view bindtap="__e" class="checkbox-wrap data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'checkboxChange',['$0'],[ [ ['screenList','',index] ] ] ] ] ] ]}}">
+                                    <u-checkbox-group bind:__l="__l" catch:tap="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^tap',[ [ '',['$event'] ] ] ] ]}}" size="36" vueId="{{'27065cf2-7-'+index}}" vueSlots="{{['default']}}" wx:if="{{rankingNum==3}}">
+                                        <u-checkbox bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^change',[ [ 'checkboxChange',['$0'],[ [ ['screenList','',index] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','checked','$event',[] ],[ [ ['screenList','',index] ] ] ] ] ] ]}}" shape="circle" value="{{item.$orig.checked}}" vueId="{{'27065cf2-8-'+index+','+'27065cf2-7-'+index}}"></u-checkbox>
+                                    </u-checkbox-group>
+                                </view>
+                                <view bindtap="__e" class="portrait data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'headleDelete',['$0'],[ [ ['screenList','',index,'userId'] ] ] ] ] ] ]}}">
+                                    <image class="{{['img','data-v-7b4249e7',item.$orig.noLogin==1?'photo-image-grey':'']}}" mode="widthFix" src="{{item.$orig.userFaceurl}}"></image>
+                                    <view class="data-v-7b4249e7" wx:if="{{item.$orig.noLogin==1}}">
+                                        <image class="forbidden-img data-v-7b4249e7" src="{{item.m7}}"></image>
+                                    </view>
+                                </view>
+                                <view bindtap="__e" class="item_name data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'headleDelete',['$0'],[ [ ['screenList','',index,'userId'] ] ] ] ] ] ]}}">
+                                    <view class="flag data-v-7b4249e7">
+                                        <view class="name data-v-7b4249e7">{{item.$orig.userRealname}}</view>
+                                        <image class="remark data-v-7b4249e7" src="{{item.m8}}" wx:if="{{item.$orig.hasremark==1}}"></image>
+                                        <image class="tag data-v-7b4249e7" src="{{item.m9}}" wx:if="{{item.$orig.tagValue==1}}"></image>
+                                        <image class="tag data-v-7b4249e7" src="{{item.m10}}" wx:if="{{item.$orig.tagValue==2}}"></image>
+                                        <image class="tag data-v-7b4249e7" src="{{item.m11}}" wx:if="{{item.$orig.tagValue==3}}"></image>
+                                        <image class="tag data-v-7b4249e7" src="{{item.m12}}" wx:if="{{item.$orig.tagValue==4}}"></image>
+                                        <image class="tag data-v-7b4249e7" src="{{item.m13}}" wx:if="{{item.$orig.tagValue==5}}"></image>
+                                    </view>
+                                    <view class="item_time data-v-7b4249e7">
+                                        <text class="times data-v-7b4249e7">{{item.$orig.createTime}}</text>
+                                        <text class="data-v-7b4249e7" wx:if="{{item.$orig.cardType==1}}">{{'余'+item.$orig.balanceAmount+'元'}}</text>
+                                        <text class="data-v-7b4249e7" wx:if="{{item.$orig.cardType==2}}">{{'余'+item.$orig.balanceAmount+'次'}}</text>
+                                        <text class="data-v-7b4249e7" wx:if="{{item.$orig.cardType==3}}">{{'余'+item.$orig.balanceAmount+'天'}}</text>
+                                    </view>
+                                </view>
+                                <view class="msg-wrap data-v-7b4249e7">
+                                    <view class="hintmsg data-v-7b4249e7" wx:if="{{item.$orig.hintMsg}}">
+                                        <image class="renew-icon data-v-7b4249e7" src="{{item.m14}}"></image>
+                                        <view class="type-name data-v-7b4249e7">{{''+item.$orig.hintMsg+''}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="right data-v-7b4249e7">
+                                <view bindtap="__e" class="number data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'headleDelete',['$0'],[ [ ['screenList','',index,'userId'] ] ] ] ] ] ]}}" wx:if="{{rankingNum==1}}">{{''+item.$orig.totalPayAmount+'元'}}</view>
+                                <view bindtap="__e" class="number data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'headleDelete',['$0'],[ [ ['screenList','',index,'userId'] ] ] ] ] ] ]}}" wx:if="{{rankingNum==2}}">{{''+item.$orig.appointCount+'次'}}</view>
+                                <view bindtap="__e" class="card data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}" data-event-params="{{ ({item:item.$orig}) }}">
+                                    <image class="multi-icon data-v-7b4249e7" src="{{item.m15}}" wx:if="{{item.$orig.cardCount==1}}"></image>
+                                    <image class="multi-icon data-v-7b4249e7" src="{{item.m16}}" wx:if="{{item.$orig.cardCount>1}}"></image>
+                                    <image class="multi-icon data-v-7b4249e7" src="{{item.m17}}" wx:if="{{item.$orig.cardCount==0}}"></image>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="{{['data-v-7b4249e7',rankingNum==3?'borders':'border']}}"></view>
+                    </view>
+                    <view class="exceed_tips_box data-v-7b4249e7">
+                        <view class="exceed_tips data-v-7b4249e7" wx:if="{{allNumTimes>300}}">
+                            <image class="icon data-v-7b4249e7" src="{{$root.m18}}"></image>
+                            <view class="tips_right data-v-7b4249e7">结果过多，仅显示前300名，可点击上方“筛选”进一步筛选</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="batchs batchs-height data-v-7b4249e7">
+                <view class="batchs-view data-v-7b4249e7">
+                    <view class="batch data-v-7b4249e7" wx:if="{{rankingNum==3||rankingNum==4}}">
+                        <view class="checkbox data-v-7b4249e7">
+                            <u-checkbox-group bind:__l="__l" class="data-v-7b4249e7" vueId="27065cf2-9" vueSlots="{{['default']}}" wx:if="{{rankingNum==3}}">
+                                <u-checkbox bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^change',[ ['allCheckboxChange'] ] ],[ '^input',[ [ '__set_model',[ '','allCheck','$event',[] ] ] ] ] ]}}" shape="circle" value="{{allCheck}}" vueId="{{'27065cf2-10'+','+'27065cf2-9'}}" vueSlots="{{['default']}}">已选<text class="check_num data-v-7b4249e7">{{totalNum}}</text>名</u-checkbox>
+                            </u-checkbox-group>
+                            <view class="left-select data-v-7b4249e7" wx:if="{{rankingNum==4}}">
+                                <view class="selected_card1 selected_card_active data-v-7b4249e7">
+                                    <u-icon bind:__l="__l" class="data-v-7b4249e7" color="#FFFFFF" name="checkbox-mark" size="22" vueId="27065cf2-11"></u-icon>
+                                </view>
+                                <view class="data-v-7b4249e7">全部<text class="check_num data-v-7b4249e7">{{totalCount}}</text>名会员</view>
+                            </view>
+                        </view>
+                        <view class="btn_box data-v-7b4249e7">
+                            <view bindtap="__e" class="btn data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'headleplcard',['$event'] ] ] ] ]}}" wx:if="{{plIndex==1}}">批量发卡</view>
+                            <view bindtap="__e" class="btn data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'headleStopping',[1] ] ] ] ]}}" wx:if="{{plIndex==2}}">解除停卡</view>
+                            <view bindtap="__e" class="btn data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'headleStopping',[2] ] ] ] ]}}" style="margin-left:30rpx;" wx:if="{{plIndex==2}}">批量停卡</view>
+                            <view bindtap="__e" class="btn data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'headleAdjustment',['$event'] ] ] ] ]}}" wx:if="{{plIndex==4}}">批量调整余额</view>
+                            <view bindtap="__e" class="btn data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'headleDelay',['$event'] ] ] ] ]}}" wx:if="{{plIndex==3}}">批量延期</view>
+                            <view bindtap="__e" class="btn data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'plheadleDelay',['$event'] ] ] ] ]}}" wx:if="{{plIndex==5}}">全部一键延期</view>
+                            <view bindtap="__e" class="btn data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'plheadleStopping',[1] ] ] ] ]}}" wx:if="{{plIndex==6}}">一键解除停卡</view>
+                            <view bindtap="__e" class="btn data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'plheadleStopping',[2] ] ] ] ]}}" style="margin-left:30rpx;" wx:if="{{plIndex==6}}">一键停卡</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <filter-confirm bind:__l="__l" bind:cancelbtn="__e" class="data-v-7b4249e7 vue-ref" data-event-opts="{{[ [ '^cancelbtn',[ ['headleCancel'] ] ] ]}}" data-ref="confirmModal" vueId="27065cf2-12" vueSlots="{{['content','btn']}}">
+            <view class="data-v-7b4249e7" slot="content">
+                <view class="data-v-7b4249e7">
+                    <view class="data-v-7b4249e7" style="margin:40rpx 12rpx 0 35rpx;display:flex;flex-wrap:wrap;">
+                        <view class="card-top data-v-7b4249e7" style="width:100%;">
+                            <view class="card-top-left data-v-7b4249e7">按会员卡</view>
+                            <view bindtap="__e" class="card-top-right data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'chooseCard',['$event'] ] ] ] ]}}">去选择<u-icon bind:__l="__l" class="data-v-7b4249e7" color="#C96A2F" name="arrow-down" size="18" style="padding-left:6rpx;" vueId="{{'27065cf2-13'+','+'27065cf2-12'}}"></u-icon>
+                            </view>
+                        </view>
+                        <view class="{{['cardList','data-v-7b4249e7',!( (index+1)%2==0 )?'cardList_first':'',(index+1)%2==0?'cardList_last':'',item.g10?'cardList_bottom_no':'']}}" wx:if="{{item.$orig.active==true}}" wx:for="{{$root.l5}}" wx:key="index">
+                            <view class="wrap data-v-7b4249e7">
+                                <view class="{{['card_wrap','data-v-7b4249e7',item.$orig.saleStatus==0?'gray':'']}}">
+                                    <view class="data-v-7b4249e7" wx:if="{{item.$orig.saleStatus==0}}">
+                                        <view class="mask data-v-7b4249e7"></view>
+                                        <view class="img-wrap data-v-7b4249e7">
+                                            <view class="data-v-7b4249e7">
+                                                <image class="data-v-7b4249e7" src="{{item.m19}}"></image>
+                                                <text class="data-v-7b4249e7">已停售</text>
+                                            </view>
+                                        </view>
+                                        <view class="{{['data-v-7b4249e7',item.$orig.saleStatus==0?'gray':'']}}"></view>
+                                    </view>
+                                    <ff-value-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-7b4249e7" vueId="{{'27065cf2-14-'+index+','+'27065cf2-12'}}" wx:if="{{item.$orig.cardType==1}}"></ff-value-card>
+                                    <ff-counts-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-7b4249e7" vueId="{{'27065cf2-15-'+index+','+'27065cf2-12'}}" wx:if="{{item.$orig.cardType==2}}"></ff-counts-card>
+                                    <ff-date-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-7b4249e7" vueId="{{'27065cf2-16-'+index+','+'27065cf2-12'}}" wx:if="{{item.$orig.cardType==3}}"></ff-date-card>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="{{['on_cards_Choice','data-v-7b4249e7',item.g11%2==0?'cardList_first':'',!(item.g12%2==0)?'cardList_last':'']}}" wx:if="{{item.$orig.active==true}}" wx:for="{{$root.l6}}" wx:key="index">
+                            <view bindtap="__e" class="on_card data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'headleNoCard',['$0',index],[ [ ['noCard','',index] ] ] ] ] ] ]}}">
+                                <image class="img data-v-7b4249e7" mode="widthFix" src="{{item.m20}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="model data-v-7b4249e7">
+                        <view class="title data-v-7b4249e7">会籍顾问</view>
+                        <view class="data-v-7b4249e7" style="display:flex;flex-wrap:wrap;">
+                            <view bindtap="__e" class="{{['data-v-7b4249e7',item.$orig.active?'staffActive':'staffs']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleRemarks',[index,'$0'],[ [ ['stafflist','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l7}}" wx:key="index">{{''+item.m21+''}}</view>
+                        </view>
+                    </view>
+                    <view class="model data-v-7b4249e7">
+                        <view class="title data-v-7b4249e7">标<text class="title_text data-v-7b4249e7">记</text>
+                        </view>
+                        <view class="content_flags data-v-7b4249e7">
+                            <view bindtap="__e" class="{{['data-v-7b4249e7',item.$orig.active?'flagActives':'item_flags']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleFlag',[index,'$0'],[ [ ['flagList','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l8}}" wx:key="index">
+                                <view class="identification data-v-7b4249e7">
+                                    <image class="data-v-7b4249e7" src="{{item.m22}}"></image>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="model data-v-7b4249e7">
+                        <view class="title data-v-7b4249e7">状<text class="title_text data-v-7b4249e7">态</text>
+                        </view>
+                        <view class="data-v-7b4249e7" style="display:flex;flex-wrap:wrap;">
+                            <view bindtap="__e" class="{{['data-v-7b4249e7',item.active?'remarksActive':'remarks']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleStatus',[index,'$0'],[ [ ['statusList','',index] ] ] ] ] ] ]}}" wx:for="{{statusList}}" wx:key="index">{{''+item.name+''}}</view>
+                        </view>
+                    </view>
+                    <view class="model data-v-7b4249e7">
+                        <view class="title data-v-7b4249e7">会员活跃</view>
+                        <view class="data-v-7b4249e7" style="display:flex;flex-wrap:wrap;">
+                            <view bindtap="__e" class="{{['data-v-7b4249e7',item.active?'remarksActive':'remarks']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleMembershipActive',[index,'$0'],[ [ ['membershipActiveList','',index] ] ] ] ] ] ]}}" wx:for="{{membershipActiveList}}" wx:key="index">{{''+item.name+''}}</view>
+                        </view>
+                    </view>
+                    <view class="model data-v-7b4249e7">
+                        <view class="title data-v-7b4249e7">未 上 课</view>
+                        <view class="data-v-7b4249e7" style="display:flex;flex-wrap:wrap;">
+                            <view bindtap="__e" class="{{['data-v-7b4249e7',item.active?'remarksActive':'remarks']}}" data-event-opts="{{[ [ 'tap',[ [ 'headlenoClassList',[index,'$0'],[ [ ['noClassList','',index] ] ] ] ] ] ]}}" wx:for="{{noClassList}}" wx:key="index">{{''+item.name+''}}</view>
+                        </view>
+                    </view>
+                    <view class="model data-v-7b4249e7">
+                        <view class="title data-v-7b4249e7">分组类别</view>
+                        <view class="data-v-7b4249e7" style="display:flex;flex-wrap:wrap;">
+                            <view bindtap="__e" class="{{['data-v-7b4249e7',item.active?'remarksActive':'remarks']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleGroupClass',[index,'$0'],[ [ ['GroupClassList','',index] ] ] ] ] ] ]}}" wx:for="{{GroupClassList}}" wx:key="index">{{''+item.name+''}}</view>
+                        </view>
+                    </view>
+                    <view class="model data-v-7b4249e7">
+                        <view class="title data-v-7b4249e7">性<text class="title_text data-v-7b4249e7">别</text>
+                        </view>
+                        <view class="data-v-7b4249e7" style="display:flex;flex-wrap:wrap;">
+                            <view bindtap="__e" class="{{['data-v-7b4249e7',item.active?'remarksActive':'remarks']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleSex',[index,'$0'],[ [ ['sexList','',index] ] ] ] ] ] ]}}" wx:for="{{sexList}}" wx:key="index">{{''+item.name+''}}</view>
+                        </view>
+                    </view>
+                    <view class="model data-v-7b4249e7">
+                        <view class="title input_date data-v-7b4249e7">注册日期</view>
+                        <view class="data-v-7b4249e7" style="display:flex;flex-wrap:wrap;">
+                            <view bindtap="__e" class="time data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'onTime1',['$event'] ] ] ] ]}}">{{startTime}}</view>
+                            <view class="text data-v-7b4249e7">~</view>
+                            <view bindtap="__e" class="time data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'onTimes1',['$event'] ] ] ] ]}}">{{endTime}}</view>
+                        </view>
+                    </view>
+                    <view class="model data-v-7b4249e7">
+                        <view class="title input_date data-v-7b4249e7">生<text class="title_text data-v-7b4249e7">日</text>
+                        </view>
+                        <view class="data-v-7b4249e7" style="display:flex;flex-wrap:wrap;">
+                            <view bindtap="__e" class="time data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'birthdayStrartPicker',['$event'] ] ] ] ]}}">{{birthdayStrart}}</view>
+                            <view class="text data-v-7b4249e7">~</view>
+                            <view bindtap="__e" class="time data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'birthdayEndPicker',['$event'] ] ] ] ]}}">{{birthdayEnd}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="btn_modals data-v-7b4249e7" slot="btn">
+                <view bindtap="__e" class="modal-cancel data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtns',[false] ] ] ] ]}}">重置</view>
+                <view bindtap="__e" class="modal-btn data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'handleDeterminebtns',['$event'] ] ] ] ]}}">确定</view>
+            </view>
+        </filter-confirm>
+        <modify-confirm bind:__l="__l" bind:cancelbtn="__e" class="data-v-7b4249e7 vue-ref" data-event-opts="{{[ [ '^cancelbtn',[ ['headlelistCancel'] ] ] ]}}" data-ref="modifyConfirm" height="{{620}}" newHeight="700rpx" scrolly="{{false}}" showConfrim="{{false}}" vueId="27065cf2-17" vueSlots="{{['content','btn']}}">
+            <view class="data-v-7b4249e7" slot="content">
+                <view class="data-v-7b4249e7">
+                    <view class="data-v-7b4249e7" style="margin:70rpx 52rpx 0 52rpx;">
+                        <view class="but-flex data-v-7b4249e7">
+                            <view bindtap="__e" class="modal-green data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'handlepl',[1] ] ] ] ]}}">批量发卡</view>
+                            <view bindtap="__e" class="modal-green data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'handlepl',[2] ] ] ] ]}}">批量解/停卡</view>
+                        </view>
+                        <view class="but-flex data-v-7b4249e7">
+                            <view bindtap="__e" class="modal-green data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'handlepl',[3] ] ] ] ]}}">批量延期</view>
+                            <view bindtap="__e" class="modal-green data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'handlepl',[4] ] ] ] ]}}">批量调整余额</view>
+                        </view>
+                        <view class="but-flex data-v-7b4249e7">
+                            <view bindtap="__e" class="modal-purple data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'handlepl',[5] ] ] ] ]}}">一键全部延期</view>
+                            <view bindtap="__e" class="modal-purple data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'handlepl',[6] ] ] ] ]}}">一键全部解/停卡</view>
+                        </view>
+                    </view>
+                </view>
+                <u-line bind:__l="__l" class="u-line data-v-7b4249e7" color="#F0F0F0;" length="670rpx" margin="18rpx 35rpx 30rpx 35rpx" vueId="{{'27065cf2-18'+','+'27065cf2-17'}}"></u-line>
+                <view class="modifyfoot data-v-7b4249e7">
+                    <text class="modifytet data-v-7b4249e7">绿色按钮：可以选择性的操作多名会员</text>
+                    <text class="modifytet data-v-7b4249e7">紫色按钮：一键修改全部会员</text>
+                </view>
+            </view>
+            <view class="btn_modals data-v-7b4249e7" slot="btn"></view>
+        </modify-confirm>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^input',[ [ '__set_model',[ '','timeShow','$event',[] ] ] ] ] ]}}" defaultTime="{{defaultStartTime}}" mode="time" params="{{params}}" value="{{timeShow}}" vueId="27065cf2-19"></u-picker>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^confirm',[ ['fixhour'] ] ],[ '^input',[ [ '__set_model',[ '','isMust','$event',[] ] ] ] ] ]}}" defaultTime="{{defaultEndTime}}" mode="time" params="{{params}}" value="{{isMust}}" vueId="27065cf2-20"></u-picker>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^confirm',[ ['confirmbirthday'] ] ],[ '^input',[ [ '__set_model',[ '','birthdayStrartshow','$event',[] ] ] ] ] ]}}" defaultTime="{{defaultBirthdayStartTime}}" mode="time" params="{{birthdayParams}}" value="{{birthdayStrartshow}}" vueId="27065cf2-21"></u-picker>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^confirm',[ ['fixhourbirthday'] ] ],[ '^input',[ [ '__set_model',[ '','birthdayEndshow','$event',[] ] ] ] ] ]}}" defaultTime="{{defaultBirthdayEndTime}}" mode="time" params="{{birthdayParams}}" value="{{birthdayEndshow}}" vueId="27065cf2-22"></u-picker>
+        <quantity balanceCardList="{{balanceCardList}}" bind:AdjustmentSubmit="__e" bind:__l="__l" class="data-v-7b4249e7 vue-ref" data-event-opts="{{[ [ '^AdjustmentSubmit',[ ['AdjustmentSubmit'] ] ] ]}}" data-ref="quantityRef" vueId="27065cf2-23"></quantity>
+        <chose-card bind:__l="__l" bind:cardli="__e" cardList="{{cardList}}" class="data-v-7b4249e7 vue-ref" data-event-opts="{{[ [ '^cardli',[ ['cardli'] ] ] ]}}" data-ref="choseCardRef" vueId="27065cf2-24"></chose-card>
+        <validity bind:__l="__l" bind:getDelayCard="__e" class="data-v-7b4249e7 vue-ref" data-event-opts="{{[ [ '^getDelayCard',[ ['getDelayCard'] ] ] ]}}" data-ref="validityRef" title="{{title}}" vueId="27065cf2-25"></validity>
+        <stopping bind:__l="__l" bind:getSuspensionCard="__e" class="data-v-7b4249e7 vue-ref" data-event-opts="{{[ [ '^getSuspensionCard',[ ['getSuspensionCard'] ] ] ]}}" data-ref="stoppingRef" userIds="{{userIds}}" vueId="27065cf2-26"></stopping>
+        <card-index bind:__l="__l" bind:headleClose="__e" bind:memberUpdate="__e" class="data-v-7b4249e7 vue-ref" data-event-opts="{{[ [ '^memberUpdate',[ ['memberUpdate'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="cardIndexRef" vueId="27065cf2-27"></card-index>
+        <new-card bind:__l="__l" bind:submit="__e" class="data-v-7b4249e7 vue-ref" data-event-opts="{{[ [ '^submit',[ ['newCardSubmit'] ] ] ]}}" data-ref="newcardRef" vueId="27065cf2-28"></new-card>
+        <ff-popup bind:__l="__l" bind:input="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','popupShow','$event',[] ] ] ] ] ]}}" title="操作提醒" value="{{popupShow}}" vueId="27065cf2-29" vueSlots="{{['default','confrimBtn']}}">
+            <view class="com-button-f1 data-v-7b4249e7" slot="confrimBtn">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^click',[ ['confirm1'] ] ] ]}}" type="primary" vueId="{{'27065cf2-30'+','+'27065cf2-29'}}" vueSlots="{{['default']}}">知道了</u-button>
+            </view>
+            <view class="hint-contet data-v-7b4249e7">
+                <view class="success data-v-7b4249e7">
+                    <view class="status-img-wrap data-v-7b4249e7">
+                        <image class="data-v-7b4249e7" src="{{$root.m23}}"></image>
+                    </view>
+                    <view class="status-text data-v-7b4249e7">
+                        <text class="data-v-7b4249e7" wx:if="{{plIndex==1}}">批量发卡</text>
+                        <text class="data-v-7b4249e7" wx:if="{{plIndex==2&&plNum==1}}">批量解除停卡</text>
+                        <text class="data-v-7b4249e7" wx:if="{{plIndex==2&&plNum==2}}">批量停卡</text>
+                        <text class="data-v-7b4249e7" wx:if="{{plIndex==3}}">批量调整有效期</text>
+                        <text class="data-v-7b4249e7" wx:if="{{plIndex==4}}">批量调整余额</text>
+                        <text class="data-v-7b4249e7" wx:if="{{plIndex==5}}">一键调整有效期</text>
+                        <text class="data-v-7b4249e7" wx:if="{{plIndex==6&&plNum==1}}">一键解除停卡</text>
+                        <text class="data-v-7b4249e7" wx:if="{{plIndex==6&&plNum==2}}">一键停卡</text>成功</view>
+                    <view class="status-card-num data-v-7b4249e7" wx:if="{{plIndex==1}}">{{'共发放了 '+cardcount+' 张会员卡'}}</view>
+                    <view class="status-card-num data-v-7b4249e7" wx:else>{{'共处理了 '+cardcount+' 张会员卡'}}</view>
+                </view>
+            </view>
+        </ff-popup>
+        <confirm-stop-card bind:__l="__l" class="data-v-7b4249e7 vue-ref" customBtn="{{true}}" data-ref="confirmStopCard" title="注意，是否执行解除停卡？" vueId="27065cf2-31" vueSlots="{{['content','btn']}}">
+            <view class="data-v-7b4249e7" slot="content" style="color:#989898;font-size:25rpx;">
+                <view class="data-v-7b4249e7">
+                    <text class="data-v-7b4249e7">所选会员中，若含有停卡中的将全部解除停卡</text>
+                </view>
+                <view class="content data-v-7b4249e7">
+                    <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','refuseChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{refuseChecked}}" vueId="{{'27065cf2-32'+','+'27065cf2-31'}}" vueSlots="{{['default']}}">
+                        <text class="data-v-7b4249e7" style="{{'line-height:56rpx;font-size:25rpx;'+'color:'+(refuseChecked?'#181818':'#7E7E7E')+';'}}">我已确认，执行解除停卡</text>
+                    </u-checkbox>
+                </view>
+            </view>
+            <view class="btn data-v-7b4249e7" slot="btn" style="margin-bottom:30rpx;">
+                <view bindtap="__e" class="modal-cal-btn button data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}">取消</view>
+                <view bindtap="__e" class="{{['modal-btn1','button','data-v-7b4249e7',!refuseChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'stopCardfirm',['$event'] ] ] ] ]}}">确定</view>
+            </view>
+        </confirm-stop-card>
+        <confirm-stop-card bind:__l="__l" class="data-v-7b4249e7 vue-ref" customBtn="{{true}}" data-ref="confirmplStopCard" title="注意，是否一键全部解除停卡？" vueId="27065cf2-33" vueSlots="{{['content','btn']}}">
+            <view class="data-v-7b4249e7" slot="content" style="color:#989898;font-size:25rpx;">
+                <view class="data-v-7b4249e7">
+                    <text class="data-v-7b4249e7">全部会员，若含有停卡中的将全部解除停卡</text>
+                </view>
+                <view class="content data-v-7b4249e7">
+                    <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-7b4249e7" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','refuseplChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{refuseplChecked}}" vueId="{{'27065cf2-34'+','+'27065cf2-33'}}" vueSlots="{{['default']}}">
+                        <text class="data-v-7b4249e7" style="{{'line-height:56rpx;font-size:25rpx;'+'color:'+(refuseplChecked?'#181818':'#7E7E7E')+';'}}">我已确认，执行解除停卡</text>
+                    </u-checkbox>
+                </view>
+            </view>
+            <view class="btn data-v-7b4249e7" slot="btn" style="margin-bottom:30rpx;">
+                <view bindtap="__e" class="modal-cal-btn button data-v-7b4249e7" data-event-opts="{{[ [ 'tap',[ [ 'cancelPlbtn',['$event'] ] ] ] ]}}">取消</view>
+                <view bindtap="__e" class="{{['modal-btn1','button','data-v-7b4249e7',!refuseplChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'stopPlCardfirm',['$event'] ] ] ] ]}}">确定</view>
+            </view>
+        </confirm-stop-card>
+    </view>
+</view>

@@ -1,0 +1,57 @@
+<view class="data-v-4dc727c5">
+    <view class="content data-v-4dc727c5">
+        <view class="top data-v-4dc727c5">
+            <view class="input data-v-4dc727c5" style="padding:0 31rpx;">
+                <u-input bind:__l="__l" bind:input="__e" class="data-v-4dc727c5" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','noticeTitle','$event',[] ],['commonList'] ] ] ] ]}}" height="83" placeholder="请填写标题" placeholderStyle="color: #DADADA;" value="{{commonList.noticeTitle}}" vueId="4328c50a-1"></u-input>
+            </view>
+            <view class="title data-v-4dc727c5">{{'已写'+$root.g0+'字/ 最多18字'}}</view>
+        </view>
+        <view class="conter data-v-4dc727c5">
+            <textarea bindinput="__e" class="textarea data-v-4dc727c5" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','noticeText','$event',[] ],['commonList'] ] ] ] ]}}" disableDefaultPadding="{{true}}" maxlength="500" placeholder="填写通知内容" value="{{commonList.noticeText}}"></textarea>
+        </view>
+        <view class="btn data-v-4dc727c5">
+            <view bindtap="__e" class="eliminate data-v-4dc727c5" data-event-opts="{{[ [ 'tap',[ [ 'headleClean',['$event'] ] ] ] ]}}">清除</view>
+            <view class="title data-v-4dc727c5">{{'已写'+$root.g1+'字/ 最多500字'}}</view>
+        </view>
+        <view class="times data-v-4dc727c5">
+            <view class="time data-v-4dc727c5">展示时间<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-4dc727c5" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','showDays','$event',[] ],['commonList'] ] ] ] ]}}" inputAlign="center" placeholder="几" type="number" value="{{commonList.showDays}}" vueId="4328c50a-2"></u-input>天</view>
+        </view>
+        <view bindtap="__e" class="bg data-v-4dc727c5" data-event-opts="{{[ [ 'tap',[ [ 'Click',['$event'] ] ] ] ]}}">保存</view>
+        <view bindtap="__e" class="delete data-v-4dc727c5" data-event-opts="{{[ [ 'tap',[ [ 'DeleteModal',['$event'] ] ] ] ]}}" wx:if="{{commonList.noticeId!=''}}">删除</view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-4dc727c5" vueId="4328c50a-3"></ff-bottom-logo>
+    <confirm bind:__l="__l" class="data-v-4dc727c5 vue-ref" data-ref="confirmModal" title="要发布通知吗？" vueId="4328c50a-4" vueSlots="{{['content','btn']}}">
+        <view class="data-v-4dc727c5" slot="content">
+            <text class="data-v-4dc727c5" style="color:#989898;">确定后将立即显示</text>
+        </view>
+        <view class="btn data-v-4dc727c5" slot="btn">
+            <view bindtap="__e" class="cancel data-v-4dc727c5" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="modal-btn data-v-4dc727c5" data-event-opts="{{[ [ 'tap',[ [ 'handleDeterminebtn',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm>
+    <confirm bind:__l="__l" class="data-v-4dc727c5 vue-ref" data-ref="editModal" title="确定要修改通知内容吗？" vueId="4328c50a-5" vueSlots="{{['content','btn']}}">
+        <view class="data-v-4dc727c5" slot="content">
+            <text class="data-v-4dc727c5" style="color:#989898;">展示时间将重新计算</text>
+        </view>
+        <view class="btn data-v-4dc727c5" slot="btn">
+            <view bindtap="__e" class="cancel data-v-4dc727c5" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="modal-btn data-v-4dc727c5" data-event-opts="{{[ [ 'tap',[ [ 'handleDeterminebtn',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm>
+    <confirm bind:__l="__l" class="data-v-4dc727c5 vue-ref" data-ref="deleteModal" title="确认删除吗？" vueId="4328c50a-6" vueSlots="{{['content','btn']}}">
+        <view class="data-v-4dc727c5" slot="content">
+            <text class="data-v-4dc727c5" style="color:#989898;">该通知还在展示期，删除后将关闭展示</text>
+        </view>
+        <view class="btn data-v-4dc727c5" slot="btn">
+            <view bindtap="__e" class="cancel data-v-4dc727c5" data-event-opts="{{[ [ 'tap',[ [ 'handleDeleteCancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="modal-btn data-v-4dc727c5" data-event-opts="{{[ [ 'tap',[ [ 'handleDeleteDeterminebtn',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm>
+    <confirm bind:__l="__l" class="data-v-4dc727c5 vue-ref" data-ref="deleteEndModal" title="确认删除吗？" vueId="4328c50a-7" vueSlots="{{['content','btn']}}">
+        <view class="data-v-4dc727c5" slot="content"></view>
+        <view class="btn data-v-4dc727c5" slot="btn">
+            <view bindtap="__e" class="cancel data-v-4dc727c5" data-event-opts="{{[ [ 'tap',[ [ 'handleDeleteCancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="modal-btn data-v-4dc727c5" data-event-opts="{{[ [ 'tap',[ [ 'handleDeleteDeterminebtn',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm>
+</view>

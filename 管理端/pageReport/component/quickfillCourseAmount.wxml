@@ -1,0 +1,14 @@
+<ff-popup tips bind:__l="__l" bind:input="__e" class="data-v-6a16c40f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" title="快捷填写" value="{{show}}" vueId="76901573-1" vueSlots="{{['default','tips','confrimBtn']}}">
+    <view class="data-v-6a16c40f" slot="tips" style="display:flex;align-items:baseline;">
+        <u-icon bind:__l="__l" class="data-v-6a16c40f" name="bell" size="26" style="position:relative;top:5rpx;" vueId="{{'76901573-2'+','+'76901573-1'}}"></u-icon>
+        <view class="data-v-6a16c40f" style="padding-left:6rpx;">1、点击确定后，将自动统一填写如下值<view class="_br data-v-6a16c40f"></view>2、每节课费 = 基础课费 + 耗课提成</view>
+    </view>
+    <view class="com-button-f1 data-v-6a16c40f" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-6a16c40f" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'76901573-3'+','+'76901573-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-6a16c40f">
+        <view class="class-hourse data-v-6a16c40f">基础课费<input bindinput="__e" class="com-input data-v-6a16c40f" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','unitPrice','$event',[] ] ] ] ] ]}}" maxlength="4" type="number" value="{{unitPrice}}"></input>元</view>
+        <view class="push-money data-v-6a16c40f">每节耗课提成<input bindinput="__e" class="com-input data-v-6a16c40f" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','additionalPrice','$event',[] ] ] ] ] ]}}" maxlength="2" type="number" value="{{additionalPrice}}"></input>%</view>
+        <view class="data-v-6a16c40f" style="padding-top:160rpx;"></view>
+    </view>
+</ff-popup>

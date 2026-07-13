@@ -1,0 +1,8 @@
+{
+  "flow": "member",
+  "verifiedAt": "2026-07-11T12:11+08:00",
+  "page": "pages/index/index",
+  "pendingWarningVisible": true,
+  "warningText": "会员档案关联正在审核中",
+  "screenshot": "docs/generated/stage04-seed-member-home.png"
+}

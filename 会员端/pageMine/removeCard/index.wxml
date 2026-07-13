@@ -1,0 +1,20 @@
+<view class="data-v-62ad41d1">
+    <view class="container data-v-62ad41d1">
+        <view class="data-v-62ad41d1" wx:if="{{$root.g0>0}}">
+            <view class="total-card data-v-62ad41d1">{{'共'+$root.g1+'张'}}</view>
+            <view class="list data-v-62ad41d1">
+                <view class="item data-v-62ad41d1" wx:for="{{list}}" wx:key="index">
+                    <view class="{{['card-wrap','data-v-62ad41d1',item.cardStatus==2||item.balanceAmount==0?'grey':'']}}">
+                        <member-card activeClass="medium-sized" bind:__l="__l" bind:moreProject="__e" cardInfo="{{item}}" class="data-v-62ad41d1" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" vueId="{{'161449c0-1-'+index}}"></member-card>
+                    </view>
+                    <view bindtap="__e" class="btn data-v-62ad41d1" data-event-opts="{{[ [ 'tap',[ [ 'recoverCard',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}">恢复</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="load-wrap data-v-62ad41d1">
+        <u-loadmore bind:__l="__l" class="data-v-62ad41d1" nomoreText="没有更多了" status="{{loadStatus}}" vueId="161449c0-2"></u-loadmore>
+    </view>
+    <bottom-logo bind:__l="__l" class="data-v-62ad41d1" vueId="161449c0-3"></bottom-logo>
+    <card-all-project bind:__l="__l" class="data-v-62ad41d1 vue-ref" data-ref="cardAllProject" vueId="161449c0-4"></card-all-project>
+</view>

@@ -1,0 +1,37 @@
+<view class="data-v-832204a2">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-832204a2" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="编辑标记" title="课表背景色" type="{{3}}" value="{{show}}" vueId="4d3a6934-1" vueSlots="{{['default','tips','confrimBtn']}}">
+        <view class="data-v-832204a2" slot="tips" style="display:flex;align-items:baseline;">
+            <u-icon bind:__l="__l" class="data-v-832204a2" name="bell" size="26" style="position:relative;top:5rpx;" vueId="{{'4d3a6934-2'+','+'4d3a6934-1'}}"></u-icon>
+            <view class="data-v-832204a2" style="padding-left:8rpx;">仅用于生成【课程表】，一般同类型的课选用同一颜色，如普拉提 类用红色、维密类用桔色，或要重点推荐的课用较突出的颜色</view>
+        </view>
+        <view class="com-button-f1 data-v-832204a2" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-832204a2" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'4d3a6934-3'+','+'4d3a6934-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="radio-box data-v-832204a2">
+            <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-832204a2" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','actionId','$event',[] ] ] ] ] ]}}" value="{{actionId}}" vueId="{{'4d3a6934-4'+','+'4d3a6934-1'}}" vueSlots="{{['default']}}" wrap="{{true}}">
+                <u-radio bind:__l="__l" class="radio data-v-832204a2" name="1" vueId="{{'4d3a6934-5'+','+'4d3a6934-4'}}" vueSlots="{{['default']}}">
+                    <view class="{{['radio-main','data-v-832204a2',actionId==1?'active':'']}}">{{'以后【'+courseName+'】都使用此颜色'}}</view>
+                </u-radio>
+                <u-radio bind:__l="__l" class="radio data-v-832204a2" name="2" vueId="{{'4d3a6934-6'+','+'4d3a6934-4'}}" vueSlots="{{['default']}}">
+                    <view class="{{['radio-main','data-v-832204a2',actionId==2?'active':'']}}">仅修改当前此排课的颜色</view>
+                </u-radio>
+            </u-radio-group>
+        </view>
+        <view class="color-list-box data-v-832204a2">
+            <view bindtap="__e" class="color-item data-v-832204a2" data-event-opts="{{[ [ 'tap',[ [ 'getChangeColor',['$0'],[ [ ['colorList','',index,'color'] ] ] ] ] ] ]}}" style="{{'background-color:'+item.$orig.color+';'}}" wx:for="{{$root.l0}}" wx:key="index">
+                <view class="{{['change-box','data-v-832204a2',changeColor&&changeColor!==item.$orig.color?'sign':'']}}" wx:if="{{item.$orig.selected}}">
+                    <view class="state-icon data-v-832204a2">
+                        <image class="data-v-832204a2" src="{{item.m0}}"></image>
+                    </view>
+                    <view class="state-text data-v-832204a2">使用中</view>
+                </view>
+                <view class="change-box data-v-832204a2" wx:if="{{changeColor&&changeColor==item.$orig.color&&!item.$orig.selected}}">
+                    <view class="state-icon data-v-832204a2">
+                        <image class="data-v-832204a2" src="{{item.m1}}"></image>
+                    </view>
+                    <view class="state-text data-v-832204a2">改用此颜色</view>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

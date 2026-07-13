@@ -1,0 +1,11 @@
+<view class="data-v-19be5b91">
+    <view class="container data-v-19be5b91">
+        <view class="card-wrap data-v-19be5b91" wx:if="{{currentCard}}">
+            <member-card activeClass="large-size" bind:__l="__l" cardInfo="{{currentCard}}" class="data-v-19be5b91" vueId="33655d65-1"></member-card>
+        </view>
+        <view class="text data-v-19be5b91">
+            <u-parse bind:__l="__l" class="data-v-19be5b91" html="{{text}}" userSelect="{{true}}" vueId="33655d65-2" wx:if="{{text}}"></u-parse>
+        </view>
+    </view>
+    <bottom-logo bind:__l="__l" class="data-v-19be5b91" vueId="33655d65-3"></bottom-logo>
+</view>

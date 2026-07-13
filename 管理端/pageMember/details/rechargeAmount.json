@@ -1,0 +1,13 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "business-popup": "/pageMember/components/businessdata-money-popup",
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/pageMember/components/navigation/headPhoto",
+    "remark-order-popup": "/components/ff-textarea/ff-textarea",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

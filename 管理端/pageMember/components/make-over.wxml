@@ -1,0 +1,38 @@
+<view class="makeOver-container data-v-37fe7938">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-37fe7938" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="是指将此帐号转让给其它会员" title="将此帐号转让给" value="{{show}}" vueId="961f36f8-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-37fe7938" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-37fe7938" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'961f36f8-2'+','+'961f36f8-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="makeOver data-v-37fe7938">
+            <view class="textc data-v-37fe7938">
+                <u-form-item bind:__l="__l" borderBottom="{{false}}" class="data-v-37fe7938" label="手机" labelStyle="{{$root.a0}}" labelWidth="100" required="{{true}}" vueId="{{'961f36f8-3'+','+'961f36f8-1'}}" vueSlots="{{['default']}}">
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-37fe7938" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','userPhone','$event',[] ],['user'] ] ] ] ]}}" height="90" maxlength="12" placeholder="输入手机号" placeholderStyle="font-size: 30rpx;color: #DADADA;" type="number" value="{{user.userPhone}}" vueId="{{'961f36f8-4'+','+'961f36f8-3'}}"></u-input>
+                </u-form-item>
+            </view>
+            <view class="textc data-v-37fe7938">
+                <u-form-item bind:__l="__l" borderBottom="{{false}}" class="data-v-37fe7938" label="姓名" labelStyle="{{$root.a1}}" labelWidth="100" vueId="{{'961f36f8-5'+','+'961f36f8-1'}}" vueSlots="{{['default']}}">
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-37fe7938" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','userRealname','$event',[] ],['user'] ] ] ] ]}}" height="90" maxlength="20" placeholder="输入姓名" placeholderStyle="font-size: 30rpx;color: #DADADA;" type="text" value="{{user.userRealname}}" vueId="{{'961f36f8-6'+','+'961f36f8-5'}}"></u-input>
+                </u-form-item>
+            </view>
+        </view>
+    </ff-popup>
+    <confirm-modal bind:__l="__l" class="data-v-37fe7938 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="操作成功！" vueId="961f36f8-7" vueSlots="{{['content','btn']}}">
+        <view class="data-v-37fe7938" slot="content">
+            <view class="data-v-37fe7938">1、通知该会员登录【会员约课端】即可</view>
+            <view class="data-v-37fe7938">2、帐号将自动变更到该会员名下</view>
+        </view>
+        <view class="data-v-37fe7938" slot="btn">
+            <view bindtap="__e" class="modal-btn button data-v-37fe7938" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtn',['$event'] ] ] ] ]}}">知道了</view>
+        </view>
+    </confirm-modal>
+    <confirm-modal-fail bind:__l="__l" class="data-v-37fe7938 vue-ref" customBtn="{{true}}" data-ref="confirmModalFail" title="不可转让，场馆已经存在该会员！" vueId="961f36f8-8" vueSlots="{{['content','btn']}}">
+        <view class="data-v-37fe7938" slot="content">
+            <view class="data-v-37fe7938">您需要将原帐号<text class="data-v-37fe7938" style="color:#DC3C5C;">【删除后】才可以转让给她</text>
+            </view>
+            <view class="data-v-37fe7938">注：在会员页面顶部，搜索该会员手机号即可找到</view>
+        </view>
+        <view class="data-v-37fe7938" slot="btn">
+            <view bindtap="__e" class="modal-btn button data-v-37fe7938" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtnFail',['$event'] ] ] ] ]}}">知道了</view>
+        </view>
+    </confirm-modal-fail>
+</view>

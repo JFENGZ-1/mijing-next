@@ -1,0 +1,63 @@
+{
+  "flow": "staff",
+  "verifiedAt": "2026-07-11T12:07+08:00",
+  "loginMethod": "ui_tap_wechat_login_button",
+  "postLoginPage": "pages/index/index",
+  "linkRequestsPage": "pages/members/link-requests",
+  "me": {
+    "staffPermissions": [
+      "organization.site.read",
+      "organization.site.manage",
+      "access.staff.read",
+      "access.staff.manage",
+      "access.role.manage",
+      "crm.member.read",
+      "crm.member.mobile.search",
+      "crm.member.create",
+      "crm.member.update",
+      "crm.member.status.manage",
+      "crm.member.owner.claim",
+      "crm.member.note.read",
+      "crm.member.note.add",
+      "crm.member.tag.assign",
+      "crm.tag.manage",
+      "crm.member.app_access.manage",
+      "crm.member.link.review"
+    ],
+    "accountId": 2,
+    "staffProfileCount": 1
+  },
+  "login": {
+    "siteCount": 1,
+    "tokenPrefix": "35|Vs2***",
+    "accountId": 2,
+    "permissions": [
+      "organization.site.read",
+      "organization.site.manage",
+      "access.staff.read",
+      "access.staff.manage",
+      "access.role.manage",
+      "crm.member.read",
+      "crm.member.mobile.search",
+      "crm.member.create",
+      "crm.member.update",
+      "crm.member.status.manage",
+      "crm.member.owner.claim",
+      "crm.member.note.read",
+      "crm.member.note.add",
+      "crm.member.tag.assign",
+      "crm.tag.manage",
+      "crm.member.app_access.manage",
+      "crm.member.link.review"
+    ],
+    "tenantId": 1,
+    "hasLinkReviewPermission": true
+  },
+  "logout": {
+    "status": "ok",
+    "tokenPrefix": "35|Vs2***"
+  },
+  "screenshots": [
+    "docs/generated/stage04-staff-link-requests-after-login.png"
+  ]
+}

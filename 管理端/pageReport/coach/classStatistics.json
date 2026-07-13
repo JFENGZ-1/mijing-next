@@ -1,0 +1,9 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "上课统计",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "u-divider": "/uview-ui/components/u-divider/u-divider",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

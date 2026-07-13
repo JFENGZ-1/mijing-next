@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "u-popup": "/node-modules/uview-ui/components/u-popup/u-popup",
+    "bottom-logo": "/components/ff-bottom-logo/index"
+  },
+  "component": true
+}

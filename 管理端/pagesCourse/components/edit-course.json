@@ -1,0 +1,12 @@
+{
+  "component": true,
+  "usingComponents": {
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "loading-pulse": "/components/zero-loading/static/loading-pulse",
+    "select-member-card": "/pagesCourse/components/select-member-card",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-calendar": "/uview-ui/components/u-calendar/u-calendar",
+    "week-calendar": "/pages/course/components/week-calendar/week-calendar",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

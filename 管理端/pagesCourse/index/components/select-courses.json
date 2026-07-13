@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "empty-data": "/pagesCourse/index/components/empty-data",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "subject-card": "/pagesCourse/index/components/subject-card",
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

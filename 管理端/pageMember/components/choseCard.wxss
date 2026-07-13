@@ -1,0 +1,102 @@
+.main-box.data-v-027ae443 {
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 40rpx 52rpx;
+  scroll-snap-align: none;
+}
+.main-box .cardList.data-v-027ae443 {
+  display: -webkit-flex;
+  display: flex;
+  margin-bottom: 23rpx;
+  position: relative;
+  width: 50%;
+}
+.main-box .cardList .card_wrap.data-v-027ae443,
+.main-box .cardList .wrap.data-v-027ae443 {
+  height: 178rpx;
+  position: relative;
+  width: 299rpx;
+}
+.main-box .cardList .card_wrap .mask.data-v-027ae443 {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+}
+.main-box .cardList .card_wrap .img-wrap.data-v-027ae443 {
+  bottom: -5rpx;
+  color: #fff;
+  font-size: 18rpx;
+  height: 32rpx;
+  position: absolute;
+  right: 45rpx;
+  width: 72rpx;
+  z-index: 110;
+}
+.main-box .cardList .card_wrap .img-wrap view.data-v-027ae443 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  line-height: 30rpx;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+.main-box .cardList .card_wrap .img-wrap image.data-v-027ae443 {
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.main-box .cardList .card_wrap .img-wrap text.data-v-027ae443 {
+  position: absolute;
+}
+.main-box .cardList_first.data-v-027ae443 {
+  justify-content: flex-start;
+}
+.main-box .cardList_last.data-v-027ae443 {
+  justify-content: flex-end;
+}
+.main-box .cardList_bottom_no.data-v-027ae443 {
+  margin-bottom: 0;
+}
+.main-box .selected_card.data-v-027ae443 {
+  align-items: center;
+  background: #dadada;
+  border-radius: 50%;
+  bottom: 6rpx;
+  display: -webkit-flex;
+  display: flex;
+  height: 50rpx;
+  justify-content: center;
+  position: absolute;
+  right: 6rpx;
+  width: 50rpx;
+}
+.main-box .selected_card_active.data-v-027ae443 {
+  background: #5bc888;
+}
+.main-box .on_cards.data-v-027ae443 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  margin-bottom: 24rpx;
+  width: 50%;
+}
+.main-box .on_cards .on-card.data-v-027ae443 {
+  height: 178rpx;
+  position: relative;
+  width: 299rpx;
+}
+.main-box .on_cards .on-card image.data-v-027ae443 {
+  height: 100%;
+  width: 100%;
+}

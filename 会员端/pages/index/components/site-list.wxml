@@ -1,0 +1,22 @@
+<dialog bind:__l="__l" bind:input="__e" class="data-v-b90e16ec" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" sizeType="{{1}}" title="提示" value="{{show}}" vueId="1ae9fdb6-1" vueSlots="{{['content']}}">
+    <view class="data-v-b90e16ec" slot="content">
+        <view class="inform-wrap data-v-b90e16ec">
+            <image class="inform data-v-b90e16ec" src="{{$root.m0}}"></image>
+            <text class="data-v-b90e16ec">有新的场馆邀请</text>
+        </view>
+        <view class="card-list data-v-b90e16ec">
+            <view class="item data-v-b90e16ec" wx:for="{{newsitelist}}" wx:key="index">
+                <view class="site-logo data-v-b90e16ec">
+                    <image class="logo data-v-b90e16ec" src="{{item.siteTrademark}}"></image>
+                </view>
+                <view class="info-text data-v-b90e16ec">
+                    <view class="site-name data-v-b90e16ec">{{item.siteName}}</view>
+                    <view class="site-address data-v-b90e16ec">{{site.siteAddr}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="btn-wrap data-v-b90e16ec">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-b90e16ec" customStyle="{{saveBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['closeDialog'] ] ] ]}}" hoverClass="none" shape="circle" type="primary" vueId="{{'1ae9fdb6-2'+','+'1ae9fdb6-1'}}" vueSlots="{{['default']}}">知道了</u-button>
+        </view>
+    </view>
+</dialog>

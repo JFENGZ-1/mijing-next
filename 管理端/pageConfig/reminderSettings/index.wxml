@@ -1,0 +1,96 @@
+<view class="data-v-1e300f2e">
+    <navigation bind:__l="__l" class="data-v-1e300f2e" text="提醒设置" vueId="b395fee4-1"></navigation>
+    <view class="placeholder-view data-v-1e300f2e" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-1e300f2e" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-1e300f2e">
+            <view class="setting_wrap data-v-1e300f2e">
+                <view class="top data-v-1e300f2e">
+                    <u-icon bind:__l="__l" class="icon data-v-1e300f2e" color="#C96B30" name="bell" vueId="b395fee4-2"></u-icon>
+                    <view class="top-info data-v-1e300f2e">
+                        <view class="data-v-1e300f2e">关注“松果约课管理系统”公众号，以下情况将通过公众号发送通知</view>
+                    </view>
+                </view>
+                <view class="setting_group first data-v-1e300f2e">
+                    <view class="setting_title data-v-1e300f2e">
+                        <view class="title_color data-v-1e300f2e"></view>
+                        <text class="title_text data-v-1e300f2e">店内管理人员</text>
+                    </view>
+                    <view class="manager_avatars data-v-1e300f2e">
+                        <view class="data-v-1e300f2e" wx:for="{{selectedManagers}}" wx:for-item="manager" wx:key="index">
+                            <image bindtap="__e" class="img data-v-1e300f2e" data-event-opts="{{[ [ 'tap',[ [ 'openManagerPopup',['$event'] ] ] ] ]}}" mode="aspectFill" src="{{manager.staffFace}}"></image>
+                        </view>
+                        <view bindtap="__e" class="avatar data-v-1e300f2e" data-event-opts="{{[ [ 'tap',[ [ 'openManagerPopup',['$event'] ] ] ] ]}}">
+                            <image class="placeholder data-v-1e300f2e" mode="aspectFill" src="{{$root.m0}}"></image>
+                        </view>
+                    </view>
+                    <view class="item_wrap data-v-1e300f2e" wx:for="{{administrators}}" wx:key="index">
+                        <view class="item data-v-1e300f2e">
+                            <view class="wrap data-v-1e300f2e">
+                                <view class="item_laber data-v-1e300f2e">{{''+item.text+''}}</view>
+                                <view class="item_title data-v-1e300f2e">{{''+item.desc+''}}</view>
+                            </view>
+                            <u-switch activeColor="success" activeValue="{{1}}" bind:__l="__l" bind:change="__e" bind:input="__e" class="switch data-v-1e300f2e" data-event-opts="{{[ [ '^change',[ [ 'headleStatus',['$0','$1'],[ [ ['administrators','',index,'value'] ],[ ['administrators','',index,'id'] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','value','$event',[] ],[ [ ['administrators','',index] ] ] ] ] ] ]}}" inactiveValue="{{0}}" size="{{60}}" slot="right" value="{{item.value}}" vueId="{{'b395fee4-3-'+index}}"></u-switch>
+                        </view>
+                    </view>
+                </view>
+                <view class="setting_group first data-v-1e300f2e">
+                    <view class="setting_title data-v-1e300f2e">
+                        <view class="title_color data-v-1e300f2e"></view>
+                        <text class="title_text data-v-1e300f2e">团课老师消息</text>
+                    </view>
+                    <view class="item_wrap data-v-1e300f2e" wx:for="{{league}}" wx:key="index">
+                        <view class="item data-v-1e300f2e">
+                            <view class="wrap data-v-1e300f2e">
+                                <view class="item_laber data-v-1e300f2e">{{''+item.text}}</view>
+                                <view class="item_title data-v-1e300f2e">{{''+item.desc+''}}</view>
+                            </view>
+                            <u-switch activeColor="success" bind:__l="__l" bind:change="__e" bind:input="__e" class="switch data-v-1e300f2e" data-event-opts="{{[ [ '^change',[ [ 'headleStatus',['$0','$1'],[ [ ['league','',index,'value'] ],[ ['league','',index,'id'] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','value','$event',[] ],[ [ ['league','',index] ] ] ] ] ] ]}}" size="{{60}}" slot="right" value="{{item.value}}" vueId="{{'b395fee4-4-'+index}}"></u-switch>
+                        </view>
+                    </view>
+                </view>
+                <view class="setting_group first data-v-1e300f2e">
+                    <view class="setting_title data-v-1e300f2e">
+                        <view class="title_color data-v-1e300f2e"></view>
+                        <text class="title_text data-v-1e300f2e">私教老师消息</text>
+                    </view>
+                    <view class="item_wrap data-v-1e300f2e" wx:for="{{privates}}" wx:key="index">
+                        <view class="item data-v-1e300f2e">
+                            <view class="wrap data-v-1e300f2e">
+                                <view class="item_laber data-v-1e300f2e">{{''+item.text}}</view>
+                                <view class="item_title data-v-1e300f2e">{{''+item.desc+''}}</view>
+                            </view>
+                            <u-switch activeColor="success" bind:__l="__l" bind:change="__e" bind:input="__e" class="switch data-v-1e300f2e" data-event-opts="{{[ [ '^change',[ [ 'headleStatus',['$0','$1'],[ [ ['privates','',index,'value'] ],[ ['privates','',index,'id'] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','value','$event',[] ],[ [ ['privates','',index] ] ] ] ] ] ]}}" size="{{60}}" slot="right" value="{{item.value}}" vueId="{{'b395fee4-5-'+index}}"></u-switch>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-1e300f2e" vueId="b395fee4-6"></ff-bottom-logo>
+    </view>
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-1e300f2e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','showManagerPopup','$event',[] ] ] ] ] ]}}" showConfrim="{{true}}" tipIcon="bell" title="选择老师" type="{{2}}" value="{{showManagerPopup}}" vueId="b395fee4-7" vueSlots="{{['default','tips','confrimBtn']}}">
+        <view class="tips-box data-v-1e300f2e" slot="tips">
+            <view class="tips_wrap data-v-1e300f2e">
+                <u-icon bind:__l="__l" class="tips_icon data-v-1e300f2e" name="bell" size="26" vueId="{{'b395fee4-8'+','+'b395fee4-7'}}"></u-icon>
+                <text class="data-v-1e300f2e">选择可以<text class="highlight-text data-v-1e300f2e">接收全部消息提醒的老师</text>（通常是店内的管理人员）</text>
+            </view>
+        </view>
+        <view class="com-button-f1 data-v-1e300f2e" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-1e300f2e" data-event-opts="{{[ [ '^click',[ ['confirmSelection'] ] ] ]}}" type="primary" vueId="{{'b395fee4-9'+','+'b395fee4-7'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="teacher-list data-v-1e300f2e">
+            <view bindtap="__e" class="teacher-item data-v-1e300f2e" data-event-opts="{{[ [ 'tap',[ [ 'toggleTeacher',['$0'],[ [ ['teacherList','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:for-item="teacher" wx:key="index">
+                <image class="teacher-avatar data-v-1e300f2e" mode="aspectFill" src="{{teacher.$orig.staffFace}}"></image>
+                <view class="teacher-info data-v-1e300f2e">
+                    <text class="teacher-name u-line-1 data-v-1e300f2e">{{teacher.m1}}</text>
+                    <u-icon bind:__l="__l" class="staff-sex data-v-1e300f2e" color="#FF69B4" name="woman" size="28" vueId="{{'b395fee4-10-'+index+','+'b395fee4-7'}}" wx:if="{{teacher.$orig.staffSex==2}}"></u-icon>
+                    <block wx:else>
+                        <u-icon bind:__l="__l" class="data-v-1e300f2e" color="#1E90FF" name="man" size="28" vueId="{{'b395fee4-11-'+index+','+'b395fee4-7'}}" wx:if="{{teacher.$orig.staffSex==1}}"></u-icon>
+                    </block>
+                </view>
+                <view class="{{['selected_card','data-v-1e300f2e',teacher.$orig.selected?'selected_card_active':'']}}">
+                    <u-icon bind:__l="__l" class="data-v-1e300f2e" color="#FFFFFF" name="checkbox-mark" size="30" vueId="{{'b395fee4-12-'+index+','+'b395fee4-7'}}"></u-icon>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

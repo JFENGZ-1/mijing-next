@@ -1,0 +1,17 @@
+{
+  "disableScroll": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "clear-timetable": "/pagesCourse/index/components/clear-timetable",
+    "copy-timetable": "/pagesCourse/index/components/copy-timetable",
+    "course-management": "/pagesCourse/index/components/course-management",
+    "course-scroll": "/pagesCourse/index/components/course-scroll",
+    "download-timetable": "/pagesCourse/index/components/download-timetable",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "select-courses": "/pagesCourse/index/components/select-courses",
+    "select-time": "/pagesCourse/index/components/select-time",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

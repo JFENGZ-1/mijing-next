@@ -1,0 +1,14 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "u-line": "/node-modules/uview-ui/components/u-line/u-line",
+    "dialog": "/components/dialog/index",
+    "success": "/pageCourse/components/selected-member-card/components/success",
+    "member-card": "/components/mumber-card/index",
+    "line-up-success": "/pageCourse/components/selected-member-card/components/line-up-success",
+    "card-all-project": "/components/card-all-project/index",
+    "chosecard": "/pageCourse/components/selected-member-card/components/chosecard"
+  }
+}

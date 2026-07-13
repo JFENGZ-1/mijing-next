@@ -1,0 +1,46 @@
+<view class="data-v-61ff07f4">
+    <view class="container data-v-61ff07f4">
+        <view class="bg-wrap data-v-61ff07f4" style="{{'background:'+'url('+$root.m0+')'+';'+'background-size:'+'100% 100%'+';'}}">
+            <view class="tips data-v-61ff07f4">
+                <u-icon bind:__l="__l" class="u-icon data-v-61ff07f4" name="info-circle-fill" vueId="107b737b-1"></u-icon>每日凌晨更新排行</view>
+        </view>
+        <view class="self-info data-v-61ff07f4">
+            <view class="wrap data-v-61ff07f4">
+                <view class="photo-image data-v-61ff07f4">
+                    <image class="data-v-61ff07f4" mode="scaleToFill" src="{{photo}}" wx:if="{{photo}}"></image>
+                </view>
+                <view class="text-info data-v-61ff07f4">
+                    <view class="name data-v-61ff07f4">{{name}}</view>
+                    <view class="ranking-info data-v-61ff07f4">
+                        <view class="item data-v-61ff07f4">排名<text class="data-v-61ff07f4" wx:if="{{indexnum}}">{{indexnum}}</text>
+                            <text class="data-v-61ff07f4" wx:else>未进前15名</text>
+                        </view>
+                        <view class="item data-v-61ff07f4" wx:if="{{ncount}}">上课<text class="data-v-61ff07f4">{{ncount}}</text>次</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="list data-v-61ff07f4">
+            <view class="item data-v-61ff07f4" wx:for="{{$root.l0}}" wx:key="index">
+                <view class="{{[ 'index','data-v-61ff07f4',''+(item.$orig.indexnum<=3?'text_white':'text_gary') ]}}">
+                    <image class="data-v-61ff07f4" src="{{item.m1}}" wx:if="{{item.$orig.indexnum==1}}"></image>
+                    <image class="data-v-61ff07f4" src="{{item.m2}}" wx:if="{{item.$orig.indexnum==2}}"></image>
+                    <image class="data-v-61ff07f4" src="{{item.m3}}" wx:if="{{item.$orig.indexnum==3}}"></image>
+                    <text class="data-v-61ff07f4">{{item.$orig.indexnum}}</text>
+                </view>
+                <view class="photo data-v-61ff07f4">
+                    <u-image bind:__l="__l" class="data-v-61ff07f4" height="100%" src="{{item.$orig.userFaceurl}}" vueId="{{'107b737b-2-'+index}}" width="100%" wx:if="{{item.$orig.userFaceurl}}"></u-image>
+                </view>
+                <view class="{{['name','data-v-61ff07f4',item.$orig.isMe?'self':'']}}">{{''+item.$orig.userRealname+''}}</view>
+                <view class="{{['count','data-v-61ff07f4',item.$orig.isMe?'self':'']}}">{{''+item.$orig.ncount+'次'}}</view>
+                <view class="is-self data-v-61ff07f4">
+                    <image class="data-v-61ff07f4" src="{{item.m4}}" wx:if="{{item.$orig.isMe}}"></image>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="load-wrap data-v-61ff07f4">
+        <u-loadmore bind:__l="__l" class="data-v-61ff07f4" loadText="{{loadText}}" status="{{loadStatus}}" vueId="107b737b-3"></u-loadmore>
+    </view>
+    <bottom-logo bind:__l="__l" class="data-v-61ff07f4" vueId="107b737b-4"></bottom-logo>
+</view>

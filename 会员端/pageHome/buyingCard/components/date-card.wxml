@@ -1,0 +1,23 @@
+<view class="data-v-18268836">
+    <view class="info-wrap data-v-18268836" wx:if="{{cardInfo}}">
+        <view class="item data-v-18268836">
+            <view class="title data-v-18268836">卡内额度</view>
+            <view class="info-text data-v-18268836">{{filterCardInfo.totalNum}}</view>
+        </view>
+        <view class="item data-v-18268836">
+            <view class="title data-v-18268836">有效期</view>
+            <view class="info-text data-v-18268836">
+                <block wx:if="{{cardInfo.cardValidYear}}">{{cardInfo.cardValidYear+'年'}}</block>
+                <block wx:if="{{cardInfo.cardValidMonth}}">{{cardInfo.cardValidMonth+'个月'}}</block>
+                <block wx:if="{{cardInfo.cardValidDays}}">{{cardInfo.cardValidDays+'天'}}</block>
+            </view>
+        </view>
+        <view class="item data-v-18268836" wx:if="{{$root.g0}}">
+            <view class="title data-v-18268836">包含项目</view>
+            <view class="info-text data-v-18268836">
+                <text class="data-v-18268836" wx:for="{{$root.l0}}" wx:key="index">{{''+item.$orig.groupName+''}}<block wx:if="{{index+1<item.g1}}">+</block>
+                </text>
+            </view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,26 @@
+<ff-popup bind:__l="__l" bind:back="__e" bind:input="__e" class="data-v-414b1766" data-event-opts="{{[ [ '^back',[ ['back'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" title="开放最新课程时间" value="{{show}}" visible="{{true}}" vueId="36614621-1" vueSlots="{{['default','confrimBtn']}}">
+    <view class="com-button-f1 data-v-414b1766" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-414b1766" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" disabled="{{isDisabled}}" type="primary" vueId="{{'36614621-2'+','+'36614621-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-414b1766">
+        <view class="u-select__body data-v-414b1766">
+            <picker-view bindchange="__e" bindpickend="__e" bindpickstart="__e" class="u-select__body__picker-view data-v-414b1766" data-event-opts="{{[ [ 'change',[ [ 'bindChange',['$event'] ] ] ],[ 'pickstart',[ [ 'pickstart',['$event'] ] ] ],[ 'pickend',[ [ 'pickend',['$event'] ] ] ] ]}}" indicatorClass="com-picker-indicator" style="height:500rpx;" value="{{pickerValue}}">
+                <picker-view-column class="data-v-414b1766">
+                    <view class="u-select__body__picker-view__item data-v-414b1766" wx:for="{{24}}" wx:key="index">
+                        <view class="u-line-1 data-v-414b1766">{{item<10?'0'+item:item}}</view>
+                    </view>
+                </picker-view-column>
+                <picker-view-column class="data-v-414b1766">
+                    <view class="u-select__body__picker-view__item data-v-414b1766">
+                        <view class="u-line-1 data-v-414b1766">:</view>
+                    </view>
+                </picker-view-column>
+                <picker-view-column class="data-v-414b1766">
+                    <view class="u-select__body__picker-view__item data-v-414b1766" wx:for="{{60}}" wx:key="index">
+                        <view class="u-line-1 data-v-414b1766">{{item<10?'0'+item:item}}</view>
+                    </view>
+                </picker-view-column>
+            </picker-view>
+        </view>
+    </view>
+</ff-popup>

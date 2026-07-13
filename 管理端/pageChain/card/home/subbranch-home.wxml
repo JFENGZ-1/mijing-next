@@ -1,0 +1,86 @@
+<view class="card-container data-v-1956d8ac">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-1956d8ac" text="选择分店卡" vueId="f2ebafc0-1"></navigation>
+    <view class="data-v-1956d8ac" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="main data-v-1956d8ac" style="height:100%;min-height:1230rpx;">
+            <zero-loading bind:__l="__l" class="data-v-1956d8ac" vueId="f2ebafc0-2" wx:if="{{!subbranch}}"></zero-loading>
+            <view class="data-v-1956d8ac" wx:else>
+                <view class="placeholder-view data-v-1956d8ac"></view>
+                <view class="content data-v-1956d8ac">
+                    <view class="hint data-v-1956d8ac">
+                        <u-icon bind:__l="__l" class="tips_icon data-v-1956d8ac" color="#C96A2F" name="bell" size="26" vueId="f2ebafc0-3"></u-icon>
+                        <view class="text data-v-1956d8ac">
+                            <view class="text-item data-v-1956d8ac">点击场馆名称，选择需要升级的会员卡</view>
+                        </view>
+                    </view>
+                    <view class="data-v-1956d8ac" wx:for="{{$root.l1}}" wx:key="index">
+                        <view class="data-v-1956d8ac">
+                            <view bindtap="__e" class="shop data-v-1956d8ac" data-event-opts="{{[ [ 'tap',[ [ 'showShopSite',['$0'],[ [ ['subbranch','',index] ] ] ] ] ] ]}}">
+                                <image class="siteimg data-v-1956d8ac" src="{{item.$orig.site.siteTrademark}}"></image>
+                                <text class="site-name data-v-1956d8ac" style="{{'color:'+(item.$orig.showShop?'#181818':'')+';'}}">{{item.$orig.site.siteName+'(共'+item.g0+'种)'}}</text>
+                                <view class="showimg-wrap data-v-1956d8ac">
+                                    <image class="showimg data-v-1956d8ac" src="{{item.m0}}" wx:if="{{item.$orig.showShop}}"></image>
+                                    <image class="showimg data-v-1956d8ac" src="{{item.m1}}" wx:else></image>
+                                </view>
+                            </view>
+                            <view class="data-v-1956d8ac" wx:if="{{item.$orig.showShop}}">
+                                <view class="card-list data-v-1956d8ac" wx:if="{{item.g1>0}}">
+                                    <view class="top-info data-v-1956d8ac">
+                                        <text class="total-num data-v-1956d8ac"></text>
+                                        <view class="right-info data-v-1956d8ac">
+                                            <view class="data-v-1956d8ac" style="margin-right:20rpx;">{{'出售中'+item.$orig.site.salecardCount+'种'}}</view>
+                                            <view class="data-v-1956d8ac">{{'停售中'+item.$orig.site.stopcardCount+'种'}}</view>
+                                        </view>
+                                    </view>
+                                    <view class="data-v-1956d8ac" wx:for="{{item.l0}}" wx:for-index="index1" wx:for-item="item1" wx:key="cardId">
+                                        <view bindtap="__e" class="card-type-box data-v-1956d8ac" data-event-opts="{{[ [ 'tap',[ [ 'subbranchConfire',['$0'],[ [ ['subbranch','',index],['cardList','cardId',item1.$orig.cardId] ] ] ] ] ] ]}}">
+                                            <view class="card-wrap data-v-1956d8ac">
+                                                <view class="data-v-1956d8ac" wx:if="{{item1.$orig.saleStatus==0}}">
+                                                    <view class="mask data-v-1956d8ac"></view>
+                                                    <view class="img-wrap data-v-1956d8ac">
+                                                        <view class="data-v-1956d8ac">
+                                                            <image class="data-v-1956d8ac" src="{{item1.m2}}"></image>
+                                                            <text class="data-v-1956d8ac">已停售</text>
+                                                        </view>
+                                                    </view>
+                                                    <view class="{{['data-v-1956d8ac',item1.$orig.saleStatus==0?'gray':'']}}"></view>
+                                                </view>
+                                                <view class="{{['data-v-1956d8ac',item1.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item1.$orig.cardType==1}}">
+                                                    <ff-value-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item1.$orig}}" class="data-v-1956d8ac" vueId="{{'f2ebafc0-4-'+index+'-'+index1}}"></ff-value-card>
+                                                </view>
+                                                <view class="{{['data-v-1956d8ac',item1.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item1.$orig.cardType==2}}">
+                                                    <ff-counts-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item1.$orig}}" class="data-v-1956d8ac" vueId="{{'f2ebafc0-5-'+index+'-'+index1}}"></ff-counts-card>
+                                                </view>
+                                                <view class="{{['data-v-1956d8ac',item1.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item1.$orig.cardType==3}}">
+                                                    <ff-date-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item1.$orig}}" class="data-v-1956d8ac" vueId="{{'f2ebafc0-6-'+index+'-'+index1}}"></ff-date-card>
+                                                </view>
+                                            </view>
+                                            <view class="right-box data-v-1956d8ac">
+                                                <view class="label data-v-1956d8ac">售价</view>
+                                                <view class="sale-money data-v-1956d8ac">
+                                                    <view class="data-v-1956d8ac">
+                                                        <text class="data-v-1956d8ac">￥</text>
+                                                        <text class="price data-v-1956d8ac">{{item1.$orig.price}}</text>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                        <view class="divder-line data-v-1956d8ac" wx:if="{{item.$orig.site.stopcardCount>0&&index1==item.$orig.site.salecardCount-1}}"></view>
+                                    </view>
+                                </view>
+                                <view class="card-empty data-v-1956d8ac" wx:else>
+                                    <image class="tips-pic data-v-1956d8ac" src="{{item.m3}}"></image>
+                                    <text class="tips-text data-v-1956d8ac">该店还没有会员卡哦</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-1956d8ac vue-ref" data-event-opts="{{[ [ '^confirm',[ ['universalClick'] ] ] ]}}" data-ref="isshowSubbranch" title="警示!确认升级为通用卡吗？" vueId="f2ebafc0-7" vueSlots="{{['content']}}">
+                    <view slot="content">1、升级后只能总店进行管理，该分店将失去编辑权<view class="_br data-v-1956d8ac"></view>2、该分店所有持该卡的会员将自动升级为通用卡</view>
+                </confirm-modal>
+                <ff-bottom-logo bind:__l="__l" class="data-v-1956d8ac" vueId="f2ebafc0-8"></ff-bottom-logo>
+            </view>
+            <card-all-project bind:__l="__l" class="data-v-1956d8ac vue-ref" data-ref="cardAllProject" vueId="f2ebafc0-9"></card-all-project>
+        </view>
+    </view>
+</view>

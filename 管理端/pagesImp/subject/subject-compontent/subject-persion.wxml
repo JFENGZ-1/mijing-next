@@ -1,0 +1,29 @@
+<view class="subject-persion-container data-v-2ab5751d">
+    <view class="subject-persion data-v-2ab5751d">
+        <view bindtap="__e" class="data-v-2ab5751d" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/subject/subject-personal-edit?drainerId='+groupData.drainerId] ] ] ] ] ] ]}}" style="display:flex;">
+            <view class="view-img data-v-2ab5751d">
+                <view class="image-wrap data-v-2ab5751d">
+                    <view class="tag data-v-2ab5751d" wx:if="{{groupData.tagText}}">
+                        <image class="tag-icon-left data-v-2ab5751d" src="{{$root.m0}}"></image>
+                        <view class="text data-v-2ab5751d">{{groupData.tagText}}</view>
+                        <image class="tag-icon-right data-v-2ab5751d" src="{{$root.m1}}"></image>
+                    </view>
+                    <image class="coach-photo data-v-2ab5751d" src="{{groupData.staffFace}}"></image>
+                </view>
+            </view>
+            <view class="view-content data-v-2ab5751d">
+                <view class="name data-v-2ab5751d">{{groupData.staffName}}</view>
+                <view class="notag data-v-2ab5751d" wx:if="{{$root.g0}}">不设置详细课目</view>
+                <view class="tag data-v-2ab5751d">
+                    <view class="u-tag-wrap data-v-2ab5751d" wx:if="{{i.isDefault!=1&&groupData.courseList[0].courseName!=''}}" wx:for="{{groupData.courseList}}" wx:for-index="ind" wx:for-item="i" wx:key="ind">
+                        <u-tag bgColor="#F5F5F5" bind:__l="__l" borderColor="#F5F5F5" class="data-v-2ab5751d" color="#7e7e7e" shape="circle" size="mini" text="{{i.courseName}}" type="info" vueId="{{'b5e55e5c-1-'+ind}}"></u-tag>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ivew bind:__l="__l" class="imgup data-v-2ab5751d" vueId="b5e55e5c-2" vueSlots="{{['default']}}" wx:if="{{item!=0}}">
+            <image mode bindtap="__e" class="img data-v-2ab5751d" data-event-opts="{{[ [ 'tap',[ [ 'switchUp',['$0'],['groupData'] ] ] ] ]}}" src="{{$root.m2}}"></image>
+        </ivew>
+    </view>
+    <u-line bind:__l="__l" class="data-v-2ab5751d" color="#F0F0F0" margin="22rpx  5rpx 15rpx 5rpx" vueId="b5e55e5c-3"></u-line>
+</view>

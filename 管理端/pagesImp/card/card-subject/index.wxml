@@ -1,0 +1,92 @@
+<view class="data-v-1d11645f">
+    <navigation bind:__l="__l" class="data-v-1d11645f" text="设置支持的课及课时费" vueId="2ec524e4-1"></navigation>
+    <zero-loading bind:__l="__l" class="data-v-1d11645f" vueId="2ec524e4-2" wx:if="{{!groupCardList&&!singleCardList}}"></zero-loading>
+    <view class="data-v-1d11645f" wx:else>
+        <view class="placeholder-view data-v-1d11645f" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+        <view class="main data-v-1d11645f" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="main-wrap data-v-1d11645f" wx:if="{{$root.g0}}">
+                <view class="hint data-v-1d11645f">
+                    <u-icon bind:__l="__l" class="tips_icon data-v-1d11645f" color="#C96A2F" name="bell" size="26" vueId="2ec524e4-3"></u-icon>
+                    <view class="text data-v-1d11645f">
+                        <view class="text-item data-v-1d11645f">不同的卡约不同的课，在此设置每张卡可以预约的课程及课时费</view>
+                    </view>
+                </view>
+                <view class="noRelevancy-num data-v-1d11645f" wx:if="{{noConfigCardcount>0}}">
+                    <text class="data-v-1d11645f" decode="true">{{'有 '+noConfigCardcount+' 张新卡需要设置'}}</text>
+                </view>
+                <view class="noRelevancy-num data-v-1d11645f" wx:if="{{noConfigCardcount==0&&noConfigCoursecount>0}}">
+                    <text class="data-v-1d11645f" decode="true">{{'有 '+noConfigCoursecount+' 个新课，目前还没有任何卡支持它，请检查'}}</text>
+                </view>
+                <view class="card-total data-v-1d11645f">{{'共'+totalCard+'种会员卡'}}</view>
+                <view class="card-list single-card data-v-1d11645f" wx:if="{{$root.g1>0}}">
+                    <view class="{{['item','data-v-1d11645f',index==item.g2-1?'margin-no':'']}}" wx:for="{{$root.l0}}" wx:key="index">
+                        <view bindtap="__e" class="card_wrap data-v-1d11645f" data-event-opts="{{[ [ 'tap',[ [ 'settingSubject',[1,'$0','$1'],[ [ ['singleCardList','',index] ],[ ['singleCardList','',index] ] ] ] ] ] ]}}" wx:if="{{item.$orig.isGroup==0}}">
+                            <view class="data-v-1d11645f" wx:if="{{item.$orig.saleStatus==0}}">
+                                <view class="mask data-v-1d11645f"></view>
+                                <view class="img-wrap data-v-1d11645f">
+                                    <view class="data-v-1d11645f">
+                                        <image class="data-v-1d11645f" src="{{item.m0}}"></image>
+                                        <text class="data-v-1d11645f">已停售</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="{{['data-v-1d11645f',item.$orig.saleStatus==0?'gray':'']}}">
+                                <ff-value-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-1d11645f" vueId="{{'2ec524e4-4-'+index}}" wx:if="{{item.$orig.cardType==1}}"></ff-value-card>
+                                <ff-counts-card activeClass="minimum-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-1d11645f" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="{{'2ec524e4-5-'+index}}" wx:if="{{item.$orig.cardType==2}}"></ff-counts-card>
+                                <ff-date-card activeClass="minimum-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-1d11645f" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="{{'2ec524e4-6-'+index}}" wx:if="{{item.$orig.cardType==3}}"></ff-date-card>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="card-set-meal data-v-1d11645f" data-event-opts="{{[ [ 'tap',[ [ 'settingSubject',[1,'$0','$1'],[ [ ['singleCardList','',index] ],[ ['singleCardList','',index] ] ] ] ] ] ]}}" wx:if="{{item.$orig.isGroup==0}}">
+                            <view class="set-meal-warp data-v-1d11645f">
+                                <text class="data-v-1d11645f" style="margin-right:3rpx;" wx:if="{{item.$orig.supportTeamCount>0}}">{{item.$orig.supportTeamCount+'个团课'}}</text>
+                                <text class="data-v-1d11645f" wx:if="{{item.$orig.supportPrivateCount>0}}">{{item.$orig.supportPrivateCount+'个私教'}}</text>
+                                <text class="not-project data-v-1d11645f" wx:if="{{item.$orig.supportTotalCount==0}}">可约0个课</text>
+                            </view>
+                            <u-icon bind:__l="__l" class="arrow-right data-v-1d11645f" color="#989898" marginLeft="9" name="arrow-right" size="25" vueId="{{'2ec524e4-7-'+index}}"></u-icon>
+                        </view>
+                        <view class="card_wrap data-v-1d11645f" wx:if="{{item.$orig.isGroup==1}}">
+                            <view class="data-v-1d11645f" wx:if="{{item.$orig.saleStatus==0}}">
+                                <view class="mask data-v-1d11645f"></view>
+                                <view class="img-wrap data-v-1d11645f">
+                                    <view class="data-v-1d11645f">
+                                        <image class="data-v-1d11645f" src="{{item.m1}}"></image>
+                                        <text class="data-v-1d11645f">已停售</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="{{['data-v-1d11645f',item.$orig.saleStatus==0?'gray':'']}}">
+                                <ff-value-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-1d11645f" vueId="{{'2ec524e4-8-'+index}}" wx:if="{{item.$orig.cardType==1}}"></ff-value-card>
+                                <ff-counts-card activeClass="minimum-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-1d11645f" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="{{'2ec524e4-9-'+index}}" wx:if="{{item.$orig.cardType==2}}"></ff-counts-card>
+                                <ff-date-card activeClass="minimum-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-1d11645f" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="{{'2ec524e4-10-'+index}}" wx:if="{{item.$orig.cardType==3}}"></ff-date-card>
+                            </view>
+                        </view>
+                        <view class="card-set-meal1 data-v-1d11645f" wx:if="{{item.$orig.isGroup==1}}">
+                            <view class="data-v-1d11645f" style="display:flex;justify-content:space-between;padding-top:8rpx;padding-bottom:8rpx;" wx:for="{{item.$orig.gSumInfo}}" wx:for-index="i" wx:for-item="it" wx:key="i">
+                                <view class="gn data-v-1d11645f">{{it.groupName}}</view>
+                                <view bindtap="__e" class="set-meal-warp1 data-v-1d11645f" data-event-opts="{{[ [ 'tap',[ [ 'settingSubject',[2,'$0','$1'],[ [ ['singleCardList','',index],['gSumInfo','',i] ],[ ['singleCardList','',index] ] ] ] ] ] ]}}">
+                                    <view class="content data-v-1d11645f">
+                                        <text class="data-v-1d11645f" style="margin-right:3rpx;" wx:if="{{it.supportTeamCount>0}}">{{it.supportTeamCount+'个团课'}}</text>
+                                        <text class="data-v-1d11645f" wx:if="{{it.supportPrivateCount>0}}">{{it.supportPrivateCount+'个私教'}}</text>
+                                        <text class="not-project data-v-1d11645f" wx:if="{{it.supportTotalCount==0}}">可约0个课</text>
+                                    </view>
+                                    <u-icon bind:__l="__l" class="arrow-right1 data-v-1d11645f" color="#989898" marginLeft="9" name="arrow-right" size="25" vueId="{{'2ec524e4-11-'+index+'-'+i}}"></u-icon>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="noData data-v-1d11645f" wx:else>
+                <view class="empty-data-img-wrap data-v-1d11645f">
+                    <image class="data-v-1d11645f" src="{{$root.m2}}"></image>
+                </view>
+                <view class="empty-data-text data-v-1d11645f">
+                    <view class="data-v-1d11645f">请先添加“课目”与“会员卡”后</view>
+                    <view class="data-v-1d11645f">再在此设置会员卡所支持的课程及课时费用</view>
+                </view>
+            </view>
+            <ff-bottom-logo bind:__l="__l" class="data-v-1d11645f" vueId="2ec524e4-12"></ff-bottom-logo>
+            <card-all-project bind:__l="__l" class="data-v-1d11645f vue-ref" data-ref="cardAllProject" vueId="2ec524e4-13"></card-all-project>
+        </view>
+    </view>
+</view>

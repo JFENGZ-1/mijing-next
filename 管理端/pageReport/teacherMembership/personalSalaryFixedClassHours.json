@@ -1,0 +1,11 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "quickfill": "/pageReport/component/quickfill",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

@@ -1,0 +1,23 @@
+<view class="data-v-1d27498a">
+    <view class="info-wrap data-v-1d27498a" wx:if="{{cardInfo}}">
+        <view class="item data-v-1d27498a">
+            <view class="title data-v-1d27498a">卡内额度</view>
+            <view class="info-text data-v-1d27498a">
+                <view class="data-v-1d27498a" wx:if="{{$root.g0}}">
+                    <text class="data-v-1d27498a" wx:for="{{$root.l0}}" wx:key="index">
+                        <block wx:if="{{item.$orig.isPresent}}">赠</block>{{item.$orig.timeCount+'次'+item.$orig.groupName+''}}<block wx:if="{{index+1<item.g1}}">+</block>
+                    </text>
+                </view>
+                <block wx:else>{{''+(cardInfo.orginalAmount.totalTimes?cardInfo.amountTimeCard.totalTimes:0)+'次'}}</block>
+            </view>
+        </view>
+        <view class="item data-v-1d27498a">
+            <view class="title data-v-1d27498a">有效期</view>
+            <view class="info-text data-v-1d27498a">
+                <block wx:if="{{cardInfo.cardValidYear}}">{{cardInfo.cardValidYear+'年'}}</block>
+                <block wx:if="{{cardInfo.cardValidMonth}}">{{cardInfo.cardValidMonth+'个月'}}</block>
+                <block wx:if="{{cardInfo.cardValidDays}}">{{cardInfo.cardValidDays+'天'}}</block>
+            </view>
+        </view>
+    </view>
+</view>

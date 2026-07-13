@@ -1,0 +1,77 @@
+<view class="data-v-26ce7160">
+    <navigation background="#181818" bind:__l="__l" class="data-v-26ce7160" vueId="2bf0c7b2-1"></navigation>
+    <view class="info data-v-26ce7160" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}">
+        <info bind:__l="__l" btnShow="{{false}}" class="data-v-26ce7160" vueId="2bf0c7b2-2"></info>
+    </view>
+    <view class="placeholder-view data-v-26ce7160" style="{{'top:'+StatusBar+CustomBar+infoH+'px'+';'}}"></view>
+    <view class="content data-v-26ce7160" style="{{'margin-top:'+StatusBar+CustomBar+infoH-1+'px'+';'}}">
+        <view class="buy-nav data-v-26ce7160">
+            <view bindtap="__e" class="{{['nav-item-wrap','data-v-26ce7160',navActive==0?'first-active':'first-normal']}}" data-event-opts="{{[ [ 'tap',[ [ 'toggleNav',[0] ] ] ] ]}}">
+                <view class="nav-item data-v-26ce7160">
+                    <image class="active-img data-v-26ce7160" src="{{$root.m0}}" wx:if="{{navActive==0}}"></image>
+                    <text class="data-v-26ce7160">直接支付</text>
+                    <image class="bg-img data-v-26ce7160" src="{{$root.m1}}" wx:if="{{navActive==0}}"></image>
+                </view>
+            </view>
+            <view bindtap="__e" class="{{['nav-item-wrap','data-v-26ce7160',navActive==1?'last-active':'last-normal']}}" data-event-opts="{{[ [ 'tap',[ [ 'toggleNav',[1] ] ] ] ]}}">
+                <view class="nav-item data-v-26ce7160">
+                    <image class="active-img data-v-26ce7160" src="{{$root.m2}}" wx:if="{{navActive==1}}"></image>
+                    <text class="data-v-26ce7160">密钥支付</text>
+                    <image class="bg-img data-v-26ce7160" src="{{$root.m3}}" wx:if="{{navActive==1}}"></image>
+                </view>
+            </view>
+        </view>
+        <view class="main-content data-v-26ce7160">
+            <view class="main-content-wrap data-v-26ce7160" hidden="{{!(navActive==0)}}">
+                <view class="serve-price data-v-26ce7160">
+                    <view bindtap="__e" class="{{['item-wrap','data-v-26ce7160',index==0?'item-wrap-first':'',index+1==3?'item-wrap-last':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'priceClick',[index] ] ] ] ]}}" wx:for="{{priceList}}" wx:key="index">
+                        <view class="{{['item','data-v-26ce7160',item.active?'active':'']}}">
+                            <view class="year data-v-26ce7160">{{item.yearName}}</view>
+                            <view class="price data-v-26ce7160">¥<text class="data-v-26ce7160">{{item.realPrice}}</text>
+                            </view>
+                            <view class="original-price data-v-26ce7160">{{'¥'+item.originalPrice}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="confirm-btn-wrap data-v-26ce7160">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-26ce7160" customStyle="{{custom_style}}" data-event-opts="{{[ [ '^click',[ ['priceConfrim'] ] ] ]}}" type="primary" vueId="2bf0c7b2-3" vueSlots="{{['default']}}">确认协议并支付</u-button>
+                </view>
+                <view class="hint data-v-26ce7160">购买前请先阅读<text bindtap="__e" class="data-v-26ce7160" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pageServer/serve-agreement'] ] ] ] ] ] ]}}">《服务协议》</text>
+                </view>
+            </view>
+            <view class="main-content-wrap data-v-26ce7160" hidden="{{!(navActive==1)}}">
+                <view class="input-wrap data-v-26ce7160">
+                    <input bindinput="__e" class="com-input data-v-26ce7160" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','secretKey','$event',[] ] ] ] ] ]}}" placeholder="输入密钥" placeholderClass="placeholder-style" value="{{secretKey}}"></input>
+                </view>
+                <view class="confirm-btn-wrap data-v-26ce7160">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-26ce7160" customStyle="{{custom_style}}" data-event-opts="{{[ [ '^click',[ ['secretKeyConfrim'] ] ] ]}}" type="primary" vueId="2bf0c7b2-4" vueSlots="{{['default']}}">确认协议并提交密钥</u-button>
+                </view>
+                <view class="hint data-v-26ce7160">购买前请先阅读<text class="data-v-26ce7160">《服务协议》</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-26ce7160" vueId="2bf0c7b2-5"></ff-bottom-logo>
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-26ce7160" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','popupShow','$event',[] ] ] ] ] ]}}" title="订购提示" value="{{popupShow}}" vueId="2bf0c7b2-6" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-26ce7160" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-26ce7160" data-event-opts="{{[ [ '^click',[ ['confirm'] ] ] ]}}" type="primary" vueId="{{'2bf0c7b2-7'+','+'2bf0c7b2-6'}}" vueSlots="{{['default']}}">知道了</u-button>
+        </view>
+        <view class="hint-contet data-v-26ce7160" wx:if="{{orderStatus=='success'}}">
+            <view class="success data-v-26ce7160">
+                <view class="status-img-wrap data-v-26ce7160">
+                    <image class="data-v-26ce7160" src="{{$root.m4}}"></image>
+                </view>
+                <view class="status-text data-v-26ce7160">订购成功</view>
+            </view>
+        </view>
+        <view class="hint-contet data-v-26ce7160" wx:else>
+            <view class="error data-v-26ce7160">
+                <view class="status-img-wrap data-v-26ce7160">
+                    <image class="data-v-26ce7160" src="{{$root.m5}}"></image>
+                </view>
+                <view class="status-text data-v-26ce7160">密钥错误</view>
+                <view class="hint-text data-v-26ce7160">请联系您的专属客服</view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

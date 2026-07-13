@@ -1,0 +1,61 @@
+page {
+  background: #fff;
+}
+.bottom-text.data-v-28f12c2c {
+  bottom: 74rpx;
+  color: #989898;
+  font-size: 19rpx;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+.welcome-text.data-v-28f12c2c {
+  color: #181818;
+  font-size: 69rpx;
+  font-weight: 400;
+  line-height: 90rpx;
+  margin-top: 70rpx;
+  padding: 0 37rpx;
+}
+.welcome-text text.data-v-28f12c2c {
+  font-weight: 500;
+}
+.profile-photo.data-v-28f12c2c {
+  border-radius: 50%;
+  height: 159rpx;
+  margin: 185rpx auto 20rpx;
+  overflow: hidden;
+  width: 159rpx;
+}
+.profile-photo image.data-v-28f12c2c {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+.nickname.data-v-28f12c2c {
+  color: #7e7e7e;
+  font-size: 35rpx;
+  text-align: center;
+}
+.btn-wrap button.data-v-28f12c2c {
+  background: #fbd128;
+  border: none;
+  border-radius: 41rpx;
+  height: 90rpx;
+  margin: 120rpx auto 35rpx;
+  outline: none;
+  width: 458rpx;
+}
+.btn-wrap button.data-v-28f12c2c::after {
+  border: none;
+}
+.btn-wrap .tips.data-v-28f12c2c {
+  color: #989898;
+  font-size: 20rpx;
+  text-align: center;
+}
+.hint.data-v-28f12c2c {
+  color: #989898;
+  font-size: 21rpx;
+  text-align: center;
+}

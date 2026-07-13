@@ -1,0 +1,22 @@
+<view class="data-v-a3dac94c">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-a3dac94c" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="867" tips="注意：会员也会看到这个说明" title="{{textflag+title}}" value="{{show}}" vueId="4db78bb6-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-a3dac94c" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-a3dac94c" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'4db78bb6-2'+','+'4db78bb6-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-a3dac94c">
+            <view class="textc-box data-v-a3dac94c">
+                <view class="textc data-v-a3dac94c">
+                    <text class="title data-v-a3dac94c">{{textflag}}</text>
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-a3dac94c" clearable="{{false}}" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','pointVal','$event',[] ] ] ] ] ]}}" height="80" maxlength="5" placeholder="{{placeholder}}" placeholderStyle="font-size: 28rpx; color: #dadada;" type="digit" value="{{pointVal}}" vueId="{{'4db78bb6-3'+','+'4db78bb6-1'}}"></u-input>
+                </view>
+                <view class="textc data-v-a3dac94c">
+                    <text class="title data-v-a3dac94c">说明原由</text>
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-a3dac94c" clearable="{{false}}" customStyle="{{inputStyle1}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','reasonText','$event',[] ] ] ] ] ]}}" height="80" maxlength="20" placeholder="{{placeholder1}}" placeholderStyle="font-size: 28rpx; color: #dadada;" type="text" value="{{reasonText}}" vueId="{{'4db78bb6-4'+','+'4db78bb6-1'}}"></u-input>
+                </view>
+                <view class="textc1 data-v-a3dac94c">
+                    <text class="desc data-v-a3dac94c">最多20个字</text>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

@@ -1,0 +1,98 @@
+.main-box .radio-group.data-v-3da41e32 {
+  display: block;
+  margin-bottom: 15rpx;
+}
+.main-box .radio-main.data-v-3da41e32 {
+  align-items: center;
+  color: #7e7e7e;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+  width: 100%;
+}
+.main-box .radio-main.active.data-v-3da41e32 {
+  color: #181818;
+  font-weight: 500;
+}
+.main-box .radio-main .com-input.data-v-3da41e32 {
+  margin: 0 10rpx;
+  width: 100rpx;
+}
+.main-box .radio.data-v-3da41e32 {
+  padding-top: 38rpx;
+}
+.main-box .radio-wrap.data-v-3da41e32 {
+  padding: 30rpx 58rpx 0;
+}
+.main-box .radio-group1.data-v-3da41e32 {
+  display: block;
+  padding-top: 36rpx;
+}
+.main-box .radio1.data-v-3da41e32 {
+  display: block;
+  height: 68rpx;
+}
+.main-box .opencard-tips.data-v-3da41e32 {
+  color: #7e7e7e;
+  font-size: 22rpx;
+}
+.main-box .opencard-tips text.data-v-3da41e32 {
+  color: #dc3c5c;
+  padding-left: 8rpx;
+}
+.main-box .form-box.data-v-3da41e32 {
+  padding-top: 10rpx;
+}
+.main-box .form-box .list-wrap.data-v-3da41e32 {
+  padding-top: 26rpx;
+}
+.main-box .form-box .list-box.data-v-3da41e32 {
+  padding: 5rpx 50rpx;
+}
+.main-box .form-box .list-box .show-box.data-v-3da41e32 {
+  align-items: center;
+  border-bottom: 1rpx solid #f0f0f0;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  padding: 25rpx 0 5rpx;
+}
+.main-box .form-box .list-box .show-box .title.data-v-3da41e32 {
+  color: #7e7e7e;
+}
+.main-box .form-box .list-box .show-box1.data-v-3da41e32 {
+  justify-content: space-between;
+}
+.main-box .form-box .list-box .show-box1 .titledata .title-box.data-v-3da41e32,
+.main-box .form-box .list-box .show-box1 .titledata.data-v-3da41e32,
+.main-box .form-box .list-box .show-box1.data-v-3da41e32 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}
+.main-box .form-box .list-box .show-box1 .titledata .title-box.data-v-3da41e32 {
+  height: 72rpx;
+}
+.main-box .form-box .list-box .show-box1 .titledata .active.data-v-3da41e32 {
+  color: #181818;
+  font-weight: 500;
+}
+.main-box .form-box .list-box .show-box1 .titledata .title.data-v-3da41e32 {
+  color: #7e7e7e;
+}
+.main-box .form-box .list-box .hidd-box.data-v-3da41e32 {
+  align-items: center;
+  color: #7e7e7e;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+}
+.main-box .form-box .list-box .hidd-box .com-input.data-v-3da41e32 {
+  flex: 0 0 auto;
+  margin: 0 10rpx;
+  text-align: center !important;
+  width: 90rpx;
+}
+.main-box .title1.data-v-3da41e32 {
+  font-size: 32rpx;
+}

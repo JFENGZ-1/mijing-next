@@ -1,0 +1,18 @@
+<view class="data-v-12785b80">
+    <view class="info-wrap data-v-12785b80" wx:if="{{siteInfo}}">
+        <view class="left data-v-12785b80">
+            <image class="data-v-12785b80" src="{{siteInfo.siteTrademark}}"></image>
+        </view>
+        <view class="right data-v-12785b80">
+            <view class="site-name data-v-12785b80">{{siteInfo.siteName}}</view>
+            <view class="opening-hours data-v-12785b80">
+                <view class="item data-v-12785b80" wx:for="{{siteInfo.opentimeList}}" wx:key="index">{{''+item.weekValue+' '+item.timeValue+''}}</view>
+            </view>
+            <view class="address data-v-12785b80">地址：{{siteInfo.siteAddr}}</view>
+            <view class="phone data-v-12785b80">
+                <text class="data-v-12785b80">{{'电话：'+siteInfo.siteTel}}</text>
+                <u-icon bind:__l="__l" bind:click="__e" class="data-v-12785b80" color="#FC8C00" data-event-opts="{{[ [ '^click',[ [ 'openPhone',['$0'],['siteInfo.siteTel'] ] ] ] ]}}" name="phone-fill" size="25" vueId="23a5efca-1"></u-icon>
+            </view>
+        </view>
+    </view>
+</view>

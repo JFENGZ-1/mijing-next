@@ -1,0 +1,1 @@
+function(){try{var e=require('common/vendor.js');if(!e.__purchasePatch){var o=e.index.showModal.bind(e.index);e.index.showModal=function(n){if(n&&n.title==='确认购买'){n.success&&n.success({confirm:true,cancel:false});return;}return o(n)};e.__purchasePatch=true}return{ok:true}}catch(err){return{ok:false,err:String(err)}}}

@@ -1,0 +1,22 @@
+<view class="data-v-ac6c96a0">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-ac6c96a0" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="867" tips="注意：会员也会看到这个说明" title="{{titlePre+title}}" value="{{show}}" vueId="1aab5011-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-ac6c96a0" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-ac6c96a0" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'1aab5011-2'+','+'1aab5011-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-ac6c96a0">
+            <view class="data-v-ac6c96a0">
+                <view class="textc data-v-ac6c96a0">
+                    <text class="title data-v-ac6c96a0">{{titlePre+'积分'}}</text>
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-ac6c96a0" clearable="{{false}}" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','pointVal','$event',[] ] ] ] ] ]}}" height="80" maxlength="5" placeholder="{{placeholder}}" placeholderStyle="font-size: 28rpx; color: #dadada;" type="digit" value="{{pointVal}}" vueId="{{'1aab5011-3'+','+'1aab5011-1'}}"></u-input>
+                </view>
+                <view class="textc data-v-ac6c96a0">
+                    <text class="title data-v-ac6c96a0">说明原由</text>
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-ac6c96a0" clearable="{{false}}" customStyle="{{inputStyle1}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','reasonText','$event',[] ] ] ] ] ]}}" height="80" maxlength="20" placeholder="{{placeholder1}}" placeholderStyle="font-size: 28rpx; color: #dadada;" type="text" value="{{reasonText}}" vueId="{{'1aab5011-4'+','+'1aab5011-1'}}"></u-input>
+                </view>
+                <view class="textc1 data-v-ac6c96a0">
+                    <text class="desc data-v-ac6c96a0">最多20个字</text>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

@@ -1,0 +1,174 @@
+.schematic-popup.data-v-47124523 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+.schematic-popup .content.data-v-47124523 {
+  width: 468rpx;
+}
+.schematic-popup .pic-wrap.data-v-47124523 {
+  padding-bottom: 10rpx;
+}
+.schematic-popup .pic.data-v-47124523 {
+  border-radius: 30rpx;
+  height: 867rpx;
+  width: 468rpx;
+}
+.schematic-popup .btn-wrap.data-v-47124523 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 150rpx;
+  justify-content: center;
+  width: 100%;
+}
+.fixed.data-v-47124523 {
+  background: #fbd128;
+  height: 30rpx;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: -99;
+}
+.main.data-v-47124523 {
+  background: #fff;
+  border-top-left-radius: 21rpx;
+  border-top-right-radius: 21rpx;
+  min-height: 1230rpx;
+  overflow: hidden;
+  padding: 0 30rpx;
+}
+.main .hint_wrap.data-v-47124523 {
+  margin-top: 30rpx;
+}
+.main .schematic_text.data-v-47124523 {
+  color: #003d82;
+  margin-left: 15rpx;
+  text-decoration: underline;
+}
+.main .num_times_wrap.data-v-47124523 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  padding: 30rpx 0rpx 35rpx;
+}
+.main .num_times_wrap .first_text.data-v-47124523 {
+  color: #181818;
+  flex: 1;
+  font-size: 28rpx;
+}
+.main .num_times_wrap .last_text.data-v-47124523 {
+  color: #989898;
+  font-size: 22rpx;
+}
+.main .list .list_item.data-v-47124523 {
+  background: #f5f5f5;
+  border-radius: 21rpx;
+  margin-bottom: 21rpx;
+  overflow: hidden;
+  padding: 35rpx 0rpx 30rpx;
+  position: relative;
+}
+.main .list .list_item .finish_wrap.data-v-47124523 {
+  background: #fff;
+  height: 100%;
+  left: 0;
+  opacity: 0.4;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.main .list .list_item .title.data-v-47124523 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 46rpx;
+  padding-right: 22rpx;
+}
+.main .list .list_item .title .title_color.data-v-47124523 {
+  background: #22c788;
+  border-bottom-right-radius: 14rpx;
+  border-top-right-radius: 14rpx;
+  height: 100%;
+  width: 17rpx;
+}
+.main .list .list_item .title .stop_day_num.data-v-47124523 {
+  color: #181818;
+  flex: 1;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-left: 6rpx;
+}
+.main .list .list_item .title .status.data-v-47124523 {
+  color: #dc3c5c;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-right: 18rpx;
+}
+.main .list .list_item .title .business.data-v-47124523 {
+  color: #dc3c5c;
+  font-size: 32rpx;
+  margin-right: 18rpx;
+}
+.main .list .list_item .title .closed.data-v-47124523 {
+  color: #7e7e7e;
+  font-size: 32rpx;
+  margin-right: 18rpx;
+}
+.main .list .list_item .title image.data-v-47124523 {
+  width: 13rpx;
+}
+.main .list .list_item .info_wrap.data-v-47124523 {
+  margin: 0rpx 22rpx;
+}
+.main .list .list_item .info_wrap .info_item.data-v-47124523 {
+  display: -webkit-flex;
+  display: flex;
+  font-size: 25rpx;
+  margin-bottom: 16rpx;
+}
+.main .list .list_item .info_wrap .info_item .info_title.data-v-47124523 {
+  color: #181818;
+  flex: 1;
+}
+.main .list .list_item .info_wrap .info_item .info_text.data-v-47124523 {
+  color: #7e7e7e;
+}
+.main .list .list_item .info_wrap .info_top.data-v-47124523 {
+  margin: 22rpx 0rpx;
+}
+.main .list .list_item .info_wrap .info_bottom.data-v-47124523 {
+  align-items: center;
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 22rpx;
+  padding-top: 22rpx;
+}
+.main .list .list_item .info_wrap .info_bottom .rofile.data-v-47124523 {
+  border-radius: 50%;
+  height: 35rpx;
+  overflow: hidden;
+  width: 35rpx;
+}
+.main .list .list_item .info_wrap .info_bottom .rofile image.data-v-47124523 {
+  width: 100%;
+}
+.main .list .list_item .info_wrap .info_bottom .name.data-v-47124523 {
+  margin-left: 10rpx;
+  margin-right: 32rpx;
+}
+.main .list .list_item .finish_wrap .title_color.data-v-47124523 {
+  background: #22c788 !important;
+}
+.nodata.data-v-47124523 {
+  background: #f5f5f5;
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 35rpx;
+  padding-top: 56rpx;
+}

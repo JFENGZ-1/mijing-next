@@ -1,0 +1,24 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-cf91c520" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="开通后,持该卡的会员可多次预约课程" title="是否允许同一课程重复预约" value="{{show}}" vueId="2ae2c6a9-1" vueSlots="{{['default','tips','confrimBtn']}}">
+    <view class="data-v-cf91c520" slot="tips" style="display:flex;align-items:baseline;">
+        <u-icon bind:__l="__l" class="data-v-cf91c520" name="bell" size="26" style="position:relative;top:5rpx;" vueId="{{'2ae2c6a9-2'+','+'2ae2c6a9-1'}}"></u-icon>
+        <view class="data-v-cf91c520" style="padding-left:10rpx;">a. 持该卡的会员可重复（帮朋友）预约同一时间的同一课程<view class="_br data-v-cf91c520"></view>b. 一般次卡和储值卡建议‘允许’，期限卡选择‘不允许’<view class="_br data-v-cf91c520"></view>c. 该设置仅作用于此卡<view class="_br data-v-cf91c520"></view>
+        </view>
+    </view>
+    <view class="com-button-f1 data-v-cf91c520" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-cf91c520" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'2ae2c6a9-3'+','+'2ae2c6a9-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-cf91c520">
+        <u-radio-group bind:__l="__l" bind:input="__e" class="radio-group data-v-cf91c520" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','itemVal','$event',[] ] ] ] ] ]}}" value="{{itemVal}}" vueId="{{'2ae2c6a9-4'+','+'2ae2c6a9-1'}}" vueSlots="{{['default']}}">
+            <u-radio bind:__l="__l" class="radio data-v-cf91c520" name="{{1}}" vueId="{{'2ae2c6a9-5'+','+'2ae2c6a9-4'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-cf91c520',itemVal===1?'active':'']}}">不允许，每个会员仅可预约一次</view>
+            </u-radio>
+            <u-radio bind:__l="__l" class="radio data-v-cf91c520" name="{{2}}" vueId="{{'2ae2c6a9-6'+','+'2ae2c6a9-4'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-cf91c520',itemVal===2?'active':'']}}">允许多次重复预约，且不限制预约的次数</view>
+            </u-radio>
+            <u-radio bind:__l="__l" class="radio data-v-cf91c520" name="{{3}}" vueId="{{'2ae2c6a9-7'+','+'2ae2c6a9-4'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-cf91c520',itemVal===3?'active':'']}}">允许多次重复预约，但最多<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-cf91c520" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','itemParamVal','$event',[] ] ] ] ] ]}}" disabled="{{itemVal!=3}}" type="number" value="{{itemParamVal}}" vueId="{{'2ae2c6a9-8'+','+'2ae2c6a9-7'}}"></u-input>次</view>
+            </u-radio>
+        </u-radio-group>
+        <view class="data-v-cf91c520" style="padding-top:160rpx;"></view>
+    </view>
+</ff-popup>

@@ -1,0 +1,94 @@
+<view class="HM-drag-sort data-v-86ed9c82" style="{{'height:'+ListHeight+'px'+';'+'background-color:'+listBackgroundColor+';'}}">
+    <view class="rowBox-shadow data-v-86ed9c82" id="shadowRowBox">
+        <view class="hm-row-shadow move data-v-86ed9c82" id="shadowRow">
+            <view class="card-type-box-sort data-v-86ed9c82">
+                <view class="card-wrap data-v-86ed9c82">
+                    <view class="data-v-86ed9c82" wx:if="{{shadowRow.saleStatus==0}}">
+                        <view class="mask data-v-86ed9c82"></view>
+                        <view class="img-wrap data-v-86ed9c82">
+                            <view class="data-v-86ed9c82">
+                                <image class="data-v-86ed9c82" src="{{$root.m0}}"></image>
+                                <text class="data-v-86ed9c82">已停售</text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="{{['data-v-86ed9c82',shadowRow.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{shadowRow.cardType==1}}">
+                        <ff-value-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{shadowRow}}" class="data-v-86ed9c82" vueId="1fab2dac-1"></ff-value-card>
+                    </view>
+                    <view class="{{['data-v-86ed9c82',shadowRow.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{shadowRow.cardType==2}}">
+                        <ff-counts-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{shadowRow}}" class="data-v-86ed9c82" vueId="1fab2dac-2"></ff-counts-card>
+                    </view>
+                    <view class="{{['data-v-86ed9c82',shadowRow.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{shadowRow.cardType==3}}">
+                        <ff-date-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{shadowRow}}" class="data-v-86ed9c82" vueId="1fab2dac-3"></ff-date-card>
+                    </view>
+                </view>
+                <view class="right-box data-v-86ed9c82">
+                    <view class="label data-v-86ed9c82">售价</view>
+                    <view class="sale-money data-v-86ed9c82">
+                        <view class="data-v-86ed9c82">
+                            <text class="data-v-86ed9c82">￥</text>
+                            <text class="price data-v-86ed9c82">{{shadowRow.price}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="drag-handle data-v-86ed9c82">
+                    <view bindtouchend="{{drag.touchend}}" bindtouchmove="{{drag.touchmove}}" bindtouchstart="{{drag.touchstart}}" class="drag-bt-wrap data-v-86ed9c82" data-id="{{row.HMDrag_id}}"></view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <scroll-view bindscroll="{{drag.scroll}}" class="color scroll-view data-v-86ed9c82" id="{{'scrollView_'+guid}}" scrollTop="{{scrollViewTop}}" scrollWithAnimation="{{scrollAnimation}}" scrollY="{{true}}" style="{{'height:'+ListHeight+'px'+';'}}">
+        <view class="list data-v-86ed9c82">
+            <view class="rowBox ani data-v-86ed9c82" style="{{'height:'+rowHeight+'px'+';'}}" wx:for="{{$root.l0}}" wx:for-item="row" wx:key="HMDrag_id">
+                <view class="hm-row data-v-86ed9c82" data-id="{{row.$orig.HMDrag_id}}" data-sort="{{row.$orig.HMDrag_sort}}" id="{{row.$orig.HMDrag_id}}" style="{{'transform:'+'translate3d(0,'+(row.$orig.HMDrag_sort-index)*100+'%,-1px)'+';'+'height:'+rowHeight+'px'+';'}}">
+                    <view class="card-type-box-sort data-v-86ed9c82">
+                        <view class="card-wrap data-v-86ed9c82">
+                            <view class="data-v-86ed9c82" wx:if="{{row.$orig.saleStatus==0}}">
+                                <view class="mask data-v-86ed9c82"></view>
+                                <view class="img-wrap data-v-86ed9c82">
+                                    <view class="data-v-86ed9c82">
+                                        <image class="data-v-86ed9c82" src="{{row.m1}}"></image>
+                                        <text class="data-v-86ed9c82">已停售</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="{{['data-v-86ed9c82',row.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{row.$orig.cardType==1}}">
+                                <ff-value-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{row.$orig}}" class="data-v-86ed9c82" vueId="{{'1fab2dac-4-'+index}}"></ff-value-card>
+                            </view>
+                            <view class="{{['data-v-86ed9c82',row.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{row.$orig.cardType==2}}">
+                                <ff-counts-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{row.$orig}}" class="data-v-86ed9c82" vueId="{{'1fab2dac-5-'+index}}"></ff-counts-card>
+                            </view>
+                            <view class="{{['data-v-86ed9c82',row.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{row.$orig.cardType==3}}">
+                                <ff-date-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{row.$orig}}" class="data-v-86ed9c82" vueId="{{'1fab2dac-6-'+index}}"></ff-date-card>
+                            </view>
+                        </view>
+                        <view class="right-box data-v-86ed9c82">
+                            <view class="label data-v-86ed9c82">售价</view>
+                            <view class="sale-money data-v-86ed9c82">
+                                <view class="data-v-86ed9c82">
+                                    <text class="data-v-86ed9c82">￥</text>
+                                    <text class="price data-v-86ed9c82">{{row.$orig.price}}</text>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="drag-handle data-v-86ed9c82">
+                            <view bindtouchend="{{drag.touchend}}" bindtouchmove="{{drag.touchmove}}" bindtouchstart="{{drag.touchstart}}" class="drag-bt-wrap data-v-86ed9c82" data-id="{{row.$orig.HMDrag_id}}">
+                                <view class="{{['tips-box','data-v-86ed9c82',showDragTips?'show':'']}}" hidden="{{!(showDragTips&&index==0)}}">
+                                    <view class="frame-box data-v-86ed9c82">
+                                        <image class="tips-frame data-v-86ed9c82" src="https://test.songguoyueke.com/upload/imgs/triangle_02.png"></image>
+                                    </view>
+                                    <view class="tips data-v-86ed9c82">
+                                        <view class="data-v-86ed9c82">按住此处</view>
+                                        <view class="data-v-86ed9c82">可上下拖动</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+    <view change:prop="{{drag.receiveData}}" class="data-v-86ed9c82" data-guid="{{guid}}" id="dataView" prop="{{wxsDataStr}}" style="display:none !important;">触发wxs跳板,请勿删除</view>
+</view>
+<wxs module="drag" src="drag.wxs"/>

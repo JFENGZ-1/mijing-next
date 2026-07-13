@@ -1,0 +1,173 @@
+<view bindtap="__e" class="data-v-69c436b0" data-event-opts="{{[ [ 'tap',[ [ 'cancelBubbling',['$event'] ] ] ] ]}}">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-69c436b0" text="{{title}}" vueId="8867ce84-1"></navigation>
+    <view class="main data-v-69c436b0" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-69c436b0">
+            <view class="head data-v-69c436b0" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="hint_wrap data-v-69c436b0">
+                    <hint bind:__l="__l" class="data-v-69c436b0" show="{{hintShow}}" updateTime="{{computeTime.computeTime}}" vueId="8867ce84-2" vueSlots="{{['confirmname']}}">
+                        <view class="data-v-69c436b0" slot="confirmname">
+                            <view class="data-v-69c436b0" style="display:flex;">
+                                <view class="name data-v-69c436b0">耗卡金额：</view>
+                                <view class="data-v-69c436b0">
+                                    <view class="value data-v-69c436b0">次数卡=实际收款/发卡额度×所扣课费次数</view>
+                                    <view class="value data-v-69c436b0">储值卡=实际收款/发卡额度×所扣课费</view>
+                                    <view class="value data-v-69c436b0">期限卡=实际收款/总天数×逝去的天数</view>
+                                </view>
+                            </view>
+                            <view class="data-v-69c436b0">
+                                <text class="name data-v-69c436b0">团课私教：</text>
+                                <text class="value data-v-69c436b0">统计约课所耗卡的金额（不含期限卡）</text>
+                            </view>
+                            <view class="data-v-69c436b0">
+                                <text class="name data-v-69c436b0">耗卡总计：</text>
+                                <text class="value data-v-69c436b0">含期限卡，即使没有会员约课，只要持有期限卡，也会出现耗卡金额（期限卡是每过一天即产生耗卡）</text>
+                            </view>
+                        </view>
+                    </hint>
+                </view>
+                <view class="summarize data-v-69c436b0">
+                    <view class="top_data data-v-69c436b0">
+                        <view catchtap="__e" class="warp data-v-69c436b0" data-event-opts="{{[ [ 'tap',[ [ 'changeShowDrop',['$event'] ] ] ] ]}}">
+                            <text class="data-v-69c436b0">{{topText}}</text>
+                            <u-icon bind:__l="__l" class="arrow-right data-v-69c436b0" color="#181818" marginLeft="5" name="arrow-down" size="16" vueId="8867ce84-3"></u-icon>
+                        </view>
+                        <view catchtap="__e" class="warp data-v-69c436b0" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',['$0',false],['type'] ] ] ] ]}}" wx:if="{{type!=4}}">
+                            <text class="top_text1 data-v-69c436b0">{{topTime}}</text>
+                            <u-icon bind:__l="__l" class="arrow-right data-v-69c436b0" color="#181818" marginLeft="9" name="arrow-down" size="16" vueId="8867ce84-4"></u-icon>
+                        </view>
+                        <view class="top_text2 warp data-v-69c436b0" wx:else>
+                            <view class="date-box data-v-69c436b0">
+                                <text catchtap="__e" class="date data-v-69c436b0" data-event-opts="{{[ [ 'tap',[ ['startTimeChange'] ] ] ]}}">{{''+startTime.year+'-'+startTime.month+'-'+startTime.day+''}}</text>
+                                <u-icon bind:__l="__l" class="arrow-date data-v-69c436b0" color="#181818" name="arrow-down" size="14" vueId="8867ce84-5"></u-icon>
+                            </view>
+                            <text class="zhi data-v-69c436b0">至</text>
+                            <view class="date-box data-v-69c436b0">
+                                <text catchtap="__e" class="date data-v-69c436b0" data-event-opts="{{[ [ 'tap',[ ['endTimeChange'] ] ] ]}}">{{''+endTime.year+'-'+endTime.month+'-'+endTime.day+''}}</text>
+                                <u-icon bind:__l="__l" class="arrow-date data-v-69c436b0" color="#181818" name="arrow-down" size="14" vueId="8867ce84-6"></u-icon>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="drop_down data-v-69c436b0" hidden="{{!changeShowDrop1}}">
+                        <view class="image_wrap data-v-69c436b0">
+                            <image class="img data-v-69c436b0" src="{{$root.m0}}"></image>
+                        </view>
+                        <view class="drop_down_list data-v-69c436b0">
+                            <view catchtap="__e" class="item data-v-69c436b0" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',[1,true] ] ] ] ]}}">全部</view>
+                            <u-line bind:__l="__l" class="data-v-69c436b0" color="#4d4d4d" vueId="8867ce84-7"></u-line>
+                            <view catchtap="__e" class="item data-v-69c436b0" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',[2,true] ] ] ] ]}}">按年</view>
+                            <u-line bind:__l="__l" class="data-v-69c436b0" color="#4d4d4d" vueId="8867ce84-8"></u-line>
+                            <view catchtap="__e" class="item data-v-69c436b0" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',[3,true] ] ] ] ]}}">按月</view>
+                        </view>
+                    </view>
+                    <view class="more-data data-v-69c436b0">
+                        <view class="item data-v-69c436b0">
+                            <view class="info data-v-69c436b0">
+                                <view class="info-foot data-v-69c436b0">
+                                    <text class="sign data-v-69c436b0">￥</text>
+                                    <text class="info_num data-v-69c436b0">{{sumInfo.teamAmount==undefined?'--':sumInfo.teamAmount}}</text>
+                                </view>
+                                <view class="data-v-69c436b0">团课合计</view>
+                            </view>
+                        </view>
+                        <u-line bind:__l="__l" class="u-line data-v-69c436b0" color="#DADADA" direction="col" length="58rpx" margin="26rpx 0 0 0" vueId="8867ce84-9"></u-line>
+                        <view class="item data-v-69c436b0">
+                            <view class="info data-v-69c436b0">
+                                <view class="info-foot data-v-69c436b0">
+                                    <text class="sign data-v-69c436b0">￥</text>
+                                    <text class="info_num data-v-69c436b0">{{(sumInfo.privateAmount==undefined?'--':sumInfo.privateAmount)+''}}</text>
+                                </view>
+                                <view class="data-v-69c436b0">私教合计</view>
+                            </view>
+                        </view>
+                        <u-line bind:__l="__l" class="u-line data-v-69c436b0" color="#DADADA" direction="col" length="58rpx" margin="26rpx 0 0 0" vueId="8867ce84-10"></u-line>
+                        <view class="item data-v-69c436b0">
+                            <view class="info data-v-69c436b0">
+                                <view class="info-foot data-v-69c436b0">
+                                    <text class="sign data-v-69c436b0">￥</text>
+                                    <text class="info_num data-v-69c436b0">{{sumInfo.totalAmount==undefined?'--':sumInfo.totalAmount}}</text>
+                                </view>
+                                <view class="data-v-69c436b0">总计(元)</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="top_content data-v-69c436b0">
+                    <view class="item_head data-v-69c436b0">
+                        <view class="item_right data-v-69c436b0">{{'共'+totalCount+'名会员'}}</view>
+                        <view class="filter data-v-69c436b0">
+                            <view catchtap="__e" class="{{['data-v-69c436b0',sortId==item.$orig.id?'active':'filter-item']}}" data-event-opts="{{[ [ 'tap',[ [ 'headlememberStatus',['$0'],[ [ ['memberStatus','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="tag data-v-69c436b0">{{item.$orig.name+''}}<view class="triangle data-v-69c436b0">
+                                        <image class="icon data-v-69c436b0" mode="widthFix" src="{{item.m1}}" wx:if="{{sortId==item.$orig.id}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-69c436b0">
+                <view class="list data-v-69c436b0">
+                    <view class="item data-v-69c436b0" wx:if="{{!notdata}}">
+                        <view class="data-v-69c436b0" style="padding-top:28rpx;" wx:for="{{$root.l1}}" wx:for-index="index1" wx:key="index1">
+                            <view bindtap="__e" class="sale-item data-v-69c436b0" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}">
+                                <view class="number-box data-v-69c436b0">
+                                    <image class="num-icon data-v-69c436b0" mode="widthFix" src="{{item.m2}}" wx:if="{{index1==0}}"></image>
+                                    <block wx:else>
+                                        <image class="num-icon data-v-69c436b0" mode="widthFix" src="{{item.m3}}" wx:if="{{index1==1}}"></image>
+                                        <block wx:else>
+                                            <image class="num-icon data-v-69c436b0" mode="widthFix" src="{{item.m4}}" wx:if="{{index1==2}}"></image>
+                                        </block>
+                                    </block>
+                                    <text class="num-index data-v-69c436b0" style="{{'color:'+(index1>2?'#989898':'#ffffff')+';'}}">{{index1+1}}</text>
+                                </view>
+                                <image class="avator data-v-69c436b0" src="{{item.$orig.userFaceurl}}"></image>
+                                <view class="detail-info data-v-69c436b0">
+                                    <view class="detail-info-wrap data-v-69c436b0">
+                                        <view class="l-info data-v-69c436b0">{{''+item.m5+''}}<view class="time-and-type data-v-69c436b0">
+                                                <text class="data-v-69c436b0" wx:if="{{item.$orig.lastClassDate}}">{{item.g0}}</text>
+                                                <text class="data-v-69c436b0" wx:else>--</text>
+                                            </view>
+                                            <view class="last-class data-v-69c436b0" wx:if="{{index1<=2}}">最后上课</view>
+                                        </view>
+                                        <view class="r-info data-v-69c436b0">
+                                            <view class="team-class data-v-69c436b0">
+                                                <text class="data-v-69c436b0" wx:if="{{item.$orig.teamPrice}}">{{item.$orig.teamPrice}}</text>
+                                                <text class="nodata-grey data-v-69c436b0" wx:else>-</text>
+                                            </view>
+                                            <view class="pri-class data-v-69c436b0">
+                                                <text class="data-v-69c436b0" wx:if="{{item.$orig.privatePrice}}">{{item.$orig.privatePrice}}</text>
+                                                <text class="nodata-grey data-v-69c436b0" wx:else>-</text>
+                                            </view>
+                                            <view class="to-class data-v-69c436b0" wx:if="{{item.$orig.totalPrice}}">
+                                                <text class="sign data-v-69c436b0">￥</text>
+                                                <text class="data-v-69c436b0">{{item.$orig.totalPrice}}</text>
+                                            </view>
+                                            <view class="to-class data-v-69c436b0" wx:else>
+                                                <text class="nodata-grey data-v-69c436b0">-</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-69c436b0" color="#F0F0F0" length="530" margin="0rpx 0rpx 0rpx 160rpx" vueId="{{'8867ce84-11-'+index1}}" wx:if="{{item.g1}}"></u-line>
+                        </view>
+                    </view>
+                    <view class="data-v-69c436b0" wx:else>
+                        <view class="noCourseData data-v-69c436b0">
+                            <image class="icon data-v-69c436b0" src="{{$root.m6}}"></image>
+                            <text class="explain data-v-69c436b0">~没有耗卡记录~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-69c436b0" wx:if="{{!notdata&&ismore}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-69c436b0" color="#bfbfbf" halfWidth="74" vueId="8867ce84-12" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-69c436b0" vueId="8867ce84-13"></ff-bottom-logo>
+        <calendar-month bind:__l="__l" bind:changeDate="__e" class="data-v-69c436b0 vue-ref" data-event-opts="{{[ [ '^changeDate',[ ['changeDate'] ] ] ]}}" data-ref="calendarMonthChild" vueId="8867ce84-14"></calendar-month>
+        <calendar-year bind:__l="__l" bind:changeyear="__e" class="data-v-69c436b0 vue-ref" data-event-opts="{{[ [ '^changeyear',[ ['changeyear'] ] ] ]}}" data-ref="calendarYearChild" vueId="8867ce84-15"></calendar-year>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-69c436b0" data-event-opts="{{[ [ '^confirm',[ ['startTimeconfirm'] ] ],[ '^input',[ [ '__set_model',[ '','startTimeSelectshow','$event',[] ] ] ] ] ]}}" endYear="{{date.year}}" mode="time" params="{{timeParam}}" startYear="2023" title="开始时间" value="{{startTimeSelectshow}}" vueId="8867ce84-16"></u-picker>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-69c436b0" data-event-opts="{{[ [ '^confirm',[ ['endTimeconfirm'] ] ],[ '^input',[ [ '__set_model',[ '','endTimeSelectshow','$event',[] ] ] ] ] ]}}" endYear="{{date.year}}" mode="time" params="{{timeParam}}" startYear="2023" title="结束时间" value="{{endTimeSelectshow}}" vueId="8867ce84-17"></u-picker>
+    </view>
+</view>

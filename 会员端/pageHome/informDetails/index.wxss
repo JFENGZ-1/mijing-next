@@ -1,0 +1,22 @@
+.wrap.data-v-0cf2c342 {
+  background: #fff;
+  border-radius: 21rpx;
+  margin: 20rpx;
+  padding: 47rpx 49rpx 42rpx 31rpx;
+}
+.wrap .title-name.data-v-0cf2c342 {
+  color: #181818;
+  font-size: 46rpx;
+  font-weight: 500;
+}
+.wrap .time.data-v-0cf2c342 {
+  color: #7e7e7e;
+  font-size: 22rpx;
+  margin-bottom: 25rpx;
+  margin-top: 8rpx;
+}
+.wrap .content.data-v-0cf2c342 {
+  color: #181818;
+  font-size: 32rpx;
+  line-height: 52rpx;
+}

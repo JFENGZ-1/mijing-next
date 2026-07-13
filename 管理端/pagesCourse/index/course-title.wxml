@@ -1,0 +1,27 @@
+<view class="data-v-4897fa90">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-4897fa90" text="{{headtitle}}" vueId="6d741645-1"></navigation>
+    <view class="data-v-4897fa90" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="data-v-4897fa90" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="main data-v-4897fa90" style="{{'height:100%;min-height:1230rpx; '}}">
+            <view class="course-title data-v-4897fa90">
+                <view class="data-v-4897fa90">
+                    <view class="content data-v-4897fa90">
+                        <view class="hint_wrap data-v-4897fa90">
+                            <hint bind:__l="__l" class="data-v-4897fa90" vueId="6d741645-2" vueSlots="{{['default']}}">以下设置仅作用于下载的课程表图片</hint>
+                        </view>
+                        <input bindinput="__e" class="data-v-4897fa90" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','title','$event',[] ] ],[ 'onInput',['$event'] ] ] ] ]}}" maxlength="60" placeholder="请输入课程表标题" placeholderStyle="font-size:32rpx;color:#d0d2d7;" value="{{title}}"></input>
+                        <view class="course-title-button data-v-4897fa90">
+                            <text class="num data-v-4897fa90">已写<text class="{{['data-v-4897fa90',num>25?'colorred':'']}}">{{num}}</text>字/最多25字</text>
+                        </view>
+                        <view class="data-v-4897fa90">
+                            <view bindtap="__e" class="create-Employee data-v-4897fa90" data-event-opts="{{[ [ 'tap',[ [ 'submitBlog',['$event'] ] ] ] ]}}">
+                                <view class="data-v-4897fa90">保存</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-4897fa90" vueId="6d741645-3"></ff-bottom-logo>
+    </view>
+</view>

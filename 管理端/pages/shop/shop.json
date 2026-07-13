@@ -1,0 +1,14 @@
+{
+  "enablePullDownRefresh": true,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "expired-alert": "/components/expiredAlert/expiredAlert",
+    "loading-pulse": "/components/zero-loading/static/loading-pulse",
+    "nodata": "/components/nodata/nodata",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

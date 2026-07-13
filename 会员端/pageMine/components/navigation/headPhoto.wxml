@@ -1,0 +1,17 @@
+<view class="cu-custom fixed data-v-8d6d4f3e" style="{{'height:'+StatusBar+CustomBar+'px'+';'+'background:'+background+';'}}">
+    <view class="data-v-8d6d4f3e" style="{{'height:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="cu-status data-v-8d6d4f3e" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+        <view class="cu-title data-v-8d6d4f3e" style="{{'height:'+CustomBar+'px'+';'}}">
+            <view class="text data-v-8d6d4f3e">
+                <image class="photo-image data-v-8d6d4f3e" src="{{headUrl}}" wx:if="{{headUrl!=''}}"></image>
+                <text class="data-v-8d6d4f3e">{{text}}</text>
+            </view>
+            <view bindtap="__e" class="back-wrap data-v-8d6d4f3e" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}" wx:if="{{!customBack}}">
+                <image class="icon-back data-v-8d6d4f3e" src="{{$root.m0}}"></image>
+            </view>
+            <view class="back-wrap data-v-8d6d4f3e" wx:else>
+                <slot name="home"></slot>
+            </view>
+        </view>
+    </view>
+</view>

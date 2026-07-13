@@ -1,0 +1,22 @@
+<view class="data-v-3767517d">
+    <dialog bind:__l="__l" bind:input="__e" class="data-v-3767517d" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="{{1000}}" moreElement="{{true}}" title="提示" value="{{show}}" vueId="4ead8b9e-1" vueSlots="{{['content']}}">
+        <view class="data-v-3767517d" slot="content">
+            <view class="inform-wrap data-v-3767517d">
+                <image class="data-v-3767517d" src="{{$root.m0}}"></image>
+                <text class="data-v-3767517d">{{'领取到'+$root.g0+'张会员卡'}}</text>
+            </view>
+            <view class="data-v-3767517d" style="margin:30rpx 65rpx 90rpx 65rpx;" wx:if="{{cardList}}">
+                <view class="card-list-wrap data-v-3767517d" style="{{'height:'+($root.g1<=1?371:30*($root.g2-1)+371)+'rpx'+';'}}">
+                    <view bindtap="__e" class="card-item data-v-3767517d" data-event-opts="{{[ [ 'tap',[ [ 'toggleCard',['$0',index],[ [ ['cardList','',index] ] ] ] ] ] ]}}" style="{{'top:'+index*30+'rpx'+';'+'z-index:'+10*(index+1)+';'}}" wx:for="{{cardList}}" wx:key="index">
+                        <member-card activeClass="large-size" bind:__l="__l" bind:moreProject="__e" cardInfo="{{item}}" class="data-v-3767517d" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" vueId="{{'4ead8b9e-2-'+index+','+'4ead8b9e-1'}}"></member-card>
+                    </view>
+                </view>
+            </view>
+            <view class="save-btn data-v-3767517d">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-3767517d" customStyle="{{saveBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['putWxCardPack'] ] ] ]}}" hoverClass="none" loading="{{isBTloading}}" shape="circle" type="primary" vueId="{{'4ead8b9e-3'+','+'4ead8b9e-1'}}" vueSlots="{{['default']}}">放入微信卡包</u-button>
+            </view>
+            <view class="hint data-v-3767517d">可在<text class="data-v-3767517d">“微信 → 我 → 卡包”</text>中找到并使用</view>
+        </view>
+    </dialog>
+    <card-all-project bind:__l="__l" class="data-v-3767517d vue-ref" data-ref="cardAllProject" vueId="4ead8b9e-4"></card-all-project>
+</view>

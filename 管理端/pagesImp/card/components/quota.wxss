@@ -1,0 +1,186 @@
+.history-list.data-v-27080794 {
+  background-color: rgba(105, 107, 153, 0.95);
+  border-radius: 10px;
+  left: 25rpx;
+  padding: 24rpx 43rpx;
+  position: absolute;
+  top: 90rpx;
+  width: 100%;
+  width: 700rpx;
+  z-index: 3;
+}
+.history-list .title.data-v-27080794 {
+  color: #fff;
+  font-size: 22rpx;
+}
+.history-list .button-list.data-v-27080794 {
+  max-height: 150rpx;
+}
+.history-list .button-list .button-list-wrap.data-v-27080794 {
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+}
+.history-list .button-list .list-item.data-v-27080794 {
+  background: #7c7ea9;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 22rpx;
+  height: 42rpx;
+  line-height: 42rpx;
+  margin-right: 23rpx;
+  margin-top: 17rpx;
+  padding: 0 15rpx;
+}
+.main-box.data-v-27080794 {
+  height: 100%;
+  padding: 0 34rpx 0 44rpx;
+}
+.main-box .switch-title.data-v-27080794 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  padding-top: 40rpx;
+}
+.main-box .switch-title .left-box.data-v-27080794 {
+  color: #181818;
+  font-size: 28rpx;
+  width: 4em;
+}
+.main-box .switch-title .right-box.data-v-27080794 {
+  display: -webkit-flex;
+  display: flex;
+  margin-left: 10rpx;
+}
+.main-box .checkbox.data-v-27080794 {
+  background: #dadada;
+  border-radius: 50%;
+  height: 32rpx;
+  position: relative;
+  width: 32rpx;
+}
+.main-box .checkbox image.data-v-27080794 {
+  height: 18rpx;
+  left: 7rpx;
+  position: absolute;
+  top: 8rpx;
+  width: 21rpx;
+}
+.main-box .disablecheckbox.data-v-27080794 {
+  background: #dadada;
+  border-radius: 50%;
+  height: 32rpx;
+  position: relative;
+  width: 32rpx;
+}
+.main-box .disablecheckbox image.data-v-27080794 {
+  height: 18rpx;
+  left: 7rpx;
+  position: absolute;
+  top: 8rpx;
+  width: 21rpx;
+}
+.main-box .checkboxs.data-v-27080794 {
+  background: #00cb83;
+  border-radius: 50%;
+  height: 32rpx;
+  position: relative;
+  width: 32rpx;
+}
+.main-box .checkboxs image.data-v-27080794 {
+  height: 18rpx;
+  left: 7rpx;
+  position: absolute;
+  top: 8rpx;
+  width: 21rpx;
+}
+.main-box .remark.data-v-27080794 {
+  color: #989898;
+  font-size: 28rpx;
+  margin-left: 10rpx;
+  margin-right: 20rpx;
+}
+.main-box .remarks.data-v-27080794 {
+  color: #181818;
+  font-size: 28rpx;
+  margin-left: 10rpx;
+  margin-right: 20rpx;
+}
+.main-box .disable.data-v-27080794 {
+  color: #989898;
+  font-size: 28rpx;
+  margin-left: 8rpx;
+}
+.main-box .checked.data-v-27080794 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  padding: 44rpx 0 26rpx;
+  width: 200rpx;
+}
+.main-box .form-item-box.data-v-27080794 {
+  padding-top: 50rpx;
+}
+.main-box .form-item-box .form-item + .form-item.data-v-27080794 {
+  margin-top: 21rpx;
+}
+.main-box .form-item-box .form-item .com-input-wrap.data-v-27080794,
+.main-box .form-item-box .form-item.data-v-27080794 {
+  display: -webkit-flex;
+  display: flex;
+}
+.main-box .form-item-box .form-item .com-input-wrap .name.data-v-27080794 {
+  flex: 1;
+  margin-right: 15rpx;
+}
+.main-box .form-item-box .form-item .com-input-wrap .number.data-v-27080794 {
+  margin-left: 30rpx;
+  width: 120rpx;
+}
+.main-box .form-item-box .form-item .icon-wrap.data-v-27080794 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 25rpx;
+  margin-right: 25rpx;
+  width: 120rpx;
+}
+.main-box .form-item-box .form-item .icon.data-v-27080794 {
+  color: #ef2459;
+  font-size: 40rpx;
+}
+.modal-title.data-v-27080794 {
+  color: #181818;
+  font-size: 24rpx;
+  font-weight: 500;
+  line-height: 50rpx;
+}
+.modal-title .group-icon.data-v-27080794 {
+  color: #181818;
+  display: inline-block;
+  font-size: 22rpx;
+  height: 32rpx;
+  margin-right: 10rpx;
+  vertical-align: middle;
+  width: 14rpx;
+}
+.group-img.data-v-27080794 {
+  margin: 0 auto;
+  width: 526rpx;
+}
+.group-img image.data-v-27080794 {
+  display: block;
+  height: 138rpx;
+  margin: 22rpx 0;
+  width: 526rpx;
+}
+.group-img image.data-v-27080794:last-child {
+  margin-bottom: 30rpx;
+}
+.tip-underline.data-v-27080794 {
+  border-bottom: 1px solid #003d82;
+  color: #003d82;
+  font-size: 22rpx;
+  font-weight: 400;
+  margin-left: 15rpx;
+}

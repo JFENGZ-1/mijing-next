@@ -1,0 +1,11 @@
+{
+  "appid": "wx144915b575a7792d",
+  "miniprogramRoot": "",
+  "__compileDebugInfo__": {
+    "useSummer": true
+  },
+  "setting": {
+    "minified": true,
+    "postcss": true
+  }
+}

@@ -1,0 +1,36 @@
+.main-box.data-v-5527fe3c {
+  padding: 10rpx 31rpx 0;
+}
+.main-box .bground-bar.data-v-5527fe3c {
+  border-radius: 55rpx;
+  height: 30rpx;
+  margin-left: auto;
+  margin-right: auto;
+  width: 88%;
+}
+.main-box .tool-warp.data-v-5527fe3c {
+  padding-bottom: 100rpx;
+  padding-top: 60rpx;
+}
+.main-box .tool-warp .item.data-v-5527fe3c {
+  text-align: center;
+}
+.main-box .tool-warp .item .img.data-v-5527fe3c {
+  height: 44rpx;
+  width: 50rpx;
+}
+.main-box .tool-warp .item .text.data-v-5527fe3c {
+  color: #333;
+  font-size: 28rpx;
+  margin-top: 10rpx;
+  position: relative;
+}
+.main-box .tool-warp .item .text .text-tip.data-v-5527fe3c {
+  color: #ef2359;
+  font-size: 18rpx;
+  left: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 38rpx;
+}

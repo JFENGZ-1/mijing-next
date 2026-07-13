@@ -1,0 +1,74 @@
+<view class="data-v-7b7c7b4c">
+    <navigation bind:__l="__l" class="data-v-7b7c7b4c" text="{{title}}" vueId="1bf28725-1"></navigation>
+    <zero-loading bind:__l="__l" class="data-v-7b7c7b4c" vueId="1bf28725-2" wx:if="{{pageLoading}}"></zero-loading>
+    <view class="placeholder-view data-v-7b7c7b4c" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view bindtap="__e" class="staff-container data-v-7b7c7b4c" data-event-opts="{{[ [ 'tap',[ [ 'hideDown',['$event'] ] ] ] ]}}" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-7b7c7b4c" style="{{'height:100%;min-height:1230rpx;background: #FFFFFF;border-radius: 20rpx 20rpx 0rpx 0rpx;'}}">
+            <view class="content data-v-7b7c7b4c">
+                <view class="top data-v-7b7c7b4c">
+                    <text class="headcount data-v-7b7c7b4c">{{'共'+normalCount+leaveCount+'名'}}</text>
+                    <text class="activeStaffEmployee data-v-7b7c7b4c">{{'在职'+normalCount+'人'}}<text class="leaveOfficeEmployee data-v-7b7c7b4c">{{'离职'+leaveCount+'人'}}</text>
+                    </text>
+                </view>
+                <view class="activeStaff data-v-7b7c7b4c">
+                    <view class="data-v-7b7c7b4c" wx:if="{{item.$orig.staffStatus==1}}" wx:for="{{$root.l0}}" wx:key="index">
+                        <view class="item data-v-7b7c7b4c">
+                            <view bindtap="__e" class="item-grid data-v-7b7c7b4c" data-event-opts="{{[ [ 'tap',[ [ 'edit',['$0'],[ [ ['datalist','',index] ] ] ] ] ] ]}}">
+                                <image class="headimg data-v-7b7c7b4c" src="{{item.$orig.staffFace}}"></image>
+                                <view class="name-phone-img data-v-7b7c7b4c">
+                                    <view class="name-img data-v-7b7c7b4c">
+                                        <view class="name u-line-1 data-v-7b7c7b4c">{{''+item.$orig.staffName+''}}<text class="data-v-7b7c7b4c" wx:if="{{logonUserInfo.staffUserId===item.$orig.staffUserid}}">(我)</text>
+                                        </view>
+                                        <image class="seximg1 data-v-7b7c7b4c" src="{{item.m0}}" wx:if="{{item.$orig.staffSex==2}}"></image>
+                                        <image class="seximg data-v-7b7c7b4c" src="{{item.m1}}" wx:if="{{item.$orig.staffSex==1}}"></image>
+                                    </view>
+                                    <view class="phone data-v-7b7c7b4c">{{item.$orig.identName}}</view>
+                                </view>
+                            </view>
+                            <view class="right-operation data-v-7b7c7b4c">
+                                <button bindtap="__e" class="inviteBtnStyle1 data-v-7b7c7b4c" data-event-opts="{{[ [ 'tap',[ [ 'share',['$0'],[ [ ['datalist','',index,'staffUserid'] ] ] ] ] ] ]}}" plain="true" shape="circle" style="background:#FFFFFF;" wx:if="{{!item.$orig.unionid}}">去邀请</button>
+                                <text bindtap="__e" class="position data-v-7b7c7b4c" data-event-opts="{{[ [ 'tap',[ [ 'edit',['$0'],[ [ ['datalist','',index] ] ] ] ] ] ]}}">
+                                    <block wx:if="{{item.$orig.staffType==2||item.$orig.staffType==3}}">权属人ㆍ</block>{{''+item.$orig.roleName+''}}</text>
+                                <u-icon bind:__l="__l" bind:click="__e" class="data-v-7b7c7b4c" color="#989898" data-event-opts="{{[ [ '^click',[ [ 'edit',['$0'],[ [ ['datalist','',index] ] ] ] ] ] ]}}" name="arrow-right" vueId="{{'1bf28725-3-'+index}}" wx:if="{{!( (logonUserInfo.staffType==0||logonUserInfo.staffType==1)&&(item.$orig.staffType==2||item.$orig.staffType==3) )}}"></u-icon>
+                            </view>
+                        </view>
+                        <u-line bind:__l="__l" class="data-v-7b7c7b4c" color="#F0F0F0" length="566rpx" margin="20rpx  28rpx 0rpx 120rpx" vueId="{{'1bf28725-4-'+index}}"></u-line>
+                    </view>
+                </view>
+                <view class="activeleaveOffice data-v-7b7c7b4c" wx:if="{{leaveCount!=0}}">
+                    <view class="leaveOffice data-v-7b7c7b4c">离职人员</view>
+                    <block wx:if="{{leaveCount!=0}}">
+                        <view class="data-v-7b7c7b4c" wx:if="{{item.$orig.staffStatus==0}}" wx:for="{{$root.l1}}" wx:key="index">
+                            <view bindtap="__e" class="item data-v-7b7c7b4c" data-event-opts="{{[ [ 'tap',[ [ 'edit',['$0'],[ [ ['datalist','',index] ] ] ] ] ] ]}}">
+                                <view class="item-grid data-v-7b7c7b4c">
+                                    <image class="headimg data-v-7b7c7b4c" src="{{item.$orig.staffFace}}"></image>
+                                    <view class="name-phone-img data-v-7b7c7b4c">
+                                        <view class="name-img data-v-7b7c7b4c">
+                                            <text class="name data-v-7b7c7b4c">{{item.$orig.staffName}}</text>
+                                            <image class="seximg1 data-v-7b7c7b4c" src="{{item.m2}}" wx:if="{{item.$orig.staffSex==2}}"></image>
+                                            <image class="seximg data-v-7b7c7b4c" src="{{item.m3}}" wx:if="{{item.$orig.staffSex==1}}"></image>
+                                        </view>
+                                        <view class="phone data-v-7b7c7b4c">{{item.$orig.identName}}</view>
+                                    </view>
+                                </view>
+                                <view class="right-operation data-v-7b7c7b4c">
+                                    <text class="leaveOfficestatus data-v-7b7c7b4c">已离职</text>
+                                    <text class="position data-v-7b7c7b4c">{{item.$orig.roleName}}</text>
+                                    <u-icon bind:__l="__l" class="data-v-7b7c7b4c" color="#989898" name="arrow-right" vueId="{{'1bf28725-5-'+index}}"></u-icon>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-7b7c7b4c" color="#F0F0F0" length="566rpx" margin="18rpx  28rpx 0rpx 120rpx" vueId="{{'1bf28725-6-'+index}}"></u-line>
+                        </view>
+                    </block>
+                </view>
+            </view>
+            <view bindtap="__e" class="create-Employee data-v-7b7c7b4c" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/shop/staff/staff-edit'] ] ] ] ] ] ]}}">
+                <view class="bg data-v-7b7c7b4c">
+                    <view class="data-v-7b7c7b4c">添加</view>
+                </view>
+            </view>
+            <view class="{{['drop-down','data-v-7b7c7b4c',item.isShowHandelSelect?'down_show':'',!item.isShowHandelSelect?'down_hide':'']}}"></view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-7b7c7b4c" vueId="1bf28725-7"></ff-bottom-logo>
+    </view>
+</view>

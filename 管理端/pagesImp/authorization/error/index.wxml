@@ -1,0 +1,23 @@
+<view class="data-v-346350ce">
+    <view class="icon-wrap data-v-346350ce">
+        <u-icon bind:__l="__l" class="data-v-346350ce" color="#ffffff" name="error" size="114" vueId="44f591ea-1"></u-icon>
+    </view>
+    <view class="hint data-v-346350ce">不是被邀请对象</view>
+    <view class="error-content data-v-346350ce">
+        <view class="data-v-346350ce">你的手机号：<text class="data-v-346350ce">{{inputTel}}</text>
+        </view>
+        <view class="data-v-346350ce">被邀请的手机号：<text class="data-v-346350ce">{{staffTel}}</text>
+        </view>
+    </view>
+    <view class="handle data-v-346350ce">
+        <view class="title data-v-346350ce">您可以</view>
+        <view class="wrap data-v-346350ce">
+            <view class="text data-v-346350ce">1、若馆主输入有误，请通知馆主进行修改</view>
+            <view class="text data-v-346350ce">2、若你的手机号有误，你可以</view>
+            <view bindtap="__e" class="btn data-v-346350ce" data-event-opts="{{[ [ 'tap',[ [ 'authorization',['$event'] ] ] ] ]}}">更换手机号</view>
+            <view class="text data-v-346350ce">3、若你想创建自己的场馆</view>
+            <view bindtap="__e" class="btn data-v-346350ce" data-event-opts="{{[ [ 'tap',[ [ 'goHome',['$event'] ] ] ] ]}}">进入场馆</view>
+        </view>
+    </view>
+    <bottom-img bind:__l="__l" class="data-v-346350ce" vueId="44f591ea-2"></bottom-img>
+</view>

@@ -1,0 +1,180 @@
+.suject-choice-card-container.data-v-16421f60 .exist-card-box {
+  margin: 0 auto 0rpx !important;
+}
+.suject-choice-card-container.data-v-16421f60 .u-radio-group {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+.suject-choice-card-container .list.data-v-16421f60 {
+  margin-left: 20rpx;
+}
+.suject-choice-card-container .card-type-box.data-v-16421f60 {
+  display: -webkit-flex;
+  display: flex;
+  margin-bottom: 28rpx;
+  margin-top: 28rpx;
+}
+.suject-choice-card-container .card-type-box.gray.data-v-16421f60 {
+  filter: grayscale(100%);
+}
+.suject-choice-card-container .card-type-box .gray1.data-v-16421f60 {
+  opacity: 0.2;
+}
+.suject-choice-card-container .card-type-box .card-box.data-v-16421f60 {
+  margin-left: -50rpx;
+  transform: scale(0.65);
+}
+.suject-choice-card-container .card-type-box .right-box.data-v-16421f60 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 15rpx;
+  width: 280rpx;
+}
+.suject-choice-card-container .card-type-box .right-box .label.data-v-16421f60 {
+  color: #dadada;
+  font-size: 26rpx;
+}
+.suject-choice-card-container
+  .card-type-box
+  .right-box
+  .labelbright.data-v-16421f60 {
+  color: #7e7e7e;
+  font-size: 26rpx;
+}
+.suject-choice-card-container
+  .card-type-box
+  .right-box
+  .sale-money.data-v-16421f60 {
+  color: #dadada;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  font-size: 47rpx;
+  font-size: 26rpx;
+  padding-top: 16rpx;
+}
+.suject-choice-card-container
+  .card-type-box
+  .right-box
+  .sale-money
+  .radioitem.data-v-16421f60 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 45rpx;
+}
+.suject-choice-card-container
+  .card-type-box
+  .right-box
+  .sale-money
+  .radioitem
+  .itembright.data-v-16421f60 {
+  background: #22c788;
+  border-radius: 50%;
+  height: 8px;
+  margin: 5rpx;
+  width: 8px;
+}
+.suject-choice-card-container
+  .card-type-box
+  .right-box
+  .sale-money
+  .com-input.data-v-16421f60 {
+  color: #7e7e7e;
+  flex: 0 0 auto;
+  height: 56rpx;
+  text-align: center !important;
+  width: 200rpx;
+}
+.suject-choice-card-container
+  .card-type-box
+  .right-box
+  .sale-money
+  .com-input1.data-v-16421f60 {
+  background: #f5f5f5;
+  border-radius: 100px;
+  color: #7e7e7e;
+  flex: 0 0 auto;
+  height: 56rpx;
+  margin-left: 10rpx;
+  padding: 0 10px !important;
+  text-align: center !important;
+  width: 60rpx;
+}
+.suject-choice-card-container
+  .card-type-box
+  .right-box
+  .rigth-switch.data-v-16421f60 {
+  margin-right: -130rpx;
+}
+.suject-choice-card-container.data-v-16421f60 .u-checkbox__label,
+.suject-choice-card-container.data-v-16421f60 .u-radio__label {
+  margin-right: 0rpx;
+}
+.suject-choice-card-container.data-v-16421f60 .radioitem {
+  height: 52rpx;
+}
+.suject-choice-card-container.data-v-16421f60 .radioitem::before {
+  background-color: #007aff;
+  border: none;
+  border-radius: 50%;
+  content: "";
+  display: inline-block;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.suject-choice-card-container .card-box.data-v-16421f60 {
+  margin-bottom: 0rpx;
+}
+.suject-choice-card-container .rights-des.data-v-16421f60 {
+  color: #dadada;
+  max-width: 130rpx;
+  min-width: 20rpx;
+}
+.suject-choice-card-container .bright.data-v-16421f60 {
+  color: #7e7e7e;
+}
+.suject-choice-card-container .com-button-f1.data-v-16421f60 {
+  margin-top: 100rpx;
+}
+.suject-choice-card-container .modal.data-v-16421f60 {
+  padding: 48rpx 40rpx 0rpx 60rpx;
+}
+.suject-choice-card-container .modal .modal-title.data-v-16421f60 {
+  color: #181818;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+.suject-choice-card-container .modal .modal-content.data-v-16421f60 {
+  align-items: center;
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 24rpx;
+  justify-content: start;
+  line-height: 38rpx;
+  padding-top: 30rpx;
+}
+.suject-choice-card-container .modal .modal-content text.data-v-16421f60 {
+  margin-left: 18rpx;
+}
+.suject-choice-card-container .modal .btn.data-v-16421f60 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-start;
+  margin: 42rpx 0rpx 0rpx 380rpx;
+}
+.suject-choice-card-container .modal .btn button.data-v-16421f60 {
+  border-radius: 17px;
+  color: #181818;
+  font-size: 28rpx;
+  height: 70rpx;
+  width: 220rpx;
+}
+.suject-choice-card-container .modal .btn .modal-btn.data-v-16421f60 {
+  background: #fbd128;
+  margin-bottom: 39rpx;
+}

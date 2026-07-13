@@ -1,0 +1,168 @@
+<view class="data-v-5d347a02">
+    <view bindtap="__e" class="container data-v-5d347a02" data-event-opts="{{[ [ 'tap',[ [ 'cancelBubbling',['$event'] ] ] ] ]}}" wx:if="{{personalTainerInfo&&list}}">
+        <view class="personalTainerModule data-v-5d347a02">
+            <view class="photo-filter data-v-5d347a02" style="{{'background:'+'url('+personalTainerInfo.staffFace+')'+';'+'background-repeat:'+'no-repeat'+';'+'background-size:'+'750rpx 750rpx'+';'}}">
+                <view class="photo-mark data-v-5d347a02"></view>
+            </view>
+            <view class="info-module data-v-5d347a02">
+                <view class="data-v-5d347a02" style="{{'height:'+(StatusBar!==0?StatusBar:20)+'px'+';'+'z-index:'+'99'+';'}}"></view>
+                <view class="wrap data-v-5d347a02">
+                    <view bindtap="__e" class="back data-v-5d347a02" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}">
+                        <image class="data-v-5d347a02" src="{{$root.m0}}"></image>
+                    </view>
+                    <view class="center-wrap data-v-5d347a02">
+                        <view class="info-wrap data-v-5d347a02">
+                            <view class="photo-wrap data-v-5d347a02">
+                                <image class="photo-image data-v-5d347a02" src="{{personalTainerInfo.staffFace}}"></image>
+                                <view class="tag data-v-5d347a02" wx:if="{{personalTainerInfo.tagText}}">
+                                    <image class="tag-icon-left data-v-5d347a02" src="{{$root.m1}}"></image>
+                                    <view class="text data-v-5d347a02">{{personalTainerInfo.tagText}}</view>
+                                    <image class="tag-icon-right data-v-5d347a02" src="{{$root.m2}}"></image>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="name data-v-5d347a02">{{personalTainerInfo.staffName}}</view>
+                    </view>
+                    <view class="handle-wrap data-v-5d347a02">
+                        <view bindtap="__e" class="handle-item data-v-5d347a02" data-event-opts="{{[ [ 'tap',[ [ 'edit',['$event'] ] ] ] ]}}" style="margin-bottom:23rpx;">
+                            <text class="data-v-5d347a02">编辑</text>
+                            <image class="data-v-5d347a02" src="{{$root.m3}}"></image>
+                        </view>
+                        <view bindtap="__e" class="handle-item data-v-5d347a02" data-event-opts="{{[ [ 'tap',[ [ 'share',['$event'] ] ] ] ]}}">
+                            <text class="data-v-5d347a02">分享</text>
+                            <image class="data-v-5d347a02" src="{{$root.m4}}"></image>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="list-wrap data-v-5d347a02" style="{{'margin-top:'+(StatusBar!==0?'-50rpx':'-100rpx')+';'}}">
+            <view class="bg-white data-v-5d347a02">
+                <view class="appointment-info data-v-5d347a02">
+                    <text class="data-v-5d347a02">{{'已约 '+validUserCount+' 人'}}</text>
+                    <view bindtap="__e" class="btn data-v-5d347a02" data-event-opts="{{[ [ 'tap',[ [ 'helpAppointment',['$event'] ] ] ] ]}}">代约</view>
+                </view>
+                <view class="list data-v-5d347a02" wx:if="{{$root.g0>0}}">
+                    <view class="item data-v-5d347a02" wx:for="{{$root.l1}}" wx:key="index">
+                        <view class="top data-v-5d347a02">
+                            <view class="group_wrap data-v-5d347a02"></view>
+                            <view class="group group1 data-v-5d347a02" wx:if="{{item.g1}}"></view>
+                            <view class="group group2 data-v-5d347a02" wx:if="{{item.$orig.isToday}}">今</view>
+                            <text class="{{['date-text','data-v-5d347a02',!item.g2>0?'grey':'']}}">{{item.$orig.dayName+' '+item.$orig.weekName}}</text>
+                        </view>
+                        <view class="bottom data-v-5d347a02" style="{{'margin-bottom:'+(item.$orig.weekName=='周一'?'0rpx':'55rpx')+';'}}" wx:if="{{item.g3>0}}">
+                            <view class="{{['bottom_item','data-v-5d347a02',j==0?'bottom_item_first':'']}}" wx:for="{{item.l0}}" wx:for-index="j" wx:for-item="i" wx:key="j">
+                                <view class="content_wrap data-v-5d347a02">
+                                    <view class="bottom_tp data-v-5d347a02">
+                                        <view class="{{['course_date','course_view','data-v-5d347a02',i.$orig.appointStatus!=0?'disabled_course':'']}}" wx:if="{{i.$orig.beginTime&&i.$orig.endTime}}">{{''+i.m5+''}}</view>
+                                        <view class="{{['course_name','course_view','data-v-5d347a02',i.$orig.appointStatus!=0?'disabled_course':'']}}" wx:if="{{i.$orig.courseName}}">{{'｢'+i.$orig.courseName+'｣'}}</view>
+                                    </view>
+                                    <view class="bottom_bt data-v-5d347a02">
+                                        <view bindtap="__e" class="{{['photo','data-v-5d347a02',i.$orig.appointStatus==2?'photo_grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['list','',index],['list','',j] ] ] ] ] ] ]}}">
+                                            <image class="data-v-5d347a02" src="{{i.$orig.userFaceurl}}"></image>
+                                        </view>
+                                        <view class="info_content data-v-5d347a02">
+                                            <view class="info_item data-v-5d347a02">
+                                                <view class="left data-v-5d347a02">
+                                                    <view bindtap="__e" class="{{['left','name','data-v-5d347a02',i.$orig.appointStatus==2?'cancel_name':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['list','',index],['list','',j] ] ] ] ] ] ]}}">{{i.$orig.userRealname}}</view>
+                                                    <view class="left date top_17 data-v-5d347a02">{{i.$orig.createTime}}</view>
+                                                    <view class="left remake top_15 data-v-5d347a02" wx:if="{{i.$orig.remark}}">留言：<text class="remake-red data-v-5d347a02">{{i.$orig.remark}}</text>
+                                                    </view>
+                                                    <view class="left remark data-v-5d347a02" style="{{'margin-top:'+(i.$orig.remark?'5rpx':'15rpx')+';'}}" wx:if="{{i.$orig.staffRemark}}">备注：<text class="remarkcontent data-v-5d347a02">{{i.$orig.staffRemark?i.$orig.staffRemark:''}}</text>
+                                                    </view>
+                                                    <view class="left remark data-v-5d347a02" style="{{'margin-top:'+(i.$orig.remark||i.$orig.staffRemark?'5rpx':'15rpx')+';'}}" wx:if="{{i.$orig.otherSiteName}}">
+                                                        <text class="other-site data-v-5d347a02">门店</text>
+                                                        <text class="other-name data-v-5d347a02">{{i.$orig.otherSiteName?i.$orig.otherSiteName:''}}</text>
+                                                    </view>
+                                                    <view class="truant top_15 data-v-5d347a02" wx:if="{{i.$orig.absenceCount}}">
+                                                        <text class="data-v-5d347a02">本月旷课{{i.$orig.absenceCount}}次</text>
+                                                    </view>
+                                                </view>
+                                                <view class="right data-v-5d347a02">
+                                                    <view class="right price data-v-5d347a02" wx:if="{{i.$orig.cardChangeAmount!=0}}">
+                                                        <text class="plus-minus data-v-5d347a02" wx:if="{{i.$orig.plusMinus}}">{{i.$orig.plusMinus}}</text>{{''+''+i.$orig.cardChangeAmount+i.$orig.unitName+(i.$orig.groupName||'')+''}}</view>
+                                                    <view class="right card_info top_17 data-v-5d347a02">
+                                                        <image class="multi-card data-v-5d347a02" src="{{i.m6}}" wx:if="{{i.$orig.cardCount&&i.$orig.cardCount>1}}"></image>
+                                                        <text class="data-v-5d347a02">{{i.m7}}</text>
+                                                        <text class="card_balance data-v-5d347a02">{{'余'+i.$orig.leftAmount+i.$orig.unitName}}</text>
+                                                    </view>
+                                                    <view class="right statue top_15 data-v-5d347a02">
+                                                        <view class="help_appointment help_wrap data-v-5d347a02" wx:if="{{i.$orig.helpStaffName&&i.$orig.helpStaffFace}}">
+                                                            <view class="help_photo data-v-5d347a02">
+                                                                <image class="data-v-5d347a02" src="{{i.$orig.helpStaffFace}}"></image>
+                                                            </view>
+                                                            <view class="help_name data-v-5d347a02">{{i.m8+'操作'}}</view>
+                                                        </view>
+                                                        <view class="status_text data-v-5d347a02" style="margin-left:6rpx;">
+                                                            <text class="data-v-5d347a02" style="{{'color:'+i.m9+';'}}">{{''+i.$orig.unionStatusName+''}}<text class="data-v-5d347a02" style="margin-left:3rpx;" wx:if="{{i.$orig.manCount>1}}">{{'('+i.$orig.manCount+'人)'}}</text>
+                                                            </text>
+                                                        </view>
+                                                    </view>
+                                                </view>
+                                                <view class="handle_module data-v-5d347a02">
+                                                    <view catchtap="__e" class="icon_wrap data-v-5d347a02" data-event-opts="{{[ [ 'tap',[ [ 'showDrop',[index,j] ] ] ] ]}}">
+                                                        <image class="data-v-5d347a02" src="{{i.m10}}"></image>
+                                                    </view>
+                                                    <view class="drop_down data-v-5d347a02" hidden="{{!i.$orig.dropShow}}">
+                                                        <view class="image_wrap data-v-5d347a02">
+                                                            <image class="data-v-5d347a02" src="{{i.m11}}"></image>
+                                                        </view>
+                                                        <view class="drop_down_list data-v-5d347a02">
+                                                            <view catchtap="__e" class="item data-v-5d347a02" data-event-opts="{{[ [ 'tap',[ [ 'cancelAppointment',['$0'],[ [ ['list','',index],['list','',j] ] ] ] ] ] ]}}">
+                                                                <image class="data-v-5d347a02" src="{{i.m12}}" style="width:34rpx;height:33rpx;"></image>
+                                                                <text class="data-v-5d347a02">取消预约</text>
+                                                            </view>
+                                                            <view catchtap="__e" class="item data-v-5d347a02" data-event-opts="{{[ [ 'tap',[ [ 'truant',['$0'],[ [ ['list','',index],['list','',j] ] ] ] ] ] ]}}">
+                                                                <image class="data-v-5d347a02" src="{{i.m13}}" style="width:34rpx;height:33rpx;"></image>
+                                                                <text class="data-v-5d347a02">旷课</text>
+                                                            </view>
+                                                            <view catchtap="__e" class="item data-v-5d347a02" data-event-opts="{{[ [ 'tap',[ [ 'editAppointment',['$0'],[ [ ['list','',index],['list','',j] ] ] ] ] ] ]}}" wx:if="{{i.$orig.appointStatus==0}}">
+                                                                <image class="data-v-5d347a02" src="{{i.m14}}" style="width:39rpx;height:39rpx;"></image>
+                                                                <text class="data-v-5d347a02">修改预约</text>
+                                                            </view>
+                                                            <view catchtap="__e" class="item data-v-5d347a02" data-event-opts="{{[ [ 'tap',[ [ 'remark',['$0'],[ [ ['list','',index],['list','',j] ] ] ] ] ] ]}}">
+                                                                <image class="data-v-5d347a02" src="{{i.m15}}" style="width:39rpx;height:39rpx;"></image>
+                                                                <text class="data-v-5d347a02">写备注</text>
+                                                            </view>
+                                                        </view>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                            <u-line bind:__l="__l" class="data-v-5d347a02" color="#f0f0f0" margin="16rpx 0 0 0" vueId="{{'39816bb8-1-'+index+'-'+j}}" wx:if="{{j+1!=i.g4}}"></u-line>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="border data-v-5d347a02" wx:if="{{item.$orig.weekName=='周一'}}"></view>
+                    </view>
+                </view>
+                <view class="noData data-v-5d347a02" wx:else>
+                    <image class="data-v-5d347a02" src="{{$root.m16}}"></image>
+                    <text class="data-v-5d347a02">~ 还没有会员预约哦 ~</text>
+                </view>
+            </view>
+            <view class="sign_hint_wrap data-v-5d347a02">
+                <u-icon bind:__l="__l" class="data-v-5d347a02" color="#C96B30" name="bell" size="28" vueId="39816bb8-2"></u-icon>
+                <text class="data-v-5d347a02">下课后，将由系统5分钟内自动签到</text>
+            </view>
+            <view class="data-v-5d347a02" style="padding-top:15rpx;background:#f5f5f5;">
+                <u-divider bgColor="#F5F5F5" bind:__l="__l" borderColor="#dadada" class="data-v-5d347a02" color="#bfbfbf" halfWidth="74" vueId="39816bb8-3" vueSlots="{{['default']}}" wx:if="{{!hasNext}}">没有更多了哦</u-divider>
+            </view>
+            <ff-bottom-logo bind:__l="__l" class="data-v-5d347a02" vueId="39816bb8-4"></ff-bottom-logo>
+        </view>
+    </view>
+    <view class="loading-wrap bg-white data-v-5d347a02" wx:else>
+        <loading-pulse bind:__l="__l" class="data-v-5d347a02" vueId="39816bb8-5"></loading-pulse>
+    </view>
+    <confirm-modal bind:__l="__l" bind:cancel="__e" bind:confirm="__e" class="data-v-5d347a02 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^cancel',[ ['cancel'] ] ] ]}}" data-ref="confirmModal" title="{{confirmModalTitle}}" vueId="39816bb8-6" vueSlots="{{['content']}}">
+        <view class="data-v-5d347a02" slot="content">
+            <view class="data-v-5d347a02" wx:if="{{hintShow}}">将退还已扣（若有）相应费用</view>
+            <view class="data-v-5d347a02" wx:else>标记为旷课后，不可取消！！</view>
+        </view>
+    </confirm-modal>
+    <member-search bind:__l="__l" bind:ok="__e" class="data-v-5d347a02 vue-ref" data-event-opts="{{[ [ '^ok',[ ['modifySuccess'] ] ] ]}}" data-ref="memberSearch" vueId="39816bb8-7"></member-search>
+    <course-management bind:__l="__l" bind:success="__e" cardShow="{{false}}" class="data-v-5d347a02 vue-ref" data-event-opts="{{[ [ '^success',[ ['modifySuccess'] ] ] ]}}" data-ref="courseManagement" vueId="39816bb8-8"></course-management>
+    <edit-course bind:__l="__l" bind:ok="__e" class="data-v-5d347a02 vue-ref" data-event-opts="{{[ [ '^ok',[ ['modifySuccess'] ] ] ]}}" data-ref="editCourse" vueId="39816bb8-9"></edit-course>
+    <remark-order-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-5d347a02 vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editRemark'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkAppointment" vueId="39816bb8-10"></remark-order-popup>
+</view>

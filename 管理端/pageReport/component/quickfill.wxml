@@ -1,0 +1,9 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-f4a05286" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="点击确定后，将自动统一填写如下值" title="快捷填写" value="{{show}}" vueId="003a9a06-1" vueSlots="{{['default','confrimBtn']}}">
+    <view class="com-button-f1 data-v-f4a05286" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-f4a05286" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'003a9a06-2'+','+'003a9a06-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-f4a05286">
+        <view class="class-hourse data-v-f4a05286">每节课费<input bindinput="__e" class="com-input data-v-f4a05286" clearable="{{false}}" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','selectParam','$event',[] ] ] ] ] ]}}" type="number" value="{{selectParam}}"></input>元</view>
+        <view class="data-v-f4a05286" style="padding-top:160rpx;"></view>
+    </view>
+</ff-popup>

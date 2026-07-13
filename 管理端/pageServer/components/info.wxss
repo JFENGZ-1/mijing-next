@@ -1,0 +1,56 @@
+.info-main.data-v-00ec14cc {
+  background: #181818;
+  display: -webkit-flex;
+  display: flex;
+  padding: 20rpx 35rpx 30rpx 28rpx;
+  width: 100%;
+}
+.shop-logo.data-v-00ec14cc {
+  border-radius: 50%;
+  height: 111rpx;
+  overflow: hidden;
+  width: 111rpx;
+}
+.shop-logo image.data-v-00ec14cc {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+.shop-text.data-v-00ec14cc {
+  color: #fff;
+  display: -webkit-flex;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 18rpx 0rpx 17rpx 25rpx;
+}
+.shop-text .shop-name.data-v-00ec14cc {
+  font-size: 40rpx;
+  font-weight: 500;
+  line-height: 40rpx;
+  margin-bottom: 20rpx;
+}
+.shop-text .vip.data-v-00ec14cc {
+  color: #f7d29f !important;
+}
+.shop-text .renew-status.data-v-00ec14cc {
+  align-items: center;
+  color: #fff;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 22rpx;
+}
+.shop-text .renew-status image.data-v-00ec14cc {
+  height: 24rpx;
+  margin-right: 6rpx;
+  width: 28rpx;
+}
+.shop-text .renew-status .versions-status.data-v-00ec14cc {
+  margin-right: 20rpx;
+}
+.renew-btn.data-v-00ec14cc {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}

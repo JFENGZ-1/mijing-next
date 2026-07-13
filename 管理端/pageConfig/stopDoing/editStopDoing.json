@@ -1,0 +1,17 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "confirm": "/pageConfig/components/confirm-modal/index",
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "u-checkbox": "/uview-ui/components/u-checkbox/u-checkbox",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-picker": "/uview-ui/components/u-picker/u-picker",
+    "u-radio": "/uview-ui/components/u-radio/u-radio",
+    "u-radio-group": "/uview-ui/components/u-radio-group/u-radio-group",
+    "u-switch": "/uview-ui/components/u-switch/u-switch",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

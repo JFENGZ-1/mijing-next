@@ -1,0 +1,100 @@
+<view class="data-v-5527fe3c">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-5527fe3c" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" showConfrim="{{false}}" title="课程管理" value="{{show}}" vueId="7b6914a2-1" vueSlots="{{['default']}}">
+        <view class="main-box data-v-5527fe3c">
+            <subject-card bind:__l="__l" class="data-v-5527fe3c" groupData="{{data}}" isTime="{{true}}" vueId="{{'7b6914a2-2'+','+'7b6914a2-1'}}" wx:if="{{data&&cardShow}}"></subject-card>
+            <view bindtap="__e" class="bground-bar data-v-5527fe3c" data-event-opts="{{[ [ 'tap',[ [ 'changeBgColor',['$event'] ] ] ] ]}}" style="{{'background-color:'+data.bgcolor+';'}}" wx:if="{{data&&cardShow}}"></view>
+            <view class="tool-warp data-v-5527fe3c">
+                <u-row bind:__l="__l" class="data-v-5527fe3c" gutter="10" justify="space-between" vueId="{{'7b6914a2-3'+','+'7b6914a2-1'}}" vueSlots="{{['default']}}">
+                    <u-col bind:__l="__l" class="data-v-5527fe3c" span="3" vueId="{{'7b6914a2-4'+','+'7b6914a2-3'}}" vueSlots="{{['default']}}">
+                        <view bindtap="__e" class="item data-v-5527fe3c" data-event-opts="{{[ [ 'tap',[ [ 'edit',['$event'] ] ] ] ]}}">
+                            <image mode class="img data-v-5527fe3c" src="{{$root.m0}}"></image>
+                            <view class="text data-v-5527fe3c">编辑</view>
+                        </view>
+                    </u-col>
+                    <u-col bind:__l="__l" class="data-v-5527fe3c" span="3" vueId="{{'7b6914a2-5'+','+'7b6914a2-3'}}" vueSlots="{{['default']}}">
+                        <view bindtap="__e" class="item data-v-5527fe3c" data-event-opts="{{[ [ 'tap',[ [ 'changeCourse',['$event'] ] ] ] ]}}">
+                            <image mode class="img data-v-5527fe3c" src="{{$root.m1}}"></image>
+                            <view class="text data-v-5527fe3c">换课</view>
+                        </view>
+                    </u-col>
+                    <u-col bind:__l="__l" class="data-v-5527fe3c" span="3" vueId="{{'7b6914a2-6'+','+'7b6914a2-3'}}" vueSlots="{{['default']}}">
+                        <view bindtap="__e" class="item data-v-5527fe3c" data-event-opts="{{[ [ 'tap',[ [ 'replaceCoach',['$event'] ] ] ] ]}}">
+                            <image mode class="img data-v-5527fe3c" src="{{$root.m2}}"></image>
+                            <view class="text data-v-5527fe3c">换老师</view>
+                        </view>
+                    </u-col>
+                    <u-col bind:__l="__l" class="data-v-5527fe3c" span="3" vueId="{{'7b6914a2-7'+','+'7b6914a2-3'}}" vueSlots="{{['default']}}">
+                        <view bindtap="__e" class="item data-v-5527fe3c" data-event-opts="{{[ [ 'tap',[ [ 'updateTime',['$event'] ] ] ] ]}}">
+                            <image mode class="img data-v-5527fe3c" src="{{$root.m3}}"></image>
+                            <view class="text data-v-5527fe3c">修改时间</view>
+                        </view>
+                    </u-col>
+                </u-row>
+                <view class="data-v-5527fe3c" style="height:50rpx;"></view>
+                <u-row bind:__l="__l" class="data-v-5527fe3c" gutter="10" justify="space-between" vueId="{{'7b6914a2-8'+','+'7b6914a2-1'}}" vueSlots="{{['default']}}">
+                    <u-col bind:__l="__l" class="data-v-5527fe3c" span="3" vueId="{{'7b6914a2-9'+','+'7b6914a2-8'}}" vueSlots="{{['default']}}">
+                        <view bindtap="__e" class="item data-v-5527fe3c" data-event-opts="{{[ [ 'tap',[ [ 'changeBgColor',['$event'] ] ] ] ]}}">
+                            <image mode class="img data-v-5527fe3c" src="{{$root.m4}}"></image>
+                            <view class="text data-v-5527fe3c">课表背景色</view>
+                        </view>
+                    </u-col>
+                    <u-col bind:__l="__l" class="data-v-5527fe3c" span="3" vueId="{{'7b6914a2-10'+','+'7b6914a2-8'}}" vueSlots="{{['default']}}">
+                        <view bindtap="__e" class="item data-v-5527fe3c" data-event-opts="{{[ [ 'tap',[ [ 'stop',['$event'] ] ] ] ]}}" wx:if="{{data.nstatus==1}}">
+                            <image mode class="img data-v-5527fe3c" src="{{$root.m5}}"></image>
+                            <view class="text data-v-5527fe3c">停课</view>
+                        </view>
+                        <block wx:else>
+                            <view bindtap="__e" class="item data-v-5527fe3c" data-event-opts="{{[ [ 'tap',[ [ 'start',['$event'] ] ] ] ]}}" wx:if="{{data.nstatus==2}}">
+                                <image mode class="img data-v-5527fe3c" src="{{$root.m6}}"></image>
+                                <view class="text data-v-5527fe3c">解除停课<view class="text-tip data-v-5527fe3c">停课中</view>
+                                </view>
+                            </view>
+                            <view class="item data-v-5527fe3c" wx:else>
+                                <image mode class="img data-v-5527fe3c" src="{{$root.m7}}"></image>
+                                <view class="text data-v-5527fe3c" style="color:#9a9a9a;">停课</view>
+                            </view>
+                        </block>
+                    </u-col>
+                    <u-col bind:__l="__l" class="data-v-5527fe3c" span="3" vueId="{{'7b6914a2-11'+','+'7b6914a2-8'}}" vueSlots="{{['default']}}">
+                        <view bindtap="__e" class="item data-v-5527fe3c" data-event-opts="{{[ [ 'tap',[ [ 'allCourse',['$event'] ] ] ] ]}}">
+                            <image mode class="img data-v-5527fe3c" src="{{$root.m8}}"></image>
+                            <view class="text data-v-5527fe3c">全部排课</view>
+                        </view>
+                    </u-col>
+                    <u-col bind:__l="__l" class="data-v-5527fe3c" span="3" vueId="{{'7b6914a2-12'+','+'7b6914a2-8'}}" vueSlots="{{['default']}}">
+                        <view bindtap="__e" class="item data-v-5527fe3c" data-event-opts="{{[ [ 'tap',[ [ 'del',['$event'] ] ] ] ]}}">
+                            <image mode class="img data-v-5527fe3c" src="{{$root.m9}}"></image>
+                            <view class="text data-v-5527fe3c">删除</view>
+                        </view>
+                    </u-col>
+                </u-row>
+            </view>
+        </view>
+    </ff-popup>
+    <select-time bind:__l="__l" bind:submit="__e" class="data-v-5527fe3c vue-ref" data-event-opts="{{[ [ '^submit',[ ['submitAddCourse'] ] ] ]}}" data-ref="selectTime" vueId="7b6914a2-13"></select-time>
+    <select-courses bind:__l="__l" bind:openTime="__e" class="data-v-5527fe3c vue-ref" data-event-opts="{{[ [ '^openTime',[ ['checkchangeOtherCourse'] ] ] ]}}" data-ref="selectCourses" vueId="7b6914a2-14"></select-courses>
+    <select-background-color arrangeId="{{arrangeId}}" bind:__l="__l" bind:saveBgColor="__e" class="data-v-5527fe3c vue-ref" courseName="{{data.courseName}}" data-event-opts="{{[ [ '^saveBgColor',[ ['saveBgColor'] ] ] ]}}" data-ref="selectBackgroundColor" originalBgColor="{{data.bgcolor}}" vueId="7b6914a2-15"></select-background-color>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-5527fe3c vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirmDel'] ] ] ]}}" data-ref="confirmModal" title="注意，要删除这个课吗？" vueId="7b6914a2-16" vueSlots="{{['content']}}">
+        <text slot="content">确定后将立即删除</text>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" class="data-v-5527fe3c vue-ref" customBtn="{{true}}" data-ref="terminateModal" title="注意，未删除此课！" vueId="7b6914a2-17" vueSlots="{{['content','btn']}}">
+        <view slot="content">
+            <view class="data-v-5527fe3c">原因：该课<text class="data-v-5527fe3c" style="color:#DC3C5C;font-weight:500;">已有一名或多名会员预约</text>
+            </view>
+            <view class="data-v-5527fe3c">方法：为避免操作失误造成退课，需手动取消会员的约课后再进行删除</view>
+        </view>
+        <view class="confirmBtn data-v-5527fe3c" slot="btn">
+            <view bindtap="__e" class="modal-btn button data-v-5527fe3c" data-event-opts="{{[ [ 'tap',[ [ 'terminateConfirm',['$event'] ] ] ] ]}}">知道了</view>
+        </view>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-5527fe3c vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirmStop'] ] ] ]}}" data-ref="confirmModal2" title="确认是否停课？" vueId="7b6914a2-18" vueSlots="{{['content']}}">
+        <view slot="content">
+            <view class="data-v-5527fe3c">a、改为停课状态后，会员将不可预约</view>
+            <view class="data-v-5527fe3c">b、若<text class="data-v-5527fe3c" style="color:#DC3C5C;font-weight:500;">已有会员预约将强制取消</text>，会员将收到停课通知</view>
+        </view>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-5527fe3c vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirmChange'] ] ] ]}}" data-ref="confirmModal3" title="已有会员约课，是否仍然换课？" vueId="7b6914a2-19" vueSlots="{{['content']}}">
+        <text slot="content">提示：确保这两个课的（会员约课）课时费一致</text>
+    </confirm-modal>
+    <subject-trainer bind:__l="__l" bind:editTrainer="__e" class="data-v-5527fe3c vue-ref" data-event-opts="{{[ [ '^editTrainer',[ ['editTrainer'] ] ] ]}}" data-ref="trainerChild" vueId="7b6914a2-20"></subject-trainer>
+</view>

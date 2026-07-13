@@ -1,0 +1,13 @@
+<view class="weixin-view data-v-43878180">
+    <view class="weixin-box data-v-43878180" style="{{'padding-top:'+statusBarHeight+44+'px'+';'}}">
+        <image class="bg-img data-v-43878180" src="{{$root.m0}}"></image>
+        <view class="weixintext-title data-v-43878180">松果约课申请获得以下授权:</view>
+        <view class="weixintext-con data-v-43878180">获得您的手机号码</view>
+        <view class="buttom-da-box data-v-43878180">
+            <view class="button-box data-v-43878180">
+                <u-button bind:__l="__l" bind:getphonenumber="__e" class="data-v-43878180" customStyle="{{customStyle}}" data-event-opts="{{[ [ '^getphonenumber',[ ['getphonenumber'] ] ] ]}}" hoverClass="button-hover" openType="getPhoneNumber" shape="circle" type="primary" vueId="7266ff94-1" vueSlots="{{['default']}}">确认授权</u-button>
+            </view>
+            <view bindtap="__e" class="cancel data-v-43878180" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pages/user/index'],['openType','switchTab'] ] ] ] ] ] ]}}">取消</view>
+        </view>
+    </view>
+</view>

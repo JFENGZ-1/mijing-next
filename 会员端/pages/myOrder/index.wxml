@@ -1,0 +1,37 @@
+<view class="content data-v-79a58656">
+    <view class="order-wrap data-v-79a58656" wx:for="{{orderList}}" wx:key="index">
+        <view class="title-wrap data-v-79a58656">
+            <view class="entry data-v-79a58656">{{item.payMethod===1?'在线购卡':'线下支付'}}</view>
+            <view class="state data-v-79a58656">交易完成</view>
+        </view>
+        <view class="card-info-wrap data-v-79a58656">
+            <view class="card-wrap data-v-79a58656">
+                <ff-value-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.cardInfo}}" class="data-v-79a58656" vueId="{{'3a407dac-1-'+index}}" wx:if="{{item.cardInfo.cardType==1}}"></ff-value-card>
+                <ff-counts-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.cardInfo}}" class="data-v-79a58656" vueId="{{'3a407dac-2-'+index}}" wx:if="{{item.cardInfo.cardType==2}}"></ff-counts-card>
+                <ff-date-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.cardInfo}}" class="data-v-79a58656" vueId="{{'3a407dac-3-'+index}}" wx:if="{{item.cardInfo.cardType==3}}"></ff-date-card>
+            </view>
+            <view class="amount-wrap data-v-79a58656">
+                <text class="title data-v-79a58656">实付款
+</text>
+                <text class="symbol data-v-79a58656">¥</text>{{item.orderAmount+''}}</view>
+        </view>
+        <view class="info-wrap data-v-79a58656">
+            <view class="item data-v-79a58656">
+                <view class="title data-v-79a58656">订单编号：</view>
+                <view class="data data-v-79a58656">{{item.orderId}}</view>
+            </view>
+            <view class="item data-v-79a58656">
+                <view class="title data-v-79a58656">下单时间：</view>
+                <view class="data data-v-79a58656">{{item.createTime}}</view>
+            </view>
+            <view class="item data-v-79a58656">
+                <view class="title data-v-79a58656">支付时间：</view>
+                <view class="data data-v-79a58656">{{item.payTime}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="noData data-v-79a58656" wx:if="{{noData}}">
+        <image class="pic data-v-79a58656" src="{{$root.m0}}"></image>
+        <text class="tips data-v-79a58656">仅显示在线购卡记录哦</text>
+    </view>
+</view>

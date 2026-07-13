@@ -1,0 +1,1 @@
+function(){if(!wx.__origShowModal){wx.__origShowModal=wx.showModal.bind(wx);wx.showModal=function(o){if(o&&o.title==='确认购买'){o.success&&o.success({confirm:true,cancel:false});return;}return wx.__origShowModal(o)}};return{ok:true}}

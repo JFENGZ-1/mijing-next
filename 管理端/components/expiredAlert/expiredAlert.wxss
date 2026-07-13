@@ -1,0 +1,70 @@
+.close-box.data-v-038a11c8 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+}
+.close-box .close-popup.data-v-038a11c8 {
+  height: 5rpx;
+  width: 5rpx;
+}
+.popuphead .headimg1 .pic.data-v-038a11c8,
+.popuphead .headimg1.data-v-038a11c8 {
+  height: 205rpx;
+  width: 576rpx;
+}
+.popuphead .headimg2.data-v-038a11c8 {
+  background-color: #fff;
+  border-radius: 0 0 42rpx 42rpx;
+  height: 460rpx;
+}
+.popuphead .headimg2 .icon.data-v-038a11c8 {
+  height: 102rpx;
+  margin-left: 466rpx;
+  margin-top: -80rpx;
+  width: 109rpx;
+}
+.popuphead .headimg2 .day.data-v-038a11c8 {
+  color: #181818;
+  font-size: 104rpx;
+  font-weight: 500;
+  line-height: 104rpx;
+  margin-top: -30rpx;
+  text-align: center;
+}
+.popuphead .headimg2 .dayfont.data-v-038a11c8 {
+  color: #181818;
+  font-size: 40rpx;
+  font-weight: 400;
+  line-height: 43rpx;
+  margin-top: 41rpx;
+  text-align: center;
+}
+.popuphead .headimg2 .btn button.data-v-038a11c8 {
+  border-radius: 50rpx;
+  font-size: 32rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  width: 344rpx;
+}
+.popuphead .headimg2 .btn .modal-cal-btn.data-v-038a11c8 {
+  background: #fff;
+  border: 1px solid #f7d4a3;
+  color: #d2ac71;
+  font-size: 25rpx;
+  height: 75rpx;
+  line-height: 75rpx;
+  opacity: 0.6;
+}
+.popuphead .headimg2 .btn .modal-cal-btn button[plain].data-v-038a11c8 {
+  border: 0;
+}
+.popuphead .headimg2 .btn .modal-btn1.data-v-038a11c8 {
+  background: linear-gradient(90deg, #f6dab3, #f7d29f);
+  border: 1px solid #fff;
+  color: #8f5700;
+  margin-bottom: 21rpx;
+  margin-top: 50rpx;
+}
+.popuphead .headimg2 .btn .modal-btn1 button[plain].data-v-038a11c8 {
+  border: 0;
+}

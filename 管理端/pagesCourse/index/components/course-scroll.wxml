@@ -1,0 +1,72 @@
+<view class="data-v-f42775e8">
+    <zero-loading bind:__l="__l" class="data-v-f42775e8" vueId="6d270136-1" wx:if="{{pageLoading}}"></zero-loading>
+    <view class="course-scroll-warp data-v-f42775e8" id="courseScrollWarp" style="{{'height:'+listHeight+';'}}" wx:if="{{$root.g0}}">
+        <view class="scroll-view-fixed data-v-f42775e8" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}" wx:if="{{showDate}}">
+            <scroll-view bindscroll="__e" class="scroll-view data-v-f42775e8" data-event-opts="{{[ [ 'scroll',[ [ 'scrollDate',['$event'] ] ] ] ]}}" scrollLeft="{{curLeft}}" scrollX="true" style="height:125rpx;white-space:nowrap;">
+                <view class="data-v-f42775e8" style="height:150rpx;background-color:aqua;margin-bottom:28rpx;">
+                    <view class="item-warp item-header-warp data-v-f42775e8">
+                        <view class="item data-v-f42775e8" style="width:28rpx;">
+                            <view class="data-v-f42775e8" style="height:106rpx;background-color:#fff;"></view>
+                        </view>
+                        <view class="item data-v-f42775e8" wx:for="{{bannerList}}" wx:for-index="i" wx:key="i">
+                            <view bindtap="__e" class="{{['date','data-v-f42775e8',item.weekName=='今天'?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'handleShowTips',[i] ] ] ] ]}}">
+                                <text class="top data-v-f42775e8">{{item.dayName||''}}</text>
+                                <text class="bottom data-v-f42775e8">{{item.weekName||''}}</text>
+                            </view>
+                        </view>
+                        <view class="item data-v-f42775e8" style="width:28rpx;">
+                            <view class="data-v-f42775e8" style="height:106rpx;background-color:#fff;"></view>
+                        </view>
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+        <view bindtap="__e" class="{{['back-today','data-v-f42775e8',showDate?'back-today-fixed':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'toToday',['$event'] ] ] ] ]}}" style="{{'top:'+(showDate?StatusBar+CustomBar+15+'px':'19rpx')+';'}}" wx:if="{{curLeft>250+boxwidth*(index+1)}}">
+            <view class="text data-v-f42775e8">返回</view>
+        </view>
+        <scroll-view bindscroll="__e" class="scroll-view data-v-f42775e8" data-event-opts="{{[ [ 'scroll',[ [ 'scroll',['$event'] ] ] ] ]}}" scrollLeft="{{scrollLeft}}" scrollX="true" style="height:100%;min-height:1200rpx;white-space:nowrap;width:100%;">
+            <view class="{{['data-v-f42775e8',showDate?'mar84':'mar28']}}" style="height:120rpx;">
+                <view class="item-warp item-header-warp data-v-f42775e8">
+                    <view class="item data-v-f42775e8" style="width:28rpx;">
+                        <view class="data-v-f42775e8" style="height:106rpx;background-color:#fff;"></view>
+                    </view>
+                    <view class="item data-v-f42775e8" id="{{'ttt'+i}}" wx:for="{{bannerList}}" wx:for-index="i" wx:key="i">
+                        <view bindtap="__e" class="{{['date','data-v-f42775e8',item.weekName=='今天'?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'handleShowTips',[i] ] ] ] ]}}">
+                            <text class="top data-v-f42775e8">{{item.dayName||''}}</text>
+                            <text class="bottom data-v-f42775e8">{{item.weekName||''}}</text>
+                        </view>
+                    </view>
+                    <view class="item data-v-f42775e8" style="width:28rpx;">
+                        <view class="data-v-f42775e8" style="height:106rpx;background-color:#fff;"></view>
+                    </view>
+                </view>
+            </view>
+            <view class="item-warp data-v-f42775e8" id="courseContent">
+                <view class="item data-v-f42775e8" style="width:28rpx;">
+                    <view class="data-v-f42775e8" style="height:106rpx;"></view>
+                </view>
+                <view class="item data-v-f42775e8" style="background-color:#fafafa;" wx:for="{{$root.l0}}" wx:key="index">
+                    <view class="item-box data-v-f42775e8" wx:for="{{item.$orig.list}}" wx:for-index="index2" wx:for-item="item2" wx:key="index2">
+                        <course-box bind:__l="__l" bindtap="__e" class="data-v-f42775e8" data="{{item2}}" data-event-opts="{{[ [ 'tap',[ [ 'toDeatail',['$0'],[ [ ['bannerList','',index],['list','',index2] ] ] ] ] ] ]}}" vueId="{{'6d270136-2-'+index+'-'+index2}}"></course-box>
+                    </view>
+                    <view bindtap="__e" class="btn data-v-f42775e8" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}" data-event-params="{{ ({item:item.$orig}) }}">
+                        <u-icon bind:__l="__l" class="data-v-f42775e8" color="#E98933" name="plus" size="21" vueId="{{'6d270136-3-'+index}}"></u-icon>
+                        <text class="data-v-f42775e8">添加课程</text>
+                    </view>
+                    <view class="{{['tips-box','data-v-f42775e8',showTipsIndex===index?'show':'']}}" hidden="{{!(showTipsIndex===index)}}">
+                        <view class="frame-box data-v-f42775e8">
+                            <image class="tips-frame data-v-f42775e8" src="{{item.m0}}"></image>
+                        </view>
+                        <view class="tips data-v-f42775e8">
+                            <view class="data-v-f42775e8">点击此按钮</view>
+                            <view class="data-v-f42775e8">{{'即是排'+item.$orig.weekName+'的课'}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="item data-v-f42775e8" style="width:28rpx;">
+                    <view class="data-v-f42775e8" style="height:106rpx;"></view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+</view>

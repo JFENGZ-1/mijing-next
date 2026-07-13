@@ -1,0 +1,72 @@
+<view class="data-v-76b44efe">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-76b44efe" text="{{title}}" vueId="13d9320f-1"></navigation>
+    <view class="main data-v-76b44efe" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-76b44efe">
+            <view class="head data-v-76b44efe" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="hint_wrap data-v-76b44efe">
+                    <hint bgcolor="#ECF8F3" bind:__l="__l" class="data-v-76b44efe" color="#22C788" show="{{hintShow}}" type="2" updateTime="{{computeTime}}" vueId="13d9320f-2" vueSlots="{{['confirmname']}}">
+                        <view class="data-v-76b44efe" slot="confirmname">
+                            <view class="data-v-76b44efe">
+                                <text class="data-v-76b44efe" style="color:#181818;">访客：</text>
+                                <text class="value data-v-76b44efe">指无卡会员</text>
+                            </view>
+                        </view>
+                    </hint>
+                </view>
+                <view class="summarize data-v-76b44efe">
+                    <view class="top_data data-v-76b44efe">
+                        <view class="more-data data-v-76b44efe">
+                            <view class="data-v-76b44efe">{{'显示近'+config.intValue+'天内的访客'}}</view>
+                            <view bindtap="__e" class="data-v-76b44efe" data-event-opts="{{[ [ 'tap',[ ['handleSet'] ] ] ]}}" style="display:flex;">
+                                <image class="icon data-v-76b44efe" src="{{$root.m0}}"></image>
+                                <u-icon bind:__l="__l" class="arrow-right data-v-76b44efe" color="#989898" name="arrow-right" size="16" vueId="13d9320f-3"></u-icon>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="item data-v-76b44efe">
+                    <view class="item_head data-v-76b44efe">
+                        <view class="item_right data-v-76b44efe">
+                            <view class="data-v-76b44efe">{{'共有'+totalCount+'名会员'}}</view>
+                            <view class="data-v-76b44efe">注册日期</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-76b44efe">
+                <view class="list data-v-76b44efe">
+                    <view class="item data-v-76b44efe" wx:if="{{!notdata}}">
+                        <view class="data-v-76b44efe" style="padding-top:28rpx;" wx:for="{{$root.l0}}" wx:for-index="index1" wx:key="index1">
+                            <view class="sale-item data-v-76b44efe">
+                                <image bindtap="__e" class="avator data-v-76b44efe" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}" src="{{item.$orig.userFaceurl}}"></image>
+                                <view class="detail-info data-v-76b44efe">
+                                    <view bindtap="__e" class="detail-info-wrap data-v-76b44efe" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}">
+                                        <view class="l-info data-v-76b44efe">{{''+item.m1+''}}<view class="time-and-type data-v-76b44efe">最后上课：<text class="data-v-76b44efe" wx:if="{{item.$orig.lastClassDate}}">{{item.g0}}</text>
+                                                <text class="data-v-76b44efe" wx:else>--</text>
+                                            </view>
+                                        </view>
+                                        <view class="r-info data-v-76b44efe">
+                                            <text class="day-num data-v-76b44efe">{{item.$orig.createTime}}</text>
+                                            <u-icon bind:__l="__l" class="arrow-right data-v-76b44efe" color="#989898" name="arrow-right" size="15" vueId="{{'13d9320f-4-'+index1}}"></u-icon>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-76b44efe" color="#F0F0F0" length="576rpx" margin="0rpx 0rpx 0rpx 98rpx" vueId="{{'13d9320f-5-'+index1}}" wx:if="{{item.g1-1!=index1}}"></u-line>
+                        </view>
+                    </view>
+                    <view class="data-v-76b44efe" wx:else>
+                        <view class="noCourseData data-v-76b44efe">
+                            <image class="icon data-v-76b44efe" src="{{$root.m2}}"></image>
+                            <text class="explain data-v-76b44efe">~ 没有近日访客 ~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-76b44efe" wx:if="{{!notdata&&ismore}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-76b44efe" color="#bfbfbf" halfWidth="74" vueId="13d9320f-6" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-76b44efe" vueId="13d9320f-7"></ff-bottom-logo>
+    </view>
+</view>

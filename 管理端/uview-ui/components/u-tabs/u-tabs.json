@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-badge-left": "/uview-ui/components/u-badge-left/u-badge-left",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

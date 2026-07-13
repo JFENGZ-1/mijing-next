@@ -1,0 +1,87 @@
+<view class="{{['card-container','data-v-d26f8224',isSortMode?'sort-mode-active':'']}}">
+    <zero-loading bind:__l="__l" class="data-v-d26f8224" vueId="3377736d-1" wx:if="{{!showlist}}"></zero-loading>
+    <view class="{{['data-v-d26f8224',isSortMode?'no-scroll':'']}}" wx:else>
+        <view class="placeholder-view data-v-d26f8224"></view>
+        <view class="category-nav data-v-d26f8224" wx:if="{{$root.g0>0}}">
+            <view class="search-warp data-v-d26f8224" wx:if="{{$root.g1>10}}">
+                <u-search bind:__l="__l" bind:input="__e" class="data-v-d26f8224" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','keyword','$event',[] ] ] ] ] ]}}" height="70" placeholder="会员卡名称" searchIconColor="#FBD128" showAction="{{false}}" value="{{keyword}}" vueId="3377736d-2" wx:if="{{!isSortMode}}"></u-search>
+                <view class="sort-mode-tip data-v-d26f8224" wx:if="{{isSortMode}}">
+                    <text class="tip-text data-v-d26f8224">排序模式下已禁用搜索</text>
+                </view>
+            </view>
+            <view class="top-info data-v-d26f8224">
+                <view class="data-v-d26f8224" style="width:560rpx;position:relative;left:-40rpx;">
+                    <u-tabs activeItemStyle="{{activeItemStyle}}" bind:__l="__l" bind:change="__e" class="data-v-d26f8224" current="{{currentIndex}}" data-event-opts="{{[ [ '^change',[ ['changeTab'] ] ] ]}}" fontSize="25" inactiveColor="#989898" isScroll="{{false}}" list="{{tagList}}" vueId="3377736d-3"></u-tabs>
+                </view>
+                <view class="right-info data-v-d26f8224">
+                    <view class="showimg-wrap data-v-d26f8224">
+                        <image bindtap="__e" class="showimg data-v-d26f8224" data-event-opts="{{[ [ 'tap',[ [ 'delshow',['$event'] ] ] ] ]}}" src="{{$root.m0}}"></image>
+                        <text class="shownum data-v-d26f8224" wx:if="{{delCardCount!=0}}">{{delCardCount}}</text>
+                    </view>
+                    <view bindtap="__e" class="sort-wrap data-v-d26f8224" data-event-opts="{{[ [ 'tap',[ [ 'toggleSortMode',['$event'] ] ] ] ]}}" wx:if="{{currentIndex===0}}">
+                        <image class="showimg data-v-d26f8224" src="{{$root.m1}}"></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="content-card data-v-d26f8224">
+            <view class="sort-mode-container data-v-d26f8224" wx:if="{{$root.g2}}">
+                <h-m-drag-sorts autoScroll="{{true}}" bind:__l="__l" bind:change="__e" bind:confirm="__e" class="data-v-d26f8224 vue-ref" data-event-opts="{{[ [ '^change',[ ['handleSortChange'] ] ],[ '^confirm',[ ['handleSortConfirm'] ] ] ]}}" data-ref="dragSorts" feedbackGenerator="{{true}}" list="{{sortList}}" listHeight="{{sortListHeight}}" rowHeight="{{rowHeightPx}}" vueId="3377736d-4"></h-m-drag-sorts>
+            </view>
+            <block wx:if="{{!isSortMode||currentIndex!==0}}">
+                <view class="place data-v-d26f8224"></view>
+                <view bindtap="__e" class="card-type-box data-v-d26f8224" data-event-opts="{{[ [ 'tap',[ [ 'jumpToCardInfo',['$0'],[ [ ['showlist','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="cardId">
+                    <view class="card-type-wrap data-v-d26f8224">
+                        <view class="card-wrap data-v-d26f8224">
+                            <view class="data-v-d26f8224" wx:if="{{item.$orig.saleStatus==0}}">
+                                <view class="mask data-v-d26f8224"></view>
+                                <view class="img-wrap data-v-d26f8224">
+                                    <view class="data-v-d26f8224">
+                                        <image class="data-v-d26f8224" src="{{item.m2}}"></image>
+                                        <text class="data-v-d26f8224">已停售</text>
+                                    </view>
+                                </view>
+                                <view class="{{['data-v-d26f8224',item.$orig.saleStatus==0?'gray':'']}}"></view>
+                            </view>
+                            <view class="{{['data-v-d26f8224',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item.$orig.cardType==1}}">
+                                <ff-value-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-d26f8224" vueId="{{'3377736d-5-'+index}}"></ff-value-card>
+                            </view>
+                            <view class="{{['data-v-d26f8224',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item.$orig.cardType==2}}">
+                                <ff-counts-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-d26f8224" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],[ [ ['showlist','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" vueId="{{'3377736d-6-'+index}}"></ff-counts-card>
+                            </view>
+                            <view class="{{['data-v-d26f8224',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item.$orig.cardType==3}}">
+                                <ff-date-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{item.$orig}}" class="data-v-d26f8224" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],[ [ ['showlist','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" vueId="{{'3377736d-7-'+index}}"></ff-date-card>
+                            </view>
+                        </view>
+                        <view class="right-box data-v-d26f8224">
+                            <view class="label data-v-d26f8224">售价</view>
+                            <view class="sale-money data-v-d26f8224">
+                                <view class="data-v-d26f8224">
+                                    <text class="data-v-d26f8224">￥</text>
+                                    <text class="price data-v-d26f8224">{{item.$orig.price}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="divder-line data-v-d26f8224" wx:if="{{item.g3}}"></view>
+                </view>
+            </block>
+            <view class="card-empty data-v-d26f8224" wx:if="{{isShowNoCard}}">
+                <image class="data-v-d26f8224" src="{{$root.m3}}"></image>
+                <text class="data-v-d26f8224">在此创建和管理您所出售的会员卡类型，如包
+年卡、计次卡等。
+ 但并不是每个会员创建一张卡，而是您场馆出
+售的卡的种类。创建完毕后即可在“会员”中
+给会员发卡了 </text>
+            </view>
+        </view>
+        <view bindtap="__e" class="create-card data-v-d26f8224" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/card/create/create'] ] ] ] ] ] ]}}" wx:if="{{!isSortMode}}">
+            <view class="bg data-v-d26f8224">
+                <text class="data-v-d26f8224">创 建</text>
+                <view class="data-v-d26f8224">会员卡</view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-d26f8224" vueId="3377736d-8" wx:if="{{!isSortMode}}"></ff-bottom-logo>
+    </view>
+    <card-all-project bind:__l="__l" class="data-v-d26f8224 vue-ref" data-ref="cardAllProject" vueId="3377736d-9"></card-all-project>
+</view>

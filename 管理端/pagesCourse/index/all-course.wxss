@@ -1,0 +1,27 @@
+.all-course-warp .content.data-v-5a97935d {
+  background-color: #fff;
+  padding: 10rpx 31rpx 40rpx;
+}
+.all-course-warp .content .search-warp.data-v-5a97935d {
+  margin-bottom: 20rpx;
+}
+.all-course-warp .content .tip.data-v-5a97935d {
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 25rpx;
+  justify-content: space-between;
+  line-height: 28rpx;
+  margin: 20rpx 0;
+}
+.all-course-warp .content .tip .text.data-v-5a97935d {
+  margin-right: 10rpx;
+}
+.all-course-warp .content .list-warp .right-text.data-v-5a97935d {
+  color: #989898;
+  font-size: 25rpx;
+  line-height: 28rpx;
+  margin-top: -22rpx;
+  padding-bottom: 38rpx;
+  text-align: right;
+}

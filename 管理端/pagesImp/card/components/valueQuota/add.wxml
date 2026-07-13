@@ -1,0 +1,14 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-b3f09518" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="{{tips}}" title="{{title}}" value="{{show}}" vueId="1e96532a-1" vueSlots="{{['default','confrimBtn']}}">
+    <view class="com-button-f1 data-v-b3f09518" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-b3f09518" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" disabled="{{isDisabled}}" type="primary" vueId="{{'1e96532a-2'+','+'1e96532a-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-b3f09518">
+        <view class="picker-box data-v-b3f09518">
+            <picker-view bindchange="__e" bindpickend="__e" bindpickstart="__e" class="u-select__body__picker-view data-v-b3f09518" data-event-opts="{{[ [ 'change',[ [ 'bindChange',['$event'] ] ] ],[ 'pickstart',[ [ 'pickstart',['$event'] ] ] ],[ 'pickend',[ [ 'pickend',['$event'] ] ] ] ]}}" indicatorClass="com-picker-indicator" style="height:500rpx;" value="{{pickerValue}}">
+                <picker-view-column class="data-v-b3f09518" wx:for="{{2}}" wx:for-index="__i0__" wx:for-item="k" wx:key="*this">
+                    <view class="hour-box u-select__body__picker-view__item data-v-b3f09518" value="{{item}}" wx:for="{{columns}}" wx:for-index="__i1__" wx:key="*this">{{item}}</view>
+                </picker-view-column>
+            </picker-view>
+        </view>
+    </view>
+</ff-popup>

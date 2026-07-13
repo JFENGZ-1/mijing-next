@@ -1,0 +1,3 @@
+<view bindtap="__e" class="u-row" data-event-opts="{{[ [ 'tap',[ [ 'click',['$event'] ] ] ] ]}}" style="{{'align-items:'+uAlignItem+';'+'justify-content:'+uJustify+';'}}">
+    <slot></slot>
+</view>

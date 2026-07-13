@@ -1,0 +1,46 @@
+<u-popup bind:__l="__l" bind:close="__e" bind:input="__e" borderRadius="{{borderRadius}}" class="data-v-5464b9dc" closeable="{{closeable}}" data-event-opts="{{[ [ '^close',[ ['close'] ] ],[ '^input',[ [ '__set_model',[ '','value','$event',[] ] ] ] ] ]}}" length="auto" maskCloseAble="{{maskCloseAble}}" mode="bottom" popup="{{false}}" safeAreaInsetBottom="{{safeAreaInsetBottom}}" value="{{value}}" vueId="5f1b9f66-1" vueSlots="{{['default']}}" zIndex="{{uZIndex}}">
+    <view class="u-calendar data-v-5464b9dc">
+        <view class="u-calendar__header data-v-5464b9dc">
+            <view class="u-calendar__header__text data-v-5464b9dc" wx:if="{{!$slots['tooltip']}}">{{''+toolTip+''}}</view>
+            <slot name="tooltip" wx:else></slot>
+        </view>
+        <view class="u-calendar__action u-flex u-row-center data-v-5464b9dc">
+            <view class="u-calendar__action__icon data-v-5464b9dc">
+                <u-icon bind:__l="__l" bind:click="__e" class="data-v-5464b9dc" color="{{yearArrowColor}}" data-event-opts="{{[ [ '^click',[ [ 'changeYearHandler',[0] ] ] ] ]}}" name="arrow-left-double" vueId="{{'5f1b9f66-2'+','+'5f1b9f66-1'}}" wx:if="{{changeYear}}"></u-icon>
+            </view>
+            <view class="u-calendar__action__icon data-v-5464b9dc">
+                <u-icon bind:__l="__l" bind:click="__e" class="data-v-5464b9dc" color="{{monthArrowColor}}" data-event-opts="{{[ [ '^click',[ [ 'changeMonthHandler',[0] ] ] ] ]}}" name="arrow-left" vueId="{{'5f1b9f66-3'+','+'5f1b9f66-1'}}" wx:if="{{changeMonth}}"></u-icon>
+            </view>
+            <view class="u-calendar__action__text data-v-5464b9dc">{{showTitle}}</view>
+            <view class="u-calendar__action__icon data-v-5464b9dc">
+                <u-icon bind:__l="__l" bind:click="__e" class="data-v-5464b9dc" color="{{monthArrowColor}}" data-event-opts="{{[ [ '^click',[ [ 'changeMonthHandler',[1] ] ] ] ]}}" name="arrow-right" vueId="{{'5f1b9f66-4'+','+'5f1b9f66-1'}}" wx:if="{{changeMonth}}"></u-icon>
+            </view>
+            <view class="u-calendar__action__icon data-v-5464b9dc">
+                <u-icon bind:__l="__l" bind:click="__e" class="data-v-5464b9dc" color="{{yearArrowColor}}" data-event-opts="{{[ [ '^click',[ [ 'changeYearHandler',[1] ] ] ] ]}}" name="arrow-right-double" vueId="{{'5f1b9f66-5'+','+'5f1b9f66-1'}}" wx:if="{{changeYear}}"></u-icon>
+            </view>
+        </view>
+        <view class="u-calendar__week-day data-v-5464b9dc">
+            <view class="u-calendar__week-day__text data-v-5464b9dc" wx:for="{{weekDayZh}}" wx:key="index">{{item}}</view>
+        </view>
+        <view class="u-calendar__content data-v-5464b9dc">
+            <view class="u-calendar__content__item data-v-5464b9dc" wx:for="{{weekdayArr}}" wx:key="index"></view>
+            <view bindtap="__e" class="{{['u-calendar__content__item','data-v-5464b9dc',item.m0?'u-hover-class':'',mode=='range'&&startDate==year+'-'+month+'-'+index+1||mode=='date'?'u-calendar__content--start-date':'',mode=='range'&&endDate==year+'-'+month+'-'+index+1||mode=='date'?'u-calendar__content--end-date':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'dateClick',[index] ] ] ] ]}}" style="{{'background-color:'+item.m1+';'}}" wx:for="{{$root.l0}}" wx:key="index">
+                <view class="u-calendar__content__item__inner data-v-5464b9dc" style="{{'color:'+item.m2+';'}}">
+                    <view class="data-v-5464b9dc">{{index+1}}</view>
+                </view>
+                <view class="u-calendar__content__item__tips data-v-5464b9dc" style="{{'color:'+activeColor+';'}}" wx:if="{{mode=='range'&&startDate==year+'-'+month+'-'+index+1&&startDate!=endDate}}">{{startText}}</view>
+                <view class="u-calendar__content__item__tips data-v-5464b9dc" style="{{'color:'+activeColor+';'}}" wx:if="{{mode=='range'&&endDate==year+'-'+month+'-'+index+1}}">{{endText}}</view>
+            </view>
+            <view class="u-calendar__content__bg-month data-v-5464b9dc">{{month}}</view>
+        </view>
+        <view class="u-calendar__bottom data-v-5464b9dc">
+            <view class="u-calendar__bottom__choose data-v-5464b9dc">
+                <text class="data-v-5464b9dc">{{mode=='date'?activeDate:startDate}}</text>
+                <text class="data-v-5464b9dc" wx:if="{{endDate}}">{{'至'+endDate}}</text>
+            </view>
+            <view class="u-calendar__bottom__btn data-v-5464b9dc">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-5464b9dc" customStyle="{{({background:'#5FC48D'})}}" data-event-opts="{{[ [ '^click',[ [ 'btnFix',[false] ] ] ] ]}}" shape="circle" size="default" type="{{btnType}}" vueId="{{'5f1b9f66-6'+','+'5f1b9f66-1'}}" vueSlots="{{['default']}}">确定</u-button>
+            </view>
+        </view>
+    </view>
+</u-popup>

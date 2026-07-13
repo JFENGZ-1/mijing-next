@@ -1,0 +1,107 @@
+<view class="data-v-5a74a9dd">
+    <navigation bind:__l="__l" class="data-v-5a74a9dd" text="会员如何预约" vueId="1d579368-1"></navigation>
+    <view class="placeholder-view data-v-5a74a9dd" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-5a74a9dd" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="wechat-wrap data-v-5a74a9dd">
+            <view class="title-box data-v-5a74a9dd">
+                <view class="icon data-v-5a74a9dd"></view>
+                <view class="title data-v-5a74a9dd">分为教练/馆主端、会员端两个不同的小程序</view>
+            </view>
+            <view class="pic-box data-v-5a74a9dd">
+                <image class="data-v-5a74a9dd" src="{{$root.m0}}"></image>
+            </view>
+            <view class="caption data-v-5a74a9dd">
+                <text class="title data-v-5a74a9dd">【教练/馆主管理端】</text>
+                <text class="tips data-v-5a74a9dd">管理会员、排课、营业报表等</text>
+            </view>
+            <view class="pic-box data-v-5a74a9dd">
+                <image class="data-v-5a74a9dd" src="{{$root.m1}}"></image>
+            </view>
+            <view class="caption data-v-5a74a9dd">
+                <text class="title data-v-5a74a9dd">【会员约课端】</text>
+                <text class="tips data-v-5a74a9dd">会员用来约课</text>
+            </view>
+        </view>
+        <view class="howtobook-wrap data-v-5a74a9dd">
+            <view class="title-box data-v-5a74a9dd">
+                <view class="icon data-v-5a74a9dd"></view>
+                <view class="title data-v-5a74a9dd">新会员如何约课？</view>
+            </view>
+            <view class="Method data-v-5a74a9dd">方法一</view>
+            <view class="step data-v-5a74a9dd">
+                <view class="data-v-5a74a9dd">1）</view>
+                <view class="data-v-5a74a9dd">先在“会员”中添加该会员，然后点击会员右侧灰色的“卡片图标”给会员发卡</view>
+            </view>
+            <view class="pic-box data-v-5a74a9dd">
+                <image class="data-v-5a74a9dd" src="{{$root.m2}}"></image>
+            </view>
+            <view class="step data-v-5a74a9dd">
+                <view class="data-v-5a74a9dd">2）</view>
+                <view class="data-v-5a74a9dd">让会员关注公众号，从下方“我的约课”即可进入到小程序，便可看到自己的会员卡和场馆的排课了</view>
+            </view>
+            <view class="pic-box data-v-5a74a9dd">
+                <image class="data-v-5a74a9dd" src="{{$root.m3}}"></image>
+            </view>
+            <view class="Method data-v-5a74a9dd">方法二</view>
+            <view class="step data-v-5a74a9dd">
+                <view class="data-v-5a74a9dd">1）</view>
+                <view class="data-v-5a74a9dd">将场馆码发给会员</view>
+            </view>
+            <view class="step data-v-5a74a9dd">
+                <view class="data-v-5a74a9dd">2）</view>
+                <view class="data-v-5a74a9dd">会员扫码注册（会员可以看到排课，但没有会员卡）</view>
+            </view>
+            <view class="step data-v-5a74a9dd">
+                <view class="data-v-5a74a9dd">3）</view>
+                <view class="data-v-5a74a9dd">在“会员”中给会员发卡（发卡后就可以约课了）</view>
+            </view>
+            <view class="step data-v-5a74a9dd">注：省去了馆主录入会员姓名和手机号的步骤</view>
+            <view class="step points data-v-5a74a9dd">仍要提醒会员关注【会员预约服务助手】公众号，公众号会发送课程取消、上课提醒、会员卡变动等通知消息</view>
+        </view>
+        <view class="enter-method-wrap data-v-5a74a9dd">
+            <view class="title-box data-v-5a74a9dd">
+                <view class="icon data-v-5a74a9dd"></view>
+                <view class="title data-v-5a74a9dd">会员进入到约课小程序的三种方法？</view>
+            </view>
+            <view class="pic-box1 data-v-5a74a9dd">
+                <view class="data-v-5a74a9dd">
+                    <image class="data-v-5a74a9dd" src="{{$root.m4}}"></image>
+                    <view class="data-v-5a74a9dd">关注公众号</view>
+                    <view class="data-v-5a74a9dd">从公众号进入</view>
+                </view>
+                <view class="data-v-5a74a9dd">
+                    <image class="data-v-5a74a9dd" src="{{$root.m5}}"></image>
+                    <view class="data-v-5a74a9dd">微信首页下拉</view>
+                    <view class="data-v-5a74a9dd">从小程序直接进入</view>
+                </view>
+            </view>
+            <view class="pic-box2 data-v-5a74a9dd">
+                <view class="data-v-5a74a9dd">
+                    <image class="data-v-5a74a9dd" src="{{$root.m6}}"></image>
+                    <view class="data-v-5a74a9dd">微信-我-卡包</view>
+                    <view class="data-v-5a74a9dd">从微信卡包进入</view>
+                </view>
+            </view>
+        </view>
+        <view class="download-wrap data-v-5a74a9dd">
+            <view class="title-box data-v-5a74a9dd">
+                <view class="icon data-v-5a74a9dd"></view>
+                <view class="title data-v-5a74a9dd">下载素材</view>
+            </view>
+            <view class="subtitle data-v-5a74a9dd">可将此图发到会员群（长按此图可识别公众号二维码）</view>
+            <view class="poster01 data-v-5a74a9dd">
+                <image class="data-v-5a74a9dd" src="{{$root.m7}}"></image>
+            </view>
+            <text class="caption data-v-5a74a9dd">关注公众号海报</text>
+            <view bindtap="__e" class="btn-download data-v-5a74a9dd" data-event-opts="{{[ [ 'tap',[ [ 'savePoster',[$root.m8] ] ] ] ]}}">保存到手机</view>
+            <view class="placeholder data-v-5a74a9dd"></view>
+            <view class="poster02 data-v-5a74a9dd">
+                <image class="data-v-5a74a9dd" src="{{$root.m9}}"></image>
+            </view>
+            <text class="caption data-v-5a74a9dd">会员约课步骤海报</text>
+            <view bindtap="__e" class="btn-download data-v-5a74a9dd" data-event-opts="{{[ [ 'tap',[ [ 'savePoster',[$root.m10] ] ] ] ]}}">保存到手机</view>
+            <view class="placeholder data-v-5a74a9dd"></view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-5a74a9dd" vueId="1d579368-2"></ff-bottom-logo>
+    </view>
+</view>

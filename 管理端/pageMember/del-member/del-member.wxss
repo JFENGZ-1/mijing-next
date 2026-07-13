@@ -1,0 +1,171 @@
+.content.data-v-89857f24 {
+  background: #fff;
+}
+.content .total-num.data-v-89857f24 {
+  color: #181818;
+  font-size: 28rpx;
+  padding: 19rpx 0 0 27rpx;
+}
+.setting_wrap.data-v-89857f24 {
+  background: #fff;
+  border-radius: 0 0 21rpx 21rpx;
+  margin: 0rpx 15rpx 0;
+}
+.setting_wrap .list.data-v-89857f24 {
+  min-height: 1200rpx;
+}
+.setting_wrap .list .item.data-v-89857f24 {
+  color: #181818;
+  font-size: 26rpx;
+  padding: 0 34rpx 20rpx 26rpx;
+}
+.setting_wrap .list .item .sale-item.data-v-89857f24 {
+  box-sizing: border-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.setting_wrap .list .item .sale-item .avator.data-v-89857f24 {
+  border-radius: 50%;
+  flex-shrink: 0;
+  height: 84rpx;
+  margin-bottom: 29rpx;
+  width: 84rpx;
+}
+.setting_wrap .list .item .sale-item .detail-info.data-v-89857f24 {
+  flex: 1;
+  position: relative;
+}
+.setting_wrap .list .item .sale-item .detail-info .card_u_line.data-v-89857f24 {
+  bottom: 0;
+  left: 15rpx;
+  position: absolute;
+  width: 102%;
+}
+.setting_wrap
+  .list
+  .item
+  .sale-item
+  .detail-info
+  .detail-info-wrap.data-v-89857f24 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  line-height: 36rpx;
+  padding-bottom: 5rpx;
+  padding-top: 8rpx;
+}
+.setting_wrap .list .item .sale-item .detail-info .l-info.data-v-89857f24 {
+  color: #181818;
+  font-size: 28rpx;
+  margin-left: 15rpx;
+  min-width: 200rpx;
+}
+.setting_wrap
+  .list
+  .item
+  .sale-item
+  .detail-info
+  .l-info
+  .time-and-type.data-v-89857f24 {
+  align-items: center;
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 21rpx;
+  margin-top: 5rpx;
+}
+.setting_wrap
+  .list
+  .item
+  .sale-item
+  .detail-info
+  .l-info
+  .time-and-type
+  .surplus.data-v-89857f24 {
+  padding-left: 25rpx;
+}
+.setting_wrap .list .item .sale-item .detail-info .right-box.data-v-89857f24 {
+  align-self: flex-end;
+  margin-bottom: 6rpx;
+  margin-left: 41rpx;
+}
+.setting_wrap
+  .list
+  .item
+  .sale-item
+  .detail-info
+  .right-box
+  .btn-box.data-v-89857f24 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+.setting_wrap
+  .list
+  .item
+  .sale-item
+  .detail-info
+  .right-box
+  .btn-box
+  .delete-btn.data-v-89857f24 {
+  background: #fff;
+  border: 1px solid #fbd128;
+  border-radius: 35px;
+  color: #181818;
+  font-size: 26rpx;
+  height: 69rpx;
+  width: 169rpx;
+}
+.setting_wrap
+  .list
+  .item
+  .sale-item
+  .detail-info
+  .right-box
+  .btn-box
+  .delete-btn
+  button[plain].data-v-89857f24 {
+  border: 0;
+}
+.setting_wrap .list .item .delstaff.data-v-89857f24 {
+  display: -webkit-flex;
+  display: flex;
+  margin-left: 90rpx;
+  margin-top: 15rpx;
+}
+.setting_wrap .list .item .delstaff .img.data-v-89857f24 {
+  border-radius: 50%;
+  height: 28rpx;
+  width: 28rpx;
+}
+.setting_wrap .list .item .delstaff .tex.data-v-89857f24 {
+  color: #989898;
+  font-size: 21rpx;
+  padding-left: 5rpx;
+}
+.setting_wrap .list .item .delstaff .tex1.data-v-89857f24 {
+  padding-left: 5rpx;
+}
+.setting_wrap .list .item .foot_card.data-v-89857f24 {
+  margin-bottom: 32rpx;
+  margin-left: 100rpx;
+}
+.noCourseData.data-v-89857f24 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  height: 1230rpx;
+}
+.noCourseData .icon.data-v-89857f24 {
+  height: 171rpx;
+  margin-bottom: 40rpx;
+  margin-top: 160rpx;
+  width: 203rpx;
+}
+.noCourseData .explain.data-v-89857f24 {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 45rpx;
+}

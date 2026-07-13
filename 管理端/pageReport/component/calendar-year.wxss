@@ -1,0 +1,34 @@
+.calendarMonth-container .calendarMonth.data-v-a2e3a4aa {
+  margin: 50rpx 40rpx 0rpx;
+}
+.calendarMonth-container .calendarMonth .year.data-v-a2e3a4aa {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  margin: 0 50rpx;
+}
+.calendarMonth-container .calendarMonth .month.data-v-a2e3a4aa {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: left;
+}
+.calendarMonth-container .calendarMonth .month .item_box.data-v-a2e3a4aa {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  width: 165rpx;
+}
+.calendarMonth-container .calendarMonth .month.data-v-a2e3a4aa .aa {
+  background: #22c788;
+  border-radius: 40rpx;
+  color: #fff;
+  font-weight: 500;
+}
+.calendarMonth-container .calendarMonth .month .bb.data-v-a2e3a4aa {
+  color: #181818;
+}
+.calendarMonth-container .calendarMonth .item_month.data-v-a2e3a4aa {
+  color: #181818;
+  font-size: 32rpx;
+  padding: 16rpx 25rpx;
+}

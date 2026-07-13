@@ -1,0 +1,113 @@
+.content.data-v-0259cc8f {
+  margin-top: 44rpx;
+}
+.placeholder.data-v-0259cc8f {
+  height: 80rpx;
+}
+.step2.data-v-0259cc8f {
+  margin: 50rpx 50rpx 20rpx 43rpx;
+}
+.step2 .selectMore.data-v-0259cc8f {
+  color: #989898;
+  font-size: 25rpx;
+  margin-bottom: 41rpx;
+}
+.step2 .selectMore .tips.data-v-0259cc8f {
+  padding-top: 20rpx;
+}
+.step2 .selectMore .tips .arrow-box.data-v-0259cc8f,
+.step2 .selectMore .tips.data-v-0259cc8f {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+}
+.step2 .selectMore .tips .arrow-box.data-v-0259cc8f {
+  margin-top: 10rpx;
+}
+.step2 .gary.data-v-0259cc8f {
+  filter: grayscale(100%);
+}
+.step2 .step2card-wrap.data-v-0259cc8f {
+  display: -webkit-flex;
+  display: flex;
+  margin-bottom: 41rpx;
+}
+.step2 .card-wrap.data-v-0259cc8f {
+  min-height: 240rpx;
+  position: relative;
+  width: 403rpx;
+}
+.step2 .no-card.data-v-0259cc8f {
+  height: 240rpx;
+  margin: 20rpx auto 67rpx;
+  width: 403rpx;
+}
+.step2 .no-card image.data-v-0259cc8f {
+  height: 100%;
+  width: 100%;
+}
+.step2 .appointment-info-wrap.data-v-0259cc8f {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 25rpx;
+  justify-content: center;
+  padding-bottom: 60rpx;
+}
+.step2 .appointment-info-wrap .number-value.data-v-0259cc8f {
+  font-size: 28rpx;
+  margin: 0 24rpx;
+}
+.step2 .appointment-info-wrap .number-box.data-v-0259cc8f {
+  display: -webkit-flex;
+  display: flex;
+}
+.step2 .appointment-info-wrap .number-box view.data-v-0259cc8f {
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 50%;
+  display: -webkit-flex;
+  display: flex;
+  height: 38rpx;
+  justify-content: center;
+  width: 38rpx;
+}
+.step2 .payment-wrap.data-v-0259cc8f {
+  display: inline-grid;
+  width: 100%;
+}
+.step2 .unit-price.data-v-0259cc8f {
+  color: #181818;
+  font-size: 28rpx;
+  text-align: center;
+}
+.step2 .unit-price text.data-v-0259cc8f {
+  font-size: 72rpx;
+}
+.step2 .hint-text.data-v-0259cc8f {
+  color: #181818;
+  font-size: 20rpx;
+  line-height: 20rpx;
+  text-align: center;
+}
+.step2 .fail-msg.data-v-0259cc8f {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  margin-left: 18rpx;
+}
+.step2 .fail-msg .fail-msg-text.data-v-0259cc8f {
+  background: #faf5f8;
+  border-radius: 35rpx;
+  color: #dc3c5c;
+  font-size: 25rpx;
+  line-height: 34rpx;
+  margin: 0 auto;
+  padding: 20rpx;
+}
+.step2 .fail-msg .fail-text.data-v-0259cc8f {
+  color: #dadada;
+  font-size: 25rpx;
+  margin: 0 auto;
+}

@@ -1,0 +1,31 @@
+.placeholder-view.data-v-3fec6509 {
+  background: #fff;
+}
+.nickname-container button.data-v-3fec6509::after {
+  border: none;
+}
+.nickname-container .content.data-v-3fec6509 {
+  background: #fff;
+  padding: 76rpx 34rpx 700rpx;
+}
+.nickname-container .content.data-v-3fec6509 .u-input {
+  position: absolute;
+}
+.nickname-container .content .save-btn.data-v-3fec6509 {
+  background: #ffcf00;
+  border: 1rpx solid #fbd128;
+  border-radius: 20px;
+  color: #181818;
+  font-size: 32rpx;
+  font-weight: 400;
+  height: 84rpx;
+  margin-bottom: 39rpx;
+  margin-top: 164rpx;
+  width: 458rpx;
+}
+.nickname-container .content .save-btn button[plain].data-v-3fec6509 {
+  border: 0;
+}
+.nickname-container .u-hairline-border[data-v-6e15e680].data-v-3fec6509:after {
+  border: 1px solid #ffcf00;
+}

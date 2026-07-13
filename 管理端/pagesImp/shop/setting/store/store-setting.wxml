@@ -1,0 +1,75 @@
+<view class="data-v-a5460ff6">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-a5460ff6" text="{{title}}" vueId="f8583942-1"></navigation>
+    <zero-loading bind:__l="__l" class="data-v-a5460ff6" vueId="f8583942-2" wx:if="{{pageLoading}}"></zero-loading>
+    <view class="placeholder-view data-v-a5460ff6" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view bindtap="__e" class="store-container data-v-a5460ff6" data-event-opts="{{[ [ 'tap',[ [ 'hideDown',['$event'] ] ] ] ]}}" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="store-form data-v-a5460ff6" style="{{'height:100%;min-height:1230rpx;'}}">
+            <u-form bind:__l="__l" class="data-v-a5460ff6 vue-ref" data-ref="usiteinfo" errorType="{{errorType}}" labelStyle="{{labelStyle}}" model="{{siteinfo}}" vueId="f8583942-3" vueSlots="{{['default']}}">
+                <view class="grid data-v-a5460ff6">
+                    <u-form-item bind:__l="__l" borderBottom="{{false}}" class="data-v-a5460ff6" label="店logo" labelWidth="150" prop="siteTrademark" required="{{true}}" vueId="{{'f8583942-4'+','+'f8583942-3'}}" vueSlots="{{['default']}}">
+                        <view bindtap="__e" class="data-v-a5460ff6" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}" style="padding-left:12px;">
+                            <image class="slot-btn data-v-a5460ff6" src="{{siteinfo.siteTrademarkweb}}" style="width:108rpx;height:108rpx;" wx:if="{{siteinfo.siteTrademarkweb}}"></image>
+                            <view class="upload_btn data-v-a5460ff6" hoverClass="slot-btn__hover" hoverStayTime="150" slot="addBtn" wx:else>
+                                <u-icon bind:__l="__l" class="data-v-a5460ff6" color="#FFFFFF" name="plus" size="40" vueId="{{'f8583942-5'+','+'f8583942-4'}}" wx:if="{{!siteinfo.siteTrademark}}"></u-icon>
+                                <image class="slot-btn data-v-a5460ff6" src="{{siteinfo.siteTrademark}}" style="width:110rpx;height:110rpx;" wx:if="{{siteinfo.siteTrademark}}"></image>
+                            </view>
+                        </view>
+                    </u-form-item>
+                </view>
+                <u-line bind:__l="__l" class="data-v-a5460ff6" color="#F0F0F0" vueId="{{'f8583942-6'+','+'f8583942-3'}}"></u-line>
+                <view class="grid data-v-a5460ff6">
+                    <u-form-item bind:__l="__l" borderBottom="{{false}}" class="data-v-a5460ff6" label="店	名" labelWidth="150" prop="siteName" required="{{true}}" vueId="{{'f8583942-7'+','+'f8583942-3'}}" vueSlots="{{['default']}}">
+                        <u-input bind:__l="__l" bind:input="__e" class="data-v-a5460ff6" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','siteName','$event',[] ],['siteinfo'] ] ] ] ]}}" placeholder="尽可能简短，如：秋水·瑜伽" placeholderStyle="font-size:28rpx;color:#DADADA" type="text" value="{{siteinfo.siteName}}" vueId="{{'f8583942-8'+','+'f8583942-7'}}"></u-input>
+                    </u-form-item>
+                </view>
+                <u-line bind:__l="__l" class="data-v-a5460ff6" color="#F0F0F0" vueId="{{'f8583942-9'+','+'f8583942-3'}}"></u-line>
+                <view class="grid data-v-a5460ff6">
+                    <u-form-item bind:__l="__l" borderBottom="{{false}}" class="data-v-a5460ff6" label="联系方式" labelWidth="150" prop="siteTel" required="{{true}}" vueId="{{'f8583942-10'+','+'f8583942-3'}}" vueSlots="{{['default']}}">
+                        <u-input bind:__l="__l" bind:input="__e" class="data-v-a5460ff6" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','siteTel','$event',[] ],['siteinfo'] ] ] ] ]}}" placeholder="请输入手机号" placeholderStyle="font-size:28rpx;color:#DADADA" type="text" value="{{siteinfo.siteTel}}" vueId="{{'f8583942-11'+','+'f8583942-10'}}"></u-input>
+                    </u-form-item>
+                </view>
+                <u-line bind:__l="__l" class="data-v-a5460ff6" color="#F0F0F0" vueId="{{'f8583942-12'+','+'f8583942-3'}}"></u-line>
+                <view class="grid data-v-a5460ff6">
+                    <u-form-item bind:__l="__l" borderBottom="{{false}}" class="data-v-a5460ff6" label="所在省份" labelWidth="150" prop="citiesProvinceName" required="{{true}}" rightIcon="arrow-right" rightIconStyle="{{righticonstyle}}" vueId="{{'f8583942-13'+','+'f8583942-3'}}" vueSlots="{{['default']}}">
+                        <view bindtap="__e" class="province-wrap data-v-a5460ff6" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}" wx:if="{{siteinfo.citiesProvinceName}}">{{''+siteinfo.citiesProvinceName+siteinfo.citiesCityName+siteinfo.citiesCountyName+''}}</view>
+                        <view bindtap="__e" class="province-placeholder data-v-a5460ff6" data-event-opts="{{[ [ 'tap',[ [ 'e1',['$event'] ] ] ] ]}}" wx:else>请选择省份</view>
+                    </u-form-item>
+                    <u-select bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-a5460ff6" columnLength="3" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" defaultValue="{{region}}" list="{{areaList}}" mode="mutil-column-auto" safeAreaInsetBottom="{{true}}" value="{{show}}" vueId="{{'f8583942-14'+','+'f8583942-3'}}"></u-select>
+                </view>
+                <u-line bind:__l="__l" class="data-v-a5460ff6" color="#F0F0F0" vueId="{{'f8583942-15'+','+'f8583942-3'}}"></u-line>
+                <view class="grid data-v-a5460ff6">
+                    <u-form-item bind:__l="__l" borderBottom="{{false}}" class="data-v-a5460ff6" label="门店地址" labelWidth="150" prop="siteAddr" required="{{true}}" vueId="{{'f8583942-16'+','+'f8583942-3'}}" vueSlots="{{['default']}}">
+                        <u-input bind:__l="__l" bind:input="__e" class="data-v-a5460ff6" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','siteAddr','$event',[] ],['siteinfo'] ] ] ] ]}}" maxlength="30" placeholder="尽可能简短，如：新开街万达广场B座底商" placeholderStyle="font-size:28rpx;color:#DADADA" type="text" value="{{siteinfo.siteAddr}}" vueId="{{'f8583942-17'+','+'f8583942-16'}}"></u-input>
+                    </u-form-item>
+                </view>
+                <u-line bind:__l="__l" class="data-v-a5460ff6" color="#F0F0F0" margin="0rpx  0rpx 40rpx 0rpx" vueId="{{'f8583942-18'+','+'f8583942-3'}}"></u-line>
+                <view class="grid-time data-v-a5460ff6">
+                    <text class="grid-text data-v-a5460ff6" style="width:150rpx;">营业时间</text>
+                    <text class="required data-v-a5460ff6">*</text>
+                    <view class="data-v-a5460ff6" style="width:100%;">
+                        <view class="icon-time data-v-a5460ff6" wx:for="{{opentime}}" wx:key="index">
+                            <view class="data-v-a5460ff6">
+                                <u-icon bind:__l="__l" bind:click="__e" class="data-v-a5460ff6" color="#DC3C5C " data-event-opts="{{[ [ '^click',[ [ 'removeitem',['$0'],[ [ ['opentime','',index] ] ] ] ] ] ]}}" name="minus-circle" size="36" vueId="{{'f8583942-19-'+index+','+'f8583942-3'}}"></u-icon>
+                                <text bindtap="__e" class="data-v-a5460ff6" data-event-opts="{{[ [ 'tap',[ [ 'openPopup',['$0'],[ [ ['opentime','',index] ] ] ] ] ] ]}}">{{item.weekValue}}</text>
+                                <u-icon bind:__l="__l" bind:click="__e" class="data-v-a5460ff6" data-event-opts="{{[ [ '^click',[ [ 'openPopup',['$0'],[ [ ['opentime','',index] ] ] ] ] ] ]}}" name="arrow-right" vueId="{{'f8583942-20-'+index+','+'f8583942-3'}}"></u-icon>
+                            </view>
+                            <text bindtap="__e" class="time-interval data-v-a5460ff6" data-event-opts="{{[ [ 'tap',[ [ 'openPopup',['$0'],[ [ ['opentime','',index] ] ] ] ] ] ]}}">{{item.timeValue}}</text>
+                        </view>
+                        <view bindtap="__e" class="icon-add data-v-a5460ff6" data-event-opts="{{[ [ 'tap',[ ['openPopup'] ] ] ]}}">
+                            <view class="data-v-a5460ff6">
+                                <u-icon bind:__l="__l" class="data-v-a5460ff6" color="#E98900" name="plus" vueId="{{'f8583942-21'+','+'f8583942-3'}}"></u-icon>
+                                <text class="data-v-a5460ff6">添加时段</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </u-form>
+            <view class="{{['drop-down','data-v-a5460ff6',item.isShowHandelSelect?'down_show':'',!item.isShowHandelSelect?'down_hide':'']}}"></view>
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-a5460ff6" customStyle="{{saveBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['saveSite'] ] ] ]}}" disabled="{{isBTloading}}" hoverClass="none" shape="circle" type="primary" vueId="f8583942-22" vueSlots="{{['default']}}">保存</u-button>
+            <view class="data-v-a5460ff6">
+                <time-popup bind:__l="__l" bind:saveWeekTime="__e" class="data-v-a5460ff6 vue-ref" data-event-opts="{{[ [ '^saveWeekTime',[ ['saveWeekTime'] ] ] ]}}" data-ref="child" dayDate="{{dayDate}}" imeviewlist="{{imeviewlist}}" opentime="{{opentime}}" showTime="{{showTime}}" title="{{title}}" vueId="f8583942-23"></time-popup>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-a5460ff6" vueId="f8583942-24"></ff-bottom-logo>
+    </view>
+</view>

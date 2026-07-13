@@ -1,0 +1,46 @@
+<view class="data-v-3f37d992">
+    <view class="tips data-v-3f37d992">
+        <u-icon bind:__l="__l" class="u-icon data-v-3f37d992" name="info-circle-fill" vueId="999a70c0-1"></u-icon>每日凌晨更新</view>
+    <view class="container data-v-3f37d992">
+        <view class="time-wrap data-v-3f37d992">{{''+(monthStatistics.year||'-')+'年'+(monthStatistics.month||'-')+'月'+''}}</view>
+        <view class="statistics-wrap data-v-3f37d992">
+            <view class="item data-v-3f37d992">
+                <view class="num data-v-3f37d992">{{monthStatistics.teamTimes||'-'}}</view>
+                <view class="text data-v-3f37d992">常规课(次)</view>
+            </view>
+            <view class="item data-v-3f37d992">
+                <view class="num data-v-3f37d992">{{monthStatistics.teamAbsent||'-'}}</view>
+                <view class="text data-v-3f37d992">旷课(次)</view>
+            </view>
+            <view class="item data-v-3f37d992">
+                <view class="num data-v-3f37d992">{{monthStatistics.privateTimes||'-'}}</view>
+                <view class="text data-v-3f37d992">私教(次)</view>
+            </view>
+            <view class="item data-v-3f37d992">
+                <view class="num data-v-3f37d992">{{monthStatistics.privateAbsent||'-'}}</view>
+                <view class="text data-v-3f37d992">旷课(次)</view>
+            </view>
+        </view>
+        <view class="appointment_list data-v-3f37d992">
+            <u-tabs barStyle="{{({background:'#22C788'})}}" bind:__l="__l" bind:change="__e" class="data-v-3f37d992" current="{{tabCurrent}}" data-event-opts="{{[ [ '^change',[ ['tabChange'] ] ] ]}}" isScroll="{{false}}" list="{{list}}" vueId="999a70c0-2"></u-tabs>
+            <view class="list_wrap data-v-3f37d992">
+                <view class="list data-v-3f37d992">
+                    <view class="item data-v-3f37d992" wx:for="{{appointList}}" wx:key="index">
+                        <appointment-list bind:__l="__l" class="data-v-3f37d992" isHandleBtn="{{false}}" item="{{item}}" vueId="{{'999a70c0-3-'+index}}"></appointment-list>
+                    </view>
+                </view>
+                <view class="noData data-v-3f37d992" wx:if="{{$root.g0}}">
+                    <image class="data-v-3f37d992" src="{{$root.m0}}"></image>
+                    <text class="data-v-3f37d992">暂无记录</text>
+                </view>
+                <view class="loading-wrap data-v-3f37d992" hidden="{{!isLoading}}">
+                    <loading-pulse bind:__l="__l" class="data-v-3f37d992" vueId="999a70c0-4"></loading-pulse>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="load-wrap data-v-3f37d992" wx:if="{{hasNext==false}}">
+        <u-loadmore bind:__l="__l" class="data-v-3f37d992" nomoreText="没有更多了" status="{{loadStatus}}" vueId="999a70c0-5"></u-loadmore>
+    </view>
+    <bottom-logo bind:__l="__l" class="data-v-3f37d992" vueId="999a70c0-6"></bottom-logo>
+</view>

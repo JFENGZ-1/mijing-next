@@ -1,0 +1,1 @@
+function(options){if(options&&options.success)options.success({confirm:true,cancel:false});if(options&&options.complete)options.complete({confirm:true,cancel:false});}

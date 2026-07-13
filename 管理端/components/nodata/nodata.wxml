@@ -1,0 +1,4 @@
+<view class="notdata data-v-0e332d96">
+    <image class="pic data-v-0e332d96" src="{{$root.m0}}"></image>
+    <view class="text data-v-0e332d96" wx:for="{{msgList[msg]}}" wx:key="index">{{item}}</view>
+</view>

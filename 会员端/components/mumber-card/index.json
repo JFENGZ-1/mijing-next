@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-line": "/node-modules/uview-ui/components/u-line/u-line",
+    "bottom-logo": "/components/ff-bottom-logo/index"
+  }
+}

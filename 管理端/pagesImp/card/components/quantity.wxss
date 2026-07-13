@@ -1,0 +1,55 @@
+.main-box .radio-group.data-v-1093672f {
+  display: block;
+  margin-bottom: 15rpx;
+  margin-left: 39rpx;
+  margin-top: 20rpx;
+}
+.main-box .radio.data-v-1093672f {
+  margin-right: 0;
+  padding-top: 30rpx;
+}
+.main-box .opencard-tips.data-v-1093672f {
+  color: #7e7e7e;
+  font-size: 23rpx;
+  line-height: 50rpx;
+}
+.main-box .opencard-tips text.data-v-1093672f {
+  color: #dc3c5c;
+  padding-left: 8rpx;
+}
+.main-box .form-box.data-v-1093672f {
+  padding-top: 10rpx;
+}
+.main-box .form-box .list-box.data-v-1093672f {
+  padding: 5rpx 50rpx;
+}
+.main-box .form-box .list-box .show-box.data-v-1093672f {
+  align-items: center;
+  border-bottom: 1rpx solid #f0f0f0;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  padding: 25rpx 0 5rpx;
+}
+.main-box .form-box .list-box .show-box .title.data-v-1093672f {
+  color: #7e7e7e;
+}
+.main-box .form-box .list-box .show-box .title.active.data-v-1093672f {
+  color: #181818;
+  font-weight: 500;
+}
+.main-box .form-box .list-box .hidd-box.data-v-1093672f {
+  align-items: center;
+  color: #7e7e7e;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 25rpx;
+  padding: 25rpx 39rpx 15rpx;
+  width: 100%;
+}
+.main-box .form-box .list-box .hidd-box .com-input.data-v-1093672f {
+  flex: 0 0 auto;
+  margin: 0 10rpx;
+  text-align: center !important;
+  width: 104rpx;
+}

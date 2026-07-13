@@ -1,0 +1,12 @@
+<dialog bind:__l="__l" bind:input="__e" class="data-v-3c572eeb" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="{{950}}" mask="{{mask}}" maskCloseAble="{{false}}" title="{{title}}" value="{{show}}" vueId="f5c8ade0-1" vueSlots="{{['content']}}">
+    <view class="wrap data-v-3c572eeb" slot="content">
+        <view class="{{[ 'data-v-3c572eeb','icon-wrap',''+(status=='success'?'success':'cancel') ]}}">
+            <image class="data-v-3c572eeb" src="{{$root.m0}}"></image>
+        </view>
+        <view class="hint-text data-v-3c572eeb">
+            <view class="first success-text data-v-3c572eeb" wx:if="{{status=='success'}}">支付成功，已预约</view>
+            <view class="first cancel-text data-v-3c572eeb" wx:else>已取消</view>
+            <view class="last data-v-3c572eeb">{{speed+'秒后自动关闭'}}</view>
+        </view>
+    </view>
+</dialog>

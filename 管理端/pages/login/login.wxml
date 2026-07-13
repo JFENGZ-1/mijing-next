@@ -1,0 +1,3 @@
+<view wx:if="{{!options.token}}">
+    <mpweixin bind:__l="__l" bind:setInfoToken="__e" data-event-opts="{{[ [ '^setInfoToken',[ ['setInfoToken'] ] ] ]}}" options="{{options}}" vueId="35a7246c-1"></mpweixin>
+</view>

@@ -1,0 +1,68 @@
+<view class="data-v-6d567942">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-6d567942" text="{{title}}" vueId="3fa132b5-1"></navigation>
+    <view class="main data-v-6d567942" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-6d567942">
+            <view class="head data-v-6d567942" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="summarize data-v-6d567942">
+                    <text class="data-v-6d567942">工资统计</text>
+                    <view bindtap="__e" class="summarize-right data-v-6d567942" data-event-opts="{{[ [ 'tap',[ [ 'personalSalaryType',['$event'] ] ] ] ]}}">
+                        <view class="data-v-6d567942" wx:if="{{start==1}}">
+                            <view class="data-v-6d567942" wx:if="{{salaryMode==1}}">按固定课时费计算</view>
+                            <view class="data-v-6d567942" wx:if="{{salaryMode==2}}">按实际上课人次计算</view>
+                            <view class="data-v-6d567942" wx:if="{{salaryMode==3}}">按学员实际耗课金额计算</view>
+                        </view>
+                        <view class="data-v-6d567942" wx:else>去开启</view>
+                        <view class="item_report data-v-6d567942">
+                            <image class="img data-v-6d567942" mode="widthFix" src="{{$root.m0}}"></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="top_content data-v-6d567942">
+                    <view class="item_head data-v-6d567942" wx:if="{{start==1}}">
+                        <view class="item_right data-v-6d567942">{{'共'+(totalCount?totalCount:'–')+'名老师'}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-6d567942">
+                <view class="list data-v-6d567942">
+                    <view class="item data-v-6d567942" wx:if="{{!notdata}}">
+                        <block wx:for="{{$root.l0}}" wx:for-index="index1" wx:key="index1">
+                            <view class="item-box data-v-6d567942">
+                                <view bindtap="__e" class="sale-item data-v-6d567942" data-event-opts="{{[ [ 'tap',[ [ 'personalSalaryDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}">
+                                    <image class="avator data-v-6d567942" src="{{item.$orig.staffFace}}"></image>
+                                    <view class="detail-info data-v-6d567942">
+                                        <view class="detail-info-wrap data-v-6d567942">
+                                            <view class="l-info data-v-6d567942">{{''+item.m1+''}}</view>
+                                            <view class="r-info data-v-6d567942">
+                                                <view class="num-box data-v-6d567942" wx:if="{{item.$orig.totalCount!=0}}">
+                                                    <view class="team-num data-v-6d567942">{{item.$orig.teamCount+'个团课'}}</view>
+                                                    <view class="pri-num data-v-6d567942">{{item.$orig.privateCount+'个私教'}}</view>
+                                                </view>
+                                                <view class="data-v-6d567942" wx:else>
+                                                    <view class="day-num data-v-6d567942">未设置</view>
+                                                </view>
+                                                <u-icon bind:__l="__l" class="arrow-right data-v-6d567942" color="#989898" name="arrow-right" size="22" vueId="{{'3fa132b5-2-'+index1}}"></u-icon>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-6d567942" color="#F0F0F0" length="590rpx" margin="0rpx 0rpx 0rpx 98rpx" vueId="{{'3fa132b5-3-'+index1}}" wx:if="{{item.g0-1!=index1}}"></u-line>
+                        </block>
+                    </view>
+                    <view class="data-v-6d567942" wx:else>
+                        <view class="noCourseData data-v-6d567942">
+                            <image class="icon data-v-6d567942" src="{{$root.m2}}"></image>
+                            <text class="explain data-v-6d567942" wx:if="{{start==0}}">~ 未开启工资统计 ~</text>
+                            <text class="explain data-v-6d567942" wx:else>~ 没有工资统计记录 ~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-6d567942" wx:if="{{!notdata}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-6d567942" color="#bfbfbf" halfWidth="74" vueId="3fa132b5-4" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-6d567942" vueId="3fa132b5-5"></ff-bottom-logo>
+    </view>
+</view>

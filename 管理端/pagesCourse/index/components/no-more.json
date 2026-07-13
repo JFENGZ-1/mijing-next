@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-divider": "/uview-ui/components/u-divider/u-divider",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

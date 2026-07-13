@@ -1,0 +1,19 @@
+<view class="data-v-40fe0e76">
+    <view class="container data-v-40fe0e76">
+        <view class="label data-v-40fe0e76">
+            <text class="data-v-40fe0e76">{{text}}</text>
+            <text class="required data-v-40fe0e76" wx:if="{{required}}">*</text>
+        </view>
+        <u-form bind:__l="__l" class="data-v-40fe0e76 vue-ref" data-ref="uForm" model="{{form}}" vueId="36d21c0c-1" vueSlots="{{['default']}}">
+            <u-form-item bind:__l="__l" borderBottom="{{false}}" class="data-v-40fe0e76" label="{{label}}" labelPosition="top" vueId="{{'36d21c0c-2'+','+'36d21c0c-1'}}" vueSlots="{{['default']}}">
+                <button bindgetphonenumber="__e" class="phoneBtn data-v-40fe0e76" data-event-opts="{{[ [ 'getphonenumber',[ [ 'getPhoneNumber',['$event'] ] ] ] ]}}" hoverClass="button-hover" openType="getPhoneNumber" wx:if="{{selectedKey=='userPhone'}}">
+                    <text class="data-v-40fe0e76" style="color:#7e7e7e;" wx:if="{{!form[selectedKey]}}">请输入手机号</text>
+                    <text class="data-v-40fe0e76" wx:else>{{form[selectedKey]}}</text>
+                </button>
+                <u-input bind:__l="__l" bind:input="__e" class="data-v-40fe0e76" customStyle="{{customInput}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','$1','$event',[] ],['form','selectedKey'] ] ] ] ]}}" labelWidth="{{labelWidth}}" value="{{form[selectedKey]}}" vueId="{{'36d21c0c-3'+','+'36d21c0c-2'}}" wx:else></u-input>
+            </u-form-item>
+        </u-form>
+        <view bindtap="__e" class="save-btn data-v-40fe0e76" data-event-opts="{{[ [ 'tap',[ [ 'save',['$event'] ] ] ] ]}}">保存</view>
+    </view>
+    <bottom-logo bind:__l="__l" class="data-v-40fe0e76" vueId="36d21c0c-4"></bottom-logo>
+</view>

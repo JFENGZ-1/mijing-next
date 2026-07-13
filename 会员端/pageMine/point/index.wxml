@@ -1,0 +1,58 @@
+<view class="data-v-3b274425">
+    <view bindtap="__e" class="data-v-3b274425" data-event-opts="{{[ [ 'tap',[ [ 'cancelBubbling',['$event'] ] ] ] ]}}" style="background-color:#FFF;">
+        <view class="bg-img data-v-3b274425" style="{{'top:'+(StatusBar+CustomBar<90?StatusBar+CustomBar-92:0)+'px'+';'+'background:'+'#fff url('+$root.m0+')'+';'+'background-size:'+'100% auto'+';'+'background-repeat:'+'no-repeat'+';'}}"></view>
+        <navigation background="rgba(255, 255, 255, 0)" bind:__l="__l" class="data-v-3b274425" headUrl="{{userFaceurl}}" text="{{userRealname}}" vueId="4b36c51c-1"></navigation>
+        <view class="main data-v-3b274425" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="head data-v-3b274425" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="summarize data-v-3b274425">
+                    <view class="num data-v-3b274425">{{totalCount}}</view>
+                    <view class="num-text data-v-3b274425">有效积分</view>
+                </view>
+            </view>
+            <view class="content data-v-3b274425">
+                <view class="setting_wrap data-v-3b274425">
+                    <view class="list data-v-3b274425">
+                        <view class="item data-v-3b274425" wx:if="{{$root.g0}}">
+                            <view class="data-v-3b274425" style="padding-top:28rpx;" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="sale-item data-v-3b274425">
+                                    <view class="detail-info data-v-3b274425">
+                                        <view class="detail-info-wrap data-v-3b274425">
+                                            <view class="l-info data-v-3b274425">{{''+item.$orig.pointTitle+''}}<view class="time-and-type data-v-3b274425">
+                                                    <text class="data-v-3b274425" wx:if="{{item.$orig.createTime}}">{{item.$orig.createTime}}</text>
+                                                    <text class="data-v-3b274425" wx:else>--</text>
+                                                </view>
+                                            </view>
+                                            <view class="r-info data-v-3b274425">
+                                                <view class="data-v-3b274425">
+                                                    <view class="{{['day-num','data-v-3b274425',item.$orig.pointVal<0?'redtext':'']}}">
+                                                        <block wx:if="{{item.$orig.pointVal>0}}">+</block>{{''+item.$orig.pointVal+''}}</view>
+                                                    <view class="day-num1 data-v-3b274425">
+                                                        <text class="oper data-v-3b274425" wx:if="{{item.$orig.reasonId==4||item.$orig.reasonId==5}}">{{item.$orig.operStaffName+'操作'}}</text>
+                                                        <text class="{{['data-v-3b274425',item.$orig.pointVal>0?'greentext':'redtext']}}">{{item.$orig.reasonText}}</text>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <u-line bind:__l="__l" class="data-v-3b274425" color="#F0F0F0" length="620rpx" margin="24rpx 0rpx 0rpx 18rpx" vueId="{{'4b36c51c-2-'+index}}" wx:if="{{item.g1-1!=index}}"></u-line>
+                            </view>
+                        </view>
+                        <view class="data-v-3b274425" wx:else>
+                            <view class="noCourseData data-v-3b274425">
+                                <image class="icon data-v-3b274425" src="{{$root.m1}}"></image>
+                                <text class="explain data-v-3b274425">~ 没有积分记录 ~</text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="points-desc data-v-3b274425" wx:if="{{descText}}">
+                        <u-parse bind:__l="__l" class="data-v-3b274425" html="{{descText}}" vueId="4b36c51c-3"></u-parse>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-3b274425" wx:if="{{notdata&&ismore}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-3b274425" color="#bfbfbf" halfWidth="74" vueId="4b36c51c-4" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+    </view>
+</view>

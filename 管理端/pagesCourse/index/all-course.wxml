@@ -1,0 +1,27 @@
+<view class="data-v-5a97935d">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-5a97935d" text="{{title}}" vueId="e55b6af8-1"></navigation>
+    <view class="all-course-warp data-v-5a97935d" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-5a97935d" style="{{'height:100%;min-height:1230rpx; '}}">
+            <view class="search-warp data-v-5a97935d">
+                <u-search bind:__l="__l" bind:input="__e" class="data-v-5a97935d" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','keyword','$event',[] ] ] ] ] ]}}" height="69" placeholder="课程名称" searchIconColor="#FBD128" showAction="{{false}}" value="{{keyword}}" vueId="e55b6af8-2"></u-search>
+            </view>
+            <view class="tip data-v-5a97935d">
+                <view class="data-v-5a97935d">{{'共'+totalCount+'个课目'}}</view>
+                <view class="data-v-5a97935d">
+                    <text class="text data-v-5a97935d">{{'有排课'+dataCount+'个'}}</text>
+                    <text class="data-v-5a97935d">{{'无排课'+noDataCount+'个'}}</text>
+                </view>
+            </view>
+            <view class="list-warp data-v-5a97935d">
+                <view bindtap="__e" class="data-v-5a97935d" data-event-opts="{{[ [ 'tap',[ [ 'toDetail',['$0'],[ [ ['showList','',index] ] ] ] ] ] ]}}" wx:for="{{showList}}" wx:key="index">
+                    <subject-card bind:__l="__l" class="data-v-5a97935d" groupData="{{item}}" vueId="{{'e55b6af8-3-'+index}}"></subject-card>
+                    <view class="right-text data-v-5a97935d">{{'有'+item.planCount+'次排课'}}<u-icon bind:__l="__l" class="data-v-5a97935d" color="#989898" name="arrow-right" size="22" vueId="{{'e55b6af8-4-'+index}}"></u-icon>
+                    </view>
+                </view>
+                <empty-data bind:__l="__l" class="data-v-5a97935d" text="暂无数据" vueId="e55b6af8-5" wx:if="{{!$root.g0}}"></empty-data>
+            </view>
+        </view>
+        <no-more bind:__l="__l" class="data-v-5a97935d" vueId="e55b6af8-6" wx:if="{{$root.g1}}"></no-more>
+        <ff-bottom-logo bind:__l="__l" class="data-v-5a97935d" vueId="e55b6af8-7"></ff-bottom-logo>
+    </view>
+</view>

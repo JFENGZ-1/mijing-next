@@ -1,0 +1,84 @@
+<view class="data-v-5cf62488">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-5cf62488" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="867" tips="1、点击减号可变为加号，2、所涉及会员将收到有效期变动通知" title="{{isall?'全部一键延期':'调整有效期（延期）'}}" value="{{show}}" vueId="30b09fd3-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-5cf62488" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-5cf62488" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'30b09fd3-2'+','+'30b09fd3-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-5cf62488">
+            <view class="form-box data-v-5cf62488">
+                <view class="list-box data-v-5cf62488">
+                    <view class="hidd-box input-main data-v-5cf62488">有效期<view bindtap="__e" class="add data-v-5cf62488" data-event-opts="{{[ [ 'tap',[ [ 'healdAdd',['$event'] ] ] ] ]}}">
+                            <image class="data-v-5cf62488" src="{{$root.m0}}" wx:if="{{flag}}"></image>
+                            <image class="data-v-5cf62488" src="{{$root.m1}}" wx:else></image>
+                        </view>
+                        <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-5cf62488" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','changeDays','$event',[] ] ] ] ] ]}}" placeholder="请输入天数" type="number" value="{{changeDays}}" vueId="{{'30b09fd3-3'+','+'30b09fd3-1'}}"></u-input>
+                        <text class="day data-v-5cf62488">天</text>
+                    </view>
+                    <view class="content data-v-5cf62488">
+                        <view class="ucheck data-v-5cf62488">
+                            <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-5cf62488" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','stopcard','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{stopcard}}" vueId="{{'30b09fd3-4'+','+'30b09fd3-1'}}" vueSlots="{{['default']}}">
+                                <text class="data-v-5cf62488" style="{{'line-height:56rpx;font-size:25rpx;'+'color:'+(stopcard?'#181818':'#7E7E7E')+';'}}">含停卡中的</text>
+                            </u-checkbox>
+                            <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-5cf62488" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','leavecard','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{leavecard}}" vueId="{{'30b09fd3-5'+','+'30b09fd3-1'}}" vueSlots="{{['default']}}">
+                                <text class="data-v-5cf62488" style="{{'line-height:56rpx;font-size:25rpx;'+'color:'+(leavecard?'#181818':'#7E7E7E')+';'}}">含请假中的</text>
+                            </u-checkbox>
+                            <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-5cf62488" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','opencard','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{opencard}}" vueId="{{'30b09fd3-6'+','+'30b09fd3-1'}}" vueSlots="{{['default']}}">
+                                <text class="data-v-5cf62488" style="{{'line-height:56rpx;font-size:25rpx;'+'color:'+(opencard?'#181818':'#7E7E7E')+';'}}">含未开卡的</text>
+                            </u-checkbox>
+                        </view>
+                        <view class="ucheck data-v-5cf62488">
+                            <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-5cf62488" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','haveexpiredcard','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{haveexpiredcard}}" vueId="{{'30b09fd3-7'+','+'30b09fd3-1'}}" vueSlots="{{['default']}}">
+                                <text class="data-v-5cf62488" style="{{'line-height:56rpx;font-size:25rpx;'+'color:'+(haveexpiredcard?'#181818':'#7E7E7E')+';'}}">含已过期的</text>
+                            </u-checkbox>
+                        </view>
+                        <view class="tex data-v-5cf62488" style="padding-top:20rpx;">
+                            <text calss="tex-left" class="data-v-5cf62488">仅处理：</text>
+                            <text class="data-v-5cf62488">
+                                <block wx:if="{{stopcard}}">停卡中、</block>
+                                <block wx:if="{{leavecard}}">请假中、</block>
+                                <block wx:if="{{opencard}}">未开卡、</block>
+                                <block wx:if="{{haveexpiredcard}}">已过期、</block>处于有效期内且余额大于0的卡 </text>
+                        </view>
+                        <view class="tex data-v-5cf62488">
+                            <text calss="tex-left" class="data-v-5cf62488">不处理：</text>
+                            <text class="data-v-5cf62488">
+                                <block wx:if="{{!stopcard}}">停卡中、</block>
+                                <block wx:if="{{!leavecard}}">请假中、</block>
+                                <block wx:if="{{!opencard}}">未开卡、</block>
+                                <block wx:if="{{!haveexpiredcard}}">已过期、</block>余额为0的卡 </text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-5cf62488" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+    <confirm-modal bind:__l="__l" class="data-v-5cf62488 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="{{'注意，是否'+(flag?'延期':'扣除')+changeDays+'天？'}}" vueId="30b09fd3-8" vueSlots="{{['content','btn']}}">
+        <view class="data-v-5cf62488" slot="content" style="color:#989898;font-size:25rpx;">
+            <view class="tex data-v-5cf62488">
+                <text calss="tex-left" class="data-v-5cf62488">将处理：</text>
+                <text class="data-v-5cf62488">
+                    <block wx:if="{{stopcard}}">停卡中、</block>
+                    <block wx:if="{{leavecard}}">请假中、</block>
+                    <block wx:if="{{opencard}}">未开卡、</block>
+                    <block wx:if="{{haveexpiredcard}}">已过期、</block>处于有效期内且余额大于0的卡 </text>
+            </view>
+            <view class="tex data-v-5cf62488">
+                <text calss="tex-left" class="data-v-5cf62488">不处理：</text>
+                <text class="data-v-5cf62488">
+                    <block wx:if="{{!stopcard}}">停卡中、</block>
+                    <block wx:if="{{!leavecard}}">请假中、</block>
+                    <block wx:if="{{!opencard}}">未开卡、</block>
+                    <block wx:if="{{!haveexpiredcard}}">已过期、</block>余额为0 </text>
+            </view>
+            <view class="content data-v-5cf62488">
+                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-5cf62488" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','refuseChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{refuseChecked}}" vueId="{{'30b09fd3-9'+','+'30b09fd3-8'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-5cf62488" style="{{'line-height:56rpx;font-size:25rpx;'+'color:'+(refuseChecked?'#181818':'#7E7E7E')+';'}}">我已确认，可以执行</text>
+                </u-checkbox>
+            </view>
+        </view>
+        <view class="btn data-v-5cf62488" slot="btn" style="margin-bottom:30rpx;">
+            <view bindtap="__e" class="modal-cal-btn button data-v-5cf62488" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="{{['modal-btn1','button','data-v-5cf62488',!refuseChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'confirm',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm-modal>
+</view>

@@ -1,0 +1,22 @@
+{
+  "disableScroll": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "business-popup": "/pageChain/cardStatistics/components/businessdata-money-popup",
+    "calendar-month": "/pageChain/courseStatistics/compontents/calendar-month",
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "ff-counts-card": "/components/ff-counts-card/ff-counts-card",
+    "ff-date-card": "/components/ff-date-card/ff-date-card",
+    "ff-value-card": "/components/ff-value-card/ff-value-card",
+    "navigation": "/components/navigation/index",
+    "nodata": "/components/nodata/nodata",
+    "remark-order-popup": "/components/ff-textarea/ff-textarea",
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

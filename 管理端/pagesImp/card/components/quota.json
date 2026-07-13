@@ -1,0 +1,11 @@
+{
+  "component": true,
+  "usingComponents": {
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-switch": "/uview-ui/components/u-switch/u-switch",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

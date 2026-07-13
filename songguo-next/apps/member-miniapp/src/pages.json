@@ -1,0 +1,199 @@
+{
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^u-(.*)": "uview-plus/components/u-$1/u-$1.vue"
+		}
+	},
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "松果约课",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/booking/index",
+			"style": {
+				"navigationBarTitleText": "约课",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/booking/detail",
+			"style": {
+				"navigationBarTitleText": "课程详情"
+			}
+		},
+		{
+			"path": "pages/booking/my-appointments",
+			"style": {
+				"navigationBarTitleText": "我的预约",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/mine/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/mine/stats",
+			"style": {
+				"navigationBarTitleText": "上课统计"
+			}
+		},
+		{
+			"path": "pages/mine/points",
+			"style": {
+				"navigationBarTitleText": "积分明细",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/mine/profile",
+			"style": {
+				"navigationBarTitleText": "场馆资料"
+			}
+		},
+		{
+			"path": "pages/mine/ranking",
+			"style": {
+				"navigationBarTitleText": "月度排行"
+			}
+		},
+		{
+			"path": "pages/cards/index",
+			"style": {
+				"navigationBarTitleText": "我的会员卡",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/cards/detail",
+			"style": {
+				"navigationBarTitleText": "会员卡详情",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/cards/catalog",
+			"style": {
+				"navigationBarTitleText": "购买会员卡",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/cards/hidden",
+			"style": {
+				"navigationBarTitleText": "已隐藏会员卡",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/cards/benefits",
+			"style": {
+				"navigationBarTitleText": "会员卡权益",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/cards/transfer",
+			"style": {
+				"navigationBarTitleText": "领取会员卡"
+			}
+		},
+		{
+			"path": "pages/orders/index",
+			"style": {
+				"navigationBarTitleText": "我的订单",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/orders/result",
+			"style": {
+				"navigationBarTitleText": "购卡结果",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/notices/index",
+			"style": {
+				"navigationBarTitleText": "场馆通知",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/notices/detail",
+			"style": {
+				"navigationBarTitleText": "通知详情"
+			}
+		},
+		{
+			"path": "pages/sites/detail",
+			"style": {
+				"navigationBarTitleText": "场馆详情",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/onboarding/profile",
+			"style": { "navigationBarTitleText": "完善资料" }
+		},
+		{
+			"path": "pages/profile/index",
+			"style": { "navigationBarTitleText": "我的资料" }
+		},
+		{
+			"path": "pages/legal/index",
+			"style": {
+				"navigationBarTitleText": "会员协议"
+			}
+		},
+		{
+			"path": "pages/follow/official-account",
+			"style": {
+				"navigationBarTitleText": "关注公众号"
+			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": { "navigationBarTitleText": "会员登录" }
+		}
+	],
+	"tabBar": {
+		"color": "#505050",
+		"selectedColor": "#181818",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "static/tabbar/home.png",
+				"selectedIconPath": "static/tabbar/home-active.png"
+			},
+			{
+				"pagePath": "pages/booking/index",
+				"text": "约课",
+				"iconPath": "static/tabbar/booking.png",
+				"selectedIconPath": "static/tabbar/booking-active.png"
+			},
+			{
+				"pagePath": "pages/mine/index",
+				"text": "我的",
+				"iconPath": "static/tabbar/mine.png",
+				"selectedIconPath": "static/tabbar/mine-active.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "我要约课",
+		"navigationBarBackgroundColor": "#F5F5F5",
+		"backgroundColor": "#F5F5F5"
+	}
+}

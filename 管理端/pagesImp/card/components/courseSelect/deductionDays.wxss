@@ -1,0 +1,55 @@
+.main-box .radio-group.data-v-311c9853 {
+  display: block;
+  padding: 40rpx 58rpx 0;
+}
+.main-box .radio.data-v-311c9853 {
+  display: block;
+  height: 70rpx;
+}
+.main-box .radio-main.data-v-311c9853 {
+  align-items: center;
+  color: #7e7e7e;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+  width: 100%;
+}
+.main-box .radio-main.active.data-v-311c9853 {
+  color: #181818;
+  font-weight: 500;
+}
+.main-box .radio-main .com-input.data-v-311c9853 {
+  margin: 0 10rpx;
+  width: 150rpx;
+}
+.main-box .radio-main .com-input-disabled.data-v-311c9853 {
+  background: #f9f9f9 !important;
+  color: #dadada !important;
+}
+.main-box .tips.data-v-311c9853 {
+  animation: slideUpAndFade-data-v-311c9853 1s ease-out forwards;
+  color: #dc2e51;
+  font-size: 23rpx;
+  line-height: 36rpx;
+  padding: 30rpx 30rpx 0 100rpx;
+}
+@-webkit-keyframes slideUpAndFade-data-v-311c9853 {
+  from {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideUpAndFade-data-v-311c9853 {
+  from {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

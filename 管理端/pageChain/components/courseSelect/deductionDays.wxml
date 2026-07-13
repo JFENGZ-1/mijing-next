@@ -1,0 +1,18 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-763b999a" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="期限卡每过一天系统会自动减少一天，无需任何设置。这里的'不需要扣除'是指不需要额外扣除，比如会员持有一张团课卡，正常场景下她只能约团课；假如也允许她约精品课，那可以通过扣减天数的方式，会员约精品课会直接扣掉N天，用此方式加速耗卡" title="扣除期限" value="{{show}}" vueId="7087d764-1" vueSlots="{{['default','confrimBtn']}}">
+    <view class="com-button-f1 data-v-763b999a" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-763b999a" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'7087d764-2'+','+'7087d764-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-763b999a">
+        <u-radio-group bind:__l="__l" bind:input="__e" class="radio-group data-v-763b999a" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','ruleId','$event',[] ] ] ] ] ]}}" value="{{ruleId}}" vueId="{{'7087d764-3'+','+'7087d764-1'}}" vueSlots="{{['default']}}">
+            <u-radio bind:__l="__l" class="radio data-v-763b999a" name="no" vueId="{{'7087d764-4'+','+'7087d764-3'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-763b999a',ruleId==='no'?'active':'']}}">不需要扣除</view>
+            </u-radio>
+            <u-radio bind:__l="__l" class="radio data-v-763b999a" name="yes" vueId="{{'7087d764-5'+','+'7087d764-3'}}" vueSlots="{{['default']}}">
+                <view class="{{['radio-main','data-v-763b999a',ruleId==='yes'?'active':'']}}">扣除<u-input bind:__l="__l" bind:input="__e" class="{{['com-input','data-v-763b999a',ruleId==='no'?'com-input-disabled':'']}}" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','deductAmount','$event',[] ] ] ] ] ]}}" disabled="{{ruleId==='no'}}" placeholder="扣除天数" placeholderStyle="color:#DADADA" type="digit" value="{{deductAmount}}" vueId="{{'7087d764-6'+','+'7087d764-5'}}"></u-input>
+                </view>
+            </u-radio>
+        </u-radio-group>
+        <view class="tips data-v-763b999a" wx:if="{{ruleId==='yes'}}">
+            <text class="data-v-763b999a" style="font-weight:500;">警告：</text>“扣除”为高级功能，很少有人使用，若不理解上面的黄色说明则您肯定用不到此功能，请改回【不需要扣除】</view>
+    </view>
+</ff-popup>

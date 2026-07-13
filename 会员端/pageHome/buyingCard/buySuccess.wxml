@@ -1,0 +1,16 @@
+<view class="container data-v-a70755f2">
+    <view class="hint-contet data-v-a70755f2">
+        <view class="status-img-wrap data-v-a70755f2">
+            <image class="icon-img data-v-a70755f2" src="{{$root.m0}}"></image>
+        </view>
+        <view class="status-text data-v-a70755f2">购卡成功</view>
+        <view class="hint-text-sub data-v-a70755f2">
+            <text class="data-v-a70755f2">可在“我的”中查看
+如拥有多张，点击后面的卡即可切换至前面</text>
+        </view>
+    </view>
+    <view class="btn-wrap data-v-a70755f2">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-a70755f2" customStyle="{{confirBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['goMine'] ] ] ]}}" hairLine="{{false}}" shape="circle" type="custom" vueId="d97bc6ce-1" vueSlots="{{['default']}}">马上查看</u-button>
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-a70755f2" customStyle="{{goHomeBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['goHome'] ] ] ]}}" hairLine="{{false}}" shape="circle" type="custom" vueId="d97bc6ce-2" vueSlots="{{['default']}}">回首页</u-button>
+    </view>
+</view>

@@ -1,0 +1,375 @@
+<page-meta class="data-v-850f6d2c" pageStyle="{{'overflow:'+(show?'hidden':'visible')}}"></page-meta>
+<view class="data-v-850f6d2c">
+    <view class="data-v-850f6d2c" wx:if="{{isLoading}}">
+        <loading-pulse bind:__l="__l" class="data-v-850f6d2c" vueId="1261cc28-1"></loading-pulse>
+    </view>
+    <view bindtap="__e" class="data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'cancelBubbling',['$event'] ] ] ] ]}}" wx:else>
+        <view class="{{['fixed-box-wrap','data-v-850f6d2c',courseInfo.showBnt==5||courseInfo.showBnt==6||courseInfo.showBnt==7?'gray':'']}}" style="{{'height:'+(height?height:235)+'px'+';'}}">
+            <view class="fixed-box data-v-850f6d2c">
+                <view class="course-state-box data-v-850f6d2c" wx:if="{{courseInfo.showBnt==6}}">
+                    <image class="course-state-img data-v-850f6d2c" src="{{$root.m0}}"></image>
+                </view>
+                <view class="data-v-850f6d2c" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+                <view class="customBar data-v-850f6d2c" style="{{'height:'+CustomBar+'px'+';'}}">
+                    <view bindtap="__e" class="back-wrap data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}">
+                        <image class="icon-back data-v-850f6d2c" src="{{$root.m1}}"></image>
+                    </view>
+                    <view class="arrange-date data-v-850f6d2c">{{''+courseInfo.strArrangeDate+''}}</view>
+                </view>
+                <view class="content-box data-v-850f6d2c">
+                    <view class="left-module data-v-850f6d2c">
+                        <view class="top-view data-v-850f6d2c">
+                            <text class="courseName data-v-850f6d2c">{{$root.m2}}</text>
+                            <view class="tag-wrap data-v-850f6d2c" wx:if="{{courseInfo.tagData&&courseInfo.tagData!='不指定'}}">
+                                <image class="item1-img data-v-850f6d2c" src="{{$root.m3}}"></image>
+                                <text class="item1-text data-v-850f6d2c">{{courseInfo.tagData}}</text>
+                            </view>
+                        </view>
+                        <view class="center-view data-v-850f6d2c">
+                            <view class="info-text data-v-850f6d2c">
+                                <text class="data-v-850f6d2c" wx:if="{{courseInfo.courseAddr}}">{{courseInfo.courseAddr}}</text>
+                                <u-line bind:__l="__l" class="data-v-850f6d2c" color="#ffffff" direction="col" hairLine="{{false}}" length="24rpx" margin="0 14rpx" vueId="1261cc28-2" wx:if="{{courseInfo.courseAddr}}"></u-line>
+                                <text class="data-v-850f6d2c">难度</text>
+                            </view>
+                            <view class="star-level data-v-850f6d2c">
+                                <image class="item4img data-v-850f6d2c" src="{{i.m4}}" wx:for="{{$root.l0}}" wx:for-index="__i0__" wx:for-item="i" wx:key="$orig"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="right-module data-v-850f6d2c">
+                        <view class="start-time data-v-850f6d2c">{{courseInfo.strtime}}</view>
+                        <view class="end-time data-v-850f6d2c">{{courseInfo.strEndtime+'结束'}}</view>
+                    </view>
+                </view>
+                <view class="content-box data-v-850f6d2c" style="padding-bottom:80rpx;">
+                    <view class="left-module data-v-850f6d2c">
+                        <view class="bottom-view data-v-850f6d2c">
+                            <view class="course-photo data-v-850f6d2c">
+                                <image class="data-v-850f6d2c" src="{{courseInfo.staffFace}}"></image>
+                            </view>
+                            <view class="member-info data-v-850f6d2c">
+                                <view class="member-info-wrap data-v-850f6d2c">
+                                    <view class="name data-v-850f6d2c">{{$root.m5}}</view>
+                                    <view class="photo-info data-v-850f6d2c">
+                                        <view class="forespeak data-v-850f6d2c">
+                                            <view class="forespeak-num data-v-850f6d2c">{{'限'+courseInfo.teamOpenRule.maxMan+'人'}}</view>
+                                            <view class="min-num data-v-850f6d2c" wx:if="{{courseInfo.manCount<courseInfo.teamOpenRule.maxMan}}">{{'满'+courseInfo.teamOpenRule.minMan+'人开课'}}</view>
+                                            <view class="full-icon data-v-850f6d2c" wx:else>爆满</view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="right-module data-v-850f6d2c">
+                        <view class="btn-wrap data-v-850f6d2c">
+                            <view bindtap="__e" class="edit-btn handle-item data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'editCourse',['$event'] ] ] ] ]}}" style="margin-right:23rpx;" wx:if="{{!$root.m6}}">
+                                <text class="data-v-850f6d2c">编辑</text>
+                                <image class="data-v-850f6d2c" src="{{$root.m7}}"></image>
+                            </view>
+                            <view bindtap="__e" class="handle-item data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'share',['$event'] ] ] ] ]}}">
+                                <text class="data-v-850f6d2c">分享</text>
+                                <image class="data-v-850f6d2c" src="{{$root.m8}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="bg-img data-v-850f6d2c" style="{{'background:'+'url('+courseInfo.courseBacklog+')'+';'+'background-repeat:'+'no-repeat'+';'+'background-size:'+'110% 110%'+';'+'height:'+height+'px'+';'}}"></view>
+        </view>
+        <view class="img-box data-v-850f6d2c" style="{{'top:'+StatusBar+CustomBar-5+'px'+';'}}" wx:if="{{courseInfo.showBnt==5||courseInfo.showBnt==7}}">
+            <image class="data-v-850f6d2c" src="{{$root.m9}}" wx:if="{{courseInfo.showBnt==5}}"></image>
+            <image class="data-v-850f6d2c" src="{{$root.m10}}" wx:if="{{courseInfo.showBnt==7}}"></image>
+        </view>
+        <view class="mumber-list-wrap data-v-850f6d2c" style="{{'margin-top:'+(height?height-20:212)+'px'+';'}}">
+            <view class="mumber-num data-v-850f6d2c">
+                <view class="num-wrap data-v-850f6d2c">
+                    <text class="data-v-850f6d2c">{{'已约'+courseInfo.manCount+'人'}}</text>
+                    <text class="data-v-850f6d2c" wx:if="{{$root.g0>0}}">{{'排队'+$root.g1+'人'}}</text>
+                    <text class="data-v-850f6d2c" wx:if="{{courseInfo.nstatus==3}}">{{'签到'+$root.g2+'人'}}</text>
+                    <text class="data-v-850f6d2c" wx:if="{{courseInfo.nstatus==3}}">{{'旷课'+$root.g3+'人'}}</text>
+                </view>
+                <view class="btn-wrap data-v-850f6d2c" wx:if="{{!$root.m11}}">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-850f6d2c" customStyle="{{buttonReservation}}" data-event-opts="{{[ [ '^click',[ [ 'appointmentCourse',[1] ] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="1261cc28-3" vueSlots="{{['default']}}" wx:if="{{courseInfo.showBnt==2}}">代 约</u-button>
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-850f6d2c" customStyle="{{buttonQueueUp}}" data-event-opts="{{[ [ '^click',[ [ 'appointmentCourse',[1] ] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="1261cc28-4" vueSlots="{{['default']}}" wx:if="{{$root.g4}}">补约</u-button>
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-850f6d2c" customStyle="{{buttonQueueUp}}" data-event-opts="{{[ [ '^click',[ [ 'appointmentCourse',[2] ] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="1261cc28-5" vueSlots="{{['default']}}" wx:if="{{courseInfo.showBnt==3}}">代排队</u-button>
+                    <u-button bind:__l="__l" class="data-v-850f6d2c" customStyle="{{buttonEnd}}" hairLine="{{false}}" hoverClass="none" vueId="1261cc28-6" vueSlots="{{['default']}}" wx:if="{{courseInfo.showBnt==5}}">已停课</u-button>
+                </view>
+            </view>
+            <view class="list-wrap data-v-850f6d2c" wx:if="{{$root.g5}}">
+                <view class="min-height data-v-850f6d2c">
+                    <view class="list absentlist data-v-850f6d2c" wx:if="{{$root.g6>0}}">
+                        <view class="item data-v-850f6d2c" wx:for="{{$root.l1}}" wx:key="index">
+                            <view bindtap="__e" class="photo data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['absentlist','',index] ] ] ] ] ] ]}}">
+                                <image class="data-v-850f6d2c" src="{{item.$orig.userFaceurl}}"></image>
+                            </view>
+                            <view class="info_content data-v-850f6d2c">
+                                <view class="info_item data-v-850f6d2c">
+                                    <view class="left data-v-850f6d2c">
+                                        <view bindtap="__e" class="left name data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['absentlist','',index] ] ] ] ] ] ]}}">{{item.$orig.userRealname+''}}</view>
+                                        <view class="left date top_17 data-v-850f6d2c">{{item.$orig.createTime}}</view>
+                                        <view class="truant data-v-850f6d2c" wx:if="{{item.$orig.absenceCount>0}}">
+                                            <text class="data-v-850f6d2c">本月旷课{{item.$orig.absenceCount}}次</text>
+                                        </view>
+                                        <view class="remark data-v-850f6d2c" wx:if="{{item.$orig.staffRemark}}">
+                                            <text class="remarkfont data-v-850f6d2c">备注：</text>
+                                            <text class="remarkcontent data-v-850f6d2c">{{item.$orig.staffRemark?item.$orig.staffRemark:''}}</text>
+                                        </view>
+                                    </view>
+                                    <view class="right data-v-850f6d2c">
+                                        <view class="{{['right','price','data-v-850f6d2c',item.$orig.cardChangeAmount==0?'visible':'']}}">
+                                            <text class="plus-minus data-v-850f6d2c" wx:if="{{item.$orig.plusMinus}}">{{item.$orig.plusMinus}}</text>{{''+''+item.$orig.cardChangeAmount+item.$orig.unitName+(item.$orig.groupName||'')+''}}</view>
+                                        <view class="right card_info top_17 data-v-850f6d2c">
+                                            <image class="multi-card data-v-850f6d2c" src="{{item.m12}}" wx:if="{{item.$orig.cardCount>0}}"></image>
+                                            <text class="data-v-850f6d2c">{{item.m13}}</text>
+                                            <text class="card_balance data-v-850f6d2c">{{'余'+item.$orig.leftAmount+item.$orig.unitName+''}}</text>
+                                        </view>
+                                        <view class="right statue data-v-850f6d2c">
+                                            <view class="help_appointment help_wrap data-v-850f6d2c" wx:if="{{item.$orig.helpStaffName&&item.$orig.helpStaffFace}}">
+                                                <view class="help_photo data-v-850f6d2c">
+                                                    <image class="data-v-850f6d2c" src="{{item.$orig.helpStaffFace}}"></image>
+                                                </view>
+                                                <view class="help_name data-v-850f6d2c">{{item.m14+'操作'}}</view>
+                                            </view>
+                                            <view class="status_text data-v-850f6d2c" style="margin-left:6rpx;">
+                                                <text class="data-v-850f6d2c" style="{{'color:'+item.m15+';'}}">{{''+item.$orig.unionStatusName+''}}<text class="data-v-850f6d2c" style="margin-left:6rpx;" wx:if="{{item.$orig.manCount>1}}">{{'('+item.$orig.manCount+'人)'}}</text>
+                                                </text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="handle_module visible data-v-850f6d2c" wx:if="{{!item.m16}}">
+                                        <view class="icon_wrap data-v-850f6d2c">
+                                            <image class="data-v-850f6d2c" src="{{item.m17}}"></image>
+                                        </view>
+                                    </view>
+                                </view>
+                                <u-line bind:__l="__l" class="data-v-850f6d2c" color="#f5f5f5" hairLine="{{false}}" vueId="{{'1261cc28-7-'+index}}"></u-line>
+                            </view>
+                            <image class="truant_icon data-v-850f6d2c" src="{{item.m18}}"></image>
+                        </view>
+                    </view>
+                    <view class="list validlist data-v-850f6d2c" wx:if="{{$root.g7>0}}">
+                        <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-850f6d2c" height="23" vueId="1261cc28-8" wx:if="{{$root.g8>0}}"></u-gap>
+                        <view class="item data-v-850f6d2c" wx:for="{{$root.l2}}" wx:key="index">
+                            <view bindtap="__e" class="{{['photo','data-v-850f6d2c',item.$orig.appointStatus==6?'gray':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['validlist','',index] ] ] ] ] ] ]}}">
+                                <image class="data-v-850f6d2c" src="{{item.$orig.userFaceurl}}"></image>
+                            </view>
+                            <view class="info_content data-v-850f6d2c">
+                                <view class="info_item data-v-850f6d2c">
+                                    <view class="left data-v-850f6d2c">
+                                        <view bindtap="__e" class="left name data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['validlist','',index] ] ] ] ] ] ]}}">{{item.$orig.userRealname+''}}</view>
+                                        <view class="left date top_17 data-v-850f6d2c">{{item.$orig.createTime}}</view>
+                                        <view class="truant data-v-850f6d2c" wx:if="{{item.$orig.absenceCount>0}}">
+                                            <text class="data-v-850f6d2c">本月旷课{{item.$orig.absenceCount}}次</text>
+                                        </view>
+                                        <view class="remark data-v-850f6d2c" wx:if="{{item.$orig.staffRemark}}">
+                                            <text class="remarkfont data-v-850f6d2c">备注：</text>
+                                            <text class="remarkcontent data-v-850f6d2c">{{item.$orig.staffRemark?item.$orig.staffRemark:''}}</text>
+                                        </view>
+                                        <view class="remark data-v-850f6d2c" wx:if="{{item.$orig.otherSiteName}}">
+                                            <text class="other-site data-v-850f6d2c">门店</text>
+                                            <text class="other-name data-v-850f6d2c">{{item.$orig.otherSiteName?item.$orig.otherSiteName:''}}</text>
+                                        </view>
+                                    </view>
+                                    <view class="right data-v-850f6d2c">
+                                        <view class="{{['right','price','data-v-850f6d2c',item.$orig.cardChangeAmount==0?'visible':'']}}">
+                                            <text class="plus-minus data-v-850f6d2c" wx:if="{{item.$orig.plusMinus}}">{{item.$orig.plusMinus}}</text>{{''+''+item.$orig.cardChangeAmount+item.$orig.unitName+(item.$orig.groupName||'')+''}}</view>
+                                        <view class="right card_info top_17 data-v-850f6d2c">
+                                            <image class="multi-card data-v-850f6d2c" src="{{item.m19}}" wx:if="{{item.$orig.cardCount>0}}"></image>
+                                            <text class="data-v-850f6d2c">{{item.m20}}</text>
+                                            <text class="card_balance data-v-850f6d2c">{{'余'+item.$orig.leftAmount+item.$orig.unitName}}</text>
+                                        </view>
+                                        <view class="right statue data-v-850f6d2c">
+                                            <view class="help_appointment help_wrap data-v-850f6d2c" wx:if="{{item.$orig.helpStaffName&&item.$orig.helpStaffFace}}">
+                                                <view class="help_photo data-v-850f6d2c">
+                                                    <image class="data-v-850f6d2c" src="{{item.$orig.helpStaffFace}}"></image>
+                                                </view>
+                                                <view class="help_name data-v-850f6d2c">{{item.m21+'操作'}}</view>
+                                            </view>
+                                            <view class="status_text data-v-850f6d2c" style="margin-left:6rpx;">
+                                                <text class="data-v-850f6d2c" style="{{'color:'+item.m22+';'}}">{{''+item.$orig.unionStatusName+''}}<text class="data-v-850f6d2c" style="margin-left:3rpx;" wx:if="{{item.$orig.manCount>1}}">{{'('+item.$orig.manCount+'人)'}}</text>
+                                                </text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="handle_module data-v-850f6d2c" wx:if="{{!item.m23}}">
+                                        <view catchtap="__e" class="icon_wrap data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'showDrop',['validlist',index] ] ] ] ]}}">
+                                            <image class="data-v-850f6d2c" src="{{item.m24}}"></image>
+                                        </view>
+                                        <view class="drop_down data-v-850f6d2c" hidden="{{!item.$orig.showDown}}">
+                                            <view class="image_wrap data-v-850f6d2c">
+                                                <image class="data-v-850f6d2c" src="{{item.m25}}"></image>
+                                            </view>
+                                            <view class="drop_down_list data-v-850f6d2c">
+                                                <view catchtap="__e" class="item data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'cancelAppointment',['$0'],[ [ ['validlist','',index] ] ] ] ] ] ]}}">
+                                                    <image class="data-v-850f6d2c" src="{{item.m26}}" style="width:34rpx;height:33rpx;"></image>
+                                                    <text class="data-v-850f6d2c">取消预约</text>
+                                                </view>
+                                                <view catchtap="__e" class="item data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'truant',['$0'],[ [ ['validlist','',index] ] ] ] ] ] ]}}" wx:if="{{item.$orig.appointStatus==1||item.$orig.appointStatus==4||item.$orig.appointStatus==5}}">
+                                                    <image class="data-v-850f6d2c" src="{{item.m27}}" style="width:34rpx;height:33rpx;"></image>
+                                                    <text class="data-v-850f6d2c">旷课</text>
+                                                </view>
+                                                <view catchtap="__e" class="item data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'remark',['$0'],[ [ ['validlist','',index] ] ] ] ] ] ]}}">
+                                                    <image class="data-v-850f6d2c" src="{{item.m28}}" style="width:34rpx;height:33rpx;"></image>
+                                                    <text class="data-v-850f6d2c">写备注</text>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <u-line bind:__l="__l" class="data-v-850f6d2c" color="#f5f5f5" hairLine="{{false}}" vueId="{{'1261cc28-9-'+index}}"></u-line>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="list linelist data-v-850f6d2c" wx:if="{{$root.g9>0}}">
+                        <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-850f6d2c" height="23" vueId="1261cc28-10" wx:if="{{$root.g10}}"></u-gap>
+                        <view class="item data-v-850f6d2c" wx:for="{{$root.l3}}" wx:key="index">
+                            <view bindtap="__e" class="{{['photo','data-v-850f6d2c',item.$orig.waitStatus==2||item.$orig.waitStatus==4?'gray':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['linelist','',index] ] ] ] ] ] ]}}">
+                                <image class="data-v-850f6d2c" src="{{item.$orig.userFaceurl}}"></image>
+                            </view>
+                            <view class="info_content data-v-850f6d2c">
+                                <view class="info_item data-v-850f6d2c">
+                                    <view class="left data-v-850f6d2c">
+                                        <view bindtap="__e" class="left name data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['linelist','',index] ] ] ] ] ] ]}}">{{item.$orig.userRealname}}</view>
+                                        <view class="left date top_17 data-v-850f6d2c">{{item.$orig.createTime}}</view>
+                                        <view class="truant data-v-850f6d2c" wx:if="{{item.$orig.absenceCount>0}}">
+                                            <text class="data-v-850f6d2c">本月旷课{{item.$orig.absenceCount}}次</text>
+                                        </view>
+                                        <view class="remark data-v-850f6d2c" wx:if="{{item.$orig.staffRemark}}">
+                                            <text class="remarkfont data-v-850f6d2c">备注：</text>
+                                            <text class="remarkcontent data-v-850f6d2c">{{item.$orig.staffRemark?item.$orig.staffRemark:''}}</text>
+                                        </view>
+                                        <view class="remark data-v-850f6d2c" wx:if="{{item.$orig.otherSiteName}}">
+                                            <text class="other-site data-v-850f6d2c">门店</text>
+                                            <text class="other-name data-v-850f6d2c">{{item.$orig.otherSiteName?item.$orig.otherSiteName:''}}</text>
+                                        </view>
+                                    </view>
+                                    <view class="right data-v-850f6d2c">
+                                        <view class="{{['right','price','data-v-850f6d2c',item.$orig.cardChangeAmount==0?'visible':'']}}">
+                                            <text class="plus-minus data-v-850f6d2c" wx:if="{{item.$orig.plusMinus}}">{{item.$orig.plusMinus}}</text>{{''+''+item.$orig.cardChangeAmount+item.$orig.unitName+(item.$orig.groupName||'')+''}}</view>
+                                        <view class="right card_info top_17 data-v-850f6d2c">
+                                            <image class="multi-card data-v-850f6d2c" src="{{item.m29}}" wx:if="{{item.$orig.cardCount>0}}"></image>
+                                            <text class="data-v-850f6d2c">{{item.m30}}</text>
+                                            <text class="card_balance data-v-850f6d2c">{{'余'+item.$orig.leftAmount+item.$orig.unitName}}</text>
+                                        </view>
+                                        <view class="right statue data-v-850f6d2c">
+                                            <view class="help_appointment help_wrap data-v-850f6d2c" wx:if="{{item.$orig.helpStaffName&&item.$orig.helpStaffFace&&item.$orig.unionStatusId!==12}}">
+                                                <view class="help_photo data-v-850f6d2c">
+                                                    <image class="data-v-850f6d2c" src="{{item.$orig.helpStaffFace}}"></image>
+                                                </view>
+                                                <view class="help_name data-v-850f6d2c">{{item.m31+'操作'}}</view>
+                                            </view>
+                                            <view class="status_text data-v-850f6d2c" style="margin-left:6rpx;">
+                                                <text class="data-v-850f6d2c" style="{{'color:'+item.m32+';'}}">
+                                                    <text class="data-v-850f6d2c" style="margin-left:3rpx;" wx:if="{{item.$orig.formFailMsg}}">{{item.$orig.formFailMsg||''}}</text>{{''+item.$orig.unionStatusName+''}}<text class="data-v-850f6d2c" style="margin-left:3rpx;" wx:if="{{item.$orig.manCount>1}}">{{'('+item.$orig.manCount+'人)'}}</text>
+                                                </text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="{{['handle_module','data-v-850f6d2c',item.$orig.waitStatus==2||item.$orig.waitStatus==4?'visible':'']}}" wx:if="{{!item.m33}}">
+                                        <view catchtap="__e" class="icon_wrap data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'showDrop',['linelist',index] ] ] ] ]}}">
+                                            <image class="data-v-850f6d2c" src="{{item.m34}}"></image>
+                                        </view>
+                                        <view class="drop_down data-v-850f6d2c" hidden="{{!item.$orig.showDown}}">
+                                            <view class="image_wrap data-v-850f6d2c">
+                                                <image class="data-v-850f6d2c" src="{{item.m35}}"></image>
+                                            </view>
+                                            <view class="drop_down_list data-v-850f6d2c">
+                                                <view catchtap="__e" class="item data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'cancellineUp',['$0'],[ [ ['linelist','',index] ] ] ] ] ] ]}}">
+                                                    <image class="data-v-850f6d2c" src="{{item.m36}}" style="width:39rpx;height:39rpx;"></image>
+                                                    <text class="data-v-850f6d2c">取消排队</text>
+                                                </view>
+                                                <view catchtap="__e" class="item data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'remark',['$0'],[ [ ['linelist','',index] ] ] ] ] ] ]}}">
+                                                    <image class="data-v-850f6d2c" src="{{item.m37}}" style="width:34rpx;height:33rpx;"></image>
+                                                    <text class="data-v-850f6d2c">写备注</text>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <u-line bind:__l="__l" class="data-v-850f6d2c" color="#f5f5f5" hairLine="{{false}}" vueId="{{'1261cc28-11-'+index}}"></u-line>
+                            </view>
+                            <view class="line_up_wrap data-v-850f6d2c">
+                                <image class="data-v-850f6d2c" src="{{item.m38}}" wx:if="{{item.$orig.waitStatus==2||item.$orig.waitStatus==4}}"></image>
+                                <image class="data-v-850f6d2c" src="{{item.m39}}" wx:else></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="list cancellist data-v-850f6d2c" wx:if="{{$root.g11>0}}">
+                        <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-850f6d2c" height="23" vueId="1261cc28-12" wx:if="{{$root.g12}}"></u-gap>
+                        <view class="item data-v-850f6d2c" wx:for="{{$root.l4}}" wx:key="index">
+                            <view bindtap="__e" class="photo gray data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['cancellist','',index] ] ] ] ] ] ]}}">
+                                <image class="data-v-850f6d2c" src="{{item.$orig.userFaceurl}}"></image>
+                            </view>
+                            <view class="info_content data-v-850f6d2c">
+                                <view class="info_item data-v-850f6d2c">
+                                    <view class="left data-v-850f6d2c">
+                                        <view bindtap="__e" class="left name strikethrough data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['cancellist','',index] ] ] ] ] ] ]}}">{{''+item.$orig.userRealname+''}}</view>
+                                        <view class="left date top_17 data-v-850f6d2c">{{item.$orig.createTime}}</view>
+                                        <view class="truant data-v-850f6d2c" wx:if="{{item.$orig.absenceCount>0}}">
+                                            <text class="data-v-850f6d2c">本月旷课{{item.$orig.absenceCount}}次</text>
+                                        </view>
+                                        <view class="remark data-v-850f6d2c" wx:if="{{item.$orig.staffRemark}}">
+                                            <text class="remarkfont data-v-850f6d2c">备注：</text>
+                                            <text class="remarkcontent data-v-850f6d2c">{{item.$orig.staffRemark?item.$orig.staffRemark:''}}</text>
+                                        </view>
+                                        <view class="remark data-v-850f6d2c" wx:if="{{item.$orig.otherSiteName}}">
+                                            <text class="other-site data-v-850f6d2c">门店</text>
+                                            <text class="other-name data-v-850f6d2c">{{item.$orig.otherSiteName?item.$orig.otherSiteName:''}}</text>
+                                        </view>
+                                    </view>
+                                    <view class="right data-v-850f6d2c">
+                                        <view class="{{['right','price','data-v-850f6d2c',item.$orig.cardChangeAmount==0?'visible':'']}}">
+                                            <text class="plus-minus data-v-850f6d2c" wx:if="{{item.$orig.plusMinus}}">{{item.$orig.plusMinus}}</text>{{''+''+item.$orig.cardChangeAmount+item.$orig.unitName+(item.$orig.groupName||'')+''}}</view>
+                                        <view class="right card_info top_17 data-v-850f6d2c">
+                                            <image class="multi-card data-v-850f6d2c" src="{{item.m40}}" wx:if="{{item.$orig.cardCount>0}}"></image>
+                                            <text class="data-v-850f6d2c">{{item.m41}}</text>
+                                            <text class="card_balance data-v-850f6d2c">{{'余'+item.$orig.leftAmount+item.$orig.unitName}}</text>
+                                        </view>
+                                        <view class="right statue data-v-850f6d2c">
+                                            <view class="help_appointment help_wrap data-v-850f6d2c" wx:if="{{item.$orig.helpStaffName&&item.$orig.helpStaffFace}}">
+                                                <view class="help_photo data-v-850f6d2c">
+                                                    <image class="data-v-850f6d2c" src="{{item.$orig.helpStaffFace}}"></image>
+                                                </view>
+                                                <view class="help_name data-v-850f6d2c">{{item.m42+'操作'}}</view>
+                                            </view>
+                                            <view class="status_text data-v-850f6d2c" style="margin-left:6rpx;">
+                                                <text class="data-v-850f6d2c" style="{{'color:'+item.m43+';'}}">{{''+item.$orig.unionStatusName+''}}<text class="data-v-850f6d2c" style="margin-left:3rpx;" wx:if="{{item.$orig.manCount>1}}">{{'('+item.$orig.manCount+'人)'}}</text>
+                                                </text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="handle_module visible data-v-850f6d2c" wx:if="{{!item.m44}}">
+                                        <view catchtap="__e" class="icon_wrap data-v-850f6d2c" data-event-opts="{{[ [ 'tap',[ [ 'showDrop',['$event'] ] ] ] ]}}">
+                                            <image class="data-v-850f6d2c" src="{{item.m45}}"></image>
+                                        </view>
+                                    </view>
+                                </view>
+                                <u-line bind:__l="__l" class="data-v-850f6d2c" color="#f5f5f5" hairLine="{{false}}" vueId="{{'1261cc28-13-'+index}}"></u-line>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="sign_hint_wrap data-v-850f6d2c">
+                    <u-icon bind:__l="__l" class="data-v-850f6d2c" color="#C96B30" name="bell" size="28" vueId="1261cc28-14"></u-icon>
+                    <text class="data-v-850f6d2c" wx:if="{{courseInfo.signDate}}">{{'由系统于'+courseInfo.signDate+'签到完成'}}</text>
+                    <text class="data-v-850f6d2c" wx:else>下课后，将由系统5分钟内自动签到</text>
+                </view>
+            </view>
+            <view class="noData data-v-850f6d2c" wx:else>
+                <image class="data-v-850f6d2c" src="{{$root.m46}}"></image>
+                <text class="data-v-850f6d2c">~ 还没有会员预约哦 ~</text>
+            </view>
+            <ff-bottom-logo bind:__l="__l" class="data-v-850f6d2c" vueId="1261cc28-15"></ff-bottom-logo>
+        </view>
+    </view>
+    <member-search bind:__l="__l" bind:ok="__e" class="data-v-850f6d2c vue-ref" data-event-opts="{{[ [ '^ok',[ ['modifySuccess'] ] ] ]}}" data-ref="mumberSearch" vueId="1261cc28-16"></member-search>
+    <course-management bind:__l="__l" bind:delSuccess="__e" bind:success="__e" cardShow="{{false}}" class="data-v-850f6d2c vue-ref" data-event-opts="{{[ [ '^delSuccess',[ [''] ] ],[ '^success',[ ['modifySuccess'] ] ] ]}}" data-ref="courseManagement" vueId="1261cc28-17"></course-management>
+    <confirm-modal bind:__l="__l" bind:cancel="__e" bind:confirm="__e" class="data-v-850f6d2c vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^cancel',[ ['cancel'] ] ] ]}}" data-ref="confirmModal" title="{{confirmModalTitle}}" vueId="1261cc28-18" vueSlots="{{['content']}}">
+        <view class="data-v-850f6d2c" slot="content">
+            <view class="data-v-850f6d2c" wx:if="{{hintShow}}">将退还已扣（若有）相应费用</view>
+            <view class="data-v-850f6d2c" wx:else>标记为旷课后，不可取消！！</view>
+        </view>
+    </confirm-modal>
+    <remark-order-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-850f6d2c vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editRemark'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkAppointment" vueId="1261cc28-19"></remark-order-popup>
+</view>

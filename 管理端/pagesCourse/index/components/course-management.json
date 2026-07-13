@@ -1,0 +1,15 @@
+{
+  "component": true,
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "select-background-color": "/pagesCourse/index/components/select-backgroundcolor",
+    "select-courses": "/pagesCourse/index/components/select-courses",
+    "select-time": "/pagesCourse/index/components/select-time",
+    "subject-card": "/pagesCourse/index/components/subject-card",
+    "subject-trainer": "/pagesCourse/subject/subject-compontent/subject-trainer",
+    "u-col": "/uview-ui/components/u-col/u-col",
+    "u-row": "/uview-ui/components/u-row/u-row",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

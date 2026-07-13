@@ -1,0 +1,39 @@
+<view class="data-v-cebfcb60">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-cebfcb60" text="{{title}}" vueId="fdad8960-1"></navigation>
+    <view class="all-course-warp data-v-cebfcb60" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content-warp content-height data-v-cebfcb60">
+            <view class="tip data-v-cebfcb60" wx:if="{{$root.g0}}">{{'排期中共'+planCount+'节'}}</view>
+            <view class="list-warp data-v-cebfcb60" wx:if="{{$root.g1}}">
+                <view class="box data-v-cebfcb60">
+                    <view class="item data-v-cebfcb60" wx:for="{{$root.l0}}" wx:key="index">
+                        <view class="{{['date','data-v-cebfcb60',item.g2?'active':'']}}">
+                            <text class="data-v-cebfcb60">{{item.$orig.dayName}}</text>
+                            <text class="data-v-cebfcb60">{{item.$orig.weekName}}</text>
+                        </view>
+                        <view class="class data-v-cebfcb60">
+                            <subject-card bind:__l="__l" class="data-v-cebfcb60" groupData="{{item2}}" isTime="{{true}}" vueId="{{'fdad8960-2-'+index+'-'+index2}}" wx:for="{{item.$orig.list}}" wx:for-index="index2" wx:for-item="item2" wx:key="index2"></subject-card>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-cebfcb60" wx:if="{{$root.g3==0}}">
+                <nodata bind:__l="__l" class="data-v-cebfcb60" msg="{{11}}" vueId="fdad8960-3"></nodata>
+            </view>
+            <no-more bind:__l="__l" class="data-v-cebfcb60" vueId="fdad8960-4" wx:if="{{$root.g4}}"></no-more>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-cebfcb60" vueId="fdad8960-5" wx:if="{{pageNo!=1&&!hasNext}}"></ff-bottom-logo>
+        <select-courses bind:__l="__l" bind:openTime="__e" class="data-v-cebfcb60 vue-ref" data-event-opts="{{[ [ '^openTime',[ ['selectCourses'] ] ] ]}}" data-ref="selectCourses" vueId="fdad8960-6"></select-courses>
+        <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-cebfcb60 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirmDel'] ] ] ]}}" data-ref="confirmModal" title="是否全部删除？" vueId="fdad8960-7" vueSlots="{{['content']}}">
+            <text class="data-v-cebfcb60" slot="content">确定后,将全部删除此课程的全部排课</text>
+        </confirm-modal>
+        <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-cebfcb60 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirmStop'] ] ] ]}}" data-ref="confirmModal2" title="是否全部停课？" vueId="fdad8960-8" vueSlots="{{['content']}}">
+            <view slot="content">
+                <view class="data-v-cebfcb60">a、改为停课状态后，会员将不可预约</view>
+                <view class="data-v-cebfcb60">b、如已有会员预约，将取消预约并下发停课通知</view>
+            </view>
+        </confirm-modal>
+        <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-cebfcb60 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirmOk'] ] ] ]}}" data-ref="confirmModal3" title="是否整体换课吗？" vueId="fdad8960-9" vueSlots="{{['content']}}">
+            <view class="data-v-cebfcb60" slot="content">此为批量操作，请谨慎操作</view>
+        </confirm-modal>
+    </view>
+</view>

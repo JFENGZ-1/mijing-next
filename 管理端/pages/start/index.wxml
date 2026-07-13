@@ -1,0 +1,18 @@
+<view class="data-v-24282023">
+    <view class="main data-v-24282023">
+        <view class="wrap data-v-24282023">
+            <view class="animation-wrap data-v-24282023"></view>
+        </view>
+        <image class="data-v-24282023" src="/static/imgs/startlogo.png"></image>
+    </view>
+    <view class="upgrade-container data-v-24282023" wx:if="{{errText}}">
+        <view class="upgrade-title data-v-24282023">系统正在升级中..</view>
+        <view class="upgrade-desc data-v-24282023">
+            <view class="data-v-24282023">{{errText}}</view>
+        </view>
+        <view class="upgrade-tip data-v-24282023">
+            <image class="icon-horn data-v-24282023" src="/static/imgs/laba.png"></image>
+            <text class="data-v-24282023">无需联系客服，耐心等待即可</text>
+        </view>
+    </view>
+</view>

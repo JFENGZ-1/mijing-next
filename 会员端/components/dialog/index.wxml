@@ -1,0 +1,19 @@
+<view class="data-v-2d715ad4">
+    <u-popup bind:__l="__l" bind:input="__e" borderRadius="32" class="ff-popup-box data-v-2d715ad4" closeable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="{{height}}" mask="{{mask}}" mode="bottom" moreElement="{{moreElement}}" value="{{show}}" vueId="f375a180-1" vueSlots="{{['default','moreElement']}}">
+        <view class="main data-v-2d715ad4" style="{{'height:'+viewHeight+';'}}">
+            <view catchtouchmove="__e" class="header data-v-2d715ad4" data-event-opts="{{[ [ 'touchmove',[ [ '',['$event'] ] ] ] ]}}">
+                <view class="title data-v-2d715ad4">{{title}}</view>
+                <image bindtap="__e" class="close data-v-2d715ad4" data-event-opts="{{[ [ 'tap',[ [ 'close',['$event'] ] ] ] ]}}" src="{{$root.m0}}"></image>
+            </view>
+            <view class="content data-v-2d715ad4">
+                <slot name="content"></slot>
+            </view>
+            <view catchtouchmove="__e" class="footer data-v-2d715ad4" data-event-opts="{{[ [ 'touchmove',[ [ '',['$event'] ] ] ] ]}}" wx:if="{{btnShow}}">
+                <slot name="btn-wrap"></slot>
+            </view>
+        </view>
+        <view catchtouchmove="__e" class="data-v-2d715ad4" data-event-opts="{{[ [ 'touchmove',[ [ '',['$event'] ] ] ] ]}}" slot="moreElement">
+            <slot name="moreElement"></slot>
+        </view>
+    </u-popup>
+</view>

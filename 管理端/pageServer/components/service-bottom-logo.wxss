@@ -1,0 +1,21 @@
+.logo-container.data-v-0e79ad11 {
+  background: #f5f5f5;
+  padding: 50rpx 0 30rpx;
+}
+.logo-container .bottom-logo.data-v-0e79ad11 {
+  background: #f5f5f5;
+  text-align: center;
+}
+.logo-container .bottom-logo image.data-v-0e79ad11 {
+  height: 67rpx;
+  width: 182rpx;
+}
+.logo-container .bottom-text.data-v-0e79ad11 {
+  bottom: 74rpx;
+  color: #989898;
+  font-size: 19rpx;
+  height: 100rpx;
+  margin-top: 25rpx;
+  text-align: center;
+  width: 100%;
+}

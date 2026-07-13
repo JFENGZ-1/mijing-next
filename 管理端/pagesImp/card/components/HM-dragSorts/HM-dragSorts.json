@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "ff-counts-card": "/components/ff-counts-card/ff-counts-card",
+    "ff-date-card": "/components/ff-date-card/ff-date-card",
+    "ff-value-card": "/components/ff-value-card/ff-value-card",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

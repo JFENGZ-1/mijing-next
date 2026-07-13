@@ -1,0 +1,16 @@
+<u-modal bind:__l="__l" bind:input="__e" class="data-v-92b9ddc6" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" showConfirmButton="{{false}}" showTitle="{{false}}" value="{{show}}" vueId="54114e2d-1" vueSlots="{{['default']}}" width="{{700}}">
+    <view class="modal data-v-92b9ddc6">
+        <view class="modal-title data-v-92b9ddc6" wx:if="{{title}}">{{title||''}}</view>
+        <view class="modal-content data-v-92b9ddc6">
+            <slot name="content"></slot>
+        </view>
+        <view class="btn data-v-92b9ddc6" wx:if="{{customBtn}}">
+            <slot name="btn"></slot>
+        </view>
+        <view class="btn data-v-92b9ddc6" wx:else>
+            <view bindtap="__e" class="modal-cal-btn button data-v-92b9ddc6" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view class="loading-btn data-v-92b9ddc6" wx:if="{{isLoading}}">处理中</view>
+            <view bindtap="__e" class="modal-btn button data-v-92b9ddc6" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtn',['$event'] ] ] ] ]}}" wx:else>确定</view>
+        </view>
+    </view>
+</u-modal>

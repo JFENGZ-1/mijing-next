@@ -1,0 +1,20 @@
+.modal.data-v-09f165f4 {
+  padding: 48rpx 40rpx 0rpx 50rpx;
+}
+.modal .modal-title.data-v-09f165f4 {
+  color: #181818;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+.modal .modal-content.data-v-09f165f4 {
+  color: #989898;
+  font-size: 25rpx;
+  line-height: 39rpx;
+  margin-top: 18rpx;
+}
+.modal .btn.data-v-09f165f4 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 45rpx;
+}

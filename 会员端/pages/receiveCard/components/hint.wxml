@@ -1,0 +1,19 @@
+<view class="data-v-317e7b86">
+    <dialog bind:__l="__l" bind:input="__e" class="data-v-317e7b86" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" title="提示" value="{{show}}" vueId="1bb5a7eb-1" vueSlots="{{['content']}}">
+        <view class="data-v-317e7b86" slot="content">
+            <view class="error data-v-317e7b86">
+                <u-icon bind:__l="__l" class="data-v-317e7b86" color="#ffffff" name="error" size="90" vueId="{{'1bb5a7eb-2'+','+'1bb5a7eb-1'}}"></u-icon>
+            </view>
+            <view class="error-text data-v-317e7b86">手机号不匹配</view>
+            <view class="hint-info data-v-317e7b86">
+                <view class="text data-v-317e7b86">您刚注册的手机号：<text class="phone data-v-317e7b86">{{currentPhone}}</text>
+                </view>
+                <view class="text data-v-317e7b86">场馆预留的手机号：<text class="phone data-v-317e7b86">{{phone}}</text>
+                </view>
+                <view bindtap="__e" class="btn data-v-317e7b86" data-event-opts="{{[ [ 'tap',[ [ 'changePhone',['$event'] ] ] ] ]}}">更换手机号</view>
+                <view class="text data-v-317e7b86">若场馆已更改您的手机号，您可以点击<text bindtap="__e" class="refresh data-v-317e7b86" data-event-opts="{{[ [ 'tap',[ [ 'refresh',['$event'] ] ] ] ]}}">刷新</text>
+                </view>
+            </view>
+        </view>
+    </dialog>
+</view>

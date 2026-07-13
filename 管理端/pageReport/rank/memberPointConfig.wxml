@@ -1,0 +1,141 @@
+<view class="data-v-28a196ff">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-28a196ff" text="积分设置" vueId="77a2c7c3-1"></navigation>
+    <view class="main data-v-28a196ff" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="head data-v-28a196ff" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="page-integral data-v-28a196ff">
+                <view class="top data-v-28a196ff">
+                    <view class="label data-v-28a196ff">积分功能</view>
+                    <u-switch bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-28a196ff" data-event-opts="{{[ [ '^change',[ ['headlestart'] ] ],[ '^input',[ [ '__set_model',[ '','start','$event',[] ] ] ] ] ]}}" value="{{start}}" vueId="77a2c7c3-2"></u-switch>
+                </view>
+                <view class="content data-v-28a196ff">
+                    <view class="data-v-28a196ff" wx:if="{{start1==1}}">
+                        <view class="get-conditions data-v-28a196ff">
+                            <text class="label data-v-28a196ff">获取条件：</text>
+                            <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-28a196ff" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','pointCondition','$event',[] ],['data'] ] ] ] ]}}" value="{{data.pointCondition}}" vueId="77a2c7c3-3" vueSlots="{{['default']}}">
+                                <u-radio appearance="circle" bind:__l="__l" class="radio1 data-v-28a196ff" name="0" vueId="{{'77a2c7c3-4'+','+'77a2c7c3-3'}}" vueSlots="{{['default']}}">
+                                    <text class="radio-text data-v-28a196ff">签到得积分</text>
+                                </u-radio>
+                                <u-radio bind:__l="__l" class="radio1 data-v-28a196ff" disabled="{{true}}" name="1" vueId="{{'77a2c7c3-5'+','+'77a2c7c3-3'}}" vueSlots="{{['default']}}">
+                                    <text class="radio-text1 data-v-28a196ff">仅会员自主签到得积分</text>
+                                </u-radio>
+                            </u-radio-group>
+                        </view>
+                        <view class="check-groups data-v-28a196ff">
+                            <view class="data-v-28a196ff" style="{{'margin-bottom:'+'22rpx'+';'}}">
+                                <view class="checkbox-item data-v-28a196ff">
+                                    <view class="checkbox-left data-v-28a196ff">
+                                        <u-checkbox bind:__l="__l" bind:change="__e" class="data-v-28a196ff" data-event-opts="{{[ [ '^change',[ ['checkboxChange'] ] ] ]}}" name="team" shape="circle" value="{{data.teamCheck}}" vueId="77a2c7c3-6" vueSlots="{{['default']}}">
+                                            <text class="{{['checkbox-label','data-v-28a196ff',data.teamCheck?'label-ation':'']}}">签到团课时</text>
+                                        </u-checkbox>
+                                    </view>
+                                    <view class="count-box data-v-28a196ff">
+                                        <text class="data-v-28a196ff">1 次 = </text>
+                                        <input bindinput="__e" class="{{['input','data-v-28a196ff',!data.teamCheck?'input-box-disable':'']}}" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','teamSignVal','$event',[] ],['data'] ] ] ] ]}}" disabled="{{!data.teamCheck}}" placeholder="{{data.teamCheck?'0':''}}" placeholderClass="placeholder-style" type="digit" value="{{data.teamSignVal}}"></input>
+                                        <text class="data-v-28a196ff">积分</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="checkbox-item checkbox-item-sub special data-v-28a196ff" wx:if="{{data.teamCheck}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="label-box data-v-28a196ff">{{item.m0}}</view>
+                                <view class="count-box data-v-28a196ff">
+                                    <text class="data-v-28a196ff">1 次 = </text>
+                                    <input bindinput="__e" class="input input-sub data-v-28a196ff" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','pointVal','$event',[] ],[ [ ['data.tagList','',index] ] ] ] ] ] ]}}" placeholderClass="placeholder-style" type="digit" value="{{item.$orig.pointVal}}"></input>
+                                    <text class="data-v-28a196ff">积分</text>
+                                </view>
+                            </view>
+                            <view class="tips data-v-28a196ff" wx:if="{{$root.g0}}">
+                                <view class="data-v-28a196ff">・这里的1次是指签到1次课，不是指次卡中划掉1次</view>
+                                <view class="data-v-28a196ff">・可按标签设置，不同的标签设置不同的积分</view>
+                                <view class="data-v-28a196ff">・若所有团课计分一致，带标签的数值保持为空即可</view>
+                            </view>
+                            <view class="data-v-28a196ff" style="{{'margin-bottom:'+'22rpx'+';'}}">
+                                <view class="checkbox-item data-v-28a196ff">
+                                    <view class="checkbox-left data-v-28a196ff">
+                                        <u-checkbox bind:__l="__l" bind:change="__e" class="data-v-28a196ff" data-event-opts="{{[ [ '^change',[ ['checkboxChange'] ] ] ]}}" name="private" shape="circle" value="{{data.privateCheck}}" vueId="77a2c7c3-7" vueSlots="{{['default']}}">
+                                            <text class="{{['checkbox-label','data-v-28a196ff',data.privateCheck?'label-ation':'']}}">签到私教时</text>
+                                        </u-checkbox>
+                                    </view>
+                                    <view class="count-box data-v-28a196ff">
+                                        <text class="data-v-28a196ff">1 次 = </text>
+                                        <input bindinput="__e" class="{{['input','data-v-28a196ff',!data.privateCheck?'input-box-disable':'']}}" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','privateSignVal','$event',[] ],['data'] ] ] ] ]}}" disabled="{{!data.privateCheck}}" placeholder="{{data.privateCheck?'0':''}}" placeholderClass="placeholder-style" type="digit" value="{{data.privateSignVal}}"></input>
+                                        <text class="data-v-28a196ff">积分</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="data-v-28a196ff">
+                                <view class="checkbox-item data-v-28a196ff">
+                                    <view class="checkbox-left data-v-28a196ff">
+                                        <u-checkbox bind:__l="__l" bind:change="__e" class="data-v-28a196ff" data-event-opts="{{[ [ '^change',[ ['checkboxChange'] ] ] ]}}" name="buyCard" shape="circle" value="{{data.buyCardCheck}}" vueId="77a2c7c3-8" vueSlots="{{['default']}}">
+                                            <view class="{{['checkbox-label','data-v-28a196ff',data.buyCardCheck?'label-ation':'']}}">购卡/发卡时</view>
+                                        </u-checkbox>
+                                    </view>
+                                    <view class="count-box data-v-28a196ff">
+                                        <text class="data-v-28a196ff">1 元 = </text>
+                                        <input bindinput="__e" class="{{['input','data-v-28a196ff',!data.buyCardCheck?'input-box-disable':'']}}" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','buyCardVal','$event',[] ],['data'] ] ] ] ]}}" disabled="{{!data.buyCardCheck}}" placeholder="{{data.buyCardCheck?'0':''}}" placeholderClass="placeholder-style" type="digit" value="{{data.buyCardVal}}"></input>
+                                        <text class="data-v-28a196ff">积分</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="point-explain data-v-28a196ff">
+                            <view class="point-explain-head data-v-28a196ff">积分说明（将展示给会员）：</view>
+                            <view class="membership-editor data-v-28a196ff">
+                                <view class="container data-v-28a196ff">
+                                    <form class="data-v-28a196ff">
+                                        <view class="form-group form-column data-v-28a196ff">
+                                            <editor bindfocus="__e" bindinput="__e" bindready="__e" class="ql-container data-v-28a196ff" data-event-opts="{{[ [ 'input',[ [ 'onInput',['$event'] ] ] ],[ 'ready',[ [ 'onEditorReady',['$event'] ] ] ],[ 'focus',[ [ 'editFocus',['$event'] ] ] ] ]}}" id="editor" placeholder="{{placeholder}}"></editor>
+                                        </view>
+                                    </form>
+                                </view>
+                            </view>
+                            <view class="membership-button data-v-28a196ff">
+                                <view bindtap="__e" class="clear data-v-28a196ff" data-event-opts="{{[ [ 'tap',[ [ 'headleCreal',['$event'] ] ] ] ]}}">
+                                    <view class="clears data-v-28a196ff">清除</view>
+                                </view>
+                                <text class="num data-v-28a196ff">{{'已写'+num+'字/最多'+maxLength+'字'}}</text>
+                            </view>
+                        </view>
+                        <view class="btn-box data-v-28a196ff">
+                            <button bindtap="__e" class="save-btn data-v-28a196ff" data-event-opts="{{[ [ 'tap',[ [ 'submit',['$event'] ] ] ] ]}}" plain="true">保存</button>
+                        </view>
+                        <view bindtap="__e" class="btn-clear data-v-28a196ff" data-event-opts="{{[ [ 'tap',[ [ 'onClear',['$event'] ] ] ] ]}}">积分清零</view>
+                    </view>
+                    <view class="data-v-28a196ff" wx:else>
+                        <view class="noCourseData data-v-28a196ff">
+                            <image class="icon data-v-28a196ff" src="{{$root.m1}}"></image>
+                            <text class="explain data-v-28a196ff">~ 点击右上角开关，即可打开积分功能 ~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-28a196ff" vueId="77a2c7c3-9"></ff-bottom-logo>
+    </view>
+    <confirm-modal bind:__l="__l" class="data-v-28a196ff vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="{{status==1?'严重警告：关闭积分功能？':status==2?'严重警告：将所有会员的积分清零？':'再次警告，是否所有会员清零？'}}" vueId="77a2c7c3-10" vueSlots="{{['content','btn']}}">
+        <view class="data-v-28a196ff" slot="content">
+            <block wx:if="{{status==1}}">
+                <view class="data-v-28a196ff">1、确定后，将不再记录会员约课/签到所获积分</view>
+                <view class="data-v-28a196ff">2、会员端将隐藏积分相关模块</view>
+            </block>
+            <block wx:if="{{status==2}}">
+                <view class="data-v-28a196ff">1、本店所有会员的积分都将全部归0</view>
+                <view class="data-v-28a196ff">2、清零后不可撤销，数据无法恢复</view>
+            </block>
+            <view class="clear-text data-v-28a196ff" wx:if="{{status==3}}">清零后不可恢复</view>
+            <view class="content data-v-28a196ff" wx:if="{{status!=3}}">
+                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-28a196ff" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','eChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{eChecked}}" vueId="{{'77a2c7c3-11'+','+'77a2c7c3-10'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-28a196ff" style="{{'font-size:26rpx;color:#606266;line-height:56rpx;'+'font-weight:'+(refuseChecked?'500':'normal')+';'}}">{{'我已清楚，'+(status==1?'仍要关闭':'仍要清除')+''}}</text>
+                </u-checkbox>
+            </view>
+        </view>
+        <view class="btn data-v-28a196ff" slot="btn">
+            <view bindtap="__e" class="modal-cal-btn button data-v-28a196ff" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn1',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="{{['modal-btn','button','data-v-28a196ff',!eChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'pointConfirm',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-28a196ff vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ] ]}}" data-ref="confirmPermissionModal" title="您不是馆长，无权操作!" vueId="77a2c7c3-12" vueSlots="{{['content']}}">
+        <view class="data-v-28a196ff" slot="content">
+            <text class="data-v-28a196ff" style="{{'display:block;'}}">请联系馆长，仅馆长拥有该操作权限</text>
+        </view>
+    </confirm-modal>
+</view>

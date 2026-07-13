@@ -1,0 +1,39 @@
+.modal.data-v-2d330090 {
+  padding: 48rpx 40rpx 0rpx 45rpx;
+}
+.modal .modal-title.data-v-2d330090 {
+  color: #181818;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+.modal .modal-content.data-v-2d330090 {
+  color: #989898;
+  font-size: 25rpx;
+  line-height: 39rpx;
+  margin-top: 18rpx;
+}
+.modal .btn.data-v-2d330090 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 51rpx;
+}
+.modal .btn .button.data-v-2d330090 {
+  border-radius: 17px;
+  font-size: 28rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  text-align: center;
+  width: 180rpx;
+}
+.modal .btn .modal-cal-btn.data-v-2d330090 {
+  background: #fff;
+  border: 1rpx solid #fbd128;
+  color: #7e7e7e;
+}
+.modal .btn .modal-btn.data-v-2d330090 {
+  background: #fbd128;
+  border: 1rpx solid #fbd128;
+  margin-bottom: 39rpx;
+  margin-left: 31rpx;
+}

@@ -1,0 +1,124 @@
+<view class="data-v-7f3f1fde">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-7f3f1fde" text="{{title}}" vueId="5dfa3055-1"></navigation>
+    <view class="main data-v-7f3f1fde" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-7f3f1fde">
+            <view class="head data-v-7f3f1fde" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="hint_wrap data-v-7f3f1fde">
+                    <hint bind:__l="__l" class="data-v-7f3f1fde" show="{{hintShow}}" updateTime="{{computeTime.computeTime}}" vueId="5dfa3055-2" vueSlots="{{['confirmname']}}">
+                        <view class="data-v-7f3f1fde" slot="confirmname">
+                            <view class="data-v-7f3f1fde" style="display:flex;">
+                                <view class="name data-v-7f3f1fde">剩余价值：</view>
+                                <view class="data-v-7f3f1fde">
+                                    <view class="value data-v-7f3f1fde">次数卡=实际收款/发卡额度×剩余次数</view>
+                                    <view class="value data-v-7f3f1fde">储值卡=实际收款/发卡额度×剩余课费</view>
+                                    <view class="value data-v-7f3f1fde">期限卡=实际收款/总天数×剩余的天数</view>
+                                </view>
+                            </view>
+                            <view class="data-v-7f3f1fde">
+                                <text class="name data-v-7f3f1fde">会员消费：</text>
+                                <text class="value data-v-7f3f1fde">在线购卡或手动发卡时填写的【实际收款】</text>
+                            </view>
+                            <view class="data-v-7f3f1fde">
+                                <text class="name data-v-7f3f1fde">已耗金额：</text>
+                                <text class="value data-v-7f3f1fde">会员消费-剩余价值=已耗金额</text>
+                            </view>
+                        </view>
+                    </hint>
+                </view>
+                <view class="summary_wrap data-v-7f3f1fde">
+                    <view class="top_data data-v-7f3f1fde">
+                        <view class="more-data data-v-7f3f1fde">
+                            <view class="item data-v-7f3f1fde">
+                                <view class="info data-v-7f3f1fde">
+                                    <view class="data-v-7f3f1fde">总收款</view>
+                                    <view class="info-foot data-v-7f3f1fde">
+                                        <text class="info_name data-v-7f3f1fde">￥</text>
+                                        <text class="info_num data-v-7f3f1fde">{{data.totalPrice==undefined?'--':data.totalPrice}}</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="item data-v-7f3f1fde">
+                                <view class="info data-v-7f3f1fde">
+                                    <view class="data-v-7f3f1fde">已耗卡金额</view>
+                                    <view class="info-foot data-v-7f3f1fde">
+                                        <text class="info_name fontcolor data-v-7f3f1fde">￥</text>
+                                        <text class="info_num fontcolor data-v-7f3f1fde">{{(data.expendPrice==undefined?'--':data.expendPrice)+''}}</text>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="item data-v-7f3f1fde">
+                                <view class="info data-v-7f3f1fde">
+                                    <view class="data-v-7f3f1fde">剩余价值</view>
+                                    <view class="info-foot data-v-7f3f1fde">
+                                        <text class="info_name fontcolor data-v-7f3f1fde">￥</text>
+                                        <text class="info_num fontcolor data-v-7f3f1fde">{{data.leftPrice==undefined?'--':data.leftPrice}}</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="top_content data-v-7f3f1fde">
+                    <view class="item_head data-v-7f3f1fde">
+                        <view class="item_right data-v-7f3f1fde">{{'共'+totalCount+'名会员'}}</view>
+                        <view class="filter data-v-7f3f1fde">
+                            <view bindtap="__e" class="{{['data-v-7f3f1fde',sortId==item.$orig.id?'active':'filter-item']}}" data-event-opts="{{[ [ 'tap',[ [ 'headlememberStatus',['$0'],[ [ ['memberStatus','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="tag data-v-7f3f1fde">{{item.$orig.name+''}}<view class="triangle data-v-7f3f1fde">
+                                        <image class="icon data-v-7f3f1fde" mode="widthFix" src="{{item.m0}}" wx:if="{{sortId==item.$orig.id}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-7f3f1fde">
+                <view class="list data-v-7f3f1fde">
+                    <view class="item data-v-7f3f1fde" wx:if="{{!notdata}}">
+                        <view class="data-v-7f3f1fde" style="padding-top:28rpx;" wx:for="{{$root.l1}}" wx:for-index="index1" wx:key="index1">
+                            <view class="sale-item data-v-7f3f1fde">
+                                <view class="number-box data-v-7f3f1fde">
+                                    <text class="num-index data-v-7f3f1fde" style="{{'color:'+'#989898'+';'}}">{{index1+1}}</text>
+                                </view>
+                                <image bindtap="__e" class="avator data-v-7f3f1fde" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}" src="{{item.$orig.userFaceurl}}"></image>
+                                <view class="detail-info data-v-7f3f1fde">
+                                    <view class="detail-info-wrap data-v-7f3f1fde">
+                                        <view bindtap="__e" class="l-info data-v-7f3f1fde" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}">{{''+item.m1+''}}<view class="time-and-type data-v-7f3f1fde">
+                                                <text class="data-v-7f3f1fde" wx:if="{{item.$orig.lastClassDate}}">{{item.g0}}</text>
+                                                <text class="data-v-7f3f1fde" wx:else>--</text>
+                                            </view>
+                                            <view class="last-class data-v-7f3f1fde" wx:if="{{index1<=2}}">最后上课</view>
+                                        </view>
+                                        <view bindtap="__e" class="r-info data-v-7f3f1fde" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}">
+                                            <view class="team-class data-v-7f3f1fde">
+                                                <text class="data-v-7f3f1fde">{{item.$orig.rechargePrice}}</text>
+                                            </view>
+                                            <view class="pri-class data-v-7f3f1fde">
+                                                <text class="data-v-7f3f1fde">{{item.$orig.expendPrice}}</text>
+                                            </view>
+                                            <view class="to-class data-v-7f3f1fde">
+                                                <text class="data-v-7f3f1fde">{{item.$orig.leftPrice}}</text>
+                                            </view>
+                                            <u-icon bind:__l="__l" bind:click="__e" class="arrow-date data-v-7f3f1fde" color="#989898" data-event-opts="{{[ [ '^click',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}" name="arrow-right" size="15" vueId="{{'5dfa3055-3-'+index1}}"></u-icon>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-7f3f1fde" color="#F0F0F0" length="530" margin="0rpx 0rpx 0rpx 160rpx" vueId="{{'5dfa3055-4-'+index1}}"></u-line>
+                        </view>
+                    </view>
+                    <view class="data-v-7f3f1fde" wx:else>
+                        <view class="noCourseData data-v-7f3f1fde">
+                            <image class="icon data-v-7f3f1fde" src="{{$root.m2}}"></image>
+                            <text class="explain data-v-7f3f1fde">~尚没有资产负债数据~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-7f3f1fde" wx:if="{{!notdata&&ismore}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-7f3f1fde" color="#bfbfbf" halfWidth="74" vueId="5dfa3055-5" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-7f3f1fde" vueId="5dfa3055-6"></ff-bottom-logo>
+    </view>
+</view>

@@ -1,0 +1,24 @@
+.operation-data {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  width: 160rpx;
+}
+.operation-data .top-data {
+  font-size: 31rpx;
+}
+.operation-data .top-data .digit {
+  font-size: 20rpx;
+}
+.operation-data .desc {
+  color: #989898;
+  font-size: 22rpx;
+  font-weight: 400;
+  margin-top: 2rpx;
+}
+.operation-data .extra-desc {
+  color: #989898;
+  font-size: 19rpx;
+  margin-top: 2rpx;
+}

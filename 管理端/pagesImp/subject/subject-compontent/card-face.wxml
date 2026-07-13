@@ -1,0 +1,18 @@
+<ff-popup bind:__l="__l" bind:headleClose="__e" bind:input="__e" class="data-v-1a9b5926" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="1280" showConfrim="{{false}}" title="选择背景图" value="{{show}}" vueId="3cb810e9-1" vueSlots="{{['default']}}">
+    <view class="main-box data-v-1a9b5926">
+        <view class="headbut data-v-1a9b5926">
+            <view class="button-list data-v-1a9b5926">
+                <view class="taglist data-v-1a9b5926" wx:for="{{tagList}}" wx:key="index">
+                    <view bindtap="__e" class="{{['data-v-1a9b5926',dirId==item.tagId?'active-list-item':'list-item']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeTag',['$0'],[ [ ['tagList','',index] ] ] ] ] ] ]}}">{{''+item.tagName+''}}</view>
+                </view>
+            </view>
+        </view>
+        <scroll-view class="data-v-1a9b5926" scrollIntoView="{{scrollView}}" scrollY="{{true}}" style="{{'height:'+'1090rpx'+';'}}">
+            <view class="list-item2 data-v-1a9b5926" id="{{'card'+index}}" wx:for="{{list}}" wx:key="index">
+                <image bindtap="__e" class="bg-img data-v-1a9b5926" data-event-opts="{{[ [ 'tap',[ [ 'selectFace',['$0',index],[ [ ['list','',index] ] ] ] ] ] ]}}" src="{{item.wxUrl}}"></image>
+            </view>
+            <view class="tips data-v-1a9b5926" wx:if="{{$root.g0}}">点击最上方“绿色按钮"，可切换更多行业背景图</view>
+            <view class="data-v-1a9b5926" style="padding-top:50rpx;"></view>
+        </scroll-view>
+    </view>
+</ff-popup>

@@ -1,0 +1,33 @@
+<view class="data-v-7ee4deb4">
+    <navigation bind:__l="__l" class="data-v-7ee4deb4" text="温馨提示" vueId="0b163861-1"></navigation>
+    <view class="placeholder-view data-v-7ee4deb4" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-7ee4deb4" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="fixed data-v-7ee4deb4"></view>
+        <view class="hint_wrap data-v-7ee4deb4">
+            <hint bind:__l="__l" class="data-v-7ee4deb4" vueId="0b163861-2" vueSlots="{{['default']}}">
+                <view class="hint_text_wrap data-v-7ee4deb4">
+                    <view class="item data-v-7ee4deb4" style="margin-bottom:2rpx;">位于会员端的团课与私教的详情页，添加后即可显示</view>
+                </view>
+            </hint>
+        </view>
+        <view class="content data-v-7ee4deb4">
+            <view class="head data-v-7ee4deb4">
+                <u-tabs activeItemStyle="{{activeItemStyle}}" bind:__l="__l" bind:change="__e" class="data-v-7ee4deb4" current="{{current}}" data-event-opts="{{[ [ '^change',[ ['changeTab'] ] ] ]}}" fontSize="34" inactiveColor="#7E7E7E" isScroll="{{false}}" list="{{listTabs}}" vueId="0b163861-3"></u-tabs>
+            </view>
+            <view bindtap="__e" class="content data-v-7ee4deb4" data-event-opts="{{[ [ 'tap',[ [ 'Click',['$event'] ] ] ] ]}}">
+                <view class="data-v-7ee4deb4" wx:if="{{current==0}}">
+                    <team-course bind:__l="__l" class="data-v-7ee4deb4" kindReminder="{{kindReminder}}" vueId="0b163861-4"></team-course>
+                </view>
+                <view class="data-v-7ee4deb4" wx:if="{{current==1}}">
+                    <personal-course bind:__l="__l" class="data-v-7ee4deb4" kindReminder="{{kindReminder}}" vueId="0b163861-5"></personal-course>
+                </view>
+            </view>
+        </view>
+        <view class="foot_font data-v-7ee4deb4">此为【会员约课端】示意图</view>
+    </view>
+    <fixed-btn bind:Click="__e" bind:__l="__l" class="data-v-7ee4deb4" data-event-opts="{{[ [ '^Click',[ ['Click'] ] ] ]}}" vueId="0b163861-6" vueSlots="{{['default','subtitle']}}">
+        <text class="data-v-7ee4deb4" decode="true">编 辑</text>
+        <view class="data-v-7ee4deb4" slot="subtitle">{{current==0?'团课':'私教'}}</view>
+    </fixed-btn>
+    <ff-bottom-logo bind:__l="__l" class="data-v-7ee4deb4" vueId="0b163861-7"></ff-bottom-logo>
+</view>

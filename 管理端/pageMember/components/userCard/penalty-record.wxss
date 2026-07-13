@@ -1,0 +1,117 @@
+.penalty-record .change.data-v-007567ef {
+  padding: 0 22rpx 49rpx;
+}
+.penalty-record .change .item.data-v-007567ef {
+  padding-bottom: 43rpx;
+}
+.penalty-record .change .item .change_name.data-v-007567ef {
+  color: #181818;
+  font-size: 32rpx;
+  padding-bottom: 17rpx;
+  padding-left: 10rpx;
+}
+.penalty-record .change .item .change_record.data-v-007567ef {
+  background: #f5f5f5;
+  border-radius: 21rpx;
+  padding: 32rpx 21rpx 0 22rpx;
+}
+.penalty-record .change .item .change_record .change_top.data-v-007567ef {
+  border-bottom: 1rpx solid #dadada;
+  padding-bottom: 17rpx;
+}
+.penalty-record
+  .change
+  .item
+  .change_record
+  .change_top
+  .change_top_time.data-v-007567ef {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  padding-bottom: 10rpx;
+}
+.penalty-record
+  .change
+  .item
+  .change_record
+  .change_top
+  .change_top_time
+  .change_top_left.data-v-007567ef {
+  color: #7e7e7e;
+  flex: 1;
+  font-size: 21rpx;
+  margin-right: 10rpx;
+  text-align: left;
+}
+.penalty-record
+  .change
+  .item
+  .change_record
+  .change_top
+  .change_top_time
+  .change_top_lefts.data-v-007567ef {
+  color: #181818;
+  flex: 0.7;
+  font-size: 32rpx;
+  margin-right: 10rpx;
+  text-align: left;
+}
+.penalty-record
+  .change
+  .item
+  .change_record
+  .change_top
+  .change_top_time
+  .change_top_right.data-v-007567ef {
+  color: #7e7e7e;
+  flex: 1;
+  font-size: 21rpx;
+  margin-left: 10rpx;
+  text-align: right;
+}
+.penalty-record
+  .change
+  .item
+  .change_record
+  .change_top
+  .change_top_time
+  .change_top_rights.data-v-007567ef {
+  color: #181818;
+  flex: 1;
+  font-size: 32rpx;
+  margin-left: 10rpx;
+  text-align: right;
+}
+.penalty-record .change .item .change_record .change_bottom.data-v-007567ef {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  padding: 21rpx 0 30rpx;
+}
+.penalty-record
+  .change
+  .item
+  .change_record
+  .change_bottom
+  .change_bottom_time.data-v-007567ef {
+  color: #7e7e7e;
+  font-size: 21rpx;
+}
+.penalty-record .noCourseData.data-v-007567ef {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  height: 665rpx;
+}
+.penalty-record .noCourseData image.data-v-007567ef {
+  height: 171rpx;
+  margin-bottom: 40rpx;
+  margin-top: 160rpx;
+  width: 203rpx;
+}
+.penalty-record .noCourseData text.data-v-007567ef {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 45rpx;
+}

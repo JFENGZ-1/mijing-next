@@ -1,0 +1,16 @@
+.container.data-v-19be5b91 {
+  background: #fff;
+  min-height: 1280rpx;
+  padding: 50rpx;
+}
+.card-wrap.data-v-19be5b91 {
+  height: 371rpx;
+  margin: 0 auto;
+  width: 620rpx;
+}
+.text.data-v-19be5b91 {
+  color: #181818;
+  font-size: 28rpx;
+  line-height: 50rpx;
+  padding-top: 70rpx;
+}

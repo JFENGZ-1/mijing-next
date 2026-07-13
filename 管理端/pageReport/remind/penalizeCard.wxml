@@ -1,0 +1,69 @@
+<view class="data-v-fb35c3b8">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-fb35c3b8" text="{{title}}" vueId="77a06c1a-1"></navigation>
+    <view class="main data-v-fb35c3b8" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-fb35c3b8">
+            <view class="head data-v-fb35c3b8" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="hint_wrap data-v-fb35c3b8">
+                    <hint bgcolor="#ECF8F3" bind:__l="__l" class="data-v-fb35c3b8" color="#22C788" show="{{hintShow}}" type="2" updateTime="{{computeTime}}" vueId="77a06c1a-2" vueSlots="{{['confirmname']}}">
+                        <view class="data-v-fb35c3b8" slot="confirmname">
+                            <view class="data-v-fb35c3b8">
+                                <text class="data-v-fb35c3b8" style="color:#181818;">统计说明：</text>
+                                <text class="value data-v-fb35c3b8">1、当您在会员卡-高级选项-设置会员卡的旷课惩罚和取消预约次数限制时，选择【禁止约课】和【禁止取消约课】的惩罚后，当会员达限受到处罚时，将在此显示。 </text>
+                                <text class="value data-v-fb35c3b8">2、仅显示正在处罚期内的卡 </text>
+                            </view>
+                        </view>
+                    </hint>
+                </view>
+                <view class="item data-v-fb35c3b8">
+                    <view class="item_head data-v-fb35c3b8">
+                        <view class="item_right data-v-fb35c3b8">{{'共有'+totalCount+'张在处罚中'}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-fb35c3b8">
+                <view class="list data-v-fb35c3b8">
+                    <view class="item data-v-fb35c3b8" wx:if="{{!notdata}}">
+                        <view class="data-v-fb35c3b8" style="padding-top:20rpx;" wx:for="{{$root.l0}}" wx:for-index="index1" wx:key="index1">
+                            <view class="sale-item data-v-fb35c3b8">
+                                <image bindtap="__e" class="avator data-v-fb35c3b8" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}" src="{{item.$orig.userFaceurl}}"></image>
+                                <view class="detail-info data-v-fb35c3b8">
+                                    <view bindtap="__e" class="detail-info-wrap data-v-fb35c3b8" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}">
+                                        <view class="l-info data-v-fb35c3b8">{{''+item.m0+''}}<view class="time-and-type data-v-fb35c3b8">最后上课：<text class="data-v-fb35c3b8" wx:if="{{item.$orig.lastUsedDate}}">{{item.g0}}</text>
+                                                <text class="data-v-fb35c3b8" wx:else>--</text>
+                                            </view>
+                                        </view>
+                                        <view class="r-info data-v-fb35c3b8">
+                                            <u-icon bind:__l="__l" class="arrow-right data-v-fb35c3b8" color="#989898" name="arrow-right" size="15" vueId="{{'77a06c1a-3-'+index1}}"></u-icon>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="foot_card data-v-fb35c3b8">
+                                <member-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-fb35c3b8" jumpcardDetail="{{true}}" vueId="{{'77a06c1a-4-'+index1}}"></member-card>
+                                <view class="will_content data-v-fb35c3b8">原由：<text class="will_time data-v-fb35c3b8">{{item.$orig.punishReason}}</text>
+                                    <view class="will_content will_flex data-v-fb35c3b8">
+                                        <view class="data-v-fb35c3b8">处罚：<text class="will_time data-v-fb35c3b8">{{item.$orig.punishAction}}</text>
+                                        </view>
+                                        <view class="data-v-fb35c3b8">解除日期：<text class="will_time data-v-fb35c3b8">{{item.g1}}</text>
+                                        </view>
+                                    </view>
+                                    <u-line bind:__l="__l" class="data-v-fb35c3b8" color="#F0F0F0" length="570rpx" vueId="{{'77a06c1a-5-'+index1}}" wx:if="{{item.g2-1!=index1}}"></u-line>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="data-v-fb35c3b8" wx:else>
+                        <view class="noCourseData data-v-fb35c3b8">
+                            <image class="icon data-v-fb35c3b8" src="{{$root.m1}}"></image>
+                            <text class="explain data-v-fb35c3b8">当您在会员卡-高级选项-设置会员卡的旷课惩罚和取消预约次数限制时，选择【禁止约课】和【禁止取消约课】的惩罚后，当会员达限受到处罚时，将在此显示。</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-fb35c3b8" wx:if="{{!notdata&&ismore}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-fb35c3b8" color="#bfbfbf" halfWidth="74" vueId="77a06c1a-6" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-fb35c3b8" vueId="77a06c1a-7"></ff-bottom-logo>
+    </view>
+</view>

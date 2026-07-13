@@ -1,0 +1,17 @@
+.data-v-37fe7938 .uni-form-item-required:after {
+  color: #dc3c5c;
+  content: "*";
+  font-size: 30rpx;
+  margin-left: 2rpx;
+}
+.makeOver-container .makeOver.data-v-37fe7938 {
+  color: #181818;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  margin: 50rpx 56rpx 90rpx;
+}
+.makeOver-container .makeOver .textc.data-v-37fe7938 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+}

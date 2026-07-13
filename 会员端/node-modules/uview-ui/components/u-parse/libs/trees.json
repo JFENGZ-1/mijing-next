@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "trees": "/node-modules/uview-ui/components/u-parse/libs/trees",
+    "bottom-logo": "/components/ff-bottom-logo/index"
+  }
+}

@@ -1,0 +1,26 @@
+.main-box.data-v-ac6c96a0 {
+  padding: 32rpx 0 0 43rpx;
+}
+.main-box .textc.data-v-ac6c96a0 {
+  align-items: center;
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 32rpx;
+  padding-top: 30rpx;
+}
+.main-box .textc .title.data-v-ac6c96a0 {
+  width: 130rpx;
+}
+.main-box .textc1.data-v-ac6c96a0 {
+  display: -webkit-flex;
+  display: flex;
+}
+.main-box .textc1 .desc.data-v-ac6c96a0 {
+  color: #989898;
+  font-size: 25rpx;
+  line-height: 42rpx;
+  padding-right: 28rpx;
+  text-align: end;
+  width: 100%;
+}

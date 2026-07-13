@@ -1,0 +1,54 @@
+<view class="data-v-7ba15d59">
+    <navigation background="#ffffff" bind:__l="__l" class="data-v-7ba15d59" text="适用门店/课程" vueId="01e5d4fb-1"></navigation>
+    <zero-loading bind:__l="__l" class="data-v-7ba15d59" vueId="01e5d4fb-2" wx:if="{{loading}}"></zero-loading>
+    <view class="data-v-7ba15d59" wx:else>
+        <view class="card-info data-v-7ba15d59" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="{{['card_wrap','data-v-7ba15d59',cardInfo.saleStatus==0?'gray':'']}}">
+                <view class="data-v-7ba15d59" wx:if="{{cardInfo.saleStatus==0}}">
+                    <view class="mask data-v-7ba15d59"></view>
+                    <view class="img-wrap data-v-7ba15d59">
+                        <view class="data-v-7ba15d59">
+                            <image class="data-v-7ba15d59" src="{{$root.m0}}"></image>
+                            <text class="data-v-7ba15d59">已停售</text>
+                        </view>
+                    </view>
+                    <view class="{{['data-v-7ba15d59',item.saleStatus==0?'gray':'']}}"></view>
+                </view>
+                <ff-value-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{cardInfo}}" class="data-v-7ba15d59" vueId="01e5d4fb-3" wx:if="{{cardInfo.cardType==1}}"></ff-value-card>
+                <ff-counts-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{cardInfo}}" class="data-v-7ba15d59" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="01e5d4fb-4" wx:if="{{cardInfo.cardType==2}}"></ff-counts-card>
+                <ff-date-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{cardInfo}}" class="data-v-7ba15d59" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="01e5d4fb-5" wx:if="{{cardInfo.cardType==3}}"></ff-date-card>
+            </view>
+            <view class="total-course-text data-v-7ba15d59">{{'支持'+(ownerCount==null?0:ownerCount)+'家店  '+cardInfo.supportTeamCount+'个团课  '+cardInfo.supportPrivateCount+'个私教'}}</view>
+        </view>
+        <view class="data-v-7ba15d59" style="{{'height:'+'370rpx'+';'+'margin-top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+        <view class="main data-v-7ba15d59" style="min-height:398px;padding-top:20rpx;">
+            <view class="data-v-7ba15d59" wx:for="{{$root.l0}}" wx:key="index">
+                <view class="show-box data-v-7ba15d59">
+                    <view class="title data-v-7ba15d59">
+                        <image class="pic data-v-7ba15d59" src="{{item.$orig.siteTrademark}}"></image>
+                        <text class="branch data-v-7ba15d59" style="{{'color:'+(item.$orig.canOpen?'#181818':'')+';'}}">{{item.$orig.siteName}}</text>
+                    </view>
+                    <view class="sw-box data-v-7ba15d59">
+                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-7ba15d59" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','canOpen','$event',[] ],[ [ ['sitelist','',index] ] ] ] ] ] ]}}" inactiveColor="#ECECED" value="{{item.$orig.canOpen}}" vueId="{{'01e5d4fb-6-'+index}}"></u-switch>
+                    </view>
+                </view>
+                <view class="course-setting-wrap data-v-7ba15d59" wx:if="{{item.$orig.canOpen}}">
+                    <view class="course-setting-item data-v-7ba15d59">
+                        <single-grcl bind:LeagueClassChange="__e" bind:LeagueClassFdeduction="__e" bind:__l="__l" bind:activeAll="__e" bind:fdeductionBlur="__e" bind:fdeductionFocus="__e" bind:selectDeductWay="__e" bind:setTeamList="__e" canOpen="{{item.$orig.canOpen}}" cardInfo="{{cardInfo}}" class="course data-v-7ba15d59 vue-ref-in-for" data="{{item.$orig.teamList}}" data-event-opts="{{[ [ '^activeAll',[ ['activeAll'] ] ],[ '^LeagueClassChange',[ ['LeagueClassChange'] ] ],[ '^setTeamList',[ ['setTeamList'] ] ],[ '^LeagueClassFdeduction',[ ['LeagueClassFdeduction'] ] ],[ '^fdeductionBlur',[ ['fdeductionBlur'] ] ],[ '^fdeductionFocus',[ ['fdeductionFocus'] ] ],[ '^selectDeductWay',[ ['selectDeductWay'] ] ] ]}}" data-ref="grcl" siteId="{{item.$orig.siteId}}" vueId="{{'01e5d4fb-7-'+index}}" wx:if="{{item.g0>0}}"></single-grcl>
+                    </view>
+                    <view class="course-setting-item data-v-7ba15d59">
+                        <single-priv bind:__l="__l" bind:activeAll="__e" bind:coachSelect="__e" bind:courseSelect="__e" bind:personaltainerBlur="__e" bind:personaltainerChange="__e" bind:personaltainerFocus="__e" bind:selectDeductWay="__e" canOpen="{{item.$orig.canOpen}}" cardInfo="{{cardInfo}}" class="course data-v-7ba15d59 vue-ref-in-for" data="{{item.$orig.plist}}" data-event-opts="{{[ [ '^coachSelect',[ ['coachSelect'] ] ],[ '^courseSelect',[ ['courseSelect'] ] ],[ '^activeAll',[ ['checkAll'] ] ],[ '^personaltainerChange',[ ['personaltainerChange'] ] ],[ '^personaltainerBlur',[ ['personaltainerBlur'] ] ],[ '^personaltainerFocus',[ ['personaltainerFocus'] ] ],[ '^selectDeductWay',[ ['selectDeductWay'] ] ] ]}}" data-ref="priv" siteId="{{item.$orig.siteId}}" vueId="{{'01e5d4fb-8-'+index}}" wx:if="{{item.g1>0}}"></single-priv>
+                    </view>
+                    <view class="data-v-7ba15d59" style="background-color:#fff;padding-bottom:150rpx;margin-left:17rpx;margin-right:17rpx;border-radius:14px;" wx:if="{{item.g2}}">
+                        <nodata bind:__l="__l" class="data-v-7ba15d59" msg="{{12}}" vueId="{{'01e5d4fb-9-'+index}}"></nodata>
+                    </view>
+                </view>
+                <view class="btn-wrap data-v-7ba15d59">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-7ba15d59" customStyle="{{custom_style}}" data-event-opts="{{[ [ '^click',[ ['save'] ] ] ]}}" hairLine="{{false}}" hoverClass="no" vueId="{{'01e5d4fb-10-'+index}}" vueSlots="{{['default']}}">保存</u-button>
+                </view>
+            </view>
+            <deduction-days bind:__l="__l" bind:submit="__e" class="data-v-7ba15d59 vue-ref" data-event-opts="{{[ [ '^submit',[ ['deductionDaysSubmit'] ] ] ]}}" data-ref="deductionDays" vueId="01e5d4fb-11"></deduction-days>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-7ba15d59" vueId="01e5d4fb-12"></ff-bottom-logo>
+    </view>
+</view>

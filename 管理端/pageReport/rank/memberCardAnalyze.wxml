@@ -1,0 +1,111 @@
+<view class="data-v-744e1f25">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-744e1f25" text="{{title}}" vueId="380fba4e-1"></navigation>
+    <view class="main data-v-744e1f25" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-744e1f25">
+            <view class="head data-v-744e1f25" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="summarize data-v-744e1f25">
+                    <view class="top_data data-v-744e1f25">
+                        <view class="filter data-v-744e1f25">
+                            <view bindtap="__e" class="{{['data-v-744e1f25',userStatus==item.$orig.id?'active':'filter-item']}}" data-event-opts="{{[ [ 'tap',[ [ 'headlememberStatus',['$0'],[ [ ['memberStatus','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="tag data-v-744e1f25">{{item.$orig.name+''}}<view class="triangle data-v-744e1f25">
+                                        <image class="icon data-v-744e1f25" mode="widthFix" src="{{item.m0}}" wx:if="{{userStatus==item.$orig.id}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="top_money data-v-744e1f25">{{data.totalCardCount}}</view>
+                    <view class="top_text data-v-744e1f25" wx:if="{{userStatus==0}}">总发卡(张)</view>
+                    <view class="top_text data-v-744e1f25" wx:if="{{userStatus==1}}">在有效期内且有余额(张)</view>
+                    <view class="top_text data-v-744e1f25" wx:if="{{userStatus==2}}">已过期或已无余额(张)</view>
+                    <view class="more-data data-v-744e1f25">
+                        <view class="item data-v-744e1f25">
+                            <view class="info data-v-744e1f25">
+                                <view class="info-foot data-v-744e1f25">
+                                    <text class="info_num data-v-744e1f25">{{data.limitCardCount==undefined?'-':data.limitCardCount}}</text>
+                                    <text class="info_name data-v-744e1f25">张</text>
+                                    <text class="info_line data-v-744e1f25">/</text>
+                                    <text class="info_num data-v-744e1f25">{{data.limitUserCount==undefined?'-':data.limitUserCount}}</text>
+                                    <text class="info_name data-v-744e1f25">名</text>
+                                </view>
+                                <view class="info_type data-v-744e1f25">期限卡</view>
+                            </view>
+                        </view>
+                        <u-line bind:__l="__l" class="u-line data-v-744e1f25" color="#DADADA" direction="col" length="45rpx" margin="32rpx 0 0 0" vueId="380fba4e-2"></u-line>
+                        <view class="item data-v-744e1f25">
+                            <view class="info data-v-744e1f25">
+                                <view class="info-foot data-v-744e1f25">
+                                    <text class="info_num data-v-744e1f25">{{data.timeCardCount==undefined?'-':data.timeCardCount}}</text>
+                                    <text class="info_name data-v-744e1f25">张</text>
+                                    <text class="info_num data-v-744e1f25">
+                                        <text class="info_line data-v-744e1f25">/</text>{{''+(data.timeUserCount==undefined?'-':data.timeUserCount)}}</text>
+                                    <text class="info_name data-v-744e1f25">名</text>
+                                </view>
+                                <view class="info_type data-v-744e1f25">计次卡</view>
+                            </view>
+                        </view>
+                        <u-line bind:__l="__l" class="u-line data-v-744e1f25" color="#DADADA" direction="col" length="45rpx" margin="32rpx 0 0 0" vueId="380fba4e-3"></u-line>
+                        <view class="item data-v-744e1f25">
+                            <view class="info data-v-744e1f25">
+                                <view class="info-foot data-v-744e1f25">
+                                    <text class="info_num data-v-744e1f25">{{data.depositCardCount==undefined?'-':data.depositCardCount}}</text>
+                                    <text class="info_name data-v-744e1f25">张</text>
+                                    <text class="info_num data-v-744e1f25">
+                                        <text class="info_line data-v-744e1f25">/</text>{{''+(data.depositUserCount==undefined?'-':data.depositUserCount)}}</text>
+                                    <text class="info_name data-v-744e1f25">名</text>
+                                </view>
+                                <view class="info_type data-v-744e1f25">储值卡</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-744e1f25" height="24" vueId="380fba4e-4"></u-gap>
+            </view>
+            <view class="list data-v-744e1f25">
+                <view class="item data-v-744e1f25" wx:if="{{!notdata}}">
+                    <view class="crad_list data-v-744e1f25" style="display:flex;flex-wrap:wrap;">
+                        <view class="{{['cardList','data-v-744e1f25',!( (index+1)%2==0 )?'cardList_first':'',(index+1)%2==0?'cardList_last':'',item.g0?'cardList_bottom_no':'']}}" wx:for="{{$root.l1}}" wx:key="index">
+                            <view bindtap="__e" class="wrap data-v-744e1f25" data-event-opts="{{[ [ 'tap',[ [ 'cardClick',['$0',index],[ [ ['list','',index] ] ] ] ] ] ]}}">
+                                <view class="{{['card_wrap','data-v-744e1f25',item.$orig.saleStatus==0?'gray':'']}}">
+                                    <view class="data-v-744e1f25" wx:if="{{item.$orig.saleStatus==0}}">
+                                        <view class="mask data-v-744e1f25"></view>
+                                        <view class="img-wrap data-v-744e1f25">
+                                            <view class="img-view data-v-744e1f25">
+                                                <image class="img data-v-744e1f25" src="{{item.m1}}"></image>
+                                                <text class="img-text data-v-744e1f25">已停售</text>
+                                            </view>
+                                        </view>
+                                        <view class="{{['data-v-744e1f25',item.$orig.saleStatus==0?'gray':'']}}"></view>
+                                    </view>
+                                    <ff-value-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-744e1f25" vueId="{{'380fba4e-5-'+index}}" wx:if="{{item.$orig.cardType==1}}"></ff-value-card>
+                                    <ff-counts-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-744e1f25" vueId="{{'380fba4e-6-'+index}}" wx:if="{{item.$orig.cardType==2}}"></ff-counts-card>
+                                    <ff-date-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-744e1f25" vueId="{{'380fba4e-7-'+index}}" wx:if="{{item.$orig.cardType==3}}"></ff-date-card>
+                                </view>
+                                <view class="quantity data-v-744e1f25">{{item.$orig.report.cardcount}}<text class="name data-v-744e1f25">张</text>
+                                    <text class="name data-v-744e1f25">/</text>{{item.$orig.report.usercount}}<text class="name data-v-744e1f25">名</text>
+                                </view>
+                                <view class="{{['selected_card','data-v-744e1f25',item.$orig.active?'selected_card_active':'']}}">
+                                    <u-icon bind:__l="__l" class="data-v-744e1f25" color="#ffffff" name="checkbox-mark" size="22" vueId="{{'380fba4e-8-'+index}}"></u-icon>
+                                </view>
+                            </view>
+                        </view>
+                        <view bindtap="__e" class="on_card data-v-744e1f25" data-event-opts="{{[ [ 'tap',[ [ 'noCardClick',['$event'] ] ] ] ]}}" wx:if="{{$root.g1!=0}}">
+                            <view class="on-card data-v-744e1f25">
+                                <image class="img data-v-744e1f25" mode="widthFix" src="{{$root.m2}}"></image>
+                            </view>
+                            <view class="quantity data-v-744e1f25">{{data.nocardUserCount}}<text class="name data-v-744e1f25">名</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="data-v-744e1f25" wx:else>
+                    <view class="noCourseData data-v-744e1f25">
+                        <image class="icon data-v-744e1f25" src="{{$root.m3}}"></image>
+                        <text class="explain data-v-744e1f25">~ 没有会员卡分析~</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-744e1f25" vueId="380fba4e-9"></ff-bottom-logo>
+</view>

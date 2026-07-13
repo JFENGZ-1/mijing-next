@@ -1,0 +1,40 @@
+<view class="suject-openrule-container data-v-6652cfc3">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-6652cfc3" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','openrulePopupShow','$event',[] ] ] ] ] ]}}" title="开课规则" value="{{openrulePopupShow}}" vueId="b930c39c-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-6652cfc3" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-6652cfc3" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'b930c39c-2'+','+'b930c39c-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="suject-openrule data-v-6652cfc3">
+            <view class="content data-v-6652cfc3">
+                <view class="rule-max data-v-6652cfc3">
+                    <view class="rule-max-text data-v-6652cfc3">
+                        <text class="data-v-6652cfc3">限制最多预约人数</text>
+                    </view>
+                    <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-6652cfc3" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','openruleMax','$event',[] ] ] ] ] ]}}" value="{{openruleMax}}" vueId="{{'b930c39c-3'+','+'b930c39c-1'}}" vueSlots="{{['default']}}">
+                        <view class="rule-max-content data-v-6652cfc3">
+                            <view class="max data-v-6652cfc3">
+                                <u-radio bind:__l="__l" class="data-v-6652cfc3" name="1" vueId="{{'b930c39c-4'+','+'b930c39c-3'}}" vueSlots="{{['default']}}">最高</u-radio>
+                                <view class="input-box data-v-6652cfc3">
+                                    <input bindinput="__e" class="{{['com-input','data-v-6652cfc3',openruleMax==0?'discolor':'fontcolor']}}" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','openruleMaxValue','$event',[] ] ] ] ] ]}}" disabled="{{openruleMax==0}}" maxlength="3" type="number" value="{{openruleMaxValue}}"></input>人</view>
+                            </view>
+                        </view>
+                    </u-radio-group>
+                </view>
+                <view class="rule-max data-v-6652cfc3">
+                    <view class="rule-max-text data-v-6652cfc3">
+                        <text class="data-v-6652cfc3">满(最低)几人开课</text>
+                    </view>
+                    <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-6652cfc3" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','openruleMin','$event',[] ] ] ] ] ]}}" value="{{openruleMin}}" vueId="{{'b930c39c-5'+','+'b930c39c-1'}}" vueSlots="{{['default']}}">
+                        <view class="rule-max-content data-v-6652cfc3">
+                            <view class="max data-v-6652cfc3">
+                                <u-radio bind:__l="__l" class="data-v-6652cfc3" name="1" vueId="{{'b930c39c-6'+','+'b930c39c-5'}}" vueSlots="{{['default']}}">最低</u-radio>
+                                <view class="input-box data-v-6652cfc3">
+                                    <input bindinput="__e" class="{{['com-input','data-v-6652cfc3',openruleMin==0?'discolor':'fontcolor']}}" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','openruleMinValue','$event',[] ] ] ] ] ]}}" disabled="{{openruleMin==0}}" maxlength="3" type="number" value="{{openruleMinValue}}"></input>人</view>
+                            </view>
+                            <view class="hint data-v-6652cfc3">* 人数不足最低时，则自动取消课程</view>
+                        </view>
+                    </u-radio-group>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

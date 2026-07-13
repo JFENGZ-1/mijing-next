@@ -1,0 +1,128 @@
+<view class="data-v-5897ea66">
+    <view bindtap="__e" class="home-container data-v-5897ea66" data-event-opts="{{[ [ 'tap',[ [ 'closeDrop',['$event'] ] ] ] ]}}" wx:if="{{shopInfo}}">
+        <view class="fixed-box-wrap data-v-5897ea66">
+            <view class="bg-img data-v-5897ea66" style="{{'background:'+'url('+$root.m0+')'+';'+'background-size:'+'100% 100%'+';'}}"></view>
+            <view class="fixed-content data-v-5897ea66">
+                <view class="data-v-5897ea66" style="{{'height:'+(StatusBar!==0?StatusBar:36)+CustomBar+'px'+';'}}"></view>
+                <view class="flex-1 data-v-5897ea66">
+                    <text class="time-greete data-v-5897ea66">{{reportData?$root.m1:'-'}}</text>
+                    <text class="greet-hint data-v-5897ea66">{{reportData.hellomsg[1]}}</text>
+                </view>
+            </view>
+            <view catchtap="__e" class="{{['capsule-wrap','data-v-5897ea66',shopInfo.hasSiteCount<=1?'visibility':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'headleVenue',['$event'] ] ] ] ]}}" style="{{'z-index:'+(reportData&&reportData.softwareExpire&&reportData.softwareExpire.daynum==0?'99999':'auto')+';'+'top:'+(StatusBar!==0?StatusBar:38)+'px'+';'+'height:'+CustomBar+'px'+';'}}">
+                <image class="change-icon data-v-5897ea66" src="{{$root.m2}}"></image>
+                <text class="site-name data-v-5897ea66">{{shopInfo.siteName}}</text>
+            </view>
+        </view>
+        <view class="fixed-loading-wrap data-v-5897ea66" wx:if="{{platform!='android'}}">
+            <view class="fixed-loading data-v-5897ea66">
+                <loading-pulse bind:__l="__l" class="data-v-5897ea66" vueId="1da55560-1"></loading-pulse>
+            </view>
+        </view>
+        <view class="today-data data-v-5897ea66">
+            <text class="money data-v-5897ea66" wx:if="{{isHideTodaySale||permissionInfo&&!permissionInfo.index_income}}">******</text>
+            <text bindtap="__e" class="money data-v-5897ea66" data-event-opts="{{[ [ 'tap',[ ['headleBusinessReport'] ] ] ]}}" wx:else>{{reportData.report.SaleMoney}}</text>
+            <view catchtap="__e" class="money-text data-v-5897ea66" data-event-opts="{{[ [ 'tap',[ [ 'todaySaleClick',['$event'] ] ] ] ]}}">
+                <text class="today-money data-v-5897ea66">今日营业额(元)</text>
+                <image class="eye-icon data-v-5897ea66" src="{{$root.m3}}" wx:if="{{isHideTodaySale||permissionInfo&&!permissionInfo.index_income}}"></image>
+                <image class="eye-icon data-v-5897ea66" src="{{$root.m4}}" wx:else></image>
+            </view>
+            <view class="data-box data-v-5897ea66" wx:if="{{!isHideTodaySale&&permissionInfo&&permissionInfo.index_income}}">
+                <view class="item data-v-5897ea66">
+                    <text class="data-v-5897ea66">{{reportData.report.ManCountTeam}}</text>
+                    <view class="data-v-5897ea66">预约团课(人)</view>
+                </view>
+                <u-line bind:__l="__l" class="u-line data-v-5897ea66" color="#DDDDDD" direction="col" length="51rpx" vueId="1da55560-2"></u-line>
+                <view class="item data-v-5897ea66">
+                    <text class="data-v-5897ea66">{{reportData.report.ManCountPrivate}}</text>
+                    <view class="data-v-5897ea66">预约私教(人)</view>
+                </view>
+                <u-line bind:__l="__l" class="u-line data-v-5897ea66" color="#DDDDDD" direction="col" length="51rpx" vueId="1da55560-3"></u-line>
+                <view class="item data-v-5897ea66">
+                    <text class="data-v-5897ea66">{{reportData.report.SaleCardCount}}</text>
+                    <view class="data-v-5897ea66">售卡(张)</view>
+                </view>
+                <u-line bind:__l="__l" class="u-line data-v-5897ea66" color="#DDDDDD" direction="col" length="51rpx" vueId="1da55560-4"></u-line>
+                <view class="item data-v-5897ea66">
+                    <text class="data-v-5897ea66">{{reportData.report.TodayUserCount}}</text>
+                    <view class="data-v-5897ea66">新增会员(名)</view>
+                </view>
+            </view>
+        </view>
+        <view class="data-v-5897ea66" style="position:relative;">
+            <view class="data-v-5897ea66" wx:if="{{permissionInfo&&permissionInfo.index_sell_card}}">
+                <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-5897ea66" height="24" vueId="1da55560-5"></u-gap>
+                <view class="today-sale-box data-v-5897ea66">
+                    <view class="title-label data-v-5897ea66">
+                        <view bindtap="__e" class="data-v-5897ea66" data-event-opts="{{[ [ 'tap',[ ['headleBusinessReport'] ] ] ]}}">今日售卡</view>
+                        <text class="title_num data-v-5897ea66">{{'共'+$root.g0+'笔'}}</text>
+                    </view>
+                    <view class="sale-wrap-wrap data-v-5897ea66" wx:for="{{$root.l0}}" wx:key="index">
+                        <view class="sale-item data-v-5897ea66">
+                            <image catchtap="__e" class="avator data-v-5897ea66" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['saleCardList','',index] ] ] ] ] ] ]}}" src="{{item.$orig.user_faceurl}}"></image>
+                            <view class="detail-info data-v-5897ea66">
+                                <view class="detail-info-wrap data-v-5897ea66">
+                                    <view class="l-info data-v-5897ea66">{{''+item.m5+''}}<view class="time-and-type data-v-5897ea66">{{''+item.g1+''}}<view class="type-box data-v-5897ea66" wx:if="{{item.$orig.newtag==1}}">
+                                                <image class="new-member-icon data-v-5897ea66" src="{{item.m6}}"></image>
+                                                <view class="type-name new-member-label data-v-5897ea66">新会员</view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="card-name data-v-5897ea66">{{''+item.m7+''}}</view>
+                                    <view class="r-info data-v-5897ea66">{{'￥'+item.$orig.order_amount+''}}<text class="type data-v-5897ea66">{{item.$orig.pay_method==1?'线上支付':''}}</text>
+                                    </view>
+                                </view>
+                                <view class="remark data-v-5897ea66" wx:if="{{item.$orig.order_remark!=null}}">
+                                    <text class="remarkfont data-v-5897ea66">备注：</text>
+                                    <text class="remarkcontent data-v-5897ea66">{{item.$orig.order_remark!=null?item.$orig.order_remark:''}}</text>
+                                </view>
+                                <u-line bind:__l="__l" class="card_u_line data-v-5897ea66" color="#ececed" vueId="{{'1da55560-6-'+index}}"></u-line>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="noText data-v-5897ea66" wx:if="{{$root.g2==0}}">
+                        <text class="data-v-5897ea66">~ 没有会员购卡哦 ~</text>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-5897ea66" wx:if="{{permissionInfo&&permissionInfo.index_appointment_course}}">
+                <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-5897ea66" height="24" vueId="1da55560-7"></u-gap>
+                <view class="appoint-box data-v-5897ea66">
+                    <view class="title-label data-v-5897ea66">今日约课<text class="title_num data-v-5897ea66">{{'共'+$root.g3+'人次'}}</text>
+                    </view>
+                    <view class="appoint-wrap data-v-5897ea66" wx:for="{{appointRecordList}}" wx:key="index">
+                        <appoint-item appointInfo="{{item}}" bind:__l="__l" bind:loadAppointRecord="__e" bind:memberDetails="__e" bind:showDrop="__e" class="data-v-5897ea66" data-event-opts="{{[ [ '^showDrop',[ ['appointShowDrop'] ] ],[ '^loadAppointRecord',[ ['loadAppointRecord'] ] ],[ '^memberDetails',[ [ 'memberDetails',['$0'],[ [ ['appointRecordList','',index] ] ] ] ] ] ]}}" vueId="{{'1da55560-8-'+index}}"></appoint-item>
+                    </view>
+                    <view class="data-v-5897ea66" wx:if="{{$root.g4==0}}">
+                        <view class="noCourseData data-v-5897ea66">
+                            <image class="icon data-v-5897ea66" src="{{$root.m8}}"></image>
+                            <text class="text data-v-5897ea66">还没有会员约课哦</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="nodata data-v-5897ea66" wx:if="{{$root.g5}}">
+                <u-divider bgColor="#F5F5F5" bind:__l="__l" borderColor="#dadada" class="data-v-5897ea66" color="#bfbfbf" halfWidth="74" vueId="1da55560-9" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+            </view>
+            <view class="none-permission data-v-5897ea66" wx:if="{{!hasAllPermission}}">
+                <nodata bind:__l="__l" class="data-v-5897ea66" vueId="1da55560-10"></nodata>
+            </view>
+            <ff-bottom-logo bind:__l="__l" class="data-v-5897ea66" vueId="1da55560-11"></ff-bottom-logo>
+        </view>
+    </view>
+    <privacy bind:__l="__l" class="data-v-5897ea66" vueId="1da55560-12"></privacy>
+    <expired-alert bind:__l="__l" class="data-v-5897ea66" page="home" vueId="1da55560-13"></expired-alert>
+    <remark-order-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-5897ea66 vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editremarkOrder'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkOrderChild" vueId="1da55560-14"></remark-order-popup>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-5897ea66 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ] ]}}" data-ref="confirmModal" title="删除该记录?" vueId="1da55560-15" vueSlots="{{['content']}}">
+        <view class="data-v-5897ea66" slot="content">
+            <text class="data-v-5897ea66" style="{{'display:block;'}}">仅删除此条收款记录，不影响已发出的会员卡</text>
+        </view>
+    </confirm-modal>
+    <view class="official_accounts_box data-v-5897ea66" wx:if="{{reportData&&!reportData.serviceCodeFocus&&!shopInfo.isVisitor}}">
+        <view class="content data-v-5897ea66">
+            <view class="explan-wrap data-v-5897ea66">会员约课、课程取消等通知收不到？<view class="explan data-v-5897ea66">关注公众号即可收到消息通知</view>
+            </view>
+            <view catchtap="__e" class="follow_BT data-v-5897ea66" data-event-opts="{{[ [ 'tap',[ [ 'goFollow',['$event'] ] ] ] ]}}">去关注</view>
+        </view>
+    </view>
+</view>

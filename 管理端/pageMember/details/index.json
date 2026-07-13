@@ -1,0 +1,21 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "card-all-project": "/components/card-all-project/index",
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "make-over": "/pageMember/components/make-over",
+    "mark-pop": "/pageMember/components/mark-pop",
+    "member-card": "/components/mumber-card/index",
+    "new-card": "/pageMember/components/immediatelyCard/new_card",
+    "remark-order-card-popup": "/components/ff-textarea/ff-textarea",
+    "remark-order-popup": "/components/ff-textarea/ff-textarea",
+    "remarks": "/pageMember/components/remarks",
+    "u-divider": "/uview-ui/components/u-divider/u-divider",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

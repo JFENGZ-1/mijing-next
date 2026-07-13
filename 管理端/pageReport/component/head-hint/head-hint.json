@@ -1,0 +1,9 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm": "/components/confirm-modal/confirm-modal",
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

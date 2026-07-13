@@ -1,0 +1,37 @@
+<view class="data-v-eabade96">
+    <navigation background="#181818" bind:__l="__l" bind:back="__e" class="data-v-eabade96" data-event-opts="{{[ [ '^back',[ ['backPage'] ] ] ]}}" isBack="{{false}}" vueId="2d0b65ba-1"></navigation>
+    <view class="info data-v-eabade96" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}">
+        <info bind:__l="__l" bind:orderClick="__e" class="data-v-eabade96" data-event-opts="{{[ [ '^orderClick',[ ['orderClick'] ] ] ]}}" vueId="2d0b65ba-2"></info>
+    </view>
+    <view class="placeholder-view data-v-eabade96" style="{{'top:'+StatusBar+CustomBar+infoH+'px'+';'}}"></view>
+    <view class="content data-v-eabade96" style="{{'margin-top:'+StatusBar+CustomBar+infoH+'px'+';'}}">
+        <view class="serve-nav data-v-eabade96">
+            <view bindtap="__e" class="nav-item data-v-eabade96" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pages/shopOrder/index?source=mine'] ] ] ] ] ] ]}}">
+                <view class="logo-wrap data-v-eabade96">
+                    <image class="data-v-eabade96" src="{{$root.m0}}"></image>
+                </view>
+                <text class="data-v-eabade96">订购记录</text>
+            </view>
+            <view bindtap="__e" class="nav-item data-v-eabade96" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pageServer/serve-agreement'] ] ] ] ] ] ]}}">
+                <view class="logo-wrap data-v-eabade96">
+                    <image class="data-v-eabade96" src="{{$root.m1}}"></image>
+                </view>
+                <text class="data-v-eabade96">服务协议</text>
+            </view>
+        </view>
+        <view class="data-v-eabade96">
+            <service bind:__l="__l" bind:copy="__e" class="data-v-eabade96" data-event-opts="{{[ [ '^copy',[ ['copy'] ] ] ]}}" vueId="2d0b65ba-3"></service>
+        </view>
+    </view>
+    <service-bottom-logo bind:__l="__l" class="data-v-eabade96" vueId="2d0b65ba-4"></service-bottom-logo>
+    <confirm-modal bind:__l="__l" class="data-v-eabade96 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="客服微信号已复制成功" vueId="2d0b65ba-5" vueSlots="{{['content','btn']}}">
+        <view class="data-v-eabade96" slot="content">
+            <view class="data-v-eabade96">请微信搜索并添加客服为好友</view>
+            <view class="data-v-eabade96">客服工作时间：周一~周五 早9:30~20:00</view>
+            <view class="data-v-eabade96">(其它时间不定时回复)</view>
+        </view>
+        <view class="data-v-eabade96" slot="btn">
+            <view bindtap="__e" class="modal-btn button data-v-eabade96" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtn',['$event'] ] ] ] ]}}">知道了</view>
+        </view>
+    </confirm-modal>
+</view>

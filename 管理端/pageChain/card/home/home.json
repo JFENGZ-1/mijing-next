@@ -1,0 +1,15 @@
+{
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationBarTitleText": "连锁通用卡",
+  "usingComponents": {
+    "card-all-project": "/components/card-all-project/index",
+    "create-mode": "/pageChain/card/components/create-mode",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "ff-counts-card": "/components/ff-counts-card/ff-counts-card",
+    "ff-date-card": "/components/ff-date-card/ff-date-card",
+    "ff-value-card": "/components/ff-value-card/ff-value-card",
+    "navigation": "/components/navigation/index",
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

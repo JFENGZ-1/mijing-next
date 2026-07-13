@@ -1,0 +1,8 @@
+<view class="wrap data-v-38fb0c16">
+    <view class="icon data-v-38fb0c16">
+        <u-icon bind:__l="__l" class="icon data-v-38fb0c16" color="#C96B30" name="bell" vueId="1b52275b-1"></u-icon>
+    </view>
+    <view class="hint-text data-v-38fb0c16">
+        <slot></slot>
+    </view>
+</view>

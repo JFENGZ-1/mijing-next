@@ -1,0 +1,22 @@
+{
+  "disableScroll": false,
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "identity-popup": "/pagesImp/shop/staff/components/identity-popup",
+    "navigation": "/components/navigation/index",
+    "permission-popup": "/pagesImp/shop/staff/components/permission-popup",
+    "u-action-sheet": "/uview-ui/components/u-action-sheet/u-action-sheet",
+    "u-cell-item": "/uview-ui/components/u-cell-item/u-cell-item",
+    "u-checkbox": "/uview-ui/components/u-checkbox/u-checkbox",
+    "u-checkbox-group": "/uview-ui/components/u-checkbox-group/u-checkbox-group",
+    "u-form": "/uview-ui/components/u-form/u-form",
+    "u-form-item": "/uview-ui/components/u-form-item/u-form-item",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-modal": "/uview-ui/components/u-modal/u-modal",
+    "u-subsection": "/uview-ui/components/u-subsection/u-subsection",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

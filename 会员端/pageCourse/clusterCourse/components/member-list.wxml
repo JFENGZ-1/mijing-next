@@ -1,0 +1,20 @@
+<view class="data-v-bd0b23be">
+    <dialog bind:__l="__l" bind:input="__e" btnShow="{{true}}" class="data-v-bd0b23be" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" sizeType="{{2}}" title="已预约会员" value="{{show}}" vueId="1dfda24d-1" vueSlots="{{['content','btn-wrap']}}">
+        <view class="data-v-bd0b23be" slot="content">
+            <view class="list data-v-bd0b23be">
+                <view class="item data-v-bd0b23be" wx:for="{{$root.l0}}" wx:key="index">
+                    <view class="number data-v-bd0b23be">{{index+1}}</view>
+                    <view class="photo_img data-v-bd0b23be">
+                        <image class="pic data-v-bd0b23be" src="{{item.$orig.userFaceurl}}"></image>
+                    </view>
+                    <view class="name data-v-bd0b23be">{{''+item.m0+''}}<text class="data-v-bd0b23be" wx:if="{{item.$orig.isMine}}">（我）</text>
+                    </view>
+                    <view class="status data-v-bd0b23be">已预约</view>
+                </view>
+            </view>
+        </view>
+        <view class="data-v-bd0b23be" slot="btn-wrap">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-bd0b23be" customStyle="{{confirBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['confirm'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" shape="circle" type="custom" vueId="{{'1dfda24d-2'+','+'1dfda24d-1'}}" vueSlots="{{['default']}}">知道了</u-button>
+        </view>
+    </dialog>
+</view>

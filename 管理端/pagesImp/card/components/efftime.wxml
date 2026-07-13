@@ -1,0 +1,38 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-054e4775" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="1110" tips="可直接滑动日期，选择任意时间" title="有效期设置" value="{{show}}" vueId="92e69c32-1" vueSlots="{{['default','confrimBtn']}}">
+    <view class="com-button-f1 data-v-054e4775" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-054e4775" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" disabled="{{isDisabled}}" type="primary" vueId="{{'92e69c32-2'+','+'92e69c32-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-054e4775">
+        <view class="history-list com-button-list data-v-054e4775">
+            <view class="button-list data-v-054e4775">
+                <view bindtap="__e" class="{{['list-item','data-v-054e4775',currentTabs==item.value?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'activeTabs',['$0'],[ [ ['tabs','',index,'value'] ] ] ] ] ] ]}}" wx:if="{{!(item.value==0&&!isShowPerpetual)}}" wx:for="{{tabs}}" wx:key="index">{{''+item.name+''}}<view class="{{['data-v-054e4775',currentTabs==item.value?'icon-wrap':'unicon-wrap']}}">
+                        <u-icon bind:__l="__l" class="icon data-v-054e4775" color="#ffffff" height="25rpx" name="checkbox-mark" size="15" vueId="{{'92e69c32-3-'+index+','+'92e69c32-1'}}" width="25rpx"></u-icon>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="title-box data-v-054e4775">自定义时间</view>
+        <view class="u-select__body data-v-054e4775">
+            <picker-view bindchange="__e" bindpickend="__e" bindpickstart="__e" class="u-select__body__picker-view data-v-054e4775" data-event-opts="{{[ [ 'change',[ [ 'bindChange',['$event'] ] ] ],[ 'pickstart',[ [ 'pickstart',['$event'] ] ] ],[ 'pickend',[ [ 'pickend',['$event'] ] ] ] ]}}" indicatorClass="com-picker-indicator" indicatorStyle="background: WhiteSmoke;z-index:0;border-radius: 14rpx;" style="height:500rpx;" value="{{pickerValue}}">
+                <picker-view-column class="data-v-054e4775">
+                    <view class="data-v-054e4775"></view>
+                    <view class="u-select__body__picker-view__item data-v-054e4775" wx:for="{{10}}" wx:key="index">
+                        <view class="u-line-1 data-v-054e4775" style="color:black;">{{item+1+'年'}}</view>
+                    </view>
+                </picker-view-column>
+                <picker-view-column class="data-v-054e4775">
+                    <view class="data-v-054e4775"></view>
+                    <view class="u-select__body__picker-view__item data-v-054e4775" wx:for="{{12}}" wx:key="index">
+                        <view class="u-line-1 data-v-054e4775" style="color:black;">{{item+1+'个月'}}</view>
+                    </view>
+                </picker-view-column>
+                <picker-view-column class="data-v-054e4775">
+                    <view class="data-v-054e4775"></view>
+                    <view class="u-select__body__picker-view__item data-v-054e4775" wx:for="{{30}}" wx:key="index">
+                        <view class="u-line-1 data-v-054e4775" style="color:black;">{{item+1+'天'}}</view>
+                    </view>
+                </picker-view-column>
+            </picker-view>
+        </view>
+    </view>
+</ff-popup>

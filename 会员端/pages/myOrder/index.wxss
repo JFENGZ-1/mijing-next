@@ -1,0 +1,101 @@
+.content.data-v-79a58656 {
+  overflow: hidden;
+  padding-bottom: 100rpx;
+  padding-top: 20rpx;
+}
+.order-wrap.data-v-79a58656 {
+  background-color: #fff;
+  margin-bottom: 20rpx;
+  padding: 15rpx 38rpx 35rpx;
+}
+.title-wrap.data-v-79a58656 {
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 30rpx;
+  line-height: 80rpx;
+  position: relative;
+}
+.title-wrap .entry.data-v-79a58656 {
+  font-weight: 500;
+  width: 200rpx;
+}
+.title-wrap .state.data-v-79a58656 {
+  flex-grow: 1;
+  text-align: right;
+}
+.title-wrap.data-v-79a58656:after {
+  border-bottom: 1px solid #f0f0f0;
+  box-sizing: border-box;
+  content: " ";
+  height: 200%;
+  left: -50%;
+  pointer-events: none;
+  position: absolute;
+  top: -50%;
+  transform: scale(0.5);
+  width: 200%;
+  z-index: 2;
+}
+.card-info-wrap.data-v-79a58656 {
+  display: -webkit-flex;
+  display: flex;
+  padding-top: 40rpx;
+}
+.card-info-wrap .card-wrap.data-v-79a58656 {
+  width: 330rpx;
+}
+.card-info-wrap .amount-wrap.data-v-79a58656 {
+  color: #181818;
+  flex-grow: 1;
+  font-size: 40rpx;
+  padding-top: 48rpx;
+}
+.card-info-wrap .amount-wrap .title.data-v-79a58656 {
+  font-size: 26rpx;
+  line-height: 30rpx;
+}
+.card-info-wrap .amount-wrap .symbol.data-v-79a58656 {
+  font-size: 26rpx;
+  padding-left: 5rpx;
+  padding-right: 8rpx;
+}
+.info-wrap.data-v-79a58656 {
+  padding-top: 20rpx;
+}
+.info-wrap .item.data-v-79a58656 {
+  display: -webkit-flex;
+  display: flex;
+  line-height: 50rpx;
+  padding-left: 8rpx;
+  padding-right: 8rpx;
+}
+.info-wrap .title.data-v-79a58656 {
+  color: #989898;
+  font-size: 26rpx;
+  width: 200rpx;
+}
+.info-wrap .data.data-v-79a58656 {
+  flex: 1;
+  text-align: right;
+}
+.noData.data-v-79a58656 {
+  align-items: center;
+  background-color: #fff;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  margin-top: -20rpx;
+  min-height: 1280rpx;
+}
+.noData .pic.data-v-79a58656 {
+  height: 171rpx;
+  margin-bottom: 40rpx;
+  margin-top: 200rpx;
+  width: 203rpx;
+}
+.noData .tips.data-v-79a58656 {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 45rpx;
+}

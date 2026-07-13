@@ -1,0 +1,12 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "card-index": "/components/cardToolbox/member-details",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "u-field": "/uview-ui/components/u-field/u-field",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

@@ -1,0 +1,21 @@
+<view class="creatcourse-container data-v-de114e40">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-de114e40" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','businessPopupShow','$event',[] ] ] ] ] ]}}" title="{{title}}" value="{{businessPopupShow}}" vueId="63d73123-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-de114e40" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-de114e40" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'63d73123-2'+','+'63d73123-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="creatcourse data-v-de114e40">
+            <view class="textc data-v-de114e40">
+                <text class="title data-v-de114e40" wx:if="{{!cardType||cardType==1}}">原金额</text>
+                <text class="title data-v-de114e40" wx:if="{{cardType&&cardType==2}}">原次数</text>
+                <text class="title data-v-de114e40" wx:if="{{cardType&&cardType==3}}">原天数</text>
+                <text class="money data-v-de114e40" wx:if="{{!cardType||cardType==1}}">{{'￥'+money}}</text>
+                <text class="money data-v-de114e40" wx:if="{{cardType&&cardType==2}}">{{money+'次'}}</text>
+                <text class="money data-v-de114e40" wx:if="{{cardType&&cardType==3}}">{{money+'天'}}</text>
+            </view>
+            <view class="textc data-v-de114e40">
+                <text class="title data-v-de114e40">修改为</text>
+                <u-input bind:__l="__l" bind:input="__e" class="data-v-de114e40" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','newMoney','$event',[] ] ] ] ] ]}}" height="80" maxlength="10" placeholder="{{placeholder}}" placeholderStyle="font-size: 28rpx; color: #dadada;" type="digit" value="{{newMoney}}" vueId="{{'63d73123-3'+','+'63d73123-1'}}"></u-input>
+            </view>
+        </view>
+    </ff-popup>
+</view>

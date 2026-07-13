@@ -1,0 +1,54 @@
+<view class="data-v-c1e42424">
+    <dialog bind:__l="__l" bind:input="__e" btnShow="{{true}}" class="data-v-c1e42424" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" sizeType="{{2}}" title="确认信息" value="{{show}}" vueId="9245d31e-1" vueSlots="{{['content','btn-wrap']}}">
+        <view class="data-v-c1e42424" slot="content">
+            <view class="data-v-c1e42424" wx:if="{{cardInfo}}">
+                <view class="card-wrap data-v-c1e42424">
+                    <ff-value-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{cardInfo}}" class="data-v-c1e42424" vueId="{{'9245d31e-2'+','+'9245d31e-1'}}" wx:if="{{cardInfo.cardType==1}}"></ff-value-card>
+                    <ff-counts-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{cardInfo}}" class="data-v-c1e42424" vueId="{{'9245d31e-3'+','+'9245d31e-1'}}" wx:if="{{cardInfo.cardType==2}}"></ff-counts-card>
+                    <ff-date-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{cardInfo}}" class="data-v-c1e42424" vueId="{{'9245d31e-4'+','+'9245d31e-1'}}" wx:if="{{cardInfo.cardType==3}}"></ff-date-card>
+                </view>
+                <view class="price data-v-c1e42424">
+                    <text class="unit data-v-c1e42424">¥</text>
+                    <text class="data-v-c1e42424">{{isShowBuyCardPrice?cardInfo.price:'-'}}</text>
+                </view>
+                <view class="data-v-c1e42424" wx:if="{{cardInfo.cardType==1}}">
+                    <value-card bind:__l="__l" cardInfo="{{cardInfo}}" class="data-v-c1e42424" vueId="{{'9245d31e-5'+','+'9245d31e-1'}}"></value-card>
+                </view>
+                <view class="data-v-c1e42424" wx:if="{{cardInfo.cardType==2}}">
+                    <counts-card bind:__l="__l" cardInfo="{{cardInfo}}" class="data-v-c1e42424" vueId="{{'9245d31e-6'+','+'9245d31e-1'}}"></counts-card>
+                </view>
+                <view class="data-v-c1e42424" wx:if="{{cardInfo.cardType==3}}">
+                    <date-card bind:__l="__l" cardInfo="{{cardInfo}}" class="data-v-c1e42424" vueId="{{'9245d31e-7'+','+'9245d31e-1'}}"></date-card>
+                </view>
+                <view class="hint data-v-c1e42424">
+                    <u-checkbox activeColor="#22C788" bind:__l="__l" bind:input="__e" class="data-v-c1e42424" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','checked','$event',[] ] ] ] ] ]}}" isShowLabel="{{false}}" shape="circle" value="{{checked}}" vueId="{{'9245d31e-8'+','+'9245d31e-1'}}" width="50"></u-checkbox>
+                    <view class="text data-v-c1e42424">已查看并同意<text bindtap="__e" class="data-v-c1e42424" data-event-opts="{{[ [ 'tap',[ [ 'lookAgreement',[1] ] ] ] ]}}">《会员协议》</text>及<text bindtap="__e" class="data-v-c1e42424" data-event-opts="{{[ [ 'tap',[ [ 'lookAgreement',[2] ] ] ] ]}}">《会员权益》</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="data-v-c1e42424" slot="btn-wrap">
+            <view class="com-button-f1 data-v-c1e42424">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-c1e42424" customStyle="{{confirBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['confirm'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" shape="circle" type="custom" vueId="{{'9245d31e-9'+','+'9245d31e-1'}}" vueSlots="{{['default']}}">去支付</u-button>
+            </view>
+        </view>
+    </dialog>
+    <u-popup bind:__l="__l" bind:input="__e" borderRadius="21" class="data-v-c1e42424" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','memberAgreement','$event',[] ] ] ] ] ]}}" height="1000" mode="center" value="{{memberAgreement}}" vueId="9245d31e-10" vueSlots="{{['default']}}" width="649">
+        <view class="agreement_main data-v-c1e42424">
+            <view class="title data-v-c1e42424">{{title}}</view>
+            <view class="content data-v-c1e42424">
+                <rich-text class="data-v-c1e42424" nodes="{{nodes}}" wx:if="{{nodes}}"></rich-text>
+                <text class="data-v-c1e42424" wx:else>无</text>
+            </view>
+            <view class="btn-wrap data-v-c1e42424">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-c1e42424" customStyle="{{width:'231rpx',height:'69rpx'}}" data-event-opts="{{[ [ '^click',[ ['close'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" shape="circle" type="custom" vueId="{{'9245d31e-11'+','+'9245d31e-10'}}" vueSlots="{{['default']}}">知道了</u-button>
+            </view>
+        </view>
+    </u-popup>
+    <panel-active bind:__l="__l" bind:ok="__e" class="data-v-c1e42424 vue-ref" data-event-opts="{{[ [ '^ok',[ ['ok'] ] ] ]}}" data-ref="panelActive" mask="{{true}}" vueId="9245d31e-12" vueSlots="{{['statusText','statusTextSub']}}">
+        <view class="data-v-c1e42424" slot="statusText">暂未开通</view>
+        <view class="data-v-c1e42424" slot="statusTextSub">
+            <text class="data-v-c1e42424">请联系场馆，直接付给馆主</text>
+        </view>
+    </panel-active>
+</view>

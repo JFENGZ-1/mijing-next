@@ -1,0 +1,69 @@
+<view class="data-v-9d154550">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-9d154550" text="{{title}}" vueId="779b5ee1-1"></navigation>
+    <view class="main data-v-9d154550" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-9d154550">
+            <view class="head data-v-9d154550" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="hint_wrap data-v-9d154550">
+                    <hint bind:__l="__l" class="data-v-9d154550" show="{{hintShow}}" updateTime="{{computeTime.computeTime}}" vueId="779b5ee1-2" vueSlots="{{['confirmname']}}">
+                        <view class="data-v-9d154550" slot="confirmname">
+                            <view class="data-v-9d154550">
+                                <text class="data-v-9d154550" style="color:#181818;">统计说明：</text>
+                                <text class="value data-v-9d154550">该数据每日统计一次</text>
+                            </view>
+                        </view>
+                    </hint>
+                </view>
+                <view class="summarize data-v-9d154550">
+                    <view class="top_data data-v-9d154550">
+                        <view class="more-data data-v-9d154550">
+                            <view class="data-v-9d154550">{{'当'+config.intValue+' 天未上课时提醒'}}</view>
+                            <view bindtap="__e" class="data-v-9d154550" data-event-opts="{{[ [ 'tap',[ ['handleSet'] ] ] ]}}" style="display:flex;">
+                                <image class="icon data-v-9d154550" src="{{$root.m0}}"></image>
+                                <u-icon bind:__l="__l" class="arrow-right data-v-9d154550" color="#989898" name="arrow-right" size="16" vueId="779b5ee1-3"></u-icon>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="item data-v-9d154550">
+                    <view class="item_head data-v-9d154550">
+                        <view class="item_right data-v-9d154550">{{'共有'+totalCount+'名会员'}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-9d154550">
+                <view class="list data-v-9d154550">
+                    <view class="item data-v-9d154550" wx:if="{{!notdata}}">
+                        <view class="data-v-9d154550" style="padding-top:28rpx;" wx:for="{{$root.l0}}" wx:for-index="index1" wx:key="index1">
+                            <view class="sale-item data-v-9d154550">
+                                <image bindtap="__e" class="avator data-v-9d154550" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}" src="{{item.$orig.userFaceurl}}"></image>
+                                <view class="detail-info data-v-9d154550">
+                                    <view bindtap="__e" class="detail-info-wrap data-v-9d154550" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}">
+                                        <view class="l-info data-v-9d154550">{{''+item.m1+''}}<view class="time-and-type data-v-9d154550">最后上课：<text class="data-v-9d154550" wx:if="{{item.$orig.lastClassDate}}">{{item.g0}}</text>
+                                                <text class="data-v-9d154550" wx:else>--</text>
+                                            </view>
+                                        </view>
+                                        <view class="r-info data-v-9d154550">
+                                            <text class="day-num data-v-9d154550">{{item.$orig.noClassDays+'天'}}</text>
+                                            <u-icon bind:__l="__l" class="arrow-right data-v-9d154550" color="#989898" name="arrow-right" size="15" vueId="{{'779b5ee1-4-'+index1}}"></u-icon>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-9d154550" color="#F0F0F0" length="576rpx" margin="0rpx 0rpx 0rpx 98rpx" vueId="{{'779b5ee1-5-'+index1}}" wx:if="{{item.g1-1!=index1}}"></u-line>
+                        </view>
+                    </view>
+                    <view class="data-v-9d154550" wx:else>
+                        <view class="noCourseData data-v-9d154550">
+                            <image class="icon data-v-9d154550" src="{{$root.m2}}"></image>
+                            <text class="explain data-v-9d154550">~ 没有多天未上课的会员 ~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-9d154550" wx:if="{{!notdata&&ismore}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-9d154550" color="#bfbfbf" halfWidth="74" vueId="779b5ee1-6" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-9d154550" vueId="779b5ee1-7"></ff-bottom-logo>
+    </view>
+</view>

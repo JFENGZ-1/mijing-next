@@ -1,0 +1,65 @@
+<view class="data-v-80c94a6c">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-80c94a6c" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="{{950}}" title="{{title}}" value="{{show}}" vueId="5b6b5a29-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-80c94a6c" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-80c94a6c" data-event-opts="{{[ [ '^click',[ ['confirm'] ] ] ]}}" disabled="{{!currentCard||!currentCard.canPay}}" type="primary" vueId="{{'5b6b5a29-2'+','+'5b6b5a29-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="data-v-80c94a6c" wx:if="{{$root.g0>0}}">
+            <view class="{{['card-wrap','data-v-80c94a6c',cardInfo.cardStatus==2||cardInfo.balanceAmount==0?'gary':'']}}">
+                <view class="card-item data-v-80c94a6c">
+                    <member-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{currentCard}}" class="data-v-80c94a6c" vueId="{{'5b6b5a29-3'+','+'5b6b5a29-1'}}"></member-card>
+                </view>
+            </view>
+            <view class="data-v-80c94a6c" wx:if="{{$root.g1>1}}">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-80c94a6c" customStyle="{{customStyle}}" data-event-opts="{{[ [ '^click',[ ['selectioncard'] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'5b6b5a29-4'+','+'5b6b5a29-1'}}" vueSlots="{{['default']}}">选择其它卡<u-icon bind:__l="__l" class="data-v-80c94a6c" color="#989898" name="arrow-down" size="15rpx" style="margin-left:7rpx;" vueId="{{'5b6b5a29-5'+','+'5b6b5a29-4'}}"></u-icon>
+                </u-button>
+            </view>
+            <view class="payment-wrap data-v-80c94a6c">
+                <view class="data-v-80c94a6c" wx:if="{{currentCard.unitPrice!=null}}">
+                    <view class="unit-price data-v-80c94a6c">
+                        <block wx:if="{{currentCard.cardType==1}}">¥</block>
+                        <text class="data-v-80c94a6c">{{(currentCard.cardType==1&&currentCard.unitPrice*numberValue%1!==0?$root.g2:currentCard.unitPrice*numberValue)+''}}{{''+(currentCard.cardType==1?'':currentCard.cardType==2?'次':'天')+''}}</text>
+                    </view>
+                    <view class="hint-text data-v-80c94a6c">
+                        <block wx:if="{{currentCard.amountInfo.isGroup}}">{{'应扣除「'+currentCard.groupName+'」'}}</block>
+                        <block wx:else>应扣除课时费</block>
+                    </view>
+                </view>
+                <view class="data-v-80c94a6c" wx:if="{{currentCard.canPay&&currentCard.manyRule.ruleId!=1}}">
+                    <u-line bind:__l="__l" class="data-v-80c94a6c" color="#F0F0F0" direction="row" length="278rpx" margin="25rpx auto" vueId="{{'5b6b5a29-6'+','+'5b6b5a29-1'}}"></u-line>
+                    <view class="appointment-info-wrap data-v-80c94a6c" wx:if="{{currentCard.canPay&&currentCard.manyRule.ruleId!=1&&appointmentData.appointmentStatus==1}}">
+                        <text class="title data-v-80c94a6c">预约人数:</text>
+                        <text class="number-value data-v-80c94a6c">{{numberValue}}</text>
+                        <view class="number-box data-v-80c94a6c">
+                            <view bindtap="__e" class="minus data-v-80c94a6c" data-event-opts="{{[ [ 'tap',[ [ 'minus',['$event'] ] ] ] ]}}">
+                                <u-icon bind:__l="__l" class="data-v-80c94a6c" color="#989898" name="minus" size="24rpx" vueId="{{'5b6b5a29-7'+','+'5b6b5a29-1'}}"></u-icon>
+                            </view>
+                            <view bindtap="__e" class="plus data-v-80c94a6c" data-event-opts="{{[ [ 'tap',[ [ 'plus',['$event'] ] ] ] ]}}" style="margin-left:14rpx;">
+                                <u-icon bind:__l="__l" class="data-v-80c94a6c" color="#989898" name="plus" size="24rpx" vueId="{{'5b6b5a29-8'+','+'5b6b5a29-1'}}"></u-icon>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <block wx:if="{{!currentCard.canPay}}">
+                    <view class="fail-pay-box data-v-80c94a6c" wx:if="{{currentCard.failPayCode==305}}">
+                        <view class="fail-pay data-v-80c94a6c">该卡不支持预约此课</view>
+                        <view catchtap="__e" class="go-to-set data-v-80c94a6c" data-event-opts="{{[ [ 'tap',[ [ 'handleJumpCard',['$event'] ] ] ] ]}}">为什么不能约？因为这张卡没有勾选可约这个课　去设置<u-icon bind:__l="__l" class="arrow-right data-v-80c94a6c" color="#003d82" name="arrow-right" size="15" vueId="{{'5b6b5a29-9'+','+'5b6b5a29-1'}}"></u-icon>
+                        </view>
+                    </view>
+                    <view class="fail-msg data-v-80c94a6c" wx:else>
+                        <text class="data-v-80c94a6c">{{currentCard.failPaymsg}}</text>
+                    </view>
+                </block>
+            </view>
+        </view>
+        <view class="data-v-80c94a6c" wx:else>
+            <view class="no-card data-v-80c94a6c" style="height:240rpx;">
+                <image class="data-v-80c94a6c" src="{{$root.m0}}"></image>
+            </view>
+            <view class="fail-msg data-v-80c94a6c">
+                <text class="data-v-80c94a6c">该会员还没有卡，先给他发卡后再约课，</text>
+            </view>
+        </view>
+    </ff-popup>
+    <chosecard bind:__l="__l" bind:choseCard="__e" class="data-v-80c94a6c vue-ref" data-event-opts="{{[ [ '^choseCard',[ ['selectCard'] ] ] ]}}" data-ref="chosecard" vueId="5b6b5a29-10"></chosecard>
+    <success-modal bind:__l="__l" bind:ok="__e" class="data-v-80c94a6c vue-ref" data-event-opts="{{[ [ '^ok',[ ['close'] ] ] ]}}" data-ref="successModal" vueId="5b6b5a29-11"></success-modal>
+</view>

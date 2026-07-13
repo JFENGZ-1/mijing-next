@@ -1,0 +1,116 @@
+<view class="data-v-c23a1680">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-c23a1680" text="{{title}}" vueId="7f609ca5-1"></navigation>
+    <view class="main data-v-c23a1680" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-c23a1680">
+            <view class="head data-v-c23a1680" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="summarize data-v-c23a1680">
+                    <view class="data-v-c23a1680">
+                        <view class="top_data data-v-c23a1680">
+                            <view class="data-v-c23a1680">
+                                <view class="top_text data-v-c23a1680">签到</view>
+                                <view class="top_money data-v-c23a1680">{{item.signUserCount}}<text class="fh data-v-c23a1680">人次</text>
+                                </view>
+                            </view>
+                            <view class="more-data data-v-c23a1680">
+                                <view class="item data-v-c23a1680">
+                                    <view class="info data-v-c23a1680">
+                                        <view class="data-v-c23a1680">排课</view>
+                                        <view class="info-foot data-v-c23a1680">
+                                            <text class="info_num data-v-c23a1680">{{item.arrangeCount==undefined?'--':item.arrangeCount}}</text>
+                                            <text class="info_name data-v-c23a1680">节</text>
+                                        </view>
+                                    </view>
+                                </view>
+                                <u-line bind:__l="__l" class="u-line data-v-c23a1680" color="#DDDDDD" direction="col" length="62rpx" vueId="7f609ca5-2"></u-line>
+                                <view class="item data-v-c23a1680">
+                                    <view class="info data-v-c23a1680">
+                                        <view class="data-v-c23a1680">成课</view>
+                                        <view class="info-foot data-v-c23a1680">
+                                            <text class="info_num data-v-c23a1680">{{(item.succCount==undefined?'--':item.succCount)+''}}</text>
+                                            <text class="info_name data-v-c23a1680">节</text>
+                                        </view>
+                                    </view>
+                                </view>
+                                <u-line bind:__l="__l" class="u-line data-v-c23a1680" color="#DDDDDD" direction="col" length="62rpx" vueId="7f609ca5-3"></u-line>
+                                <view class="item data-v-c23a1680">
+                                    <view class="info data-v-c23a1680">
+                                        <view class="data-v-c23a1680">取消</view>
+                                        <view class="info-foot data-v-c23a1680">
+                                            <text class="info_num data-v-c23a1680">{{item.cancelCount==undefined?'--':item.cancelCount}}</text>
+                                            <text class="info_name data-v-c23a1680">节</text>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="flex data-v-c23a1680">
+                    <view class="num data-v-c23a1680">共<text class="data-v-c23a1680">{{totalCount+'条记录'}}</text>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-c23a1680">
+                <view class="list data-v-c23a1680">
+                    <view class="coach data-v-c23a1680">
+                        <view class="data-v-c23a1680">
+                            <view class="data-v-c23a1680">
+                                <view class="data-v-c23a1680" style="min-height:750rpx;" wx:if="{{$root.g0}}">
+                                    <view bindtap="__e" class="data-v-c23a1680" data-event-opts="{{[ [ 'tap',[ [ 'leagueClassDetails',['$0'],[ [ ['detailList','',index1] ] ] ] ] ] ]}}" style="padding-bottom:40rpx;" wx:for="{{$root.l0}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                                        <view class="rc data-v-c23a1680">
+                                            <view class="data-v-c23a1680">{{item1.$orig.strArrangeDate}}</view>
+                                            <view class="data-v-c23a1680" wx:if="{{item1.$orig.signUserCount}}">
+                                                <text class="number data-v-c23a1680">签到</text>{{''+item1.$orig.signUserCount+''}}</view>
+                                            <view class="data-v-c23a1680" wx:else>
+                                                <text class="number data-v-c23a1680">-</text>
+                                            </view>
+                                        </view>
+                                        <view class="item_list data-v-c23a1680">
+                                            <view class="background_picture data-v-c23a1680">
+                                                <image class="image data-v-c23a1680" src="{{item1.m0}}" wx:if="{{item1.$orig.showBnt==5}}"></image>
+                                                <image class="image data-v-c23a1680" src="{{item1.m1}}" wx:if="{{item1.$orig.showBnt==7}}"></image>
+                                                <image class="image data-v-c23a1680" src="{{item1.m2}}" wx:if="{{item1.$orig.showBnt==6}}"></image>
+                                            </view>
+                                            <view class="mask data-v-c23a1680" wx:if="{{item1.$orig.showBnt==5||item1.$orig.showBnt==6||item1.$orig.showBnt==7}}"></view>
+                                            <view class="{{['item_flex','data-v-c23a1680',item1.$orig.showBnt==6||item1.$orig.showBnt==7||item1.$orig.showBnt==5||item1.$orig.showBnt==11?'grey':'']}}" style="{{'background:'+'url('+item1.$orig.courseBacklog+')'+';'+'background-size:'+'100% auto'+';'}}">
+                                                <view class="item_curriculum data-v-c23a1680">
+                                                    <view class="curriculum_flex data-v-c23a1680">
+                                                        <view class="item_curriculum_name data-v-c23a1680">{{''+item1.m3+''}}</view>
+                                                        <view class="type-box data-v-c23a1680" wx:if="{{item1.$orig.tagData&&item1.$orig.tagData!='不指定'}}">
+                                                            <image class="renew-icon data-v-c23a1680" src="{{item1.m4}}"></image>
+                                                            <view class="type-name new-member-label data-v-c23a1680">{{item1.$orig.tagData}}</view>
+                                                        </view>
+                                                    </view>
+                                                    <view class="item_information data-v-c23a1680">
+                                                        <view class="small_portrait data-v-c23a1680">
+                                                            <image class="image data-v-c23a1680" src="{{item1.$orig.staffFace}}"></image>
+                                                        </view>
+                                                        <view class="item_name data-v-c23a1680">{{item1.$orig.staffName}}</view>
+                                                    </view>
+                                                </view>
+                                                <view class="item_times data-v-c23a1680">
+                                                    <view class="start_time data-v-c23a1680">{{item1.$orig.strtime}}</view>
+                                                    <view class="end_time data-v-c23a1680">{{item1.$orig.strEndtime+'结束'}}</view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="data-v-c23a1680" wx:else>
+                                    <view class="noCourseData data-v-c23a1680">
+                                        <image class="icon data-v-c23a1680" src="{{$root.m5}}"></image>
+                                        <text class="tips data-v-c23a1680">~ 没有排课记录 ~</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="nodata data-v-c23a1680" wx:if="{{$root.g1!=0}}">
+        <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-c23a1680" color="#bfbfbf" halfWidth="74" vueId="7f609ca5-4" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-c23a1680" vueId="7f609ca5-5"></ff-bottom-logo>
+</view>

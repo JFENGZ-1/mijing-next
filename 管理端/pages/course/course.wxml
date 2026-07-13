@@ -1,0 +1,166 @@
+<view class="course-container data-v-021b4589">
+    <custom-navigation bind:__l="__l" class="data-v-021b4589" text="约课管理" vueId="3b395460-1"></custom-navigation>
+    <view class="placeholder-view data-v-021b4589" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main-content data-v-021b4589" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="body data-v-021b4589">
+            <view class="pt data-v-021b4589" wx:if="{{$root.g0}}">
+                <view class="pt-font data-v-021b4589">
+                    <text class="data-v-021b4589">私教</text>
+                </view>
+                <view class="loading-wrap data-v-021b4589" wx:if="{{!privateList}}">
+                    <loading-pulse bind:__l="__l" class="data-v-021b4589" vueId="3b395460-2"></loading-pulse>
+                </view>
+                <view class="scroll-view-wrap data-v-021b4589" wx:if="{{privateList}}">
+                    <scroll-view class="data-v-021b4589" scrollX="true" showScrollbar="false">
+                        <view class="pt-scroll data-v-021b4589" style="padding-left:5rpx;">
+                            <view bindtap="__e" class="pt-scroll-item data-v-021b4589" data-event-opts="{{[ [ 'tap',[ [ 'personalTrainerDetails',['$0'],[ [ ['privateList','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="image-wrap data-v-021b4589">
+                                    <view class="tag data-v-021b4589" wx:if="{{item.$orig.tagText&&item.$orig.tagText!='不指定'}}">
+                                        <image class="tag-icon-left data-v-021b4589" src="{{item.m0}}"></image>
+                                        <view class="text data-v-021b4589">{{item.$orig.tagText}}</view>
+                                        <image class="tag-icon-right data-v-021b4589" src="{{item.m1}}"></image>
+                                    </view>
+                                    <image class="coach-photo data-v-021b4589" src="{{item.$orig.staffFace}}"></image>
+                                </view>
+                                <view class="pt-scroll-font data-v-021b4589">
+                                    <text class="data-v-021b4589">{{item.m2}}</text>
+                                </view>
+                                <view class="pt-scroll-image data-v-021b4589" wx:if="{{item.g1>0}}">
+                                    <view class="data-v-021b4589" wx:for="{{item.$orig.userList}}" wx:for-index="j" wx:for-item="i" wx:key="j">
+                                        <image class="{{['data-v-021b4589',j==0?'first':'']}}" src="{{i.userFaceurl}}" wx:if="{{j<4}}"></image>
+                                    </view>
+                                    <view class="more-icon data-v-021b4589" wx:if="{{item.g2>4}}">
+                                        <u-icon bind:__l="__l" class="data-v-021b4589" color="#989898" name="more-dot-fill" size="20rpx" vueId="{{'3b395460-3-'+index}}"></u-icon>
+                                    </view>
+                                </view>
+                                <view class="pt-scroll-image-font data-v-021b4589" wx:if="{{item.g3}}">{{''+item.g4+'人预约'}}</view>
+                            </view>
+                        </view>
+                    </scroll-view>
+                </view>
+                <u-line bind:__l="__l" class="u-line data-v-021b4589" color="#DDDDDD" length="694rpx" margin="28rpx" vueId="3b395460-4"></u-line>
+            </view>
+            <view class="group data-v-021b4589">
+                <view class="data-v-021b4589">
+                    <view class="group-top data-v-021b4589">
+                        <text class="group-top1 data-v-021b4589">课程表</text>
+                        <image bindtap="__e" class="group-top3 data-v-021b4589" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}" src="{{$root.m3}}"></image>
+                        <text bindtap="__e" class="group-top2 data-v-021b4589" data-event-opts="{{[ [ 'tap',[ [ 'goBackTodayClick',['$event'] ] ] ] ]}}" wx:if="{{isGoBackToday}}">返回今天</text>
+                    </view>
+                </view>
+                <view class="data-v-021b4589" style="padding-top:18rpx;padding-bottom:15rpx;">
+                    <week-calendar bind:__l="__l" bind:daysChange="__e" bind:selectedChange="__e" class="data-v-021b4589 vue-ref" data-event-opts="{{[ [ '^selectedChange',[ ['datechange'] ] ],[ '^daysChange',[ ['daysChange'] ] ] ]}}" data-ref="calendarRef" vueId="3b395460-5"></week-calendar>
+                </view>
+            </view>
+        </view>
+        <view class="courseli data-v-021b4589">
+            <view class="data-v-021b4589" wx:if="{{teamList&&hasTeamPermission}}">
+                <view class="data-v-021b4589" wx:if="{{$root.g5>0}}">
+                    <view bindtap="__e" class="{{['course-wrap','data-v-021b4589',item.g6?'last':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'leagueClassDetails',['$0'],[ [ ['teamList','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l2}}" wx:key="index">
+                        <view class="course data-v-021b4589">
+                            <view class="make-white mask data-v-021b4589" wx:if="{{item.$orig.showBnt==5||item.$orig.showBnt==6||item.$orig.showBnt==7}}"></view>
+                            <view class="img_wrap data-v-021b4589" wx:if="{{item.$orig.showBnt==5||item.$orig.showBnt==7}}">
+                                <image class="data-v-021b4589" src="{{item.m4}}" wx:if="{{item.$orig.showBnt==5}}"></image>
+                                <image class="data-v-021b4589" src="{{item.m5}}" wx:if="{{item.$orig.showBnt==7}}"></image>
+                            </view>
+                            <view class="{{['course_item_wrap','data-v-021b4589',item.$orig.showBnt==6||item.$orig.showBnt==7||item.$orig.showBnt==5||item.$orig.showBnt==11?'gray':'']}}" style="{{'background-image:'+'url('+item.$orig.courseBacklog+')'+';'}}">
+                                <view class="coursetext data-v-021b4589">
+                                    <view class="data-v-021b4589" style="display:flex;justify-content:space-between;">
+                                        <view class="left-module data-v-021b4589">
+                                            <view class="top-view data-v-021b4589">
+                                                <text class="courseName data-v-021b4589">{{item.m6}}</text>
+                                                <view class="tag-wrap data-v-021b4589" wx:if="{{item.$orig.tagData&&item.$orig.tagData!='不指定'}}">
+                                                    <image class="item1-img data-v-021b4589" src="{{item.m7}}"></image>
+                                                    <text class="item1-text data-v-021b4589">{{item.$orig.tagData}}</text>
+                                                </view>
+                                            </view>
+                                            <view class="center-view data-v-021b4589">
+                                                <view class="info-text data-v-021b4589">
+                                                    <text class="data-v-021b4589" wx:if="{{item.$orig.courseAddr}}">{{item.$orig.courseAddr}}</text>
+                                                    <u-line bind:__l="__l" class="data-v-021b4589" color="#ffffff" direction="col" hairLine="{{false}}" length="24rpx" margin="0 14rpx" vueId="{{'3b395460-6-'+index}}" wx:if="{{item.$orig.courseAddr}}"></u-line>
+                                                    <text class="data-v-021b4589">难度</text>
+                                                </view>
+                                                <view class="star-level data-v-021b4589" wx:if="{{item.$orig.degreeNum>0}}">
+                                                    <image class="item4img data-v-021b4589" src="{{i.m8}}" wx:for="{{item.l1}}" wx:for-index="__i0__" wx:for-item="i" wx:key="$orig"></image>
+                                                </view>
+                                            </view>
+                                            <view class="bottom-view data-v-021b4589">
+                                                <view class="course-photo data-v-021b4589">
+                                                    <image class="data-v-021b4589" src="{{item.$orig.staffFace}}"></image>
+                                                </view>
+                                                <view class="member-info data-v-021b4589">
+                                                    <view class="member-info-wrap data-v-021b4589">
+                                                        <view class="name data-v-021b4589">{{item.$orig.staffName}}</view>
+                                                        <view class="photo-info data-v-021b4589">
+                                                            <view class="forespeak data-v-021b4589">
+                                                                <view class="photo-wrap data-v-021b4589" wx:if="{{item.g7>0}}">
+                                                                    <view class="image-wrap data-v-021b4589" wx:for="{{item.$orig.userlist}}" wx:for-index="j" wx:for-item="i" wx:key="j">
+                                                                        <image class="{{['data-v-021b4589',j==0?'first':'']}}" src="{{i.userFaceurl}}" wx:if="{{j<=6}}"></image>
+                                                                    </view>
+                                                                    <view class="more data-v-021b4589" wx:if="{{item.g8>7}}">
+                                                                        <u-icon bind:__l="__l" class="data-v-021b4589" color="#989898" name="more-dot-fill" size="20rpx" vueId="{{'3b395460-7-'+index}}"></u-icon>
+                                                                    </view>
+                                                                </view>
+                                                                <view class="forespeak-num data-v-021b4589" wx:if="{{item.g9>0}}">
+                                                                    <text class="already-preengage data-v-021b4589">{{item.$orig.manCount}}</text>/<text class="data-v-021b4589">{{item.$orig.teamOpenRule.maxMan}}</text>
+                                                                </view>
+                                                                <view class="full-icon data-v-021b4589" wx:if="{{item.$orig.manCount>=item.$orig.teamOpenRule.maxMan}}">满</view>
+                                                                <view class="min-num data-v-021b4589" wx:if="{{!(item.$orig.manCount>=item.$orig.teamOpenRule.maxMan)}}">{{'满'+item.$orig.teamOpenRule.minMan+'人开课'}}</view>
+                                                            </view>
+                                                            <view class="line-up data-v-021b4589" wx:if="{{item.g10>0}}">
+                                                                <view class="image-wrap data-v-021b4589" wx:for="{{item.$orig.lineuserlist}}" wx:for-index="j" wx:for-item="i" wx:key="j">
+                                                                    <image class="{{['data-v-021b4589',j==0?'first':'']}}" src="{{i.userFaceurl}}" wx:if="{{j<1}}"></image>
+                                                                </view>
+                                                                <view class="more data-v-021b4589" wx:if="{{item.g11>=2}}">
+                                                                    <u-icon bind:__l="__l" class="data-v-021b4589" color="#989898" name="more-dot-fill" size="20rpx" vueId="{{'3b395460-8-'+index}}"></u-icon>
+                                                                </view>
+                                                            </view>
+                                                        </view>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                        <view class="right-module data-v-021b4589">
+                                            <view class="start-time data-v-021b4589">{{item.$orig.strtime}}</view>
+                                            <view class="end-time data-v-021b4589">{{item.$orig.strEndtime+'结束'}}</view>
+                                            <view class="btn-wrap data-v-021b4589">
+                                                <u-button bind:__l="__l" class="data-v-021b4589" customStyle="{{buttonQueueUp}}" hairLine="{{false}}" hoverClass="none" vueId="{{'3b395460-9-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==1}}">已截止</u-button>
+                                                <u-button bind:__l="__l" catch:click="__e" class="data-v-021b4589" customStyle="{{buttonReservation}}" data-event-opts="{{[ [ '^click',[ [ 'leagueClassDetails',['$0',true,1],[ [ ['teamList','',index] ] ] ] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'3b395460-10-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==2}}">代 约</u-button>
+                                                <u-button bind:__l="__l" catch:click="__e" class="data-v-021b4589" customStyle="{{buttonQueueUp}}" data-event-opts="{{[ [ '^click',[ [ 'leagueClassDetails',['$0',true,2],[ [ ['teamList','',index] ] ] ] ] ] ]}}" hairLine="{{false}}" hoverClass="none" vueId="{{'3b395460-11-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==3}}">代排队</u-button>
+                                                <u-button bind:__l="__l" class="data-v-021b4589" customStyle="{{buttonFull}}" hairLine="{{false}}" hoverClass="none" vueId="{{'3b395460-12-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==4}}">已约满</u-button>
+                                                <u-button bind:__l="__l" class="data-v-021b4589" customStyle="{{buttonEnd}}" hairLine="{{false}}" hoverClass="none" vueId="{{'3b395460-13-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==5}}">已停课</u-button>
+                                                <u-button bind:__l="__l" class="data-v-021b4589" customStyle="{{buttonEnd}}" hairLine="{{false}}" hoverClass="none" vueId="{{'3b395460-14-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==6}}">已结束</u-button>
+                                                <u-button bind:__l="__l" class="data-v-021b4589" customStyle="{{buttonEnd}}" hairLine="{{false}}" hoverClass="none" vueId="{{'3b395460-15-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==7}}">已取消</u-button>
+                                                <u-button bind:__l="__l" class="data-v-021b4589" customStyle="{{buttonQueueUp}}" hairLine="{{false}}" hoverClass="none" vueId="{{'3b395460-16-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==8}}">上课中</u-button>
+                                                <u-button bind:__l="__l" class="data-v-021b4589" customStyle="{{buttonQueueUp}}" hairLine="{{false}}" hoverClass="none" vueId="{{'3b395460-17-'+index}}" vueSlots="{{['default']}}" wx:if="{{item.$orig.showBnt==11}}">已下课</u-button>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="noCourseData data-v-021b4589" wx:if="{{$root.g12}}">
+                    <image class="data-v-021b4589" src="{{$root.m9}}"></image>
+                    <text class="data-v-021b4589">~ 今日无排课 ~</text>
+                </view>
+            </view>
+            <view class="stop-doing-wrap data-v-021b4589" wx:if="{{shopStatus==2}}">
+                <view class="image-wrap data-v-021b4589" style="{{'background:'+'url('+$root.m10+')'+';'+'background-size:'+'100% 100%'+';'}}">
+                    <image class="data-v-021b4589" mode="scaleToFill" src="{{$root.m11}}"></image>
+                    <view class="text-wrap data-v-021b4589">
+                        <view class="data-v-021b4589">{{'闭馆时间：'+stopDoingInfo.beginTime+' 至 '+stopDoingInfo.endTime}}</view>
+                        <view class="data-v-021b4589">{{stopDoingInfo.noticeText?stopDoingInfo.noticeText:''}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-021b4589" style="height:965rpx;" wx:if="{{!hasTeamPermission}}">
+                <nodata bind:__l="__l" class="data-v-021b4589" vueId="3b395460-18"></nodata>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-021b4589" vueId="3b395460-19"></ff-bottom-logo>
+    </view>
+    <expired-alert bind:__l="__l" class="data-v-021b4589" page="other" vueId="3b395460-20"></expired-alert>
+    <u-calendar bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-021b4589" data-event-opts="{{[ [ '^change',[ ['calendarChange'] ] ],[ '^input',[ [ '__set_model',[ '','showCalendar','$event',[] ] ] ] ] ]}}" maxDate="2050-12-31" mode="{{mode}}" value="{{showCalendar}}" vueId="3b395460-21"></u-calendar>
+</view>

@@ -1,0 +1,92 @@
+<view class="data-v-da3c27d4">
+    <navigation bind:__l="__l" class="data-v-da3c27d4" text="数据导出" vueId="3debe659-1"></navigation>
+    <view class="placeholder-view data-v-da3c27d4" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-da3c27d4" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="fixed data-v-da3c27d4"></view>
+        <view class="hint_wrap data-v-da3c27d4">
+            <hint bind:__l="__l" class="data-v-da3c27d4" vueId="3debe659-2" vueSlots="{{['default']}}">
+                <view class="hint_text_wrap data-v-da3c27d4">
+                    <view class="item data-v-da3c27d4" style="margin-bottom:2rpx;">一键即可导出全部，导出后可通过Excel自行删减</view>
+                </view>
+            </hint>
+        </view>
+        <view class="content data-v-da3c27d4">
+            <view class="member_profile data-v-da3c27d4">
+                <view class="icon_left data-v-da3c27d4"></view>
+                <text class="rigth_font data-v-da3c27d4">会员资料</text>
+            </view>
+            <view class="member_content data-v-da3c27d4">
+                <view class="member_line data-v-da3c27d4" wx:for="{{$root.l0}}" wx:key="index">
+                    <view class="{{['menber_group','data-v-da3c27d4',index!=0?'margin_left':'']}}" wx:for="{{item.$orig}}" wx:for-item="i" wx:key="index">
+                        <image class="data-v-da3c27d4" src="{{item.m0}}"></image>
+                        <text class="data-v-da3c27d4">{{i}}</text>
+                    </view>
+                </view>
+                <view class="btn-box data-v-da3c27d4">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-da3c27d4" customStyle="{{saveBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['reportMember'] ] ] ]}}" loading="{{memberLoad}}" shape="circle" type="primary" vueId="3debe659-3" vueSlots="{{['default']}}">导出会员资料</u-button>
+                </view>
+            </view>
+            <view class="member_profile data-v-da3c27d4" style="margin-top:64rpx;">
+                <view class="icon_left data-v-da3c27d4"></view>
+                <text class="rigth_font data-v-da3c27d4">售出的会员卡</text>
+            </view>
+            <view class="member_content data-v-da3c27d4">
+                <view class="member_line data-v-da3c27d4" wx:for="{{$root.l2}}" wx:key="index">
+                    <block wx:for="{{item.l1}}" wx:for-item="i" wx:key="index">
+                        <view class="menber_group data-v-da3c27d4" style="margin-left:55rpx;" wx:if="{{i.$orig=='卡号'||i.$orig=='有效期'}}">
+                            <image class="data-v-da3c27d4" src="{{i.m1}}"></image>
+                            <text class="data-v-da3c27d4">{{i.$orig}}</text>
+                        </view>
+                        <block wx:else>
+                            <view class="menber_group data-v-da3c27d4" style="margin-left:30rpx;" wx:if="{{i.$orig=='初始有效期'||i.$orig=='收款金额'}}">
+                                <image class="data-v-da3c27d4" src="{{i.m2}}"></image>
+                                <text class="data-v-da3c27d4">{{i.$orig}}</text>
+                            </view>
+                            <view class="{{['menber_group','data-v-da3c27d4',index!=0?'margin_left':'']}}" wx:else>
+                                <image class="data-v-da3c27d4" src="{{i.m3}}"></image>
+                                <text class="data-v-da3c27d4">{{i.$orig}}</text>
+                            </view>
+                        </block>
+                    </block>
+                </view>
+                <view class="btn-box data-v-da3c27d4">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-da3c27d4" customStyle="{{saveBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['cardReport'] ] ] ]}}" loading="{{cardLoad}}" shape="circle" type="primary" vueId="3debe659-4" vueSlots="{{['default']}}">导出会员卡</u-button>
+                </view>
+            </view>
+        </view>
+        <view class="gray data-v-da3c27d4"></view>
+        <view class="content_foot data-v-da3c27d4">
+            <view class="title data-v-da3c27d4">导出记录</view>
+        </view>
+        <ivew bind:__l="__l" class="item_wrap data-v-da3c27d4" vueId="3debe659-5" vueSlots="{{['default']}}">
+            <view class="data-v-da3c27d4" style="padding-bottom:100rpx;" wx:if="{{$root.g0}}">
+                <nodata bind:__l="__l" class="data-v-da3c27d4" msg="{{9}}" vueId="{{'3debe659-6'+','+'3debe659-5'}}"></nodata>
+            </view>
+            <view class="item data-v-da3c27d4" wx:for="{{listLog}}" wx:key="index">
+                <view class="item_left data-v-da3c27d4">
+                    <view clas="item_img" class="data-v-da3c27d4">
+                        <image class="data-v-da3c27d4" src="{{item.staffFace}}"></image>
+                    </view>
+                    <view class="left_text data-v-da3c27d4">
+                        <text class="text1 data-v-da3c27d4">{{item.staffName}}</text>
+                        <text class="text2 data-v-da3c27d4" style="margin-top:12rpx;">{{item.createTime}}</text>
+                    </view>
+                </view>
+                <view class="item_right data-v-da3c27d4">
+                    <text class="data-v-da3c27d4">{{item.exportName}}</text>
+                    <text class="count data-v-da3c27d4">{{'合计'+item.recordCount+'条'}}</text>
+                </view>
+            </view>
+        </ivew>
+    </view>
+    <confirm-modal bind:__l="__l" class="data-v-da3c27d4 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="复制连接" vueId="3debe659-7" vueSlots="{{['content','btn']}}">
+        <view class="data-v-da3c27d4" slot="content">
+            <text class="data-v-da3c27d4" style="{{'display:block; word-break: break-word;'}}">{{'点击“复制链接”，用电脑浏览器打开此链接即可下载\n'+url}}</text>
+        </view>
+        <view class="data-v-da3c27d4" slot="btn" style="width:400rpx;display:flex;justify-content:flex-end;">
+            <view bindtap="__e" class="modal-cal-btn button data-v-da3c27d4" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="modal-btn button data-v-da3c27d4" data-event-opts="{{[ [ 'tap',[ [ 'confirm',['$event'] ] ] ] ]}}">复制连接</view>
+        </view>
+    </confirm-modal>
+    <ff-bottom-logo bind:__l="__l" class="data-v-da3c27d4" vueId="3debe659-8"></ff-bottom-logo>
+</view>

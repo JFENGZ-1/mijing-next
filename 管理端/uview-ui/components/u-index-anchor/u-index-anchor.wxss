@@ -1,0 +1,16 @@
+.u-index-anchor.data-v-2b03103d {
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+  color: #606266;
+  font-size: 28rpx;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 14rpx 24rpx;
+  width: 100%;
+}
+.u-index-anchor--active.data-v-2b03103d {
+  background-color: #fff;
+  color: #22c788;
+  left: 0;
+  right: 0;
+}

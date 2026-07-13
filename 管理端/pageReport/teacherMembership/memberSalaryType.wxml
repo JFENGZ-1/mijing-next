@@ -1,0 +1,101 @@
+<view class="container data-v-355d6de0">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-355d6de0" text="工资计算方式" vueId="1ffccd63-1"></navigation>
+    <view class="main data-v-355d6de0" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="head data-v-355d6de0" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="page-integral data-v-355d6de0">
+                <view class="row between data-v-355d6de0">
+                    <text class="label data-v-355d6de0">开启工资统计</text>
+                    <u-switch activeColor="#19C995" bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-355d6de0" data-event-opts="{{[ [ '^change',[ ['onSwitchChange'] ] ],[ '^input',[ [ '__set_model',[ '','started','$event',[] ] ] ] ] ]}}" value="{{started}}" vueId="1ffccd63-2"></u-switch>
+                </view>
+                <view class="data-v-355d6de0" wx:if="{{started==1}}">
+                    <view class="mode-row data-v-355d6de0">
+                        <view bindtap="__e" class="{{['data-v-355d6de0','mode-btn',mode==1?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">按固定提成计算</view>
+                        <view bindtap="__e" class="{{['data-v-355d6de0','mode-btn',mode==2?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'e1',['$event'] ] ] ] ]}}">按多阶梯式计算</view>
+                    </view>
+                    <view class="data-v-355d6de0" wx:if="{{mode==1}}">
+                        <view class="option-row data-v-355d6de0">
+                            <view class="row-item data-v-355d6de0">
+                                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-355d6de0" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','fixedRateCheck','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{fixedRateCheck}}" vueId="1ffccd63-3" vueSlots="{{['default']}}">
+                                    <text class="{{['row-text','data-v-355d6de0',fixedRateCheck?'active':'']}}">发卡提成</text>
+                                </u-checkbox>
+                                <view class="{{['input-box','data-v-355d6de0',!fixedRateCheck?'input-box-disable':'']}}">
+                                    <input bindinput="__e" class="com-input input-num data-v-355d6de0" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','fixedRate','$event',[] ] ] ] ] ]}}" disabled="{{!fixedRateCheck}}" placeholder="0.00" placeholderStyle="font-size:32rpx;color:#d0d2d7;" type="number" value="{{fixedRate}}"></input>%</view>
+                            </view>
+                            <view class="row-item data-v-355d6de0">
+                                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-355d6de0" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','repayRateCheck','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{repayRateCheck}}" vueId="1ffccd63-4" vueSlots="{{['default']}}">
+                                    <text class="{{['row-text','data-v-355d6de0',repayRateCheck?'active':'']}}">续费提成</text>
+                                </u-checkbox>
+                                <view class="{{['input-box','data-v-355d6de0',!repayRateCheck?'input-box-disable':'']}}">
+                                    <input bindinput="__e" class="com-input input-num data-v-355d6de0" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','repayRate','$event',[] ] ] ] ] ]}}" disabled="{{!repayRateCheck}}" placeholder="0.00" placeholderStyle="font-size:32rpx;color:#d0d2d7;" type="number" value="{{repayRate}}"></input>%</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="data-v-355d6de0" wx:else>
+                        <view class="{{['data-v-355d6de0','step-section']}}">
+                            <view class="step-header data-v-355d6de0">
+                                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-355d6de0" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','djfixedRateCheck','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{djfixedRateCheck}}" vueId="1ffccd63-5" vueSlots="{{['default']}}">
+                                    <text class="{{['row-text','data-v-355d6de0',djfixedRateCheck?'active':'']}}">发卡提成</text>
+                                </u-checkbox>
+                            </view>
+                            <view class="step-row data-v-355d6de0" wx:for="{{$root.l0}}" wx:for-index="idx" wx:key="idx">
+                                <view class="step-range data-v-355d6de0">
+                                    <input bindinput="__e" class="com-input data-v-355d6de0" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','beginAmount','$event',[] ],[ [ ['fixedList','',idx] ] ] ] ] ] ]}}" disabled="{{true}}" placeholder="0" placeholderStyle="font-size:32rpx;color:#d0d2d7;" style="padding:0 12rpx !important;" type="number" value="{{item.$orig.beginAmount}}"></input>
+                                    <text class="step-to data-v-355d6de0">至</text>
+                                    <input bindinput="__e" class="com-input data-v-355d6de0" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','endAmount','$event',[] ],[ [ ['fixedList','',idx] ] ] ] ] ] ]}}" disabled="{{!djfixedRateCheck}}" placeholder="0" placeholderStyle="font-size:32rpx;color:#d0d2d7;" style="padding:0 12rpx !important;" type="number" value="{{item.$orig.endAmount}}"></input>
+                                </view>
+                                <text class="step-to data-v-355d6de0" style="padding-right:18rpx;">元</text>
+                                <text class="step-tc-label data-v-355d6de0">提成</text>
+                                <input bindinput="__e" class="com-input1 data-v-355d6de0" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','rateVal','$event',[] ],[ [ ['fixedList','',idx] ] ] ] ] ] ]}}" disabled="{{!djfixedRateCheck}}" placeholder="0" placeholderStyle="font-size:32rpx;color:#d0d2d7;" type="number" value="{{item.$orig.rateVal}}"></input>
+                                <text class="step-percent data-v-355d6de0">%</text>
+                                <block wx:if="{{djfixedRateCheck}}">
+                                    <u-icon bind:__l="__l" bind:click="__e" class="add-btn data-v-355d6de0" color="#DC3C5C" data-event-opts="{{[ [ '^click',[ [ 'removefixed',[idx] ] ] ] ]}}" name="minus-circle" size="40" vueId="{{'1ffccd63-6-'+idx}}" wx:if="{{item.g0}}"></u-icon>
+                                    <u-icon bind:__l="__l" bind:click="__e" class="add-btn data-v-355d6de0" color="#DC3C5C" data-event-opts="{{[ [ '^click',[ ['addfixedStep'] ] ] ]}}" name="plus-circle" size="40" vueId="{{'1ffccd63-7-'+idx}}" wx:if="{{idx==item.g1-1}}"></u-icon>
+                                </block>
+                            </view>
+                        </view>
+                        <view class="{{['data-v-355d6de0','step-section']}}">
+                            <view class="step-header data-v-355d6de0">
+                                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-355d6de0" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','djrepayRateCheck','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{djrepayRateCheck}}" vueId="1ffccd63-8" vueSlots="{{['default']}}">
+                                    <text class="{{['row-text','data-v-355d6de0',djrepayRateCheck?'active':'']}}">续费提成</text>
+                                </u-checkbox>
+                            </view>
+                            <view class="step-row data-v-355d6de0" wx:for="{{$root.l1}}" wx:for-index="idx" wx:key="idx">
+                                <view class="step-range data-v-355d6de0">
+                                    <input bindinput="__e" class="com-input data-v-355d6de0" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','beginAmount','$event',[] ],[ [ ['repayList','',idx] ] ] ] ] ] ]}}" disabled="{{true}}" placeholder="0" placeholderStyle="font-size:32rpx;color:#d0d2d7;" style="padding:0 12rpx !important;" type="number" value="{{item.$orig.beginAmount}}"></input>
+                                    <text class="step-to data-v-355d6de0">至</text>
+                                    <input bindinput="__e" class="com-input data-v-355d6de0" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','endAmount','$event',[] ],[ [ ['repayList','',idx] ] ] ] ] ] ]}}" disabled="{{!djfixedRateCheck}}" placeholder="0" placeholderStyle="font-size:32rpx;color:#d0d2d7;" style="padding:0 12rpx !important;" type="number" value="{{item.$orig.endAmount}}"></input>
+                                </view>
+                                <text class="step-to data-v-355d6de0" style="padding-right:18rpx;">元</text>
+                                <text class="step-tc-label data-v-355d6de0">提成</text>
+                                <input bindinput="__e" class="com-input1 data-v-355d6de0" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','rateVal','$event',[] ],[ [ ['repayList','',idx] ] ] ] ] ] ]}}" disabled="{{!djfixedRateCheck}}" placeholder="0" placeholderStyle="font-size:32rpx;color:#d0d2d7;" type="number" value="{{item.$orig.rateVal}}"></input>
+                                <text class="step-percent data-v-355d6de0">%</text>
+                                <block wx:if="{{djrepayRateCheck}}">
+                                    <u-icon bind:__l="__l" bind:click="__e" class="add-btn data-v-355d6de0" color="#DC3C5C" data-event-opts="{{[ [ '^click',[ [ 'removerepayRateStep',[idx] ] ] ] ]}}" name="minus-circle" size="40" vueId="{{'1ffccd63-9-'+idx}}" wx:if="{{item.g2}}"></u-icon>
+                                    <u-icon bind:__l="__l" bind:click="__e" class="add-btn data-v-355d6de0" color="#DC3C5C" data-event-opts="{{[ [ '^click',[ ['addrepayRateStep'] ] ] ]}}" name="plus-circle" size="40" vueId="{{'1ffccd63-10-'+idx}}" wx:if="{{idx==item.g3-1}}"></u-icon>
+                                </block>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="btn-box data-v-355d6de0">
+                        <button bindtap="__e" class="save-btn data-v-355d6de0" data-event-opts="{{[ [ 'tap',[ [ 'submit',['$event'] ] ] ] ]}}" plain="true">保存</button>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-355d6de0" vueId="1ffccd63-11"></ff-bottom-logo>
+        <confirm-modal bind:__l="__l" class="data-v-355d6de0 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="警示！确定要关闭会籍工资统计吗？" vueId="1ffccd63-12" vueSlots="{{['content','btn']}}">
+            <view class="data-v-355d6de0" slot="content">
+                <view class="data-v-355d6de0">确定后，将不再统计会籍工资</view>
+                <view class="content data-v-355d6de0">
+                    <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-355d6de0" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','eChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{eChecked}}" vueId="{{'1ffccd63-13'+','+'1ffccd63-12'}}" vueSlots="{{['default']}}">
+                        <text class="data-v-355d6de0" style="{{'font-size:26rpx;line-height:56rpx;'+'font-weight:'+(eChecked?'500':'normal')+';'+'color:'+(eChecked?'#606266':'')+';'}}"> 我已清楚，仍要关闭 </text>
+                    </u-checkbox>
+                </view>
+            </view>
+            <view class="btn data-v-355d6de0" slot="btn">
+                <view bindtap="__e" class="modal-cal-btn button data-v-355d6de0" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn1',['$event'] ] ] ] ]}}">取消</view>
+                <view bindtap="__e" class="{{['modal-btn','button','data-v-355d6de0',!eChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'pointConfirm',['$event'] ] ] ] ]}}">确定</view>
+            </view>
+        </confirm-modal>
+    </view>
+</view>

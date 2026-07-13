@@ -1,0 +1,31 @@
+<view class="tag-popup-container data-v-150e296e">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-150e296e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','tagPopupShow','$event',[] ] ] ] ] ]}}" height="{{1100}}" title="选择标签" value="{{tagPopupShow}}" vueId="1d14e2ec-1" vueSlots="{{['default']}}">
+        <view class="tag-popup data-v-150e296e">
+            <view class="head data-v-150e296e">
+                <u-icon bind:__l="__l" class="data-v-150e296e" color="#C96B30" name="bell" size="20rpx" vueId="{{'1d14e2ec-2'+','+'1d14e2ec-1'}}"></u-icon>
+                <text class="note data-v-150e296e">显示在课程标题后面，通常用来标注重点/推荐，也可用来分类</text>
+            </view>
+            <scroll-view class="headbut data-v-150e296e" scrollY="{{true}}">
+                <view class="button-list data-v-150e296e">
+                    <view class="taglist data-v-150e296e" wx:for="{{$root.l0}}" wx:key="index">
+                        <view bindtap="__e" class="{{['data-v-150e296e',TagName==item.$orig.value?'active-list-item':'list-item',item.$orig.stationary==1&&!updateOrSaveShow?'iconupdate':'',item.$orig.stationary==0&&!updateOrSaveShow?'list-item':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeTag',['$0'],[ [ ['tagList','',index] ] ] ] ] ] ]}}">{{''+item.$orig.tagData+''}}</view>
+                        <image bindtap="__e" class="iconclose data-v-150e296e" data-event-opts="{{[ [ 'tap',[ [ 'clickClose',['$0'],[ [ ['tagList','',index] ] ] ] ] ] ]}}" src="{{item.m0}}" wx:if="{{item.$orig.stationary!=1&&closeshow}}"></image>
+                    </view>
+                    <view bindtap="__e" class="iconsave data-v-150e296e" data-event-opts="{{[ [ 'tap',[ [ 'clickSaveTag',['$event'] ] ] ] ]}}" wx:if="{{!updateOrSaveShow&&showEdit}}">
+                        <image class="icon data-v-150e296e" src="{{$root.m1}}"></image>
+                        <view class="data-v-150e296e">保存</view>
+                    </view>
+                    <view bindtap="__e" class="iconedit data-v-150e296e" data-event-opts="{{[ [ 'tap',[ [ 'clickEditTag',['$event'] ] ] ] ]}}" wx:if="{{updateOrSaveShow&&showEdit}}">
+                        <image class="icon data-v-150e296e" src="{{$root.m2}}"></image>
+                        <view class="data-v-150e296e">编辑</view>
+                    </view>
+                </view>
+            </scroll-view>
+            <view class="content data-v-150e296e">
+                <text class="data-v-150e296e">添加新的</text>
+                <u-input bind:__l="__l" bind:input="__e" class="number com-input data-v-150e296e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','addtag','$event',[] ] ] ] ] ]}}" placeholder="请填写" placeholderStyle="font-size:28rpx;color:#DADADA" type="text" value="{{addtag}}" vueId="{{'1d14e2ec-3'+','+'1d14e2ec-1'}}"></u-input>
+                <button bindtap="__e" class="but data-v-150e296e" data-event-opts="{{[ [ 'tap',[ [ 'saveTag',['$event'] ] ] ] ]}}">确 定</button>
+            </view>
+        </view>
+    </ff-popup>
+</view>

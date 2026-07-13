@@ -1,0 +1,45 @@
+<view class="data-v-14897745">
+    <u-modal bind:__l="__l" bind:input="__e" class="data-v-14897745" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" showConfirmButton="{{false}}" showTitle="{{false}}" value="{{show}}" vueId="1715e674-1" vueSlots="{{['default']}}" width="{{700}}">
+        <view class="modal data-v-14897745">
+            <view class="modal-title data-v-14897745">会员领取会员卡的三种方式</view>
+            <view class="modal-content data-v-14897745">
+                <view class="content_qr_code data-v-14897745">
+                    <view class="qr_code data-v-14897745">
+                        <image class="data-v-14897745" src="{{qrCode}}"></image>
+                    </view>
+                    <view class="qr_code_name data-v-14897745">让会员扫码领取</view>
+                </view>
+                <view class="border data-v-14897745"></view>
+                <view class="receive data-v-14897745">
+                    <view bindtap="__e" class="forward data-v-14897745" data-event-opts="{{[ [ 'tap',[ [ 'headleForward',['$event'] ] ] ] ]}}">
+                        <view class="forward_image data-v-14897745">
+                            <image class="data-v-14897745" src="{{$root.m0}}"></image>
+                        </view>
+                        <view class="forward_name data-v-14897745">转发给会员</view>
+                    </view>
+                    <view bindtap="__e" class="self_receive data-v-14897745" data-event-opts="{{[ [ 'tap',[ [ 'headleSelf',['$event'] ] ] ] ]}}">
+                        <view class="self_receive_image data-v-14897745">
+                            <image class="data-v-14897745" src="{{$root.m1}}"></image>
+                        </view>
+                        <view class="self_receive_name data-v-14897745">会员自领取</view>
+                    </view>
+                </view>
+            </view>
+            <view class="btn data-v-14897745">
+                <view bindtap="__e" class="modal-btn data-v-14897745" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">关闭</view>
+            </view>
+        </view>
+    </u-modal>
+    <confirm bind:__l="__l" class="data-v-14897745 vue-ref" customBtn="{{true}}" data-ref="addconfirmModal" title="可将该文字发给会员" vueId="1715e674-2" vueSlots="{{['content','btn']}}">
+        <view class="data-v-14897745" slot="content">
+            <view class="explain data-v-14897745">
+                <view class="explain_text data-v-14897745">{{''+oneList}}<view class="_br data-v-14897745"></view>{{''+twoList}}<view class="_br data-v-14897745"></view>
+                    <text class="text data-v-14897745">{{threeList+userPhone}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="btn_modal data-v-14897745" slot="btn">
+            <view bindtap="__e" class="modal-cancel data-v-14897745" data-event-opts="{{[ [ 'tap',[ [ 'handleCopy',['$event'] ] ] ] ]}}">复制并关闭</view>
+        </view>
+    </confirm>
+</view>

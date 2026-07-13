@@ -1,0 +1,36 @@
+.fixed.data-v-0c701e88 {
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+.cu-title.data-v-0c701e88 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  z-index: 199;
+}
+.cu-title .text.data-v-0c701e88 {
+  font-size: 16px;
+  font-weight: 700;
+}
+.cu-title .back-wrap.data-v-0c701e88 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 75rpx;
+}
+.cu-title .icon-back.data-v-0c701e88 {
+  display: block;
+  height: 29rpx !important;
+  width: 17rpx !important;
+}

@@ -1,0 +1,137 @@
+<view bindtap="__e" class="data-v-65089cfe" data-event-opts="{{[ [ 'tap',[ [ 'closeDrop',['$event'] ] ] ] ]}}">
+    <navigation background="#ffffff" bind:__l="__l" class="data-v-65089cfe" text="详细记录" vueId="78cceda0-1"></navigation>
+    <view class="data-v-65089cfe" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="report-container data-v-65089cfe" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-65089cfe" style="height:100%;min-height:1230rpx;">
+            <zero-loading bind:__l="__l" class="data-v-65089cfe" vueId="78cceda0-2" wx:if="{{loading}}"></zero-loading>
+            <view class="data-v-65089cfe" wx:else>
+                <view class="time data-v-65089cfe">
+                    <text class="data-v-65089cfe">{{parma.year+'年'+parma.month+'月'}}</text>
+                </view>
+                <view class="card-info data-v-65089cfe">
+                    <view class="{{['card_wrap','data-v-65089cfe',cardInfo.saleStatus==0?'gray':'']}}">
+                        <view class="data-v-65089cfe" wx:if="{{cardInfo.saleStatus==0}}">
+                            <view class="img-wrap data-v-65089cfe">
+                                <view class="data-v-65089cfe">
+                                    <image class="data-v-65089cfe" src="{{$root.m0}}"></image>
+                                    <text class="data-v-65089cfe">已停售</text>
+                                </view>
+                            </view>
+                            <view class="{{['data-v-65089cfe',item.saleStatus==0?'gray':'']}}"></view>
+                        </view>
+                        <ff-value-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{cardInfo}}" class="data-v-65089cfe" vueId="78cceda0-3" wx:if="{{cardInfo.cardType==1}}"></ff-value-card>
+                        <ff-counts-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{cardInfo}}" class="data-v-65089cfe" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="78cceda0-4" wx:if="{{cardInfo.cardType==2}}"></ff-counts-card>
+                        <ff-date-card activeClass="medium-sized" bind:__l="__l" bind:moreClick="__e" cardInfo="{{cardInfo}}" class="data-v-65089cfe" data-event-opts="{{[ [ '^moreClick',[ ['moreClick'] ] ] ]}}" vueId="78cceda0-5" wx:if="{{cardInfo.cardType==3}}"></ff-date-card>
+                    </view>
+                </view>
+                <view class="data-v-65089cfe">
+                    <view class="top_data data-v-65089cfe">
+                        <view class="income data-v-65089cfe">
+                            <view class="income_num data-v-65089cfe">{{maindata.totalAmount}}</view>
+                            <view class="income_title data-v-65089cfe">本月收入(元)</view>
+                        </view>
+                        <view class="more-data data-v-65089cfe">
+                            <view class="item data-v-65089cfe">
+                                <view class="info data-v-65089cfe">
+                                    <text class="info_num data-v-65089cfe">{{maindata.oldcount}}</text>
+                                    <view class="data-v-65089cfe">老会员续费(张)</view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-65089cfe" color="#DDDDDD" direction="col" length="78rpx" vueId="78cceda0-6"></u-line>
+                            <view class="item data-v-65089cfe">
+                                <view class="info data-v-65089cfe">
+                                    <text class="info_num data-v-65089cfe">{{maindata.newcount}}</text>
+                                    <view class="data-v-65089cfe">新会员购卡(张)</view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-65089cfe" color="#DDDDDD" direction="col" length="78rpx" vueId="78cceda0-7"></u-line>
+                            <view class="item data-v-65089cfe">
+                                <view class="info data-v-65089cfe">
+                                    <text class="info_num data-v-65089cfe">{{maindata.usercount}}</text>
+                                    <view class="data-v-65089cfe">新增会员(名)</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-65089cfe" height="24" vueId="78cceda0-8"></u-gap>
+                <view class="main data-v-65089cfe">
+                    <view class="course-setting-wrap data-v-65089cfe">
+                        <view class="course-setting-item data-v-65089cfe">
+                            <view class="data-v-65089cfe" wx:for="{{$root.l1}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                                <view class="month-data data-v-65089cfe">{{item1.$orig.day}}</view>
+                                <view class="sale-wrap-wrap data-v-65089cfe" wx:for="{{item1.l0}}" wx:key="index">
+                                    <view class="sale-item data-v-65089cfe">
+                                        <image catchtap="__e" class="avator data-v-65089cfe" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['detailreport','',index1],['list','',index] ] ] ] ] ] ]}}" src="{{item.$orig.userFaceurl}}"></image>
+                                        <view class="detail-info data-v-65089cfe">
+                                            <view class="detail-info-wrap data-v-65089cfe">
+                                                <view class="l-info data-v-65089cfe">
+                                                    <view catchtap="__e" class="nick-name data-v-65089cfe" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$event'] ] ] ] ]}}">{{''+item.$orig.userRealname+''}}</view>
+                                                    <view class="time-and-type data-v-65089cfe">
+                                                        <text class="pay-time data-v-65089cfe">{{item.g0}}</text>
+                                                        <view class="type-box data-v-65089cfe">
+                                                            <block wx:if="{{item.$orig.newtag==1}}">
+                                                                <image class="new-member-icon data-v-65089cfe" src="{{item.m1}}"></image>
+                                                                <view class="type-name new-member-label data-v-65089cfe">新会员</view>
+                                                            </block>
+                                                            <block wx:else>
+                                                                <image class="renew-icon data-v-65089cfe" src="{{item.m2}}"></image>
+                                                                <view class="type-name renew-label data-v-65089cfe">续费</view>
+                                                            </block>
+                                                        </view>
+                                                    </view>
+                                                </view>
+                                                <view class="card-name data-v-65089cfe">{{''+item.$orig.cardName+''}}</view>
+                                                <view class="r-info data-v-65089cfe">
+                                                    <text class="money data-v-65089cfe">{{'￥'+item.$orig.orderAmount}}</text>
+                                                    <text class="type data-v-65089cfe">{{item.$orig.payMethodName}}</text>
+                                                </view>
+                                            </view>
+                                            <view class="venue-name data-v-65089cfe">
+                                                <text class="remarkfont data-v-65089cfe">{{item.$orig.siteName}}</text>
+                                            </view>
+                                            <view class="remark data-v-65089cfe" wx:if="{{item.$orig.orderRemark!=null}}">
+                                                <text class="remarkfont data-v-65089cfe">备注：</text>
+                                                <text class="remarkcontent data-v-65089cfe">{{item.$orig.orderRemark!=null?item.$orig.orderRemark:''}}</text>
+                                            </view>
+                                            <u-line bind:__l="__l" class="card_u_line data-v-65089cfe" color="#ececed" vueId="{{'78cceda0-9-'+index1+'-'+index}}"></u-line>
+                                        </view>
+                                        <view class="handle_module data-v-65089cfe">
+                                            <view catchtap="__e" class="icon_wrap data-v-65089cfe" data-event-opts="{{[ [ 'tap',[ [ 'showDrop',['$0'],[ [ ['detailreport','',index1],['list','',index] ] ] ] ] ] ]}}">
+                                                <image class="data-v-65089cfe" src="{{item1.m3}}"></image>
+                                            </view>
+                                            <view class="drop_down data-v-65089cfe" hidden="{{!item.$orig.showDown}}">
+                                                <view class="image_wrap data-v-65089cfe">
+                                                    <image class="data-v-65089cfe" src="{{item1.m4}}"></image>
+                                                </view>
+                                                <view class="drop_down_list data-v-65089cfe">
+                                                    <view catchtap="__e" class="item data-v-65089cfe" data-event-opts="{{[ [ 'tap',[ [ 'updateMoneyPopup',['$0','$1'],[ [ ['detailreport','',index1],['list','',index,'orderAmount'] ],[ ['detailreport','',index1],['list','',index,'orderId'] ] ] ] ] ] ]}}">
+                                                        <image class="data-v-65089cfe" src="{{item1.m5}}" style="width:39rpx;height:39rpx;"></image>
+                                                        <text class="data-v-65089cfe">修改金额</text>
+                                                    </view>
+                                                    <view catchtap="__e" class="item data-v-65089cfe" data-event-opts="{{[ [ 'tap',[ [ 'remarkPopup',['$0'],[ [ ['detailreport','',index1],['list','',index] ] ] ] ] ] ]}}">
+                                                        <image class="data-v-65089cfe" src="{{item1.m6}}" style="width:39rpx;height:39rpx;"></image>
+                                                        <text class="data-v-65089cfe">写备注</text>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-65089cfe" vueId="78cceda0-10"></ff-bottom-logo>
+    </view>
+    <business-popup bind:__l="__l" bind:headleClose="__e" bind:updateMoney="__e" class="data-v-65089cfe vue-ref" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^updateMoney',[ ['updateMoney'] ] ] ]}}" data-ref="businessPopupChild" vueId="78cceda0-11"></business-popup>
+    <calendar-month bind:__l="__l" bind:changeDate="__e" class="data-v-65089cfe vue-ref" data-event-opts="{{[ [ '^changeDate',[ ['changeDate'] ] ] ]}}" data-ref="calendarMonthChild" vueId="78cceda0-12"></calendar-month>
+    <remark-order-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-65089cfe vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editremarkOrder'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkOrderChild" vueId="78cceda0-13"></remark-order-popup>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-65089cfe vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ] ]}}" data-ref="confirmModal" title="删除该记录?" vueId="78cceda0-14" vueSlots="{{['content']}}">
+        <view class="data-v-65089cfe" slot="content">
+            <text class="data-v-65089cfe" style="{{'display:block;'}}">仅删除此条收款记录，不影响已发出的会员卡</text>
+        </view>
+    </confirm-modal>
+</view>

@@ -1,0 +1,79 @@
+<view class="data-v-6c52788c">
+    <view class="mian data-v-6c52788c" wx:if="{{data}}">
+        <view class="info_details data-v-6c52788c">
+            <view class="flex data-v-6c52788c">
+                <view class="photo_img data-v-6c52788c">
+                    <image class="data-v-6c52788c" src="{{data.staffFace}}"></image>
+                </view>
+                <view class="info_box data-v-6c52788c">
+                    <view class="info_box_wrap data-v-6c52788c">
+                        <view class="left_box data-v-6c52788c">
+                            <view class="course_name data-v-6c52788c">
+                                <text class="data-v-6c52788c">{{data.dataidType==0?data.courseName:data.staffName}}</text>
+                                <view class="tag_wrap data-v-6c52788c" wx:if="{{data.tagData&&data.tagData!='不指定'}}">
+                                    <image class="data-v-6c52788c" src="{{$root.m0}}"></image>
+                                    <view class="tag_text data-v-6c52788c">{{data.tagData}}</view>
+                                </view>
+                            </view>
+                            <view class="multiterm_info data-v-6c52788c" wx:if="{{data.dataidType==0}}">
+                                <view class="coach_name data-v-6c52788c" wx:if="{{data.staffName}}">{{data.staffName}}</view>
+                                <view class="classroom_wrap flex data-v-6c52788c" wx:if="{{data.courseAddr}}">
+                                    <u-line bind:__l="__l" class="data-v-6c52788c" color="#989898" direction="col" length="22" margin="0 15rpx" vueId="77da40fd-1"></u-line>
+                                    <text class="data-v-6c52788c">{{data.courseAddr}}</text>
+                                </view>
+                                <view class="difficulty_wrap flex data-v-6c52788c" wx:if="{{data.degreeNum>0}}">
+                                    <u-line bind:__l="__l" class="data-v-6c52788c" color="#989898" direction="col" length="22" margin="0 15rpx" vueId="77da40fd-2"></u-line>
+                                    <text class="data-v-6c52788c">难度</text>
+                                    <view class="star-level data-v-6c52788c">
+                                        <image class="data-v-6c52788c" src="{{i.m1}}" wx:for="{{$root.l0}}" wx:for-index="__i0__" wx:for-item="i" wx:key="$orig"></image>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="time_info flex data-v-6c52788c">
+                                <text class="data-v-6c52788c">{{$root.m2.month+'-'+$root.m3.day+' '+data.weekName}}</text>
+                                <view class="time_quantum data-v-6c52788c">{{$root.m4.hours+':'+$root.m5.minutesurs+'~'+$root.m6.hours+':'+$root.m7.minutesurs}}</view>
+                            </view>
+                            <view class="course_project data-v-6c52788c" wx:if="{{data.dataidType==1&&data.courseName}}">
+                                <view class="project_item data-v-6c52788c">{{data.courseName}}</view>
+                            </view>
+                            <view class="remake data-v-6c52788c" wx:if="{{data.dataidType==1&&data.remark}}">{{'备注：'+data.remark+''}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="list data-v-6c52788c">
+            <view class="item data-v-6c52788c" wx:for="{{$root.l1}}" wx:key="index">
+                <view class="top data-v-6c52788c" wx:if="{{item.$orig.cardChangeAmount!=0}}">
+                    <text class="money_info data-v-6c52788c">
+                        <block wx:if="{{item.$orig.plusMinus}}">{{item.$orig.plusMinus}}</block>{{''+''+item.$orig.cardChangeAmount+item.$orig.unitName+(data.groupName||'')+''}}</text>
+                </view>
+                <view class="center flex data-v-6c52788c" wx:if="{{!item.g0}}">
+                    <text class="card_name data-v-6c52788c">{{item.$orig.cardName}}</text>
+                    <text class="balance data-v-6c52788c">{{'余'+item.$orig.leftAmount+item.$orig.unitName}}</text>
+                </view>
+                <view class="bottom flex data-v-6c52788c">
+                    <view class="timer data-v-6c52788c">{{item.$orig.cashTime}}</view>
+                    <view class="status_wrap flex data-v-6c52788c">
+                        <view class="flex handle_person data-v-6c52788c" wx:if="{{item.$orig.helpStaffFaceurl&&item.$orig.helpStaffName}}">
+                            <image class="data-v-6c52788c" mode="scaleToFill" src="{{item.$orig.helpStaffFaceurl}}"></image>
+                            <text class="data-v-6c52788c">{{item.$orig.helpStaffName+'操作'}}</text>
+                        </view>
+                        <view class="status_text data-v-6c52788c">
+                            <text class="data-v-6c52788c" style="{{'color:'+item.m8+';'}}">{{''+item.$orig.unionStatusName+''}}<text class="data-v-6c52788c" style="margin-left:6rpx;" wx:if="{{data.manCount>1}}">{{'('+data.manCount+'人)'}}</text>
+                            </text>
+                        </view>
+                    </view>
+                </view>
+                <u-line bind:__l="__l" class="data-v-6c52788c" color="#F0F0F0" vueId="{{'77da40fd-3-'+index}}"></u-line>
+            </view>
+        </view>
+        <view class="other-site-wrap data-v-6c52788c" wx:if="{{data.otherSiteName}}">
+            <text class="other-site data-v-6c52788c">门店</text>
+            <text class="other-name data-v-6c52788c">{{data.otherSiteName?data.otherSiteName:''}}</text>
+        </view>
+        <view class="load-wrap data-v-6c52788c" wx:if="{{$root.g1==0}}">
+            <u-loadmore bind:__l="__l" class="data-v-6c52788c" loadText="{{({nomore:'暂无记录'})}}" status="nomore" vueId="77da40fd-4"></u-loadmore>
+        </view>
+    </view>
+</view>

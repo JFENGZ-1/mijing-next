@@ -1,0 +1,151 @@
+<view class="details data-v-6431c000">
+    <u-popup bind:__l="__l" bind:close="__e" bind:input="__e" borderRadius="30" bounces="{{false}}" class="data-v-6431c000" data-event-opts="{{[ [ '^close',[ ['headleScrollClose'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="1220rpx" mode="bottom" value="{{show}}" vueId="8af743a0-1" vueSlots="{{['default']}}">
+        <view class="user-loading data-v-6431c000" wx:if="{{isLoading}}">
+            <view class="skelet data-v-6431c000"></view>
+            <view class="skelet01 data-v-6431c000"></view>
+        </view>
+        <view class="head-modal data-v-6431c000" wx:else>
+            <view class="head-content data-v-6431c000">
+                <view class="form-box data-v-6431c000">
+                    <view bindtap="__e" class="user_wrap data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'headleDetele',['$0'],['user.userId'] ] ] ] ]}}">
+                        <image class="{{['data-v-6431c000',user.noLogin==1?'photo-image-grey':'']}}" src="{{$root.m0}}" wx:if="{{user.userFaceurl}}"></image>
+                    </view>
+                    <view class="forbidden-img data-v-6431c000" wx:if="{{user.noLogin==1}}">
+                        <image class="data-v-6431c000" src="{{$root.m1}}" style="width:36rpx;height:36rpx;"></image>
+                    </view>
+                    <view class="right-view data-v-6431c000">
+                        <view class="close-wrap data-v-6431c000">
+                            <view bindtap="__e" class="icon data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'closeModal',['$event'] ] ] ] ]}}">
+                                <image class="data-v-6431c000" src="{{$root.m2}}"></image>
+                            </view>
+                        </view>
+                        <view class="mark-wrap data-v-6431c000">
+                            <view bindtap="__e" class="item data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'headleMark',['$event'] ] ] ] ]}}">
+                                <image class="tag data-v-6431c000" src="{{$root.m3}}" wx:if="{{user.tagValue==0}}"></image>
+                                <image class="tag data-v-6431c000" src="{{$root.m4}}" wx:if="{{user.tagValue==1}}"></image>
+                                <image class="tag data-v-6431c000" src="{{$root.m5}}" wx:if="{{user.tagValue==2}}"></image>
+                                <image class="tag data-v-6431c000" src="{{$root.m6}}" wx:if="{{user.tagValue==3}}"></image>
+                                <image class="tag data-v-6431c000" src="{{$root.m7}}" wx:if="{{user.tagValue==4}}"></image>
+                                <image class="tag data-v-6431c000" src="{{$root.m8}}" wx:if="{{user.tagValue==5}}"></image>
+                            </view>
+                            <view bindtap="__e" class="item data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'freeTell',['$event'] ] ] ] ]}}" style="margin-left:18rpx;">
+                                <image class="phone data-v-6431c000" src="{{$root.m9}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="user_name data-v-6431c000">{{nameText}}</view>
+                <view bindtap="__e" class="information_remarks data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'headleRemarks',['$event'] ] ] ] ]}}">
+                    <view class="title data-v-6431c000">备注：</view>
+                    <view class="remarks data-v-6431c000">{{''+(user.userRemark!=null?user.userRemark:'无')+''}}</view>
+                    <view class="icon-wrap data-v-6431c000" wx:if="{{!$root.m10}}">
+                        <image class="data-v-6431c000" src="{{$root.m11}}"></image>
+                        <view class="scale-view data-v-6431c000"></view>
+                    </view>
+                </view>
+            </view>
+            <view class="{{[ 'mask-view','data-v-6431c000',''+(user.noLogin==1?'photo-filter-grey':'') ]}}" style="{{'background:'+'url('+user.userFaceurl+')'+';'+'background-repeat:'+'no-repeat'+';'+'background-size:'+'750rpx 750rpx'+';'}}" wx:if="{{user.userFaceurl}}">
+                <view class="mask-black data-v-6431c000"></view>
+            </view>
+        </view>
+        <view class="mian data-v-6431c000">
+            <scroll-view class="data-v-6431c000" scrollY="true" style="height:100%;">
+                <view class="card-loading data-v-6431c000" wx:if="{{isLoading}}">
+                    <view class="skelet data-v-6431c000"></view>
+                    <view class="skelet01 data-v-6431c000"></view>
+                </view>
+                <block wx:else>
+                    <view class="cardList_content data-v-6431c000" wx:if="{{$root.g0}}">
+                        <view class="new_card data-v-6431c000">
+                            <view bindtap="__e" class="center data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'recycle',['$event'] ] ] ] ]}}" wx:if="{{!$root.m12}}">
+                                <image class="new_card_image data-v-6431c000" src="{{$root.m13}}"></image>
+                                <view class="new_card_text data-v-6431c000">已删除</view>
+                            </view>
+                            <view bindtap="__e" class="center data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'headleNewCard',['$event'] ] ] ] ]}}" wx:if="{{$root.m14}}">
+                                <image class="new_card_image data-v-6431c000" src="{{$root.m15}}"></image>
+                                <view class="new_card_text data-v-6431c000">发新卡</view>
+                            </view>
+                        </view>
+                        <view class="cardList data-v-6431c000">
+                            <view class="card_face data-v-6431c000">
+                                <view class="card-wrap data-v-6431c000" style="{{'height:'+cardHeight+';'}}" wx:if="{{$root.g1}}">
+                                    <view bindtap="__e" class="card-item data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'toggleCard',['$0',index],[ [ ['cardlist','',index] ] ] ] ] ] ]}}" style="{{'top:'+index*30+'rpx'+';'+'z-index:'+10*(index+1)+';'}}" wx:for="{{cardlist}}" wx:key="index">
+                                        <member-card activeClass="large-size" bind:__l="__l" bind:moreProject="__e" cardInfo="{{item}}" class="data-v-6431c000" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" vueId="{{'8af743a0-2-'+index+','+'8af743a0-1'}}"></member-card>
+                                    </view>
+                                </view>
+                            </view>
+                            <view catchtap="__e" class="remake-box row_item data-v-6431c000" data-event-opts="{{[ [ 'tap',[ ['remarkCard'] ] ] ]}}" wx:if="{{cardRemark}}">
+                                <text class="remarkfont data-v-6431c000">备注：</text>
+                                <text class="remarkcontent data-v-6431c000">{{cardRemark?$root.m16:''}}</text>
+                            </view>
+                        </view>
+                        <view class="box data-v-6431c000">
+                            <view class="form-boxs data-v-6431c000">
+                                <view bindtap="__e" class="card_explain data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'headleReceive',['$event'] ] ] ] ]}}" wx:if="{{$root.m17}}">该会员还没领取此卡，通知会员领取<image class="card_explain_image data-v-6431c000" src="{{$root.m18}}"></image>
+                                </view>
+                                <view bindtap="__e" class="opening data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'headleSet',['$event'] ] ] ] ]}}" wx:if="{{cardStatus==0}}">开卡设置</view>
+                                <view class="list data-v-6431c000" wx:if="{{!$root.m19}}">
+                                    <view class="item data-v-6431c000" wx:for="{{$root.l0}}" wx:key="index">
+                                        <view bindtap="__e" class="flag data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'headleType',['$0'],[ [ ['cardListType','',index,'id'] ] ] ] ] ] ]}}">
+                                            <view class="flag_img data-v-6431c000">
+                                                <image class="data-v-6431c000" src="{{item.m20}}"></image>
+                                            </view>
+                                            <view class="flag_name data-v-6431c000">
+                                                <view class="data-v-6431c000">{{item.$orig.name}}</view>
+                                            </view>
+                                            <view class="vacations data-v-6431c000" wx:if="{{item.$orig.id==3&&itemList&&itemList.holidayMsg}}">{{''+itemList.holidayMsg+''}}</view>
+                                            <view class="vacation data-v-6431c000" wx:if="{{item.$orig.id==4&&itemList.stopCardMsg}}">{{''+itemList.stopCardMsg+''}}</view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="tool-box data-v-6431c000" wx:else>
+                                    <image class="card-tool-image data-v-6431c000" src="{{$root.m21}}"></image>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="no_card data-v-6431c000" wx:else>
+                        <view class="content data-v-6431c000"></view>
+                        <view class="no_card_image data-v-6431c000">
+                            <image class="renew-icon data-v-6431c000" mode="widthFix" src="{{$root.m22}}"></image>
+                        </view>
+                        <view bindtap="__e" class="no_card_name data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'headleNewCard',['$event'] ] ] ] ]}}">马上发卡</view>
+                        <view bindtap="__e" class="recycle-box data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'recycle',['$event'] ] ] ] ]}}" wx:if="{{$root.g2>0}}">
+                            <image class="new_card_image data-v-6431c000" src="{{$root.m23}}"></image>
+                            <view class="new_card_text data-v-6431c000">已删除</view>
+                        </view>
+                    </view>
+                </block>
+            </scroll-view>
+        </view>
+    </u-popup>
+    <mark-pop bind:__l="__l" bind:radioGroupSubmit="__e" class="data-v-6431c000 vue-ref" data-event-opts="{{[ [ '^radioGroupSubmit',[ ['radioGroupSubmit'] ] ] ]}}" data-ref="markpopRef" personalTainerInfo="{{user}}" vueId="8af743a0-3"></mark-pop>
+    <remarks bind:__l="__l" bind:remarksSubmit="__e" class="data-v-6431c000 vue-ref" data-event-opts="{{[ [ '^remarksSubmit',[ ['remarksSubmit'] ] ] ]}}" data-ref="remarksRef" personalTainerInfo="{{user}}" vueId="8af743a0-4"></remarks>
+    <new-card bind:__l="__l" bind:submit="__e" class="data-v-6431c000 vue-ref" data-event-opts="{{[ [ '^submit',[ ['newCardSubmit'] ] ] ]}}" data-ref="newcardRef" vueId="8af743a0-5"></new-card>
+    <card-set bind:__l="__l" bind:updateDetails="__e" class="data-v-6431c000 vue-ref" data-event-opts="{{[ [ '^updateDetails',[ ['updateDetails'] ] ] ]}}" data-ref="cardsetRef" itemList="{{itemList}}" vueId="8af743a0-6"></card-set>
+    <balance balanceList="{{itemList}}" bind:AdjustmentSubmit="__e" bind:__l="__l" class="data-v-6431c000 vue-ref" data-event-opts="{{[ [ '^AdjustmentSubmit',[ ['AdjustmentSubmit'] ] ] ]}}" data-ref="balanceRef" vueId="8af743a0-7"></balance>
+    <vaildity bind:__l="__l" bind:vailditySubmit="__e" class="data-v-6431c000 vue-ref" data-event-opts="{{[ [ '^vailditySubmit',[ ['vailditySubmit'] ] ] ]}}" data-ref="vaildityRef" itemList="{{itemList}}" usercardId="{{userCardIds}}" vueId="8af743a0-8"></vaildity>
+    <leave bind:__l="__l" bind:leaveSubmit="__e" class="data-v-6431c000 vue-ref" data-event-opts="{{[ [ '^leaveSubmit',[ ['leaveSubmit'] ] ] ]}}" data-ref="leaveRef" itemList="{{itemList}}" vueId="8af743a0-9"></leave>
+    <card-stopping balanceList="{{itemList}}" bind:__l="__l" bind:cardStoppingSubmit="__e" class="data-v-6431c000 vue-ref" data-event-opts="{{[ [ '^cardStoppingSubmit',[ ['cardStoppingSubmit'] ] ] ]}}" data-ref="stoppingRef" vueId="8af743a0-10"></card-stopping>
+    <renew bind:__l="__l" bind:headleRenew="__e" cardId="{{cardId}}" class="data-v-6431c000 vue-ref" data-event-opts="{{[ [ '^headleRenew',[ ['headleRenew'] ] ] ]}}" data-ref="renewRef" itemList="{{itemList}}" usercardId="{{userCardIds}}" vueId="8af743a0-11"></renew>
+    <get-card bind:__l="__l" class="data-v-6431c000 vue-ref" data-ref="confirmModal" userId="{{user.userId}}" userPhone="{{user.userPhone}}" usercardId="{{userCardIds}}" vueId="8af743a0-12"></get-card>
+    <confirm bind:__l="__l" class="data-v-6431c000 vue-ref" customBtn="{{true}}" data-ref="deteleconfirmModal" title="警告：确认删除吗？" vueId="8af743a0-13" vueSlots="{{['content','btn']}}">
+        <view class="data-v-6431c000" slot="content">
+            <text class="data-v-6431c000" style="{{'display:block;color: #989898;font-size: 25rpx;'}}">将删除该卡以及该卡的约课记录</text>
+            <view class="data-v-6431c000" wx:if="{{$root.g3}}">
+                <view bindtap="__e" class="checked data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'headleStatus',['$event'] ] ] ] ]}}">
+                    <view class="{{['data-v-6431c000',delChecked?'checkboxs':'checkbox']}}">
+                        <image class="pic data-v-6431c000" src="{{$root.m24}}"></image>
+                    </view>
+                    <text class="data-v-6431c000" style="{{'display:block;color: #CB4A5F;font-size: 25rpx;'}}"> 同时从「营业收入」里删除掉此笔收入</text>
+                </view>
+            </view>
+        </view>
+        <view class="btn data-v-6431c000" slot="btn">
+            <view bindtap="__e" class="modal-cancel data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'headleCancel',['$event'] ] ] ] ]}}">取 消</view>
+            <view bindtap="__e" class="modal-btn data-v-6431c000" data-event-opts="{{[ [ 'tap',[ [ 'headleBtn',['$event'] ] ] ] ]}}">确 定</view>
+        </view>
+    </confirm>
+    <card-all-project bind:__l="__l" class="data-v-6431c000 vue-ref" data-ref="cardAllProject" vueId="8af743a0-14"></card-all-project>
+    <remark-order-card-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-6431c000 vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editRemarkCard'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkAppointmentCard" vueId="8af743a0-15"></remark-order-card-popup>
+</view>

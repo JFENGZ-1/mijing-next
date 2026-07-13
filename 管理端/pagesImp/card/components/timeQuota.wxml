@@ -1,0 +1,36 @@
+<view class="data-v-54a50a3e">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-54a50a3e" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="充赠额：如'充年卡赠一个月',购卡后额度合并为一年零一个月" title="卡内额度" value="{{show}}" vueId="3ce61964-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-54a50a3e" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-54a50a3e" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'3ce61964-2'+','+'3ce61964-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-54a50a3e">
+            <view class="form-box data-v-54a50a3e">
+                <view class="list-box data-v-54a50a3e">
+                    <view class="show-box data-v-54a50a3e">
+                        <text class="title data-v-54a50a3e">卡额度</text>
+                        <view bindtap="__e" class="data-input data-v-54a50a3e" data-event-opts="{{[ [ 'tap',[ [ 'showSlectTimePopup',[0] ] ] ] ]}}">
+                            <block wx:if="{{selectTime}}">{{selectTime}}</block>
+                            <text class="place-holder data-v-54a50a3e" wx:else>选择时间</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="list-box data-v-54a50a3e">
+                    <view class="show-box data-v-54a50a3e">
+                        <view class="title data-v-54a50a3e">充赠额</view>
+                        <view class="sw-box data-v-54a50a3e">
+                            <u-switch bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-54a50a3e" data-event-opts="{{[ [ '^change',[ ['switchHandle'] ] ],[ '^input',[ [ '__set_model',[ '$0','hasPresent','$event',[] ],['formData'] ] ] ] ]}}" value="{{formData.hasPresent}}" vueId="{{'3ce61964-3'+','+'3ce61964-1'}}"></u-switch>
+                        </view>
+                    </view>
+                    <view class="hidd-box data-v-54a50a3e" wx:if="{{formData.hasPresent}}">
+                        <view bindtap="__e" class="giveaway-input data-v-54a50a3e" data-event-opts="{{[ [ 'tap',[ [ 'showSlectTimePopup',[1] ] ] ] ]}}">
+                            <block wx:if="{{presentedTime}}">{{presentedTime}}</block>
+                            <text class="place-holder data-v-54a50a3e" wx:else>选择赠送时间</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-54a50a3e" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+    <efftime bind:__l="__l" bind:submit="__e" class="data-v-54a50a3e vue-ref" data-event-opts="{{[ [ '^submit',[ ['efftimeSubmit'] ] ] ]}}" data-ref="efftimeRef" isShowPerpetual="{{false}}" vueId="3ce61964-4"></efftime>
+</view>

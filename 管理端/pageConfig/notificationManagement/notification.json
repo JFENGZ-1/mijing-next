@@ -1,0 +1,10 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "confirm": "/pageConfig/components/confirm-modal/index",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

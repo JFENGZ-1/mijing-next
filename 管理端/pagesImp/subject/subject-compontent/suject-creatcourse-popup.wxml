@@ -1,0 +1,17 @@
+<view class="creatcourse-container data-v-c4dd0850">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-c4dd0850" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','creatcoursePopupShow','$event',[] ] ] ] ] ]}}" title="创建课程" value="{{creatcoursePopupShow}}" vueId="0f0a2555-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-c4dd0850" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-c4dd0850" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'0f0a2555-2'+','+'0f0a2555-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="creatcourse data-v-c4dd0850">
+            <view class="textc data-v-c4dd0850" wx:if="{{courseNameshow}}">
+                <text calss="title" class="data-v-c4dd0850">课程名称</text>
+                <u-input bind:__l="__l" bind:input="__e" class="data-v-c4dd0850" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','courseName','$event',[] ],['course'] ] ] ] ]}}" height="70" placeholder="请输入名称" placeholderStyle="font-size: 28rpx;color: #DADADA;" type="text" value="{{course.courseName}}" vueId="{{'0f0a2555-3'+','+'0f0a2555-1'}}"></u-input>
+            </view>
+            <view class="textc data-v-c4dd0850">
+                <text calss="title" class="data-v-c4dd0850">课程时长</text>
+                <u-input bind:__l="__l" bind:input="__e" class="data-v-c4dd0850" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','courseMinute','$event',[] ],['course'] ] ] ] ]}}" height="70" maxlength="3" placeholder="请输入时长" placeholderStyle="font-size: 28rpx;color: #DADADA;" type="number" value="{{course.courseMinute}}" vueId="{{'0f0a2555-4'+','+'0f0a2555-1'}}"></u-input>
+            </view>
+        </view>
+    </ff-popup>
+</view>

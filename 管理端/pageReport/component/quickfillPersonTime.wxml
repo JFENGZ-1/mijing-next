@@ -1,0 +1,14 @@
+<ff-popup tips bind:__l="__l" bind:input="__e" class="data-v-51744ecf" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" title="快捷填写" value="{{show}}" vueId="626f4d64-1" vueSlots="{{['default','tips','confrimBtn']}}">
+    <view class="data-v-51744ecf" slot="tips" style="display:flex;align-items:baseline;">
+        <u-icon bind:__l="__l" class="data-v-51744ecf" name="bell" size="26" style="position:relative;top:5rpx;" vueId="{{'626f4d64-2'+','+'626f4d64-1'}}"></u-icon>
+        <view class="data-v-51744ecf" style="padding-left:5rpx;">1、点击确定后，将自动统一填写如下值<view class="_br data-v-51744ecf"></view>2、每节课费 = 基础课费 + 耗课提成</view>
+    </view>
+    <view class="com-button-f1 data-v-51744ecf" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-51744ecf" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'626f4d64-3'+','+'626f4d64-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-51744ecf">
+        <view class="class-hourse data-v-51744ecf">基础课费<input bindinput="__e" class="com-input data-v-51744ecf" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','unitPrice','$event',[] ] ] ] ] ]}}" maxlength="4" type="number" value="{{unitPrice}}"></input>元</view>
+        <view class="push-money data-v-51744ecf">每节超过<input bindinput="__e" class="com-input data-v-51744ecf" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','exceedMan','$event',[] ] ] ] ] ]}}" maxlength="2" type="number" value="{{exceedMan}}"></input>人时，每增加1位奖<input bindinput="__e" class="com-input data-v-51744ecf" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','additionalPrice','$event',[] ] ] ] ] ]}}" maxlength="3" type="number" value="{{additionalPrice}}"></input>元</view>
+        <view class="data-v-51744ecf" style="padding-top:160rpx;"></view>
+    </view>
+</ff-popup>

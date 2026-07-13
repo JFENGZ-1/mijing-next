@@ -1,0 +1,52 @@
+<view class="timepopup data-v-b5c54dc8">
+    <ff-popup bind:__l="__l" bind:close="__e" bind:input="__e" class="data-v-b5c54dc8" data-event-opts="{{[ [ '^close',[ ['closeweek'] ] ],[ '^input',[ [ '__set_model',[ '','timeShow','$event',[] ] ] ] ] ]}}" height="{{1100}}" title="{{title}}" value="{{timeShow}}" vueId="cfeb7d04-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-b5c54dc8" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-b5c54dc8" customStyle="{{saveBtnStyle}}" data-event-opts="{{[ [ '^click',[ ['saveTime'] ] ] ]}}" hoverClass="none" shape="circle" type="primary" vueId="{{'cfeb7d04-2'+','+'cfeb7d04-1'}}" vueSlots="{{['default']}}">确定</u-button>
+        </view>
+        <view class="store-popup data-v-b5c54dc8">
+            <view class="content data-v-b5c54dc8">
+                <view class="week data-v-b5c54dc8">
+                    <view bindtap="__e" class="{{['data-v-b5c54dc8',item.status]}}" data-event-opts="{{[ [ 'tap',[ [ 'weekdata',['$0'],[ [ ['dayDate','',index] ] ] ] ] ] ]}}" wx:for="{{dayDate}}" wx:key="index">{{''+item.value+''}}<image class="{{['data-v-b5c54dc8',item.imagestatus]}}" src="{{$root.m0}}"></image>
+                    </view>
+                </view>
+                <u-line bind:__l="__l" class="data-v-b5c54dc8" margin="36rpx  0rpx 0rpx 0rpx" vueId="{{'cfeb7d04-3'+','+'cfeb7d04-1'}}"></u-line>
+                <view class="time data-v-b5c54dc8" wx:if="{{showTimeNew}}">
+                    <view class="grid-time data-v-b5c54dc8" wx:if="{{showTimeNew&&!imeviewlist.timeValue24}}">
+                        <view class="data-v-b5c54dc8" style="width:100%;">
+                            <view class="data-v-b5c54dc8" wx:for="{{imeviewlist.timeValueArray}}" wx:key="index">
+                                <view class="icon-time data-v-b5c54dc8">
+                                    <view class="time-interval data-v-b5c54dc8">
+                                        <u-icon bind:__l="__l" bind:click="__e" class="data-v-b5c54dc8" color="#DC3C5C " data-event-opts="{{[ [ '^click',[ [ 'removeitem',[index] ] ] ] ]}}" name="minus-circle" size="42" vueId="{{'cfeb7d04-4-'+index+','+'cfeb7d04-1'}}"></u-icon>
+                                        <text class="data-v-b5c54dc8" style="padding-left:16rpx;">时段</text>
+                                    </view>
+                                    <text class="data-v-b5c54dc8">{{item}}</text>
+                                    <u-icon name bind:__l="__l" bind:click="__e" class="data-v-b5c54dc8" data-event-opts="{{[ [ '^click',[ ['e0'] ] ] ]}}" vueId="{{'cfeb7d04-5-'+index+','+'cfeb7d04-1'}}"></u-icon>
+                                </view>
+                            </view>
+                            <view bindtap="__e" class="icon-add data-v-b5c54dc8" data-event-opts="{{[ [ 'tap',[ [ 'openMinute',['$event'] ] ] ] ]}}" wx:if="{{qttimeChecked}}">
+                                <view class="data-v-b5c54dc8">
+                                    <u-icon bind:__l="__l" class="data-v-b5c54dc8" color="#E98900" name="plus" vueId="{{'cfeb7d04-6'+','+'cfeb7d04-1'}}"></u-icon>
+                                    <text class="data-v-b5c54dc8">添加时间</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="grid-time data-v-b5c54dc8" wx:if="{{showTimeNew}}">
+                        <view class="data-v-b5c54dc8" style="width:100%;">
+                            <view class="data-v-b5c54dc8" wx:if="{{imeviewlist.timeValue24}}">
+                                <view class="icon-time data-v-b5c54dc8">
+                                    <view class="time-interval data-v-b5c54dc8">
+                                        <text class="data-v-b5c54dc8" style="padding-left:46rpx;">时段</text>
+                                    </view>
+                                    <text class="data-v-b5c54dc8">00:00~24:00</text>
+                                    <u-icon name bind:__l="__l" class="data-v-b5c54dc8" vueId="{{'cfeb7d04-7'+','+'cfeb7d04-1'}}"></u-icon>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="picker-time data-v-b5c54dc8" data-event-opts="{{[ [ '^confirm',[ ['confirmPicker'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" defaultSelector="{{[8,0,0,0,0,0,20,0,0]}}" mode="multiSelector" range="{{multiSelector}}" value="{{show}}" vueId="cfeb7d04-8"></u-picker>
+</view>

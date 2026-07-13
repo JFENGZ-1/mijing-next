@@ -1,0 +1,119 @@
+<view class="container data-v-afe017ac">
+    <view class="data-v-afe017ac">
+        <view class="top_wrap data-v-afe017ac">
+            <view class="bg_wrap data-v-afe017ac">
+                <u-swiper bind:__l="__l" bind:change="__e" borderRadius="0" class="data-v-afe017ac" data-event-opts="{{[ [ '^change',[ ['handleUSwiperChange'] ] ] ]}}" height="458" imgMode="widthFix" list="{{imglist}}" mode="none" vueId="8dd740cc-1" width="300"></u-swiper>
+            </view>
+        </view>
+        <view class="main_wrap data-v-afe017ac">
+            <view catchtap="__e" class="shop_info data-v-afe017ac" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageHome/shopDetails/index'] ] ] ] ]}}">
+                <view class="shop_photo data-v-afe017ac">
+                    <image class="shop-logo data-v-afe017ac" src="{{currentSite.siteTrademark}}"></image>
+                </view>
+                <view class="center_box data-v-afe017ac">
+                    <text class="shop_name data-v-afe017ac">{{$root.m0}}</text>
+                    <view class="time data-v-afe017ac">
+                        <text class="data-v-afe017ac" wx:if="{{index<=1}}" wx:for="{{currentSite.opentimeList}}" wx:key="index">{{item.weekValue+' '+item.timeValue}}</text>
+                    </view>
+                </view>
+                <view catchtap="__e" class="customBar data-v-afe017ac" data-event-opts="{{[ [ 'tap',[ [ 'changeShop',['$event'] ] ] ] ]}}" wx:if="{{$root.g0}}">
+                    <image class="change-icon data-v-afe017ac" id="change-icon" src="{{$root.m1}}"></image>
+                    <view class="bar-text data-v-afe017ac">切换</view>
+                </view>
+                <view class="right_box data-v-afe017ac" wx:else>
+                    <u-icon bind:__l="__l" class="more-icon data-v-afe017ac" color="#989898" name="arrow-right" size="25rpx" vueId="8dd740cc-2"></u-icon>
+                </view>
+            </view>
+            <u-line bind:__l="__l" class="data-v-afe017ac" color="#F0F0F0" length="683rpx" margin="32rpx  33rpx  0 33rpx" vueId="8dd740cc-3"></u-line>
+            <view class="info-foot data-v-afe017ac">
+                <view class="siteAddr data-v-afe017ac">{{currentSite.siteAddr}}</view>
+                <view class="shop_phone data-v-afe017ac">
+                    <view catchtap="__e" class="data-v-afe017ac" data-event-opts="{{[ [ 'tap',[ [ 'openPhone',['$0'],['currentSite.siteTel'] ] ] ] ]}}">
+                        <image class="icon-phone data-v-afe017ac" src="{{$root.m2}}"></image>
+                        <view class="img_font data-v-afe017ac">电话</view>
+                    </view>
+                    <button class="zfbut data-v-afe017ac" openType="share" plain="true">
+                        <image class="icon-phone data-v-afe017ac" src="{{$root.m3}}"></image>
+                        <view class="img_font data-v-afe017ac">分享</view>
+                    </button>
+                </view>
+            </view>
+            <view class="data-v-afe017ac">
+                <view class="data-v-afe017ac" style="background:#F5F5F5;height:20rpx;"></view>
+                <view class="handle_tab data-v-afe017ac">
+                    <view bindtap="__e" class="item data-v-afe017ac" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageHome/shopDetails/index'] ] ] ] ]}}">
+                        <view class="item1 data-v-afe017ac" style="background:#FF846D !important;">
+                            <image class="home-icon data-v-afe017ac" src="{{$root.m4}}"></image>
+                        </view>
+                        <text class="icon-title data-v-afe017ac">场馆信息</text>
+                    </view>
+                    <view bindtap="__e" class="item data-v-afe017ac" data-event-opts="{{[ [ 'tap',[ [ 'buyCard',['$event'] ] ] ] ]}}">
+                        <view class="item1 data-v-afe017ac" style="background:#48AFFF !important;">
+                            <image class="home-icon data-v-afe017ac" src="{{$root.m5}}"></image>
+                        </view>
+                        <text class="icon-title data-v-afe017ac">购卡续费</text>
+                    </view>
+                    <view bindtap="__e" class="item data-v-afe017ac" data-event-opts="{{[ [ 'tap',[ [ 'appointmentCourse',['$event'] ] ] ] ]}}">
+                        <view class="item1 data-v-afe017ac" style="background:#FFAE00 !important;">
+                            <image class="home-icon data-v-afe017ac" src="{{$root.m6}}"></image>
+                        </view>
+                        <text class="icon-title data-v-afe017ac">去约课</text>
+                    </view>
+                    <view bindtap="__e" class="item data-v-afe017ac" data-event-opts="{{[ [ 'tap',[ [ 'jumpPage',['/pageMine/totalStatistics/index'] ] ] ] ]}}">
+                        <view class="item1 data-v-afe017ac" style="background:#00D197 !important;">
+                            <image class="home-icon data-v-afe017ac" src="{{$root.m7}}"></image>
+                        </view>
+                        <text class="icon-title data-v-afe017ac">约课统计</text>
+                    </view>
+                </view>
+            </view>
+            <view class="inform_list data-v-afe017ac" wx:if="{{$root.g1}}">
+                <view bindtap="__e" class="item data-v-afe017ac" data-event-opts="{{[ [ 'tap',[ [ 'informDetails',['$0'],[ [ ['informList','',index] ] ] ] ] ] ]}}" style="{{'background:'+'url('+item.m8+')'+';'+'background-size:'+'100% 100%'+';'}}" wx:for="{{$root.l0}}" wx:key="index">
+                    <view class="time-row data-v-afe017ac">
+                        <image class="infrom data-v-afe017ac" src="{{item.m9}}"></image>
+                        <text class="infrom_text data-v-afe017ac">{{'发布于：'+item.$orig.createTime}}</text>
+                    </view>
+                    <view class="title-row data-v-afe017ac">{{''+item.$orig.noticeTitle+''}}</view>
+                    <view class="content-row data-v-afe017ac">{{''+item.$orig.noticeText+''}}</view>
+                </view>
+            </view>
+            <view class="appointment_list data-v-afe017ac">
+                <u-tabs barStyle="{{({background:'#22C788'})}}" bind:__l="__l" bind:change="__e" class="data-v-afe017ac" current="{{tabCurrent}}" data-event-opts="{{[ [ '^change',[ ['tabChange'] ] ] ]}}" isScroll="{{false}}" list="{{list}}" vueId="8dd740cc-4"></u-tabs>
+                <view class="list_wrap data-v-afe017ac">
+                    <view class="list data-v-afe017ac" wx:if="{{$root.g2>0}}">
+                        <view class="item data-v-afe017ac" wx:for="{{appointList}}" wx:key="index">
+                            <view class="date data-v-afe017ac" wx:if="{{item.isShowTime}}">{{item.fullYear+'年'+item.month+'月'}}</view>
+                            <appointment-list bind:__l="__l" bind:cancelAppointment="__e" bind:cancelLineUp="__e" bind:toggleDrop="__e" class="data-v-afe017ac" data-event-opts="{{[ [ '^cancelLineUp',[ ['cancelLineUp'] ] ],[ '^cancelAppointment',[ ['cancelAppointment'] ] ],[ '^toggleDrop',[ ['toggleDrop'] ] ] ]}}" item="{{item}}" vueId="{{'8dd740cc-5-'+index}}"></appointment-list>
+                        </view>
+                    </view>
+                    <view class="noData data-v-afe017ac" wx:if="{{$root.g3}}">
+                        <image class="data-v-afe017ac" src="{{$root.m10}}"></image>
+                        <text class="data-v-afe017ac">~ 暂无约课记录 ~</text>
+                    </view>
+                    <view class="loading-wrap data-v-afe017ac" wx:if="{{isLoading}}">
+                        <loading-pulse bind:__l="__l" class="data-v-afe017ac" vueId="8dd740cc-6"></loading-pulse>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="load-wrap data-v-afe017ac" wx:if="{{$root.g4>0}}">
+            <u-loadmore bind:__l="__l" class="data-v-afe017ac" color="#BFBFBF" nomoreText="没有更多了" status="{{loadStatus}}" vueId="8dd740cc-7"></u-loadmore>
+        </view>
+    </view>
+    <card-info bind:__l="__l" class="data-v-afe017ac vue-ref" data-ref="cardInfo" iconLeft="{{iconLeft}}" iconTop="{{iconTop}}" userInfo="{{userInfo}}" vueId="8dd740cc-8"></card-info>
+    <site-list bind:__l="__l" class="data-v-afe017ac vue-ref" data-ref="siteList" vueId="8dd740cc-9"></site-list>
+    <bottom-logo bind:__l="__l" class="data-v-afe017ac" vueId="8dd740cc-10"></bottom-logo>
+    <confrim-moadl bind:__l="__l" bind:confirm="__e" class="data-v-afe017ac vue-ref" data-event-opts="{{[ [ '^confirm',[ ['ok'] ] ] ]}}" data-ref="confrimMoadl" title="{{confrimTitle}}" vueId="8dd740cc-11" vueSlots="{{['content']}}">
+        <view class="data-v-afe017ac" slot="content">
+            <view class="data-v-afe017ac">将退还已扣相应费用</view>
+        </view>
+    </confrim-moadl>
+    <view class="official_accounts_box data-v-afe017ac" wx:if="{{userInfo&&!userInfo.serviceCodeFocus&&isShowRefuseUserFocus}}">
+        <view class="content data-v-afe017ac">
+            <view class="explan-wrap data-v-afe017ac">课程取消、上课提醒等通知收不到？<view class="explan data-v-afe017ac">请关注公众号，即可收到消息通知</view>
+            </view>
+            <view catchtap="__e" class="follow_BT data-v-afe017ac" data-event-opts="{{[ [ 'tap',[ [ 'goFollow',['$event'] ] ] ] ]}}">去关注</view>
+        </view>
+    </view>
+    <privacy bind:__l="__l" class="data-v-afe017ac" vueId="8dd740cc-12"></privacy>
+</view>

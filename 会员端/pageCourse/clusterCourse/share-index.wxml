@@ -1,0 +1,118 @@
+<view class="data-v-2ce20036">
+    <block wx:if="{{info}}">
+        <view class="header data-v-2ce20036" style="{{'height:'+totalH+'px'+';'}}">
+            <view class="fixed_bg data-v-2ce20036" style="{{'background:'+'url('+info.courseBacklog+')'+';'+'background-size:'+'100% 100%'+';'+'height:'+totalH+'px'+';'}}"></view>
+            <view class="fixed_content data-v-2ce20036" style="{{'height:'+totalH+'px'+';'}}">
+                <view class="statusBar data-v-2ce20036" style="{{'height:'+statusBar+'px'+';'}}"></view>
+                <view class="customBar data-v-2ce20036" style="{{'height:'+customBar+'px'+';'}}">
+                    <view bindtap="__e" class="back-wrap data-v-2ce20036" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}">
+                        <u-icon bind:__l="__l" class="data-v-2ce20036" color="#181818" name="arrow-left" size="35" vueId="203e6ada-1"></u-icon>
+                    </view>
+                </view>
+                <view class="content data-v-2ce20036"></view>
+            </view>
+        </view>
+        <view class="main data-v-2ce20036">
+            <view class="first_group data-v-2ce20036">
+                <view class="info_top flex data-v-2ce20036">
+                    <view class="left data-v-2ce20036">
+                        <view class="flex vertical_center data-v-2ce20036" style="margin-top:26rpx;margin-right:25rpx;">
+                            <view class="course_name data-v-2ce20036">{{$root.m0}}</view>
+                            <view class="tag_wrap flex data-v-2ce20036" wx:if="{{info.tagData&&info.tagData!='不指定'}}">
+                                <image class="data-v-2ce20036" src="{{$root.m1}}"></image>
+                                <text class="data-v-2ce20036">{{info.tagData}}</text>
+                            </view>
+                        </view>
+                        <view class="time data-v-2ce20036">{{$root.f0}}{{$root.f1}}</view>
+                    </view>
+                    <view class="right data-v-2ce20036">
+                        <view class="photo_image data-v-2ce20036">
+                            <image class="data-v-2ce20036" src="{{info.staffFace}}"></image>
+                        </view>
+                        <view class="coach_name data-v-2ce20036">{{''+info.staffName+''}}</view>
+                    </view>
+                </view>
+                <view class="info_center data-v-2ce20036">
+                    <view class="row data-v-2ce20036">
+                        <view class="item data-v-2ce20036">
+                            <view class="title data-v-2ce20036">时间</view>
+                            <view class="text data-v-2ce20036">{{info.strtime+'~'+info.strEndtime}}</view>
+                        </view>
+                        <view class="item data-v-2ce20036">
+                            <view class="title data-v-2ce20036">时长</view>
+                            <view class="text data-v-2ce20036">{{info.courseDuringTime+'Min'}}</view>
+                        </view>
+                        <view class="item data-v-2ce20036">
+                            <view class="title data-v-2ce20036">难度</view>
+                            <view class="content flex data-v-2ce20036">
+                                <image class="data-v-2ce20036" src="{{item.m2}}" wx:for="{{$root.l0}}" wx:for-index="__i0__" wx:key="$orig"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="row data-v-2ce20036" style="margin-top:40rpx;" wx:if="{{info.courseAddr}}">
+                        <view class="item data-v-2ce20036">
+                            <view class="title data-v-2ce20036">教室</view>
+                            <view class="text data-v-2ce20036">{{info.courseAddr}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="info_bottom data-v-2ce20036">
+                    <view class="current_num data-v-2ce20036" wx:if="{{info.showPeopleTeam==150||info.showPeopleTeam==152}}">已约<text class="data-v-2ce20036">{{info.manCount+'/'+info.teamOpenRule.maxMan}}</text>
+                    </view>
+                    <view class="full-icon data-v-2ce20036" wx:if="{{info.manCount>=info.teamOpenRule.maxMan}}">爆满</view>
+                    <view class="max_num data-v-2ce20036" wx:else>{{'满'+info.teamOpenRule.minMan+'人开课'}}</view>
+                    <view class="appointment_member data-v-2ce20036" wx:if="{{info.showPeopleTeam==150}}">
+                        <view bindtap="__e" class="member_photo data-v-2ce20036" data-event-opts="{{[ [ 'tap',[ [ 'lookMemberList',['$event'] ] ] ] ]}}" wx:for="{{$root.l1}}" wx:key="index">
+                            <image class="data-v-2ce20036" src="{{item.userFaceurl}}"></image>
+                        </view>
+                        <view bindtap="__e" class="more_member data-v-2ce20036" data-event-opts="{{[ [ 'tap',[ [ 'lookMemberList',['$event'] ] ] ] ]}}" wx:if="{{$root.g0>7}}">
+                            <u-icon bind:__l="__l" class="data-v-2ce20036" name="more-dot-fill" size="15" vueId="203e6ada-2"></u-icon>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="second_group data-v-2ce20036" wx:if="{{info.courseDesc&&info.courseDesc!=='<p><br></p>'}}">
+                <view class="title data-v-2ce20036">课程简介</view>
+                <u-parse bind:__l="__l" class="text data-v-2ce20036" html="{{info.courseDesc}}" vueId="203e6ada-3"></u-parse>
+            </view>
+            <view class="last_group data-v-2ce20036" wx:if="{{kindReminder.text}}">
+                <view class="title data-v-2ce20036" wx:if="{{kindReminder.title}}">{{kindReminder.title}}</view>
+                <u-parse bind:__l="__l" class="text data-v-2ce20036" html="{{kindReminder.text}}" vueId="203e6ada-4"></u-parse>
+            </view>
+            <view class="last_group data-v-2ce20036">
+                <view class="title data-v-2ce20036">注意事项</view>
+                <view class="text data-v-2ce20036">
+                    <text class="data-v-2ce20036" wx:for="{{info.msglist}}" wx:key="index">{{item}}</text>
+                </view>
+            </view>
+        </view>
+        <bottom-logo bind:__l="__l" class="data-v-2ce20036" vueId="203e6ada-5"></bottom-logo>
+        <view class="data-v-2ce20036" style="{{'padding-bottom:'+'245rpx'+';'}}"></view>
+        <view class="browse_view data-v-2ce20036">
+            <view class="item first data-v-2ce20036">
+                <button class="data-v-2ce20036" openType="share">
+                    <view class="icon_img data-v-2ce20036">
+                        <image class="data-v-2ce20036" mode="widthFix" src="{{$root.m3}}" style="width:66rpx;"></image>
+                    </view>
+                    <view class="title data-v-2ce20036">转发到群</view>
+                    <view class="hint data-v-2ce20036">会员打开页面后可直接约课</view>
+                </button>
+            </view>
+            <view bindtap="__e" class="item data-v-2ce20036" data-event-opts="{{[ [ 'tap',[ [ 'quit',['$event'] ] ] ] ]}}">
+                <view class="icon_img data-v-2ce20036">
+                    <image class="data-v-2ce20036" mode="widthFix" src="{{$root.m4}}" style="width:53rpx;"></image>
+                </view>
+                <view class="title data-v-2ce20036">返回</view>
+                <view class="hint data-v-2ce20036"></view>
+            </view>
+        </view>
+    </block>
+    <member-list bind:__l="__l" class="data-v-2ce20036 vue-ref" data-ref="memberList" vueId="203e6ada-6"></member-list>
+    <selected-member-card bind:__l="__l" bind:onPaymentSuccess="__e" class="data-v-2ce20036 vue-ref" data-event-opts="{{[ [ '^onPaymentSuccess',[ ['onPaymentSuccess'] ] ] ]}}" data-ref="selectedMemberCard" vueId="203e6ada-7"></selected-member-card>
+    <success bind:__l="__l" bind:ok="__e" class="data-v-2ce20036 vue-ref" data-event-opts="{{[ [ '^ok',[ ['close'] ] ] ]}}" data-ref="success" mask="{{true}}" status="cancel-text" vueId="203e6ada-8"></success>
+    <confrim-moadl bind:__l="__l" bind:confirm="__e" class="data-v-2ce20036 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['handleCancel'] ] ] ]}}" data-ref="confrimMoadl" title="{{confrimTitle}}" vueId="203e6ada-9" vueSlots="{{['content']}}">
+        <view class="data-v-2ce20036" slot="content">
+            <view class="data-v-2ce20036">(若有扣)将退还已扣相应费用</view>
+        </view>
+    </confrim-moadl>
+</view>

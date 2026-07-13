@@ -1,0 +1,24 @@
+{
+  "disableScroll": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "subject-card": "/pagesCourse/subject/subject-compontent/subject-card",
+    "subject-openrule": "/pagesCourse/subject/subject-compontent/subject-openrule",
+    "subject-trainer": "/pagesCourse/subject/subject-compontent/subject-trainer",
+    "suject-choice-card": "/pagesCourse/subject/subject-compontent/suject-choice-card",
+    "suject-classroom": "/pagesCourse/subject/subject-compontent/suject-classroom",
+    "tag-popup": "/pagesCourse/subject/subject-compontent/tag-popup",
+    "u-cell-item": "/uview-ui/components/u-cell-item/u-cell-item",
+    "u-form": "/uview-ui/components/u-form/u-form",
+    "u-form-item": "/uview-ui/components/u-form-item/u-form-item",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-radio": "/uview-ui/components/u-radio/u-radio",
+    "u-radio-group": "/uview-ui/components/u-radio-group/u-radio-group",
+    "u-rate": "/uview-ui/components/u-rate/u-rate",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

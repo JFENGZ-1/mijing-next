@@ -1,0 +1,16 @@
+# OS/editor metadata
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# Local logs and transient test output
+*.log
+coverage/
+.cache/
+
+
+# Environment and secrets (never commit)
+.env
+.env.*
+!.env.example

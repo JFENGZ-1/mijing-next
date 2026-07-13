@@ -1,0 +1,89 @@
+<view class="data-v-4ddb5cf8">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-4ddb5cf8" text="{{list.holidayId?'编辑休假设置':'创建休假设置'}}" vueId="247933eb-1"></navigation>
+    <view class="placeholder-view data-v-4ddb5cf8" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-4ddb5cf8" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="top data-v-4ddb5cf8">
+            <view class="top_portrait data-v-4ddb5cf8">
+                <image class="data-v-4ddb5cf8" mode="widthFix" src="{{coachList.staffFace}}"></image>
+            </view>
+            <u-divider bind:__l="__l" borderColor="#dadada" class="data-v-4ddb5cf8" color="#181818" halfWidth="300" vueId="247933eb-2" vueSlots="{{['default']}}">{{coachList.staffName}}</u-divider>
+        </view>
+        <view class="list data-v-4ddb5cf8">
+            <view class="item data-v-4ddb5cf8">
+                <view class="item_top data-v-4ddb5cf8">
+                    <image class="list_time data-v-4ddb5cf8" mode="widthFix" src="{{$root.m0}}"></image>
+                    <view class="time_title data-v-4ddb5cf8">时间</view>
+                </view>
+                <view class="item_picker data-v-4ddb5cf8">
+                    <view class="time data-v-4ddb5cf8">
+                        <view bindtap="__e" class="time_display data-v-4ddb5cf8" data-event-opts="{{[ [ 'tap',[ [ 'onTime',['$event'] ] ] ] ]}}">
+                            <text class="data-v-4ddb5cf8">{{list.beginTime}}</text>
+                        </view>至<view bindtap="__e" class="time_display data-v-4ddb5cf8" data-event-opts="{{[ [ 'tap',[ [ 'onTimes',['$event'] ] ] ] ]}}">
+                            <text class="data-v-4ddb5cf8">{{list.endTime}}</text>
+                        </view>
+                    </view>
+                </view>
+                <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-4ddb5cf8" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" defaultTime="{{list.beginTime}}" mode="time" params="{{params}}" value="{{show}}" vueId="247933eb-3"></u-picker>
+                <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-4ddb5cf8" data-event-opts="{{[ [ '^confirm',[ ['fixhour'] ] ],[ '^input',[ [ '__set_model',[ '','isMust','$event',[] ] ] ] ] ]}}" defaultTime="{{list.endTime}}" mode="time" params="{{params}}" value="{{isMust}}" vueId="247933eb-4"></u-picker>
+            </view>
+            <view class="item data-v-4ddb5cf8">
+                <view class="item_top data-v-4ddb5cf8">
+                    <image class="list_time data-v-4ddb5cf8" mode="widthFix" src="{{$root.m1}}"></image>
+                    <view class="time_title data-v-4ddb5cf8">团课</view>
+                </view>
+                <view class="item_radio data-v-4ddb5cf8">
+                    <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-4ddb5cf8" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','actionTeam','$event',[] ],['list'] ] ] ] ]}}" value="{{list.actionTeam}}" vueId="247933eb-5" vueSlots="{{['default']}}">
+                        <u-radio bind:__l="__l" class="{{['data-v-4ddb5cf8',value==1?'active':'radio']}}" name="1" vueId="{{'247933eb-6'+','+'247933eb-5'}}" vueSlots="{{['default']}}">清除该期间此教练的团课(若有)</u-radio>
+                        <u-radio bind:__l="__l" class="{{['data-v-4ddb5cf8',value==2?'active':'radio']}}" name="2" vueId="{{'247933eb-7'+','+'247933eb-5'}}" vueSlots="{{['default']}}">不清除,但改为停课状态(会员不可预约)</u-radio>
+                        <u-radio bind:__l="__l" class="{{['data-v-4ddb5cf8',value==3?'active':'radio']}}" name="3" vueId="{{'247933eb-8'+','+'247933eb-5'}}" vueSlots="{{['default']}}">正常显示(会员可约课)</u-radio>
+                    </u-radio-group>
+                </view>
+            </view>
+            <view class="item data-v-4ddb5cf8">
+                <view class="item_top data-v-4ddb5cf8">
+                    <view class="list_time data-v-4ddb5cf8"></view>
+                    <view class="time_title data-v-4ddb5cf8">私教课</view>
+                </view>
+                <view class="item_radio data-v-4ddb5cf8">
+                    <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-4ddb5cf8" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','actionPrivate','$event',[] ],['list'] ] ] ] ]}}" value="{{list.actionPrivate}}" vueId="247933eb-9" vueSlots="{{['default']}}">
+                        <u-radio bind:__l="__l" class="{{['data-v-4ddb5cf8',values==1?'active':'radio']}}" name="1" vueId="{{'247933eb-10'+','+'247933eb-9'}}" vueSlots="{{['default']}}">清除该期间此教练的私教(若有)</u-radio>
+                        <u-radio bind:__l="__l" class="{{['data-v-4ddb5cf8',values==2?'active':'radio']}}" name="2" vueId="{{'247933eb-11'+','+'247933eb-9'}}" vueSlots="{{['default']}}">不清除,但改为灰色且禁选(会员不可预约)</u-radio>
+                        <u-radio bind:__l="__l" class="{{['data-v-4ddb5cf8',values==3?'active':'radio']}}" name="3" vueId="{{'247933eb-12'+','+'247933eb-9'}}" vueSlots="{{['default']}}">正常显示(会员可约课)</u-radio>
+                    </u-radio-group>
+                </view>
+            </view>
+            <view class="item data-v-4ddb5cf8">
+                <view class="item_top data-v-4ddb5cf8">
+                    <image class="list_time data-v-4ddb5cf8" mode="widthFix" src="{{$root.m2}}"></image>
+                    <view class="time_title data-v-4ddb5cf8">备注</view>
+                </view>
+                <view class="item_input data-v-4ddb5cf8">
+                    <textarea bindinput="__e" class="textarea data-v-4ddb5cf8" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '$0','remark','$event',[] ],['list'] ] ] ] ]}}" disableDefaultPadding="{{true}}" maxlength="200" placeholder="无" placeholderStyle="line-height: 35rpx;color: #DADADA;" value="{{list.remark}}"></textarea>
+                </view>
+                <view class="num data-v-4ddb5cf8">{{'已写'+(list.remark==''||list.remark==null?0:$root.g0)+'字/ 最多200字'}}</view>
+            </view>
+        </view>
+        <view bindtap="__e" class="bg data-v-4ddb5cf8" data-event-opts="{{[ [ 'tap',[ [ 'Click',['$event'] ] ] ] ]}}">保存</view>
+        <view bindtap="__e" class="delete data-v-4ddb5cf8" data-event-opts="{{[ [ 'tap',[ [ 'headledelete',['$event'] ] ] ] ]}}" wx:if="{{list.holidayId}}">删除</view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-4ddb5cf8" vueId="247933eb-13"></ff-bottom-logo>
+    <confirm bind:__l="__l" class="data-v-4ddb5cf8 vue-ref" data-ref="confirmModal" title="确定清除排课吗？" vueId="247933eb-14" vueSlots="{{['default','btn']}}">
+        <view class="data-v-4ddb5cf8" slot="content" wx:if="{{list.actionTeam==1||list.actionPrivate==1}}">
+            <text class="data-v-4ddb5cf8" style="{{'display:block;'}}">a、确定后，将清除请假期间的团课/私教课</text>
+            <text class="data-v-4ddb5cf8" style="{{'display:block;'}}">b、如已有会员预约，则自动取消预约并通知会员</text>
+        </view>
+        <view class="btn data-v-4ddb5cf8" slot="btn">
+            <view bindtap="__e" class="modal-cancel data-v-4ddb5cf8" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="modal-btn data-v-4ddb5cf8" data-event-opts="{{[ [ 'tap',[ [ 'handleDeterminebtn',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm>
+    <confirm bind:__l="__l" class="data-v-4ddb5cf8 vue-ref" data-ref="delConfirmModal" title="删除此次休假？" vueId="247933eb-15" vueSlots="{{['content','btn']}}">
+        <view class="data-v-4ddb5cf8" slot="content">
+            <text class="data-v-4ddb5cf8" style="{{'display:block;'}}">删除并不能恢复之前(若之前选择了清除)清除的课程</text>
+        </view>
+        <view class="deleteBtn data-v-4ddb5cf8" slot="btn">
+            <view bindtap="__e" class="modal-cancel data-v-4ddb5cf8" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="modal-btn data-v-4ddb5cf8" data-event-opts="{{[ [ 'tap',[ [ 'handleDeterminebtn',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm>
+</view>

@@ -1,0 +1,90 @@
+<view class="data-v-74af7f6f">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-74af7f6f" text="{{title}}" vueId="326b3e80-1"></navigation>
+    <view class="staff-edit-container data-v-74af7f6f" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-74af7f6f" style="{{'height:100%;min-height:1230rpx;'}}">
+            <view class="subsection-box data-v-74af7f6f" wx:if="{{!model.siteOwner&&model.staffUserid}}">
+                <u-subsection activeColor="#ffffff" bind:__l="__l" bind:change="__e" buttonColor="{{subsectionIndex==0?'#22C788':'#DC3C5C'}}" class="data-v-74af7f6f" current="{{subsectionIndex}}" data-event-opts="{{[ [ '^change',[ ['sectionChange'] ] ] ]}}" fontSize="22" inactiveColor="#7E7E7E" list="{{subsectionList}}" vueId="326b3e80-2"></u-subsection>
+            </view>
+            <u-form bind:__l="__l" class="data-v-74af7f6f vue-ref" data-ref="uForm" errorType="{{['toast']}}" model="{{model}}" vueId="326b3e80-3" vueSlots="{{['default']}}">
+                <view class="imghead data-v-74af7f6f">
+                    <image class="img data-v-74af7f6f" src="{{imgurl}}" wx:if="{{imgurl}}"></image>
+                    <image class="headimg data-v-74af7f6f" src="{{$root.m0}}" wx:else></image>
+                    <view bindtap="__e" class="slot-btn data-v-74af7f6f" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}" hoverClass="slot-btn__hover" hoverStayTime="150" slot="addBtn" style=";" wx:if="{{title!='添加员工/教练'}}">
+                        <view class="imghead-text data-v-74af7f6f">
+                            <image class="cameraicon data-v-74af7f6f" src="{{$root.m1}}"></image>
+                            <text class="data-v-74af7f6f">修改头像</text>
+                        </view>
+                    </view>
+                </view>
+                <u-form-item bind:__l="__l" class="data-v-74af7f6f" label="姓名" labelWidth="100" prop="staffName" required="{{true}}" vueId="{{'326b3e80-4'+','+'326b3e80-3'}}" vueSlots="{{['default']}}">
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-74af7f6f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','staffName','$event',[] ],['model'] ] ] ] ]}}" placeholder="请输入姓名" placeholderStyle="font-size:28rpx;color:#DADADA" type="text" value="{{model.staffName}}" vueId="{{'326b3e80-5'+','+'326b3e80-4'}}"></u-input>
+                </u-form-item>
+                <u-cell-item bind:__l="__l" bind:click="__e" class="uni-form-item-required data-v-74af7f6f" data-event-opts="{{[ [ '^click',[ ['e0'] ] ] ]}}" hoverClass="none" require="{{true}}" title="性别" titleStyle="{{titleStyle}}" vueId="{{'326b3e80-6'+','+'326b3e80-3'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-74af7f6f" hidden="{{!model.staffSexName}}">{{model.staffSexName}}</text>
+                </u-cell-item>
+                <u-action-sheet bind:__l="__l" bind:click="__e" bind:input="__e" class="data-v-74af7f6f" data-event-opts="{{[ [ '^click',[ ['actionSheetCallback'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" list="{{list}}" tips="{{tips}}" value="{{show}}" vueId="{{'326b3e80-7'+','+'326b3e80-3'}}"></u-action-sheet>
+                <u-form-item bind:__l="__l" class="data-v-74af7f6f" label="手机" labelWidth="100" prop="staffTel" required="{{true}}" vueId="{{'326b3e80-8'+','+'326b3e80-3'}}" vueSlots="{{['default']}}">
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-74af7f6f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','staffTel','$event',[] ],['model'] ] ] ] ]}}" placeholder="请输入手机" placeholderStyle="font-size:28rpx;color:#DADADA" type="number" value="{{model.staffTel}}" vueId="{{'326b3e80-9'+','+'326b3e80-8'}}"></u-input>
+                </u-form-item>
+                <u-cell-item bind:__l="__l" bind:click="__e" class="uni-form-item-required data-v-74af7f6f" data-event-opts="{{[ [ '^click',[ ['openIdentity'] ] ] ]}}" hoverClass="none" require="{{true}}" title="身份" titleStyle="{{titleStyle}}" vueId="{{'326b3e80-10'+','+'326b3e80-3'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-74af7f6f" hidden="{{!model.identName}}">{{model.identName}}</text>
+                </u-cell-item>
+                <u-cell-item arrow="{{!(model.staffType==2||model.staffType==3)}}" bind:__l="__l" bind:click="__e" class="uni-form-item-required data-v-74af7f6f" data-event-opts="{{[ [ '^click',[ ['openPopup'] ] ] ]}}" hoverClass="none" require="{{true}}" title="权限" titleStyle="{{titleStyle}}" vueId="{{'326b3e80-11'+','+'326b3e80-3'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-74af7f6f" hidden="{{!model.roleName}}">{{model.roleName}}<text class="data-v-74af7f6f" wx:if="{{model.staffType==2||model.staffType==3}}">（拥有全部权限）</text>
+                    </text>
+                </u-cell-item>
+            </u-form>
+            <view class="btn-box data-v-74af7f6f">
+                <button bindtap="__e" class="save-btn data-v-74af7f6f" data-event-opts="{{[ [ 'tap',[ [ 'savedata',['$event'] ] ] ] ]}}" plain="true">保存</button>
+                <button bindtap="__e" class="delete-btn data-v-74af7f6f" data-event-opts="{{[ [ 'tap',[ [ 'delmodal',['$event'] ] ] ] ]}}" plain="true" wx:if="{{!model.siteOwner&&model.staffUserid}}">删除</button>
+                <view bindtap="__e" class="Transferbtn data-v-74af7f6f" data-event-opts="{{[ [ 'tap',[ [ 'transferManage',['$event'] ] ] ] ]}}" wx:if="{{transferbtn}}">转让店长</view>
+            </view>
+        </view>
+        <u-modal bind:__l="__l" bind:input="__e" class="data-v-74af7f6f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','delShow','$event',[] ] ] ] ] ]}}" showConfirmButton="{{false}}" showTitle="{{false}}" value="{{delShow}}" vueId="326b3e80-12" vueSlots="{{['default']}}" width="{{708}}">
+            <view class="modal data-v-74af7f6f">
+                <text class="modal-title data-v-74af7f6f">{{modal.modalTitle}}</text>
+                <view class="modal-content data-v-74af7f6f">
+                    <block wx:if="{{existPlan&&!isDepart}}">
+                        <view class="data-v-74af7f6f" style="width:100%;padding-bottom:8rpx;">该员工正在任职团课或私教，删除后会致使其任课的数据无法统计且无法找回，建议改为离职状态！</view>
+                        <view class="content data-v-74af7f6f">
+                            <u-checkbox-group bind:__l="__l" class="data-v-74af7f6f" vueId="{{'326b3e80-13'+','+'326b3e80-12'}}" vueSlots="{{['default']}}">
+                                <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-74af7f6f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','checked','$event',[] ],['modal'] ] ] ] ]}}" labelSize="28rpx" shape="circle" value="{{modal.checked}}" vueId="{{'326b3e80-14'+','+'326b3e80-13'}}" vueSlots="{{['default']}}">我已阅读上面信息，仍要删除</u-checkbox>
+                            </u-checkbox-group>
+                        </view>
+                    </block>{{''+modal.modalText+''}}</view>
+                <view class="del-btn data-v-74af7f6f">
+                    <button bindtap="__e" class="modal-cal-btn data-v-74af7f6f" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}" plain="true">取消</button>
+                    <button bindtap="__e" class="{{['modal-btn','data-v-74af7f6f',existPlan&&!modal.checked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtn',['$event'] ] ] ] ]}}" plain="true">确定</button>
+                </view>
+            </view>
+        </u-modal>
+        <view class="data-v-74af7f6f">
+            <permission-popup bind:__l="__l" bind:savePermissionList="__e" class="data-v-74af7f6f vue-ref" data-event-opts="{{[ [ '^savePermissionList',[ ['savePermissionList'] ] ] ]}}" data-ref="child" vueId="326b3e80-15"></permission-popup>
+            <identity-popup bind:__l="__l" bind:saveIdentityList="__e" class="data-v-74af7f6f vue-ref" data-event-opts="{{[ [ '^saveIdentityList',[ ['saveIdentityList'] ] ] ]}}" data-ref="identitychild" vueId="326b3e80-16"></identity-popup>
+        </view>
+        <confirm-modal bind:__l="__l" class="data-v-74af7f6f vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="{{confirmTitle}}" vueId="326b3e80-17" vueSlots="{{['content','btn']}}">
+            <view class="data-v-74af7f6f" slot="content">
+                <view class="data-v-74af7f6f">转让后您将失去<text class="data-v-74af7f6f" style="color:#DC3C5C;">本系统权属人身份及店长权限</text>，并成为本店普通员工</view>
+                <view class="data-v-74af7f6f">
+                    <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-74af7f6f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','refuseChecked','$event',[] ] ] ] ] ]}}" shape="circle" size="32" value="{{refuseChecked}}" vueId="{{'326b3e80-18'+','+'326b3e80-17'}}" vueSlots="{{['default']}}">
+                        <text class="data-v-74af7f6f" style="{{'font-size:26rpx;color:#606266;line-height:39rpx;'+'font-weight:'+(refuseChecked?'500':'normal')+';'}}">我已阅读并知晓，确认转让</text>
+                    </u-checkbox>
+                </view>
+            </view>
+            <view class="btn data-v-74af7f6f" slot="btn">
+                <view bindtap="__e" class="modal-cal-btn button data-v-74af7f6f" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtntran',['$event'] ] ] ] ]}}">取消</view>
+                <view bindtap="__e" class="{{['modal-btn','button','data-v-74af7f6f',!refuseChecked?'grey':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'refuseconfirm',['$event'] ] ] ] ]}}">确定</view>
+            </view>
+        </confirm-modal>
+        <confirm-modal bind:__l="__l" class="data-v-74af7f6f vue-ref" customBtn="{{true}}" data-ref="confirmModalFail" title="转让失败！" vueId="326b3e80-19" vueSlots="{{['content','btn']}}">
+            <view class="data-v-74af7f6f" slot="content">
+                <view class="data-v-74af7f6f">{{'「'+model.staffName+'」已经注册了另外一个场馆，造成转让失败！'}}</view>
+                <view class="data-v-74af7f6f">需要先注销其创建的场馆后才可转让，请联系松果客服协助您解决</view>
+            </view>
+            <view class="data-v-74af7f6f" slot="btn">
+                <view bindtap="__e" class="modal-btn button data-v-74af7f6f" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtnFail',['$event'] ] ] ] ]}}">知道了</view>
+            </view>
+        </confirm-modal>
+        <ff-bottom-logo bind:__l="__l" class="data-v-74af7f6f" vueId="326b3e80-20"></ff-bottom-logo>
+    </view>
+</view>

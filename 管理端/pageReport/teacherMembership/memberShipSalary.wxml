@@ -1,0 +1,117 @@
+<view bindtap="__e" class="data-v-1a127204" data-event-opts="{{[ [ 'tap',[ [ 'cancelBubbling',['$event'] ] ] ] ]}}">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-1a127204" text="{{title}}" vueId="88d778be-1"></navigation>
+    <view class="main data-v-1a127204" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-1a127204">
+            <view class="head data-v-1a127204" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="hint_wrap data-v-1a127204" style="{{'height:'+(start==0?'0':'62rpx')+';'}}">
+                    <hint bind:__l="__l" bind:reGetList="__e" class="data-v-1a127204" computeType="{{2}}" data-event-opts="{{[ [ '^reGetList',[ ['reGetList'] ] ] ]}}" show="{{hintShow}}" updateTime="{{computeTime.computeTime}}" vueId="88d778be-2" vueSlots="{{['confirmname']}}">
+                        <view class="data-v-1a127204" slot="confirmname">
+                            <view class="data-v-1a127204" style="display:flex;">
+                                <view class="name data-v-1a127204">注意事项：</view>
+                                <view class="data-v-1a127204">
+                                    <view class="value data-v-1a127204">请关注上面的数据时间，该数据非实时数据</view>
+                                </view>
+                            </view>
+                        </view>
+                    </hint>
+                </view>
+                <view class="summarize data-v-1a127204">
+                    <view class="top_data1 data-v-1a127204" style="{{'padding-bottom:'+(start==0?'0':'26rpx')+';'}}">
+                        <view class="more-data data-v-1a127204">
+                            <view class="data-v-1a127204" wx:if="{{start==0}}">未开启（点击右侧设置按钮即可开启）</view>
+                            <view class="data-v-1a127204" wx:if="{{start==1&&salaryMode==1}}">按固定提成计算</view>
+                            <view class="data-v-1a127204" wx:if="{{start==1&&salaryMode==2}}">按多阶梯式计算</view>
+                            <view bindtap="__e" class="data-v-1a127204" data-event-opts="{{[ [ 'tap',[ ['handleSet'] ] ] ]}}" style="display:flex;">
+                                <image class="icon data-v-1a127204" src="{{$root.m0}}"></image>
+                                <u-icon bind:__l="__l" class="arrow-right data-v-1a127204" color="#989898" name="arrow-right" size="16" vueId="88d778be-3"></u-icon>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="top_data data-v-1a127204" wx:if="{{start==1}}">
+                        <view catchtap="__e" class="warp data-v-1a127204" data-event-opts="{{[ [ 'tap',[ [ 'changeShowDrop',['$event'] ] ] ] ]}}">
+                            <text class="data-v-1a127204">{{topText}}</text>
+                            <u-icon bind:__l="__l" class="arrow-right data-v-1a127204" color="#181818" marginLeft="5" name="arrow-down" size="16" vueId="88d778be-4"></u-icon>
+                        </view>
+                        <view catchtap="__e" class="warp data-v-1a127204" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',['$0',false],['type'] ] ] ] ]}}" wx:if="{{type!=4}}">
+                            <text class="top_text1 data-v-1a127204">{{topTime}}</text>
+                            <u-icon bind:__l="__l" class="arrow-right data-v-1a127204" color="#181818" marginLeft="9" name="arrow-down" size="16" vueId="88d778be-5"></u-icon>
+                        </view>
+                    </view>
+                    <view class="drop_down data-v-1a127204" hidden="{{!changeShowDrop1}}">
+                        <view class="image_wrap data-v-1a127204">
+                            <image class="data-v-1a127204" src="{{$root.m1}}"></image>
+                        </view>
+                        <view class="drop_down_list data-v-1a127204">
+                            <view catchtap="__e" class="item data-v-1a127204" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',[1,true] ] ] ] ]}}">全部</view>
+                            <u-line bind:__l="__l" class="data-v-1a127204" color="#4d4d4d" vueId="88d778be-6"></u-line>
+                            <view catchtap="__e" class="item data-v-1a127204" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',[2,true] ] ] ] ]}}">按年</view>
+                            <u-line bind:__l="__l" class="data-v-1a127204" color="#4d4d4d" vueId="88d778be-7"></u-line>
+                            <view catchtap="__e" class="item data-v-1a127204" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',[3,true] ] ] ] ]}}">按月</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="top_content data-v-1a127204">
+                    <view class="item_head data-v-1a127204" wx:if="{{start==1}}">
+                        <view class="item_right data-v-1a127204">{{'共'+totalCount+'名会籍'}}</view>
+                        <view class="filter data-v-1a127204">
+                            <view class="filter-item data-v-1a127204" wx:for="{{memberStatus}}" wx:key="index">
+                                <view class="tag data-v-1a127204">{{item.name}}</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-1a127204">
+                <view class="list data-v-1a127204">
+                    <view class="item data-v-1a127204" wx:if="{{!notdata}}">
+                        <block wx:for="{{$root.l0}}" wx:for-index="index1" wx:key="index1">
+                            <view class="item-box data-v-1a127204">
+                                <view catchtap="__e" class="sale-item data-v-1a127204" data-event-opts="{{[ [ 'tap',[ [ 'memberSalaryDetail',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}">
+                                    <image class="avator data-v-1a127204" src="{{item.$orig.staffFace}}"></image>
+                                    <view class="detail-info data-v-1a127204">
+                                        <view class="detail-info-wrap data-v-1a127204">
+                                            <view class="l-info data-v-1a127204">{{''+item.m2+''}}</view>
+                                            <view class="r-info data-v-1a127204">
+                                                <view class="team-class data-v-1a127204">
+                                                    <view class="data-v-1a127204" wx:if="{{item.$orig.manCount&&item.$orig.cardCount}}">{{item.$orig.manCount+''}}<text class="unit data-v-1a127204">/</text>{{item.$orig.cardCount+''}}</view>
+                                                    <text class="nodata-grey data-v-1a127204" wx:else>-</text>
+                                                </view>
+                                                <view class="team-class2 data-v-1a127204">
+                                                    <view class="data-v-1a127204" wx:if="{{item.$orig.saleAmount}}">
+                                                        <text class="unit data-v-1a127204">￥</text>{{''+item.$orig.saleAmount+''}}</view>
+                                                    <text class="nodata-grey data-v-1a127204" wx:else>-</text>
+                                                </view>
+                                                <view class="team-class1 data-v-1a127204">
+                                                    <view class="data-v-1a127204" wx:if="{{item.$orig.salaryAmount}}">
+                                                        <text class="unit data-v-1a127204">￥</text>{{item.$orig.salaryAmount+''}}</view>
+                                                    <text class="nodata-grey data-v-1a127204" wx:else>-</text>
+                                                </view>
+                                                <u-icon bind:__l="__l" class="arrow-right data-v-1a127204" color="#989898" name="arrow-right" size="15" vueId="{{'88d778be-8-'+index1}}"></u-icon>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-1a127204" color="#F0F0F0" length="600rpx" margin="0rpx 0rpx 0rpx 98rpx" vueId="{{'88d778be-9-'+index1}}" wx:if="{{item.g0-1!=index1}}"></u-line>
+                        </block>
+                    </view>
+                    <view class="data-v-1a127204" wx:else>
+                        <view class="noCourseData data-v-1a127204">
+                            <image class="icon data-v-1a127204" src="{{$root.m3}}"></image>
+                            <text class="explain data-v-1a127204" wx:if="{{start==0}}">~ 未开启工资统计 ~</text>
+                            <text class="explain data-v-1a127204" wx:else>~ 没有工资统计记录 ~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-1a127204" wx:if="{{!notdata&&ismore}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-1a127204" color="#bfbfbf" halfWidth="74" vueId="88d778be-10" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-1a127204" vueId="88d778be-11"></ff-bottom-logo>
+        <calendar-month bind:__l="__l" bind:changeDate="__e" class="data-v-1a127204 vue-ref" data-event-opts="{{[ [ '^changeDate',[ ['changeDate'] ] ] ]}}" data-ref="calendarMonthChild" vueId="88d778be-12"></calendar-month>
+        <calendar-year bind:__l="__l" bind:changeyear="__e" bind:headleClose="__e" class="data-v-1a127204 vue-ref" data-event-opts="{{[ [ '^changeyear',[ ['changeyear'] ] ],[ '^headleClose',[ ['yearclose'] ] ] ]}}" data-ref="calendarYearChild" vueId="88d778be-13"></calendar-year>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-1a127204" data-event-opts="{{[ [ '^confirm',[ ['startTimeconfirm'] ] ],[ '^input',[ [ '__set_model',[ '','startTimeSelectshow','$event',[] ] ] ] ] ]}}" defaultTime="{{startTime.year+'-'+startTime.month+'-'+startTime.day}}" endYear="{{pickerEndTime}}" mode="time" params="{{timeParam}}" startYear="2023" title="开始时间" value="{{startTimeSelectshow}}" vueId="88d778be-14"></u-picker>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-1a127204" data-event-opts="{{[ [ '^confirm',[ ['endTimeconfirm'] ] ],[ '^input',[ [ '__set_model',[ '','endTimeSelectshow','$event',[] ] ] ] ] ]}}" defaultTime="{{endTime.year+'-'+endTime.month+'-'+endTime.day}}" endYear="{{pickerEndTime}}" mode="time" params="{{timeParam}}" startYear="2023" title="结束时间" value="{{endTimeSelectshow}}" vueId="88d778be-15"></u-picker>
+    </view>
+</view>

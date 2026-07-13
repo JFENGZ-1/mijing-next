@@ -1,0 +1,12 @@
+{
+  "component": true,
+  "usingComponents": {
+    "week-calendar": "/components/week-calendar/week-calendar",
+    "u-input": "/node-modules/uview-ui/components/u-input/u-input",
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "u-calendar": "/node-modules/uview-ui/components/u-calendar/u-calendar",
+    "dialog": "/components/dialog/index",
+    "loading-pulse": "/components/loading/loading-pulse",
+    "selected-member-card": "/pageCourse/components/selected-member-card/index"
+  }
+}

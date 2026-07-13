@@ -1,0 +1,128 @@
+<view class="data-v-cb818400">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-cb818400" text="课程统计" vueId="64b668fd-1"></navigation>
+    <view class="main data-v-cb818400" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-cb818400">
+            <view class="head data-v-cb818400">
+                <view class="data-v-cb818400" style="height:52rpx;">
+                    <hint bind:__l="__l" class="data-v-cb818400 vue-ref" data-ref="confirmModal" show="{{hintShow}}" updateTime="{{computeTime.computeTime}}" vueId="64b668fd-2" vueSlots="{{['confirmname']}}">
+                        <view class="data-v-cb818400" slot="confirmname">
+                            <view class="data-v-cb818400">
+                                <text class="data-v-cb818400" style="color:#181818;">数据说明：</text>该数据非实时统计，若有变动，将于次日凌晨重新统计并更正</view>
+                            <view class="data-v-cb818400">
+                                <text class="data-v-cb818400" style="color:#181818;">耗卡统计：</text>
+                                <text class="data-v-cb818400" style="color:#dc3c5c;">每日耗卡=约课耗卡+期限卡耗卡；期限卡每过一天即产生耗卡，与是否约课没有必然关系，所以即使没有会员约课，也会产生耗卡</text>
+                            </view>
+                        </view>
+                    </hint>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-cb818400">
+                <view class="data-v-cb818400" wx:for="{{$root.l1}}" wx:key="index">
+                    <view class="summarize data-v-cb818400">
+                        <view class="item_time data-v-cb818400">
+                            <view class="item_title data-v-cb818400">
+                                <view class="title_color data-v-cb818400"></view>
+                                <view class="title_text data-v-cb818400" wx:if="{{item.$orig.isNowYear}}">今年</view>
+                                <view class="title_text data-v-cb818400" wx:else>{{item.$orig.year+'年'}}</view>
+                                <view class="title_price data-v-cb818400" wx:if="{{isShowTotalPrice}}">总耗卡<text class="price data-v-cb818400">￥</text>
+                                    <text class="total data-v-cb818400">{{item.$orig.totalPrice}}</text>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="data-v-cb818400">
+                            <view class="top_data data-v-cb818400">
+                                <view class="more-data data-v-cb818400">
+                                    <view class="item data-v-cb818400">
+                                        <view class="info data-v-cb818400">
+                                            <view class="data-v-cb818400">团课排课</view>
+                                            <view class="info-foot data-v-cb818400">
+                                                <text class="info_num data-v-cb818400">{{item.$orig.totalTeamCount==undefined?'--':item.$orig.totalTeamCount}}</text>
+                                                <text class="info_name data-v-cb818400">节</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <u-line bind:__l="__l" class="u-line data-v-cb818400" color="#DADADA" direction="col" length="62rpx" vueId="{{'64b668fd-3-'+index}}"></u-line>
+                                    <view class="item data-v-cb818400">
+                                        <view class="info data-v-cb818400">
+                                            <view class="data-v-cb818400">团课成课</view>
+                                            <view class="info-foot data-v-cb818400">
+                                                <text class="info_num data-v-cb818400">{{(item.$orig.teamSuccCount==undefined?'--':item.$orig.teamSuccCount)+''}}</text>
+                                                <text class="info_name data-v-cb818400">节</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <u-line bind:__l="__l" class="u-line data-v-cb818400" color="#DADADA" direction="col" length="62rpx" vueId="{{'64b668fd-4-'+index}}"></u-line>
+                                    <view class="item data-v-cb818400">
+                                        <view class="info data-v-cb818400">
+                                            <view class="data-v-cb818400">签到人次</view>
+                                            <view class="info-foot data-v-cb818400">
+                                                <text class="info_num data-v-cb818400">{{item.$orig.teamsignMancount==undefined?'--':item.$orig.teamsignMancount}}</text>
+                                                <text class="info_name data-v-cb818400">次</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <u-line bind:__l="__l" class="u-line data-v-cb818400" color="#DADADA" direction="col" length="62rpx" vueId="{{'64b668fd-5-'+index}}"></u-line>
+                                    <view class="item data-v-cb818400">
+                                        <view class="info data-v-cb818400">
+                                            <view class="data-v-cb818400">私教</view>
+                                            <view class="info-foot data-v-cb818400">
+                                                <text class="info_num data-v-cb818400">{{item.$orig.privateCourseCount==undefined?'--':item.$orig.privateCourseCount}}</text>
+                                                <text class="info_name data-v-cb818400">节</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="list data-v-cb818400">
+                        <view class="item data-v-cb818400">
+                            <view class="data-v-cb818400">
+                                <view class="item_head data-v-cb818400">
+                                    <view class="item_right data-v-cb818400" style="padding-bottom:6rpx;padding-right:25rpx;">
+                                        <view class="item_below data-v-cb818400">
+                                            <view class="item_left data-v-cb818400">月份</view>
+                                            <view class="item_explain explain_first data-v-cb818400">团课排课</view>
+                                            <view class="item_explain explain_center explain_left data-v-cb818400">・成课</view>
+                                            <view class="item_explain explain_end explain_left data-v-cb818400">・ 签到</view>
+                                            <view class="item_explain explain_pri data-v-cb818400">私教</view>
+                                            <view bindtap="__e" class="item_explain explain_price data-v-cb818400" data-event-opts="{{[ [ 'tap',[ [ 'dataexplain',['$event'] ] ] ] ]}}" style="display:flex;justify-content:center;">耗卡<image class="hint-icon data-v-cb818400" src="{{$root.m0}}"></image>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="item data-v-cb818400">
+                            <view bindtap="__e" class="data-v-cb818400" data-event-opts="{{[ [ 'tap',[ [ 'headleDelete',['$0','$1'],[ [ ['list','',index],['monthList','',index1,'monthNum'] ],[ ['list','',index],['monthList','',index1,'yearNum'] ] ] ] ] ] ]}}" wx:for="{{item.l0}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                                <view class="item_con data-v-cb818400">
+                                    <view class="item_right data-v-cb818400">
+                                        <view class="item_below data-v-cb818400">
+                                            <view class="item_left data-v-cb818400">{{''+item1.$orig.monthNum+'月'}}</view>
+                                            <view class="item_explain1 explain_first data-v-cb818400">{{''+item1.$orig.totalTeamCount}}<text class="item_name data-v-cb818400">节</text>
+                                            </view>
+                                            <view class="item_explain1 explain_center data-v-cb818400">{{''+item1.$orig.teamSuccCount}}<text class="item_name data-v-cb818400">节</text>
+                                            </view>
+                                            <view class="item_explain1 explain_end data-v-cb818400">{{''+item1.$orig.teamsignMancount}}<text class="item_name data-v-cb818400">人次</text>
+                                            </view>
+                                            <view class="item_explain1 explain_pri data-v-cb818400">{{''+item1.$orig.privateCourseCount}}<text class="item_name data-v-cb818400">节</text>
+                                            </view>
+                                            <view class="item_explain1 explain_price data-v-cb818400">
+                                                <text class="item_name data-v-cb818400" wx:if="{{isShowTotalPrice}}">￥</text>{{(isShowTotalPrice?item1.$orig.totalPrice:'-')+''}}</view>
+                                            <u-icon bind:__l="__l" class="arrow-right data-v-cb818400" color="#989898" name="arrow-right" size="15" vueId="{{'64b668fd-6-'+index+'-'+index1}}"></u-icon>
+                                        </view>
+                                    </view>
+                                </view>
+                                <u-line bind:__l="__l" class="data-v-cb818400" color="#F0F0F0" length="568rpx" margin="0rpx 0rpx 0 142rpx" vueId="{{'64b668fd-7-'+index+'-'+index1}}" wx:if="{{item1.g0}}"></u-line>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-cb818400" wx:if="{{$root.g1!=0}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-cb818400" color="#bfbfbf" halfWidth="74" vueId="64b668fd-8" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-cb818400" vueId="64b668fd-9"></ff-bottom-logo>
+    </view>
+</view>

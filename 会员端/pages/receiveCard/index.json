@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "member-card": "/components/mumber-card/index",
+    "hint": "/pages/receiveCard/components/hint",
+    "loading-pulse": "/components/loading/loading-pulse",
+    "bottom-logo": "/components/ff-bottom-logo/index"
+  }
+}

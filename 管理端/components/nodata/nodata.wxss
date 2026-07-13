@@ -1,0 +1,15 @@
+.notdata.data-v-0e332d96 {
+  padding-top: 135rpx;
+  text-align: center;
+}
+.notdata .pic.data-v-0e332d96 {
+  height: 171rpx;
+  padding-bottom: 60rpx;
+  width: 203rpx;
+}
+.notdata .text.data-v-0e332d96 {
+  color: #bfbfbf;
+  font-size: 26rpx;
+  line-height: 21px;
+  text-align: center;
+}

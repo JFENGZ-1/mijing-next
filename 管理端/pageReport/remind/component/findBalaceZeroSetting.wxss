@@ -1,0 +1,59 @@
+.data-v-3a418e64 .u-input__input {
+  color: #181818;
+  height: 80rpx !important;
+  text-align: center;
+}
+.placeholder-view.data-v-3a418e64 {
+  background: #f5f5f5;
+}
+.content.data-v-3a418e64 {
+  background: #fff;
+  min-height: 1230rpx;
+  padding: 80rpx 50rpx 0;
+}
+.content .radio-main.data-v-3a418e64 {
+  align-items: center;
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 26rpx;
+  margin: 0 10rpx;
+  padding-top: 25rpx;
+}
+.content .radio-main .com-input.data-v-3a418e64 {
+  background: #f5f5f5;
+  height: 80rpx;
+  margin: 0 10rpx;
+  padding: 0 20rpx !important;
+  width: 120rpx;
+}
+.content .prompt.data-v-3a418e64 {
+  color: #bd6f3d;
+  font-size: 22rpx;
+  line-height: 35rpx;
+  margin-top: 30rpx;
+}
+.content .btn-box.data-v-3a418e64 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  margin-top: 130rpx;
+}
+.content .btn-box button.data-v-3a418e64 {
+  border-radius: 41px;
+  color: #181818;
+  font-size: 32rpx;
+  height: 83rpx;
+  width: 458rpx;
+}
+.content .btn-box .save-btn.data-v-3a418e64 {
+  background: #fbd128;
+  border: 0rpx;
+  margin-bottom: 39rpx;
+}
+.nodata.data-v-3a418e64 {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  padding-top: 36rpx;
+}

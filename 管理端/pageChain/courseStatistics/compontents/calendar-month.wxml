@@ -1,0 +1,21 @@
+<view class="calendarMonth-container data-v-46b3f5f8">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-46b3f5f8" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','calendarMonthPopupShow','$event',[] ] ] ] ] ]}}" height="{{868}}" title="选择月份" value="{{calendarMonthPopupShow}}" vueId="25beed84-1" vueSlots="{{['default']}}">
+        <view class="calendarMonth data-v-46b3f5f8">
+            <view class="year-box data-v-46b3f5f8" wx:for="{{calendarList}}" wx:for-index="key" wx:key="key">
+                <view class="year data-v-46b3f5f8">
+                    <u-line bind:__l="__l" class="data-v-46b3f5f8" color="#DADADA" vueId="{{'25beed84-2-'+key+','+'25beed84-1'}}"></u-line>
+                    <text class="place_holder data-v-46b3f5f8">{{key}}</text>
+                    <u-line bind:__l="__l" class="data-v-46b3f5f8" color="#DADADA" vueId="{{'25beed84-3-'+key+','+'25beed84-1'}}"></u-line>
+                </view>
+                <view class="month data-v-46b3f5f8">
+                    <block wx:for="{{item}}" wx:for-item="item1" wx:key="index">
+                        <view class="month-view data-v-46b3f5f8" wx:if="{{index%4==0}}"></view>
+                        <text bindtap="__e" class="{{['data-v-46b3f5f8',index%4==0?'item_month_0':index>=10?'item_month_long':'item_month',item1.Value==year+'-'+month?'aa':'bb']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeDate',['$0'],[ [ ['calendarList','',key],['','',index] ] ] ] ] ] ]}}">
+                            <text class="data-v-46b3f5f8">{{item1.Text}}</text>
+                        </text>
+                    </block>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

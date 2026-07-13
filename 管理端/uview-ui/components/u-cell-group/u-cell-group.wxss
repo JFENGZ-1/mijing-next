@@ -1,0 +1,13 @@
+.u-cell-box.data-v-7dabc9b4 {
+  width: 100%;
+}
+.u-cell-title.data-v-7dabc9b4 {
+  color: #909399;
+  font-size: 30rpx;
+  padding: 30rpx 32rpx 10rpx;
+  text-align: left;
+}
+.u-cell-item-box.data-v-7dabc9b4 {
+  background-color: #fff;
+  flex-direction: row;
+}

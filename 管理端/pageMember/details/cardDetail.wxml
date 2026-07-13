@@ -1,0 +1,256 @@
+<view bindtap="__e" class="data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'cancelBubbling',['$event'] ] ] ] ]}}">
+    <view class="container data-v-37fc1759">
+        <view class="personalTainerModule data-v-37fc1759" style="{{'height:'+StatusBar+CustomBar+$root.m0+'px'+';'}}">
+            <view class="info-module data-v-37fc1759">
+                <view class="data-v-37fc1759" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+                <view class="capsule-wrap data-v-37fc1759" style="{{'height:'+CustomBar+'px'+';'}}">
+                    <view bindtap="__e" class="back data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}" style="{{'width:'+CustomBar+'px'+';'+'height:'+CustomBar+'px'+';'}}">
+                        <image class="data-v-37fc1759" src="{{$root.m1}}"></image>
+                    </view>
+                    <view class="head-img data-v-37fc1759">
+                        <text class="head-realName data-v-37fc1759">{{$root.m2}}</text>
+                    </view>
+                </view>
+                <view class="{{[ 'data-v-37fc1759',''+(noLogin==0?'photo-filter':'photo-filter-grey') ]}}" style="{{'height:'+StatusBar+CustomBar+$root.m3+'px'+';'+'background:'+'url('+personalTainerInfo.userFaceurl+')'+';'+'background-repeat:'+'no-repeat'+';'+'background-size:'+'100% 100%'+';'}}">
+                    <view class="data-v-37fc1759" style="{{'background:'+'#000000'+';'+'opacity:'+'0.3'+';'+'width:'+'100%'+';'+'height:'+' 100%'+';'}}"></view>
+                </view>
+            </view>
+        </view>
+        <view class="wrap data-v-37fc1759" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+            <view class="top-card data-v-37fc1759">
+                <member-card activeClass="large-size" bind:__l="__l" bind:moreProject="__e" cardInfo="{{card}}" class="member-card data-v-37fc1759" data-event-opts="{{[ [ '^moreProject',[ ['moreProject'] ] ] ]}}" style="{{'transform:'+'scale('+scale+')'+';'}}" vueId="0ee79130-1"></member-card>
+            </view>
+        </view>
+    </view>
+    <view class="head-top-space data-v-37fc1759" style="{{'top:'+StatusBar+CustomBar+50+'px'+';'}}"></view>
+    <view class="head-top data-v-37fc1759" style="{{'top:'+StatusBar+CustomBar+92+'px'+';'}}">
+        <view class="qyk data-v-37fc1759">
+            <view animation="{{animationData}}" class="data-v-37fc1759">
+                <view class="top-text data-v-37fc1759">
+                    <view bindtap="__e" class="top-left data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'fundsReceived',['$event'] ] ] ] ]}}">
+                        <view class="top-left-top data-v-37fc1759">
+                            <text class="top-left-top-icon data-v-37fc1759">￥</text>
+                            <text class="top-left-top-money data-v-37fc1759">{{card.initSalePrice}}</text>
+                        </view>
+                        <view class="top-left-bottom data-v-37fc1759">
+                            <text class="data-v-37fc1759">实收款</text>
+                            <image class="money-icon-wrap data-v-37fc1759" src="{{$root.m5}}" wx:if="{{!$root.m4}}"></image>
+                        </view>
+                    </view>
+                    <view bindtap="__e" class="top-right data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'balanceMoney',['$event'] ] ] ] ]}}">
+                        <view class="top-right-top data-v-37fc1759">
+                            <text class="top-right-top-left data-v-37fc1759">{{(card.cardType===1?'每元折算':card.cardType===2?'每次折算':'每天折算')+''}}</text>
+                            <text class="top-right-top-right data-v-37fc1759">
+                                <text class="bold data-v-37fc1759">{{$root.g0/100}}</text> 元 </text>
+                            <u-icon bind:__l="__l" class="arrow-right data-v-37fc1759" color="#989898" name="arrow-right" size="12" vueId="0ee79130-2" wx:if="{{!$root.m6}}"></u-icon>
+                        </view>
+                        <view class="top-right-bottom data-v-37fc1759">
+                            <text class="top-right-top-left data-v-37fc1759">剩余价值</text>
+                            <text class="top-right-top-right data-v-37fc1759">
+                                <text class="bold data-v-37fc1759">{{$root.g1/100}}</text>元</text>
+                            <u-icon bind:__l="__l" class="arrow-right data-v-37fc1759" color="#989898" name="arrow-right" size="12" vueId="0ee79130-3" wx:if="{{!$root.m7}}"></u-icon>
+                        </view>
+                    </view>
+                </view>
+                <view catchtap="__e" class="remake-box data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ ['remarkCard'] ] ] ]}}" wx:if="{{card.cardRemark}}">
+                    <text class="remarkfont data-v-37fc1759">备注：</text>
+                    <text class="remarkcontent data-v-37fc1759">{{card.cardRemark?$root.m8:''}}</text>
+                </view>
+            </view>
+            <view bindtap="__e" class="opening data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'headleSet',['$event'] ] ] ] ]}}" wx:if="{{card.cardStatus==0}}">开卡设置</view>
+            <view class="notice-card data-v-37fc1759">
+                <view bindtap="__e" class="card_explain data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'headleReceive',['$event'] ] ] ] ]}}" wx:if="{{$root.m9}}">该会员还没领取此卡，通知会员领取<image class="data-v-37fc1759" src="{{$root.m10}}"></image>
+                </view>
+            </view>
+            <view class="top-button data-v-37fc1759">
+                <view class="data-v-37fc1759" style="border-radius:21rpx 21rpx 0 0;">
+                    <view class="top-button-item data-v-37fc1759">
+                        <view class="item_head data-v-37fc1759">
+                            <u-tabs activeItemStyle="{{activeItemStyle}}" bind:__l="__l" bind:change="__e" class="data-v-37fc1759" current="{{current}}" data-event-opts="{{[ [ '^change',[ ['change'] ] ] ]}}" fontSize="25" inactiveColor="#7E7E7E" isScroll="{{false}}" list="{{list}}" vueId="0ee79130-4"></u-tabs>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="list-wrap data-v-37fc1759">
+        <view class="card-member data-v-37fc1759" wx:if="{{current==0}}">
+            <card-management bind:__l="__l" bind:submit="__e" bind:updateCardInfo="__e" class="data-v-37fc1759" data-event-opts="{{[ [ '^updateCardInfo',[ ['updateCardInfo'] ] ],[ '^submit',[ ['headleDelUserCard'] ] ] ]}}" itemList="{{card}}" vueId="0ee79130-5" wx:if="{{!$root.m11}}"></card-management>
+            <view class="tool-box data-v-37fc1759" wx:else>
+                <image class="card-tool-image data-v-37fc1759" src="{{$root.m12}}"></image>
+            </view>
+        </view>
+        <view class="data-v-37fc1759" wx:if="{{current==1}}">
+            <card-detail bind:__l="__l" card="{{card}}" class="data-v-37fc1759" vueId="0ee79130-6"></card-detail>
+        </view>
+        <view class="data-v-37fc1759" wx:if="{{current==2}}">
+            <view class="list data-v-37fc1759">
+                <view class="item data-v-37fc1759" wx:for="{{$root.l1}}" wx:key="index">
+                    <view bindtap="__e" class="flex data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'headleDetails',['$0'],[ [ ['appointmentList','',index] ] ] ] ] ] ]}}">
+                        <view class="photo_img data-v-37fc1759">
+                            <image class="ffFace-img data-v-37fc1759" src="{{item.$orig.staffFace}}"></image>
+                        </view>
+                        <view class="info_box data-v-37fc1759">
+                            <view class="info_left_box data-v-37fc1759">
+                                <view class="info_box_wrap data-v-37fc1759">
+                                    <view class="row_item first_row_item data-v-37fc1759">
+                                        <view class="course_name data-v-37fc1759">
+                                            <text class="course_name_tex data-v-37fc1759">{{item.$orig.dataidType==0?item.$orig.courseName:item.$orig.staffName}}</text>
+                                            <view class="tag_wrap data-v-37fc1759" wx:if="{{item.$orig.tagData&&item.$orig.tagData!='不指定'}}">
+                                                <image class="img data-v-37fc1759" src="{{item.m13}}"></image>
+                                                <view class="tag_text data-v-37fc1759">{{item.$orig.tagData}}</view>
+                                            </view>
+                                        </view>
+                                        <view class="{{['consumption','data-v-37fc1759',item.$orig.cardChangeAmount==0?'visibility':'']}}">
+                                            <text class="plus-minus data-v-37fc1759" wx:if="{{item.$orig.plusMinus}}">{{item.$orig.plusMinus}}</text>{{''+''+item.$orig.cardChangeAmount+item.$orig.unitName+(item.$orig.groupName||'')+''}}</view>
+                                    </view>
+                                    <view class="row_item data-v-37fc1759">
+                                        <view class="multiterm_info data-v-37fc1759" wx:if="{{item.$orig.dataidType==0}}">
+                                            <view class="coach_name data-v-37fc1759" wx:if="{{item.$orig.staffName}}">{{''+item.m14+''}}</view>
+                                            <view class="classroom_wrap flex data-v-37fc1759" wx:if="{{item.$orig.courseAddr}}">
+                                                <u-line bind:__l="__l" class="data-v-37fc1759" color="#989898" direction="col" length="22" margin="0 15rpx" vueId="{{'0ee79130-7-'+index}}"></u-line>
+                                                <text class="data-v-37fc1759">{{item.$orig.courseAddr}}</text>
+                                            </view>
+                                            <view class="difficulty_wrap flex data-v-37fc1759" wx:if="{{item.$orig.degreeNum>0}}">
+                                                <u-line bind:__l="__l" class="data-v-37fc1759" color="#989898" direction="col" length="22" margin="0 15rpx" vueId="{{'0ee79130-8-'+index}}"></u-line>
+                                                <text class="data-v-37fc1759">难度</text>
+                                                <view class="star-level data-v-37fc1759">
+                                                    <image class="star-level-img data-v-37fc1759" src="{{i.m15}}" wx:for="{{item.l0}}" wx:for-index="__i0__" wx:for-item="i" wx:key="$orig"></image>
+                                                </view>
+                                            </view>
+                                        </view>
+                                        <view class="time_info flex data-v-37fc1759" wx:else>
+                                            <text class="time_info_tex data-v-37fc1759">{{item.m16.month+'-'+item.m17.day+' '+item.$orig.weekName}}</text>
+                                            <view class="time_quantum data-v-37fc1759">{{item.m18.hours+':'+item.m19.minutesurs+'~'+item.m20.hours+':'+item.m21.minutesurs}}</view>
+                                        </view>
+                                        <view class="balance flex data-v-37fc1759">{{'余'+''+item.$orig.leftAmount+item.$orig.unitName}}</view>
+                                    </view>
+                                    <view class="row_item data-v-37fc1759" style="margin-top:8rpx;">
+                                        <view class="time_info flex data-v-37fc1759" wx:if="{{item.$orig.dataidType==0}}">
+                                            <text class="time_info_tex data-v-37fc1759">{{item.m22.month+'-'+item.m23.day+' '+item.$orig.weekName}}</text>
+                                            <view class="time_quantum data-v-37fc1759">{{''+item.m24.hours+':'+item.m25.minutesurs+'~'+item.m26.hours+':'+item.m27.minutesurs+''}}</view>
+                                        </view>
+                                        <view class="course_project data-v-37fc1759" wx:if="{{item.$orig.dataidType==1&&item.$orig.courseName}}">
+                                            <view class="project_item data-v-37fc1759">{{item.m28+''}}</view>
+                                        </view>
+                                        <view class="status flex data-v-37fc1759">
+                                            <view class="handle_person data-v-37fc1759" wx:if="{{item.$orig.helpStaffFace&&item.$orig.helpStaffName}}">
+                                                <view class="photo-wrap data-v-37fc1759">
+                                                    <image class="photo-wrap-img data-v-37fc1759" src="{{item.$orig.helpStaffFace}}"></image>
+                                                </view>
+                                                <text class="data-v-37fc1759" wx:if="{{item.$orig.helpStaffName}}">{{item.m29+'操作'}}</text>
+                                            </view>
+                                            <text class="photo-wrap-tex data-v-37fc1759" style="{{'color:'+item.m30+';'}}">{{''+item.$orig.unionStatusName+''}}<text class="data-v-37fc1759" style="margin-left:3rpx;" wx:if="{{item.$orig.manCount>1}}">{{'('+item.$orig.manCount+'人)'}}</text>
+                                            </text>
+                                        </view>
+                                    </view>
+                                    <view class="remake-box row_item data-v-37fc1759" style="{{'margin-top:8rpx;justify-content:flex-start;'+'padding-bottom:'+(item.$orig.staffRemark?0:'10rpx')+';'}}" wx:if="{{item.$orig.remark}}">
+                                        <text class="remarkfont data-v-37fc1759">留言：</text>
+                                        <text class="remarkcontent data-v-37fc1759">{{item.$orig.remark?item.$orig.remark:''}}</text>
+                                    </view>
+                                    <view class="remake-box row_item data-v-37fc1759" style="margin-top:8rpx;justify-content:flex-start;" wx:if="{{item.$orig.staffRemark}}">
+                                        <text class="remarkfont data-v-37fc1759">备注：</text>
+                                        <text class="remarkcontent data-v-37fc1759">{{item.$orig.staffRemark?item.$orig.staffRemark:''}}</text>
+                                    </view>
+                                    <view class="remake-box data-v-37fc1759" style="{{'justify-content:flex-start;'+'margin-top:'+(item.$orig.staffRemark?'0':'8rpx')+';'}}" wx:if="{{item.$orig.otherSiteName}}">
+                                        <text class="other-site data-v-37fc1759">门店</text>
+                                        <text class="other-name data-v-37fc1759">{{item.$orig.otherSiteName?item.$orig.otherSiteName:''}}</text>
+                                    </view>
+                                </view>
+                                <view class="handle_module data-v-37fc1759" wx:if="{{!item.m31}}">
+                                    <view catchtap="__e" class="icon_wrap data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'showDrop',['$0'],[ [ ['appointmentList','',index,'appointId'] ] ] ] ] ] ]}}">
+                                        <image class="icon_wrap_img data-v-37fc1759" src="{{item.m32}}"></image>
+                                    </view>
+                                    <view class="drop_down data-v-37fc1759" hidden="{{!item.$orig.showDown}}">
+                                        <view class="image_wrap data-v-37fc1759">
+                                            <image class="img data-v-37fc1759" src="{{item.m33}}"></image>
+                                        </view>
+                                        <view class="drop_down_list data-v-37fc1759">
+                                            <view catchtap="__e" class="drop_down_item data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'remark',['$0'],[ [ ['appointmentList','',index] ] ] ] ] ] ]}}">
+                                                <image class="drop_down_item_img data-v-37fc1759" src="{{item.m34}}" style="width:34rpx;height:33rpx;"></image>
+                                                <text class="drop_down_item_tex data-v-37fc1759">写备注</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-37fc1759" color="#F0F0F0" vueId="{{'0ee79130-9-'+index}}"></u-line>
+                        </view>
+                    </view>
+                </view>
+                <view class="data-v-37fc1759" wx:if="{{$root.g2==0}}">
+                    <view class="noCourseData data-v-37fc1759">
+                        <image class="img data-v-37fc1759" src="{{$root.m35}}"></image>
+                        <text class="tex data-v-37fc1759">~ 没有上课记录 ~</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="data-v-37fc1759" wx:if="{{current==3}}">
+            <card-balance amountChangeLog="{{amountChangeLog}}" bind:__l="__l" class="data-v-37fc1759" vueId="0ee79130-10"></card-balance>
+        </view>
+        <view class="card-member data-v-37fc1759" wx:if="{{current==4}}">
+            <change-log bind:__l="__l" class="data-v-37fc1759" recordList="{{recordList}}" vueId="0ee79130-11"></change-log>
+        </view>
+        <view class="card-member data-v-37fc1759" wx:if="{{current==5}}">
+            <penalty-record bind:__l="__l" class="data-v-37fc1759" penaltyRecord="{{penaltyRecord}}" vueId="0ee79130-12"></penalty-record>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-37fc1759" vueId="0ee79130-13"></ff-bottom-logo>
+    <card-set bind:__l="__l" bind:updateDetails="__e" class="data-v-37fc1759 vue-ref" data-event-opts="{{[ [ '^updateDetails',[ ['updateDetailsPage'] ] ] ]}}" data-ref="cardsetRef" itemList="{{card}}" vueId="0ee79130-14"></card-set>
+    <remarks bind:__l="__l" bind:remarksSubmit="__e" class="data-v-37fc1759 vue-ref" data-event-opts="{{[ [ '^remarksSubmit',[ ['remarksSubmit'] ] ] ]}}" data-ref="remarksRef" personalTainerInfo="{{personalTainerInfo}}" vueId="0ee79130-15"></remarks>
+    <mark-pop bind:__l="__l" bind:radioGroupSubmit="__e" class="data-v-37fc1759 vue-ref" data-event-opts="{{[ [ '^radioGroupSubmit',[ ['radioGroupSubmit'] ] ] ]}}" data-ref="markpopRef" personalTainerInfo="{{personalTainerInfo}}" vueId="0ee79130-16"></mark-pop>
+    <confirm-modal bind:__l="__l" class="data-v-37fc1759 vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="会员领取会员卡的三种方式" vueId="0ee79130-17" vueSlots="{{['content','btn']}}">
+        <view class="data-v-37fc1759" slot="content">
+            <view class="content_qr_code data-v-37fc1759">
+                <view class="qr_code data-v-37fc1759">
+                    <image class="img data-v-37fc1759" src="{{qrCode}}"></image>
+                </view>
+                <view class="qr_code_name data-v-37fc1759">让会员扫码领取</view>
+            </view>
+            <view class="border data-v-37fc1759"></view>
+            <view class="receive data-v-37fc1759">
+                <view bindtap="__e" class="forward data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'headleForward',['$event'] ] ] ] ]}}">
+                    <view class="forward_image data-v-37fc1759">
+                        <image class="img data-v-37fc1759" src="{{$root.m36}}"></image>
+                    </view>
+                    <view class="forward_name data-v-37fc1759">转发给会员</view>
+                </view>
+                <view bindtap="__e" class="self_receive data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'headleSelf',['$event'] ] ] ] ]}}">
+                    <view class="self_receive_image data-v-37fc1759">
+                        <image class="img data-v-37fc1759" src="{{$root.m37}}"></image>
+                    </view>
+                    <view class="self_receive_name data-v-37fc1759">会员自领取</view>
+                </view>
+            </view>
+        </view>
+        <view class="Cancel data-v-37fc1759" slot="btn">
+            <view bindtap="__e" class="modal-btn data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">关闭</view>
+        </view>
+    </confirm-modal>
+    <confirm-modal bind:__l="__l" class="data-v-37fc1759 vue-ref" customBtn="{{true}}" data-ref="addconfirmModal" title="可将该文字发给会员" vueId="0ee79130-18" vueSlots="{{['content','btn']}}">
+        <view class="data-v-37fc1759" slot="content">
+            <view class="explain data-v-37fc1759">
+                <view class="explain_text data-v-37fc1759">{{''+oneList}}<view class="_br data-v-37fc1759"></view>{{''+twoList}}<view class="_br data-v-37fc1759"></view>
+                    <text class="text data-v-37fc1759">{{threeList+personalTainerInfo.userPhone}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="btn_modal data-v-37fc1759" slot="btn">
+            <view bindtap="__e" class="modal-cancel data-v-37fc1759" data-event-opts="{{[ [ 'tap',[ [ 'handleCopy',['$event'] ] ] ] ]}}">复制并关闭</view>
+        </view>
+    </confirm-modal>
+    <new-card bind:__l="__l" bind:submit="__e" class="data-v-37fc1759 vue-ref" data-event-opts="{{[ [ '^submit',[ ['newCardSubmit'] ] ] ]}}" data-ref="newcardRef" vueId="0ee79130-19"></new-card>
+    <amount-paid bind:__l="__l" bind:submit="__e" class="data-v-37fc1759 vue-ref" data-event-opts="{{[ [ '^submit',[ ['fundsReceivedSubmit'] ] ] ]}}" data-ref="fundsReceivedRef" vueId="0ee79130-20"></amount-paid>
+    <make-over bind:__l="__l" bind:submit="__e" class="data-v-37fc1759 vue-ref" data-event-opts="{{[ [ '^submit',[ ['makeOverSubmit'] ] ] ]}}" data-ref="makeOverRef" vueId="0ee79130-21"></make-over>
+    <card-all-project bind:__l="__l" class="data-v-37fc1759 vue-ref" data-ref="cardAllProject" vueId="0ee79130-22"></card-all-project>
+    <remark-order-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-37fc1759 vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editRemark'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkAppointment" vueId="0ee79130-23"></remark-order-popup>
+    <remark-order-card-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-37fc1759 vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editRemarkCard'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkAppointmentCard" vueId="0ee79130-24"></remark-order-card-popup>
+    <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-37fc1759 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['forbiddenConfirmBtn'] ] ] ]}}" data-ref="forbiddenConfirmModal" title="确认屏蔽该会员进入？" vueId="0ee79130-25" vueSlots="{{['content']}}">
+        <view class="data-v-37fc1759" slot="content">
+            <view class="data-v-37fc1759">1、该会员将<text class="data-v-37fc1759" style="color:#DC3C5C;">【禁止进入到会员端】 </text>
+            </view>
+            <view class="data-v-37fc1759">2、该会员将无法看到本馆的排课及所有信息</view>
+        </view>
+    </confirm-modal>
+</view>

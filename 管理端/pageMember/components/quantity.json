@@ -1,0 +1,14 @@
+{
+  "component": true,
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-counts-card": "/components/ff-counts-card/ff-counts-card",
+    "ff-date-card": "/components/ff-date-card/ff-date-card",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "ff-value-card": "/components/ff-value-card/ff-value-card",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-checkbox": "/uview-ui/components/u-checkbox/u-checkbox",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

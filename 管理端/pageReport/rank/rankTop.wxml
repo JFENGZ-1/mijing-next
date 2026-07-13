@@ -1,0 +1,106 @@
+<view bindtap="__e" class="data-v-1508c1f3" data-event-opts="{{[ [ 'tap',[ [ 'cancelBubbling',['$event'] ] ] ] ]}}">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-1508c1f3" text="{{title}}" vueId="1ce149dc-1"></navigation>
+    <view class="main data-v-1508c1f3" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-1508c1f3">
+            <view class="head data-v-1508c1f3" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <view class="summarize data-v-1508c1f3">
+                    <view class="top_data data-v-1508c1f3">
+                        <view catchtap="__e" class="warp data-v-1508c1f3" data-event-opts="{{[ [ 'tap',[ [ 'changeShowDrop',['$event'] ] ] ] ]}}">
+                            <text class="data-v-1508c1f3">{{topText}}</text>
+                            <u-icon bind:__l="__l" class="arrow-right data-v-1508c1f3" color="#181818" marginLeft="5" name="arrow-down" size="16" vueId="1ce149dc-2"></u-icon>
+                        </view>
+                        <view catchtap="__e" class="warp data-v-1508c1f3" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',['$0',false],['type'] ] ] ] ]}}" wx:if="{{type!=4}}">
+                            <text class="top_text1 data-v-1508c1f3">{{topTime}}</text>
+                            <u-icon bind:__l="__l" class="arrow-right data-v-1508c1f3" color="#181818" marginLeft="9" name="arrow-down" size="16" vueId="1ce149dc-3"></u-icon>
+                        </view>
+                        <view class="top_text2 warp data-v-1508c1f3" wx:else>
+                            <view class="date-box data-v-1508c1f3">
+                                <text catchtap="__e" class="date data-v-1508c1f3" data-event-opts="{{[ [ 'tap',[ ['startTimeChange'] ] ] ]}}">{{''+startTime.year+'-'+startTime.month+'-'+startTime.day+''}}</text>
+                                <u-icon bind:__l="__l" class="arrow-date data-v-1508c1f3" color="#181818" name="arrow-down" size="14" vueId="1ce149dc-4"></u-icon>
+                            </view>
+                            <text class="zhi data-v-1508c1f3">至</text>
+                            <view class="date-box data-v-1508c1f3">
+                                <text catchtap="__e" class="date data-v-1508c1f3" data-event-opts="{{[ [ 'tap',[ ['endTimeChange'] ] ] ]}}">{{''+endTime.year+'-'+endTime.month+'-'+endTime.day+''}}</text>
+                                <u-icon bind:__l="__l" class="arrow-date data-v-1508c1f3" color="#181818" name="arrow-down" size="14" vueId="1ce149dc-5"></u-icon>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="drop_down data-v-1508c1f3" hidden="{{!changeShowDrop1}}">
+                        <view class="image_wrap data-v-1508c1f3">
+                            <image class="data-v-1508c1f3" src="{{$root.m0}}"></image>
+                        </view>
+                        <view class="drop_down_list data-v-1508c1f3">
+                            <view catchtap="__e" class="item data-v-1508c1f3" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',[1,true] ] ] ] ]}}">全部</view>
+                            <u-line bind:__l="__l" class="data-v-1508c1f3" color="#4d4d4d" vueId="1ce149dc-6"></u-line>
+                            <view catchtap="__e" class="item data-v-1508c1f3" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',[2,true] ] ] ] ]}}">按年</view>
+                            <u-line bind:__l="__l" class="data-v-1508c1f3" color="#4d4d4d" vueId="1ce149dc-7"></u-line>
+                            <view catchtap="__e" class="item data-v-1508c1f3" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',[3,true] ] ] ] ]}}">按月</view>
+                            <u-line bind:__l="__l" class="data-v-1508c1f3" color="#4d4d4d" vueId="1ce149dc-8"></u-line>
+                            <view catchtap="__e" class="item data-v-1508c1f3" data-event-opts="{{[ [ 'tap',[ [ 'forbidden',[4,true] ] ] ] ]}}">自选时间</view>
+                        </view>
+                    </view>
+                    <view class="top_money data-v-1508c1f3">
+                        <text class="fh data-v-1508c1f3">￥</text>{{totalAmount}}</view>
+                    <view class="top_text data-v-1508c1f3">充值合计</view>
+                </view>
+                <view class="top_content data-v-1508c1f3">
+                    <view class="item_head data-v-1508c1f3">
+                        <view class="item_right data-v-1508c1f3">{{'共有'+totalCount+'名会员'}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-1508c1f3">
+                <view class="list data-v-1508c1f3">
+                    <view class="item data-v-1508c1f3" wx:if="{{!notdata}}">
+                        <view class="data-v-1508c1f3" style="padding-top:28rpx;" wx:for="{{$root.l0}}" wx:for-index="index1" wx:key="index1">
+                            <view catchtap="__e" class="sale-item data-v-1508c1f3" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index1] ] ] ] ] ] ]}}">
+                                <view class="number-box data-v-1508c1f3">
+                                    <image class="num-icon data-v-1508c1f3" mode="widthFix" src="{{item.m1}}" wx:if="{{index1==0}}"></image>
+                                    <block wx:else>
+                                        <image class="num-icon data-v-1508c1f3" mode="widthFix" src="{{item.m2}}" wx:if="{{index1==1}}"></image>
+                                        <block wx:else>
+                                            <image class="num-icon data-v-1508c1f3" mode="widthFix" src="{{item.m3}}" wx:if="{{index1==2}}"></image>
+                                        </block>
+                                    </block>
+                                    <text class="num-index data-v-1508c1f3" style="{{'color:'+(index1>2?'#989898':'#ffffff')+';'}}">{{index1+1}}</text>
+                                </view>
+                                <image class="avator data-v-1508c1f3" src="{{item.$orig.userFaceurl}}"></image>
+                                <view class="detail-info data-v-1508c1f3">
+                                    <view class="detail-info-wrap data-v-1508c1f3">
+                                        <view class="l-info data-v-1508c1f3">{{''+item.m4+''}}<view class="time-and-type data-v-1508c1f3">最后上课：<text class="data-v-1508c1f3" wx:if="{{item.$orig.lastClassDate}}">{{item.g0}}</text>
+                                                <text class="data-v-1508c1f3" wx:else>--</text>
+                                            </view>
+                                        </view>
+                                        <view class="r-info data-v-1508c1f3">
+                                            <view class="data-v-1508c1f3">
+                                                <view class="day-num data-v-1508c1f3">
+                                                    <text class="money data-v-1508c1f3">￥</text>{{item.$orig.orderAmount+''}}</view>
+                                                <view class="info-count data-v-1508c1f3">{{'共'+item.$orig.orderCount+'笔'}}</view>
+                                            </view>
+                                            <u-icon bind:__l="__l" class="arrow-right data-v-1508c1f3" color="#989898" name="arrow-right" size="15" vueId="{{'1ce149dc-9-'+index1}}"></u-icon>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="data-v-1508c1f3" color="#F0F0F0" length="576rpx" margin="0rpx 0rpx 0rpx 98rpx" vueId="{{'1ce149dc-10-'+index1}}" wx:if="{{item.g1-1!=index1}}"></u-line>
+                        </view>
+                    </view>
+                    <view class="data-v-1508c1f3" wx:else>
+                        <view class="noCourseData data-v-1508c1f3">
+                            <image class="icon data-v-1508c1f3" src="{{$root.m5}}"></image>
+                            <text class="explain data-v-1508c1f3">~ 没有充值记录~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-1508c1f3" wx:if="{{!notdata&&ismore}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-1508c1f3" color="#bfbfbf" halfWidth="74" vueId="1ce149dc-11" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-1508c1f3" vueId="1ce149dc-12"></ff-bottom-logo>
+        <calendar-month bind:__l="__l" bind:changeDate="__e" class="data-v-1508c1f3 vue-ref" data-event-opts="{{[ [ '^changeDate',[ ['changeDate'] ] ] ]}}" data-ref="calendarMonthChild" vueId="1ce149dc-13"></calendar-month>
+        <calendar-year bind:__l="__l" bind:changeyear="__e" bind:headleClose="__e" class="data-v-1508c1f3 vue-ref" data-event-opts="{{[ [ '^changeyear',[ ['changeyear'] ] ],[ '^headleClose',[ ['yearclose'] ] ] ]}}" data-ref="calendarYearChild" vueId="1ce149dc-14"></calendar-year>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-1508c1f3" data-event-opts="{{[ [ '^confirm',[ ['startTimeconfirm'] ] ],[ '^input',[ [ '__set_model',[ '','startTimeSelectshow','$event',[] ] ] ] ] ]}}" defaultTime="{{startTime.year+'-'+startTime.month+'-'+startTime.day}}" endYear="{{pickerEndTime}}" mode="time" params="{{timeParam}}" startYear="2023" title="开始时间" value="{{startTimeSelectshow}}" vueId="1ce149dc-15"></u-picker>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-1508c1f3" data-event-opts="{{[ [ '^confirm',[ ['endTimeconfirm'] ] ],[ '^input',[ [ '__set_model',[ '','endTimeSelectshow','$event',[] ] ] ] ] ]}}" defaultTime="{{endTime.year+'-'+endTime.month+'-'+endTime.day}}" endYear="{{pickerEndTime}}" mode="time" params="{{timeParam}}" startYear="2023" title="结束时间" value="{{endTimeSelectshow}}" vueId="1ce149dc-16"></u-picker>
+    </view>
+</view>

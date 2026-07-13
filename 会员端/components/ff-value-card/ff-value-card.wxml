@@ -1,0 +1,41 @@
+<view class="{{['data-v-21964aca',activeClass,'card-box']}}" style="{{'background-image:'+'url('+(cardInfo.uploadURL?cardInfo.uploadURL+cardInfo.cardLogo:cardInfo.cardLogo)+')'+';'}}" wx:if="{{cardInfo}}">
+    <view class="data-v-21964aca" wx:if="{{cardInfo.isUnionCard==1}}">
+        <view class="ribbonUnion data-v-21964aca" style="background:rgba(201, 106, 50, 0.88);">
+            <text class="data-v-21964aca">储值卡</text>
+        </view>
+        <view class="ribbonUniversal data-v-21964aca" style="background:#F7D29F;">
+            <text class="data-v-21964aca">多  店  通  用</text>
+        </view>
+    </view>
+    <view class="ribbonUnion data-v-21964aca" style="background:rgba(201, 106, 50, 0.88);" wx:else>
+        <text class="data-v-21964aca">储值卡</text>
+    </view>
+    <view class="card-conntent data-v-21964aca">
+        <view class="shop-info data-v-21964aca" wx:if="{{cardInfo.isUnionCard==1}}">
+            <image class="data-v-21964aca" src="{{cardInfo.unLogo}}"></image>
+            <text class="data-v-21964aca">{{cardInfo.unName}}</text>
+        </view>
+        <view class="shop-info data-v-21964aca" wx:else>
+            <image class="data-v-21964aca" src="{{siteTrademark}}"></image>
+            <text class="data-v-21964aca">{{siteName}}</text>
+        </view>
+        <view class="{{['card-name','data-v-21964aca',$root.g0>6?'card-name-size-max':'']}}" wx:if="{{cardInfo.cardName}}">{{cardInfo.cardName}}</view>
+    </view>
+    <view class="bottom-info data-v-21964aca">
+        <view class="money-box data-v-21964aca">
+            <view class="money data-v-21964aca">¥<text class="data-v-21964aca">{{cardInfo.amountDepositCard.cardAmount}}</text>
+            </view>
+            <view class="extra data-v-21964aca" wx:if="{{cardInfo.amountDepositCard.presentAmount}}">赠￥<text class="data-v-21964aca">{{cardInfo.amountDepositCard.presentAmount}}</text>
+            </view>
+            <view class="discounts data-v-21964aca" wx:if="{{cardInfo.amountDepositCard.discount}}">享<text class="data-v-21964aca">{{$root.g1[0]}}</text>
+                <block wx:if="{{$root.g2>1}}">{{'.'+$root.g3[1]}}</block>折</view>
+        </view>
+        <view class="period-box data-v-21964aca">有效期<block wx:if="{{cardInfo.cardValidForever}}">永久有效</block>
+            <block wx:else>
+                <block wx:if="{{cardInfo.cardValidYear}}">{{cardInfo.cardValidYear+'年'}}</block>
+                <block wx:if="{{cardInfo.cardValidMonth}}">{{cardInfo.cardValidMonth+'个月'}}</block>
+                <block wx:if="{{cardInfo.cardValidDays}}">{{cardInfo.cardValidDays+'天'}}</block>
+            </block>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,161 @@
+<view class="data-v-4ddb92b8">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-4ddb92b8" text="{{userId?'会员信息':'添加会员'}}" vueId="ab07d3a2-1"></navigation>
+    <view class="placeholder-view data-v-4ddb92b8" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-4ddb92b8" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="top data-v-4ddb92b8" wx:if="{{!userId}}">
+            <view class="batch data-v-4ddb92b8">批量录入</view>
+            <u-switch bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-4ddb92b8" data-event-opts="{{[ [ '^change',[ ['headleSwitch'] ] ],[ '^input',[ [ '__set_model',[ '','checked','$event',[] ] ] ] ] ]}}" size="{{40}}" value="{{checked}}" vueId="ab07d3a2-2"></u-switch>
+        </view>
+        <view class="headle data-v-4ddb92b8" wx:if="{{userId}}"></view>
+        <view class="data-v-4ddb92b8" wx:if="{{checked==false}}">
+            <view bindtap="__e" class="portrait data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}">
+                <view bindtap="__e" class="{{['data-v-4ddb92b8',userId||avatar?'head_portrait':'head_portraits']}}" data-event-opts="{{[ [ 'tap',[ [ 'chooseAvatar',['$event'] ] ] ] ]}}">
+                    <image class="u-avatar-demo data-v-4ddb92b8" mode="aspectFill" src="{{avatar}}" wx:if="{{avatar}}"></image>
+                    <image class="data-v-4ddb92b8" src="{{$root.m0}}" wx:else></image>
+                </view>
+                <view class="imghead_text data-v-4ddb92b8" wx:if="{{userId}}">
+                    <image class="cameraicon data-v-4ddb92b8" src="{{$root.m1}}"></image>
+                    <text class="data-v-4ddb92b8">修改头像</text>
+                </view>
+            </view>
+            <view class="information data-v-4ddb92b8" wx:if="{{$root.g0>0}}">
+                <view class="content-grid data-v-4ddb92b8" wx:if="{{$root.m2}}">
+                    <view class="grid data-v-4ddb92b8">
+                        <text class="grid-label data-v-4ddb92b8">姓名</text>
+                        <text class="required data-v-4ddb92b8" wx:if="{{$root.m3}}">*</text>
+                    </view>
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-4ddb92b8" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','userRealname','$event',[] ],['form'] ] ] ] ]}}" placeholder="{{!form.userRealname?'请输入姓名':''}}" style="flex:5;" value="{{form.userRealname}}" vueId="ab07d3a2-3"></u-input>
+                </view>
+                <view class="content-grid data-v-4ddb92b8" wx:if="{{$root.m4}}">
+                    <view class="grid data-v-4ddb92b8">
+                        <text class="grid-label data-v-4ddb92b8">手机</text>
+                        <text class="required data-v-4ddb92b8">*</text>
+                    </view>
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-4ddb92b8" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','userPhone','$event',[] ],['form'] ] ] ] ]}}" placeholder="{{!form.userPhone?'请输入手机号':''}}" style="flex:5;" value="{{form.userPhone}}" vueId="ab07d3a2-4"></u-input>
+                </view>
+                <view bindtap="__e" class="content-sex data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'headleSex',['$event'] ] ] ] ]}}" wx:if="{{$root.m5}}">
+                    <view class="grid data-v-4ddb92b8">
+                        <text class="grid-label data-v-4ddb92b8">性别</text>
+                        <text class="required data-v-4ddb92b8" wx:if="{{$root.m6}}">*</text>
+                    </view>
+                    <view class="sex data-v-4ddb92b8">
+                        <view class="data-v-4ddb92b8">{{form.userSex==1?'男':'女'}}</view>
+                    </view>
+                    <image class="data-v-4ddb92b8" mode="widthFix" src="{{$root.m7}}"></image>
+                </view>
+                <view bindtap="__e" class="content-sex data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'headleBirthday',['$event'] ] ] ] ]}}" wx:if="{{$root.m8}}">
+                    <view class="grid data-v-4ddb92b8">
+                        <text class="grid-label data-v-4ddb92b8">生日</text>
+                        <text class="required data-v-4ddb92b8" wx:if="{{$root.m9}}">*</text>
+                    </view>
+                    <view class="{{['data-v-4ddb92b8',form.userBirthday?'sex':'sl-placeholder']}}">
+                        <view class="data-v-4ddb92b8">{{form.userBirthday?$root.g1:'请选择'}}</view>
+                    </view>
+                    <image class="data-v-4ddb92b8" mode="widthFix" src="{{$root.m10}}"></image>
+                </view>
+                <view class="content-grid data-v-4ddb92b8" wx:if="{{$root.m11}}">
+                    <view class="grid data-v-4ddb92b8">
+                        <text class="grid-label data-v-4ddb92b8">身份证</text>
+                        <text class="required data-v-4ddb92b8" wx:if="{{$root.m12}}">*</text>
+                    </view>
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-4ddb92b8" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','userIdent','$event',[] ],['form'] ] ] ] ]}}" placeholder="{{!form.userIdent?'请输入身份证':''}}" style="flex:5;" value="{{form.userIdent}}" vueId="ab07d3a2-5"></u-input>
+                </view>
+                <view bindtap="__e" class="content-sex data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'headlePicker',[6] ] ] ] ]}}" wx:if="{{$root.m13}}">
+                    <view class="grid data-v-4ddb92b8">
+                        <text class="grid-label data-v-4ddb92b8">身高</text>
+                        <text class="required data-v-4ddb92b8" wx:if="{{$root.m14}}">*</text>
+                    </view>
+                    <view class="{{['data-v-4ddb92b8',form.userHeight?'sex':'sl-placeholder']}}">
+                        <view class="data-v-4ddb92b8">{{form.userHeight?form.userHeight:'请输入身高'}}</view>
+                    </view>
+                    <image class="data-v-4ddb92b8" mode="widthFix" src="{{$root.m15}}"></image>
+                </view>
+                <view bindtap="__e" class="content-sex data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'headlePicker',[7] ] ] ] ]}}" wx:if="{{$root.m16}}">
+                    <view class="grid data-v-4ddb92b8">
+                        <text class="grid-label data-v-4ddb92b8">体重</text>
+                        <text class="required data-v-4ddb92b8" wx:if="{{$root.m17}}">*</text>
+                    </view>
+                    <view class="{{['data-v-4ddb92b8',form.userWeight?'sex':'sl-placeholder']}}">
+                        <view class="data-v-4ddb92b8">{{form.userWeight?form.userWeight:'请输入体重'}}</view>
+                    </view>
+                    <image class="data-v-4ddb92b8" mode="widthFix" src="{{$root.m18}}"></image>
+                </view>
+                <view bindtap="__e" class="content-sex data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'headleMembershipConsultant',['$event'] ] ] ] ]}}" wx:if="{{$root.m19}}">
+                    <view class="grid data-v-4ddb92b8">
+                        <text class="grid-label data-v-4ddb92b8">会籍</text>
+                        <text class="required data-v-4ddb92b8" wx:if="{{$root.m20}}">*</text>
+                    </view>
+                    <view class="{{['data-v-4ddb92b8',form.saleStaffUserid?'sex':'sl-placeholder']}}">
+                        <view class="data-v-4ddb92b8">{{''+(salestaffuserName?salestaffuserName:'请选择会籍顾问')+''}}</view>
+                    </view>
+                    <image class="data-v-4ddb92b8" mode="widthFix" src="{{$root.m21}}"></image>
+                </view>
+                <view bindtap="__e" class="content-sex data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'headleRemarks',['$event'] ] ] ] ]}}">
+                    <view class="grid data-v-4ddb92b8">
+                        <text class="grid-label data-v-4ddb92b8">备注</text>
+                    </view>
+                    <view class="{{['data-v-4ddb92b8',!form.userRemark?'sl-placeholder':'sex remake']}}">{{''+(form.userRemark?form.userRemark:'无')+''}}</view>
+                    <image class="data-v-4ddb92b8" mode="widthFix" src="{{$root.m22}}"></image>
+                </view>
+                <view class="btns data-v-4ddb92b8">
+                    <view bindtap="__e" class="preservation data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'headlePreservation',['$event'] ] ] ] ]}}">保存</view>
+                    <view bindtap="__e" class="delete data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'headleDelete',['$event'] ] ] ] ]}}" wx:if="{{userId}}">删除</view>
+                </view>
+            </view>
+        </view>
+        <view class="data-v-4ddb92b8" wx:else>
+            <view class="explain data-v-4ddb92b8">
+                <view class="left data-v-4ddb92b8">
+                    <u-icon bind:__l="__l" class="icon data-v-4ddb92b8" color="#C96B30" name="bell" vueId="ab07d3a2-6"></u-icon>
+                </view>
+                <view class="right data-v-4ddb92b8">
+                    <view class="data-v-4ddb92b8">a、注意：必须手机号在前，姓名在后，一人一行，必须换行</view>
+                    <view class="data-v-4ddb92b8">b、录完后再逐个录入所持会员卡信息</view>
+                    <view class="data-v-4ddb92b8">c、若会员较多，可联系客服后台导入：微信(songguoruanjian)</view>
+                </view>
+            </view>
+            <view class="conter data-v-4ddb92b8">
+                <u-input autoHeight="{{false}}" bind:__l="__l" bind:input="__e" class="textarea data-v-4ddb92b8" clearable="{{false}}" customStyle="{{$root.a0}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','explainText','$event',[] ] ],['searchInput'] ] ] ]}}" fixed="{{true}}" height="450rpx" id="area" maxlength="1500" placeholder="13389999995张三" readonly="readonly" type="textarea" value="{{explainText}}" vueId="ab07d3a2-7"></u-input>
+            </view>
+            <view class="btn data-v-4ddb92b8">
+                <view bindtap="__e" class="eliminate data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'headleClean',['$event'] ] ] ] ]}}">清除</view>
+                <view class="title data-v-4ddb92b8">{{'已录入'+explainTextNum+'行'}}</view>
+            </view>
+            <view bindtap="__e" class="preservation data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'preservation',['$event'] ] ] ] ]}}">保存</view>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-4ddb92b8" vueId="ab07d3a2-8"></ff-bottom-logo>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-4ddb92b8" data-event-opts="{{[ [ '^confirm',[ ['Sex'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" defaultSelector="{{[form.userSex==1?1:0]}}" mode="selector" range="{{selector}}" value="{{show}}" vueId="ab07d3a2-9"></u-picker>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-4ddb92b8" data-event-opts="{{[ [ '^confirm',[ ['pickerCallback'] ] ],[ '^input',[ [ '__set_model',[ '','isShowSelector','$event',[] ] ] ] ] ]}}" defaultSelector="{{[defaultSelector]}}" mode="selector" range="{{selectorList.list}}" value="{{isShowSelector}}" vueId="ab07d3a2-10"></u-picker>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-4ddb92b8" data-event-opts="{{[ [ '^confirm',[ ['Birthday'] ] ],[ '^input',[ [ '__set_model',[ '','timeShow','$event',[] ] ] ] ] ]}}" defaultTime="{{defaultTime}}" mode="time" value="{{timeShow}}" vueId="ab07d3a2-11"></u-picker>
+    <membership-consultant bind:__l="__l" bind:membershipConsultant="__e" class="data-v-4ddb92b8 vue-ref" data-event-opts="{{[ [ '^membershipConsultant',[ ['membershipConsultant'] ] ] ]}}" data-ref="membershipConsultantRef" vueId="ab07d3a2-12"></membership-consultant>
+    <remarks bind:__l="__l" bind:remarksSubmit="__e" class="data-v-4ddb92b8 vue-ref" data-event-opts="{{[ [ '^remarksSubmit',[ ['remarksSubmit'] ] ] ]}}" data-ref="remarksRef" personalTainerInfo="{{personalTainerInfo}}" remarksTexts="{{form.userRemark}}" vueId="ab07d3a2-13"></remarks>
+    <confirm bind:__l="__l" class="data-v-4ddb92b8 vue-ref" customBtn="{{true}}" data-ref="delConfirmModal" title="警告：确认删除此会员吗？" vueId="ab07d3a2-14" vueSlots="{{['content','btn']}}">
+        <view class="data-v-4ddb92b8" slot="content">
+            <text class="data-v-4ddb92b8" style="{{'display:block;color: #989898;font-size: 25rpx;'}}">将<text class="data-v-4ddb92b8" style="color:#CB4A5F;"> 删除此会员的所有约课记录</text>，且删除后无法恢复</text>
+            <view class="data-v-4ddb92b8" wx:if="{{personalTainerInfo&&personalTainerInfo.hasOrderPay}}">
+                <view bindtap="__e" class="checked data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'headleStatus',['$event'] ] ] ] ]}}">
+                    <view class="{{['data-v-4ddb92b8',delChecked?'checkboxs':'checkbox']}}">
+                        <image class="data-v-4ddb92b8" src="{{$root.m23}}"></image>
+                    </view>
+                    <text class="data-v-4ddb92b8" style="{{'display:block;color: #CB4A5F;font-size: 25rpx;'}}"> 同时从「营业收入」里删除掉全部收入</text>
+                </view>
+            </view>
+        </view>
+        <view class="deleteBtn data-v-4ddb92b8" slot="btn">
+            <view bindtap="__e" class="modal-cancel data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">取消</view>
+            <view bindtap="__e" class="modal-btn data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'handleDeterminebtn',['$event'] ] ] ] ]}}">确定</view>
+        </view>
+    </confirm>
+    <u-popup bind:__l="__l" bind:input="__e" borderRadius="26" class="data-v-4ddb92b8" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','errorStatus','$event',[] ] ] ] ] ]}}" mode="center" value="{{errorStatus}}" vueId="ab07d3a2-15" vueSlots="{{['default']}}">
+        <view class="error-msg-wrap data-v-4ddb92b8">
+            <view class="title data-v-4ddb92b8">存在以下问题:</view>
+            <view class="msg-list data-v-4ddb92b8">
+                <view class="item data-v-4ddb92b8" wx:for="{{errorMsgList}}" wx:key="index">{{index+1+'、'+item+''}}</view>
+            </view>
+            <view class="btn-wrap data-v-4ddb92b8">
+                <view bindtap="__e" class="btn-confirm data-v-4ddb92b8" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">知道了</view>
+            </view>
+        </view>
+    </u-popup>
+</view>

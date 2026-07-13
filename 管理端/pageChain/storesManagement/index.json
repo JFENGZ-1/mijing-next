@@ -1,0 +1,15 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm": "/components/confirm-modal/confirm-modal",
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "navigation": "/components/navigation/index",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

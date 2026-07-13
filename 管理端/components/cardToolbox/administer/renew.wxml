@@ -1,0 +1,79 @@
+<view class="data-v-7a69ce80">
+    <ff-popup bind:__l="__l" bind:headleClose="__e" bind:input="__e" class="data-v-7a69ce80" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" tips="  将在原卡基础上进行充值续费" title="续费" type="{{1}}" value="{{show}}" vueId="5a73a3d9-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-7a69ce80" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-7a69ce80" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'5a73a3d9-2'+','+'5a73a3d9-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+        </view>
+        <view class="main-box data-v-7a69ce80">
+            <view class="form-box data-v-7a69ce80">
+                <view class="list data-v-7a69ce80" wx:if="{{$root.g0}}">
+                    <view class="data-v-7a69ce80" wx:for="{{$root.l0}}" wx:key="index">
+                        <view class="item data-v-7a69ce80" wx:if="{{!item.$orig.isDel}}">
+                            <view class="balances data-v-7a69ce80">{{item.$orig.groupName?item.$orig.groupName:'余额'}}</view>
+                            <view class="num data-v-7a69ce80">{{(item.$orig.balance||0)+'\n\t\t\t\t\t\t\t\t\t'+(cardType==1?'元':cardType==2?'次':'天')+''}}</view>
+                            <view bindtap="__e" class="add data-v-7a69ce80" data-event-opts="{{[ [ 'tap',[ [ 'toggleType',[index] ] ] ] ]}}">
+                                <image class="data-v-7a69ce80" src="{{item.m0}}" wx:if="{{item.$orig.isAdd}}"></image>
+                                <image class="data-v-7a69ce80" src="{{item.m1}}" wx:else></image>
+                            </view>
+                            <u-input bind:__l="__l" bind:blur="__e" bind:input="__e" class="com-input data-v-7a69ce80" clearable="{{false}}" data-event-opts="{{[ [ '^blur',[ [ 'valChange',['$0'],[ [ ['groupList','',index] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','num','$event',[] ],[ [ ['groupList','',index] ] ] ] ] ] ]}}" inputAlign="left" placeholder=" " placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="number" value="{{item.$orig.num}}" vueId="{{'5a73a3d9-3-'+index+','+'5a73a3d9-1'}}"></u-input>
+                            <view bindtap="__e" class="plus data-v-7a69ce80" data-event-opts="{{[ [ 'tap',[ [ 'headleReduce',['$0'],[ [ ['groupList','',index] ] ] ] ] ] ]}}">-</view>
+                            <view bindtap="__e" class="plus data-v-7a69ce80" data-event-opts="{{[ [ 'tap',[ [ 'headlePlus',['$0'],[ [ ['groupList','',index] ] ] ] ] ] ]}}">+</view>
+                        </view>
+                    </view>
+                    <view class="time data-v-7a69ce80">
+                        <view class="time_name data-v-7a69ce80">有效期延期至</view>
+                        <view bindtap="__e" class="startTime data-v-7a69ce80" data-event-opts="{{[ [ 'tap',[ [ 'headleStartTime',['$event'] ] ] ] ]}}">{{validDate}}</view>
+                    </view>
+                    <view class="Collection data-v-7a69ce80">
+                        <view class="Collection_name data-v-7a69ce80">实际收款</view>
+                        <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-7a69ce80" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','price','$event',[] ] ] ] ] ]}}" inputAlign="left" placeholder="实际出售价格" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="digit" value="{{price}}" vueId="{{'5a73a3d9-4'+','+'5a73a3d9-1'}}"></u-input>
+                    </view>
+                    <view bindtap="__e" class="checked data-v-7a69ce80" data-event-opts="{{[ [ 'tap',[ [ 'headleStatus',['$event'] ] ] ] ]}}">
+                        <view class="{{['data-v-7a69ce80',status?'checkboxs':'checkbox']}}">
+                            <image class="data-v-7a69ce80" src="{{$root.m2}}"></image>
+                        </view>
+                        <view class="{{['data-v-7a69ce80',status?'remarks':'remark']}}">写备注</view>
+                    </view>
+                    <view class="conter data-v-7a69ce80" hidden="{{!status}}">
+                        <editor-textarea bind:__l="__l" bind:customChange="__e" class="data-v-7a69ce80 vue-ref" data-event-opts="{{[ [ '^customChange',[ ['customChange'] ] ] ]}}" data-ref="editorTextarea" vueId="{{'5a73a3d9-5'+','+'5a73a3d9-1'}}"></editor-textarea>
+                    </view>
+                </view>
+                <view class="list data-v-7a69ce80" wx:else>
+                    <view class="items data-v-7a69ce80">
+                        <view class="balance data-v-7a69ce80">{{'余额'+(balanceAmount||0)+'\n\t\t\t\t\t\t\t\t'+(cardType==1?'元':cardType==2?'次':'天')+''}}</view>
+                        <view bindtap="__e" class="add data-v-7a69ce80" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">
+                            <image class="data-v-7a69ce80" src="{{$root.m3}}" wx:if="{{isAdd}}"></image>
+                            <image class="data-v-7a69ce80" src="{{$root.m4}}" wx:else></image>
+                        </view>
+                        <u-input bind:__l="__l" bind:blur="__e" bind:input="__e" class="com-input data-v-7a69ce80" clearable="{{false}}" data-event-opts="{{[ [ '^blur',[ ['valChanges'] ] ],[ '^input',[ [ '__set_model',[ '','changeAmount','$event',[] ] ] ] ] ]}}" inputAlign="left" placeholder="请输入余额" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="{{cardType=='1'?'digit':'number'}}" value="{{changeAmount}}" vueId="{{'5a73a3d9-6'+','+'5a73a3d9-1'}}" wx:if="{{cardType!=3}}"></u-input>
+                        <view class="changeAmount-text data-v-7a69ce80" wx:else>{{changeAmount}}</view>
+                    </view>
+                    <view class="time data-v-7a69ce80">
+                        <view class="time_name data-v-7a69ce80">有效期延期至</view>
+                        <view bindtap="__e" class="startTime data-v-7a69ce80" data-event-opts="{{[ [ 'tap',[ [ 'headleStartTime',['$event'] ] ] ] ]}}">{{validDate}}</view>
+                    </view>
+                    <view class="Collection data-v-7a69ce80">
+                        <view class="Collection_name data-v-7a69ce80">实际收款</view>
+                        <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-7a69ce80" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','price','$event',[] ] ] ] ] ]}}" inputAlign="left" placeholder="实际出售价格" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="digit" value="{{price}}" vueId="{{'5a73a3d9-7'+','+'5a73a3d9-1'}}"></u-input>
+                    </view>
+                    <view bindtap="__e" class="checked data-v-7a69ce80" data-event-opts="{{[ [ 'tap',[ [ 'headlemsg',['$event'] ] ] ] ]}}">
+                        <view class="{{['data-v-7a69ce80',statusMsg?'checkboxs':'checkbox']}}">
+                            <image class="data-v-7a69ce80" src="{{$root.m5}}"></image>
+                        </view>
+                        <view class="{{['data-v-7a69ce80',statusMsg?'remarks':'remark']}}">通知该会员「续费成功」</view>
+                    </view>
+                    <view bindtap="__e" class="checked data-v-7a69ce80" data-event-opts="{{[ [ 'tap',[ [ 'headleStatus',['$event'] ] ] ] ]}}">
+                        <view class="{{['data-v-7a69ce80',status?'checkboxs':'checkbox']}}">
+                            <image class="data-v-7a69ce80" src="{{$root.m6}}"></image>
+                        </view>
+                        <view class="{{['data-v-7a69ce80',status?'remarks':'remark']}}">写备注</view>
+                    </view>
+                    <view class="conter data-v-7a69ce80" hidden="{{!status}}">
+                        <editor-textarea bind:__l="__l" bind:customChange="__e" class="data-v-7a69ce80 vue-ref" data-event-opts="{{[ [ '^customChange',[ ['customChange'] ] ] ]}}" data-ref="editorTextarea" vueId="{{'5a73a3d9-8'+','+'5a73a3d9-1'}}"></editor-textarea>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-7a69ce80" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-7a69ce80" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^input',[ [ '__set_model',[ '','timeShow','$event',[] ] ] ] ] ]}}" defaultTime="{{validDate}}" mode="time" params="{{params}}" value="{{timeShow}}" vueId="5a73a3d9-9"></u-picker>
+</view>

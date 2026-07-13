@@ -1,0 +1,60 @@
+.radio-box.data-v-832204a2 {
+  padding: 35rpx 32rpx 20rpx;
+}
+.radio-box .radio-main.data-v-832204a2 {
+  align-items: flex-start;
+  color: #7e7e7e;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+  line-height: 60rpx;
+  width: 100%;
+}
+.radio-box .radio-main.active.data-v-832204a2 {
+  color: #181818;
+  font-weight: 500;
+}
+.color-list-box.data-v-832204a2 {
+  padding: 10rpx 55rpx 30rpx;
+}
+.color-list-box .color-item.data-v-832204a2 {
+  border-radius: 6rpx;
+  display: -webkit-flex;
+  display: flex;
+  height: 80rpx;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+  width: 100%;
+}
+.color-list-box .color-item .state-icon.data-v-832204a2 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100rpx;
+}
+.color-list-box .color-item .state-icon image.data-v-832204a2 {
+  height: 30rpx;
+  width: 38rpx;
+}
+.color-list-box .color-item .state-text.data-v-832204a2 {
+  align-items: center;
+  color: #fff;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  font-size: 26rpx;
+  justify-content: center;
+  width: 180rpx;
+}
+.color-list-box .color-item .sign.data-v-832204a2 {
+  opacity: 0.3;
+}
+.color-list-box .color-item .change-box.data-v-832204a2 {
+  display: -webkit-flex;
+  display: flex;
+  height: 80rpx;
+  justify-content: space-between;
+  width: 100%;
+}

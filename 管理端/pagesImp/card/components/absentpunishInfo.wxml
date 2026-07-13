@@ -1,0 +1,70 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-3a28fa31" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="1110" tips="如会员已约课但未到场，教练可以在“课程管理”中操作‘旷课’ 按会员卡累计（不跨卡累计）" title="旷课处罚" value="{{show}}" vueId="0c3b06c7-1" vueSlots="{{['default','confrimBtn']}}">
+    <view class="com-button-f1 data-v-3a28fa31" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-3a28fa31" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'0c3b06c7-2'+','+'0c3b06c7-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-3a28fa31">
+        <view class="form-box data-v-3a28fa31">
+            <view class="list-box data-v-3a28fa31">
+                <view class="show-box data-v-3a28fa31">
+                    <u-radio-group bind:__l="__l" bind:input="__e" class="radio-group data-v-3a28fa31" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','selectValue','$event',[] ],['formData'] ] ] ] ]}}" value="{{formData.selectValue}}" vueId="{{'0c3b06c7-3'+','+'0c3b06c7-1'}}" vueSlots="{{['default']}}" width="280">
+                        <u-radio bind:__l="__l" class="radio data-v-3a28fa31" name="{{1}}" vueId="{{'0c3b06c7-4'+','+'0c3b06c7-3'}}" vueSlots="{{['default']}}">
+                            <view class="{{['radio-main','title1','data-v-3a28fa31',formData.selectValue===1?'active':'']}}">处罚</view>
+                        </u-radio>
+                        <u-radio bind:__l="__l" class="radio data-v-3a28fa31" name="{{0}}" vueId="{{'0c3b06c7-5'+','+'0c3b06c7-3'}}" vueSlots="{{['default']}}">
+                            <view class="{{['radio-main','title1','data-v-3a28fa31',formData.selectValue===0?'active':'']}}">不处罚</view>
+                        </u-radio>
+                    </u-radio-group>
+                </view>
+            </view>
+            <view class="list-wrap data-v-3a28fa31" wx:if="{{formData.selectValue==1}}">
+                <view class="list-box data-v-3a28fa31">
+                    <view class="show-box1 data-v-3a28fa31">
+                        <view class="titledata data-v-3a28fa31">
+                            <view class="{{['title-box','data-v-3a28fa31',formData.weekLimit.itemVal==1?'active':'title']}}">每周旷课限制</view>
+                            <view class="hidd-box input-main data-v-3a28fa31" wx:if="{{formData.weekLimit.itemVal}}">：累计达<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-3a28fa31" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','itemParamVal','$event',[] ],['formData.weekLimit'] ] ] ] ]}}" min="1" step="1" type="number" value="{{formData.weekLimit.itemParamVal}}" vueId="{{'0c3b06c7-6'+','+'0c3b06c7-1'}}"></u-input>次</view>
+                        </view>
+                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-3a28fa31" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','itemVal','$event',[] ],['formData.weekLimit'] ] ] ] ]}}" value="{{formData.weekLimit.itemVal}}" vueId="{{'0c3b06c7-7'+','+'0c3b06c7-1'}}"></u-switch>
+                    </view>
+                </view>
+                <view class="list-box data-v-3a28fa31">
+                    <view class="show-box1 data-v-3a28fa31">
+                        <view class="titledata data-v-3a28fa31">
+                            <view class="{{['title-box','data-v-3a28fa31',formData.monthLimit.itemVal?'active':'title']}}">每月旷课限制</view>
+                            <view class="hidd-box input-main data-v-3a28fa31" wx:if="{{formData.monthLimit.itemVal}}">：累计达<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-3a28fa31" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','itemParamVal','$event',[] ],['formData.monthLimit'] ] ] ] ]}}" type="number" value="{{formData.monthLimit.itemParamVal}}" vueId="{{'0c3b06c7-8'+','+'0c3b06c7-1'}}"></u-input>次</view>
+                        </view>
+                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-3a28fa31" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','itemVal','$event',[] ],['formData.monthLimit'] ] ] ] ]}}" value="{{formData.monthLimit.itemVal}}" vueId="{{'0c3b06c7-9'+','+'0c3b06c7-1'}}"></u-switch>
+                    </view>
+                </view>
+                <view class="radio-wrap data-v-3a28fa31" wx:if="{{formData.weekLimit.itemVal||formData.monthLimit.itemVal}}">
+                    <u-line bind:__l="__l" class="data-v-3a28fa31" color="#F0F0F0" vueId="{{'0c3b06c7-10'+','+'0c3b06c7-1'}}"></u-line>
+                    <u-radio-group bind:__l="__l" bind:input="__e" class="radio-group1 data-v-3a28fa31" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','itemVal','$event',[] ],['formData.action'] ] ] ] ]}}" value="{{formData.action.itemVal}}" vueId="{{'0c3b06c7-11'+','+'0c3b06c7-1'}}" vueSlots="{{['default']}}">
+                        <u-radio appearance="circle" bind:__l="__l" class="radio1 data-v-3a28fa31" name="{{1}}" vueId="{{'0c3b06c7-12'+','+'0c3b06c7-11'}}" vueSlots="{{['default']}}">
+                            <view class="{{['radio-main','data-v-3a28fa31',formData.action.itemVal===1?'active':'']}}">
+                                <block wx:if="{{cardType==3}}">不取消预约，不处罚仅标记旷课</block>
+                                <block wx:else>不退课费，标记旷课且不取消预约</block>
+                            </view>
+                        </u-radio>
+                        <u-radio appearance="circle" bind:__l="__l" class="radio1 data-v-3a28fa31" name="{{2}}" vueId="{{'0c3b06c7-13'+','+'0c3b06c7-11'}}" vueSlots="{{['default']}}">
+                            <view class="{{['radio-main','data-v-3a28fa31',formData.action.itemVal===2?'active':'']}}">
+                                <block wx:if="{{cardType==3}}">取消预约，并禁止约课</block>
+                                <block wx:else>退课费，但禁止约课</block>
+                                <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-3a28fa31" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','itemParamVal1','$event',[] ],['formData.action'] ] ] ] ]}}" disabled="{{formData.action.itemVal!=2}}" type="number" value="{{formData.action.itemParamVal1}}" vueId="{{'0c3b06c7-14'+','+'0c3b06c7-13'}}"></u-input>天</view>
+                        </u-radio>
+                        <u-radio appearance="circle" bind:__l="__l" class="radio1 data-v-3a28fa31" name="{{3}}" vueId="{{'0c3b06c7-15'+','+'0c3b06c7-11'}}" vueSlots="{{['default']}}">
+                            <view class="{{['radio-main','data-v-3a28fa31',formData.action.itemVal===3?'active':'']}}">
+                                <block wx:if="{{cardType==1}}">退课费，但扣除金额</block>
+                                <block wx:if="{{cardType==2}}">退课费，但扣除次数</block>
+                                <block wx:if="{{cardType==3}}">取消预约，并扣除天数</block>
+                                <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-3a28fa31" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','itemParamVal2','$event',[] ],['formData.action'] ] ] ] ]}}" disabled="{{formData.action.itemVal!=3}}" type="number" value="{{formData.action.itemParamVal2}}" vueId="{{'0c3b06c7-16'+','+'0c3b06c7-15'}}"></u-input>
+                                <block wx:if="{{cardType==1}}">元</block>
+                                <block wx:if="{{cardType==2}}">次</block>
+                                <block wx:if="{{cardType==3}}">天</block>
+                            </view>
+                        </u-radio>
+                    </u-radio-group>
+                </view>
+            </view>
+        </view>
+        <view class="data-v-3a28fa31" style="padding-top:160rpx;"></view>
+    </view>
+</ff-popup>

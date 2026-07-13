@@ -1,0 +1,6 @@
+<view class="bottom-logo data-v-ab338e24">
+    <view class="data-v-ab338e24">
+        <image bindtap="__e" class="pic data-v-ab338e24" data-event-opts="{{[ [ 'tap',[ [ 'openPage',['$event'] ] ] ] ]}}" src="{{$root.m0}}"></image>
+    </view>
+    <view class="ver data-v-ab338e24">For Wechat MiniProgram C V2.7.3</view>
+</view>

@@ -1,0 +1,35 @@
+.data-v-95dfcc52 .icon-back {
+  filter: drop-shadow(17rpx 29rpx #808080);
+  margin-left: -34rpx;
+  margin-top: -58rpx;
+  transform: translateZ(0);
+}
+.placeholder-view.data-v-95dfcc52 {
+  background: #181818;
+}
+.noData.data-v-95dfcc52 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  margin-top: 200rpx;
+}
+.noData image.data-v-95dfcc52 {
+  height: 171rpx;
+  width: 203rpx;
+}
+.noData text.data-v-95dfcc52 {
+  color: #bfbfbf;
+  font-size: 25rpx;
+  margin-top: 45rpx;
+}
+.content.data-v-95dfcc52 {
+  background: #fff;
+  border-top-left-radius: 30rpx;
+  border-top-right-radius: 30rpx;
+  min-height: 1100rpx;
+  padding: 50rpx 28rpx 30rpx;
+}
+page {
+  background: #f5f5f5;
+}

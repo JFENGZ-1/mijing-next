@@ -1,0 +1,7 @@
+<view bindtap="__e" class="create-Employee data-v-c2a58b16" data-event-opts="{{[ [ 'tap',[ [ 'Click',['$event'] ] ] ] ]}}">
+    <view class="bg data-v-c2a58b16">
+        <view class="data-v-c2a58b16">
+            <slot></slot>
+        </view>
+    </view>
+</view>

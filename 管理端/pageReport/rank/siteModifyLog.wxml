@@ -1,0 +1,127 @@
+<view class="data-v-f6e7a63e">
+    <navigation-report background="#FFFFFF" bind:__l="__l" class="data-v-f6e7a63e" text="{{title}}" vueId="619ada78-1"></navigation-report>
+    <view class="main data-v-f6e7a63e" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-f6e7a63e">
+            <view class="head data-v-f6e7a63e" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'+'top:'+StatusBar+CustomBar+'px'+';'}}">
+                <popup-top bind:__l="__l" class="data-v-f6e7a63e vue-ref" data-ref="filtrate" vueId="619ada78-2" vueSlots="{{['content','btn']}}">
+                    <view class="data-v-f6e7a63e" slot="content">
+                        <view class="top_data1 data-v-f6e7a63e">
+                            <view class="top-ri data-v-f6e7a63e">
+                                <text class="left-text data-v-f6e7a63e">日期</text>
+                                <view class="rq data-v-f6e7a63e">
+                                    <text catchtap="__e" class="date data-v-f6e7a63e" data-event-opts="{{[ [ 'tap',[ ['startTimeChange'] ] ] ]}}">{{''+startTime.year+'-'+startTime.month+'-'+startTime.day+''}}</text>
+                                    <u-icon bind:__l="__l" class="data-v-f6e7a63e" color="#181818" name="arrow-down" size="16" vueId="{{'619ada78-3'+','+'619ada78-2'}}"></u-icon>
+                                    <text class="zhi data-v-f6e7a63e">至</text>
+                                    <text catchtap="__e" class="date data-v-f6e7a63e" data-event-opts="{{[ [ 'tap',[ ['endTimeChange'] ] ] ]}}">{{''+endTime.year+'-'+endTime.month+'-'+endTime.day+''}}</text>
+                                    <u-icon bind:__l="__l" class="data-v-f6e7a63e" color="#181818" name="arrow-down" size="16" vueId="{{'619ada78-4'+','+'619ada78-2'}}"></u-icon>
+                                </view>
+                            </view>
+                            <view class="top-text data-v-f6e7a63e">
+                                <view class="left-text data-v-f6e7a63e">员工</view>
+                                <view class="tag data-v-f6e7a63e">
+                                    <view bindtap="__e" class="{{['val','data-v-f6e7a63e',item.checked?'active':'gay']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeStaff',['$0'],[ [ ['stafflist','',index] ] ] ] ] ] ]}}" wx:for="{{stafflist}}" wx:key="index">{{item.staffName+''}}</view>
+                                </view>
+                            </view>
+                            <view class="top-text data-v-f6e7a63e">
+                                <view class="left-text data-v-f6e7a63e">操作</view>
+                                <view class="tag data-v-f6e7a63e">
+                                    <view bindtap="__e" class="{{['val','data-v-f6e7a63e',item.checked?'active':'gay']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeModifyType',['$0'],[ [ ['modifyType','',index] ] ] ] ] ] ]}}" wx:for="{{modifyType}}" wx:key="index">{{item.text+''}}</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="popupbut data-v-f6e7a63e" slot="btn">
+                        <view bindtap="__e" class="but data-v-f6e7a63e" data-event-opts="{{[ [ 'tap',[ [ 'confirm',['$event'] ] ] ] ]}}">
+                            <text class="data-v-f6e7a63e">确定</text>
+                        </view>
+                    </view>
+                </popup-top>
+                <view class="summarize data-v-f6e7a63e">
+                    <view class="top_data data-v-f6e7a63e">
+                        <view class="top-text top-day data-v-f6e7a63e">
+                            <text class="left-text data-v-f6e7a63e" style="padding-top:0rpx;">日期</text>
+                            <text class="ri-data data-v-f6e7a63e">{{''+startTime.year+'-'+startTime.month+'-'+startTime.day}}<text class="blank data-v-f6e7a63e">至</text>{{endTime.year+'-'+endTime.month+'-'+endTime.day+''}}</text>
+                        </view>
+                        <view class="top-text data-v-f6e7a63e">
+                            <view class="left-text data-v-f6e7a63e">员工</view>
+                            <view class="tag data-v-f6e7a63e">
+                                <view class="val data-v-f6e7a63e" wx:if="{{$root.g0==0}}">全部</view>
+                                <block wx:else>
+                                    <view class="val data-v-f6e7a63e" wx:for="{{stafflistCopy}}" wx:key="index">{{item.staffName+''}}</view>
+                                </block>
+                            </view>
+                        </view>
+                        <view class="top-text data-v-f6e7a63e">
+                            <view class="left-text data-v-f6e7a63e">操作</view>
+                            <view class="tag data-v-f6e7a63e">
+                                <view class="val data-v-f6e7a63e" wx:if="{{$root.g1==0}}">全部</view>
+                                <block wx:else>
+                                    <view class="val data-v-f6e7a63e" wx:for="{{modifyTypeCopy}}" wx:key="index">{{item.text+''}}</view>
+                                </block>
+                            </view>
+                        </view>
+                        <view class="footbut top-text data-v-f6e7a63e">
+                            <view bindtap="__e" class="but data-v-f6e7a63e" data-event-opts="{{[ [ 'tap',[ [ 'filtrate',['$event'] ] ] ] ]}}">
+                                <text class="data-v-f6e7a63e">筛选条件</text>
+                                <image class="img data-v-f6e7a63e" src="{{$root.m0}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="top_content data-v-f6e7a63e">
+                    <view class="item_head data-v-f6e7a63e">
+                        <view class="item_right data-v-f6e7a63e">{{'共'+totalCount+'条记录'}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="setting_wrap data-v-f6e7a63e">
+                <view class="list data-v-f6e7a63e">
+                    <view class="item data-v-f6e7a63e" wx:if="{{!notdata}}">
+                        <view class="change data-v-f6e7a63e">
+                            <view class="item data-v-f6e7a63e" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="change_name data-v-f6e7a63e">
+                                    <view class="change_title data-v-f6e7a63e">{{item.$orig.modifyTypeName}}</view>
+                                    <view class="course-name data-v-f6e7a63e">
+                                        <view bindtap="__e" class="data-v-f6e7a63e" data-event-opts="{{[ [ 'tap',[ [ 'cardDetails',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}">{{item.$orig.cardName+''}}</view>
+                                        <view class="user-name data-v-f6e7a63e">
+                                            <text bindtap="__e" class="data-v-f6e7a63e" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}">{{item.m1}}</text>
+                                            <image bindtap="__e" class="user-face data-v-f6e7a63e" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}" src="{{item.$orig.userFaceurl}}"></image>
+                                            <u-icon bind:__l="__l" bind:click="__e" class="arrow-right data-v-f6e7a63e" color="#181818" data-event-opts="{{[ [ '^click',[ [ 'memberDetails',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}" marginLeft="9" name="arrow-right" size="12" vueId="{{'619ada78-5-'+index}}"></u-icon>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="change_record data-v-f6e7a63e">
+                                    <view class="change_top data-v-f6e7a63e">
+                                        <view class="change_top_time data-v-f6e7a63e" wx:for="{{item.$orig.textlist}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                                            <view class="{{['data-v-f6e7a63e',item1.left.fontsize==1?'change_top_left':'change_top_lefts']}}">{{item1.left.text}}</view>
+                                            <view class="{{['data-v-f6e7a63e',item1.right.fontsize==1?'change_top_right':'change_top_rights']}}">{{item1.right.text}}</view>
+                                        </view>
+                                    </view>
+                                    <view class="change_bottom data-v-f6e7a63e">
+                                        <view class="change_bottom_portrait data-v-f6e7a63e">
+                                            <image class="img data-v-f6e7a63e" src="{{item.$orig.staffFace}}"></image>
+                                        </view>
+                                        <view class="change_bottom_name data-v-f6e7a63e">{{item.$orig.operUserName}}</view>
+                                        <view class="change_bottom_time data-v-f6e7a63e">{{item.$orig.happenTime}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="data-v-f6e7a63e" wx:else>
+                        <view class="noCourseData data-v-f6e7a63e">
+                            <image class="icon data-v-f6e7a63e" src="{{$root.m2}}"></image>
+                            <text class="explain data-v-f6e7a63e">~ 没有变更记录 ~</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-f6e7a63e" wx:if="{{!notdata&&ismore}}">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-f6e7a63e" color="#bfbfbf" halfWidth="74" vueId="619ada78-6" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-f6e7a63e" vueId="619ada78-7"></ff-bottom-logo>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-f6e7a63e" data-event-opts="{{[ [ '^confirm',[ ['startTimeconfirm'] ] ],[ '^input',[ [ '__set_model',[ '','startTimeSelectshow','$event',[] ] ] ] ] ]}}" defaultTime="{{startTime.year+'-'+startTime.month+'-'+startTime.day}}" endYear="{{year}}" mode="time" params="{{timeParam}}" startYear="2023" title="开始时间" value="{{startTimeSelectshow}}" vueId="619ada78-8"></u-picker>
+        <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-f6e7a63e" data-event-opts="{{[ [ '^confirm',[ ['endTimeconfirm'] ] ],[ '^input',[ [ '__set_model',[ '','endTimeSelectshow','$event',[] ] ] ] ] ]}}" defaultTime="{{endTime.year+'-'+endTime.month+'-'+endTime.day}}" endYear="{{year}}" mode="time" params="{{timeParam}}" startYear="2023" title="结束时间" value="{{endTimeSelectshow}}" vueId="619ada78-9"></u-picker>
+    </view>
+</view>

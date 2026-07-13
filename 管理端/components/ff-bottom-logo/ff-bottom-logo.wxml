@@ -1,0 +1,4 @@
+<view class="bottom-logo data-v-9ae2f62c">
+    <image class="logo data-v-9ae2f62c" src="{{$root.m0}}" wx:if="{{dataType==1}}"></image>
+    <image class="logo data-v-9ae2f62c" src="{{$root.m1}}" style="width:214rpx;height:86rpx;" wx:if="{{dataType==0}}"></image>
+</view>

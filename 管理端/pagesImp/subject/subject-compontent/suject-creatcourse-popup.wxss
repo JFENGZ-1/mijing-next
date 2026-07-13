@@ -1,0 +1,12 @@
+.creatcourse-container .creatcourse.data-v-c4dd0850 {
+  color: #181818;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  margin: 50rpx 56rpx 90rpx;
+}
+.creatcourse-container .creatcourse .textc.data-v-c4dd0850 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  padding-bottom: 36rpx;
+}

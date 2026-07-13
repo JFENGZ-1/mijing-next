@@ -1,0 +1,14 @@
+{
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "fixed-btn": "/pageConfig/components/fixed-btn/index",
+    "hint": "/pageConfig/components/top-hint/index",
+    "navigation": "/components/navigation/index",
+    "personal-course": "/pageConfig/components/kindReminder/personalCourse",
+    "team-course": "/pageConfig/components/kindReminder/teamCourse",
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

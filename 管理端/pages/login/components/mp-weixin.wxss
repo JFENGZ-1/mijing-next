@@ -1,0 +1,42 @@
+.weixin-view .weixin-box.data-v-43878180 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.weixin-view .buttom-da-box.data-v-43878180 {
+  box-sizing: border-box;
+  display: -webkit-flex;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-left: 60rpx;
+  padding-right: 60rpx;
+  width: 100%;
+}
+.weixin-view .buttom-da-box .cancel.data-v-43878180 {
+  color: #adb1b7;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-bottom: 140rpx;
+  margin-top: 30rpx;
+  text-align: center;
+}
+.weixin-view .bg-img.data-v-43878180 {
+  height: 100rpx;
+  margin-top: 274rpx;
+  width: 300rpx;
+}
+.weixin-view .weixintext-title.data-v-43878180 {
+  color: #2a3036;
+  font-size: 32rpx;
+  font-weight: 700;
+  margin-top: 90rpx;
+}
+.weixin-view .weixintext-con.data-v-43878180 {
+  color: #adb1b7;
+  font-size: 32rpx;
+  margin-top: 10rpx;
+}

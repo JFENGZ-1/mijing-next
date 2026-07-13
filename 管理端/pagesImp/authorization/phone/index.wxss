@@ -1,0 +1,59 @@
+page {
+  background: #fff;
+}
+.bottom-text.data-v-80c17f42 {
+  bottom: 74rpx;
+  color: #989898;
+  font-size: 19rpx;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+.welcome-text.data-v-80c17f42 {
+  color: #181818;
+  font-size: 69rpx;
+  line-height: 82rpx;
+  margin-top: 70rpx;
+  padding: 0 37rpx;
+}
+.profile-photo.data-v-80c17f42 {
+  border-radius: 50%;
+  height: 159rpx;
+  margin: 185rpx auto 35rpx;
+  overflow: hidden;
+  width: 159rpx;
+}
+.profile-photo image.data-v-80c17f42 {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+.nickname.data-v-80c17f42 {
+  color: #7e7e7e;
+  font-size: 35rpx;
+  text-align: center;
+}
+.btn-wrap button.data-v-80c17f42 {
+  align-items: center;
+  background: #fbd128;
+  border: none;
+  border-radius: 41rpx;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 34rpx;
+  height: 83rpx;
+  justify-content: center;
+  margin: 120rpx auto 44rpx;
+  outline: none;
+  position: relative;
+  width: 458rpx;
+  z-index: 99;
+}
+.btn-wrap button.data-v-80c17f42::after {
+  border: none;
+}
+.hint.data-v-80c17f42 {
+  color: #989898;
+  font-size: 21rpx;
+  text-align: center;
+}

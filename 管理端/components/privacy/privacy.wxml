@@ -1,0 +1,10 @@
+<view class="privacy data-v-275d1021" wx:if="{{showPrivacy}}">
+    <view class="content data-v-275d1021">
+        <view class="title data-v-275d1021">用户隐私保护提示</view>
+        <view class="des data-v-275d1021">感谢您使用本服务，在使用前应当阅读并同意<text bindtap="__e" class="link data-v-275d1021" data-event-opts="{{[ [ 'tap',[ [ 'openPrivacyContract',['$event'] ] ] ] ]}}">《用户隐私保护指引》</text>当您点击同意并开始使用本服务时，即表示您已理解并同意该条款内容，该条款将对您产生法律约束力。如您拒绝，将无法进入。</view>
+        <view class="btns data-v-275d1021">
+            <button bindtap="__e" class="item reject data-v-275d1021" data-event-opts="{{[ [ 'tap',[ [ 'exitMiniProgram',['$event'] ] ] ] ]}}">拒绝</button>
+            <button bindagreeprivacyauthorization="__e" class="item agree data-v-275d1021" data-event-opts="{{[ [ 'agreeprivacyauthorization',[ [ 'handleAgreePrivacyAuthorization',['$event'] ] ] ] ]}}" id="agree-btn" openType="agreePrivacyAuthorization">同意</button>
+        </view>
+    </view>
+</view>

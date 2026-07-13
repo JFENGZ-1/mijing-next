@@ -1,0 +1,20 @@
+<view class="data-v-06b4d949">
+    <navigation background="#FFFFFF" bind:__l="__l" class="data-v-06b4d949" text="{{title}}" vueId="7e8ddfdc-1"></navigation>
+    <view class="placeholder-view data-v-06b4d949" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="main data-v-06b4d949" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="content data-v-06b4d949">
+            <view class="radio-main data-v-06b4d949" wx:if="{{type==1}}">当有效期剩余<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-06b4d949" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','dataval','$event',[] ] ] ] ] ]}}" type="number" value="{{dataval}}" vueId="7e8ddfdc-2"></u-input>天时提醒</view>
+            <view class="radio-main data-v-06b4d949" wx:if="{{type==3}}">当连续<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-06b4d949" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','dataval','$event',[] ] ] ] ] ]}}" type="number" value="{{dataval}}" vueId="7e8ddfdc-3"></u-input>天未上课后提醒</view>
+            <view class="radio-main data-v-06b4d949" wx:if="{{type==4}}">请假结束日期前<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-06b4d949" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','dataval','$event',[] ] ] ] ] ]}}" type="number" value="{{dataval}}" vueId="7e8ddfdc-4"></u-input>天提醒</view>
+            <view class="radio-main data-v-06b4d949" wx:if="{{type==5}}">会员入会纪念日前<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-06b4d949" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','dataval','$event',[] ] ] ] ] ]}}" type="number" value="{{dataval}}" vueId="7e8ddfdc-5"></u-input>天提醒</view>
+            <view class="radio-main data-v-06b4d949" wx:if="{{type==6}}">当会员生日前<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-06b4d949" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','dataval','$event',[] ] ] ] ] ]}}" type="number" value="{{dataval}}" vueId="7e8ddfdc-6"></u-input>天内时提醒</view>
+            <view class="radio-main data-v-06b4d949" wx:if="{{type==7}}">开卡日期前<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-06b4d949" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','dataval','$event',[] ] ] ] ] ]}}" type="number" value="{{dataval}}" vueId="7e8ddfdc-7"></u-input>天提醒</view>
+            <view class="radio-main data-v-06b4d949" wx:if="{{type==8}}">显示近<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-06b4d949" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','dataval','$event',[] ] ] ] ] ]}}" type="number" value="{{dataval}}" vueId="7e8ddfdc-8"></u-input>天内的访客</view>
+            <view class="prompt data-v-06b4d949">* 修改设置后，将于明日凌晨生效并重新统计</view>
+            <view class="btn-box data-v-06b4d949">
+                <button bindtap="__e" class="save-btn data-v-06b4d949" data-event-opts="{{[ [ 'tap',[ [ 'savedata',['$event'] ] ] ] ]}}" plain="true">保存</button>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-06b4d949" vueId="7e8ddfdc-9"></ff-bottom-logo>
+    </view>
+</view>

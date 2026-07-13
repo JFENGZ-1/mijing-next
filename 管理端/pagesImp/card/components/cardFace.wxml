@@ -1,0 +1,11 @@
+<ff-popup bind:__l="__l" bind:headleClose="__e" bind:input="__e" class="data-v-752409d4" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="1200" showConfrim="{{false}}" title="卡面图案库" value="{{show}}" vueId="cc674014-1" vueSlots="{{['default']}}">
+    <view class="main-box data-v-752409d4">
+        <scroll-view class="data-v-752409d4" scrollIntoView="{{scrollView}}" scrollY="{{true}}" style="{{'height:'+'1200rpx'+';'}}">
+            <view class="list-item-box data-v-752409d4">
+                <view class="list-item data-v-752409d4" id="{{'card'+index}}" wx:for="{{list}}" wx:key="index">
+                    <image bindtap="__e" class="data-v-752409d4" data-event-opts="{{[ [ 'tap',[ [ 'selectFace',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}" src="{{''+imgUrl+item.imgUrl}}"></image>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+</ff-popup>

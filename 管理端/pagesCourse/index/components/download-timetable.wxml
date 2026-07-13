@@ -1,0 +1,48 @@
+<view class="data-v-685818fa">
+    <ff-popup bind:__l="__l" bind:close="__e" bind:input="__e" class="data-v-685818fa" data-event-opts="{{[ [ '^close',[ ['closeweek'] ] ],[ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" showConfrim="{{showConfrim}}" title="下载课表" type="{{1}}" value="{{show}}" vueId="a759e988-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-685818fa" slot="confrimBtn" wx:if="{{!loading}}">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-685818fa" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'a759e988-2'+','+'a759e988-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="main-box data-v-685818fa" wx:if="{{!loading}}">
+            <view class="btn-warp data-v-685818fa">
+                <view bindtap="__e" class="{{['item','data-v-685818fa',type==1?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeType',[1] ] ] ] ]}}">本周</view>
+                <view bindtap="__e" class="{{['item','data-v-685818fa',type==2?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeType',[2] ] ] ] ]}}">下周</view>
+                <view bindtap="__e" class="{{['item','data-v-685818fa',type==3?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'changeType',[3] ] ] ] ]}}">自定义时段</view>
+            </view>
+            <view class="time-warp data-v-685818fa">
+                <view class="item data-v-685818fa">
+                    <text class="text data-v-685818fa">下载时段</text>
+                    <text bindtap="__e" class="btn data-v-685818fa" data-event-opts="{{[ [ 'tap',[ [ 'openDate',['start'] ] ] ] ]}}" style="{{'background-color:'+(type===1||type===2?'#ffffff':'#F5F5F5')+';'}}">{{startTime+' '+startWeek}}</text>
+                    <text class="text2 data-v-685818fa">至</text>
+                    <text bindtap="__e" class="btn data-v-685818fa" data-event-opts="{{[ [ 'tap',[ [ 'openDate',['end'] ] ] ] ]}}" style="{{'background-color:'+(type===1||type===2?'#ffffff':'#F5F5F5')+';'}}">{{endTime+' '+endWeek}}</text>
+                </view>
+                <view class="tips data-v-685818fa">
+                    <text bindtap="__e" class="data-v-685818fa" data-event-opts="{{[ [ 'tap',[ [ 'courseTitle',['$event'] ] ] ] ]}}">修改标题</text>
+                    <u-line bind:__l="__l" class="u-line data-v-685818fa" color="#DDDDDD" direction="col" length="30rpx" vueId="{{'a759e988-3'+','+'a759e988-1'}}"></u-line>
+                    <text bindtap="__e" class="data-v-685818fa" data-event-opts="{{[ [ 'tap',[ [ 'kindReminder',['$event'] ] ] ] ]}}">修改注意事项</text>
+                    <u-line bind:__l="__l" class="u-line data-v-685818fa" color="#DDDDDD" direction="col" length="30rpx" vueId="{{'a759e988-4'+','+'a759e988-1'}}"></u-line>
+                    <text bindtap="__e" class="data-v-685818fa" data-event-opts="{{[ [ 'tap',[ [ 'courseOption',['$event'] ] ] ] ]}}">高级设置</text>
+                </view>
+            </view>
+        </view>
+        <view class="imageload data-v-685818fa" wx:if="{{loading}}">
+            <view class="creatcoureimges data-v-685818fa" wx:if="{{creatcoureimges}}">
+                <image class="data-v-685818fa" src="{{$root.m0}}"></image>
+                <view class="data-v-685818fa">正在生成中</view>
+                <view class="data-v-685818fa">请稍候</view>
+            </view>
+            <view class="creatcoureimgesfail data-v-685818fa" wx:if="{{creatcoureimgesfail}}">
+                <view class="title data-v-685818fa">无法保存图片</view>
+                <view class="text data-v-685818fa">打开权限步骤：点击右上角“•••”->设置->添加到相册->打开开关！</view>
+            </view>
+            <view class="successcoureimges data-v-685818fa" wx:if="{{!creatcoureimges}}">
+                <view class="img data-v-685818fa">
+                    <image class="data-v-685818fa" src="{{$root.m1}}"></image>
+                </view>
+                <view class="text1 data-v-685818fa">已下载到手机相册</view>
+                <view class="text2 data-v-685818fa">{{count+'秒后自动关闭'}}</view>
+            </view>
+        </view>
+    </ff-popup>
+    <u-calendar bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-685818fa vue-ref" data-event-opts="{{[ [ '^change',[ ['change'] ] ],[ '^input',[ [ '__set_model',[ '','calendarShow','$event',[] ] ] ] ] ]}}" data-ref="calendar" maxDate="2100-01-01" mode="{{type==3?'date':'range'}}" safeAreaInsetBottom="{{true}}" showConfirm="{{false}}" value="{{calendarShow}}" vueId="a759e988-5"></u-calendar>
+</view>

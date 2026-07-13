@@ -1,0 +1,38 @@
+<view class="creatcourse-container data-v-1b731a81">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-1b731a81" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','businessPopupShow','$event',[] ] ] ] ] ]}}" title="{{title}}" value="{{businessPopupShow}}" vueId="77e888d8-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-1b731a81" slot="confrimBtn">
+            <u-button bind:__l="__l" bind:click="__e" class="data-v-1b731a81" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'77e888d8-2'+','+'77e888d8-1'}}" vueSlots="{{['default']}}">确 定</u-button>
+        </view>
+        <view class="creatcourse data-v-1b731a81" wx:if="{{$root.g0>1}}">
+            <view class="toptext data-v-1b731a81">{{'共'+$root.g1+'笔记录（含续费）'}}</view>
+            <view class="textc data-v-1b731a81" wx:for="{{$root.l0}}" wx:key="index">
+                <view class="textc-content data-v-1b731a81">
+                    <view class="data-v-1b731a81">
+                        <text class="title data-v-1b731a81">{{item.g2}}</text>
+                    </view>
+                    <view bindtap="__e" class="data-v-1b731a81" data-event-opts="{{[ [ 'tap',[ [ 'showinput',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}">
+                        <text class="moneyTag data-v-1b731a81">￥</text>
+                        <text class="userCardId data-v-1b731a81">{{item.$orig.orderAmount}}</text>
+                        <image class="money-icon-wrap data-v-1b731a81" src="{{item.m0}}"></image>
+                    </view>
+                    <view class="data-v-1b731a81" style="width:210rpx;">
+                        <u-input bind:__l="__l" bind:input="__e" class="data-v-1b731a81" clearable="{{false}}" customStyle="{{inputStyle}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','newMoney','$event',[] ],[ [ ['list','',index] ] ] ] ] ] ]}}" height="76" maxlength="10" placeholder="{{placeholder}}" placeholderStyle="font-size: 28rpx; color: #dadada;" type="digit" value="{{item.$orig.newMoney}}" vueId="{{'77e888d8-3-'+index+','+'77e888d8-1'}}" wx:if="{{item.$orig.inputshow}}"></u-input>
+                    </view>
+                </view>
+                <u-line bind:__l="__l" class="data-v-1b731a81" color="#F0F0F0" length="650" margin="34rpx 0rpx 34rpx 0rpx" vueId="{{'77e888d8-4-'+index+','+'77e888d8-1'}}"></u-line>
+            </view>
+        </view>
+        <view class="creatcourse1 data-v-1b731a81" wx:else>
+            <view class="data-v-1b731a81" wx:for="{{list}}" wx:key="index">
+                <view class="textc data-v-1b731a81">
+                    <text class="title data-v-1b731a81">原金额</text>
+                    <text class="money data-v-1b731a81">{{item.orderAmount}}</text>
+                </view>
+                <view class="textc data-v-1b731a81">
+                    <text class="title data-v-1b731a81">修改为</text>
+                    <u-input bind:__l="__l" bind:input="__e" class="data-v-1b731a81" customStyle="{{inputStyle1}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','newMoney','$event',[] ],[ [ ['list','',index] ] ] ] ] ] ]}}" height="80" maxlength="10" placeholder="{{placeholder1}}" placeholderStyle="font-size: 28rpx; color: #dadada;" type="digit" value="{{item.newMoney}}" vueId="{{'77e888d8-5-'+index+','+'77e888d8-1'}}"></u-input>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+</view>

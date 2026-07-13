@@ -1,0 +1,28 @@
+<view class="data-v-63e745e3">
+    <view class="search-content data-v-63e745e3">
+        <view bindtap="__e" class="input-box data-v-63e745e3" data-event-opts="{{[ [ 'tap',[ [ 'headleSearch',['$event'] ] ] ] ]}}">
+            <image class="data-v-63e745e3" src="{{$root.m0}}"></image>
+            <text class="data-v-63e745e3">会员名/手机号</text>
+        </view>
+        <view class="filters data-v-63e745e3">
+            <view class="headbut data-v-63e745e3">
+                <view bindtap="__e" class="filter data-v-63e745e3" data-event-opts="{{[ [ 'tap',[ [ 'pl',['$event'] ] ] ] ]}}" wx:if="{{!$root.m1}}">
+                    <image class="data-v-63e745e3" src="{{$root.m2}}" wx:if="{{listCheck}}"></image>
+                    <image class="data-v-63e745e3" src="{{$root.m3}}" wx:else></image>
+                    <text class="{{['te','data-v-63e745e3',listCheck?'active':'']}}">批量</text>
+                    <view class="icon_popup data-v-63e745e3" wx:if="{{listCheck}}">
+                        <image class="popupimg data-v-63e745e3" src="{{$root.m4}}"></image>
+                    </view>
+                </view>
+                <view bindtap="__e" class="filter data-v-63e745e3" data-event-opts="{{[ [ 'tap',[ [ 'headleScreen',['$event'] ] ] ] ]}}">
+                    <image class="data-v-63e745e3" src="{{$root.m5}}" wx:if="{{isAllSearch}}"></image>
+                    <image class="data-v-63e745e3" src="{{$root.m6}}" wx:else></image>
+                    <text class="{{['te','data-v-63e745e3',isAllSearch?'active':'']}}">筛选</text>
+                    <view class="icon_popup data-v-63e745e3" wx:if="{{isAllSearch}}">
+                        <image class="popupimg data-v-63e745e3" src="{{$root.m7}}"></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

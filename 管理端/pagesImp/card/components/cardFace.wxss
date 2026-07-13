@@ -1,0 +1,10 @@
+.list-item-box.data-v-752409d4 {
+  padding-bottom: 130rpx;
+}
+.list-item image.data-v-752409d4 {
+  border-radius: 20rpx;
+  display: block;
+  height: 332rpx;
+  margin: 24rpx auto 0;
+  width: 556rpx;
+}

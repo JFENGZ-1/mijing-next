@@ -1,0 +1,20 @@
+<view class="data-v-b237a314" style="padding-bottom:100rpx;">
+    <view class="total data-v-b237a314">{{'共'+$root.g0+'个场馆'}}</view>
+    <view class="site-list data-v-b237a314">
+        <view bindtap="__e" class="item data-v-b237a314" data-event-opts="{{[ [ 'tap',[ [ 'toggleShop',['$0'],[ [ ['siteList','',index] ] ] ] ] ] ]}}" style="{{'background-image:'+'url('+item.$orig.doorImgURL+')'+';'}}" wx:for="{{$root.l0}}" wx:key="index">
+            <image class="current-shop data-v-b237a314" src="{{item.m0}}" wx:if="{{item.$orig.isdefault==1}}"></image>
+            <view class="dx data-v-b237a314">
+                <view class="photo data-v-b237a314">
+                    <image class="data-v-b237a314" src="{{item.$orig.siteTrademark}}"></image>
+                </view>
+                <view class="text-wrap data-v-b237a314">
+                    <view class="name data-v-b237a314">{{item.$orig.siteName}}</view>
+                    <view class="address data-v-b237a314">{{item.$orig.siteAddr}}</view>
+                </view>
+                <view class="more-icon data-v-b237a314">
+                    <u-icon bind:__l="__l" class="data-v-b237a314" color="#989898" name="arrow-right" size="25" vueId="{{'e447fe54-1-'+index}}"></u-icon>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

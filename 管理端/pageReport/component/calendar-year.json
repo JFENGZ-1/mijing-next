@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

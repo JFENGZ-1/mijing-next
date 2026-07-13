@@ -1,0 +1,26 @@
+<view class="data-v-41126e63">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-41126e63" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="867" showConfrim="{{false}}" tips="编辑标记" title="编辑标记" value="{{show}}" vueId="7119c0e5-1" vueSlots="{{['default','tips']}}">
+        <view class="data-v-41126e63" slot="tips" style="display:flex;align-items:baseline;">
+            <u-icon bind:__l="__l" class="data-v-41126e63" name="bell" size="26" style="position:relative;top:5rpx;" vueId="{{'7119c0e5-2'+','+'7119c0e5-1'}}"></u-icon>
+            <view class="data-v-41126e63">用来快速标记会员，具体含义由店长自己定义<view class="_br data-v-41126e63"></view>例如，红色代表该会员有意购买私教，兰色代表请求退卡</view>
+        </view>
+        <view class="main-box data-v-41126e63">
+            <view class="form-box data-v-41126e63">
+                <view class="list data-v-41126e63">
+                    <view bindtap="__e" class="item data-v-41126e63" data-event-opts="{{[ [ 'tap',[ [ 'radioGroupChange',['$0'],[ [ ['flagList','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                        <view class="flag data-v-41126e63">
+                            <view class="flag_name data-v-41126e63">
+                                <image class="data-v-41126e63" src="{{item.m0}}"></image>
+                            </view>
+                            <view class="remarks data-v-41126e63" wx:if="{{item.$orig.status==0}}">没有备注</view>
+                        </view>
+                        <u-radio-group bind:__l="__l" bind:input="__e" class="data-v-41126e63" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','flag','$event',[] ] ] ] ] ]}}" value="{{flag}}" vueId="{{'7119c0e5-3-'+index+','+'7119c0e5-1'}}" vueSlots="{{['default']}}">
+                            <u-radio bind:__l="__l" class="data-v-41126e63" name="{{item.$orig.status}}" shape="circle" vueId="{{'7119c0e5-4-'+index+','+'7119c0e5-3-'+index}}"></u-radio>
+                        </u-radio-group>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-41126e63" style="padding-top:160rpx;"></view>
+        </view>
+    </ff-popup>
+</view>

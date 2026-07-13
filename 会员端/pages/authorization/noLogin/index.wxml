@@ -1,0 +1,25 @@
+<view class="content data-v-c8e3777e">
+    <view class="bgimg data-v-c8e3777e">
+        <u-image bind:__l="__l" class="data-v-c8e3777e" height="458rpx" src="{{siteInfo.doorImgURL}}" vueId="451e97da-1" width="100%"></u-image>
+    </view>
+    <view class="logoimg data-v-c8e3777e">
+        <view class="logo-wrap data-v-c8e3777e">
+            <u-image bind:__l="__l" class="data-v-c8e3777e" height="190rpx" shape="circle" src="{{siteInfo.siteTrademark}}" vueId="451e97da-2" width="190rpx"></u-image>
+        </view>
+    </view>
+    <view class="content-text data-v-c8e3777e">
+        <view class="welcome-text data-v-c8e3777e">
+            <text class="data-v-c8e3777e">欢迎您</text>
+            <view class="data-v-c8e3777e">{{'来到'+siteInfo.siteName}}</view>
+        </view>
+        <view class="textaddress data-v-c8e3777e">
+            <view class="data-v-c8e3777e">{{'地址：'+siteInfo.siteAddr+''}}</view>
+            <view class="data-v-c8e3777e">{{'电话：'+siteInfo.siteTel+''}}</view>
+        </view>
+    </view>
+    <view class="bottom-text data-v-c8e3777e">
+        <view class="btn data-v-c8e3777e">
+            <text class="data-v-c8e3777e">请联系场馆</text>
+        </view>
+    </view>
+</view>

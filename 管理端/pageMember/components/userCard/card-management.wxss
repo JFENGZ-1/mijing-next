@@ -1,0 +1,119 @@
+.checked.data-v-7e8c2280 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  margin-top: 10rpx;
+}
+.checkbox.data-v-7e8c2280 {
+  background: #dadada;
+  border-radius: 50%;
+  height: 31rpx;
+  margin-right: 11rpx;
+  position: relative;
+  width: 31rpx;
+}
+.checkbox image.data-v-7e8c2280 {
+  height: 18rpx;
+  left: 7rpx;
+  position: absolute;
+  top: 8rpx;
+  width: 21rpx;
+}
+.checkboxs.data-v-7e8c2280 {
+  background: #00cb83;
+  border-radius: 50%;
+  height: 31rpx;
+  margin-right: 11rpx;
+  position: relative;
+  width: 31rpx;
+}
+.checkboxs image.data-v-7e8c2280 {
+  height: 18rpx;
+  left: 7rpx;
+  position: absolute;
+  top: 8rpx;
+  width: 21rpx;
+}
+.main-box .form-box.data-v-7e8c2280 {
+  padding: 30rpx 31rpx 25rpx;
+}
+.main-box .form-box .opening.data-v-7e8c2280 {
+  background: #fbd128;
+  border-radius: 35rpx;
+  color: #181818;
+  font-size: 28rpx;
+  height: 69rpx;
+  line-height: 69rpx;
+  margin: 56rpx auto auto;
+  text-align: center;
+  width: 264rpx;
+}
+.main-box .form-box .list.data-v-7e8c2280 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+}
+.main-box .form-box .list .item.data-v-7e8c2280 {
+  padding: 0 0 50rpx;
+  position: relative;
+  width: 25%;
+}
+.main-box .form-box .list .item .flag.data-v-7e8c2280 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.main-box .form-box .list .item .flag .flag_img.data-v-7e8c2280 {
+  height: 44rpx;
+  width: 56rpx;
+}
+.main-box .form-box .list .item .flag .flag_img .img.data-v-7e8c2280 {
+  height: 100%;
+  width: 100%;
+}
+.main-box .form-box .list .item .flag .flag_name.data-v-7e8c2280 {
+  align-items: center;
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  font-size: 26rpx;
+  justify-content: center;
+  margin-top: 15rpx;
+}
+.main-box .form-box .list .item .flag .vacation.data-v-7e8c2280,
+.main-box .form-box .list .item .flag .vacations.data-v-7e8c2280 {
+  bottom: 25rpx;
+  color: #f25377;
+  font-size: 16rpx;
+  position: absolute;
+}
+.btn.data-v-7e8c2280 {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+}
+.btn .modal-btn.data-v-7e8c2280 {
+  background: #f7d147;
+  border-radius: 35rpx;
+  color: #181818;
+}
+.btn .modal-btn.data-v-7e8c2280,
+.btn .modal-cancel.data-v-7e8c2280 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+  height: 69rpx;
+  justify-content: center;
+  width: 181rpx;
+}
+.btn .modal-cancel.data-v-7e8c2280 {
+  background: #fff;
+  border: 1px solid #fbd128;
+  border-radius: 35rpx;
+  color: #7e7e7e;
+}

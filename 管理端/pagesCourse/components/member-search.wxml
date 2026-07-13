@@ -1,0 +1,76 @@
+<view class="data-v-ab2e0360">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-ab2e0360" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="{{1200}}" showConfrim="{{false}}" tips="{{tips}}" title="{{title}}" value="{{show}}" vueId="be498d34-1" vueSlots="{{['default']}}">
+        <view class="container data-v-ab2e0360" wx:if="{{list}}">
+            <view class="fixed data-v-ab2e0360" id="fixed" style="z-index:99;">
+                <view class="search-wrap data-v-ab2e0360">
+                    <view class="search data-v-ab2e0360">
+                        <u-icon bind:__l="__l" class="icon data-v-ab2e0360" color="#FFCF00" name="search" size="35rpx" vueId="{{'be498d34-2'+','+'be498d34-1'}}"></u-icon>
+                        <view bindtap="__e" class="{{['store-switch-inline','data-v-ab2e0360',showStoreDropdown?'is-open':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'toggleStoreDropdown',['$event'] ] ] ] ]}}" wx:if="{{isLinkSite}}">
+                            <text class="data-v-ab2e0360">{{currentStoreText}}</text>
+                            <u-icon bind:__l="__l" class="data-v-ab2e0360" color="{{showStoreDropdown?'#fff':'#7E7E7E'}}" name="{{showStoreDropdown?'arrow-up':'arrow-down'}}" size="24rpx" vueId="{{'be498d34-3'+','+'be498d34-1'}}"></u-icon>
+                        </view>
+                        <view class="input-wrap data-v-ab2e0360" style="{{'padding-left:'+(isLinkSite?'10rpx':'20rpx')+';'}}">
+                            <u-input bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-ab2e0360" data-event-opts="{{[ [ '^confirm',[ ['searchConfirm'] ] ],[ '^input',[ [ '__set_model',[ '$0','keywords','$event',[] ],['parameter'] ],['searchInput'] ] ] ]}}" placeholder="姓名/手机号" style="width:100%;" value="{{parameter.keywords}}" vueId="{{'be498d34-4'+','+'be498d34-1'}}"></u-input>
+                        </view>
+                    </view>
+                    <view class="store-dropdown data-v-ab2e0360" wx:if="{{showStoreDropdown}}">
+                        <view bindtap="__e" class="{{['dropdown-item','data-v-ab2e0360',storeType===1?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'selectStoreType',[1] ] ] ] ]}}" wx:if="{{storeType==2}}">仅本店</view>
+                        <view bindtap="__e" class="{{['dropdown-item','data-v-ab2e0360',storeType===2?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'selectStoreType',[2] ] ] ] ]}}" wx:if="{{storeType==1}}">全部店</view>
+                    </view>
+                </view>
+                <view class="member-total data-v-ab2e0360">{{'共找到'+(totalCount||0)+'个会员'}}</view>
+            </view>
+            <view class="data-v-ab2e0360" style="{{'height:'+'160rpx'+';'}}"></view>
+            <view class="loading-wrap data-v-ab2e0360" wx:if="{{isLoadingShow}}">
+                <loading-pulse bind:__l="__l" class="data-v-ab2e0360" vueId="{{'be498d34-5'+','+'be498d34-1'}}"></loading-pulse>
+            </view>
+            <view class="data-v-ab2e0360" wx:else>
+                <block wx:if="{{$root.g0>0}}">
+                    <scroll-view bindscroll="__e" class="member-scroll-view data-v-ab2e0360 vue-ref" data-event-opts="{{[ [ 'scroll',[ [ 'onScroll',['$event'] ] ] ] ]}}" data-ref="memberScroll" scrollIntoView="{{scrollIntoView}}" scrollWithAnimation="{{true}}" scrollY="{{true}}">
+                        <view class="member-list data-v-ab2e0360">
+                            <view class="letter-group data-v-ab2e0360" id="{{'anchor-'+item.$orig.letter}}" wx:if="{{item.g1}}" wx:for="{{$root.l1}}" wx:for-index="__i0__" wx:key="letter">
+                                <view class="letter-header data-v-ab2e0360">{{item.$orig.letter}}</view>
+                                <view bindtap="__e" class="{{['member-item','data-v-ab2e0360',subItem.g2?'last-item':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'selectCourse',['$0'],[ [ ['list','letter',item.$orig.letter],['data','',index] ] ] ] ] ] ]}}" wx:for="{{item.l0}}" wx:for-item="subItem" wx:key="index">
+                                    <view class="data-v-ab2e0360">
+                                        <view class="photo-img data-v-ab2e0360">
+                                            <image class="{{['data-v-ab2e0360',subItem.$orig.noLogin===1?'photo-image-grey':'']}}" src="{{subItem.$orig.userFaceurl}}"></image>
+                                        </view>
+                                    </view>
+                                    <view class="forbidden-img data-v-ab2e0360" wx:if="{{subItem.$orig.noLogin===1}}">
+                                        <image class="data-v-ab2e0360" src="{{subItem.m0}}" style="width:26rpx;height:26rpx;"></image>
+                                    </view>
+                                    <view class="info-wrap data-v-ab2e0360">
+                                        <rich-text class="name data-v-ab2e0360" nodes="{{subItem.$orig.userRealname}}"></rich-text>
+                                        <view class="card-info data-v-ab2e0360">
+                                            <text class="date data-v-ab2e0360" wx:if="{{subItem.$orig.createTime}}">{{subItem.m1}}</text>
+                                            <text class="balance data-v-ab2e0360" wx:if="{{subItem.$orig.balanceAmount}}">{{'余'+subItem.$orig.balanceAmount+subItem.m2}}</text>
+                                            <view class="card-status data-v-ab2e0360" wx:if="{{subItem.$orig.hintMsg}}">
+                                                <image class="data-v-ab2e0360" src="{{subItem.m3}}"></image>
+                                                <view class="bg data-v-ab2e0360">{{subItem.$orig.hintMsg}}</view>
+                                            </view>
+                                            <view class="other-site-box data-v-ab2e0360" wx:if="{{subItem.$orig.otherSiteName}}">
+                                                <text class="other-site data-v-ab2e0360">门店</text>
+                                                <text class="other-name data-v-ab2e0360">{{subItem.m4}}</text>
+                                            </view>
+                                        </view>
+                                        <view class="phone data-v-ab2e0360" wx:if="{{subItem.g3}}">手机号：<rich-text class="data-v-ab2e0360" nodes="{{subItem.$orig.userPhone}}"></rich-text>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </scroll-view>
+                    <view class="member-index-sidebar data-v-ab2e0360" wx:if="{{$root.g4}}">
+                        <view bindtap="__e" class="{{['member-index-letter','data-v-ab2e0360',letter===activeLetter?'active':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'scrollToLetter',['$0'],[ [ ['indexList','',__i1__] ] ] ] ] ] ]}}" wx:for="{{indexList}}" wx:for-index="__i1__" wx:for-item="letter" wx:key="*this">{{''+letter+''}}</view>
+                    </view>
+                </block>
+                <view class="noDate data-v-ab2e0360" wx:else>
+                    <image class="data-v-ab2e0360" src="{{$root.m5}}"></image>
+                    <text class="data-v-ab2e0360">~ 没有找到会员 ~</text>
+                </view>
+            </view>
+        </view>
+    </ff-popup>
+    <select-time bind:__l="__l" bind:ok="__e" class="data-v-ab2e0360 vue-ref" data-event-opts="{{[ [ '^ok',[ ['close'] ] ] ]}}" data-ref="selectTime" vueId="be498d34-6"></select-time>
+    <select-member-card bind:__l="__l" bind:ok="__e" class="data-v-ab2e0360 vue-ref" data-event-opts="{{[ [ '^ok',[ ['close'] ] ] ]}}" data-ref="selectMemberCard" vueId="be498d34-7"></select-member-card>
+</view>

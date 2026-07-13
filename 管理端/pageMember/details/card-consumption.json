@@ -1,0 +1,17 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "amount-paid": "/pageMember/components/userCard/amount-paid",
+    "balance-money": "/pageMember/components/userCard/funds-received",
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "funds-received": "/pageMember/components/userCard/funds-received",
+    "member-card": "/components/mumber-card/index",
+    "operation-data": "/pageMember/components/operation-data",
+    "u-checkbox": "/uview-ui/components/u-checkbox/u-checkbox",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

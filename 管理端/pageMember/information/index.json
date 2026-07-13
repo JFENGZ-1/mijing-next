@@ -1,0 +1,18 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "membership-consultant": "/pageMember/components/membershipConsultant",
+    "navigation": "/components/navigation/index",
+    "remarks": "/pageMember/components/remarks",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-picker": "/uview-ui/components/u-picker/u-picker",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "u-switch": "/uview-ui/components/u-switch/u-switch",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

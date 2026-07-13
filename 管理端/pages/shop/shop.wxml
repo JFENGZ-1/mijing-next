@@ -1,0 +1,167 @@
+<view class="data-v-ccc6af4c">
+    <view class="status-bar fixed-bar data-v-ccc6af4c" style="{{'width:'+'100%'+';'+'height:'+StatusBar+CustomBar-fivePX+'px'+';'}}">
+        <view class="fixed-bar-logo data-v-ccc6af4c" style="{{'opacity:'+fixedBarOpacity+';'}}">
+            <view class="shop-logo-box data-v-ccc6af4c">
+                <image bindtap="__e" class="shop-logo data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}" src="{{siteinfo.siteTrademark}}"></image>
+            </view>
+            <view bindtap="__e" class="shop-name data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'e1',['$event'] ] ] ] ]}}" wx:if="{{siteinfo}}">{{''+$root.m0+''}}</view>
+        </view>
+    </view>
+    <view class="main data-v-ccc6af4c" wx:if="{{siteinfo&&staff}}">
+        <view class="header data-v-ccc6af4c" style="{{'width:'+'100%'+';'+'height:'+headerH+';'}}">
+            <view class="fixation data-v-ccc6af4c" style="{{'width:'+'100%'+';'+'height:'+headerH+';'}}">
+                <view class="status-bar data-v-ccc6af4c" style="{{'width:'+'100%'+';'+'height:'+StatusBar+CustomBar-5+'px'+';'}}"></view>
+                <view class="venue-info-wrap data-v-ccc6af4c">
+                    <view class="venue-info data-v-ccc6af4c">
+                        <view class="venue-icon data-v-ccc6af4c">
+                            <image bindtap="__e" class="data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'e2',['$event'] ] ] ] ]}}" src="{{siteinfo.siteTrademark}}"></image>
+                        </view>
+                        <view bindtap="__e" class="venue-text data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'e3',['$event'] ] ] ] ]}}">
+                            <view class="name data-v-ccc6af4c">{{$root.m1}}</view>
+                            <view class="address data-v-ccc6af4c">
+                                <view class="data-v-ccc6af4c" style="margin-right:8rpx;">{{''+$root.m2+''}}</view>
+                                <u-icon bind:__l="__l" class="data-v-ccc6af4c" name="arrow-right" size="17rpx" vueId="73adca00-1"></u-icon>
+                            </view>
+                        </view>
+                        <view class="mumber-photo-wrap data-v-ccc6af4c">
+                            <view bindtap="__e" class="mumber-photo data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'headeJump',['/pagesImp/shop/setting/personal/personal'] ] ] ] ]}}">
+                                <image class="data-v-ccc6af4c" src="{{dictVal.uploadURL+userWxAvatarUrl}}" wx:if="{{shopInfo.isVisitor&&userWxAvatarUrl}}"></image>
+                                <image class="data-v-ccc6af4c" src="{{staff.staffFace}}" wx:else></image>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="fixed-loading-wrap data-v-ccc6af4c" style="{{'top:'+headerH+';'}}" wx:if="{{platform!='android'}}">
+            <view class="fixed-loading data-v-ccc6af4c">
+                <loading-pulse bind:__l="__l" class="data-v-ccc6af4c" vueId="73adca00-2"></loading-pulse>
+            </view>
+        </view>
+        <view class="main-content data-v-ccc6af4c">
+            <view class="expire-hint-wrap data-v-ccc6af4c" wx:if="{{buyinfo}}">
+                <view class="expire-hint data-v-ccc6af4c">
+                    <text class="expire-data data-v-ccc6af4c">{{buyinfo.hintMsg}}</text>
+                    <text bindtap="__e" class="renew data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'renew',['$event'] ] ] ] ]}}">马上续费</text>
+                </view>
+            </view>
+            <view class="data-v-ccc6af4c" style="margin:45rpx 28rpx 0 28rpx;">
+                <view class="data-v-ccc6af4c" wx:if="{{permissionInfo&&permissionInfo.shop_basics}}">
+                    <view class="initial-setting data-v-ccc6af4c" style="{{'padding-bottom:'+($root.g1>0?'28rpx':'0')+';'+'margin-bottom:'+($root.g2>0?'0':'25rpx')+';'+'border-bottom-left-radius:'+($root.g3>0?'0':'35rpx')+';'+'border-bottom-right-radius:'+($root.g4>0?'0':'35rpx')+';'}}" wx:if="{{$root.g0>0}}">
+                        <view class="image-wrap data-v-ccc6af4c">
+                            <image class="l-icon data-v-ccc6af4c" src="{{$root.m3}}"></image>
+                            <image class="r-icon data-v-ccc6af4c" src="{{$root.m4}}"></image>
+                        </view>
+                        <view class="initial-basics-setting-list data-v-ccc6af4c">
+                            <view class="item data-v-ccc6af4c" style="{{'margin-bottom:'+(index+1==item.g5?'0':'51rpx')+';'}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <view class="image-wrap data-v-ccc6af4c">
+                                    <image class="data-v-ccc6af4c" src="{{item.m5}}"></image>
+                                </view>
+                                <view class="text-wrap data-v-ccc6af4c">
+                                    <view class="name data-v-ccc6af4c">{{item.$orig.name}}</view>
+                                    <view class="introduce data-v-ccc6af4c">{{item.$orig.text}}</view>
+                                </view>
+                                <view class="btn-wrap data-v-ccc6af4c">
+                                    <view bindtap="__e" class="{{['btn','data-v-ccc6af4c',item.$orig.disable?'disable':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'e4',['$event'] ] ] ] ]}}" data-event-params="{{ ({item:item.$orig}) }}">去设置</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="basics-setting module-group data-v-ccc6af4c" style="{{'margin-top:'+($root.g7>0?'-27rpx':'0')+';'}}" wx:if="{{$root.g6>0}}">
+                        <view class="title data-v-ccc6af4c">基础设置</view>
+                        <view class="group data-v-ccc6af4c">
+                            <view bindtap="__e" class="group-item data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'jumpModal',['$0'],[ [ ['baseConfig','',index,'url'] ] ] ] ] ] ]}}" wx:for="{{$root.l1}}" wx:key="index">
+                                <view class="logo-wrap data-v-ccc6af4c">
+                                    <view class="card-dot-tips data-v-ccc6af4c" wx:if="{{item.$orig.name=='卡・课关联'&&(cardDotTips>0||courseDotTips>0)}}"></view>
+                                    <image class="data-v-ccc6af4c" src="{{item.m6}}"></image>
+                                </view>
+                                <view class="text-wrap data-v-ccc6af4c">{{item.$orig.name}}</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="default-config module-group data-v-ccc6af4c" wx:if="{{permissionInfo&&permissionInfo.shop_default}}">
+                    <view class="title data-v-ccc6af4c">默认配置</view>
+                    <view class="group data-v-ccc6af4c">
+                        <view bindtap="__e" class="group-item data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'jumpModal',['$0'],[ [ ['defaultConfigList','',index,'url'] ] ] ] ] ] ]}}" wx:for="{{$root.l2}}" wx:key="index">
+                            <view class="logo-wrap data-v-ccc6af4c">
+                                <image class="data-v-ccc6af4c" src="{{item.m7}}"></image>
+                            </view>
+                            <view class="text-wrap data-v-ccc6af4c">{{item.$orig.name}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="shop-manager-tool module-group data-v-ccc6af4c" wx:if="{{permissionInfo&&permissionInfo.shop_member_config}}">
+                    <view class="title data-v-ccc6af4c">会员端ㆍ装修<view bindtap="__e" class="enter-c-app data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ ['openCApp'] ] ] ]}}" wx:if="{{stopInfo&&stopInfo.siteId!=100}}">进入会员端<u-icon bind:__l="__l" class="arrow-right data-v-ccc6af4c" color="#003d82" name="arrow-right" size="12" vueId="73adca00-3"></u-icon>
+                        </view>
+                    </view>
+                    <view class="group data-v-ccc6af4c">
+                        <view bindtap="__e" class="group-item data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'jumpModal',['$0'],[ [ ['memberConfigList','',index,'url'] ] ] ] ] ] ]}}" wx:for="{{$root.l3}}" wx:key="index">
+                            <view class="logo-wrap data-v-ccc6af4c" style="{{'background:'+item.$orig.color+';'}}">
+                                <image class="data-v-ccc6af4c" src="{{item.m8}}"></image>
+                            </view>
+                            <view class="text-wrap data-v-ccc6af4c">{{item.$orig.name}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="shop-manager-tool module-group data-v-ccc6af4c" wx:if="{{permissionInfo&&permissionInfo.shop_manager_tool}}">
+                    <view class="title data-v-ccc6af4c">店长工具</view>
+                    <view class="group data-v-ccc6af4c">
+                        <view bindtap="__e" class="group-item data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'jumpModal',['$0'],[ [ ['shopManagerToolList','',index,'url'] ] ] ] ] ] ]}}" wx:for="{{$root.l4}}" wx:key="index">
+                            <view class="logo-wrap data-v-ccc6af4c" style="{{'background:'+item.$orig.color+';'}}">
+                                <image class="data-v-ccc6af4c" src="{{item.m9}}"></image>
+                            </view>
+                            <view class="text-wrap data-v-ccc6af4c">{{item.$orig.name}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="multiple-shop-tool module-group data-v-ccc6af4c" wx:if="{{permissionInfo&&permissionInfo.multiple_shop_config}}">
+                    <view class="title data-v-ccc6af4c">总店ㆍ连锁管理</view>
+                    <view class="group data-v-ccc6af4c">
+                        <view bindtap="__e" class="group-item data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'jumpModal',['$0'],[ [ ['multipleList','',index,'url'] ] ] ] ] ] ]}}" wx:for="{{$root.l5}}" wx:key="index">
+                            <view class="logo-wrap data-v-ccc6af4c" style="{{'background:'+item.$orig.color+';'}}">
+                                <image class="data-v-ccc6af4c" src="{{item.m10}}"></image>
+                            </view>
+                            <view class="text-wrap data-v-ccc6af4c">{{item.$orig.name}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view bindtap="__e" class="shop-service data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'jumpShopService',['$event'] ] ] ] ]}}" style="margin-bottom:25rpx;" wx:if="{{permissionInfo&&permissionInfo.shop_service_center}}">
+                    <image class="data-v-ccc6af4c" src="{{$root.m11}}"></image>
+                    <view class="text data-v-ccc6af4c">
+                        <view class="first-text data-v-ccc6af4c">松果服务中心</view>
+                        <view class="last-text data-v-ccc6af4c">客服・续费・协议・我们</view>
+                    </view>
+                    <u-icon bind:__l="__l" class="data-v-ccc6af4c" color="#385161" name="arrow-right" size="25rpx" vueId="73adca00-4"></u-icon>
+                </view>
+                <view bindtap="__e" class="shop-service data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'jumpVideoHelp',['$event'] ] ] ] ]}}" wx:if="{{permissionInfo&&permissionInfo.shop_service_center}}">
+                    <image class="data-v-ccc6af4c" src="{{$root.m12}}"></image>
+                    <view class="text data-v-ccc6af4c">
+                        <view class="first-text data-v-ccc6af4c">视频讲解</view>
+                        <view class="last-text data-v-ccc6af4c">如何补约・代约・发卡・复制课程等</view>
+                    </view>
+                    <u-icon bind:__l="__l" class="data-v-ccc6af4c" color="#385161" name="arrow-right" size="25rpx" vueId="73adca00-5"></u-icon>
+                </view>
+                <view class="data-v-ccc6af4c" style="min-height:1000rpx;padding-top:100rpx;" wx:if="{{!hasAllPermission}}">
+                    <nodata bind:__l="__l" class="data-v-ccc6af4c" vueId="73adca00-6"></nodata>
+                </view>
+                <view class="bottom-logo data-v-ccc6af4c">
+                    <view class="data-v-ccc6af4c">
+                        <image class="logo data-v-ccc6af4c" src="{{$root.m13}}"></image>
+                    </view>
+                    <view class="ver data-v-ccc6af4c">For Wechat MiniProgram B V3.2.3</view>
+                </view>
+            </view>
+        </view>
+        <confirm-modal bind:__l="__l" class="data-v-ccc6af4c vue-ref" customBtn="{{true}}" data-ref="confirmModal" title="请先完善｢场馆信息｣" vueId="73adca00-7" vueSlots="{{['btn','content']}}">
+            <view class="data-v-ccc6af4c" slot="btn">
+                <view class="confirm-btn-wrap data-v-ccc6af4c">
+                    <view bindtap="__e" class="modal-cal-btn button data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'confirmCancel',['$event'] ] ] ] ]}}">取消</view>
+                    <view bindtap="__e" class="modal-btn button data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'settingInfo',['$event'] ] ] ] ]}}">去设置</view>
+                </view>
+            </view>
+            <view class="data-v-ccc6af4c" slot="content">设置完场馆信息后即可操作</view>
+        </confirm-modal>
+        <expired-alert bind:__l="__l" class="data-v-ccc6af4c" page="other" vueId="73adca00-8"></expired-alert>
+    </view>
+</view>

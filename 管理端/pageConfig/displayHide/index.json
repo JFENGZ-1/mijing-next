@@ -1,0 +1,15 @@
+{
+  "navigationBarBackgroundColor": "#FBD128",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "confirm-modal": "/components/confirm-modal/confirm-modal",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "navigation": "/components/navigation/index",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-checkbox": "/uview-ui/components/u-checkbox/u-checkbox",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-mask": "/uview-ui/components/u-mask/u-mask",
+    "u-switch": "/uview-ui/components/u-switch/u-switch",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

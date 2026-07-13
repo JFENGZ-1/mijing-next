@@ -1,0 +1,13 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "appoint-item": "/pages/home/components/appoint-item",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "hint": "/pageReport/component/head-hint/head-hint",
+    "navigation": "/components/navigation/index",
+    "u-divider": "/uview-ui/components/u-divider/u-divider",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

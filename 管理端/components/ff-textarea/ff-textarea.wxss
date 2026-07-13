@@ -1,0 +1,42 @@
+.main-box.data-v-3bb89c43 {
+  padding: 18rpx 28rpx 60rpx;
+}
+.main-box .textarea.data-v-3bb89c43 {
+  color: #989898;
+  height: 620rpx;
+}
+.main-box .textarea.data-v-3bb89c43,
+.main-box .textareainit.data-v-3bb89c43 {
+  ont-size: 28rpx;
+  background: #fff;
+  border: 1px solid #dadada;
+  border-radius: 22rpx;
+  box-sizing: border-box;
+  display: block;
+  font-weight: 400;
+  line-height: 42rpx;
+  margin: 0 auto 16rpx;
+  padding: 14rpx 28rpx;
+  width: 689rpx;
+}
+.main-box .textareainit.data-v-3bb89c43 {
+  color: #dadada;
+  height: 450rpx;
+}
+.main-box .main.data-v-3bb89c43 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+}
+.main-box .main .icon-add.data-v-3bb89c43 {
+  padding: 10rpx 45rpx;
+}
+.main-box .main .icon-add .con.data-v-3bb89c43 {
+  padding: 0;
+}
+.main-box .main .census.data-v-3bb89c43 {
+  color: #989898;
+  font-size: 26rpx;
+  font-weight: 400;
+}

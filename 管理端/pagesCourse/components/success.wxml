@@ -1,0 +1,11 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-de2597d0" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="{{950}}" mask="{{true}}" title="{{title}}" value="{{show}}" vueId="88de5644-1" vueSlots="{{['default']}}">
+    <view class="wrap data-v-de2597d0">
+        <view class="succee-icon data-v-de2597d0">
+            <image class="data-v-de2597d0" src="{{$root.m0}}"></image>
+        </view>
+        <view class="hint-text data-v-de2597d0">
+            <view class="first data-v-de2597d0">支付成功，已预约</view>
+            <view class="last data-v-de2597d0">{{speed+'秒后自动关闭'}}</view>
+        </view>
+    </view>
+</ff-popup>

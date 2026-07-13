@@ -1,0 +1,64 @@
+<view class="data-v-9334b5ae">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-9334b5ae" text="{{title}}" vueId="cdd1080e-1"></navigation>
+    <view class="card-container data-v-9334b5ae" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <zero-loading bind:__l="__l" class="data-v-9334b5ae" vueId="cdd1080e-2" wx:if="{{!cardList}}"></zero-loading>
+        <view class="data-v-9334b5ae" wx:else>
+            <view class="data-v-9334b5ae" style="{{'height:100%;min-height:1230rpx;'}}">
+                <view class="placeholder-view data-v-9334b5ae"></view>
+                <view class="content data-v-9334b5ae">
+                    <view class="card-list data-v-9334b5ae" wx:if="{{$root.g0>0}}">
+                        <view class="top-info data-v-9334b5ae">
+                            <text class="total-num data-v-9334b5ae">{{'共'+$root.g1+'种'}}</text>
+                        </view>
+                        <view class="data-v-9334b5ae" wx:for="{{$root.l0}}" wx:key="cardId">
+                            <view class="card-type-box data-v-9334b5ae">
+                                <view class="card-wrap data-v-9334b5ae">
+                                    <view class="data-v-9334b5ae" wx:if="{{item.$orig.saleStatus==0}}">
+                                        <view class="mask data-v-9334b5ae"></view>
+                                        <view class="img-wrap data-v-9334b5ae">
+                                            <view class="data-v-9334b5ae">
+                                                <image class="data-v-9334b5ae" src="{{item.m0}}"></image>
+                                                <text class="data-v-9334b5ae">已停售</text>
+                                            </view>
+                                        </view>
+                                        <view class="{{['data-v-9334b5ae',item.$orig.saleStatus==0?'gray':'']}}"></view>
+                                    </view>
+                                    <view class="{{['data-v-9334b5ae',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item.$orig.cardType==1}}">
+                                        <ff-value-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-9334b5ae" vueId="{{'cdd1080e-3-'+index}}"></ff-value-card>
+                                    </view>
+                                    <view class="{{['data-v-9334b5ae',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item.$orig.cardType==2}}">
+                                        <ff-counts-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-9334b5ae" vueId="{{'cdd1080e-4-'+index}}"></ff-counts-card>
+                                    </view>
+                                    <view class="{{['data-v-9334b5ae',item.$orig.saleStatus==0?'gray':'',true?'gray-wrap':'']}}" wx:if="{{item.$orig.cardType==3}}">
+                                        <ff-date-card activeClass="medium-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-9334b5ae" vueId="{{'cdd1080e-5-'+index}}"></ff-date-card>
+                                    </view>
+                                </view>
+                                <view class="right-box data-v-9334b5ae">
+                                    <view class="btn-box data-v-9334b5ae">
+                                        <button bindtap="__e" class="delete-btn data-v-9334b5ae" data-event-opts="{{[ [ 'tap',[ [ 'delmodal',['$0'],[ [ ['cardList','cardId',item.$orig.cardId,'cardId'] ] ] ] ] ] ]}}" plain="true">恢复</button>
+                                    </view>
+                                    <view class="data-v-9334b5ae">
+                                        <view class="label data-v-9334b5ae">售价</view>
+                                        <view class="sale-money data-v-9334b5ae">
+                                            <view class="data-v-9334b5ae">
+                                                <text class="data-v-9334b5ae">￥</text>
+                                                <text class="price data-v-9334b5ae">{{item.$orig.price}}</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="card-empty data-v-9334b5ae" wx:else>
+                        <image class="tips-pic data-v-9334b5ae" src="{{$root.m1}}"></image>
+                        <text class="tips-text data-v-9334b5ae">没有删除的会员卡哦</text>
+                    </view>
+                </view>
+            </view>
+            <ff-bottom-logo bind:__l="__l" class="data-v-9334b5ae" vueId="cdd1080e-6"></ff-bottom-logo>
+        </view>
+        <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-9334b5ae vue-ref" data-event-opts="{{[ [ '^confirm',[ ['deleteBtnClick'] ] ] ]}}" data-ref="confirmModal" title="确定恢复吗？" vueId="cdd1080e-7"></confirm-modal>
+        <card-all-project bind:__l="__l" class="data-v-9334b5ae vue-ref" data-ref="cardAllProject" vueId="cdd1080e-8"></card-all-project>
+    </view>
+</view>

@@ -1,0 +1,45 @@
+{
+  "flow": "member",
+  "verifiedAt": "2026-07-11T12:06+08:00",
+  "loginMethod": "ui_tap_wechat_login_button",
+  "postLoginPage": "pages/onboarding/profile",
+  "wxLogin": {
+    "status": 200,
+    "registrationRequired": true,
+    "registrationState": "profile_required",
+    "accountId": 2,
+    "tokenPrefix": "32|HGFU***"
+  },
+  "me": {
+    "account": {
+      "id": 2,
+      "displayName": null,
+      "mobile": null,
+      "avatarUrl": null
+    },
+    "staffProfiles": [],
+    "memberRegistration": {
+      "state": "profile_required",
+      "registrationRequired": true,
+      "missingFields": ["displayName", "privacyConsent"],
+      "legalConfigurationReady": true,
+      "acceptedDocumentIds": [],
+      "profile": {
+        "displayName": null,
+        "avatarObjectKey": null,
+        "mobileMasked": "*******8000",
+        "mobileVerified": true,
+        "mobileVerificationMethod": "local_test_override",
+        "gender": null,
+        "birthDate": null,
+        "heightCm": null,
+        "weightKg": null,
+        "version": 1
+      }
+    }
+  },
+  "screenshots": [
+    "docs/generated/stage04-member-login-after-clear.png",
+    "docs/generated/stage04-member-onboarding-after-login.png"
+  ]
+}

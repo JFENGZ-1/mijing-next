@@ -1,0 +1,24 @@
+<view class="data-v-d14676a4">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-d14676a4" customBack="{{status==1}}" text="{{title}}" vueId="1628add0-1" vueSlots="{{['home']}}">
+        <image bindtap="__e" class="backHomeImg data-v-d14676a4" data-event-opts="{{[ [ 'tap',[ [ 'backHome',['$event'] ] ] ] ]}}" slot="home" src="{{$root.m0}}"></image>
+    </navigation>
+    <view class="data-v-d14676a4" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="invited-share-container data-v-d14676a4" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}" wx:if="{{staffone}}">
+        <image class="img data-v-d14676a4" src="{{$root.m1}}"></image>
+        <view class="content data-v-d14676a4">
+            <view class="head data-v-d14676a4">
+                <image class="headimg data-v-d14676a4" src="{{staffone.staff.siteTrademark}}"></image>
+                <view class="headtext data-v-d14676a4">{{staffone.staff.siteName}}</view>
+            </view>
+            <view class="content-invited data-v-d14676a4">
+                <view class="name data-v-d14676a4">{{'亲爱的'+staffone.staff.staffName}}</view>
+                <view class="invited-text data-v-d14676a4">{{'点击“接受邀请”后，您将成为本场馆的店员/教练。在注册时请确认手机号为'+staffone.staff.staffTel+'。'}}</view>
+                <button class="zfbut data-v-d14676a4" openType="share" plain="true" wx:if="{{status==0}}">{{''+buttext+''}}</button>
+                <button bindtap="__e" class="{{['zfbut','data-v-d14676a4',!staffone.valid?'disabled_btn':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'accept',['$event'] ] ] ] ]}}" disabled="{{!staffone.valid}}" plain="true" wx:if="{{status==1}}">{{''+buttext+''}}</button>
+                <view class="message data-v-d14676a4" wx:if="{{status==1&&!staffone.valid}}">{{''+staffone.validmsg+''}}<button bindtap="__e" class="zfbut-back data-v-d14676a4" data-event-opts="{{[ [ 'tap',[ [ 'backHome',['$event'] ] ] ] ]}}">返回首页</button>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-d14676a4" dataType="0" vueId="1628add0-2"></ff-bottom-logo>
+    </view>
+</view>

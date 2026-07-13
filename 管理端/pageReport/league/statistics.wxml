@@ -1,0 +1,62 @@
+<view class="data-v-16a03ffc">
+    <view class="main data-v-16a03ffc">
+        <view class="content data-v-16a03ffc">
+            <view class="time_axis data-v-16a03ffc">
+                <scroll-view class="scroll-view data-v-16a03ffc" scrollIntoView="{{scrollView}}" scrollX="{{true}}">
+                    <view bindtap="__e" class="{{['item','data-v-16a03ffc',item.active?'active':'',item.isToday?'isToday':'']}}" data-event-opts="{{[ [ 'tap',[ [ 'dateClick',['$0'],[ [ ['dateList','',index] ] ] ] ] ] ]}}" id="{{item.str}}" wx:for="{{dateList}}" wx:key="index">
+                        <view class="year data-v-16a03ffc">{{item.year}}</view>
+                        <view class="month data-v-16a03ffc">{{item.month+'月'}}</view>
+                    </view>
+                </scroll-view>
+            </view>
+            <block wx:if="{{$root.g0>0}}">
+                <view class="ranking data-v-16a03ffc">
+                    <view class="curriculum data-v-16a03ffc">课程</view>
+                    <view class="ranking_type data-v-16a03ffc">
+                        <view class="distinguish first-view data-v-16a03ffc">成课</view>
+                        <view class="distinguish second-view data-v-16a03ffc">取消</view>
+                        <view class="distinguish thirdly-view data-v-16a03ffc">约课人数</view>
+                        <view class="stored last-view data-v-16a03ffc">耗卡(次卡|储值卡)</view>
+                    </view>
+                </view>
+                <view bindtap="__e" class="list data-v-16a03ffc" data-event-opts="{{[ [ 'tap',[ [ 'headleDelete',['$0'],[ [ ['list','',index] ] ] ] ] ] ]}}" wx:for="{{$root.l0}}" wx:key="index">
+                    <view class="item data-v-16a03ffc">
+                        <view class="item_left data-v-16a03ffc">
+                            <view class="item_num data-v-16a03ffc">{{index+1}}</view>
+                            <view class="item_information data-v-16a03ffc">
+                                <view class="item_courseName data-v-16a03ffc">{{item.$orig.courseName}}</view>
+                                <view class="item_staffFace data-v-16a03ffc">
+                                    <view class="staffFace data-v-16a03ffc">
+                                        <image class="data-v-16a03ffc" mode="widthFix" src="{{item.m0}}"></image>
+                                    </view>
+                                    <view class="item_staffName data-v-16a03ffc">{{item.$orig.staffName}}</view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="item_right data-v-16a03ffc">
+                            <view class="item_fulfilCount first-view data-v-16a03ffc">{{item.$orig.fulfilCount}}<text class="fulfilCount_text data-v-16a03ffc">节</text>
+                            </view>
+                            <view class="item_fulfilCount second-view data-v-16a03ffc">{{item.$orig.nofulfilCount}}<text class="fulfilCount_text data-v-16a03ffc">节</text>
+                            </view>
+                            <view class="item_fulfilCount thirdly-view data-v-16a03ffc">{{item.$orig.signUserCount}}<text class="fulfilCount_text data-v-16a03ffc">人次</text>
+                            </view>
+                            <view class="item_timeCardUseCount last-view data-v-16a03ffc">{{item.$orig.timeCardUseCount}}<text class="fulfilCount_text data-v-16a03ffc">次</text>{{'/'+item.$orig.depositCardUseCount}}<text class="fulfilCount_text data-v-16a03ffc">元</text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="bodder data-v-16a03ffc"></view>
+                </view>
+            </block>
+            <view class="noListData data-v-16a03ffc" wx:else>
+                <image class="data-v-16a03ffc" src="{{$root.m1}}"></image>
+                <view class="memberData data-v-16a03ffc">
+                    <view class="add_btn data-v-16a03ffc">~ 还没有数据哦 ~</view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata data-v-16a03ffc">
+            <u-divider bgColor="#f5f5f5" bind:__l="__l" borderColor="#dadada" class="data-v-16a03ffc" color="#bfbfbf" halfWidth="74" vueId="b1b9affe-1" vueSlots="{{['default']}}">没有更多了哦</u-divider>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-16a03ffc" vueId="b1b9affe-2"></ff-bottom-logo>
+    </view>
+</view>

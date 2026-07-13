@@ -1,0 +1,8 @@
+<view class="cu-custom fixed data-v-4adc7070" style="{{'height:'+StatusBar+CustomBar+'px'+';'+'background:'+background+';'}}">
+    <view class="data-v-4adc7070" style="{{'height:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="cu-status data-v-4adc7070" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+        <view class="cu-title data-v-4adc7070" style="{{'height:'+CustomBar+'px'+';'}}">
+            <text class="text data-v-4adc7070">{{text}}</text>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,95 @@
+.suject-openrule-container.data-v-0079ba38 {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+.suject-openrule-container .suject-openrule .content.data-v-0079ba38 {
+  margin: 0rpx 28rpx;
+  padding: 30rpx 0rpx 200rpx;
+}
+.suject-openrule-container .suject-openrule .content .rule-max.data-v-0079ba38 {
+  color: #181818;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 28rpx;
+  justify-content: start;
+  padding-bottom: 60rpx;
+}
+.suject-openrule-container
+  .suject-openrule
+  .content
+  .rule-max
+  .rule-max-text.data-v-0079ba38 {
+  padding-top: 5rpx;
+}
+.suject-openrule-container
+  .suject-openrule
+  .content
+  .rule-max
+  .rule-max-content.data-v-0079ba38 {
+  color: #989898;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  font-size: 26rpx;
+  margin-left: 40rpx;
+}
+.suject-openrule-container
+  .suject-openrule
+  .content
+  .rule-max
+  .rule-max-content
+  .max.data-v-0079ba38 {
+  display: -webkit-flex;
+  display: flex;
+}
+.suject-openrule-container
+  .suject-openrule
+  .content
+  .rule-max
+  .rule-max-content
+  .hint.data-v-0079ba38 {
+  color: #dc3c5c;
+  font-family: Source Han Sans CN;
+  font-size: 22rpx;
+  font-weight: 400;
+  line-height: 35px;
+}
+.suject-openrule-container
+  .suject-openrule
+  .content
+  .rule-max
+  .discolor.data-v-0079ba38 {
+  color: #bbb !important;
+}
+.suject-openrule-container
+  .suject-openrule
+  .content
+  .rule-max
+  .fontcolor.data-v-0079ba38 {
+  color: #989898 !important;
+}
+.suject-openrule-container
+  .suject-openrule
+  .content
+  .rule-max
+  .input-box.data-v-0079ba38 {
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  flex: 0 0 auto;
+  width: 200rpx;
+}
+.suject-openrule-container
+  .suject-openrule
+  .content
+  .rule-max
+  .input-box
+  .com-input.data-v-0079ba38 {
+  font-size: 26rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  margin-right: 20rpx;
+  text-align: center;
+}

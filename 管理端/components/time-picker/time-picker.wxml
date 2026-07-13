@@ -1,0 +1,29 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-a96412b4" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="850" title="有效期设置" value="{{show}}" vueId="9af492b8-1" vueSlots="{{['default','confrimBtn']}}">
+    <view class="com-button-f1 data-v-a96412b4" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-a96412b4" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" disabled="{{isDisabled}}" type="primary" vueId="{{'9af492b8-2'+','+'9af492b8-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-a96412b4">
+        <view class="u-select__body data-v-a96412b4">
+            <picker-view bindchange="__e" bindpickend="__e" bindpickstart="__e" class="u-select__body__picker-view data-v-a96412b4" data-event-opts="{{[ [ 'change',[ [ 'bindChange',['$event'] ] ] ],[ 'pickstart',[ [ 'pickstart',['$event'] ] ] ],[ 'pickend',[ [ 'pickend',['$event'] ] ] ] ]}}" indicatorClass="com-picker-indicator" indicatorStyle="background: WhiteSmoke;z-index:0;border-radius: 14rpx;" style="height:500rpx;" value="{{pickerValue}}">
+                <picker-view-column class="data-v-a96412b4">
+                    <view class="data-v-a96412b4"></view>
+                    <view class="u-select__body__picker-view__item data-v-a96412b4" wx:for="{{10}}" wx:key="index">
+                        <view class="u-line-1 data-v-a96412b4" style="color:black;">{{item+1+'年'}}</view>
+                    </view>
+                </picker-view-column>
+                <picker-view-column class="data-v-a96412b4">
+                    <view class="data-v-a96412b4"></view>
+                    <view class="u-select__body__picker-view__item data-v-a96412b4" wx:for="{{12}}" wx:key="index">
+                        <view class="u-line-1 data-v-a96412b4" style="color:black;">{{item+1+'个月'}}</view>
+                    </view>
+                </picker-view-column>
+                <picker-view-column class="data-v-a96412b4">
+                    <view class="data-v-a96412b4"></view>
+                    <view class="u-select__body__picker-view__item data-v-a96412b4" wx:for="{{30}}" wx:key="index">
+                        <view class="u-line-1 data-v-a96412b4" style="color:black;">{{item+1+'天'}}</view>
+                    </view>
+                </picker-view-column>
+            </picker-view>
+        </view>
+    </view>
+</ff-popup>

@@ -1,0 +1,70 @@
+<view class="container data-v-65f85306">
+    <view class="nav_floating data-v-65f85306" style="{{'opacity:'+fixedBarOpacity+';'+'height:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-65f85306" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+        <view class="capsule-wrap data-v-65f85306" style="{{'display:flex;'+'height:'+CustomBar+'px'+';'}}">
+            <view bindtap="__e" class="back data-v-65f85306" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}" style="{{'width:'+CustomBar+'px'+';'+'height:'+CustomBar+'px'+';'}}">
+                <u-icon bind:__l="__l" class="data-v-65f85306" color="#5a5a5b" name="arrow-left" size="36" vueId="2a634dac-1" wx:if="{{isShowBack}}"></u-icon>
+                <image bindtap="__e" class="backHomeImg data-v-65f85306" data-event-opts="{{[ [ 'tap',[ [ 'backHome',['$event'] ] ] ] ]}}" slot="home" src="{{$root.m0}}" wx:else></image>
+            </view>
+            <view class="nav-name data-v-65f85306">
+                <text class="name data-v-65f85306">帮助视频</text>
+            </view>
+        </view>
+    </view>
+    <view class="header data-v-65f85306" style="{{'height:'+StatusBar+CustomBar+$root.m1+20+'px'+';'+'background:'+'url('+($root.m2?$root.m3:'about:blank')+') no-repeat center/100% 100%, #252d45'+';'}}">
+        <view class="info-module data-v-65f85306">
+            <view class="data-v-65f85306" style="{{'height:'+StatusBar+'px'+';'}}"></view>
+            <view class="capsule-wrap data-v-65f85306" style="{{'height:'+CustomBar+'px'+';'}}">
+                <view bindtap="__e" class="back data-v-65f85306" data-event-opts="{{[ [ 'tap',[ [ 'back',['$event'] ] ] ] ]}}" style="{{'width:'+CustomBar+'px'+';'+'height:'+CustomBar+'px'+';'}}">
+                    <u-icon bind:__l="__l" class="data-v-65f85306" color="#989898" name="arrow-left" size="36" vueId="2a634dac-2" wx:if="{{isShowBack}}"></u-icon>
+                    <image bindtap="__e" class="backHomeImg data-v-65f85306" data-event-opts="{{[ [ 'tap',[ [ 'backHome',['$event'] ] ] ] ]}}" slot="home" src="{{$root.m4}}" wx:else></image>
+                </view>
+            </view>
+        </view>
+        <view class="company-wrap data-v-65f85306">
+            <view class="logo-box data-v-65f85306">
+                <image class="logo data-v-65f85306" src="{{$root.m5}}"></image>
+            </view>
+            <view class="name-box data-v-65f85306">
+                <view class="name data-v-65f85306">松果约课管理系统<view class="v-icon-box data-v-65f85306">
+                        <image class="v-icon data-v-65f85306" src="{{$root.m6}}"></image>
+                    </view>
+                </view>
+                <view class="sub-title data-v-65f85306">业内品牌软件｜10万+场馆在用</view>
+            </view>
+        </view>
+        <view class="description-wrap data-v-65f85306">
+            <view class="desc data-v-65f85306">
+                <image class="desc-icon data-v-65f85306" src="{{$root.m7}}"></image>瑜伽普拉提馆、舞蹈馆、搏击、美术绘画约课系统</view>
+            <view class="desc data-v-65f85306">
+                <image class="desc-icon data-v-65f85306" src="{{$root.m8}}"></image>一年365元，免费试用一个月，试用期间不收费</view>
+            <view class="desc data-v-65f85306">
+                <image class="desc-icon data-v-65f85306" src="{{$root.m9}}"></image>会员管理，约课排课，自动消课，数据统计等几百项功能</view>
+        </view>
+        <view class="tel-wrap data-v-65f85306">
+            <view bindtap="__e" class="tel-bt data-v-65f85306" data-event-opts="{{[ [ 'tap',[ [ 'handleCopyTel',['17710883152'] ] ] ] ]}}" style="margin-right:50rpx;">
+                <image class="wechat-icon data-v-65f85306" src="{{$root.m10}}"></image>177 1088 3152</view>
+            <view bindtap="__e" class="tel-bt data-v-65f85306" data-event-opts="{{[ [ 'tap',[ [ 'handleCopyTel',['17710981943'] ] ] ] ]}}">
+                <image class="wechat-icon data-v-65f85306" src="{{$root.m11}}"></image>177 1098 1943</view>
+        </view>
+        <view class="service-wrap data-v-65f85306">
+            <view class="service data-v-65f85306">客服微信：9:00~23:00 人工在线</view>
+            <view bindtap="__e" class="video-bt data-v-65f85306" data-event-opts="{{[ [ 'tap',[ ['handleOpen'] ] ] ]}}">去 视频号</view>
+        </view>
+    </view>
+    <view class="title-wrap data-v-65f85306" style="{{'margin-top:'+StatusBar+CustomBar+$root.m12-18+'px'+';'}}">
+        <view class="left-title data-v-65f85306">帮助视频</view>
+        <view class="search-icon-box data-v-65f85306">
+            <image class="search-icon data-v-65f85306" src="{{$root.m13}}"></image>
+        </view>
+    </view>
+    <view class="video-wrap data-v-65f85306">
+        <view bindtap="__e" class="video-box data-v-65f85306" data-event-opts="{{[ [ 'tap',[ [ 'handleOpenVideo',['$0'],[ [ ['videoList','',index,'feedId'] ] ] ] ] ] ]}}" style="{{'background:'+'url('+(item.$orig.src?item.m14:'about:blank')+')'+';'+'background-repeat:'+'no-repeat'+';'+'background-size:'+'100% 100%'+';'}}" wx:for="{{$root.l0}}" wx:key="index">
+            <view class="mask data-v-65f85306"></view>
+            <view class="fixed-top data-v-65f85306" wx:if="{{index<3}}">置顶</view>
+            <view class="play-fixed-bottom data-v-65f85306">
+                <image class="search-icon data-v-65f85306" src="{{$root.m15}}"></image>{{''+item.m16+''}}</view>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-65f85306" vueId="2a634dac-3"></ff-bottom-logo>
+</view>

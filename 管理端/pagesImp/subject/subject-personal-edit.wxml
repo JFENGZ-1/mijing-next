@@ -1,0 +1,139 @@
+<view class="data-v-c98b6108">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-c98b6108" text="{{title}}" vueId="071cffac-1"></navigation>
+    <view class="placeholder-view data-v-c98b6108" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="subject-personal-edit-container data-v-c98b6108" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-c98b6108" style="{{'height:100%;min-height:1230rpx;'}}">
+            <u-cell-group bind:__l="__l" border="{{false}}" class="data-v-c98b6108" vueId="071cffac-2" vueSlots="{{['default']}}">
+                <u-cell-item arrow="{{!isEdit}}" bind:__l="__l" bind:click="__e" class="uni-form-item-required data-v-c98b6108" data-event-opts="{{[ [ '^click',[ ['e0'] ] ] ]}}" hoverClass="none" require="{{true}}" title="教练" titleStyle="{{titleStyle}}" vueId="{{'071cffac-3'+','+'071cffac-2'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-c98b6108" style="font-size:14px;color:#DADADA;" wx:if="{{!groupData.staffName}}">请选择</text>
+                    <text class="data-v-c98b6108" wx:if="{{groupData.staffName}}">{{groupData.staffName}}</text>
+                </u-cell-item>
+                <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-c98b6108" data-event-opts="{{[ [ '^click',[ ['e1'] ] ] ]}}" hoverClass="none" title="标签" titleStyle="{{titleStyle}}" vueId="{{'071cffac-4'+','+'071cffac-2'}}" vueSlots="{{['default']}}">
+                    <text class="data-v-c98b6108" style="font-size:14px;color:#DADADA;" wx:if="{{!groupData.tagText}}">可不填写</text>
+                    <text class="data-v-c98b6108" wx:if="{{groupData.tagText}}">{{groupData.tagText}}</text>
+                </u-cell-item>
+                <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-c98b6108" data-event-opts="{{[ [ '^click',[ ['e2'] ] ] ]}}" hoverClass="none" title="经历" titleStyle="{{titleStyle}}" vueId="{{'071cffac-5'+','+'071cffac-2'}}" vueSlots="{{['default']}}">
+                    <view class="data-v-c98b6108" wx:if="{{!groupData.experience}}">无</view>
+                    <text class="rights-des u-line-1 data-v-c98b6108" wx:if="{{groupData.experience}}">{{''+$root.m0+''}}</text>
+                </u-cell-item>
+                <u-cell-item bind:__l="__l" bind:click="__e" class="data-v-c98b6108" data-event-opts="{{[ [ '^click',[ ['e3'] ] ] ]}}" hoverClass="none" require="{{true}}" title="擅长" titleStyle="{{titleStyle}}" vueId="{{'071cffac-6'+','+'071cffac-2'}}" vueSlots="{{['default']}}">
+                    <view class="data-v-c98b6108" wx:if="{{!groupData.goodat}}">无</view>
+                    <text class="rights-des u-line-1 data-v-c98b6108" wx:if="{{groupData.goodat}}">{{''+$root.m1+''}}</text>
+                </u-cell-item>
+            </u-cell-group>
+            <view class="grid-time data-v-c98b6108" style=";">
+                <text class="grid-text data-v-c98b6108" style="width:145rpx;"> 预约时间 </text>
+                <text class="required data-v-c98b6108">*</text>
+                <view class="data-v-c98b6108" style="width:100%;">
+                    <view class="icon-time data-v-c98b6108" wx:for="{{opentime}}" wx:key="index">
+                        <view class="data-v-c98b6108">
+                            <u-icon bind:__l="__l" bind:click="__e" class="data-v-c98b6108" color="#DC3C5C " data-event-opts="{{[ [ '^click',[ [ 'removeitem',['$0'],[ [ ['opentime','',index] ] ] ] ] ] ]}}" name="minus-circle" size="36" vueId="{{'071cffac-7-'+index}}"></u-icon>
+                            <text bindtap="__e" class="data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'openPopup',['$0'],[ [ ['opentime','',index] ] ] ] ] ] ]}}">{{item.weekValue}}</text>
+                            <u-icon bind:__l="__l" bind:click="__e" class="data-v-c98b6108" data-event-opts="{{[ [ '^click',[ [ 'openPopup',['$0'],[ [ ['opentime','',index] ] ] ] ] ] ]}}" name="arrow-right " vueId="{{'071cffac-8-'+index}}"></u-icon>
+                        </view>
+                        <text bindtap="__e" class="time-interval data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'openPopup',['$0'],[ [ ['opentime','',index] ] ] ] ] ] ]}}">{{item.timeValue}}</text>
+                    </view>
+                    <view bindtap="__e" class="icon-add data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ ['openPopup'] ] ] ]}}">
+                        <view class="data-v-c98b6108">
+                            <u-icon bind:__l="__l" class="data-v-c98b6108" color="#E98900" name="plus" vueId="071cffac-9"></u-icon>
+                            <text class="data-v-c98b6108">添加时段</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <u-line bind:__l="__l" class="data-v-c98b6108" color="#F0F0F0" margin="30rpx  28rpx 0rpx 0rpx" vueId="071cffac-10"></u-line>
+            <u-cell-item arrow="{{false}}" bind:__l="__l" borderBottom="{{false}}" class="personalsub data-v-c98b6108" hoverClass="none" require="{{true}}" style="padding-bottom:0px;" title="私教课目" vueId="071cffac-11" vueSlots="{{['default']}}">
+                <view class="data-v-c98b6108" style="text-align:right;">
+                    <u-switch bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-c98b6108" data-event-opts="{{[ [ '^change',[ ['clickswith'] ] ],[ '^input',[ [ '__set_model',[ '','groupswitch','$event',[] ] ] ] ] ]}}" size="52" style="margin-top:14rpx;" value="{{groupswitch}}" vueId="{{'071cffac-12'+','+'071cffac-11'}}"></u-switch>
+                </view>
+            </u-cell-item>
+            <view class="data-v-c98b6108" wx:if="{{groupswitch}}">
+                <view class="textdesc data-v-c98b6108">* 可添加课程(如体型调整 、产后恢复等)，会员约课时必须选择课程</view>
+                <block wx:if="{{groupData&&item.$orig.courseName}}" wx:for="{{$root.l0}}" wx:for-index="key" wx:key="key">
+                    <image bindtap="__e" class="iconclose data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'clickClose',['$0'],[ [ ['groupData.courseList','',key] ] ] ] ] ] ]}}" src="{{item.m2}}"></image>
+                    <view class="model data-v-c98b6108">
+                        <view class="model_edit data-v-c98b6108">
+                            <image class="editicon data-v-c98b6108" src="{{item.m3}}"></image>
+                            <view class="grid-time1 data-v-c98b6108">
+                                <view class="data-v-c98b6108">
+                                    <text class="grid-text1 data-v-c98b6108">{{''+item.$orig.courseName+''}}</text>
+                                </view>
+                                <view class="data-v-c98b6108">
+                                    <view class="icon-time1 data-v-c98b6108" style="color:#989898;">
+                                        <view bindtap="__e" class="data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'e4',['$event'] ] ] ] ]}}" data-event-params="{{ ({item:item.$orig}) }}">
+                                            <text class="data-v-c98b6108">{{item.$orig.courseMinute+'分钟'}}</text>
+                                            <u-icon bind:__l="__l" class="data-v-c98b6108" name="arrow-right " vueId="{{'071cffac-13-'+key}}"></u-icon>
+                                        </view>
+                                        <view bindtap="__e" class="data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'sujectChoiceCard',['$0',1],[ [ ['groupData.courseList','',key] ] ] ] ] ] ]}}" style="padding-top:30rpx;">
+                                            <text class="szhy data-v-c98b6108" wx:if="{{!item.$orig.cardCount||item.$orig.cardCount==0}}">设置会员卡扣费</text>
+                                            <text class="szgray data-v-c98b6108" wx:else>{{'已设置'+item.$orig.cardCount+'张卡'}}</text>
+                                            <u-icon bind:__l="__l" class="data-v-c98b6108" name="arrow-right " vueId="{{'071cffac-14-'+key}}"></u-icon>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+                <view bindtap="__e" class="icon-add data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'e5',['$event'] ] ] ] ]}}" style="width:172rpx;font-size:20rpx;margin-top:36rpx;">
+                    <view class="data-v-c98b6108">
+                        <u-icon bind:__l="__l" class="data-v-c98b6108" color="#E98900" name="plus" vueId="071cffac-15"></u-icon>
+                        <text class="data-v-c98b6108">添加课程</text>
+                    </view>
+                </view>
+            </view>
+            <view class="data-v-c98b6108" wx:if="{{!groupswitch}}">
+                <view class="textdesc data-v-c98b6108">* 默认会员在约私教时不需要选择具体上课内容，仅预约时间</view>
+                <block wx:if="{{groupData&&!item.courseName}}" wx:for="{{groupData.courseList}}" wx:for-index="key" wx:key="key">
+                    <image class="iconclose data-v-c98b6108"></image>
+                    <view class="model data-v-c98b6108">
+                        <view class="model_edit data-v-c98b6108">
+                            <view class="grid-time1 data-v-c98b6108">
+                                <view class="data-v-c98b6108">
+                                    <text class="grid-text1 data-v-c98b6108"> 统一时长统一定价 </text>
+                                </view>
+                                <view class="data-v-c98b6108">
+                                    <view class="icon-time1 data-v-c98b6108" style="color:#989898;">
+                                        <view bindtap="__e" class="data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'e6',['$event'] ] ] ] ]}}" data-event-params="{{({item})}}">
+                                            <text class="data-v-c98b6108">{{item.courseMinute+'分钟'}}</text>
+                                            <u-icon bind:__l="__l" class="data-v-c98b6108" name="arrow-right " vueId="{{'071cffac-16-'+key}}"></u-icon>
+                                        </view>
+                                        <view bindtap="__e" class="data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'sujectChoiceCard',['$0',1],[ [ ['groupData.courseList','',key] ] ] ] ] ] ]}}" style="padding-top:30rpx;">
+                                            <text class="szhy data-v-c98b6108" wx:if="{{!item.cardCount||item.cardCount==0}}">设置会员卡扣费</text>
+                                            <text class="szgray data-v-c98b6108" wx:else>{{'已设置'+item.cardCount+'张卡'}}</text>
+                                            <u-icon bind:__l="__l" class="data-v-c98b6108" name="arrow-right " vueId="{{'071cffac-17-'+key}}"></u-icon>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+            <view class="btn-box data-v-c98b6108">
+                <button bindtap="__e" class="save-btn data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'savedata',['$event'] ] ] ] ]}}" plain="true">保存</button>
+                <button bindtap="__e" class="delete-btn data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'delmodal',['$event'] ] ] ] ]}}" plain="true" wx:if="{{groupData.drainerId}}">删除</button>
+            </view>
+            <view class="data-v-c98b6108">
+                <tag-popup bind:__l="__l" bind:editTag="__e" bind:headleClose="__e" class="data-v-c98b6108 vue-ref" clickTagName="{{groupData.tagText}}" data-event-opts="{{[ [ '^editTag',[ ['editTag'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="tagChild" vueId="071cffac-18"></tag-popup>
+                <suject-creatcourse-popup bind:__l="__l" bind:headleClose="__e" bind:sujectCreatcourse="__e" class="data-v-c98b6108 vue-ref" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^sujectCreatcourse',[ ['sujectCreatcourse'] ] ] ]}}" data-ref="sujectCreatcourseChild" vueId="071cffac-19"></suject-creatcourse-popup>
+                <subject-trainer bind:__l="__l" bind:editTrainer="__e" bind:headleClose="__e" class="data-v-c98b6108 vue-ref" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^editTrainer',[ ['editTrainer'] ] ] ]}}" data-ref="trainerChild" vueId="071cffac-20"></subject-trainer>
+                <subject-desc-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-c98b6108 vue-ref" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^textarea',[ ['editsubjectDesc'] ] ] ]}}" data-ref="subjectDescChild" editorHeight="{{750}}" maxLength="{{2500}}" vueId="071cffac-21"></subject-desc-popup>
+                <time-popup1 bind:__l="__l" bind:headleClose="__e" bind:saveWeekTime="__e" class="data-v-c98b6108 vue-ref" data-event-opts="{{[ [ '^saveWeekTime',[ ['saveWeekTime'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="child" dayDate="{{dayDate}}" imeviewlist="{{imeviewlist}}" opentime="{{opentime}}" showTime="{{showTime}}" title="{{popupTitle}}" vueId="071cffac-22"></time-popup1>
+                <u-modal bind:__l="__l" bind:input="__e" class="data-v-c98b6108" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','delShow','$event',[] ] ] ] ] ]}}" showConfirmButton="{{false}}" showTitle="{{false}}" value="{{delShow}}" vueId="071cffac-23" vueSlots="{{['default']}}" width="{{708}}">
+                    <view class="modal data-v-c98b6108">
+                        <text class="modal-title data-v-c98b6108">{{modal.modalTitle}}</text>
+                        <view class="modal-content data-v-c98b6108">
+                            <text class="data-v-c98b6108">{{modal.modalText}}</text>
+                        </view>
+                        <view class="btn data-v-c98b6108">
+                            <button bindtap="__e" class="modal-cal-btn data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'cancelbtn',['$event'] ] ] ] ]}}" plain="true">取消</button>
+                            <button bindtap="__e" class="modal-btn data-v-c98b6108" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtn',['$event'] ] ] ] ]}}" plain="true">确定</button>
+                        </view>
+                    </view>
+                </u-modal>
+            </view>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-c98b6108" vueId="071cffac-24"></ff-bottom-logo>
+</view>

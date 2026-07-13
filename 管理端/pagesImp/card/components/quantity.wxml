@@ -1,0 +1,57 @@
+<ff-popup bind:__l="__l" bind:input="__e" class="data-v-1093672f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','show','$event',[] ] ] ] ] ]}}" height="1110" tips="持卡会员每日/每周/每月的最高约课次数，例如：每周只允许约7次课（通常仅对年卡做出限制，次卡和储值卡不设限制）" title="每日/周/月可预约次数限制" value="{{show}}" vueId="6f4667b8-1" vueSlots="{{['default','confrimBtn']}}">
+    <view class="com-button-f1 data-v-1093672f" slot="confrimBtn">
+        <u-button bind:__l="__l" bind:click="__e" class="data-v-1093672f" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="{{'6f4667b8-2'+','+'6f4667b8-1'}}" vueSlots="{{['default']}}">确　定</u-button>
+    </view>
+    <view class="main-box data-v-1093672f">
+        <view class="form-box data-v-1093672f">
+            <view class="list-box data-v-1093672f">
+                <view class="show-box data-v-1093672f">
+                    <view class="{{['title','data-v-1093672f',swData.maxDay?'active':'']}}">每日可预约次数限制</view>
+                    <view class="sw-box data-v-1093672f">
+                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-1093672f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','maxDay','$event',[] ],['swData'] ] ] ] ]}}" value="{{swData.maxDay}}" vueId="{{'6f4667b8-3'+','+'6f4667b8-1'}}"></u-switch>
+                    </view>
+                </view>
+                <view class="hidd-box input-main data-v-1093672f" wx:if="{{swData.maxDay}}">最多约课(含）<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1093672f" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','maxDay','$event',[] ],['formData'] ] ] ] ]}}" type="number" value="{{formData.maxDay}}" vueId="{{'6f4667b8-4'+','+'6f4667b8-1'}}"></u-input>次</view>
+            </view>
+            <view class="list-box data-v-1093672f">
+                <view class="show-box data-v-1093672f">
+                    <view class="{{['title','data-v-1093672f',swData.maxWeek?'active':'']}}">每周可预约次数限制</view>
+                    <view class="sw-box data-v-1093672f">
+                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-1093672f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','maxWeek','$event',[] ],['swData'] ] ] ] ]}}" value="{{swData.maxWeek}}" vueId="{{'6f4667b8-5'+','+'6f4667b8-1'}}"></u-switch>
+                    </view>
+                </view>
+                <view class="hidd-box input-main data-v-1093672f" wx:if="{{swData.maxWeek}}">最多约课(含）<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1093672f" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','maxWeek','$event',[] ],['formData'] ] ] ] ]}}" type="number" value="{{formData.maxWeek}}" vueId="{{'6f4667b8-6'+','+'6f4667b8-1'}}"></u-input>次</view>
+                <u-radio-group bind:__l="__l" bind:input="__e" class="radio-group data-v-1093672f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','weekMode','$event',[] ],['swData'] ] ] ] ]}}" placement="column" size="31" value="{{swData.weekMode}}" vueId="{{'6f4667b8-7'+','+'6f4667b8-1'}}" vueSlots="{{['default']}}" wx:if="{{swData.maxWeek}}">
+                    <u-radio appearance="circle" bind:__l="__l" class="radio data-v-1093672f" name="{{0}}" vueId="{{'6f4667b8-8'+','+'6f4667b8-7'}}" vueSlots="{{['default']}}">
+                        <view class="radio-main opencard-tips data-v-1093672f">按自然周，与日历一致<text class="data-v-1093672f"> 季卡、半年卡、年卡推荐</text>
+                        </view>
+                    </u-radio>
+                    <u-radio appearance="circle" bind:__l="__l" class="radio data-v-1093672f" name="{{1}}" vueId="{{'6f4667b8-9'+','+'6f4667b8-7'}}" vueSlots="{{['default']}}">
+                        <view class="radio-main opencard-tips data-v-1093672f">按周期，从开卡日起每7天算一周期<text class="data-v-1093672f"> 仅周卡、月卡推荐</text>
+                        </view>
+                    </u-radio>
+                </u-radio-group>
+            </view>
+            <view class="list-box data-v-1093672f">
+                <view class="show-box data-v-1093672f">
+                    <view class="{{['title','data-v-1093672f',swData.maxMonth?'active':'']}}">每月可预约次数限制</view>
+                    <view class="sw-box data-v-1093672f">
+                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-1093672f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','maxMonth','$event',[] ],['swData'] ] ] ] ]}}" value="{{swData.maxMonth}}" vueId="{{'6f4667b8-10'+','+'6f4667b8-1'}}"></u-switch>
+                    </view>
+                </view>
+                <view class="hidd-box input-main data-v-1093672f" wx:if="{{swData.maxMonth}}">最多约课(含）<u-input bind:__l="__l" bind:input="__e" class="com-input data-v-1093672f" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','maxMonth','$event',[] ],['formData'] ] ] ] ]}}" type="number" value="{{formData.maxMonth}}" vueId="{{'6f4667b8-11'+','+'6f4667b8-1'}}"></u-input>次</view>
+                <u-radio-group bind:__l="__l" bind:input="__e" class="radio-group data-v-1093672f" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','monthMode','$event',[] ],['swData'] ] ] ] ]}}" placement="column" size="31" value="{{swData.monthMode}}" vueId="{{'6f4667b8-12'+','+'6f4667b8-1'}}" vueSlots="{{['default']}}" wx:if="{{swData.maxMonth}}">
+                    <u-radio bind:__l="__l" class="radio data-v-1093672f" name="{{0}}" vueId="{{'6f4667b8-13'+','+'6f4667b8-12'}}" vueSlots="{{['default']}}">
+                        <view class="radio-main opencard-tips data-v-1093672f">按自然月，与日历一致<text class="data-v-1093672f">半年卡、年卡推荐</text>
+                        </view>
+                    </u-radio>
+                    <u-radio bind:__l="__l" class="radio data-v-1093672f" name="{{1}}" vueId="{{'6f4667b8-14'+','+'6f4667b8-12'}}" vueSlots="{{['default']}}">
+                        <view class="radio-main opencard-tips data-v-1093672f">按周期，从开卡日起每7天算一周期<text class="data-v-1093672f"> 仅月卡、季卡推荐</text>
+                        </view>
+                    </u-radio>
+                </u-radio-group>
+            </view>
+        </view>
+        <view class="data-v-1093672f" style="padding-top:160rpx;"></view>
+    </view>
+</ff-popup>

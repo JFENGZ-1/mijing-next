@@ -1,0 +1,12 @@
+.bottom-logo.data-v-64082970 {
+  background: #f5f5f5;
+  display: -webkit-flex;
+  display: flex;
+  height: 200rpx;
+  justify-content: center;
+  padding: 70rpx 0;
+}
+.bottom-logo .pic.data-v-64082970 {
+  height: 67rpx;
+  width: 182rpx;
+}

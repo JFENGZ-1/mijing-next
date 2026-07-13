@@ -1,0 +1,13 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "deduction-days": "/pagesImp/card/components/courseSelect/deductionDays",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "more-grcl": "/pagesImp/card/components/courseSelect/more-grcl",
+    "more-priv": "/pagesImp/card/components/courseSelect/more-priv",
+    "navigation": "/components/navigation/index",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

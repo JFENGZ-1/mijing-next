@@ -1,0 +1,18 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "deduction-days": "/pageChain/components/courseSelect/deductionDays",
+    "ff-bottom-logo": "/components/ff-bottom-logo/ff-bottom-logo",
+    "ff-counts-card": "/components/ff-counts-card/ff-counts-card",
+    "ff-date-card": "/components/ff-date-card/ff-date-card",
+    "ff-value-card": "/components/ff-value-card/ff-value-card",
+    "navigation": "/components/navigation/index",
+    "nodata": "/components/nodata/nodata",
+    "single-grcl": "/pageChain/components/courseSelect/single-grcl",
+    "single-priv": "/pageChain/components/courseSelect/single-priv",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-switch": "/uview-ui/components/u-switch/u-switch",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

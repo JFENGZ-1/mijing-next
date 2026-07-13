@@ -1,0 +1,17 @@
+page {
+  background: $color-page;
+  color: $color-text;
+  font-size: 28rpx;
+}
+
+.page-container {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: $spacing-md;
+}
+
+.section-title {
+  margin: $spacing-lg 0 $spacing-sm;
+  font-size: 30rpx;
+  font-weight: 600;
+}

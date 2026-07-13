@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "全部订单",
+  "navigationBarBackgroundColor": "#ffffff",
+  "usingComponents": {
+    "ff-value-card": "/components/ff-value-card/ff-value-card",
+    "ff-counts-card": "/components/ff-counts-card/ff-counts-card",
+    "ff-date-card": "/components/ff-date-card/ff-date-card",
+    "bottom-logo": "/components/ff-bottom-logo/index"
+  }
+}

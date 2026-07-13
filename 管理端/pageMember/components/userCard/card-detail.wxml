@@ -1,0 +1,77 @@
+<view class="card-detail data-v-17531dec">
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">卡名称</view>
+        <view class="value data-v-17531dec">{{card.cardName}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">卡类型</view>
+        <view class="value data-v-17531dec">{{card.cardTypeName}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">卡<text class="data-v-17531dec" style="padding-left:24rpx;">号</text>
+        </view>
+        <view class="value data-v-17531dec">{{card.userCardId}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">卡状态</view>
+        <view class="value data-v-17531dec">{{card.cardStatusName}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">现余额</view>
+        <view class="value data-v-17531dec" wx:if="{{card.cardType==2}}">{{card.balanceAmount+'次'}}</view>
+        <view class="value data-v-17531dec" wx:if="{{card.cardType==1}}">{{'￥'+card.balanceAmount}}</view>
+        <view class="value data-v-17531dec" wx:if="{{card.cardType==3}}">{{card.balanceAmount+'天'}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">有效期至</view>
+        <view class="value data-v-17531dec" wx:if="{{card.cardStatus!=0}}">{{card.cardValidEtime}}</view>
+        <view class="value data-v-17531dec" wx:else>--</view>
+    </view>
+    <u-line bind:__l="__l" class="u-line data-v-17531dec" color="#F0F0F0" length="640" margin="20rpx  0  20rpx  40rpx" vueId="600c4e6b-1"></u-line>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">发卡人员</view>
+        <view class="value data-v-17531dec">{{card.publishStaffName||'--'}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">发卡日期</view>
+        <view class="value data-v-17531dec">{{card.createTime}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">开卡日期</view>
+        <view class="value data-v-17531dec">{{card.openCardTime||'--'}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">实收金额</view>
+        <view class="value data-v-17531dec">{{'￥'+card.initSalePrice}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">初始总额</view>
+        <view class="value data-v-17531dec" wx:if="{{card.cardType==2}}">{{(card.initSaleAmount||'--')+'次'}}</view>
+        <view class="value data-v-17531dec" wx:if="{{card.cardType==1}}">{{'￥'+(card.initSaleAmount||'--')}}</view>
+        <view class="value data-v-17531dec" wx:if="{{card.cardType==3}}">{{(card.initSaleAmount||'--')+'天'}}</view>
+        <view class="value data-v-17531dec" style="font-size:22rpx;color:#c9cacb;margin-left:15rpx;">*会员卡内的初始总余额</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec" wx:if="{{card.cardType==2}}">单次折算</view>
+        <view class="name data-v-17531dec" wx:if="{{card.cardType==1}}">价值折算</view>
+        <view class="name data-v-17531dec" wx:if="{{card.cardType==3}}">每天折算</view>
+        <view class="value data-v-17531dec">{{(card.unitPrice||'--')+'元'}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">已耗金额</view>
+        <view class="value data-v-17531dec">{{'￥'+card.payTotalAmount}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">剩余折算</view>
+        <view class="value data-v-17531dec">{{'￥'+card.initSalePrice-card.payTotalAmount}}</view>
+    </view>
+    <u-line bind:__l="__l" class="u-line data-v-17531dec" color="#F0F0F0" length="635" margin="30rpx  0  30rpx  50rpx" vueId="600c4e6b-2"></u-line>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">请假情况</view>
+        <view class="value data-v-17531dec">{{'已请假'+card.sumInfo.cardholidayCount+'次，合计'+card.sumInfo.cardholidayDays+'天'}}</view>
+    </view>
+    <view class="item data-v-17531dec">
+        <view class="name data-v-17531dec">停卡情况</view>
+        <view class="value data-v-17531dec">{{'已停卡'+card.sumInfo.cardStopCount+'次，合计'+card.sumInfo.cardStopDays+'天'}}</view>
+    </view>
+</view>

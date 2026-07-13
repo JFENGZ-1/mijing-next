@@ -1,0 +1,178 @@
+<view class="data-v-b8b7f696">
+    <ff-popup bind:__l="__l" bind:input="__e" class="data-v-b8b7f696" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','cardShow','$event',[] ] ] ] ] ]}}" height="1100" title="确认额度" value="{{cardShow}}" vueId="72a5df9c-1" vueSlots="{{['default','confrimBtn']}}">
+        <view class="com-button-f1 data-v-b8b7f696" slot="confrimBtn">
+            <view bindtap="__e" class="determine data-v-b8b7f696" data-event-opts="{{[ [ 'tap',[ [ 'submit',['$event'] ] ] ] ]}}">确　定</view>
+        </view>
+        <view class="main-box data-v-b8b7f696">
+            <view class="form-box data-v-b8b7f696">
+                <view class="cardList data-v-b8b7f696">
+                    <view class="data-v-b8b7f696">
+                        <view class="wrap data-v-b8b7f696">
+                            <view class="{{['card_wrap','data-v-b8b7f696',cardList.saleStatus==0?'gray':'']}}">
+                                <ff-value-card activeClass="large-size" bind:__l="__l" cardInfo="{{cardList}}" class="data-v-b8b7f696" vueId="{{'72a5df9c-2'+','+'72a5df9c-1'}}" wx:if="{{cardList.cardType==1}}"></ff-value-card>
+                                <ff-counts-card activeClass="large-size" bind:__l="__l" bind:moreClick="__e" cardInfo="{{cardList}}" class="data-v-b8b7f696" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],['cardList'] ] ] ] ]}}" vueId="{{'72a5df9c-3'+','+'72a5df9c-1'}}" wx:if="{{cardList.cardType==2}}"></ff-counts-card>
+                                <ff-date-card activeClass="large-size" bind:__l="__l" bind:moreClick="__e" cardInfo="{{cardList}}" class="data-v-b8b7f696" data-event-opts="{{[ [ '^moreClick',[ [ 'moreClick',['$0'],['cardList'] ] ] ] ]}}" vueId="{{'72a5df9c-4'+','+'72a5df9c-1'}}" wx:if="{{cardList.cardType==3}}"></ff-date-card>
+                            </view>
+                            <view class="{{['selected_card','data-v-b8b7f696',cardList.active?'selected_card_active':'']}}">
+                                <u-icon bind:__l="__l" class="data-v-b8b7f696" color="#ffffff" name="checkbox-mark" size="22" vueId="{{'72a5df9c-5'+','+'72a5df9c-1'}}"></u-icon>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="radio data-v-b8b7f696">
+                    <u-radio-group bind:__l="__l" bind:change="__e" bind:input="__e" class="data-v-b8b7f696" data-event-opts="{{[ [ '^change',[ ['radioGroupChange'] ] ],[ '^input',[ [ '__set_model',[ '','value','$event',[] ] ] ] ] ]}}" value="{{value}}" vueId="{{'72a5df9c-6'+','+'72a5df9c-1'}}" vueSlots="{{['default']}}" width="194rpx">
+                        <u-radio bind:__l="__l" class="data-v-b8b7f696" labelSize="28rpx" name="{{1}}" vueId="{{'72a5df9c-7'+','+'72a5df9c-6'}}" vueSlots="{{['default']}}">新购卡</u-radio>
+                        <u-radio bind:__l="__l" class="data-v-b8b7f696" labelSize="28rpx" name="{{0}}" vueId="{{'72a5df9c-8'+','+'72a5df9c-6'}}" vueSlots="{{['default']}}">录旧卡</u-radio>
+                    </u-radio-group>
+                    <view class="radio_title data-v-b8b7f696" wx:if="{{value==0&&status==0}}">通常刚用本软件而录入老会员时使用</view>
+                </view>
+                <view class="list data-v-b8b7f696" wx:if="{{cardList&&cardList.cardType==2}}">
+                    <block wx:if="{{amountTimeCard&&amountTimeCard.groupList&&amountTimeCard.isGroup==true}}">
+                        <view class="item data-v-b8b7f696" wx:for="{{amountTimeCard.groupList}}" wx:key="index">
+                            <view class="item-wrap data-v-b8b7f696">
+                                <view class="balance groupName data-v-b8b7f696">{{item.groupName}}</view>
+                                <view class="input data-v-b8b7f696">
+                                    <u-input bind:__l="__l" bind:blur="__e" bind:input="__e" class="com-input data-v-b8b7f696" clearable="{{false}}" data-event-opts="{{[ [ '^blur',[ [ 'valChange',['$0'],[ [ ['amountTimeCard.groupList','',index] ] ] ] ] ],[ '^input',[ [ '__set_model',[ '$0','num','$event',[] ],[ [ ['amountTimeCard.groupList','',index] ] ] ] ] ] ]}}" inputAlign="center" placeholder="含多少" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="digit" value="{{item.num}}" vueId="{{'72a5df9c-9-'+index+','+'72a5df9c-1'}}"></u-input>次</view>
+                            </view>
+                        </view>
+                    </block>
+                    <view class="item data-v-b8b7f696" wx:else>
+                        <view class="balances data-v-b8b7f696">卡内额度</view>
+                        <view class="input data-v-b8b7f696">
+                            <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-b8b7f696" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','amount','$event',[] ],['formData'] ] ] ] ]}}" inputAlign="center" placeholder="含多少" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="digit" value="{{formData.amount}}" vueId="{{'72a5df9c-10'+','+'72a5df9c-1'}}"></u-input>次</view>
+                    </view>
+                    <view class="card data-v-b8b7f696" wx:if="{{status==1}}">
+                        <view class="card_title data-v-b8b7f696">开卡时间</view>
+                        <view bindtap="__e" class="card_warp data-v-b8b7f696" data-event-opts="{{[ [ 'tap',[ [ 'headleCardSet',['$event'] ] ] ] ]}}">
+                            <view class="card_choice data-v-b8b7f696" wx:if="{{formData.openCardType.openType==''||formData.openCardType.openType==null}}">请选择开卡时间</view>
+                            <view class="card_choice data-v-b8b7f696" wx:else>
+                                <block wx:if="{{formData.openCardType.openType}}">{{formData.openCardType.openType==3?'保持未开卡状态':formData.openCardType.openType==1?'购卡后立即开卡':formData.openCardType.openType==2?'首次使用时自动开卡':formData.openCardType.openType==5?'首次上课时自动开卡':'指定开卡日期'}}</block>
+                                <block wx:if="{{formData.openCardType.openDate}}">{{$root.m0}}</block>
+                            </view>
+                            <image class="image data-v-b8b7f696" src="{{$root.m1}}"></image>
+                        </view>
+                    </view>
+                    <view class="card data-v-b8b7f696">
+                        <view class="card_title data-v-b8b7f696" style="padding-right:56rpx;">有效期</view>
+                        <view bindtap="__e" class="card_warp data-v-b8b7f696" data-event-opts="{{[ [ 'tap',[ [ 'headleTime',['$event'] ] ] ] ]}}">
+                            <view class="data-v-b8b7f696" wx:if="{{formData.cardValidinfo!='永久有效'}}">
+                                <view class="data-v-b8b7f696" wx:if="{{status==1}}">
+                                    <view class="card_choice data-v-b8b7f696" wx:if="{{formData.validAmount.cardValidYear||formData.validAmount.cardValidMonth||formData.validAmount.cardValidDays}}">
+                                        <block wx:if="{{formData.validAmount.cardValidYear}}">{{formData.validAmount.cardValidYear+'年'}}</block>
+                                        <block wx:if="{{formData.validAmount.cardValidMonth}}">{{formData.validAmount.cardValidMonth+'个月'}}</block>
+                                        <block wx:if="{{formData.validAmount.cardValidDays}}">{{formData.validAmount.cardValidDays+'日'}}</block>
+                                    </view>
+                                    <view class="card_choice data-v-b8b7f696" wx:else>请选择有效期</view>
+                                </view>
+                                <view class="data-v-b8b7f696" wx:else>{{formData.validDate}}</view>
+                            </view>
+                            <view class="card_choice data-v-b8b7f696" wx:else>
+                                <text class="data-v-b8b7f696" wx:if="{{status==1}}">永久有效</text>
+                                <text class="data-v-b8b7f696" wx:else>{{formData.validDate}}</text>
+                            </view>
+                            <image class="image data-v-b8b7f696" src="{{$root.m2}}"></image>
+                        </view>
+                    </view>
+                    <view class="card data-v-b8b7f696" wx:if="{{status==1}}">
+                        <view class="card_title data-v-b8b7f696">实际收款</view>
+                        <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-b8b7f696" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','price','$event',[] ],['formData'] ] ] ] ]}}" inputAlign="center" placeholder="实际出售价格" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="digit" value="{{formData.price}}" vueId="{{'72a5df9c-11'+','+'72a5df9c-1'}}"></u-input>
+                    </view>
+                </view>
+                <block wx:else>
+                    <view class="list data-v-b8b7f696" wx:if="{{cardList&&cardList.cardType==1}}">
+                        <view class="item data-v-b8b7f696">
+                            <view class="balances data-v-b8b7f696">卡内额度</view>
+                            <view class="input data-v-b8b7f696">
+                                <u-input bind:__l="__l" bind:blur="__e" bind:input="__e" class="com-input data-v-b8b7f696" clearable="{{false}}" data-event-opts="{{[ [ '^blur',[ [ 'valChange',['$0'],['item'] ] ] ],[ '^input',[ [ '__set_model',[ '$0','amount','$event',[] ],['formData'] ] ] ] ]}}" inputAlign="center" placeholder="含多少" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="digit" value="{{formData.amount}}" vueId="{{'72a5df9c-12'+','+'72a5df9c-1'}}"></u-input>{{(cardList.cardType==1?'元':cardList.cardType==3?'天':'次')+''}}</view>
+                        </view>
+                        <view class="card data-v-b8b7f696" wx:if="{{status==1}}">
+                            <view class="card_title data-v-b8b7f696">开卡时间</view>
+                            <view bindtap="__e" class="card_warp data-v-b8b7f696" data-event-opts="{{[ [ 'tap',[ [ 'headleCardSet',['$event'] ] ] ] ]}}">
+                                <view class="card_choice data-v-b8b7f696" wx:if="{{formData.openCardType.openType==''||formData.openCardType.openType==null}}">请选择开卡时间</view>
+                                <view class="card_choice data-v-b8b7f696" wx:else>
+                                    <block wx:if="{{formData.openCardType.openType}}">{{formData.openCardType.openType==3?'保持未开卡状态':formData.openCardType.openType==1?'购卡后立即开卡':formData.openCardType.openType==2?'首次使用时自动开卡':formData.openCardType.openType==5?'首次上课时自动开卡':'指定开卡日期'}}</block>
+                                    <block wx:if="{{formData.openCardType.openDate}}">{{$root.m3}}</block>
+                                </view>
+                                <image class="image data-v-b8b7f696" src="{{$root.m4}}"></image>
+                            </view>
+                        </view>
+                        <view class="card data-v-b8b7f696">
+                            <view class="card_title data-v-b8b7f696" style="padding-right:56rpx;">有效期</view>
+                            <view bindtap="__e" class="card_warp data-v-b8b7f696" data-event-opts="{{[ [ 'tap',[ [ 'headleTime',['$event'] ] ] ] ]}}">
+                                <view class="data-v-b8b7f696" wx:if="{{formData.cardValidinfo!='永久有效'}}">
+                                    <view class="data-v-b8b7f696" wx:if="{{status==1}}">
+                                        <view class="card_choice data-v-b8b7f696" wx:if="{{formData.validAmount.cardValidYear||formData.validAmount.cardValidMonth||formData.validAmount.cardValidDays}}">
+                                            <block wx:if="{{formData.validAmount.cardValidYear}}">{{formData.validAmount.cardValidYear+'年'}}</block>
+                                            <block wx:if="{{formData.validAmount.cardValidMonth}}">{{formData.validAmount.cardValidMonth+'个月'}}</block>
+                                            <block wx:if="{{formData.validAmount.cardValidDays}}">{{formData.validAmount.cardValidDays+'日'}}</block>
+                                        </view>
+                                        <view class="card_choice data-v-b8b7f696" wx:else>请选择有效期</view>
+                                    </view>
+                                    <view class="data-v-b8b7f696" wx:else>{{formData.validDate}}</view>
+                                </view>
+                                <view class="card_choice data-v-b8b7f696" wx:else>
+                                    <text class="data-v-b8b7f696" wx:if="{{status==1}}">永久有效</text>
+                                    <text class="data-v-b8b7f696" wx:else>{{formData.validDate}}</text>
+                                </view>
+                                <image class="image data-v-b8b7f696" src="{{$root.m5}}"></image>
+                            </view>
+                        </view>
+                        <view class="card data-v-b8b7f696" wx:if="{{status==1}}">
+                            <view class="card_titles data-v-b8b7f696">实际收款</view>
+                            <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-b8b7f696" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','price','$event',[] ],['formData'] ] ] ] ]}}" inputAlign="center" placeholder="实际出售价格" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="digit" value="{{formData.price}}" vueId="{{'72a5df9c-13'+','+'72a5df9c-1'}}"></u-input>
+                        </view>
+                    </view>
+                    <view class="list data-v-b8b7f696" wx:else>
+                        <view class="item data-v-b8b7f696">
+                            <view class="balances data-v-b8b7f696">卡内额度</view>
+                            <view class="Inputs data-v-b8b7f696">
+                                <view class="input_num data-v-b8b7f696" wx:if="{{formData.amount!=null}}">{{formData.amount+' 天'}}</view>
+                                <view class="input_title data-v-b8b7f696">若修改天数，请调整有效期</view>
+                            </view>
+                        </view>
+                        <view class="card data-v-b8b7f696" wx:if="{{status==1}}">
+                            <view class="card_title data-v-b8b7f696">开卡时间</view>
+                            <view bindtap="__e" class="card_warp data-v-b8b7f696" data-event-opts="{{[ [ 'tap',[ [ 'headleCardSet',['$event'] ] ] ] ]}}">
+                                <view class="card_choice data-v-b8b7f696" wx:if="{{formData.openCardType.openType==''||formData.openCardType.openType==null}}">请选择开卡时间</view>
+                                <view class="card_choice data-v-b8b7f696" wx:else>
+                                    <block wx:if="{{formData.openCardType.openType}}">{{formData.openCardType.openType==3?'保持未开卡状态':formData.openCardType.openType==1?'购卡后立即开卡':formData.openCardType.openType==2?'首次使用时自动开卡':formData.openCardType.openType==5?'首次上课时自动开卡':'最晚开卡日期'}}</block>
+                                    <block wx:if="{{formData.openCardType.openDate}}">{{$root.m6}}</block>
+                                </view>
+                                <image class="image data-v-b8b7f696" src="{{$root.m7}}"></image>
+                            </view>
+                        </view>
+                        <view class="card data-v-b8b7f696">
+                            <view class="card_title data-v-b8b7f696" style="padding-right:56rpx;">有效期</view>
+                            <view bindtap="__e" class="card_warp data-v-b8b7f696" data-event-opts="{{[ [ 'tap',[ [ 'headleTime',['$event'] ] ] ] ]}}">
+                                <view class="data-v-b8b7f696" wx:if="{{formData.cardValidinfo!='永久有效'}}">
+                                    <view class="data-v-b8b7f696" wx:if="{{status==1}}">
+                                        <view class="card_choice data-v-b8b7f696" wx:if="{{formData.validAmount.cardValidYear||formData.validAmount.cardValidMonth||formData.validAmount.cardValidDays}}">
+                                            <block wx:if="{{formData.validAmount.cardValidYear}}">{{formData.validAmount.cardValidYear+'年'}}</block>
+                                            <block wx:if="{{formData.validAmount.cardValidMonth}}">{{formData.validAmount.cardValidMonth+'个月'}}</block>
+                                            <block wx:if="{{formData.validAmount.cardValidDays}}">{{formData.validAmount.cardValidDays+'日'}}</block>
+                                        </view>
+                                        <view class="card_choice data-v-b8b7f696" wx:else>请选择有效期</view>
+                                    </view>
+                                    <view class="data-v-b8b7f696" wx:else>{{formData.validDate}}</view>
+                                </view>
+                                <view class="card_choice data-v-b8b7f696" wx:else>
+                                    <text class="data-v-b8b7f696" wx:if="{{status==1}}">永久有效</text>
+                                    <text class="data-v-b8b7f696" wx:else>{{formData.validDate}}</text>
+                                </view>
+                                <image class="image data-v-b8b7f696" src="{{$root.m8}}"></image>
+                            </view>
+                        </view>
+                        <view class="card data-v-b8b7f696" wx:if="{{status==1}}">
+                            <view class="card_titles data-v-b8b7f696">实际收款</view>
+                            <u-input bind:__l="__l" bind:input="__e" class="com-input data-v-b8b7f696" clearable="{{false}}" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','price','$event',[] ],['formData'] ] ] ] ]}}" inputAlign="center" placeholder="实际出售价格" placeholderStyle="font-size:22rpx;color:#c0c4cc;" type="digit" value="{{formData.price}}" vueId="{{'72a5df9c-14'+','+'72a5df9c-1'}}"></u-input>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </view>
+    </ff-popup>
+    <times bind:__l="__l" bind:submit="__e" class="data-v-b8b7f696 vue-ref" data-event-opts="{{[ [ '^submit',[ ['timeSubmit'] ] ] ]}}" data-ref="timesRef" vueId="72a5df9c-15"></times>
+    <u-picker bind:__l="__l" bind:confirm="__e" bind:input="__e" class="data-v-b8b7f696" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ],[ '^input',[ [ '__set_model',[ '','timeShow','$event',[] ] ] ] ] ]}}" defaultTime="{{defaultTime}}" mode="time" params="{{params}}" value="{{timeShow}}" vueId="72a5df9c-16"></u-picker>
+    <card-set bind:__l="__l" bind:submit="__e" class="data-v-b8b7f696 vue-ref" data-event-opts="{{[ [ '^submit',[ ['cardSubmit'] ] ] ]}}" data-ref="cardSetRef" vueId="72a5df9c-17"></card-set>
+    <card-all-project bind:__l="__l" class="data-v-b8b7f696 vue-ref" data-ref="cardAllProject" vueId="72a5df9c-18"></card-all-project>
+</view>

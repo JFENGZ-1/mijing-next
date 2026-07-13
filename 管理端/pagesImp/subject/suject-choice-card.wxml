@@ -1,0 +1,178 @@
+<view class="data-v-6f098430">
+    <navigation background="{{background}}" bind:__l="__l" class="data-v-6f098430" text="{{title}}" vueId="e9e65f86-1"></navigation>
+    <view class="suject-choice-card-container data-v-6f098430" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="skeleton data-v-6f098430" wx:if="{{skeleton}}">
+            <view class="skeleton-box data-v-6f098430">
+                <view class="card data-v-6f098430"></view>
+                <view class="item-warp data-v-6f098430">
+                    <view class="item data-v-6f098430" style="width:120rpx;"></view>
+                    <view class="item data-v-6f098430" style="width:200rpx;"></view>
+                </view>
+            </view>
+            <view class="skeleton-box data-v-6f098430">
+                <view class="card data-v-6f098430"></view>
+                <view class="item-warp data-v-6f098430">
+                    <view class="item data-v-6f098430" style="width:120rpx;"></view>
+                    <view class="item data-v-6f098430" style="width:200rpx;"></view>
+                </view>
+            </view>
+            <view class="skeleton-box data-v-6f098430">
+                <view class="card data-v-6f098430"></view>
+                <view class="item-warp data-v-6f098430">
+                    <view class="item data-v-6f098430" style="width:120rpx;"></view>
+                    <view class="item data-v-6f098430" style="width:200rpx;"></view>
+                </view>
+            </view>
+            <view class="skeleton-box data-v-6f098430">
+                <view class="card data-v-6f098430"></view>
+                <view class="item-warp data-v-6f098430">
+                    <view class="item data-v-6f098430" style="width:120rpx;"></view>
+                    <view class="item data-v-6f098430" style="width:200rpx;"></view>
+                </view>
+            </view>
+            <view class="skeleton-box data-v-6f098430">
+                <view class="card data-v-6f098430"></view>
+                <view class="item-warp data-v-6f098430">
+                    <view class="item data-v-6f098430" style="width:120rpx;"></view>
+                    <view class="item data-v-6f098430" style="width:200rpx;"></view>
+                </view>
+            </view>
+            <view class="skeleton-box data-v-6f098430">
+                <view class="card data-v-6f098430"></view>
+                <view class="item-warp data-v-6f098430">
+                    <view class="item data-v-6f098430" style="width:120rpx;"></view>
+                    <view class="item data-v-6f098430" style="width:200rpx;"></view>
+                </view>
+            </view>
+            <view class="skeleton-box data-v-6f098430">
+                <view class="card data-v-6f098430"></view>
+                <view class="item-warp data-v-6f098430">
+                    <view class="item data-v-6f098430" style="width:120rpx;"></view>
+                    <view class="item data-v-6f098430" style="width:200rpx;"></view>
+                </view>
+            </view>
+        </view>
+        <view class="data-v-6f098430" style="{{'height:100%;min-height:1230rpx;'}}" wx:else>
+            <view class="data-v-6f098430" wx:if="{{$root.g0}}">
+                <view class="top-tips data-v-6f098430">
+                    <u-icon bind:__l="__l" class="icon data-v-6f098430" color="#C96B30" name="bell" vueId="e9e65f86-2"></u-icon>
+                    <view class="top-info data-v-6f098430">
+                        <view class="data-v-6f098430">哪些卡可以预约这个课程，请打开开关并确认约课的费用</view>
+                    </view>
+                </view>
+                <view class="list data-v-6f098430">
+                    <u-row bind:__l="__l" class="list-item data-v-6f098430" vueId="{{'e9e65f86-3-'+index}}" vueSlots="{{['default']}}" wx:for="{{$root.l1}}" wx:key="cardId">
+                        <view class="{{['card-type-box','data-v-6f098430',item.$orig.switchCheck?'':'gray']}}">
+                            <block wx:if="{{item.$orig.cardType==1}}">
+                                <view class="card-wrap-container data-v-6f098430">
+                                    <view class="data-v-6f098430" wx:if="{{item.$orig.saleStatus==0}}">
+                                        <view class="mask data-v-6f098430"></view>
+                                        <view class="img-wrap data-v-6f098430">
+                                            <view class="img-view data-v-6f098430">
+                                                <image class="img data-v-6f098430" src="{{item.m0}}"></image>
+                                                <text class="img-text data-v-6f098430">已停售</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="{{['data-v-6f098430',item.$orig.switchCheck?'':'gray1']}}">
+                                        <ff-value-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-6f098430" vueId="{{'e9e65f86-4-'+index+','+'e9e65f86-3-'+index}}"></ff-value-card>
+                                    </view>
+                                </view>
+                                <view class="right-box data-v-6f098430">
+                                    <view class="right-des data-v-6f098430">
+                                        <text class="{{['data-v-6f098430',item.$orig.switchCheck?'labelbright':'label']}}" wx:if="{{item.$orig.switchCheck}}">每节课扣费</text>
+                                        <view class="sale-money data-v-6f098430" wx:if="{{item.$orig.switchCheck}}">
+                                            <input bindblur="__e" bindfocus="__e" bindinput="__e" class="com-input data-v-6f098430" data-event-opts="{{[ [ 'focus',[ [ 'fdeductionFocus',['$0',index,'$event'],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ],[ 'input',[ [ '__set_model',[ '$0','deductAmount','$event',[] ],[ [ ['cardList','cardId',item.$orig.cardId,'amountDepositCard'] ] ] ],[ 'fdeductionChange',['$0',index,'$event'],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ],[ 'blur',[ [ 'fdeductionBlur',['$0',index,'$event'],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" placeholder="输入金额" placeholderStyle="font-size: 13px;color: #DADADA;" type="digit" value="{{item.$orig.amountDepositCard.deductAmount}}"></input>
+                                        </view>
+                                    </view>
+                                    <view class="rigth-switch data-v-6f098430">
+                                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-6f098430" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','switchCheck','$event',[] ],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" value="{{item.$orig.switchCheck}}" vueId="{{'e9e65f86-5-'+index+','+'e9e65f86-3-'+index}}"></u-switch>
+                                    </view>
+                                </view>
+                            </block>
+                            <block wx:if="{{item.$orig.cardType==2}}">
+                                <view class="card-wrap-container data-v-6f098430">
+                                    <view class="data-v-6f098430" wx:if="{{item.$orig.saleStatus==0}}">
+                                        <view class="mask data-v-6f098430"></view>
+                                        <view class="img-wrap data-v-6f098430">
+                                            <view class="img-view data-v-6f098430">
+                                                <image class="img data-v-6f098430" src="{{item.m1}}"></image>
+                                                <text class="img-text data-v-6f098430">已停售</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="{{['data-v-6f098430',item.$orig.switchCheck?'':'gray1']}}">
+                                        <ff-counts-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-6f098430" vueId="{{'e9e65f86-6-'+index+','+'e9e65f86-3-'+index}}"></ff-counts-card>
+                                    </view>
+                                </view>
+                                <view class="right-box data-v-6f098430">
+                                    <view class="right-des data-v-6f098430">
+                                        <text class="{{['data-v-6f098430',item.$orig.switchCheck?'labelbright':'label']}}" wx:if="{{item.$orig.switchCheck}}">每节课扣费</text>
+                                        <view class="sale-money data-v-6f098430" wx:if="{{item.$orig.switchCheck}}">
+                                            <u-checkbox-group bind:__l="__l" class="data-v-6f098430" size="30" vueId="{{'e9e65f86-7-'+index+','+'e9e65f86-3-'+index}}" vueSlots="{{['default']}}">
+                                                <view class="radioitem data-v-6f098430" wx:if="{{item.$orig.amountTimeCard.isGroup}}" wx:for="{{item.l0}}" wx:for-index="k" wx:for-item="group" wx:key="k">
+                                                    <u-checkbox bind:__l="__l" bind:input="__e" class="data-v-6f098430" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','active','$event',[] ],[ [ ['cardList','cardId',item.$orig.cardId],['amountTimeCard.groupList','',k] ] ] ] ] ] ]}}" labelSize="26" name="{{group.$orig.groupName}}" shape="circle" value="{{group.$orig.active}}" vueId="{{'e9e65f86-8-'+index+'-'+k+','+'e9e65f86-7-'+index}}" vueSlots="{{['default']}}">
+                                                        <text class="{{['u-line-1','rights-des','data-v-6f098430',group.$orig.active?'bright':'']}}">{{group.m2}}</text>
+                                                    </u-checkbox>
+                                                    <input bindblur="__e" bindfocus="__e" bindinput="__e" class="com-input1 data-v-6f098430" data-event-opts="{{[ [ 'focus',[ [ 'fdeductionFocus',['$0',index,'$event',k],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ],[ 'input',[ [ '__set_model',[ '$0','deductAmount','$event',[] ],[ [ ['cardList','cardId',item.$orig.cardId],['amountTimeCard.groupList','',k] ] ] ],[ 'fdeductionChange',['$0',index,'$event',k],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ],[ 'blur',[ [ 'fdeductionBlur',['$0',index,'$event',k],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" placeholder="次数" placeholderStyle="font-size: 13px;color: #DADADA;" type="digit" value="{{group.$orig.deductAmount}}" wx:if="{{group.$orig.active}}"></input>
+                                                </view>
+                                                <input bindblur="__e" bindfocus="__e" bindinput="__e" class="com-input data-v-6f098430" data-event-opts="{{[ [ 'focus',[ [ 'fdeductionFocus',['$0',index,'$event'],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ],[ 'input',[ [ '__set_model',[ '$0','deductAmount','$event',[] ],[ [ ['cardList','cardId',item.$orig.cardId,'amountTimeCard'] ] ] ],[ 'fdeductionChange',['$0',index,'$event'],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ],[ 'blur',[ [ 'fdeductionBlur',['$0',index,'$event'],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" placeholder="扣减次数" placeholderStyle="font-size: 13px;color: #DADADA;" type="digit" value="{{item.$orig.amountTimeCard.deductAmount}}" wx:if="{{!item.$orig.amountTimeCard.isGroup}}"></input>
+                                            </u-checkbox-group>
+                                        </view>
+                                    </view>
+                                    <view class="rigth-switch data-v-6f098430">
+                                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-6f098430" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','switchCheck','$event',[] ],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" value="{{item.$orig.switchCheck}}" vueId="{{'e9e65f86-9-'+index+','+'e9e65f86-3-'+index}}"></u-switch>
+                                    </view>
+                                </view>
+                            </block>
+                            <block wx:if="{{item.$orig.cardType==3}}">
+                                <view class="card-wrap-container data-v-6f098430">
+                                    <view class="data-v-6f098430" wx:if="{{item.$orig.saleStatus==0}}">
+                                        <view class="mask data-v-6f098430"></view>
+                                        <view class="img-wrap data-v-6f098430">
+                                            <view class="img-view data-v-6f098430">
+                                                <image class="img data-v-6f098430" src="{{item.m3}}"></image>
+                                                <text class="img-text data-v-6f098430">已停售</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="{{['data-v-6f098430',item.$orig.switchCheck?'':'gray1']}}">
+                                        <ff-date-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-6f098430" vueId="{{'e9e65f86-10-'+index+','+'e9e65f86-3-'+index}}"></ff-date-card>
+                                    </view>
+                                </view>
+                                <view class="right-box data-v-6f098430">
+                                    <view class="right-des data-v-6f098430">
+                                        <view class="labelbright data-v-6f098430" wx:if="{{item.$orig.switchCheck}}">每节课扣费</view>
+                                        <view bindtap="__e" class="num-box default data-v-6f098430" data-event-opts="{{[ [ 'tap',[ [ 'selectDeductWay',['$0',index],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" wx:if="{{item.$orig.switchCheck}}">
+                                            <text class="data-v-6f098430" wx:if="{{item.$orig.amountTimeCard.deductAmount!=null&&item.$orig.amountTimeCard.deductAmount>0}}">{{'扣除'+item.$orig.amountTimeCard.deductAmount+'天'}}</text>
+                                            <text class="data-v-6f098430" wx:else>不扣</text>
+                                            <u-icon bind:__l="__l" class="icon data-v-6f098430" color="{{item.$orig.active?'#7E7E7E':'#DADADA'}}" name="arrow-down" size="15" vueId="{{'e9e65f86-11-'+index+','+'e9e65f86-3-'+index}}"></u-icon>
+                                        </view>
+                                    </view>
+                                    <view class="rigth-switch data-v-6f098430">
+                                        <u-switch bind:__l="__l" bind:input="__e" class="data-v-6f098430" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '$0','switchCheck','$event',[] ],[ [ ['cardList','cardId',item.$orig.cardId] ] ] ] ] ] ]}}" value="{{item.$orig.switchCheck}}" vueId="{{'e9e65f86-12-'+index+','+'e9e65f86-3-'+index}}"></u-switch>
+                                    </view>
+                                </view>
+                            </block>
+                        </view>
+                        <view class="data-v-6f098430">
+                            <u-line bind:__l="__l" class="data-v-6f098430" color="#F0F0F0" vueId="{{'e9e65f86-13-'+index+','+'e9e65f86-3-'+index}}"></u-line>
+                        </view>
+                    </u-row>
+                </view>
+                <view class="com-button-f1 data-v-6f098430">
+                    <u-button bind:__l="__l" bind:click="__e" class="data-v-6f098430" data-event-opts="{{[ [ '^click',[ ['submit'] ] ] ]}}" type="primary" vueId="e9e65f86-14" vueSlots="{{['default']}}">确 定<text class="data-v-6f098430">{{'('+checknum+'张)'}}</text>
+                    </u-button>
+                </view>
+            </view>
+            <view class="card-empty data-v-6f098430" wx:else>
+                <image class="data-v-6f098430" src="{{$root.m4}}"></image>
+                <text class="data-v-6f098430">请先在【会员卡】中添加会员卡种类哦 </text>
+            </view>
+        </view>
+        <view class="data-v-6f098430">
+            <ff-bottom-logo bind:__l="__l" class="data-v-6f098430" vueId="e9e65f86-15"></ff-bottom-logo>
+        </view>
+    </view>
+    <deduction-days bind:__l="__l" bind:submit="__e" class="data-v-6f098430 vue-ref" data-event-opts="{{[ [ '^submit',[ ['deductionDaysSubmit'] ] ] ]}}" data-ref="deductionDays" vueId="e9e65f86-16"></deduction-days>
+</view>

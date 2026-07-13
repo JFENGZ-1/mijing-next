@@ -1,0 +1,107 @@
+<view class="data-v-c9fe1a90">
+    <navigation bind:__l="__l" class="data-v-c9fe1a90" text="分店管理" vueId="2bde5343-1"></navigation>
+    <view class="placeholder-view data-v-c9fe1a90" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view bindtap="__e" class="staff-container data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'hideDown',['$event'] ] ] ] ]}}" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-c9fe1a90">
+            <view class="content data-v-c9fe1a90">
+                <view class="content-head data-v-c9fe1a90">
+                    <view class="head data-v-c9fe1a90">
+                        <view bindtap="__e" class="img data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'creatbrand',['$event'] ] ] ] ]}}" wx:if="{{!unioninfo||!unioninfo.unLogo}}">
+                            <text class="data-v-c9fe1a90">logo</text>
+                        </view>
+                        <image bindtap="__e" class="img data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'creatbrand',['$event'] ] ] ] ]}}" src="{{unioninfo.fullUnLogo}}" wx:else></image>
+                    </view>
+                    <view class="shop-name data-v-c9fe1a90">
+                        <text bindtap="__e" class="data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'creatbrand',['$event'] ] ] ] ]}}" wx:if="{{!unioninfo||unioninfo.unName==null}}">填写品牌名称</text>
+                        <text bindtap="__e" class="data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'creatbrand',['$event'] ] ] ] ]}}" style="color:#181818;" wx:else>{{unioninfo.unName}}</text>
+                        <image bindtap="__e" class="data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'creatbrand',['$event'] ] ] ] ]}}" src="{{$root.m0}}"></image>
+                    </view>
+                </view>
+                <view class="top data-v-c9fe1a90">
+                    <text class="headcount data-v-c9fe1a90">{{'共'+shopNum+'个场馆'}}</text>
+                </view>
+                <view class="activeStaff data-v-c9fe1a90">
+                    <view class="data-v-c9fe1a90" wx:for="{{$root.l0}}" wx:key="index">
+                        <view class="item data-v-c9fe1a90">
+                            <view class="item-grid data-v-c9fe1a90">
+                                <image class="headimg data-v-c9fe1a90" src="{{item.$orig.siteTrademark}}"></image>
+                                <view class="name-phone-img data-v-c9fe1a90">
+                                    <view class="name-img data-v-c9fe1a90">
+                                        <view class="name u-line-1 data-v-c9fe1a90">{{item.$orig.siteName}}</view>
+                                    </view>
+                                    <view class="item-address data-v-c9fe1a90">{{item.$orig.siteAddr}}</view>
+                                </view>
+                            </view>
+                            <view class="{{['item_stadium','data-v-c9fe1a90',item.$orig.iscurrent?'down_show':'',!item.$orig.iscurrent?'down_hide':'']}}">
+                                <image class="data-v-c9fe1a90" src="{{$root.m1}}"></image>
+                            </view>
+                            <view class="right-operation data-v-c9fe1a90">
+                                <view class="icon-wrap data-v-c9fe1a90" data-name="{{item.$orig}}" style="{{'display:inline;'}}">
+                                    <u-icon bind:__l="__l" catch:tap="__e" class="data-v-c9fe1a90" data-event-opts="{{[ [ '^tap',[ [ 'handleShowTitle',[index] ] ] ] ]}}" data-name="{{index}}" name="more-dot-fill" size="44" style="{{'position: relative; color: #7E7E7E;'}}" vueId="{{'2bde5343-2-'+index}}"></u-icon>
+                                    <view class="{{['drop-down','data-v-c9fe1a90',item.$orig.isShowHandelSelect?'down_show':'',!item.$orig.isShowHandelSelect?'down_hide':'']}}">
+                                        <view class="data-v-c9fe1a90" style="display:flex;justify-content:flex-end;">
+                                            <image class="item-triangle_02 data-v-c9fe1a90" mode="widthFix" src="{{$root.m2}}"></image>
+                                        </view>
+                                        <view class="item-drop-down data-v-c9fe1a90">
+                                            <view bindtap="__e" class="drop-item data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'handleHome',['$event'] ] ] ] ]}}" data-index="{{item.$orig}}" wx:if="{{!item.$orig.iscurrent}}">
+                                                <image class="item-img data-v-c9fe1a90" mode="widthFix" src="{{item.m3}}"></image>
+                                                <text class="data-v-c9fe1a90">进入首页</text>
+                                            </view>
+                                            <view bindtap="__e" class="drop-item data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'editHome',['$0'],[ [ ['datalist','',index,'siteId'] ] ] ] ] ] ]}}" data-index="{{item.$orig}}">
+                                                <image class="item-img data-v-c9fe1a90" mode="widthFix" src="{{$root.m4}}"></image>
+                                                <text class="data-v-c9fe1a90">编辑信息</text>
+                                            </view>
+                                            <view bindtap="__e" class="drop-item data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'handleDelect',['$event'] ] ] ] ]}}" data-id="{{item.$orig}}" style="border:none;" wx:if="{{!item.$orig.iscurrent}}">
+                                                <image class="item-img data-v-c9fe1a90" mode="widthFix" src="{{item.m5}}"></image>
+                                                <text class="data-v-c9fe1a90">删除此场馆</text>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view bindtap="__e" class="create-Employee data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'handleCreated',['$event'] ] ] ] ]}}">
+                <view class="bg data-v-c9fe1a90">
+                    <text class="data-v-c9fe1a90">添 加</text>
+                </view>
+            </view>
+        </view>
+        <confirm bind:__l="__l" class="data-v-c9fe1a90 vue-ref" data-ref="confirmModal" title="已达到最多门店数量!" vueId="2bde5343-3" vueSlots="{{['content','btn']}}">
+            <view class="data-v-c9fe1a90" slot="content">
+                <text class="data-v-c9fe1a90" style="{{'display:block;'}}">每个账号只能最多添加20家门店</text>
+                <text class="data-v-c9fe1a90">如果有需要，请联系您的专属客服</text>
+            </view>
+            <view class="data-v-c9fe1a90" slot="btn">
+                <button bindtap="__e" class="modal-btn data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">知道了</button>
+            </view>
+        </confirm>
+        <confirm bind:__l="__l" class="data-v-c9fe1a90 vue-ref" data-ref="addconfirmModal" title="请先填写品牌信息!" vueId="2bde5343-4" vueSlots="{{['content','btn']}}">
+            <view class="data-v-c9fe1a90" slot="content">
+                <text class="data-v-c9fe1a90">点击顶部品牌名称，即可填写</text>
+            </view>
+            <view class="data-v-c9fe1a90" slot="btn">
+                <button bindtap="__e" class="modal-btn data-v-c9fe1a90" data-event-opts="{{[ [ 'tap',[ [ 'handleCancelbtn',['$event'] ] ] ] ]}}">知道了</button>
+            </view>
+        </confirm>
+        <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-c9fe1a90 vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirmDel'] ] ] ]}}" data-ref="delConfirmModal" title="是否删除该门店？" vueId="2bde5343-5" vueSlots="{{['content']}}">
+            <view class="data-v-c9fe1a90" slot="content">
+                <text class="data-v-c9fe1a90">确定后将删除门店的所有信息，</text>
+                <text class="data-v-c9fe1a90">请谨慎操作</text>
+            </view>
+        </confirm-modal>
+        <ff-popup bind:__l="__l" bind:input="__e" class="data-v-c9fe1a90" data-event-opts="{{[ [ '^input',[ [ '__set_model',[ '','delshow','$event',[] ] ] ] ] ]}}" title="重要提示" value="{{delshow}}" vueId="2bde5343-6" vueSlots="{{['default','confrimBtn']}}">
+            <view class="com-button-f1 data-v-c9fe1a90" slot="confrimBtn">
+                <u-button bind:__l="__l" bind:click="__e" class="data-v-c9fe1a90" data-event-opts="{{[ [ '^click',[ ['handleSubmit'] ] ] ]}}" type="primary" vueId="{{'2bde5343-7'+','+'2bde5343-6'}}" vueSlots="{{['default']}}">去验证</u-button>
+            </view>
+            <view class="main-box data-v-c9fe1a90">
+                <image class="data-v-c9fe1a90" src="{{$root.m6}}"></image>
+                <text class="first-text data-v-c9fe1a90">删除门店为高危操作</text>
+                <text class="data-v-c9fe1a90">需要验证您的身份才可以操作</text>
+            </view>
+        </ff-popup>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-c9fe1a90" vueId="2bde5343-8"></ff-bottom-logo>
+</view>

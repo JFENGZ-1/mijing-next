@@ -1,0 +1,193 @@
+<view bindtap="__e" class="data-v-5e289dab" data-event-opts="{{[ [ 'tap',[ [ 'closeDrop',['$event'] ] ] ] ]}}">
+    <navigation bind:__l="__l" class="data-v-5e289dab" text="售卡统计" vueId="52ebb5f6-1"></navigation>
+    <view class="placeholder-view data-v-5e289dab" style="{{'top:'+StatusBar+CustomBar+'px'+';'}}"></view>
+    <view class="report-container data-v-5e289dab" style="{{'margin-top:'+StatusBar+CustomBar+'px'+';'}}">
+        <view class="data-v-5e289dab" style="{{'height:100%;min-height:1230rpx;background: #FFFFFF;border-radius: 20rpx 20rpx 0rpx 0rpx;'}}">
+            <view class="content data-v-5e289dab" wx:if="{{!isshow}}">
+                <view catchtap="__e" class="time_axis data-v-5e289dab" data-event-opts="{{[ [ 'tap',[ [ 'e0',['$event'] ] ] ] ]}}">
+                    <view class="time data-v-5e289dab">
+                        <text class="data-v-5e289dab">{{parma.year+'年'+parma.month+'月'}}</text>
+                        <u-icon bind:__l="__l" class="data-v-5e289dab" color="#22C788" name="calendar" size="29" vueId="52ebb5f6-2"></u-icon>
+                    </view>
+                </view>
+                <view class="data-v-5e289dab">
+                    <view class="top_data data-v-5e289dab">
+                        <view class="income data-v-5e289dab">
+                            <view class="income_num data-v-5e289dab">{{maindata.totalAmount}}</view>
+                            <view class="income_title data-v-5e289dab">本月收入(元)</view>
+                        </view>
+                        <view class="more-data data-v-5e289dab">
+                            <view class="item data-v-5e289dab">
+                                <view class="info data-v-5e289dab">
+                                    <text class="info_num data-v-5e289dab">{{maindata.oldcount}}</text>
+                                    <view class="data-v-5e289dab">老会员续费(张)</view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-5e289dab" color="#DDDDDD" direction="col" length="78rpx" vueId="52ebb5f6-3"></u-line>
+                            <view class="item data-v-5e289dab">
+                                <view class="info data-v-5e289dab">
+                                    <text class="info_num data-v-5e289dab">{{maindata.newcount}}</text>
+                                    <view class="data-v-5e289dab">新会员购卡(张)</view>
+                                </view>
+                            </view>
+                            <u-line bind:__l="__l" class="u-line data-v-5e289dab" color="#DDDDDD" direction="col" length="78rpx" vueId="52ebb5f6-4"></u-line>
+                            <view class="item data-v-5e289dab">
+                                <view class="info data-v-5e289dab">
+                                    <text class="info_num data-v-5e289dab">{{maindata.usercount}}</text>
+                                    <view class="data-v-5e289dab">新增会员(名)</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <u-gap bgColor="#f5f5f5" bind:__l="__l" class="data-v-5e289dab" height="24" vueId="52ebb5f6-5"></u-gap>
+                </view>
+                <view class="statistics data-v-5e289dab">
+                    <view class="head data-v-5e289dab">
+                        <u-tabs activeItemStyle="{{activeItemStyle}}" bind:__l="__l" bind:change="__e" class="data-v-5e289dab" current="{{current}}" data-event-opts="{{[ [ '^change',[ ['changeTab'] ] ] ]}}" fontSize="31" inactiveColor="#7E7E7E" isScroll="{{false}}" list="{{listTabs}}" vueId="52ebb5f6-6"></u-tabs>
+                    </view>
+                    <view class="data-v-5e289dab" wx:if="{{current==0}}">
+                        <view class="membership_card data-v-5e289dab">
+                            <view class="card_type data-v-5e289dab">
+                                <view class="card_title data-v-5e289dab">
+                                    <view class="card_title_icon data-v-5e289dab"></view>{{'期限卡'+limitCardcount+'张'}}</view>
+                            </view>
+                            <view class="card_type data-v-5e289dab">
+                                <view class="card_title data-v-5e289dab">
+                                    <view class="card_title_icon data-v-5e289dab"></view>{{'计次卡\n                                        '+timeCardcount+'张'}}</view>
+                            </view>
+                            <view class="card_type data-v-5e289dab">
+                                <view class="card_title data-v-5e289dab">
+                                    <view class="card_title_icon data-v-5e289dab"></view>{{'储值卡'+depositCardcount+'张'}}</view>
+                            </view>
+                        </view>
+                        <view class="data-v-5e289dab" wx:if="{{$root.g0==0}}">
+                            <nodata bind:__l="__l" class="data-v-5e289dab" msg="{{8}}" vueId="52ebb5f6-7"></nodata>
+                        </view>
+                        <view class="crad_list data-v-5e289dab" style="display:flex;flex-wrap:wrap;">
+                            <view class="{{['cardList','data-v-5e289dab',!( (index+1)%2==0 )?'cardList_first':'',(index+1)%2==0?'cardList_last':'',item.g1?'cardList_bottom_no':'']}}" wx:for="{{$root.l0}}" wx:key="index">
+                                <view catchtap="__e" class="wrap data-v-5e289dab" data-event-opts="{{[ [ 'tap',[ [ 'cardClick',['$0',index],[ [ ['cardList','',index] ] ] ] ] ] ]}}">
+                                    <view class="{{['card_wrap','data-v-5e289dab',item.$orig.saleStatus==0?'gray':'']}}">
+                                        <view class="data-v-5e289dab" wx:if="{{item.$orig.saleStatus==0}}">
+                                            <view class="mask data-v-5e289dab"></view>
+                                            <view class="img-wrap data-v-5e289dab">
+                                                <view class="data-v-5e289dab">
+                                                    <image class="data-v-5e289dab" src="{{item.m0}}"></image>
+                                                    <text class="data-v-5e289dab">已停售</text>
+                                                </view>
+                                            </view>
+                                            <view class="{{['data-v-5e289dab',item.$orig.saleStatus==0?'gray':'']}}"></view>
+                                        </view>
+                                        <block wx:if="{{item.$orig.cardType==1}}">
+                                            <ff-value-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-5e289dab" vueId="{{'52ebb5f6-8-'+index}}"></ff-value-card>
+                                            <view class="quantity data-v-5e289dab">{{item.$orig.report.cardcount+'张'}}</view>
+                                        </block>
+                                        <block wx:if="{{item.$orig.cardType==2}}">
+                                            <ff-counts-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-5e289dab" vueId="{{'52ebb5f6-9-'+index}}"></ff-counts-card>
+                                            <view class="quantity data-v-5e289dab">{{item.$orig.report.cardcount+'张'}}</view>
+                                        </block>
+                                        <block wx:if="{{item.$orig.cardType==3}}">
+                                            <ff-date-card activeClass="minimum-sized" bind:__l="__l" cardInfo="{{item.$orig}}" class="data-v-5e289dab" vueId="{{'52ebb5f6-10-'+index}}"></ff-date-card>
+                                            <view class="quantity data-v-5e289dab">{{item.$orig.report.cardcount+'张'}}</view>
+                                        </block>
+                                    </view>
+                                    <view class="{{['selected_card','data-v-5e289dab',item.$orig.active?'selected_card_active':'']}}">
+                                        <u-icon bind:__l="__l" class="data-v-5e289dab" color="#ffffff" name="checkbox-mark" size="22" vueId="{{'52ebb5f6-11-'+index}}"></u-icon>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="data-v-5e289dab" style="padding-bottom:120rpx;" wx:else>
+                        <view class="data-v-5e289dab" wx:if="{{$root.g2}}">
+                            <view class="data-v-5e289dab" wx:for="{{$root.l2}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
+                                <view class="month-data data-v-5e289dab">{{item1.$orig.day}}</view>
+                                <view class="sale-wrap-wrap data-v-5e289dab" wx:for="{{item1.l1}}" wx:key="index">
+                                    <view class="sale-item data-v-5e289dab">
+                                        <image catchtap="__e" class="avator data-v-5e289dab" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$0'],[ [ ['detailreport','',index1],['list','',index] ] ] ] ] ] ]}}" src="{{item.$orig.userFaceurl}}"></image>
+                                        <view class="detail-info data-v-5e289dab">
+                                            <view class="detail-info-wrap data-v-5e289dab">
+                                                <view class="l-info data-v-5e289dab">
+                                                    <view catchtap="__e" class="nick-name data-v-5e289dab" data-event-opts="{{[ [ 'tap',[ [ 'memberDetails',['$event'] ] ] ] ]}}">{{''+item.$orig.userRealname+''}}</view>
+                                                    <view class="time-and-type data-v-5e289dab">
+                                                        <text class="pay-time data-v-5e289dab">{{item.g3}}</text>
+                                                        <view class="type-box data-v-5e289dab">
+                                                            <block wx:if="{{item.$orig.newtag==1}}">
+                                                                <image class="new-member-icon data-v-5e289dab" src="{{item.m1}}"></image>
+                                                                <view class="type-name new-member-label data-v-5e289dab">新会员</view>
+                                                            </block>
+                                                            <block wx:else>
+                                                                <image class="renew-icon data-v-5e289dab" src="{{item.m2}}"></image>
+                                                                <view class="type-name renew-label data-v-5e289dab">续费</view>
+                                                            </block>
+                                                        </view>
+                                                    </view>
+                                                </view>
+                                                <view class="card-name data-v-5e289dab">{{''+item.$orig.cardName+''}}</view>
+                                                <view class="r-info data-v-5e289dab">
+                                                    <text class="money data-v-5e289dab">{{'￥'+item.$orig.orderAmount}}</text>
+                                                    <text class="type data-v-5e289dab">{{item.$orig.payMethodName}}</text>
+                                                </view>
+                                            </view>
+                                            <view class="venue-name data-v-5e289dab">
+                                                <text class="remarkfont data-v-5e289dab">{{item.$orig.siteName}}</text>
+                                            </view>
+                                            <view class="remark data-v-5e289dab" wx:if="{{item.$orig.orderRemark!=null}}">
+                                                <text class="remarkfont data-v-5e289dab">备注：</text>
+                                                <text class="remarkcontent data-v-5e289dab">{{item.$orig.orderRemark!=null?item.$orig.orderRemark:''}}</text>
+                                            </view>
+                                            <u-line bind:__l="__l" class="card_u_line data-v-5e289dab" color="#ececed" vueId="{{'52ebb5f6-12-'+index1+'-'+index}}"></u-line>
+                                        </view>
+                                        <view class="handle_module data-v-5e289dab">
+                                            <view catchtap="__e" class="icon_wrap data-v-5e289dab" data-event-opts="{{[ [ 'tap',[ [ 'showDrop',['$0'],[ [ ['detailreport','',index1],['list','',index] ] ] ] ] ] ]}}">
+                                                <image class="data-v-5e289dab" src="{{item1.m3}}"></image>
+                                            </view>
+                                            <view class="drop_down data-v-5e289dab" hidden="{{!item.$orig.showDown}}">
+                                                <view class="image_wrap data-v-5e289dab">
+                                                    <image class="data-v-5e289dab" src="{{item1.m4}}"></image>
+                                                </view>
+                                                <view class="drop_down_list data-v-5e289dab">
+                                                    <view catchtap="__e" class="item data-v-5e289dab" data-event-opts="{{[ [ 'tap',[ [ 'updateMoneyPopup',['$0','$1'],[ [ ['detailreport','',index1],['list','',index,'orderAmount'] ],[ ['detailreport','',index1],['list','',index,'orderId'] ] ] ] ] ] ]}}">
+                                                        <image class="data-v-5e289dab" src="{{item1.m5}}" style="width:39rpx;height:39rpx;"></image>
+                                                        <text class="data-v-5e289dab">修改金额</text>
+                                                    </view>
+                                                    <view catchtap="__e" class="item data-v-5e289dab" data-event-opts="{{[ [ 'tap',[ [ 'remarkPopup',['$0'],[ [ ['detailreport','',index1],['list','',index] ] ] ] ] ] ]}}">
+                                                        <image class="data-v-5e289dab" src="{{item1.m6}}" style="width:39rpx;height:39rpx;"></image>
+                                                        <text class="data-v-5e289dab">写备注</text>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="noListData data-v-5e289dab" wx:else>
+                            <image class="data-v-5e289dab" src="{{$root.m7}}"></image>
+                            <view class="memberData data-v-5e289dab">
+                                <view class="add_btn data-v-5e289dab">~ 还没有数据哦 ~</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="noData data-v-5e289dab" wx:else>
+                <view class="empty-data-img-wrap data-v-5e289dab">
+                    <image class="data-v-5e289dab" src="{{$root.m8}}"></image>
+                </view>
+                <view class="empty-data-text data-v-5e289dab">
+                    <view class="data-v-5e289dab">全部连锁店的会员卡销售统计与分析</view>
+                    <view class="data-v-5e289dab">请先开通连锁功能</view>
+                </view>
+            </view>
+        </view>
+        <ff-bottom-logo bind:__l="__l" class="data-v-5e289dab" vueId="52ebb5f6-13"></ff-bottom-logo>
+        <business-popup bind:__l="__l" bind:headleClose="__e" bind:updateMoney="__e" class="data-v-5e289dab vue-ref" data-event-opts="{{[ [ '^headleClose',[ ['headleClose'] ] ],[ '^updateMoney',[ ['updateMoney'] ] ] ]}}" data-ref="businessPopupChild" vueId="52ebb5f6-14"></business-popup>
+        <calendar-month bind:__l="__l" bind:changeDate="__e" class="data-v-5e289dab vue-ref" data-event-opts="{{[ [ '^changeDate',[ ['changeDate'] ] ] ]}}" data-ref="calendarMonthChild" vueId="52ebb5f6-15"></calendar-month>
+        <remark-order-popup bind:__l="__l" bind:headleClose="__e" bind:textarea="__e" class="data-v-5e289dab vue-ref" data-event-opts="{{[ [ '^textarea',[ ['editremarkOrder'] ] ],[ '^headleClose',[ ['headleClose'] ] ] ]}}" data-ref="remarkOrderChild" vueId="52ebb5f6-16"></remark-order-popup>
+        <confirm-modal bind:__l="__l" bind:confirm="__e" class="data-v-5e289dab vue-ref" data-event-opts="{{[ [ '^confirm',[ ['confirm'] ] ] ]}}" data-ref="confirmModal" title="删除该记录?" vueId="52ebb5f6-17" vueSlots="{{['content']}}">
+            <view class="data-v-5e289dab" slot="content">
+                <text class="data-v-5e289dab" style="{{'display:block;'}}">仅删除此条收款记录，不影响已发出的会员卡</text>
+            </view>
+        </confirm-modal>
+    </view>
+</view>

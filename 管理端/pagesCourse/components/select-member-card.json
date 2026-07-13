@@ -1,0 +1,13 @@
+{
+  "component": true,
+  "usingComponents": {
+    "chosecard": "/pagesCourse/components/chosecard",
+    "ff-popup": "/components/ff-popup/ff-popup",
+    "member-card": "/components/mumber-card/index",
+    "success-modal": "/pagesCourse/components/success",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "zero-loading": "/components/zero-loading/zero-loading"
+  }
+}

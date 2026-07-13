@@ -1,0 +1,4 @@
+<view class="no-data-warp data-v-0a13186e">
+    <image class="img data-v-0a13186e" src="{{$root.m0}}"></image>
+    <view class="text data-v-0a13186e">{{text}}</view>
+</view>

@@ -1,0 +1,29 @@
+<view class="data-v-7dc56d0e">
+    <view class="create-container content-height data-v-7dc56d0e">
+        <view bindtap="__e" class="type-item u-border-bottom data-v-7dc56d0e" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/card/member-card/index?type=2&isUnionCard=1'] ] ] ] ] ] ]}}">
+            <image class="img-icon data-v-7dc56d0e" src="{{$root.m0}}"></image>
+            <view class="content data-v-7dc56d0e">
+                <text class="data-v-7dc56d0e">计次卡</text>
+                <view class="data-v-7dc56d0e">即次卡，按次进行消费</view>
+            </view>
+            <image class="arrow data-v-7dc56d0e" src="{{$root.m1}}"></image>
+        </view>
+        <view bindtap="__e" class="type-item u-border-bottom data-v-7dc56d0e" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/card/member-card/index?type=3&isUnionCard=1'] ] ] ] ] ] ]}}">
+            <image class="img-icon data-v-7dc56d0e" src="{{$root.m2}}"></image>
+            <view class="content data-v-7dc56d0e">
+                <text class="data-v-7dc56d0e">期限卡</text>
+                <view class="data-v-7dc56d0e">即包月\季\年卡，可设置任意天数，中间允许停卡</view>
+            </view>
+            <image class="arrow data-v-7dc56d0e" src="{{$root.m3}}"></image>
+        </view>
+        <view bindtap="__e" class="type-item u-border-bottom data-v-7dc56d0e" data-event-opts="{{[ [ 'tap',[ [ 'href',[ [ 'o',['url','/pagesImp/card/member-card/index?type=1&isUnionCard=1'] ] ] ] ] ] ]}}">
+            <image class="img-icon data-v-7dc56d0e" src="{{$root.m4}}"></image>
+            <view class="content data-v-7dc56d0e">
+                <text class="data-v-7dc56d0e">储值卡</text>
+                <view class="data-v-7dc56d0e">即充值卡，每次消费时支付相应的金额</view>
+            </view>
+            <image class="arrow data-v-7dc56d0e" src="{{$root.m5}}"></image>
+        </view>
+    </view>
+    <ff-bottom-logo bind:__l="__l" class="data-v-7dc56d0e" vueId="e59e982a-1"></ff-bottom-logo>
+</view>
