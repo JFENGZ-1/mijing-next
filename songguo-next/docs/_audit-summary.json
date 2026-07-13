@@ -1,0 +1,16 @@
+{
+    "staff": {
+        "total": 239,
+        "full": 171,
+        "partial": 4,
+        "none": 64
+    },
+    "member": {
+        "total": 46,
+        "full": 43,
+        "partial": 1,
+        "none": 2
+    },
+    "routes": 292,
+    "openapi": 287
+}

@@ -4,21 +4,27 @@ import { onShow } from "@dcloudio/uni-app";
 import { getMemberMine } from "@/api/member";
 import { requireMemberAuth } from "@/auth/guard";
 import { ensureMemberTenant, loadJoinableSites, loadJoinedMemberSites, selectMemberSite } from "@/composables/member-context";
-import type { MemberMineDashboard, MemberSiteOption } from "@/types/member";
-import { cardBalanceLabel } from "@/utils/format";
+import type { MemberCardWalletSummary, MemberMineDashboard, MemberSiteOption } from "@/types/member";
 
 const loading = ref(true);
 const errorMessage = ref("");
 const needsSite = ref(false);
 const sites = ref<MemberSiteOption[]>([]);
 const dashboard = ref<MemberMineDashboard | null>(null);
+const displayCards = ref<MemberCardWalletSummary[]>([]);
+const statusBarHeight = ref(0);
+try {
+  statusBarHeight.value = uni.getSystemInfoSync().statusBarHeight || 0;
+} catch {
+  statusBarHeight.value = 0;
+}
 
 const statItems = computed(() => {
   if (!dashboard.value) return [];
   const stats = dashboard.value.stats;
   const items: { label: string; value: string; route?: string }[] = [
-    { label: "累计上课(次)", value: String(stats.appointCount) },
-    { label: "本月上课(次)", value: String(stats.lastMonthAppointCount) },
+    { label: "累计上课(次)", value: String(stats.appointCount), route: "/pages/mine/stats" },
+    { label: "本月上课(次)", value: String(stats.lastMonthAppointCount), route: "/pages/mine/stats?scope=month" },
   ];
   if (dashboard.value.pointsEnabled && stats.totalPoint != null) {
     items.push({ label: "累计积分", value: String(stats.totalPoint), route: "/pages/mine/points" });
@@ -35,9 +41,8 @@ const statItems = computed(() => {
 
 const menuItems = computed(() => {
   const items = [
-    { label: "我的会员卡", icon: "coupon", action: "wallet" },
+    { label: "约课统计", icon: "bar-chart", action: "stats" },
     { label: "我的订单", icon: "order", action: "orders" },
-    { label: "我的预约", icon: "calendar", action: "appointments" },
     { label: "场馆详情", icon: "home", action: "site" },
     { label: "场馆资料", icon: "edit-pen", action: "profile" },
     { label: "会员协议", icon: "file-text", action: "legal" },
@@ -67,6 +72,7 @@ async function loadDashboard() {
 
     const response = await getMemberMine(tenant.tenantId);
     dashboard.value = response.data;
+    displayCards.value = [...(response.data.cardList ?? [])];
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : "我的页面加载失败";
   } finally {
@@ -144,10 +150,32 @@ function openCardDetail(cardId: number) {
   uni.navigateTo({ url: `/pages/cards/detail?id=${cardId}` });
 }
 
+const frontCard = computed(() => displayCards.value[displayCards.value.length - 1] ?? null);
+
+function switchCardFace() {
+  const list = displayCards.value;
+  if (list.length <= 1) {
+    uni.showToast({ title: "只有一张会员卡", icon: "none" });
+    return;
+  }
+  const next = [...list];
+  const top = next.pop();
+  if (top) next.unshift(top);
+  displayCards.value = next;
+}
+
+function openBenefits() {
+  const id = frontCard.value?.id;
+  if (!id) {
+    uni.showToast({ title: "暂无会员卡", icon: "none" });
+    return;
+  }
+  uni.navigateTo({ url: `/pages/cards/benefits?id=${id}` });
+}
+
 function handleMenuAction(action: string) {
-  if (action === "wallet") openWallet();
+  if (action === "stats") openStats();
   else if (action === "orders") openOrders();
-  else if (action === "appointments") openMyAppointments();
   else if (action === "site") openSiteDetail();
   else if (action === "profile") openProfile();
   else if (action === "legal") openLegal();
@@ -163,7 +191,7 @@ onShow(async () => {
 <template>
   <u-loading-page :loading="loading" />
   <view v-if="!loading" class="mine-page">
-    <view v-if="needsSite" class="page-container">
+    <view v-if="needsSite" class="page-container" :style="{ paddingTop: statusBarHeight ? `${statusBarHeight}px` : '0' }">
       <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
       <view class="site-prompt">
         <view class="section-title">选择场馆</view>
@@ -174,7 +202,7 @@ onShow(async () => {
     </view>
 
     <template v-else-if="dashboard">
-      <view class="mine-header">
+      <view class="mine-header" :style="{ paddingTop: statusBarHeight ? `${statusBarHeight + 12}px` : '24rpx' }">
         <view class="profile-top" @tap="openProfile">
           <u-avatar size="52" icon="account-fill" bg-color="#ffffff" color="#181818" />
           <view class="profile-text">
@@ -202,15 +230,47 @@ onShow(async () => {
             <view class="section-link">查看全部</view>
           </view>
 
-          <u-empty v-if="dashboard.cardList.length === 0" mode="card" text="暂无可用会员卡" />
-          <view v-for="card in dashboard.cardList" :key="card.id" class="wallet-card" @tap="openCardDetail(card.id)">
-            <view class="wallet-card-name">{{ card.name || "会员卡" }}</view>
-            <view class="wallet-card-meta">{{ card.cardNoMasked }}</view>
-            <view class="wallet-card-meta">{{ cardBalanceLabel(card) }}</view>
+          <view v-if="displayCards.length" class="card-list-wrap" :style="{ height: `${371 + 30 * (displayCards.length - 1)}rpx` }">
+            <view
+              v-for="(card, index) in displayCards"
+              :key="`${card.id}-${index}`"
+              class="card-item"
+              :style="{ top: `${index * 30}rpx`, zIndex: index + 1 }"
+              @tap="openCardDetail(card.id)"
+            >
+              <member-card :card="card" />
+            </view>
+          </view>
+
+          <view v-else class="no-card">
+            <view class="hint-text">您还没有会员卡哦</view>
+          </view>
+
+          <view v-if="displayCards.length" class="handle-wrap">
+            <view class="handle-item" @tap="openMyAppointments">
+              <u-icon name="calendar" size="20" color="#696B99" />
+              <text>预约记录</text>
+            </view>
+            <u-line color="#DADADA" direction="col" length="20" margin="0 25rpx" />
+            <view class="handle-item" @tap="frontCard ? openCardDetail(frontCard.id) : undefined">
+              <u-icon name="rmb-circle" size="20" color="#696B99" />
+              <text>余额变动</text>
+            </view>
+            <u-line color="#DADADA" direction="col" length="20" margin="0 25rpx" />
+            <view class="handle-item" @tap="openBenefits">
+              <u-icon name="gift" size="20" color="#696B99" />
+              <text>权益</text>
+            </view>
+            <u-line color="#DADADA" direction="col" length="20" margin="0 25rpx" />
+            <view class="handle-item" @tap="switchCardFace">
+              <u-icon name="reload" size="20" color="#696B99" />
+              <text>切换</text>
+            </view>
           </view>
         </view>
 
         <view class="menu-section">
+          <u-line color="#F0F0F0" />
           <view
             v-for="item in menuItems"
             :key="item.action"
@@ -219,7 +279,7 @@ onShow(async () => {
           >
             <u-icon :name="item.icon" size="20" color="#181818" />
             <text class="menu-list-item__label">{{ item.label }}</text>
-            <u-icon name="arrow-right" size="14" color="#c0c4cc" />
+            <u-icon name="arrow-right" size="14" color="#BFBFBF" />
           </view>
         </view>
       </view>
@@ -340,6 +400,51 @@ onShow(async () => {
   margin-top: 8rpx;
   color: $color-text-secondary;
   font-size: 24rpx;
+}
+
+.card-list-wrap {
+  position: relative;
+  width: 100%;
+  margin-bottom: 24rpx;
+}
+
+.card-item {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.no-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200rpx;
+  margin-bottom: 24rpx;
+  background: $color-surface;
+  border-radius: $radius-md;
+}
+
+.hint-text {
+  color: $color-text-secondary;
+  font-size: 26rpx;
+}
+
+.handle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 0;
+  margin-bottom: 24rpx;
+  background: $color-surface;
+  border-radius: $radius-md;
+}
+
+.handle-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  color: $color-text;
+  font-size: 26rpx;
 }
 
 .menu-section {

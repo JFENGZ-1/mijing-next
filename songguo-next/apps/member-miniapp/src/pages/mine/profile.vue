@@ -163,79 +163,87 @@ onShow(async () => { if (await requireMemberAuth()) await load(); });
 
 <template>
   <u-loading-page :loading="loading" />
-  <view v-if="!loading" class="page-container">
+  <view v-if="!loading" class="page-container page-container--flush">
     <view v-if="uploadingAvatar" class="avatar-upload-mask">
       <u-loading-icon mode="circle" />
     </view>
     <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
 
     <template v-if="tenantProfile">
-      <view
-        class="profile-header"
-        :class="{ clickable: editableFields.has('avatarObjectKey') }"
-        @click="chooseAvatar"
-      >
-        <u-avatar size="64" :src="tenantProfile.profile.avatarUrl || undefined" icon="account-fill" />
-        <view>
-          <view class="profile-name">{{ tenantProfile.profile.displayName || "会员" }}</view>
-          <view class="profile-state">
-            资料状态：{{ tenantProfile.registration.state === "complete" ? "已完成" : "待完善" }}
+      <view class="profile-content">
+        <view
+          class="photo-wrap"
+          :class="{ clickable: editableFields.has('avatarObjectKey') }"
+          @click="chooseAvatar"
+        >
+          <view class="photo">
+            <u-avatar
+              size="70"
+              :src="tenantProfile.profile.avatarUrl || undefined"
+              :text="(tenantProfile.profile.displayName || '会').slice(0, 1)"
+              bg-color="#22c788"
+            />
           </view>
-          <view v-if="editableFields.has('avatarObjectKey')" class="profile-hint">点击头像更换</view>
+          <view v-if="editableFields.has('avatarObjectKey')" class="modifi-photo-wrap">
+            <u-icon name="edit-pen" size="14" color="#003d82" />
+            <text class="modifi-photo-text">修改头像</text>
+          </view>
+        </view>
+
+        <view class="form">
+          <u-cell-group>
+            <u-cell title="手机号" :value="tenantProfile.profile.mobileMasked || '未验证'" />
+            <u-cell
+              v-if="fieldPolicy('displayName')"
+              title="昵称"
+              :value="editableFields.has('displayName') ? undefined : tenantProfile.profile.displayName || '未设置'"
+            >
+              <template v-if="editableFields.has('displayName')" #value>
+                <u-input v-model="form.displayName" placeholder="请输入昵称" border="none" input-align="right" />
+              </template>
+            </u-cell>
+            <u-cell
+              title="性别"
+              :value="editableFields.has('gender') ? undefined : genderLabel(tenantProfile.profile.gender)"
+              :is-link="editableFields.has('gender')"
+              @click="pickGender"
+            >
+              <template v-if="editableFields.has('gender')" #value>
+                {{ genderLabel(form.gender || null) }}
+              </template>
+            </u-cell>
+            <u-cell
+              v-if="fieldPolicy('birthDate')"
+              title="生日"
+              :value="editableFields.has('birthDate') ? undefined : tenantProfile.profile.birthDate || '未设置'"
+            >
+              <template v-if="editableFields.has('birthDate')" #value>
+                <picker mode="date" :value="form.birthDate" @change="onBirthDateChange">
+                  <view class="picker-value">{{ form.birthDate || "选择日期" }}</view>
+                </picker>
+              </template>
+            </u-cell>
+            <u-cell
+              v-if="fieldPolicy('heightCm')"
+              title="身高"
+              :value="editableFields.has('heightCm') ? undefined : tenantProfile.profile.heightCm ? `${tenantProfile.profile.heightCm} cm` : '未设置'"
+            >
+              <template v-if="editableFields.has('heightCm')" #value>
+                <u-input v-model="form.heightCm" type="digit" placeholder="cm" border="none" input-align="right" />
+              </template>
+            </u-cell>
+            <u-cell
+              v-if="fieldPolicy('weightKg')"
+              title="体重"
+              :value="editableFields.has('weightKg') ? undefined : tenantProfile.profile.weightKg ? `${tenantProfile.profile.weightKg} kg` : '未设置'"
+            >
+              <template v-if="editableFields.has('weightKg')" #value>
+                <u-input v-model="form.weightKg" type="digit" placeholder="kg" border="none" input-align="right" />
+              </template>
+            </u-cell>
+          </u-cell-group>
         </view>
       </view>
-
-      <u-cell-group>
-        <u-cell title="手机号" :value="tenantProfile.profile.mobileMasked || '未验证'" />
-        <u-cell
-          v-if="fieldPolicy('displayName')"
-          title="姓名"
-          :value="editableFields.has('displayName') ? undefined : tenantProfile.profile.displayName || '未设置'"
-        >
-          <template v-if="editableFields.has('displayName')" #value>
-            <u-input v-model="form.displayName" placeholder="请输入姓名" border="none" input-align="right" />
-          </template>
-        </u-cell>
-        <u-cell
-          title="性别"
-          :value="editableFields.has('gender') ? undefined : genderLabel(tenantProfile.profile.gender)"
-          :is-link="editableFields.has('gender')"
-          @click="pickGender"
-        >
-          <template v-if="editableFields.has('gender')" #value>
-            {{ genderLabel(form.gender || null) }}
-          </template>
-        </u-cell>
-        <u-cell
-          v-if="fieldPolicy('birthDate')"
-          title="生日"
-          :value="editableFields.has('birthDate') ? undefined : tenantProfile.profile.birthDate || '未设置'"
-        >
-          <template v-if="editableFields.has('birthDate')" #value>
-            <picker mode="date" :value="form.birthDate" @change="onBirthDateChange">
-              <view class="picker-value">{{ form.birthDate || "选择日期" }}</view>
-            </picker>
-          </template>
-        </u-cell>
-        <u-cell
-          v-if="fieldPolicy('heightCm')"
-          title="身高"
-          :value="editableFields.has('heightCm') ? undefined : tenantProfile.profile.heightCm ? `${tenantProfile.profile.heightCm} cm` : '未设置'"
-        >
-          <template v-if="editableFields.has('heightCm')" #value>
-            <u-input v-model="form.heightCm" type="digit" placeholder="cm" border="none" input-align="right" />
-          </template>
-        </u-cell>
-        <u-cell
-          v-if="fieldPolicy('weightKg')"
-          title="体重"
-          :value="editableFields.has('weightKg') ? undefined : tenantProfile.profile.weightKg ? `${tenantProfile.profile.weightKg} kg` : '未设置'"
-        >
-          <template v-if="editableFields.has('weightKg')" #value>
-            <u-input v-model="form.weightKg" type="digit" placeholder="kg" border="none" input-align="right" />
-          </template>
-        </u-cell>
-      </u-cell-group>
 
       <view v-if="tenantProfile.registration.missingFields.length" class="missing-hint">
         待完善：{{ tenantProfile.registration.missingFields.join("、") }}
@@ -245,40 +253,57 @@ onShow(async () => { if (await requireMemberAuth()) await load(); });
         <u-button v-if="editableFields.size > 0" type="primary" :loading="saving" @click="save">保存资料</u-button>
         <u-button plain @click="openAccountProfile">账号资料</u-button>
       </view>
+
+      <bottom-logo />
     </template>
   </view>
 </template>
 
 <style scoped lang="scss">
-.profile-header {
+.profile-content {
+  padding-bottom: 40rpx;
+  background: #fff;
+  overflow: hidden;
+}
+
+.photo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  width: 141rpx;
+}
+
+.photo {
   display: flex;
   align-items: center;
-  gap: 24rpx;
-  margin: -24rpx -24rpx 24rpx;
-  padding: 28rpx 24rpx;
-  background: $color-accent-yellow;
-  border-radius: $radius-md;
+  justify-content: center;
+  width: 141rpx;
+  height: 141rpx;
+  margin-top: 50rpx;
+  margin-bottom: 17rpx;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
-.profile-name {
-  font-size: 36rpx;
-  font-weight: 600;
+.modifi-photo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.profile-state {
-  margin-top: 8rpx;
-  color: $color-text-secondary;
-  font-size: 24rpx;
-}
-
-.profile-hint {
-  margin-top: 8rpx;
-  color: $color-primary;
+.modifi-photo-text {
+  margin-left: 8rpx;
+  color: #003d82;
   font-size: 22rpx;
 }
 
-.profile-header.clickable {
+.photo-wrap.clickable {
   cursor: pointer;
+}
+
+.form {
+  margin: 50rpx 35rpx 0;
 }
 
 .picker-value {
@@ -287,7 +312,7 @@ onShow(async () => { if (await requireMemberAuth()) await load(); });
 }
 
 .missing-hint {
-  margin-top: $spacing-md;
+  margin: 24rpx 28rpx 0;
   color: #b45309;
   font-size: 24rpx;
 }
@@ -295,7 +320,7 @@ onShow(async () => { if (await requireMemberAuth()) await load(); });
 .actions {
   display: grid;
   gap: 16rpx;
-  margin-top: 32rpx;
+  margin: 32rpx 28rpx 0;
 }
 
 .avatar-upload-mask {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { onLoad, onPullDownRefresh, onShow } from "@dcloudio/uni-app";
 import { requireMemberAuth } from "@/auth/guard";
 import { getMemberCardBenefits } from "@/api/member";
-import type { MemberCardBenefits } from "@/types/member";
+import type { MemberCardBenefits, MemberCardWalletSummary } from "@/types/member";
 import { formatApiErrorMessage } from "@/utils/api-error";
 import { cardBalanceLabel, cardTypeLabel, cardValidityLabel } from "@/utils/format";
 
@@ -22,6 +22,37 @@ function formatScope(scope: unknown) {
     return String(scope);
   }
 }
+
+const pseudoCard = computed<MemberCardWalletSummary | null>(() => {
+  if (!benefits.value) return null;
+  const b = benefits.value;
+  return {
+    id: b.memberCardId,
+    siteId: 0,
+    cardType: b.cardType,
+    status: "active",
+    cardNoMasked: "",
+    name: b.name,
+    balance: b.entitlements.cachedBalance,
+    remainingCount: b.entitlements.cachedRemainingCount,
+    validFrom: b.entitlements.validFrom,
+    validUntil: b.entitlements.validUntil,
+  };
+});
+
+const balanceText = computed(() => {
+  if (!benefits.value) return "";
+  return cardBalanceLabel({
+    cardType: benefits.value.cardType,
+    balance: benefits.value.entitlements.cachedBalance,
+    remainingCount: benefits.value.entitlements.cachedRemainingCount,
+  });
+});
+
+const validityText = computed(() => {
+  if (!benefits.value) return "";
+  return cardValidityLabel(benefits.value.entitlements.validFrom, benefits.value.entitlements.validUntil);
+});
 
 async function loadBenefits(refresh = false) {
   errorMessage.value = "";
@@ -50,35 +81,19 @@ onPullDownRefresh(async () => { await loadBenefits(); uni.stopPullDownRefresh();
 
 <template>
   <u-loading-page :loading="loading" />
-  <view v-if="!loading" class="page-container">
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+  <view v-if="!loading" class="benefits-page">
+    <u-alert v-if="errorMessage" type="error" :description="errorMessage" :custom-style="{ margin: '24rpx 28rpx 0' }" />
 
     <template v-if="benefits">
+      <view v-if="pseudoCard" class="card-block">
+        <member-card :card="pseudoCard" />
+      </view>
+
       <view class="summary-card">
         <view class="card-name">{{ benefits.name || "会员卡权益" }}</view>
         <view class="card-meta">{{ cardTypeLabel(benefits.cardType) }}</view>
-        <view
-          v-if="cardBalanceLabel({
-            cardType: benefits.cardType,
-            balance: benefits.entitlements.cachedBalance,
-            remainingCount: benefits.entitlements.cachedRemainingCount,
-          })"
-          class="card-balance"
-        >
-          {{
-            cardBalanceLabel({
-              cardType: benefits.cardType,
-              balance: benefits.entitlements.cachedBalance,
-              remainingCount: benefits.entitlements.cachedRemainingCount,
-            })
-          }}
-        </view>
-        <view
-          v-if="cardValidityLabel(benefits.entitlements.validFrom, benefits.entitlements.validUntil)"
-          class="card-meta"
-        >
-          {{ cardValidityLabel(benefits.entitlements.validFrom, benefits.entitlements.validUntil) }}
-        </view>
+        <view v-if="balanceText" class="card-balance">{{ balanceText }}</view>
+        <view v-if="validityText" class="card-meta">{{ validityText }}</view>
       </view>
 
       <view v-if="benefits.courseScopes?.length" class="section-card">
@@ -97,17 +112,28 @@ onPullDownRefresh(async () => { await loadBenefits(); uni.stopPullDownRefresh();
         <view class="section-title">适用范围</view>
         <view class="section-text">{{ formatScope(benefits.scopeConfig) }}</view>
       </view>
+
+      <bottom-logo />
     </template>
   </view>
 </template>
 
 <style scoped lang="scss">
+.benefits-page {
+  min-height: 100vh;
+  background: $color-page;
+  padding: 24rpx 28rpx 0;
+}
+
+.card-block {
+  margin-bottom: 24rpx;
+}
+
 .summary-card,
 .section-card {
-  margin-bottom: $spacing-sm;
-  padding: $spacing-md;
+  margin-bottom: 20rpx;
+  padding: 24rpx;
   background: $color-surface;
-  border: 1rpx solid $color-border;
   border-radius: $radius-md;
 }
 
@@ -117,23 +143,34 @@ onPullDownRefresh(async () => { await loadBenefits(); uni.stopPullDownRefresh();
 }
 
 .card-meta {
-  margin-top: $spacing-xs;
+  margin-top: 8rpx;
   color: $color-text-secondary;
   font-size: 24rpx;
 }
 
 .card-balance {
-  margin-top: $spacing-sm;
+  margin-top: 12rpx;
   font-size: 36rpx;
+  font-weight: 600;
+}
+
+.section-title {
+  margin-bottom: 12rpx;
+  color: $color-text;
+  font-size: 30rpx;
   font-weight: 600;
 }
 
 .scope-item,
 .section-text {
-  margin-top: $spacing-xs;
   color: $color-text-secondary;
   font-size: 24rpx;
   line-height: 1.6;
   white-space: pre-wrap;
+}
+
+.scope-item + .scope-item,
+.section-text {
+  margin-top: 8rpx;
 }
 </style>

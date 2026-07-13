@@ -44,22 +44,31 @@ onShow(async () => { if (await requireMemberAuth()) await load(); });
 
 <template>
   <u-loading-page :loading="loading" />
-  <view v-if="!loading" class="page-container">
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+  <view v-if="!loading" class="follow-page">
+    <u-alert v-if="errorMessage" type="error" :description="errorMessage" :custom-style="{ margin: '24rpx 28rpx 0' }" />
 
     <u-empty v-if="missing" mode="data" text="暂未配置公众号关注指引" />
 
     <template v-else-if="content">
-      <view class="hero-card hero-coral">
-        <view class="hero-title">关注公众号</view>
-        <view class="hero-subtitle">课程取消、上课提醒等通知收不到？关注后即可收到消息通知</view>
+      <view class="qr-layout">
+        <view class="qr-card">
+          <image
+            class="qr-pic"
+            :src="content.imageUrl"
+            mode="aspectFit"
+            show-menu-by-longpress
+            lazy-load
+          />
+          <view class="qr-tip">长按图片识别</view>
+        </view>
       </view>
 
-      <view class="qr-card">
-        <image class="qr-image" :src="content.imageUrl" mode="aspectFit" show-menu-by-longpress lazy-load />
+      <view class="title-layout">
+        <view class="title-big">【提醒通知】</view>
+        <view class="title-desc">即可收到课程取消、上课提醒、排队成功等通知</view>
       </view>
 
-      <view class="instructions-card">
+      <view v-if="content.instructionsText" class="instructions-card">
         <view class="instructions-title">操作说明</view>
         <view class="instructions-text">{{ content.instructionsText }}</view>
       </view>
@@ -68,59 +77,71 @@ onShow(async () => { if (await requireMemberAuth()) await load(); });
 </template>
 
 <style scoped lang="scss">
-.hero-card {
-  margin-bottom: $spacing-md;
-  padding: $spacing-md;
-  border-radius: $radius-md;
+.follow-page {
+  min-height: 100vh;
+  padding-bottom: 80rpx;
+  background: #696b99;
 }
 
-.hero-coral {
-  color: #fff;
-  background: $color-accent-coral;
-}
-
-.hero-title {
-  font-size: 34rpx;
-  font-weight: 600;
-}
-
-.hero-subtitle {
-  margin-top: $spacing-xs;
-  font-size: 26rpx;
-  line-height: 1.6;
-  opacity: 0.95;
+.qr-layout {
+  display: flex;
+  justify-content: center;
+  padding-top: 110rpx;
 }
 
 .qr-card {
-  display: flex;
-  justify-content: center;
-  margin-bottom: $spacing-md;
-  padding: $spacing-lg;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-md;
+  position: relative;
+  padding: 35rpx;
+  background: #fff;
+  border-radius: 25rpx;
 }
 
-.qr-image {
-  width: 480rpx;
-  height: 480rpx;
+.qr-pic {
+  width: 520rpx;
+  height: 520rpx;
+}
+
+.qr-tip {
+  padding-bottom: 8rpx;
+  color: $color-text;
+  font-size: 28rpx;
+  line-height: 30rpx;
+  text-align: center;
+}
+
+.title-layout {
+  margin-top: 90rpx;
+  color: #fff;
+  text-align: center;
+}
+
+.title-big {
+  font-size: 90rpx;
+  font-weight: 500;
+  line-height: 120rpx;
+}
+
+.title-desc {
+  font-size: 26rpx;
+  line-height: 50rpx;
 }
 
 .instructions-card {
-  padding: $spacing-md;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-md;
+  margin: 60rpx 40rpx 0;
+  padding: 32rpx;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 20rpx;
 }
 
 .instructions-title {
-  margin-bottom: $spacing-sm;
+  margin-bottom: 16rpx;
+  color: #fff;
   font-size: 30rpx;
   font-weight: 600;
 }
 
 .instructions-text {
-  color: $color-text-secondary;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 26rpx;
   line-height: 1.7;
   white-space: pre-wrap;

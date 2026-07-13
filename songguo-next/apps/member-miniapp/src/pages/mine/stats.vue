@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { onShow } from "@dcloudio/uni-app";
+import { onLoad, onShow } from "@dcloudio/uni-app";
 import { requireMemberAuth } from "@/auth/guard";
 import { getMemberMonthAppointments, getMemberMonthStats, getMemberYearStats } from "@/api/member";
 import { ensureMemberTenant } from "@/composables/member-context";
 import type { MemberMonthAppointment, MemberMonthStats, MemberStatsBucket, MemberYearStats } from "@/types/member";
-import { appointmentStatusLabel, formatIsoDate } from "@/utils/format";
+import type { MemberAppointmentSummary } from "@/types/member";
 
 const monthLoading = ref(false);
 const errorMessage = ref("");
@@ -18,12 +18,19 @@ const courseKind = ref<"group" | "private" | "all">("all");
 
 const loading = ref(true);
 
+const monthOnly = ref(false);
+
+onLoad((query) => {
+  if (query && query.scope === "month") {
+    monthOnly.value = true;
+    uni.setNavigationBarTitle({ title: "本月上课" });
+  }
+});
+
 const yearOptions = computed(() => {
   const current = new Date().getFullYear();
   return [current - 1, current, current + 1];
 });
-
-const monthOptions = Array.from({ length: 12 }, (_, index) => index + 1);
 
 const courseKindTabs = [
   { label: "全部", value: "all" as const },
@@ -31,23 +38,13 @@ const courseKindTabs = [
   { label: "私教", value: "private" as const },
 ];
 
-function monthLabel(month: number) {
-  return `${month}月`;
-}
+const sortedMonths = computed(() => {
+  if (!yearStats.value) return [];
+  return [...yearStats.value.months].sort((a, b) => (a.month ?? 0) - (b.month ?? 0));
+});
 
-function bucketSummary(bucket: MemberStatsBucket) {
-  return `团课 ${bucket.teamTimes} 次 / 私教 ${bucket.privateTimes} 次`;
-}
-
-function appointmentTitle(item: MemberMonthAppointment) {
-  return item.courseName || `课程 #${item.sessionId}`;
-}
-
-function appointmentTime(item: MemberMonthAppointment) {
-  if (item.startsAt && item.endsAt) {
-    return `${formatIsoDate(item.startsAt)} - ${formatIsoDate(item.endsAt)}`;
-  }
-  return item.bookedAt ? `预约于 ${formatIsoDate(item.bookedAt)}` : "";
+function bucketTotal(bucket: MemberStatsBucket) {
+  return (bucket.teamTimes ?? 0) + (bucket.privateTimes ?? 0);
 }
 
 async function loadYearStats() {
@@ -56,7 +53,6 @@ async function loadYearStats() {
     errorMessage.value = "请先选择场馆";
     return;
   }
-
   const response = await getMemberYearStats(tenant.tenantId, selectedYear.value);
   yearStats.value = response.data;
 }
@@ -69,12 +65,7 @@ async function loadMonthDetail() {
   try {
     const [statsResponse, appointmentsResponse] = await Promise.all([
       getMemberMonthStats(tenant.tenantId, selectedYear.value, selectedMonth.value),
-      getMemberMonthAppointments(
-        tenant.tenantId,
-        selectedYear.value,
-        selectedMonth.value,
-        courseKind.value,
-      ),
+      getMemberMonthAppointments(tenant.tenantId, selectedYear.value, selectedMonth.value, courseKind.value),
     ]);
     monthStats.value = statsResponse.data;
     appointments.value = appointmentsResponse.data.items;
@@ -89,10 +80,13 @@ async function load() {
   yearStats.value = null;
   monthStats.value = null;
   appointments.value = [];
-
   try {
-    await loadYearStats();
-    void loadMonthDetail();
+    if (monthOnly.value) {
+      await loadMonthDetail();
+    } else {
+      await loadYearStats();
+      void loadMonthDetail();
+    }
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : "统计数据加载失败";
   } finally {
@@ -142,201 +136,277 @@ async function switchCourseKind(kind: "group" | "private" | "all") {
   }
 }
 
-onShow(async () => { if (await requireMemberAuth()) await load(); });
+function openSessionDetail(item: MemberMonthAppointment) {
+  uni.navigateTo({ url: `/pages/booking/detail?id=${item.sessionId}` });
+}
+
+onShow(async () => {
+  if (await requireMemberAuth()) await load();
+});
 </script>
 
 <template>
   <u-loading-page :loading="loading" />
-  <view v-if="!loading" class="page-container">
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+  <view v-if="!loading" class="stats-page">
+    <u-alert v-if="errorMessage" type="error" :description="errorMessage" :custom-style="{ margin: '24rpx 28rpx 0' }" />
 
-    <view class="section-title">年度统计</view>
-    <view class="picker-strip">
-      <u-button
+    <view v-if="!monthOnly" class="picker-strip">
+      <view
         v-for="year in yearOptions"
         :key="year"
-        size="small"
-        type="primary"
-        :plain="selectedYear !== year"
-        @click="selectYear(year)"
+        class="year-pill"
+        :class="{ active: selectedYear === year }"
+        @tap="selectYear(year)"
       >
         {{ year }}年
-      </u-button>
-    </view>
-
-    <view v-if="yearStats" class="summary-card">
-      <view class="summary-total">全年上课 {{ yearStats.totalCount }} 次</view>
-      <view class="summary-meta">{{ bucketSummary(yearStats) }}</view>
-      <view class="summary-meta">
-        缺席 团课 {{ yearStats.teamAbsent }} / 私教 {{ yearStats.privateAbsent }} · 取消 {{ yearStats.cancelledCount }}
       </view>
     </view>
 
-    <view v-if="yearStats" class="month-grid">
-      <view
-        v-for="bucket in yearStats.months"
-        :key="bucket.month"
-        class="month-card"
-        :class="{ active: bucket.month === selectedMonth }"
-        @click="bucket.month && selectMonth(bucket.month)"
-      >
-        <view class="month-label">{{ monthLabel(bucket.month ?? 0) }}</view>
-        <view class="month-value">{{ (bucket.teamTimes ?? 0) + (bucket.privateTimes ?? 0) }}</view>
-        <view class="month-meta">次</view>
+    <view v-if="yearStats && !monthOnly" class="current-year">
+      <view class="tips">
+        <u-icon name="info-circle" size="14" color="#dadada" />
+        <text>每日凌晨更新</text>
       </view>
-    </view>
 
-    <view class="section-title">月度明细</view>
-    <view class="picker-strip month-strip">
-      <u-button
-        v-for="month in monthOptions"
-        :key="month"
-        size="mini"
-        type="primary"
-        :plain="selectedMonth !== month"
-        @click="selectMonth(month)"
-      >
-        {{ month }}
-      </u-button>
-    </view>
+      <view class="total-num">
+        <view class="num">{{ yearStats.totalCount }}</view>
+        <view class="text">累计上课(次)</view>
+      </view>
 
-    <view class="month-detail" :class="{ 'month-detail--refreshing': monthLoading }">
-      <template v-if="monthStats">
-        <view class="summary-card">
-          <view class="summary-total">{{ selectedYear }}年{{ selectedMonth }}月</view>
-          <view class="summary-meta">{{ bucketSummary(monthStats) }}</view>
-          <view class="summary-meta">
-            待上课 {{ monthStats.confirmedCount }} · 缺席 团课 {{ monthStats.teamAbsent }} / 私教 {{ monthStats.privateAbsent }}
-          </view>
-        </view>
-
-        <view class="picker-strip">
-          <u-button
-            v-for="tab in courseKindTabs"
-            :key="tab.value"
-            size="small"
-            type="primary"
-            :plain="courseKind !== tab.value"
-            @click="switchCourseKind(tab.value)"
+      <view class="record-wrap">
+        <view v-for="bucket in sortedMonths" :key="bucket.month" class="record-item">
+          <view class="month">{{ (bucket.month ?? 0) }}月</view>
+          <view
+            class="statistics-wrap"
+            :class="{ active: bucket.month === selectedMonth }"
+            @tap="bucket.month && selectMonth(bucket.month)"
           >
-            {{ tab.label }}
-          </u-button>
-        </view>
-
-        <u-empty v-if="appointments.length === 0" mode="list" text="本月暂无上课记录" />
-        <view v-for="item in appointments" :key="item.id" class="appointment-card">
-          <view class="appointment-header">
-            <view class="appointment-title">{{ appointmentTitle(item) }}</view>
-            <view class="appointment-status">{{ appointmentStatusLabel(item.status) }}</view>
+            <view class="group">
+              <view class="num">{{ bucket.teamTimes ?? 0 }}</view>
+              <view class="text">常规课(次)</view>
+            </view>
+            <view class="group">
+              <view class="num">{{ bucket.teamAbsent ?? 0 }}</view>
+              <view class="text">旷课(次)</view>
+            </view>
+            <view class="group">
+              <view class="num">{{ bucket.privateTimes ?? 0 }}</view>
+              <view class="text">私教(次)</view>
+            </view>
+            <view class="group">
+              <view class="num">{{ bucket.privateAbsent ?? 0 }}</view>
+              <view class="text">旷课(次)</view>
+            </view>
           </view>
-          <view class="appointment-meta">{{ appointmentTime(item) }}</view>
-          <view v-if="item.coachName" class="appointment-meta">教练 {{ item.coachName }}</view>
         </view>
-      </template>
+      </view>
+    </view>
+
+    <view class="detail-section" :class="{ 'detail-section--refreshing': monthLoading }">
+      <view class="detail-title">{{ monthOnly ? '本月上课明细' : `${selectedYear}年${selectedMonth}月明细` }}</view>
+
+      <view v-if="monthStats" class="month-summary">
+        <view class="summary-total">本月上课 {{ bucketTotal(monthStats) }} 次</view>
+        <view class="summary-meta">
+          待上课 {{ monthStats.confirmedCount }} · 取消 {{ monthStats.cancelledCount }}
+        </view>
+      </view>
+
+      <view class="kind-tabs">
+        <view
+          v-for="tab in courseKindTabs"
+          :key="tab.value"
+          class="kind-pill"
+          :class="{ active: courseKind === tab.value }"
+          @tap="switchCourseKind(tab.value)"
+        >
+          {{ tab.label }}
+        </view>
+      </view>
+
+      <u-empty v-if="appointments.length === 0" mode="list" text="本月暂无上课记录" />
+      <view v-for="item in appointments" :key="item.id" class="appt-list">
+        <appointment-row :item="(item as unknown as MemberAppointmentSummary)" @tap="openSessionDetail(item)" />
+      </view>
+
+      <bottom-logo />
     </view>
   </view>
 </template>
 
 <style scoped lang="scss">
-.month-detail--refreshing {
-  opacity: 0.72;
-  transition: opacity 0.15s ease;
+.stats-page {
+  min-height: 100vh;
+  background: $color-page;
+  padding-bottom: 40rpx;
 }
 
 .picker-strip {
   display: flex;
-  flex-wrap: wrap;
-  gap: $spacing-sm;
-  margin-bottom: $spacing-md;
+  gap: 16rpx;
+  padding: 24rpx 28rpx 8rpx;
 }
 
-.month-strip {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-}
-
-.summary-card {
-  margin-bottom: $spacing-md;
-  padding: $spacing-md;
+.year-pill {
+  padding: 8rpx 24rpx;
   background: $color-surface;
   border: 1rpx solid $color-border;
+  border-radius: 28rpx;
+  color: $color-text-secondary;
+  font-size: 24rpx;
+
+  &.active {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: #fff;
+  }
+}
+
+.current-year {
+  position: relative;
+  margin: 16rpx 28rpx 0;
+  padding: 51rpx 44rpx 54rpx;
+  background: $color-surface;
   border-radius: $radius-md;
 }
 
-.summary-total {
+.tips {
+  position: absolute;
+  top: 18rpx;
+  right: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 5rpx;
+  color: #dadada;
+  font-size: 22rpx;
+}
+
+.total-num {
+  text-align: center;
+}
+
+.total-num .num {
+  color: #ed920f;
+  font-size: 90rpx;
+  font-weight: 700;
+  line-height: 90rpx;
+}
+
+.total-num .text {
+  margin-top: 20rpx;
+  color: #7e7e7e;
+  font-size: 25rpx;
+  line-height: 25rpx;
+}
+
+.record-wrap {
+  margin-top: 60rpx;
+}
+
+.record-item {
+  margin-bottom: 40rpx;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.record-item .month {
+  margin-bottom: 30rpx;
+  color: #dadada;
+  font-size: 49rpx;
+  line-height: 49rpx;
+}
+
+.statistics-wrap {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 60rpx;
+  border-radius: 12rpx;
+
+  &.active {
+    background: rgba($color-primary, 0.06);
+  }
+}
+
+.statistics-wrap .group {
+  text-align: center;
+}
+
+.statistics-wrap .group .num {
+  margin-bottom: 18rpx;
+  color: $color-text;
+  font-size: 33rpx;
+  line-height: 33rpx;
+}
+
+.statistics-wrap .group .text {
+  color: #7e7e7e;
+  font-size: 22rpx;
+  line-height: 22rpx;
+}
+
+.detail-section {
+  margin-top: 24rpx;
+  padding: 0 28rpx;
+}
+
+.detail-section--refreshing {
+  opacity: 0.72;
+  transition: opacity 0.15s ease;
+}
+
+.detail-title {
+  margin-bottom: 20rpx;
+  color: $color-text;
   font-size: 32rpx;
   font-weight: 600;
 }
 
-.summary-meta {
-  margin-top: $spacing-xs;
-  color: $color-text-secondary;
-  font-size: 24rpx;
-}
-
-.month-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: $spacing-sm;
-  margin-bottom: $spacing-lg;
-}
-
-.month-card {
-  padding: $spacing-sm;
-  text-align: center;
+.month-summary {
+  margin-bottom: 20rpx;
+  padding: 24rpx;
   background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-md;
-
-  &.active {
-    border-color: $color-primary;
-    background: rgba($color-primary, 0.06);
-  }
-}
-.month-label {
-  color: $color-text-secondary;
-  font-size: 22rpx;
-}
-
-.month-value {
-  margin-top: 4rpx;
-  font-size: 34rpx;
-  font-weight: 600;
-}
-
-.month-meta {
-  color: $color-text-secondary;
-  font-size: 20rpx;
-}
-
-.appointment-card {
-  margin-bottom: $spacing-sm;
-  padding: $spacing-md;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
   border-radius: $radius-md;
 }
 
-.appointment-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: $spacing-sm;
-}
-
-.appointment-title {
+.summary-total {
+  color: $color-text;
   font-size: 30rpx;
   font-weight: 600;
 }
 
-.appointment-status {
-  color: $color-primary;
+.summary-meta {
+  margin-top: 8rpx;
+  color: $color-text-secondary;
   font-size: 24rpx;
 }
 
-.appointment-meta {
-  margin-top: $spacing-xs;
+.kind-tabs {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.kind-pill {
+  padding: 8rpx 28rpx;
+  background: $color-surface;
+  border: 1rpx solid $color-border;
+  border-radius: 28rpx;
   color: $color-text-secondary;
   font-size: 24rpx;
+
+  &.active {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: #fff;
+  }
+}
+
+.appt-list {
+  background: $color-surface;
+  padding: 0 24rpx;
+  border-radius: $radius-md;
+  margin-bottom: 16rpx;
 }
 </style>

@@ -6,7 +6,6 @@ import { claimMemberCardTransfer, getMemberCardTransferPreview } from "@/api/mem
 import type { MemberCardTransferPreview } from "@/types/member";
 import { formatApiErrorMessage } from "@/utils/api-error";
 import { createCommandKey } from "@/utils/command-key";
-import { cardBalanceLabel, cardTypeLabel } from "@/utils/format";
 
 const token = ref("");
 const claiming = ref(false);
@@ -52,14 +51,14 @@ async function onConfirmClaim() {
   try {
     const response = await claimMemberCardTransfer(token.value, claimCommandKey);
     claimCommandKey = "";
-    uni.$u.toast({ message: "领取成功", type: "success" });
+    uni.showToast({ title: "领取成功", icon: "success" });
     setTimeout(() => {
       uni.redirectTo({ url: `/pages/cards/detail?id=${response.data.memberCardId}` });
-    }, 500);
+    }, 600);
   } catch (error) {
-    uni.$u.toast({
-      message: formatApiErrorMessage(error, "领取失败"),
-      type: "error",
+    uni.showToast({
+      title: formatApiErrorMessage(error, "领取失败"),
+      icon: "none",
     });
   } finally {
     claiming.value = false;
@@ -75,8 +74,8 @@ onShow(async () => { if (await requireMemberAuth()) await loadPreview(); });
 
 <template>
   <u-loading-page :loading="loading" />
-  <view v-if="!loading" class="page-container">
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+  <view v-if="!loading" class="transfer-page">
+    <u-alert v-if="errorMessage" type="error" :description="errorMessage" :custom-style="{ margin: '24rpx 28rpx 0' }" />
 
     <template v-if="preview">
       <view class="hero-card hero-green">
@@ -84,18 +83,18 @@ onShow(async () => { if (await requireMemberAuth()) await loadPreview(); });
         <view class="hero-subtitle">给您发卡了</view>
       </view>
 
-      <view class="card-panel">
-        <view class="card-name">{{ preview.card.name || "会员卡" }}</view>
-        <view class="card-meta">{{ cardTypeLabel(preview.card.cardType) }}</view>
-        <view v-if="cardBalanceLabel(preview.card)" class="card-balance">{{ cardBalanceLabel(preview.card) }}</view>
-        <view class="card-meta">{{ preview.card.cardNoMasked }}</view>
+      <view class="card-block">
+        <member-card :card="preview.card" />
       </view>
 
-      <u-alert
-        v-if="preview.validMessage"
-        type="warning"
-        :description="preview.validMessage"
-      />
+      <view v-if="preview.validMessage" class="status-card" :class="{ 'status-warn': preview.claimable, 'status-blocked': !preview.claimable }">
+        <u-icon
+          :name="preview.alreadyClaimed ? 'checkmark-circle' : 'info-circle'"
+          size="18"
+          :color="preview.alreadyClaimed ? '#22c788' : '#ed920f'"
+        />
+        <text class="status-text">{{ preview.validMessage }}</text>
+      </view>
 
       <view class="actions">
         <u-button
@@ -108,6 +107,8 @@ onShow(async () => { if (await requireMemberAuth()) await loadPreview(); });
         </u-button>
         <u-button v-else plain @click="goMine">返回我的</u-button>
       </view>
+
+      <bottom-logo />
     </template>
   </view>
 
@@ -125,9 +126,15 @@ onShow(async () => { if (await requireMemberAuth()) await loadPreview(); });
 </template>
 
 <style scoped lang="scss">
+.transfer-page {
+  min-height: 100vh;
+  background: $color-page;
+  padding: 24rpx 28rpx 0;
+}
+
 .hero-card {
-  margin-bottom: $spacing-md;
-  padding: $spacing-md;
+  margin-bottom: 24rpx;
+  padding: 36rpx 24rpx;
   border-radius: $radius-md;
   text-align: center;
 }
@@ -138,42 +145,45 @@ onShow(async () => { if (await requireMemberAuth()) await loadPreview(); });
 }
 
 .hero-title {
-  font-size: 34rpx;
-  font-weight: 600;
-}
-
-.hero-subtitle {
-  margin-top: $spacing-xs;
-  font-size: 26rpx;
-  opacity: 0.92;
-}
-
-.card-panel {
-  margin-bottom: $spacing-md;
-  padding: $spacing-lg $spacing-md;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-md;
-}
-
-.card-name {
-  font-size: 34rpx;
-  font-weight: 600;
-}
-
-.card-meta {
-  margin-top: $spacing-xs;
-  color: $color-text-secondary;
-  font-size: 24rpx;
-}
-
-.card-balance {
-  margin-top: $spacing-sm;
   font-size: 36rpx;
   font-weight: 600;
 }
 
+.hero-subtitle {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  opacity: 0.92;
+}
+
+.card-block {
+  margin-bottom: 24rpx;
+}
+
+.status-card {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+  padding: 20rpx 24rpx;
+  border-radius: $radius-md;
+}
+
+.status-warn {
+  background: #fef9de;
+}
+
+.status-blocked {
+  background: #f4f4f5;
+}
+
+.status-text {
+  flex: 1;
+  color: $color-text;
+  font-size: 26rpx;
+  line-height: 1.5;
+}
+
 .actions {
-  margin-top: $spacing-md;
+  margin-top: 8rpx;
 }
 </style>

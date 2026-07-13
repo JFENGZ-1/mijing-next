@@ -25,7 +25,16 @@ class BookingPayableCardService
         $cards = $this->cards->memberWalletQuery($member)
             ->where('site_id', $session->site_id)
             ->get()
-            ->filter(fn (MemberCard $card) => $this->isPayableForSession($card, $session));
+            ->filter(function (MemberCard $card) use ($session): bool {
+                try {
+                    return $this->isPayableForSession($card, $session);
+                } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+                    if ($e->getMessage() === 'BOOKING_CARD_PRICE_UNKNOWN') {
+                        return false;
+                    }
+                    throw $e;
+                }
+            });
 
         return $this->cards->memberWalletSummaries($cards);
     }
@@ -75,6 +84,10 @@ class BookingPayableCardService
             return ['type' => CardType::Count, 'count' => 1, 'amount' => null];
         }
 
+        if ($card->card_type === CardType::Period) {
+            return ['type' => CardType::Period, 'count' => null, 'amount' => null];
+        }
+
         $amount = $this->resolveStoredValueAmount($card, $session->course);
 
         return ['type' => CardType::StoredValue, 'count' => null, 'amount' => $amount];
@@ -88,7 +101,26 @@ class BookingPayableCardService
             return (int) ($card->cached_remaining_count ?? 0) >= (int) $spec['count'];
         }
 
+        if ($spec['type'] === CardType::Period) {
+            return $this->withinValidPeriod($card);
+        }
+
         return (float) ($card->cached_balance ?? 0) >= (float) $spec['amount'];
+    }
+
+    private function withinValidPeriod(MemberCard $card): bool
+    {
+        $today = now()->startOfDay();
+
+        if ($card->valid_from !== null && $today->lt($card->valid_from)) {
+            return false;
+        }
+
+        if ($card->valid_until !== null && $today->gt($card->valid_until)) {
+            return false;
+        }
+
+        return true;
     }
 
     private function resolveStoredValueAmount(MemberCard $card, Course $course): string

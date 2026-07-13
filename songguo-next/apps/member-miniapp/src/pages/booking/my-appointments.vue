@@ -6,7 +6,6 @@ import { requireMemberAuth } from "@/auth/guard";
 import { ensureMemberTenant } from "@/composables/member-context";
 import type { MemberAppointmentSummary } from "@/types/member";
 import { createCommandKey } from "@/utils/command-key";
-import { appointmentStatusLabel, formatIsoDate } from "@/utils/format";
 
 const loading = ref(true);
 const cancellingId = ref<number | null>(null);
@@ -15,21 +14,10 @@ const scope = ref<"upcoming" | "past">("upcoming");
 const appointments = ref<MemberAppointmentSummary[]>([]);
 const cancelCommandKeys = new Map<number, string>();
 
-const scopeOptions = [
-  { label: "待上课", value: "upcoming" as const },
-  { label: "历史", value: "past" as const },
+const scopeTabs = [
+  { name: "待上课" },
+  { name: "历史" },
 ];
-
-function appointmentTitle(item: MemberAppointmentSummary) {
-  return item.courseName || `课程 #${item.sessionId}`;
-}
-
-function appointmentTime(item: MemberAppointmentSummary) {
-  if (item.startsAt && item.endsAt) {
-    return `${formatIsoDate(item.startsAt)} - ${formatIsoDate(item.endsAt)}`;
-  }
-  return `预约于 ${formatIsoDate(item.bookedAt)}`;
-}
 
 function canCancel(item: MemberAppointmentSummary) {
   return scope.value === "upcoming" && (item.status === "confirmed" || item.status === "waitlisted");
@@ -55,16 +43,26 @@ async function loadAppointments() {
   }
 }
 
-function switchScope(nextScope: "upcoming" | "past") {
-  if (scope.value === nextScope) return;
-  scope.value = nextScope;
+function onTabChange(item: { index: number }) {
+  const next = item.index === 1 ? "past" : "upcoming";
+  if (scope.value === next) return;
+  scope.value = next;
   void loadAppointments();
 }
 
+function openDetail(item: MemberAppointmentSummary) {
+  uni.navigateTo({ url: `/pages/booking/detail?id=${item.sessionId}` });
+}
+
 function confirmCancel(item: MemberAppointmentSummary) {
+  const title = item.status === "waitlisted" ? "取消排队" : "取消预约";
+  const content = item.status === "waitlisted"
+    ? "确定取消排队吗？"
+    : "确定取消该预约吗？（若有扣费）将退还已扣相应费用";
+
   uni.showModal({
-    title: "取消预约",
-    content: `确定取消「${appointmentTitle(item)}」吗？`,
+    title,
+    content,
     success: async (result) => {
       if (!result.confirm) return;
       await cancelAppointment(item);
@@ -109,73 +107,62 @@ onPullDownRefresh(async () => {
 
 <template>
   <u-loading-page :loading="loading" />
-  <view v-if="!loading" class="page-container">
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
-
-    <view class="scope-strip">
-      <u-button
-        v-for="item in scopeOptions"
-        :key="item.value"
-        size="small"
-        type="primary"
-        :plain="scope !== item.value"
-        @click="switchScope(item.value)"
-      >
-        {{ item.label }}
-      </u-button>
+  <view v-if="!loading" class="record-page">
+    <view class="tabs-wrap">
+      <u-tabs
+        :list="scopeTabs"
+        :current="scope === 'past' ? 1 : 0"
+        line-color="#07c160"
+        :active-style="{ color: '#181818', fontWeight: 600 }"
+        :inactive-style="{ color: '#989898' }"
+        @change="onTabChange"
+      />
     </view>
 
-    <u-empty
-      v-if="appointments.length === 0 && !errorMessage"
-      mode="list"
-      :text="scope === 'upcoming' ? '暂无待上课程' : '暂无历史预约'"
-    />
-    <view
-      v-for="item in appointments"
-      :key="item.id"
-      class="appointment-card"
-    >
-      <view class="appointment-title">{{ appointmentTitle(item) }}</view>
-      <view class="appointment-meta">{{ appointmentTime(item) }}</view>
-      <view class="appointment-meta">状态 {{ appointmentStatusLabel(item.status) }}</view>
-      <view v-if="item.cancelledAt" class="appointment-meta">取消于 {{ formatIsoDate(item.cancelledAt) }}</view>
-      <u-button
-        v-if="canCancel(item)"
-        type="error"
-        plain
-        size="small"
-        :loading="cancellingId === item.id"
-        @click="confirmCancel(item)"
+    <u-alert v-if="errorMessage" type="error" :description="errorMessage" :custom-style="{ margin: '24rpx 28rpx 0' }" />
+
+    <view class="list-wrap">
+      <view
+        v-for="item in appointments"
+        :key="item.id"
+        class="list-item"
       >
-        取消预约
-      </u-button>
+        <appointment-row
+          :item="item"
+          :cancellable="canCancel(item)"
+          :cancelling="cancellingId === item.id"
+          @tap="openDetail(item)"
+          @cancel="confirmCancel(item)"
+        />
+      </view>
+
+      <u-empty
+        v-if="appointments.length === 0 && !errorMessage"
+        mode="list"
+        :text="scope === 'upcoming' ? '~ 无预约记录哦 ~' : '~ 暂无历史记录 ~'"
+      />
+
+      <bottom-logo v-if="appointments.length" />
     </view>
   </view>
 </template>
 
 <style scoped lang="scss">
-.scope-strip {
-  display: flex;
-  gap: $spacing-sm;
-  margin-bottom: $spacing-md;
+.record-page {
+  min-height: 100vh;
+  background: #ededed;
 }
 
-.appointment-card {
-  margin-bottom: $spacing-sm;
-  padding: $spacing-md;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-md;
+.tabs-wrap {
+  background: #fff;
+  border-bottom: 1rpx solid #f0f0f0;
 }
 
-.appointment-title {
-  font-size: 30rpx;
-  font-weight: 600;
+.list-wrap {
+  padding: 24rpx 28rpx 0;
 }
 
-.appointment-meta {
-  margin-top: $spacing-xs;
-  color: $color-text-secondary;
-  font-size: 24rpx;
+.list-item {
+  margin-bottom: 24rpx;
 }
 </style>

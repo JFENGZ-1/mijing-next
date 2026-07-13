@@ -21,6 +21,18 @@ const carouselImages = computed(() => {
 
 const warmHints = computed(() => detail.value?.warmHints.filter((item) => item.hasContent) ?? []);
 
+const businessHoursLines = computed(() => {
+  const bh = detail.value?.businessHours;
+  if (!bh) return [] as string[];
+  if (typeof bh === "string") return [bh];
+  const lines: string[] = [];
+  for (const [key, value] of Object.entries(bh)) {
+    if (value && typeof value === "object") continue;
+    lines.push(`${key}：${String(value)}`);
+  }
+  return lines;
+});
+
 async function loadDetail(refresh = false) {
   errorMessage.value = "";
   if (refresh) {
@@ -94,6 +106,13 @@ onPullDownRefresh(async () => { await loadDetail(); uni.stopPullDownRefresh(); }
           <text class="phone-action">拨打</text>
         </view>
 
+        <view v-if="businessHoursLines.length" class="section-block">
+          <view class="section-title section-title--inline">营业时间</view>
+          <view class="section-text">
+            <view v-for="(line, i) in businessHoursLines" :key="i">{{ line }}</view>
+          </view>
+        </view>
+
         <view v-if="detail.description" class="section-block">
           <view class="section-title section-title--inline">场馆介绍</view>
           <view class="section-text">{{ detail.description }}</view>
@@ -103,6 +122,8 @@ onPullDownRefresh(async () => { await loadDetail(); uni.stopPullDownRefresh(); }
           <view class="section-title section-title--inline">{{ hint.title || hint.courseTypeLabel }}</view>
           <view class="section-text">{{ hint.text }}</view>
         </view>
+
+        <bottom-logo />
       </view>
     </template>
   </view>

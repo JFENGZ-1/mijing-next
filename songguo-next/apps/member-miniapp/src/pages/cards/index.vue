@@ -5,7 +5,6 @@ import { requireMemberAuth } from "@/auth/guard";
 import { getMemberWalletCards, hideMemberCard } from "@/api/member";
 import { ensureMemberTenant } from "@/composables/member-context";
 import type { MemberCardWalletSummary } from "@/types/member";
-import { cardBalanceLabel } from "@/utils/format";
 import { createCommandKey } from "@/utils/command-key";
 
 const loading = ref(true);
@@ -96,69 +95,103 @@ onPullDownRefresh(async () => {
 
 <template>
   <u-loading-page :loading="loading" />
-  <view v-if="!loading" class="page-container">
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+  <view v-if="!loading" class="cards-page">
+    <u-alert v-if="errorMessage" type="error" :description="errorMessage" :custom-style="{ margin: '24rpx 28rpx 0' }" />
 
     <view class="toolbar">
-      <u-button size="small" plain @click="openHiddenCards">已隐藏</u-button>
-      <u-button size="small" type="primary" plain @click="openCardCatalog">购买会员卡</u-button>
+      <view class="tool-pill" @click="openHiddenCards">已隐藏</view>
+      <view class="tool-pill primary" @click="openCardCatalog">购买会员卡</view>
     </view>
 
-    <u-empty v-if="cards.length === 0 && !errorMessage" mode="card" text="暂无可用会员卡" />
-    <view
-      v-for="card in cards"
-      :key="card.id"
-      class="wallet-card"
-      @tap="openDetail(card)"
-    >
-      <view class="wallet-card-name">{{ card.name || "会员卡" }}</view>
-      <view class="wallet-card-meta">{{ card.cardNoMasked }}</view>
-      <view class="wallet-card-meta">{{ cardBalanceLabel(card) }}</view>
-      <view class="card-actions" @tap.stop>
-        <u-button
-          size="mini"
-          plain
-          :loading="hidingId === card.id"
-          @click="confirmHide(card)"
+    <view v-if="cards.length === 0 && !errorMessage" class="no-card">
+      <view class="hint-text">您还没有会员卡哦</view>
+    </view>
+
+    <view v-for="card in cards" :key="card.id" class="card-block">
+      <view class="card-tap" @tap="openDetail(card)">
+        <member-card :card="card" />
+      </view>
+      <view class="card-actions">
+        <view
+          class="action-btn"
+          :class="{ 'action-btn--disabled': hidingId === card.id }"
+          @tap.stop="confirmHide(card)"
         >
-          隐藏
-        </u-button>
+          {{ hidingId === card.id ? '隐藏中...' : '隐藏此卡' }}
+        </view>
       </view>
     </view>
+
+    <bottom-logo />
   </view>
 </template>
 
 <style scoped lang="scss">
+.cards-page {
+  min-height: 100vh;
+  background: $color-page;
+  padding: 24rpx 28rpx 0;
+}
+
 .toolbar {
   display: flex;
   justify-content: flex-end;
-  gap: $spacing-sm;
-  margin-bottom: $spacing-md;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
 }
 
-.wallet-card {
-  margin-bottom: $spacing-md;
-  padding: 24rpx;
-  background: linear-gradient(135deg, #faf5f8 0%, #fff 100%);
-  border: 1rpx solid #f3e8ee;
+.tool-pill {
+  padding: 10rpx 28rpx;
+  background: $color-surface;
+  border: 1rpx solid $color-border;
+  border-radius: 28rpx;
+  color: $color-text-secondary;
+  font-size: 24rpx;
+
+  &.primary {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: #fff;
+  }
+}
+
+.no-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 240rpx;
+  background: $color-surface;
   border-radius: $radius-md;
 }
 
-.wallet-card-name {
-  color: $color-accent-pink;
-  font-size: 30rpx;
-  font-weight: 600;
+.hint-text {
+  color: $color-text-secondary;
+  font-size: 26rpx;
 }
 
-.wallet-card-meta {
-  margin-top: 8rpx;
-  color: $color-text-secondary;
-  font-size: 24rpx;
+.card-block {
+  margin-bottom: 32rpx;
+}
+
+.card-tap {
+  width: 100%;
 }
 
 .card-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: $spacing-sm;
+  margin-top: 16rpx;
+}
+
+.action-btn {
+  padding: 8rpx 24rpx;
+  border: 1rpx solid $color-border;
+  border-radius: 28rpx;
+  color: $color-text-secondary;
+  font-size: 24rpx;
+}
+
+.action-btn--disabled {
+  opacity: 0.5;
 }
 </style>

@@ -66,81 +66,142 @@ onPullDownRefresh(async () => {
 
 <template>
   <u-loading-page :loading="loading" />
-  <view v-if="!loading" class="page-container">
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
-    <u-empty v-if="orders.length === 0 && !errorMessage" mode="list" text="暂无购卡订单" />
+  <view v-if="!loading" class="orders-page">
+    <u-alert v-if="errorMessage" type="error" :description="errorMessage" :custom-style="{ margin: '24rpx 28rpx 0' }" />
 
-    <view
-      v-for="order in orders"
-      :key="order.id"
-      class="order-card"
-      @tap="openOrder(order.id)"
-    >
-      <view class="order-header">
-        <view class="order-title">{{ order.productName || "会员卡订单" }}</view>
-        <view class="status-tag">{{ orderStatusLabel(order.status) }}</view>
+    <u-empty v-if="orders.length === 0 && !errorMessage" mode="list" text="仅显示在线购卡记录哦" />
+
+    <view v-for="order in orders" :key="order.id" class="order-wrap" @tap="openOrder(order.id)">
+      <view class="title-wrap">
+        <view class="entry">{{ order.channel === "offline" ? "线下支付" : "在线购卡" }}</view>
+        <view class="state">{{ orderStatusLabel(order.status) }}</view>
       </view>
-      <view class="order-meta">订单号 {{ order.orderNo }}</view>
-      <view v-if="order.siteName" class="order-meta">{{ order.siteName }}</view>
-      <view class="order-footer">
-        <view class="order-amount">¥{{ order.effectiveAmount }}</view>
-        <view v-if="order.createdAt" class="order-time">{{ formatIsoDate(order.createdAt) }}</view>
+
+      <view class="amount-wrap">
+        <text class="amount-title">实付款</text>
+        <text class="amount-symbol">¥</text>
+        <text class="amount-num">{{ order.effectiveAmount }}</text>
+      </view>
+
+      <view v-if="order.productName" class="product-name">{{ order.productName }}</view>
+
+      <view class="info-wrap">
+        <view class="info-item">
+          <view class="info-title">订单编号：</view>
+          <view class="info-data">{{ order.orderNo }}</view>
+        </view>
+        <view v-if="order.siteName" class="info-item">
+          <view class="info-title">场馆：</view>
+          <view class="info-data">{{ order.siteName }}</view>
+        </view>
+        <view v-if="order.createdAt" class="info-item">
+          <view class="info-title">下单时间：</view>
+          <view class="info-data">{{ formatIsoDate(order.createdAt) }}</view>
+        </view>
       </view>
     </view>
 
-    <u-button v-if="page < lastPage" plain :loading="loadingMore" @click="loadMore">加载更多</u-button>
+    <view v-if="page < lastPage" class="loadmore-wrap">
+      <u-loadmore
+        :status="loadingMore ? 'loading' : 'loadmore'"
+        loadmore-text="加载更多"
+        @loadmore="loadMore"
+      />
+    </view>
+
+    <bottom-logo v-if="orders.length > 0" />
   </view>
 </template>
 
 <style scoped lang="scss">
-.order-card {
-  margin-bottom: $spacing-sm;
-  padding: $spacing-md;
+.orders-page {
+  min-height: 100vh;
+  background: $color-page;
+  padding: 24rpx 28rpx 0;
+}
+
+.order-wrap {
+  margin-bottom: 24rpx;
+  padding: 24rpx;
   background: $color-surface;
-  border: 1rpx solid $color-border;
   border-radius: $radius-md;
 }
 
-.order-header {
+.title-wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $spacing-sm;
 }
 
-.order-title {
-  font-size: 30rpx;
-  font-weight: 600;
+.entry {
+  color: $color-text;
+  font-size: 28rpx;
+  font-weight: 500;
 }
 
-.status-tag {
-  padding: 4rpx 12rpx;
+.state {
   color: $color-primary;
-  font-size: 22rpx;
-  background: $color-primary-light;
-  border-radius: $radius-sm;
-}
-
-.order-meta {
-  margin-top: $spacing-xs;
-  color: $color-text-secondary;
   font-size: 24rpx;
 }
 
-.order-footer {
+.amount-wrap {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: $spacing-sm;
+  align-items: baseline;
+  justify-content: flex-end;
+  margin: 20rpx 0 4rpx;
 }
 
-.order-amount {
-  font-size: 32rpx;
+.amount-title {
+  color: $color-text-secondary;
+  font-size: 22rpx;
+  margin-right: 8rpx;
+}
+
+.amount-symbol {
+  color: $color-text;
+  font-size: 26rpx;
   font-weight: 600;
 }
 
-.order-time {
+.amount-num {
+  color: $color-text;
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.product-name {
+  text-align: right;
   color: $color-text-secondary;
   font-size: 24rpx;
+}
+
+.info-wrap {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.info-item {
+  display: flex;
+  margin-bottom: 10rpx;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.info-title {
+  flex-shrink: 0;
+  color: $color-text-secondary;
+  font-size: 24rpx;
+}
+
+.info-data {
+  color: $color-text;
+  font-size: 24rpx;
+}
+
+.loadmore-wrap {
+  padding: 12rpx 0;
 }
 </style>

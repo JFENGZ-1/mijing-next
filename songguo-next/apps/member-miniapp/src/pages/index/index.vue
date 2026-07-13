@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { onPullDownRefresh, onShow } from "@dcloudio/uni-app";
-import { getMemberHome, getMemberOfficialAccountFollow } from "@/api/member";
+import { computed, onUnmounted, ref } from "vue";
+import { onHide, onPullDownRefresh, onShareAppMessage, onShow } from "@dcloudio/uni-app";
+import { getMemberBookingCatalog, getMemberHome, getMemberOfficialAccountFollow } from "@/api/member";
 import { requireMemberAuth } from "@/auth/guard";
 import { ensureMemberContext, loadJoinableSites, loadJoinedMemberSites, selectMemberSite } from "@/composables/member-context";
-import type { MemberHomeDashboard, MemberSiteOption } from "@/types/member";
-import { appointmentStatusLabel, formatIsoDate } from "@/utils/format";
+import type { MemberAppointmentSummary, MemberBookingCatalogItem, MemberHomeDashboard, MemberSiteOption } from "@/types/member";
+import { formatIsoDate } from "@/utils/format";
+
+function localDateKey(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
 
 const loading = ref(true);
 const errorMessage = ref("");
@@ -15,18 +22,179 @@ const currentSite = ref<MemberSiteOption | null>(null);
 const siteName = ref("");
 const dashboard = ref<MemberHomeDashboard | null>(null);
 const showOfficialAccountFollow = ref(false);
-const appointmentTab = ref(0);
+const courseTab = ref(0);
 
-function onAppointmentTabChange(item: { index: number }) {
-  appointmentTab.value = item.index;
+const courseTabs = [
+  { name: "我的约课" },
+  { name: "常规课" },
+  { name: "私教" },
+];
+
+const todayIso = localDateKey(new Date());
+const statusBarHeight = ref(0);
+try {
+  statusBarHeight.value = uni.getSystemInfoSync().statusBarHeight || 0;
+} catch {
+  statusBarHeight.value = 0;
+}
+const catalogSessions = ref<MemberBookingCatalogItem[]>([]);
+const catalogLoaded = ref(false);
+const catalogLoading = ref(false);
+const catalogError = ref("");
+const homeTenantId = ref<number | null>(null);
+const homeSiteId = ref<number | null>(null);
+
+function onCourseTabChange(item: { index: number }) {
+  courseTab.value = item.index;
+  if (item.index > 0) void ensureCatalog();
 }
 
-const carouselImages = computed(() => {
-  if (!dashboard.value) return [] as string[];
-  const items = dashboard.value.carousel.items.map((item) => item.imageUrl);
+const carouselItems = computed(() => {
+  if (!dashboard.value) return [] as { imageUrl: string; linkUrl: string | null }[];
+  const items = dashboard.value.carousel.items.map((item) => ({ imageUrl: item.imageUrl, linkUrl: item.linkUrl }));
   if (items.length > 0) return items;
-  return dashboard.value.carousel.defaultImageUrl ? [dashboard.value.carousel.defaultImageUrl] : [];
+  return dashboard.value.carousel.defaultImageUrl ? [{ imageUrl: dashboard.value.carousel.defaultImageUrl, linkUrl: null }] : [];
 });
+
+function timeOfDayLabel(d: Date): string {
+  const h = d.getHours();
+  if (h < 12) return "上午";
+  if (h < 18) return "下午";
+  return "晚上";
+}
+
+interface AppointmentSection {
+  key: string;
+  label: string;
+  rows: MemberAppointmentSummary[];
+}
+
+const appointmentSections = computed<AppointmentSection[]>(() => {
+  const list = dashboard.value?.upcomingAppointments ?? [];
+  const sections: AppointmentSection[] = [];
+  for (const appointment of list) {
+    const d = appointment.startsAt ? new Date(appointment.startsAt) : null;
+    const label = d && !Number.isNaN(d.getTime()) ? timeOfDayLabel(d) : "其它";
+    const last = sections[sections.length - 1];
+    if (last && last.label === label) {
+      last.rows.push(appointment);
+    } else {
+      sections.push({ key: `s-${appointment.id}`, label, rows: [appointment] });
+    }
+  }
+  return sections;
+});
+
+const nowMs = ref(Date.now());
+let countdownTimer: ReturnType<typeof setInterval> | null = null;
+function startCountdownTick() {
+  stopCountdownTick();
+  countdownTimer = setInterval(() => {
+    nowMs.value = Date.now();
+  }, 1000);
+}
+function stopCountdownTick() {
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+}
+
+const nearestCountdown = computed<{ id: number; text: string } | null>(() => {
+  const list = dashboard.value?.upcomingAppointments ?? [];
+  const now = nowMs.value;
+  for (const appointment of list) {
+    if (!appointment.startsAt) continue;
+    const t = new Date(appointment.startsAt).getTime();
+    if (Number.isNaN(t)) continue;
+    const diff = t - now;
+    if (diff <= 0) continue;
+    const totalMin = Math.floor(diff / 60000);
+    let text: string;
+    if (totalMin >= 60) {
+      const h = Math.floor(totalMin / 60);
+      const m = totalMin % 60;
+      text = `距开始 ${h}小时${m}分`;
+    } else if (totalMin >= 1) {
+      text = `距开始 ${totalMin}分钟`;
+    } else {
+      text = "即将开始";
+    }
+    return { id: appointment.id, text };
+  }
+  return null;
+});
+
+const groupSessions = computed(() =>
+  catalogSessions.value.filter((s) => (s.courseType || s.sessionKind) !== "private"),
+);
+
+const privateSessions = computed(() =>
+  catalogSessions.value.filter((s) => (s.courseType || s.sessionKind) === "private"),
+);
+
+function formatSessionTime(iso: string | null | undefined) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
+function catalogCoachInitial(session: MemberBookingCatalogItem) {
+  const name = session.coachName || "";
+  return name ? name.slice(0, 1) : "教";
+}
+
+function catalogTypeLabel(session: MemberBookingCatalogItem) {
+  return (session.courseType || session.sessionKind) === "private" ? "私教" : "团课";
+}
+
+function isCatalogFull(session: MemberBookingCatalogItem) {
+  const booked = session.bookedCount ?? 0;
+  return session.capacity > 0 && booked >= session.capacity;
+}
+
+function catalogStatusLabel(session: MemberBookingCatalogItem) {
+  if (session.memberAppointmentStatus === "confirmed") return "已预约";
+  if (session.memberAppointmentStatus === "waitlisted") return "排队中";
+  if (session.bookable) {
+    if (isCatalogFull(session) && session.waitlistEnabled) return "候补";
+    if (isCatalogFull(session)) return "已约满";
+    return "可约";
+  }
+  return isCatalogFull(session) ? "已约满" : "已截止";
+}
+
+function catalogStatusColor(session: MemberBookingCatalogItem) {
+  const label = catalogStatusLabel(session);
+  switch (label) {
+    case "可约":
+      return "#22c788";
+    case "候补":
+    case "排队中":
+      return "#ffae00";
+    case "已预约":
+      return "#dc3c5c";
+    default:
+      return "#989898";
+  }
+}
+
+async function ensureCatalog() {
+  if (catalogLoaded.value || catalogLoading.value) return;
+  if (homeTenantId.value == null || homeSiteId.value == null) return;
+  catalogLoading.value = true;
+  catalogError.value = "";
+  try {
+    const res = await getMemberBookingCatalog(homeTenantId.value, homeSiteId.value, todayIso);
+    catalogSessions.value = res.data.items;
+    catalogLoaded.value = true;
+  } catch (error) {
+    catalogError.value = error instanceof Error ? error.message : "课程列表加载失败";
+  } finally {
+    catalogLoading.value = false;
+  }
+}
 
 const quickActions = [
   { label: "场馆信息", icon: "home", color: "#FF846D", action: "site" },
@@ -50,6 +218,10 @@ async function loadDashboard() {
     }
 
     siteName.value = context.siteName;
+    homeTenantId.value = context.tenantId;
+    homeSiteId.value = context.siteId;
+    catalogLoaded.value = false;
+    catalogSessions.value = [];
     const joinedSites = await loadJoinedMemberSites();
     currentSite.value = joinedSites.find((site) => site.id === context.siteId && site.tenantId === context.tenantId) ?? null;
 
@@ -118,6 +290,21 @@ function openMyAppointments() {
   uni.navigateTo({ url: "/pages/booking/my-appointments" });
 }
 
+function openSessionDetail(appointment: MemberAppointmentSummary) {
+  uni.navigateTo({ url: `/pages/booking/detail?id=${appointment.sessionId}` });
+}
+
+function openSessionDetailById(sessionId: number) {
+  uni.navigateTo({ url: `/pages/booking/detail?id=${sessionId}` });
+}
+
+function openCarouselLink(linkUrl: string | null) {
+  if (!linkUrl) return;
+  if (linkUrl.startsWith("/pages/")) {
+    uni.navigateTo({ url: linkUrl });
+  }
+}
+
 function openNoticeDetail(noticeId: number) {
   uni.navigateTo({ url: `/pages/notices/detail?id=${noticeId}` });
 }
@@ -140,19 +327,33 @@ function callSitePhone() {
 }
 
 onShow(async () => {
+  startCountdownTick();
   if (await requireMemberAuth()) await loadDashboard();
+});
+
+onHide(() => {
+  stopCountdownTick();
+});
+
+onUnmounted(() => {
+  stopCountdownTick();
 });
 
 onPullDownRefresh(async () => {
   await loadDashboard();
   uni.stopPullDownRefresh();
 });
+
+onShareAppMessage(() => ({
+  title: siteName.value ? `${siteName.value} · 松果约课` : "松果约课",
+  path: "/pages/index/index",
+}));
 </script>
 
 <template>
   <u-loading-page :loading="loading" />
   <view v-if="!loading" class="home-page">
-    <view v-if="needsSite" class="page-container">
+    <view v-if="needsSite" class="page-container" :style="{ paddingTop: statusBarHeight ? `${statusBarHeight}px` : '0' }">
       <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
       <view class="site-prompt">
         <view class="section-title">选择场馆</view>
@@ -165,17 +366,14 @@ onPullDownRefresh(async () => {
     <template v-else>
       <view class="hero-wrap">
         <swiper
-          v-if="carouselImages.length"
+          v-if="carouselItems.length"
           class="hero-swiper"
           circular
-          indicator-dots
-          indicator-color="rgba(255,255,255,0.4)"
-          indicator-active-color="#ffffff"
           autoplay
           interval="4000"
         >
-          <swiper-item v-for="(image, index) in carouselImages" :key="`${image}-${index}`">
-            <image class="hero-image" :src="image" mode="aspectFill" />
+          <swiper-item v-for="(item, index) in carouselItems" :key="`${item.imageUrl}-${index}`">
+            <image class="hero-image" :src="item.imageUrl" mode="aspectFill" @tap="openCarouselLink(item.linkUrl)" />
           </swiper-item>
         </swiper>
         <view v-else class="hero-placeholder" />
@@ -201,8 +399,6 @@ onPullDownRefresh(async () => {
           </view>
           <view class="shop-center">
             <text class="shop-name">{{ siteName || "当前场馆" }}</text>
-            <text v-if="currentSite?.address" class="shop-meta">{{ currentSite.address }}</text>
-            <text v-else class="shop-meta">点击查看场馆详情</text>
           </view>
           <view class="shop-switch" @tap.stop="openSitePicker">
             <u-icon name="reload" size="22" color="#181818" />
@@ -211,12 +407,16 @@ onPullDownRefresh(async () => {
         </view>
 
         <view class="info-foot">
-          <text v-if="currentSite?.address" class="site-addr">{{ currentSite.address }}</text>
+          <view class="site-addr">{{ currentSite?.address || "点击查看场馆详情" }}</view>
           <view class="foot-actions">
             <view class="foot-action" @tap.stop="callSitePhone">
               <u-icon name="phone" size="18" color="#7e7e7e" />
               <text>电话</text>
             </view>
+            <button class="foot-action foot-share" open-type="share" plain>
+              <u-icon name="share" size="18" color="#7e7e7e" />
+              <text>分享</text>
+            </button>
           </view>
         </view>
 
@@ -245,8 +445,11 @@ onPullDownRefresh(async () => {
             v-for="notice in dashboard.notices"
             :key="notice.id"
             class="notice-card"
+            :class="{ 'notice-card--image': notice.coverImageUrl }"
+            :style="notice.coverImageUrl ? `background-image:url('${notice.coverImageUrl}');background-size:100% 100%;` : ''"
             @tap="openNoticeDetail(notice.id)"
           >
+            <view v-if="notice.coverImageUrl" class="notice-overlay" />
             <view class="notice-top">
               <text class="notice-tag">通知</text>
               <text v-if="notice.publishedAt" class="notice-time">发布于：{{ formatIsoDate(notice.publishedAt) }}</text>
@@ -258,35 +461,73 @@ onPullDownRefresh(async () => {
 
         <view class="appointment-section">
           <u-tabs
-            :list="[{ name: '即将上课' }, { name: '全部预约' }]"
-            :current="appointmentTab"
+            :list="courseTabs"
+            :current="courseTab"
             line-color="#22C788"
             :active-style="{ color: '#181818', fontWeight: 600 }"
             :inactive-style="{ color: '#989898' }"
-            @change="onAppointmentTabChange"
+            @change="onCourseTabChange"
           />
           <view class="appointment-list">
-            <u-empty v-if="!dashboard?.upcomingAppointments.length" mode="list" text="~ 暂无约课记录 ~" />
-            <view
-              v-for="appointment in dashboard?.upcomingAppointments ?? []"
-              :key="appointment.id"
-              class="appointment-card"
-              @tap="openMyAppointments"
-            >
-              <view class="appointment-status">{{ appointmentStatusLabel(appointment.status) }}</view>
-              <view class="appointment-name">
-                {{ appointment.courseName || `课程 #${appointment.sessionId}` }}
+            <template v-if="courseTab === 0">
+              <u-empty v-if="!appointmentSections.length" mode="list" text="~ 暂无约课记录 ~" />
+              <view v-for="section in appointmentSections" :key="section.key" class="appt-section">
+                <view class="tod-header">{{ section.label }}</view>
+                <view v-for="a in section.rows" :key="a.id" class="appointment-item">
+                  <view
+                    v-if="nearestCountdown && nearestCountdown.id === a.id"
+                    class="countdown-badge"
+                  >
+                    <u-icon name="clock" size="22" color="#22c788" />
+                    <text class="countdown-text">{{ nearestCountdown.text }}</text>
+                  </view>
+                  <appointment-row :item="a" variant="legacy" @tap="openSessionDetail(a)" />
+                </view>
               </view>
-              <view v-if="appointment.startsAt" class="appointment-time">
-                {{ formatIsoDate(appointment.startsAt) }}
-                <text v-if="appointment.endsAt"> - {{ formatIsoDate(appointment.endsAt) }}</text>
+              <view v-if="appointmentSections.length" class="appointment-more" @tap="openMyAppointments">
+                查看全部预约 ›
               </view>
-            </view>
-            <view v-if="appointmentTab === 1" class="appointment-more" @tap="openMyAppointments">
-              查看全部预约
-            </view>
+            </template>
+
+            <template v-else>
+              <u-empty
+                v-if="!catalogLoading && !catalogSessions.length"
+                mode="list"
+                text="~ 今日无排课 ~"
+              />
+              <view
+                v-for="session in (courseTab === 1 ? groupSessions : privateSessions)"
+                :key="session.id"
+                class="catalog-row"
+                @tap="openSessionDetailById(session.id)"
+              >
+                <view class="catalog-avatar">{{ catalogCoachInitial(session) }}</view>
+                <view class="catalog-main">
+                  <view class="catalog-name-row">
+                    <text class="catalog-name">{{ session.courseName || "课程" }}</text>
+                    <text class="catalog-type">{{ catalogTypeLabel(session) }}</text>
+                  </view>
+                  <view class="catalog-sub">
+                    <text v-if="session.coachName" class="catalog-coach">{{ session.coachName }}</text>
+                    <text class="catalog-time">
+                      {{ formatSessionTime(session.startsAt) }}-{{ formatSessionTime(session.endsAt) }}
+                    </text>
+                  </view>
+                  <view class="catalog-cap">
+                    <text>{{ session.bookedCount ?? 0 }}/{{ session.capacity }}</text>
+                  </view>
+                </view>
+                <view class="catalog-status" :style="{ color: catalogStatusColor(session) }">
+                  {{ catalogStatusLabel(session) }}
+                </view>
+              </view>
+            </template>
           </view>
         </view>
+      </view>
+
+      <view class="bottom-logo">
+        <text>松果约课 · 让每一次约课都简单</text>
       </view>
 
       <view v-if="showOfficialAccountFollow" class="follow-banner-wrap">
@@ -326,7 +567,16 @@ onPullDownRefresh(async () => {
   overflow: hidden;
 }
 
-.hero-swiper,
+.hero-swiper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 458rpx;
+  transform: scale(1.01);
+  z-index: 0;
+}
+
 .hero-placeholder,
 .hero-image {
   width: 100%;
@@ -334,11 +584,17 @@ onPullDownRefresh(async () => {
 }
 
 .hero-placeholder {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: scale(1.01);
+  z-index: 0;
   background: linear-gradient(135deg, #22c788 0%, #1dac75 100%);
 }
 
 .main-sheet {
   position: relative;
+  z-index: 1;
   margin-top: -30rpx;
   min-height: 600rpx;
   padding-bottom: 40rpx;
@@ -356,6 +612,8 @@ onPullDownRefresh(async () => {
 
 .shop-center {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 10rpx 15rpx 0;
 }
 
@@ -365,14 +623,7 @@ onPullDownRefresh(async () => {
   font-size: 42rpx;
   font-weight: 500;
   line-height: 42rpx;
-}
-
-.shop-meta {
-  display: block;
-  margin-top: 16rpx;
-  color: $color-text-secondary;
-  font-size: 22rpx;
-  line-height: 26rpx;
+  margin: 6rpx 0 16rpx;
 }
 
 .shop-switch {
@@ -392,7 +643,8 @@ onPullDownRefresh(async () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 32rpx 38rpx 0;
+  height: 85rpx;
+  margin: 0 40rpx 0 38rpx;
 }
 
 .site-addr {
@@ -401,11 +653,15 @@ onPullDownRefresh(async () => {
   color: $color-text;
   font-size: 22rpx;
   line-height: 24rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .foot-actions {
   display: flex;
-  gap: 46rpx;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .foot-action {
@@ -414,6 +670,26 @@ onPullDownRefresh(async () => {
   align-items: center;
   color: $color-text-secondary;
   font-size: 18rpx;
+  line-height: 22rpx;
+}
+
+.foot-share {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  min-width: 0;
+  margin-left: 46rpx;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: $color-text-secondary;
+  font-size: 18rpx;
+  line-height: 22rpx;
+}
+
+.foot-share::after {
+  border: none;
 }
 
 .section-divider {
@@ -472,10 +748,25 @@ onPullDownRefresh(async () => {
 }
 
 .notice-card {
+  position: relative;
   margin-bottom: 24rpx;
   padding: 25rpx 36rpx 28rpx;
   background: $color-notice-bg;
   border-radius: $radius-md;
+  overflow: hidden;
+}
+
+.notice-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(134, 91, 0, 0.55) 0%, rgba(134, 91, 0, 0.7) 100%);
+  z-index: 0;
+}
+
+.notice-card > view:not(.notice-overlay),
+.notice-card > text {
+  position: relative;
+  z-index: 1;
 }
 
 .notice-top {
@@ -521,38 +812,128 @@ onPullDownRefresh(async () => {
 
 .appointment-list {
   min-height: 240rpx;
-  padding-top: 20rpx;
+  margin-top: 40rpx;
 }
 
-.appointment-card {
-  margin-bottom: 24rpx;
-  padding: 24rpx;
-  background: $color-surface-muted;
-  border-radius: $radius-md;
+.appointment-item {
+  padding: 0 4rpx;
 }
 
-.appointment-status {
-  color: $color-primary;
-  font-size: 24rpx;
+.appt-section {
+  padding: 0 4rpx;
+}
+
+.tod-header {
+  margin: 24rpx 0 4rpx;
+  color: $color-text;
+  font-size: 28rpx;
   font-weight: 500;
 }
 
-.appointment-name {
-  margin-top: 8rpx;
-  font-size: 32rpx;
-  font-weight: 600;
+.countdown-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rpx;
+  margin: 10rpx 0 4rpx;
+  padding: 4rpx 16rpx;
+  background: rgba(34, 199, 136, 0.12);
+  border-radius: 20rpx;
+  color: $color-primary;
+  line-height: 32rpx;
 }
 
-.appointment-time {
-  margin-top: 8rpx;
-  color: $color-text-secondary;
-  font-size: 24rpx;
+.countdown-text {
+  color: $color-primary;
+  font-size: 22rpx;
 }
 
 .appointment-more {
-  padding: 20rpx 0;
+  padding: 20rpx 0 4rpx;
   color: $color-primary;
   font-size: 26rpx;
+  text-align: center;
+}
+
+.catalog-row {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+}
+
+.catalog-avatar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 12rpx;
+  background: linear-gradient(135deg, #22c788 0%, #1dac75 100%);
+  color: #fff;
+  font-size: 38rpx;
+  font-weight: 500;
+}
+
+.catalog-main {
+  flex: 1;
+  margin-left: 16rpx;
+}
+
+.catalog-name-row {
+  display: flex;
+  align-items: center;
+}
+
+.catalog-name {
+  color: $color-text;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.catalog-type {
+  margin-left: 12rpx;
+  padding: 0 12rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  background: $color-primary-light;
+  border-radius: 8rpx;
+  color: $color-primary;
+  font-size: 20rpx;
+}
+
+.catalog-sub {
+  display: flex;
+  align-items: center;
+  margin-top: 10rpx;
+  color: $color-text-muted;
+  font-size: 22rpx;
+}
+
+.catalog-coach {
+  margin-right: 16rpx;
+}
+
+.catalog-time {
+  color: $color-text-muted;
+}
+
+.catalog-cap {
+  margin-top: 8rpx;
+  color: $color-text-muted;
+  font-size: 22rpx;
+}
+
+.catalog-status {
+  flex-shrink: 0;
+  margin-left: 16rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+}
+
+.bottom-logo {
+  padding: 40rpx 0 24rpx;
+  color: $color-text-muted;
+  font-size: 22rpx;
   text-align: center;
 }
 

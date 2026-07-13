@@ -283,7 +283,6 @@ export interface MemberBookingCatalogItem {
   waitlistEnabled: boolean;
   bookable: boolean;
   memberAppointmentStatus: AppointmentStatus | null;
-  coverImageUrl?: string | null;
 }
 
 export interface MemberBookingCatalog {

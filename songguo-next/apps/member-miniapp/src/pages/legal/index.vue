@@ -50,49 +50,54 @@ onShow(async () => { if (await requireMemberAuth()) await loadDocuments(); });
 
 <template>
   <u-loading-page :loading="loading" />
-  <view v-if="!loading" class="page-container">
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
-    <u-empty v-if="!currentDocument && !errorMessage" mode="data" text="暂无协议内容" />
+  <view v-if="!loading" class="legal-page">
+    <u-alert v-if="errorMessage" type="error" :description="errorMessage" :custom-style="{ margin: '24rpx 28rpx 0' }" />
+    <u-empty v-if="!currentDocument && !errorMessage" mode="data" text="还没有数据哦" />
 
     <template v-if="currentDocument">
-      <view class="doc-header">
-        <view class="doc-title">{{ currentDocument.title }}</view>
-        <view class="doc-version">版本 {{ currentDocument.version }}</view>
-      </view>
+      <view class="doc-title">{{ currentDocument.title }}</view>
+      <view class="doc-version">版本 {{ currentDocument.version }}</view>
       <view class="doc-content">{{ currentDocument.content }}</view>
     </template>
+
+    <view class="bottom-logo">
+      <text>松果约课</text>
+    </view>
   </view>
 </template>
 
 <style scoped lang="scss">
-.doc-header {
-  margin-bottom: $spacing-md;
-  padding: $spacing-md;
+.legal-page {
+  min-height: 100vh;
+  padding: 50rpx 40rpx 80rpx;
   background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-md;
 }
 
 .doc-title {
-  font-size: 34rpx;
+  color: $color-text;
+  font-size: 36rpx;
   font-weight: 600;
+  line-height: 48rpx;
 }
 
 .doc-version {
-  margin-top: $spacing-xs;
-  margin-bottom: $spacing-md;
+  margin-top: 12rpx;
+  margin-bottom: 32rpx;
   color: $color-text-secondary;
   font-size: 24rpx;
 }
 
 .doc-content {
-  padding: $spacing-md;
   color: $color-text;
-  font-size: 28rpx;
-  line-height: 1.7;
+  font-size: 25rpx;
+  line-height: 40rpx;
   white-space: pre-wrap;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-md;
+}
+
+.bottom-logo {
+  margin-top: 60rpx;
+  text-align: center;
+  color: $color-text-muted;
+  font-size: 22rpx;
 }
 </style>

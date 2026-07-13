@@ -6,12 +6,6 @@ import { getMemberHiddenCards, restoreMemberCardVisibility } from "@/api/member"
 import { ensureMemberTenant } from "@/composables/member-context";
 import type { MemberCardWalletSummary } from "@/types/member";
 import { createCommandKey } from "@/utils/command-key";
-import {
-  cardBalanceLabel,
-  cardValidityLabel,
-  memberCardStatusClass,
-  memberCardStatusLabel,
-} from "@/utils/format";
 
 const restoringId = ref<number | null>(null);
 const errorMessage = ref("");
@@ -85,106 +79,67 @@ onPullDownRefresh(async () => { await loadCards(); uni.stopPullDownRefresh(); })
 
 <template>
   <u-loading-page :loading="loading" />
-  <view v-if="!loading" class="page-container">
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+  <view v-if="!loading" class="hidden-page">
+    <u-alert v-if="errorMessage" type="error" :description="errorMessage" :custom-style="{ margin: '24rpx 28rpx 0' }" />
 
     <view class="hint-text">以下会员卡已从钱包中隐藏，恢复后将重新显示在「我的会员卡」列表。</view>
 
     <u-empty v-if="cards.length === 0 && !errorMessage" mode="card" text="暂无已隐藏会员卡" />
-    <view v-for="card in cards" :key="card.id" class="card-item">
-      <view class="card-header">
-        <view class="card-name">{{ card.name || "会员卡" }}</view>
-        <view class="status-tag" :class="memberCardStatusClass(card.status)">
-          {{ memberCardStatusLabel(card.status) }}
-        </view>
-      </view>
-      <view class="card-meta">{{ card.cardNoMasked }}</view>
-      <view v-if="cardBalanceLabel(card)" class="card-balance">{{ cardBalanceLabel(card) }}</view>
-      <view v-if="cardValidityLabel(card.validFrom, card.validUntil)" class="card-meta">
-        {{ cardValidityLabel(card.validFrom, card.validUntil) }}
-      </view>
-      <view class="card-actions">
-        <u-button
-          size="small"
-          type="primary"
-          :loading="restoringId === card.id"
-          @click="confirmRestore(card)"
-        >
-          恢复显示
-        </u-button>
+
+    <view v-if="cards.length" class="total-card">共{{ cards.length }}张</view>
+
+    <view v-for="card in cards" :key="card.id" class="card-block">
+      <member-card :card="card" />
+      <view
+        class="restore-btn"
+        :class="{ 'restore-btn--disabled': restoringId === card.id }"
+        @tap="confirmRestore(card)"
+      >
+        {{ restoringId === card.id ? "恢复中..." : "恢复" }}
       </view>
     </view>
+
+    <bottom-logo v-if="cards.length" />
   </view>
 </template>
 
 <style scoped lang="scss">
+.hidden-page {
+  min-height: 100vh;
+  background: $color-page;
+  padding: 24rpx 28rpx 0;
+}
+
 .hint-text {
-  margin-bottom: $spacing-md;
+  margin-bottom: 24rpx;
   color: $color-text-secondary;
   font-size: 24rpx;
 }
 
-.card-item {
-  margin-bottom: $spacing-sm;
-  padding: $spacing-md;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-md;
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: $spacing-sm;
-}
-
-.card-name {
-  font-size: 30rpx;
-  font-weight: 600;
-}
-
-.status-tag {
-  padding: 4rpx 12rpx;
-  font-size: 22rpx;
-  border-radius: $radius-sm;
-}
-
-.status-active {
-  color: #16a34a;
-  background: #dcfce7;
-}
-
-.status-pending {
-  color: #ca8a04;
-  background: #fef9c3;
-}
-
-.status-frozen {
-  color: #2563eb;
-  background: #dbeafe;
-}
-
-.status-muted {
-  color: $color-text-secondary;
-  background: #f3f4f6;
-}
-
-.card-meta {
-  margin-top: $spacing-xs;
-  color: $color-text-secondary;
-  font-size: 24rpx;
-}
-
-.card-balance {
-  margin-top: $spacing-xs;
+.total-card {
+  margin-bottom: 24rpx;
+  color: $color-text;
   font-size: 28rpx;
   font-weight: 600;
 }
 
-.card-actions {
+.card-block {
+  margin-bottom: 28rpx;
+}
+
+.restore-btn {
   display: flex;
-  justify-content: flex-end;
-  margin-top: $spacing-sm;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16rpx;
+  padding: 14rpx 0;
+  background: $color-primary;
+  border-radius: 36rpx;
+  color: #fff;
+  font-size: 26rpx;
+}
+
+.restore-btn--disabled {
+  opacity: 0.5;
 }
 </style>

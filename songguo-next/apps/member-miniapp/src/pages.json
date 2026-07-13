@@ -9,6 +9,7 @@
 		{
 			"path": "pages/index/index",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "松果约课",
 				"enablePullDownRefresh": true
 			}
@@ -36,6 +37,7 @@
 		{
 			"path": "pages/mine/index",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "我的"
 			}
 		},
@@ -156,7 +158,9 @@
 		{
 			"path": "pages/follow/official-account",
 			"style": {
-				"navigationBarTitleText": "关注公众号"
+				"navigationBarTitleText": "关注公众号",
+				"navigationBarBackgroundColor": "#696B99",
+				"navigationBarTextStyle": "white"
 			}
 		},
 		{

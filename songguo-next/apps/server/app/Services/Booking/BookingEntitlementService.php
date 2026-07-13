@@ -72,6 +72,11 @@ class BookingEntitlementService
                 $entryType = EntitlementLedgerEntryType::CountDeduct;
                 $amountField = null;
                 $countField = $delta;
+            } elseif ($cardType === CardType::Period) {
+                abort_unless($locked->card_type === CardType::Period, 409, 'BOOKING_CARD_NOT_PAYABLE');
+                $entryType = EntitlementLedgerEntryType::PeriodUse;
+                $amountField = null;
+                $countField = null;
             } else {
                 $delta = number_format((float) $amountDelta, 2, '.', '');
                 abort_unless($locked->card_type === CardType::StoredValue, 409, 'MEMBER_CARD_BALANCE_ADJUST_INVALID');

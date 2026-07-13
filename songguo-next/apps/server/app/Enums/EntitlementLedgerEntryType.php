@@ -10,6 +10,7 @@ enum EntitlementLedgerEntryType: string
     case BalanceAdjust = 'balance_adjust';
     case CountDeduct = 'count_deduct';
     case CountAdjust = 'count_adjust';
+    case PeriodUse = 'period_use';
     case ValidityChange = 'validity_change';
     case Freeze = 'freeze';
     case FreezeLift = 'freeze_lift';
