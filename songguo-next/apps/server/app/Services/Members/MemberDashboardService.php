@@ -15,6 +15,7 @@ use App\Services\Cards\MemberCardReadService;
 use App\Services\Members\MonthlyRankingService;
 use App\Services\Points\PointLedgerReadService;
 use App\Services\Tenant\MemberExperienceConfigService;
+use App\Support\AvatarUrl;
 use Illuminate\Support\Str;
 
 class MemberDashboardService
@@ -61,7 +62,7 @@ class MemberDashboardService
             ->all();
 
         $upcoming = Appointment::query()
-            ->with(['session.course', 'session.coach'])
+            ->with(['session.course', 'session.coach.account', 'ledgerEntry'])
             ->where('tenant_id', $member->tenant_id)
             ->where('member_id', $member->id)
             ->whereIn('status', [AppointmentStatus::Confirmed, AppointmentStatus::Waitlisted])
@@ -121,6 +122,7 @@ class MemberDashboardService
             'profile' => [
                 'displayName' => $profile?->display_name ?? $crmProfile?->name,
                 'avatarObjectKey' => $profile?->avatar_object_key,
+                'avatarUrl' => $this->avatarUrl($profile?->avatar_object_key),
                 'mobileMasked' => $this->maskedMobile($profile?->mobile_last4, $crmProfile?->mobile_last4),
             ],
             'cardCount' => $walletCards->count(),
@@ -249,6 +251,11 @@ class MemberDashboardService
         $last4 = $profileLast4 ?: $crmLast4;
 
         return $last4 ? "*******{$last4}" : null;
+    }
+
+    private function avatarUrl(?string $objectKey): ?string
+    {
+        return AvatarUrl::fromObjectKey($objectKey);
     }
 
     private function layoutEnabled(Member $member, ?\App\Models\Tenant $tenant): bool

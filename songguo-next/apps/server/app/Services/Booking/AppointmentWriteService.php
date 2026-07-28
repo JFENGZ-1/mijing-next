@@ -19,6 +19,8 @@ class AppointmentWriteService
         private BookingPolicyService $policy,
         private BookingPayableCardService $payableCards,
         private BookingEntitlementService $entitlements,
+        private \App\Services\Cards\CardProductBookingRulesService $cardRules,
+        private \App\Services\Cards\MemberCardAutoActivationService $autoActivation,
     ) {}
 
     /**
@@ -50,6 +52,7 @@ class AppointmentWriteService
         ScheduleSession $session,
         MemberCard $memberCard,
         string $commandKey,
+        ?string $memberRemark = null,
     ): array {
         return $this->create(
             $member,
@@ -59,6 +62,7 @@ class AppointmentWriteService
             bookedByAccountId: null,
             createdByStaffId: $staff->id,
             actorStaffId: $staff->id,
+            memberRemark: $memberRemark,
         );
     }
 
@@ -87,6 +91,14 @@ class AppointmentWriteService
         abort_unless($appointment->tenant_id === $staff->tenant_id, 404);
 
         return $this->cancel($staff->tenant_id, $appointment, $commandKey, actorStaffId: $staff->id);
+    }
+
+    /**
+     * @return array{appointment: Appointment, created: bool}
+     */
+    public function cancelForSystem(int $tenantId, Appointment $appointment, string $commandKey): array
+    {
+        return $this->cancel($tenantId, $appointment, $commandKey, skipBookingPolicy: true);
     }
 
     /**
@@ -137,6 +149,7 @@ class AppointmentWriteService
         ?int $bookedByAccountId = null,
         ?int $createdByStaffId = null,
         ?int $actorStaffId = null,
+        ?string $memberRemark = null,
     ): array {
         abort_unless($member->tenant_id === $session->tenant_id, 404);
         abort_unless($memberCard->member_id === $member->id, 409, 'BOOKING_CARD_NOT_PAYABLE');
@@ -158,6 +171,7 @@ class AppointmentWriteService
             $bookedByAccountId,
             $createdByStaffId,
             $actorStaffId,
+            $memberRemark,
         ) {
             $lockedSession = ScheduleSession::query()
                 ->where('tenant_id', $member->tenant_id)
@@ -171,8 +185,12 @@ class AppointmentWriteService
                 ->firstOrFail();
 
             $policy = $this->policy->policyForTenantSite($member->tenant_id, $site->id);
-            $this->assertSessionBookable($lockedSession, $site, $policy);
-            $this->policy->assertBookingAllowed($site, $lockedSession, $policy);
+            $this->assertSessionBookable($lockedSession, $site, $policy, forMemberSelfBook: $createdByStaffId === null);
+            // 开课截止、最少提前等仅约束会员自约；员工代约不受预约设置限制（对标原版管理端）
+            if ($createdByStaffId === null) {
+                $this->policy->assertBookingAllowed($site, $lockedSession, $policy);
+                $this->policy->assertMemberDailyBookingQuota($site, $member->id, $lockedSession, $policy);
+            }
 
             $duplicate = Appointment::query()
                 ->where('tenant_id', $member->tenant_id)
@@ -185,6 +203,14 @@ class AppointmentWriteService
             abort_if($duplicate, 409, 'APPOINTMENT_ALREADY_EXISTS');
 
             abort_unless($this->payableCards->isEligibleForSession($memberCard, $lockedSession), 409, 'BOOKING_CARD_NOT_PAYABLE');
+
+            // 自动开卡：first-use 首次使用激活；delayed 到期懒激活兜底
+            $memberCard = $this->autoActivation->maybeActivateForBooking($memberCard, $bookedByAccountId);
+
+            // 卡级预约规则（原版「高级选项」）：仅约束会员自约，员工代约不受限
+            if ($createdByStaffId === null) {
+                $this->cardRules->assertBookingAllowed($memberCard, $lockedSession, $site);
+            }
 
             $waitlistEnabled = $lockedSession->session_kind === ScheduleSessionKind::Group
                 ? (bool) $policy['group']['waitlistEnabled']
@@ -207,6 +233,8 @@ class AppointmentWriteService
                     $spec['amount'],
                     actorAccountId: $bookedByAccountId,
                     actorStaffId: $actorStaffId,
+                    // first-class：约课不开卡、上课才开卡，允许待激活扣费
+                    allowPendingActivation: $this->autoActivation->allowsPendingDeduction($memberCard),
                 );
                 $ledgerEntryId = $deduct['ledgerEntryId'];
                 $lockedSession->booked_count = $lockedSession->booked_count + 1;
@@ -224,6 +252,7 @@ class AppointmentWriteService
                 'ledger_entry_id' => $ledgerEntryId,
                 'booked_by_account_id' => $bookedByAccountId,
                 'created_by_staff_id' => $createdByStaffId,
+                'member_remark' => $memberRemark,
                 'booked_at' => now(),
             ]);
 
@@ -240,8 +269,9 @@ class AppointmentWriteService
         string $commandKey,
         ?int $actorAccountId = null,
         ?int $actorStaffId = null,
+        bool $skipBookingPolicy = false,
     ): array {
-        return DB::transaction(function () use ($tenantId, $appointment, $commandKey, $actorAccountId, $actorStaffId) {
+        return DB::transaction(function () use ($tenantId, $appointment, $commandKey, $actorAccountId, $actorStaffId, $skipBookingPolicy) {
             $locked = Appointment::query()
                 ->where('tenant_id', $tenantId)
                 ->whereKey($appointment->id)
@@ -270,7 +300,22 @@ class AppointmentWriteService
                 ->firstOrFail();
 
             $policy = $this->policy->policyForTenantSite($locked->tenant_id, $site->id);
-            $this->policy->assertCancellationAllowed($site, $session, $policy);
+            $this->policy->assertCancellationAllowed(
+                $site,
+                $session,
+                $policy,
+                staffOverride: $actorStaffId !== null || $skipBookingPolicy,
+            );
+
+            // 卡级取消次数限制（原版「高级选项」）：仅约束会员自取消
+            if ($actorStaffId === null && $locked->member_card_id !== null) {
+                $memberCard = MemberCard::query()
+                    ->where('tenant_id', $locked->tenant_id)
+                    ->find($locked->member_card_id);
+                if ($memberCard) {
+                    $this->cardRules->assertCancellationAllowed($memberCard, $site);
+                }
+            }
 
             $wasConfirmed = $locked->status === AppointmentStatus::Confirmed;
 
@@ -356,6 +401,9 @@ class AppointmentWriteService
             'BOOKING_CARD_NOT_PAYABLE',
         );
 
+        // 候补转正同样触发自动开卡（first-use / delayed 到期兜底）
+        $memberCard = $this->autoActivation->maybeActivateForBooking($memberCard);
+
         $spec = $this->payableCards->deductSpec($memberCard, $session);
         $deduct = $this->entitlements->deductForBooking(
             $memberCard,
@@ -367,6 +415,7 @@ class AppointmentWriteService
             actorAccountId: $actorAccountId,
             actorStaffId: $actorStaffId,
             reason: '排队转正扣费',
+            allowPendingActivation: $this->autoActivation->allowsPendingDeduction($memberCard),
         );
 
         $locked->status = AppointmentStatus::Confirmed;
@@ -433,9 +482,13 @@ class AppointmentWriteService
     /**
      * @param  array<string, mixed>  $policy
      */
-    private function assertSessionBookable(ScheduleSession $session, Site $site, array $policy): void
+    private function assertSessionBookable(ScheduleSession $session, Site $site, array $policy, bool $forMemberSelfBook = true): void
     {
         abort_unless($session->status === ScheduleSessionStatus::Scheduled, 409, 'BOOKING_SESSION_NOT_BOOKABLE');
+
+        if (! $forMemberSelfBook) {
+            return;
+        }
 
         $sessionDate = $session->starts_at->timezone($this->siteTimezone($site))->toDateString();
         abort_unless(

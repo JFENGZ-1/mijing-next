@@ -17,6 +17,10 @@ export interface CourseCatalogItem {
   catalogStatus?: CourseCatalogStatus;
   sortOrder?: number;
   version?: number;
+  faceStyle?: number | null;
+  faceGradient?: string | null;
+  displayColor?: string | null;
+  tags?: string[];
 }
 
 export interface CourseCatalogList {
@@ -49,6 +53,8 @@ export interface CourseUpsertPayload {
   coachStaffId?: number | null;
   tags?: string[];
   sortOrder?: number;
+  faceStyle?: number | null;
+  displayColor?: string | null;
 }
 
 export interface CourseUpdatePayload extends CourseUpsertPayload {

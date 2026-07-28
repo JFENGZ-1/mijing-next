@@ -46,7 +46,7 @@ class BookingDayBoardQueryService
     public function memberCatalogSessions(Site $site, string $date): Collection
     {
         return $this->sessionsForDay($site, $date, ScheduleSessionStatus::Scheduled)
-            ->with(['course', 'coach'])
+            ->with(['course', 'coach.account'])
             ->orderBy('starts_at')
             ->orderBy('id')
             ->get();

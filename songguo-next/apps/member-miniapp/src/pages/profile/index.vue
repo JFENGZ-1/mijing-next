@@ -19,7 +19,8 @@ function genderLabel(gender: MemberProfileData["gender"]) {
 }
 
 async function load() {
-  loading.value = true;
+  // 仅首次显示全屏加载，返回本页时静默刷新
+  loading.value = !onboarding.value;
   errorMessage.value = "";
   try {
     const response = await useApiClient().request<MemberOnboardingData>("/member/onboarding");

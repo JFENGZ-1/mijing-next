@@ -137,7 +137,7 @@ onShow(async () => {
 .page-container {
   min-height: 100vh;
   padding: 24rpx;
-  background: #f4f6f8;
+  background: #f5f5f5;
 }
 
 .hint-card {
@@ -161,13 +161,13 @@ onShow(async () => {
   padding: 12rpx 24rpx;
   border-radius: 999rpx;
   background: #fff;
-  color: #5f6368;
+  color: #505050;
   font-size: 26rpx;
 }
 
 .chip.active {
-  background: #e8f0fe;
-  color: #1a73e8;
+  background: #fdf3e3;
+  color: #ed920f;
 }
 
 .chip.disabled {
@@ -188,7 +188,7 @@ onShow(async () => {
 
 .required-tag {
   margin-right: 16rpx;
-  color: #d93025;
+  color: #dc3c5c;
   font-size: 24rpx;
 }
 </style>

@@ -1,5 +1,6 @@
 import { useApiClient } from "@/api/client";
 import type {
+  BookingPickerResult,
   CrmBatchImportResult,
   CrmDashboardSummary,
   CrmDeletedMemberList,
@@ -54,6 +55,18 @@ export async function fetchCrmMembers(siteId: number, query: CrmMemberListQuery 
     includeVisitors: query.includeVisitors,
   });
   return useApiClient().request<CrmMemberList>(`${sitePath(siteId, "/members")}${qs}`);
+}
+
+/**
+ * 代约选会员（对标原版 pinyinList + findUserdy2 合一）。
+ * initials（逗号分隔）仅控制加载批次；分布与总数始终为全量。
+ */
+export async function fetchBookingPickerMembers(
+  siteId: number,
+  query: { q?: string; scope?: "site" | "all"; initials?: string; limit?: number } = {},
+) {
+  const qs = buildQuery({ q: query.q, scope: query.scope, initials: query.initials, limit: query.limit });
+  return useApiClient().request<BookingPickerResult>(sitePath(siteId, `/members/booking-picker${qs}`));
 }
 
 export async function fetchCrmMember(siteId: number, memberId: number) {

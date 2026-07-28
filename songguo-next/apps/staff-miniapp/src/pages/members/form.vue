@@ -111,7 +111,7 @@ onShow(async () => {
     </picker>
 
     <view v-if="!memberId" class="owner-row">
-      <checkbox :checked="form.assignToMe" color="#1677ff" @tap="form.assignToMe = !form.assignToMe" />
+      <checkbox :checked="form.assignToMe" color="#ed920f" @tap="form.assignToMe = !form.assignToMe" />
       <text>创建后由我负责跟进</text>
     </view>
 

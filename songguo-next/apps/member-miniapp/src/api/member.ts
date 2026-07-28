@@ -5,6 +5,8 @@ import type {
   MemberAvatarUpload,
   MemberBookingCatalog,
   MemberBookingSessionDetail,
+  MemberPrivateCoachProfile,
+  MemberPrivateCoachTimeSlotsResponse,
   MemberCardLedger,
   MemberCardVisibilityResult,
   MemberCardWalletSummary,
@@ -72,6 +74,54 @@ export async function getMemberBookingSession(tenantId: number, sessionId: numbe
 export async function getMemberBookingPayableCards(tenantId: number, sessionId: number) {
   return useApiClient().request<{ items: MemberCardWalletSummary[] }>(
     `/member/booking/sessions/${sessionId}/payable-cards?${tenantQuery(tenantId)}`,
+  );
+}
+
+export async function getMemberPrivateCoachProfile(tenantId: number, siteId: number, coachStaffId: number) {
+  return useApiClient().request<MemberPrivateCoachProfile>(
+    `/member/booking/private-coaches/profile?${siteQuery(tenantId, siteId)}&coachStaffId=${coachStaffId}`,
+  );
+}
+
+export async function getMemberPrivateCoachTimeSlots(
+  tenantId: number,
+  siteId: number,
+  params: { coachStaffId: number; date: string; courseId?: number },
+) {
+  let query = `${siteQuery(tenantId, siteId)}&coachStaffId=${params.coachStaffId}&date=${encodeURIComponent(params.date)}`;
+  if (params.courseId) query += `&courseId=${params.courseId}`;
+  return useApiClient().request<MemberPrivateCoachTimeSlotsResponse>(
+    `/member/booking/private-coaches/time-slots?${query}`,
+  );
+}
+
+export async function getMemberPrivateCoachPayableCards(
+  tenantId: number,
+  siteId: number,
+  params: { coachStaffId: number; date: string; start: string; courseId?: number },
+) {
+  let query = `${siteQuery(tenantId, siteId)}&coachStaffId=${params.coachStaffId}&date=${encodeURIComponent(params.date)}&start=${encodeURIComponent(params.start)}`;
+  if (params.courseId) query += `&courseId=${params.courseId}`;
+  return useApiClient().request<{ items: MemberCardWalletSummary[] }>(
+    `/member/booking/private-coaches/payable-cards?${query}`,
+  );
+}
+
+export async function bookMemberPrivateCoach(
+  tenantId: number,
+  payload: {
+    siteId: number;
+    coachStaffId: number;
+    memberCardId: number;
+    date: string;
+    start: string;
+    courseId?: number;
+    commandKey: string;
+  },
+) {
+  return useApiClient().request<{ appointment: MemberAppointment; sessionId: number }>(
+    `/member/booking/private-coaches/book?${tenantQuery(tenantId)}`,
+    { method: "POST", data: payload },
   );
 }
 
@@ -297,6 +347,13 @@ export async function getMemberOrders(tenantId: number, page = 1) {
 export async function getMemberOrder(tenantId: number, orderId: number) {
   return useApiClient().request<MemberOrderSummary>(
     `/member/orders/${orderId}?${tenantQuery(tenantId)}`,
+  );
+}
+
+export async function syncMemberOrderPayment(tenantId: number, orderId: number) {
+  return useApiClient().request<MemberOrderSummary>(
+    `/member/orders/${orderId}/sync-payment?${tenantQuery(tenantId)}`,
+    { method: "POST" },
   );
 }
 

@@ -6,6 +6,7 @@ import {
   getMemberCardProductCatalog,
   getMemberPurchaseGate,
   submitMemberCardPurchase,
+  syncMemberOrderPayment,
 } from "@/api/member";
 import { ensureMemberContext } from "@/composables/member-context";
 import type { MemberCardProductCatalogItem } from "@/types/member";
@@ -36,8 +37,10 @@ function productValidityLabel(product: MemberCardProductCatalogItem) {
   return "购卡后立即生效";
 }
 
-function cardGradient(cardType: string) {
-  switch (cardType) {
+// 卡面图案：后端图案库直发 faceGradient（总 Web 后台可控），未配置回退类型默认
+function cardGradient(product: { cardType: string; faceGradient?: string | null }) {
+  if (product.faceGradient) return product.faceGradient;
+  switch (product.cardType) {
     case "stored_value":
       return "linear-gradient(135deg, #c96a32 0%, #a8521f 100%)";
     case "count":
@@ -75,7 +78,6 @@ async function ensurePurchaseAllowed(tenantId: number) {
 
 async function loadCatalog() {
   errorMessage.value = "";
-  products.value = [];
 
   try {
     const context = await ensureMemberContext();
@@ -100,13 +102,34 @@ async function loadCatalog() {
 function confirmPurchase(product: MemberCardProductCatalogItem) {
   uni.showModal({
     title: "确认购买",
-    content: `确定购买「${product.name}」吗？\n${faceValueText(product)}\n\n当前为演示购卡，无需微信支付，下单后将直接发放会员卡。`,
+    content: `确定购买「${product.name}」吗？\n${faceValueText(product)}\n售价 ¥${product.price}`,
     confirmText: "确认购买",
     cancelText: "取消",
     success: async (result) => {
       if (!result.confirm) return;
       await purchaseProduct(product);
     },
+  });
+}
+
+function requestWechatPayment(params: {
+  timeStamp: string;
+  nonceStr: string;
+  package: string;
+  signType: string;
+  paySign: string;
+}) {
+  return new Promise<boolean>((resolve) => {
+    uni.requestPayment({
+      provider: "wxpay",
+      timeStamp: params.timeStamp,
+      nonceStr: params.nonceStr,
+      package: params.package,
+      signType: params.signType as "RSA",
+      paySign: params.paySign,
+      success: () => resolve(true),
+      fail: () => resolve(false),
+    } as UniApp.RequestPaymentOptions);
   });
 }
 
@@ -128,21 +151,36 @@ async function purchaseProduct(product: MemberCardProductCatalogItem) {
     });
     purchaseCommandKeys.delete(product.id);
 
+    const orderId = response.data.order.id;
     const card = response.data.memberCard;
-    if (!card) {
-      const pendingTitle =
-        response.data.payment?.driver === "wechat"
-          ? "订单已创建，请完成微信支付"
-          : "订单已创建，请完成支付";
-      showToast(pendingTitle, "default", 3000);
-      setTimeout(() => {
-        uni.navigateTo({ url: `/pages/orders/result?id=${response.data.order.id}` });
-      }, 800);
+    if (card) {
+      // demo 驱动：下单即发卡
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      uni.redirectTo({ url: `/pages/orders/result?id=${orderId}` });
       return;
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    uni.redirectTo({ url: `/pages/orders/result?id=${response.data.order.id}` });
+    const payment = response.data.payment;
+    if (payment?.driver === "wechat" && payment.configured !== false && payment.paymentParams) {
+      const paid = await requestWechatPayment(payment.paymentParams);
+      if (paid) {
+        // 支付成功后主动同步一次（回调可能有延迟）
+        try {
+          await syncMemberOrderPayment(context.tenantId, orderId);
+        } catch {
+          // 同步失败不阻塞，结果页可手动刷新
+        }
+      } else {
+        showToast("支付未完成，可在订单页继续查看", "default", 2500);
+      }
+      uni.redirectTo({ url: `/pages/orders/result?id=${orderId}` });
+      return;
+    }
+
+    showToast("订单已创建，请完成支付", "default", 3000);
+    setTimeout(() => {
+      uni.navigateTo({ url: `/pages/orders/result?id=${orderId}` });
+    }, 800);
   } catch (error) {
     showToast(formatApiErrorMessage(error, "购卡失败"), "error");
   } finally {
@@ -160,14 +198,12 @@ onPullDownRefresh(async () => { await loadCatalog(); uni.stopPullDownRefresh(); 
   <view v-if="!loading" class="catalog-page">
     <u-alert v-if="errorMessage" type="error" :description="errorMessage" :custom-style="{ margin: '24rpx 28rpx 0' }" />
 
-    <view class="demo-hint">演示购卡：无需微信支付，下单后直接发放会员卡。</view>
-
     <u-empty v-if="products.length === 0 && !errorMessage" mode="list" text="~ 没有会员卡出售哦 ~" />
 
     <view v-if="products.length" class="list-title">共{{ products.length }}种</view>
 
     <view v-for="product in products" :key="product.id" class="product-item">
-      <view class="card-face" :style="{ backgroundImage: cardGradient(product.cardType) }">
+      <view class="card-face" :style="{ backgroundImage: cardGradient(product) }">
         <view class="ribbon">{{ cardTypeLabel(product.cardType) }}</view>
         <view class="card-name">{{ product.name }}</view>
         <view class="face-value">{{ faceValueText(product) }}</view>
@@ -203,16 +239,6 @@ onPullDownRefresh(async () => { await loadCatalog(); uni.stopPullDownRefresh(); 
   min-height: 100vh;
   background: $color-page;
   padding: 24rpx 28rpx 0;
-}
-
-.demo-hint {
-  margin-bottom: 20rpx;
-  padding: 16rpx 24rpx;
-  color: #b45309;
-  font-size: 24rpx;
-  background: #fffbeb;
-  border: 1rpx solid #fde68a;
-  border-radius: $radius-md;
 }
 
 .list-title {

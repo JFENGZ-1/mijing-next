@@ -717,12 +717,22 @@ onShow(async () => {
 
 <style scoped lang="scss">
 .detail-page { padding-bottom: 48rpx; }
-.identity-row { display: flex; align-items: center; gap: 20rpx; padding: 20rpx 0 28rpx; border-bottom: 1rpx solid $color-border; }
+// 原版实体卡面视觉：深色渐变圆角卡
+.identity-row {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 8rpx;
+  padding: 36rpx 32rpx;
+  background: linear-gradient(135deg, #33383f 0%, #181818 100%);
+  border-radius: 20rpx;
+}
 .identity-main { min-width: 0; flex: 1; }
 .name-row { display: flex; align-items: center; gap: 12rpx; }
-.name { font-size: 36rpx; font-weight: 600; }
+.name { font-size: 36rpx; font-weight: 600; color: #f7d8a5; }
+.identity-row .meta { margin-top: 10rpx; color: rgba(255, 255, 255, 0.75); font-size: 24rpx; }
 .meta, .card-meta { margin-top: 8rpx; color: $color-text-secondary; font-size: 24rpx; }
-.section-band { padding: 28rpx 0; border-bottom: 1rpx solid $color-border; }
+.section-band { margin-top: 16rpx; padding: 28rpx 24rpx; background: $color-surface; border-radius: 20rpx; }
 .section-heading { font-size: 30rpx; font-weight: 600; }
 .command-grid { display: grid; gap: 16rpx; margin-top: 20rpx; }
 .scope-row { display: flex; gap: 12rpx; margin: 20rpx 0; }

@@ -33,6 +33,10 @@ async function load() {
   }
 }
 
+function openRenew() {
+  uni.navigateTo({ url: "/pages/settings/platform/subscription/index" });
+}
+
 onShow(async () => {
   if (await requireStaffAuth()) await load();
 });
@@ -56,15 +60,18 @@ onPullDownRefresh(() => load());
         </view>
         <u-empty v-if="!items.length" mode="list" text="暂无平台订阅记录" />
       </view>
+      <button class="sg-btn-primary renew-btn" @click="openRenew">去续费</button>
     </template>
   </view>
 </template>
 
 <style scoped lang="scss">
-.page-container { min-height: 100vh; padding: 24rpx; background: #f4f6f8; }
-.list-card { padding: 20rpx; background: #fff; border-radius: 16rpx; }
+.page-container { min-height: 100vh; padding: 24rpx; background: $color-page; }
+.list-card { padding: 20rpx; background: #fff; border-radius: $radius-lg; }
 .row { padding: 12rpx 0; border-bottom: 1rpx solid #f0f0f0; }
 .name, .meta { display: block; }
 .name { font-size: 30rpx; font-weight: 600; }
-.meta { margin-top: 6rpx; color: #667085; font-size: 24rpx; }
+.meta { margin-top: 6rpx; color: $color-text-secondary; font-size: 24rpx; }
+.renew-btn { margin-top: 32rpx; border: none; }
+.renew-btn::after { border: 0; }
 </style>

@@ -170,7 +170,7 @@ onShow(async () => {
               团课 {{ item.groupSessionCount }} · 私教 {{ item.privateSessionCount }} · 合计 {{ item.completedSessionCount }}
             </text>
           </view>
-          <u-icon name="arrow-right" size="16" color="#999" />
+          <u-icon name="arrow-right" size="16" color="#bfbfbf" />
         </view>
         <u-empty v-if="!ranking.items.length" mode="list" text="暂无教练数据" />
       </view>
@@ -218,9 +218,9 @@ onShow(async () => {
 }
 
 .chip.active {
-  border-color: #1a73e8;
-  color: #1a73e8;
-  background: #e8f0fe;
+  border-color: #ed920f;
+  color: #ed920f;
+  background: #fdf3e3;
 }
 
 .totals-card,
@@ -249,7 +249,7 @@ onShow(async () => {
   text-align: center;
   font-size: 30rpx;
   font-weight: 600;
-  color: #1a73e8;
+  color: #ed920f;
 }
 
 .rank-main {

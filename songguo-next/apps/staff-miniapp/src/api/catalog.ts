@@ -112,3 +112,190 @@ export async function archiveStaffRoom(siteId: number, roomId: number) {
   });
   return response.data;
 }
+
+// 课程删除前检查（原版 checkHasPlan：有未来排课时警示）
+export async function fetchCourseDeletePreflight(siteId: number, courseId: number) {
+  const response = await useApiClient().request<{ courseId: number; futureSessionCount: number }>(
+    `/staff/sites/${siteId}/courses/${courseId}/delete-preflight`,
+  );
+  return response.data;
+}
+
+// ================= 私教档案（对标原版 drainer：预约时间制） =================
+export interface CoachBookingWindow {
+  days: number[]; // 1=周一 … 7=周日
+  start: string; // "08:00"
+  end: string; // "21:00"
+}
+
+// 课目卡扣费（对标原版 feeList：cardId + deductAmount）
+export interface CoachPrivateFee {
+  cardProductId: number;
+  cardName?: string | null;
+  deductAmount?: string | number | null;
+}
+
+export interface CoachPrivateProfileCourse {
+  id: number;
+  name: string;
+  durationMinutes: number;
+  version: number;
+  feeList: CoachPrivateFee[];
+}
+
+export interface CoachPrivateProfile {
+  id: number;
+  coachStaffId: number;
+  coachName: string | null;
+  tagText: string | null;
+  experience: string | null;
+  specialty: string | null;
+  bookingWindows: CoachBookingWindow[];
+  subjectMode: "uniform" | "per_course";
+  uniformDurationMinutes: number;
+  uniformCourseId: number | null;
+  uniformFeeList: CoachPrivateFee[];
+  courses: CoachPrivateProfileCourse[];
+  version: number;
+}
+
+// 一次性保存（对标原版 savePrivateCourse）
+export interface CoachPrivateSaveFullPayload {
+  profileId?: number;
+  version?: number;
+  coachStaffId?: number;
+  tagText?: string | null;
+  experience?: string | null;
+  specialty?: string | null;
+  bookingWindows: CoachBookingWindow[];
+  subjectMode: "uniform" | "per_course";
+  uniformDurationMinutes?: number;
+  uniformFeeList?: { cardProductId: number; deductAmount?: number | null }[];
+  courses?: {
+    id?: number;
+    name: string;
+    durationMinutes: number;
+    feeList?: { cardProductId: number; deductAmount?: number | null }[];
+  }[];
+}
+
+export interface CoachPrivateProfilePayload {
+  coachStaffId?: number;
+  tagText?: string | null;
+  experience?: string | null;
+  specialty?: string | null;
+  bookingWindows?: CoachBookingWindow[];
+  subjectMode?: "uniform" | "per_course";
+  uniformDurationMinutes?: number;
+  version?: number;
+}
+
+export async function fetchPrivateCoaches(siteId: number) {
+  const response = await useApiClient().request<{ items: CoachPrivateProfile[] }>(
+    `/staff/sites/${siteId}/private-coaches`,
+  );
+  return response.data.items;
+}
+
+export async function createPrivateCoach(siteId: number, payload: CoachPrivateProfilePayload) {
+  const response = await useApiClient().request<CoachPrivateProfile>(
+    `/staff/sites/${siteId}/private-coaches`,
+    { method: "POST", data: payload },
+  );
+  return response.data;
+}
+
+export async function updatePrivateCoach(siteId: number, profileId: number, payload: CoachPrivateProfilePayload) {
+  const response = await useApiClient().request<CoachPrivateProfile>(
+    `/staff/sites/${siteId}/private-coaches/${profileId}`,
+    { method: "PATCH" as UniApp.RequestOptions["method"], data: payload },
+  );
+  return response.data;
+}
+
+export async function savePrivateCoachFull(siteId: number, payload: CoachPrivateSaveFullPayload) {
+  const response = await useApiClient().request<CoachPrivateProfile>(
+    `/staff/sites/${siteId}/private-coaches/save`,
+    { method: "POST", data: payload },
+  );
+  return response.data;
+}
+
+// 私教时间槽（对标原版 getDrainerTimeList）：代约弹窗按日期+课目拉取可选开始时间
+export interface PrivateCoachTimeSlot {
+  start: string;
+  startsAt: string;
+  available: boolean;
+  groupOverlapWarn?: boolean;
+}
+
+export async function fetchPrivateCoachTimeSlots(
+  siteId: number,
+  profileId: number,
+  params: { date: string; courseId?: number; excludeSessionId?: number },
+) {
+  // 小程序 JSCore 无 URLSearchParams，手动拼接 query
+  let query = `date=${encodeURIComponent(params.date)}`;
+  if (params.courseId) query += `&courseId=${params.courseId}`;
+  if (params.excludeSessionId) query += `&excludeSessionId=${params.excludeSessionId}`;
+  const response = await useApiClient().request<{
+    date: string;
+    durationMinutes: number;
+    slotIntervalMinutes?: number;
+    grayOutBookedSlots?: boolean;
+    slots: PrivateCoachTimeSlot[];
+  }>(`/staff/sites/${siteId}/private-coaches/${profileId}/time-slots?${query}`);
+  return response.data;
+}
+
+// 员工代约私教（预约时间制：动态生成 private session）
+export async function bookPrivateCoach(
+  siteId: number,
+  profileId: number,
+  payload: {
+    memberId: number;
+    memberCardId: number;
+    date: string;
+    start: string;
+    courseId?: number;
+    remark?: string;
+    commandKey: string;
+    acknowledgeGroupOverlap?: boolean;
+  },
+) {
+  const response = await useApiClient().request<{ appointment: { id: number }; sessionId: number }>(
+    `/staff/sites/${siteId}/private-coaches/${profileId}/book`,
+    { method: "POST", data: payload },
+  );
+  return response.data;
+}
+
+export async function deletePrivateCoach(siteId: number, profileId: number) {
+  const response = await useApiClient().request<{ deleted: boolean }>(
+    `/staff/sites/${siteId}/private-coaches/${profileId}`,
+    { method: "DELETE" as UniApp.RequestOptions["method"] },
+  );
+  return response.data;
+}
+
+// 课程分类标签库（原版 tag-popup：选择/添加）
+export interface CourseTagItem {
+  key: string;
+  label: string;
+  color?: string | null;
+}
+
+export async function fetchCourseTags(siteId: number) {
+  const response = await useApiClient().request<{ tags: CourseTagItem[] }>(
+    `/staff/sites/${siteId}/course-tags`,
+  );
+  return response.data;
+}
+
+export async function updateCourseTags(siteId: number, tags: CourseTagItem[]) {
+  const response = await useApiClient().request<{ tags: CourseTagItem[] }>(
+    `/staff/sites/${siteId}/course-tags`,
+    { method: "PUT", data: { tags } },
+  );
+  return response.data;
+}

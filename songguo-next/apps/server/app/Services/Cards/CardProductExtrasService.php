@@ -53,24 +53,9 @@ class CardProductExtrasService
      */
     public function faceLibrary(Site $site): array
     {
-        $library = $site->card_face_library ?? [];
-
+        // 平台级图案库（config/card_faces.php，未来由平台 Web 后台统一管理）
         return [
-            'items' => collect(is_array($library) ? $library : [])
-                ->map(function ($item, $index) {
-                    if (! is_array($item)) {
-                        return null;
-                    }
-
-                    return [
-                        'id' => (string) ($item['id'] ?? $index),
-                        'name' => (string) ($item['name'] ?? '卡面'),
-                        'imageUrl' => (string) ($item['imageUrl'] ?? ''),
-                    ];
-                })
-                ->filter()
-                ->values()
-                ->all(),
+            'items' => app(CardFaceLibraryService::class)->items(),
         ];
     }
 

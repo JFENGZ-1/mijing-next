@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { onLoad, onPullDownRefresh, onShow } from "@dcloudio/uni-app";
+import { onLoad, onPullDownRefresh, onShareAppMessage, onShow } from "@dcloudio/uni-app";
 import { ApiError } from "@songguo/api-client";
-import { fetchMemberCards, fetchCrmMembers } from "@/api/crm";
+import { fetchMemberCards } from "@/api/crm";
 import {
   cancelStaffAppointment,
   cancelStaffScheduleSession,
@@ -19,11 +19,14 @@ import {
 } from "@/api/scheduling";
 import { requireStaffAuth } from "@/auth/guard";
 import { useSessionStore } from "@/stores/session";
-import type { CrmMember, StaffMemberCardSummary } from "@/types/crm";
+import MemberPicker from "@/components/member-picker/member-picker.vue";
+import MemberCardPicker from "@/components/member-card-picker/member-card-picker.vue";
+import type { BookingPickerMember, StaffMemberCardSummary } from "@/types/crm";
 import type { StaffAppointment, ScheduleSession } from "@/types/scheduling";
 import { createCommandKey } from "@/utils/command-key";
 import {
   appointmentStatusLabel,
+  formatClock,
   formatSessionTime,
   sessionStatusLabel,
   sessionStatusType,
@@ -40,12 +43,12 @@ const detail = ref<ScheduleSession | null>(null);
 const waitlist = ref<StaffAppointment[]>([]);
 const confirmedAppointments = ref<StaffAppointment[]>([]);
 
+// —— 代约（对标原版 member-search 流程：member-picker 选会员 → 选卡确认） ——
+const pickerOpen = ref(false);
 const bookingOpen = ref(false);
-const bookingQuery = ref("");
 const bookingLoading = ref(false);
 const bookingError = ref("");
-const bookingMembers = ref<CrmMember[]>([]);
-const selectedMember = ref<CrmMember | null>(null);
+const selectedMember = ref<BookingPickerMember | null>(null);
 const memberCards = ref<StaffMemberCardSummary[]>([]);
 const selectedCardId = ref<number | null>(null);
 const bookingSubmitting = ref(false);
@@ -72,8 +75,10 @@ const canMarkAbsent = computed(() => session.can("booking.fulfillment.absent"));
 const canEditNotes = computed(() => session.can("booking.fulfillment.notes"));
 const canReschedule = computed(() => session.can("booking.appointment.reschedule"));
 const canSearchMembers = computed(() => session.can("crm.member.read"));
+// 有预约的排课同样允许编辑（员工排错课可修正）；
+// 后端仅拦截破坏性变更：容量小于已约人数、有预约时更改课程类型（SCHEDULE_SESSION_UPDATE_BLOCKED）
 const canEdit = computed(
-  () => canWrite.value && detail.value?.status === "scheduled" && (detail.value?.bookedCount ?? 0) === 0,
+  () => canWrite.value && detail.value?.status === "scheduled",
 );
 const canCancel = computed(
   () => canWrite.value && (detail.value?.status === "scheduled" || detail.value?.status === "suspended"),
@@ -127,8 +132,12 @@ async function loadDetail() {
   }
 }
 
+const pendingAutoBook = ref(false);
+
 onLoad((options) => {
   sessionId.value = Number(options?.id || 0);
+  // 对标原版「代 约/代排队」按钮：进入详情后自动打开代预约面板
+  pendingAutoBook.value = options?.action === "book";
 });
 
 onShow(async () => {
@@ -137,6 +146,10 @@ onShow(async () => {
   checking.value = false;
   if (!authenticated) return;
   await loadDetail();
+  if (pendingAutoBook.value) {
+    pendingAutoBook.value = false;
+    if (canAssistBook.value) openBookingPanel();
+  }
 });
 
 onPullDownRefresh(async () => {
@@ -149,6 +162,66 @@ function memberLabel(item: StaffAppointment) {
   if (item.memberNo && canViewMembers.value) return item.memberNo;
   return canViewMembers.value ? `会员 #${item.memberId}` : "会员";
 }
+
+// —— 对标原版 leagueClassDetails：分组列表 + 行内下拉操作 ——
+const absentList = computed(() => confirmedAppointments.value.filter((item) => item.status === "absent"));
+const validList = computed(() =>
+  confirmedAppointments.value.filter((item) => item.status === "confirmed" || item.status === "completed"),
+);
+const cancelList = computed(() => confirmedAppointments.value.filter((item) => item.status === "cancelled"));
+const checkedInCount = computed(() => validList.value.filter((item) => item.status === "completed").length);
+const sessionEnded = computed(() => (detail.value ? new Date(detail.value.endsAt).getTime() < Date.now() : false));
+
+// 行内下拉（原版 showDrop）
+const dropKey = ref(0);
+
+function toggleDrop(item: StaffAppointment) {
+  dropKey.value = dropKey.value === item.id ? 0 : item.id;
+}
+
+function closeDrop() {
+  dropKey.value = 0;
+}
+
+// 状态文字与颜色（原版 unionStatusName）
+function rowStatus(item: StaffAppointment): { text: string; color: string } {
+  switch (item.status) {
+    case "completed":
+      return { text: "已签到", color: "#22c788" };
+    case "absent":
+      return { text: "已旷课", color: "#dc3c5c" };
+    case "cancelled":
+      return { text: "已取消", color: "#989898" };
+    case "waitlisted":
+      return { text: "排队中", color: "#e98900" };
+    default:
+      return { text: "已预约", color: "#22c788" };
+  }
+}
+
+// 课程管理弹窗（对标原版编辑按钮 → course-management）
+const manageVisible = ref(false);
+
+async function onManageSuccess() {
+  await loadDetail();
+}
+
+function onManageDeleted() {
+  setTimeout(() => uni.navigateBack(), 400);
+}
+
+function arrangeDateText() {
+  const value = detail.value?.startsAt;
+  if (!value) return "";
+  const date = new Date(value);
+  const weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+  return `${date.getMonth() + 1}月${date.getDate()}日 ${weeks[date.getDay()]}`;
+}
+
+onShareAppMessage(() => ({
+  title: `${detail.value?.courseName || "课程"} ${arrangeDateText()} ${detail.value ? formatClock(detail.value.startsAt) : ""}`,
+  path: `/pages/course/session-detail?id=${sessionId.value}`,
+}));
 
 function appointmentStatusType(status: string) {
   switch (status) {
@@ -187,9 +260,9 @@ function canPromoteItem() {
 
 function confirmCancelAppointment(item: StaffAppointment) {
   uni.showModal({
-    title: "取消预约",
-    content: `确定取消「${memberLabel(item)}」的预约？`,
-    confirmColor: "#d92d20",
+    title: "确定取消预约吗？",
+    content: "将退还已扣（若有）相应费用",
+    confirmColor: "#dc3c5c",
     success: async (result) => {
       if (!result.confirm || !session.currentSiteId) return;
       acting.value = true;
@@ -213,9 +286,9 @@ function confirmCancelAppointment(item: StaffAppointment) {
 
 function confirmMarkAbsent(item: StaffAppointment) {
   uni.showModal({
-    title: "标记缺席",
-    content: `确定将「${memberLabel(item)}」标记为缺席？`,
-    confirmColor: "#d92d20",
+    title: "确定标记旷课吗？",
+    content: "标记为旷课后，不可取消！！",
+    confirmColor: "#dc3c5c",
     success: async (result) => {
       if (!result.confirm || !session.currentSiteId) return;
       acting.value = true;
@@ -410,7 +483,7 @@ function confirmCancel() {
   uni.showModal({
     title: "取消排课",
     content,
-    confirmColor: "#d92d20",
+    confirmColor: "#dc3c5c",
     success: async (result) => {
       if (!result.confirm || !session.currentSiteId) return;
       acting.value = true;
@@ -430,9 +503,7 @@ function confirmCancel() {
 }
 
 function resetBookingState() {
-  bookingQuery.value = "";
   bookingError.value = "";
-  bookingMembers.value = [];
   selectedMember.value = null;
   memberCards.value = [];
   selectedCardId.value = null;
@@ -443,6 +514,7 @@ function closeBookingPanel() {
   resetBookingState();
 }
 
+/** 打开代约流程（对标原版代约按钮 → member-search 弹窗） */
 function openBookingPanel() {
   if (!canAssistBook.value) {
     uni.showToast({ title: "当前课程不可代预约", icon: "none" });
@@ -453,45 +525,22 @@ function openBookingPanel() {
     return;
   }
   resetBookingState();
-  bookingOpen.value = true;
+  pickerOpen.value = true;
 }
 
-async function searchBookingMembers() {
-  if (!session.currentSiteId || !bookingQuery.value.trim()) {
-    bookingMembers.value = [];
-    return;
-  }
-  bookingLoading.value = true;
-  bookingError.value = "";
-  try {
-    const response = await fetchCrmMembers(session.currentSiteId, {
-      q: bookingQuery.value.trim(),
-      page: 1,
-      perPage: 20,
-      status: "active",
-    });
-    bookingMembers.value = response.data.items;
-  } catch (error) {
-    bookingMembers.value = [];
-    bookingError.value = apiErrorMessage(error, "会员搜索失败");
-  } finally {
-    bookingLoading.value = false;
-  }
-}
-
-async function selectBookingMember(member: CrmMember) {
+/** member-picker 选中会员 → 加载会员卡并进入选卡面板 */
+async function selectBookingMember(member: BookingPickerMember) {
   if (!session.currentSiteId) return;
   selectedMember.value = member;
   selectedCardId.value = null;
   memberCards.value = [];
   bookingLoading.value = true;
   bookingError.value = "";
+  bookingOpen.value = true;
   try {
     const response = await fetchMemberCards(session.currentSiteId, member.id);
-    memberCards.value = response.data.filter((item) => item.status === "active");
-    if (memberCards.value.length === 0) {
-      bookingError.value = "该会员暂无可用会员卡";
-    }
+    // 不做过滤：member-card-picker 内部按「可用 / 无效（折叠置灰）」分组展示
+    memberCards.value = response.data;
   } catch (error) {
     bookingError.value = apiErrorMessage(error, "会员卡加载失败");
   } finally {
@@ -499,19 +548,14 @@ async function selectBookingMember(member: CrmMember) {
   }
 }
 
+/** 重选会员：回到 member-picker */
 function backToMemberSearch() {
+  bookingOpen.value = false;
   selectedMember.value = null;
   memberCards.value = [];
   selectedCardId.value = null;
   bookingError.value = "";
-}
-
-function cardSummary(card: StaffMemberCardSummary) {
-  const parts = [card.name || card.cardNo];
-  if (card.cachedRemainingCount != null) parts.push(`剩余 ${card.cachedRemainingCount} 次`);
-  if (card.cachedBalance) parts.push(`余额 ¥${card.cachedBalance}`);
-  if (card.validUntil) parts.push(`至 ${card.validUntil.slice(0, 10)}`);
-  return parts.join(" · ");
+  pickerOpen.value = true;
 }
 
 function confirmAssistBooking() {
@@ -556,152 +600,228 @@ function openEdit() {
 
 <template>
   <u-loading-page :loading="checking || loading || acting || bookingSubmitting || notesSubmitting || rescheduleSubmitting" />
-  <view v-if="!checking && detail" class="page-container">
+  <view v-if="!checking && detail" class="page-shell" @tap="closeDrop">
     <view v-if="errorMessage" class="error-text">{{ errorMessage }}</view>
 
-    <view class="detail-card">
-      <view class="detail-header">
-        <text class="detail-title">{{ detail.courseName || "未命名课程" }}</text>
-        <u-tag
-          :text="sessionStatusLabel(detail.status)"
-          size="mini"
-          :type="sessionStatusType(detail.status)"
-        />
-      </view>
-      <text class="detail-meta">{{ formatSessionTime(detail.startsAt, detail.endsAt) }}</text>
-      <text class="detail-meta">{{ sessionKindLabel(detail.sessionKind) }}</text>
-      <text v-if="detail.coachName" class="detail-meta">教练 {{ detail.coachName }}</text>
-      <text v-if="detail.roomName" class="detail-meta">教室 {{ detail.roomName }}</text>
-      <text class="detail-meta">预约 {{ detail.bookedCount }}/{{ detail.capacity }}</text>
-    </view>
-
-    <view v-if="canSuspend && detail.status === 'scheduled'" class="action-row">
-      <u-button v-if="canEdit" type="primary" plain @click="openEdit">编辑</u-button>
-      <u-button v-if="canAssistBook" type="primary" plain @click="openBookingPanel">代预约</u-button>
-      <u-button type="warning" plain @click="confirmSuspend">停课</u-button>
-      <u-button v-if="canCancel" type="error" plain @click="confirmCancel">取消排课</u-button>
-    </view>
-    <view v-else-if="detail.status === 'suspended'" class="action-row">
-      <u-button v-if="canCancel" type="error" plain @click="confirmCancel">取消排课</u-button>
-    </view>
-    <view v-else-if="canEdit || canAssistBook" class="action-row">
-      <u-button v-if="canEdit" type="primary" plain @click="openEdit">编辑</u-button>
-      <u-button v-if="canAssistBook" type="primary" plain @click="openBookingPanel">代预约</u-button>
-    </view>
-
-    <view class="section-title">已预约（{{ confirmedCount }}）</view>
-    <view v-if="confirmedAppointments.length" class="appoint-list">
-      <view
-        v-for="item in confirmedAppointments"
-        :key="item.id"
-        class="appoint-item"
-      >
-        <view class="appoint-row" @tap="openMember(item.memberId)">
-          <text class="appoint-name">{{ memberLabel(item) }}</text>
-          <u-tag :text="appointmentStatusLabel(item.status)" size="mini" :type="appointmentStatusType(item.status)" />
+    <!-- 沉浸头卡（对标原版 fixed-box：背景图 + 日期 + 课程信息 + 编辑/分享） -->
+    <view class="hero" :style="{ background: detail.courseFaceGradient || 'linear-gradient(120deg, #2b5876, #4e4376)' }">
+      <view class="hero-date">{{ arrangeDateText() }}</view>
+      <view class="hero-main">
+        <view class="hero-left">
+          <text class="hero-name">{{ detail.courseName || "未命名课程" }}</text>
+          <view class="hero-info">
+            <text v-if="detail.roomName">{{ detail.roomName }}</text>
+            <text v-if="detail.roomName" class="hero-sep">|</text>
+            <text>{{ sessionKindLabel(detail.sessionKind) }}</text>
+          </view>
+          <view class="hero-coach">
+            <view class="hero-ava">{{ (detail.coachName || "教")[0] }}</view>
+            <text class="hero-coach-name">{{ detail.coachName || "待定教练" }}</text>
+            <text class="hero-limit">限{{ detail.capacity }}人</text>
+            <view v-if="detail.bookedCount >= detail.capacity" class="hero-full">爆满</view>
+          </view>
         </view>
-        <text v-if="item.bookedAt" class="appoint-meta">预约于 {{ item.bookedAt.replace("T", " ").slice(0, 16) }}</text>
-        <text v-if="item.staffNotes" class="appoint-meta">备注：{{ item.staffNotes }}</text>
-        <view v-if="canCancelItem(item) || canMarkAbsentItem(item) || canEditNotesItem(item) || canRescheduleItem(item)" class="appoint-actions">
-          <u-button v-if="canCancelItem(item)" size="mini" plain @click="confirmCancelAppointment(item)">取消</u-button>
-          <u-button v-if="canMarkAbsentItem(item)" size="mini" type="warning" plain @click="confirmMarkAbsent(item)">缺席</u-button>
-          <u-button v-if="canEditNotesItem(item)" size="mini" plain @click="openNotesPanel(item)">备注</u-button>
-          <u-button v-if="canRescheduleItem(item)" size="mini" type="primary" plain @click="openReschedulePanel(item)">改约</u-button>
+        <view class="hero-right">
+          <text class="hero-start">{{ formatClock(detail.startsAt) }}</text>
+          <text class="hero-end">{{ formatClock(detail.endsAt) }}结束</text>
+          <view class="hero-actions">
+            <view v-if="canEdit" class="hero-action" @tap="manageVisible = true">编辑</view>
+            <button class="hero-action share-btn" open-type="share">分享</button>
+          </view>
         </view>
       </view>
+      <view v-if="detail.status === 'suspended' || detail.status === 'cancelled'" class="hero-mask" />
+      <view v-if="detail.status === 'suspended'" class="hero-stamp">已停课</view>
+      <view v-else-if="detail.status === 'cancelled'" class="hero-stamp grey">已取消</view>
+      <view v-else-if="sessionEnded" class="hero-stamp grey">已结束</view>
     </view>
-    <u-empty v-else mode="list" text="暂无已预约会员" />
 
-    <view class="section-title">候补（{{ waitlistCount }}）</view>
-    <view v-if="waitlist.length" class="appoint-list">
-      <view
-        v-for="item in waitlist"
-        :key="item.id"
-        class="appoint-item"
-      >
-        <view class="appoint-row" @tap="openMember(item.memberId)">
-          <text class="appoint-name">{{ memberLabel(item) }}</text>
-          <u-tag :text="appointmentStatusLabel(item.status)" size="mini" type="warning" />
+    <!-- 统计行 + 操作按钮（对标原版 mumber-num） -->
+    <view class="stat-row">
+      <view class="stat-left">
+        <text class="stat-item">已约{{ validList.length }}人</text>
+        <text v-if="waitlist.length" class="stat-item">排队{{ waitlist.length }}人</text>
+        <template v-if="sessionEnded">
+          <text class="stat-item">签到{{ checkedInCount }}人</text>
+          <text class="stat-item">旷课{{ absentList.length }}人</text>
+        </template>
+      </view>
+      <view class="stat-btns">
+        <view
+          v-if="detail.status === 'scheduled' && !sessionEnded && detail.bookedCount < detail.capacity && canAssistBook"
+          class="stat-btn green"
+          @tap="openBookingPanel"
+        >
+          代 约
         </view>
-        <text class="appoint-meta">排队于 {{ item.bookedAt.replace("T", " ").slice(0, 16) }}</text>
-        <view v-if="canPromoteItem()" class="appoint-actions">
-          <u-button size="mini" type="primary" plain @click="confirmPromoteWaitlist(item)">转正</u-button>
+        <view
+          v-else-if="detail.status === 'scheduled' && !sessionEnded && detail.bookedCount >= detail.capacity && canAssistBook"
+          class="stat-btn light"
+          @tap="openBookingPanel"
+        >
+          代排队
         </view>
+        <view
+          v-else-if="detail.status === 'scheduled' && sessionEnded && canAssistBook"
+          class="stat-btn light"
+          @tap="openBookingPanel"
+        >
+          补约
+        </view>
+        <view v-else-if="detail.status === 'suspended'" class="stat-btn grey">已停课</view>
       </view>
     </view>
-    <u-empty v-else mode="list" text="暂无候补" />
+
+    <!-- 会员列表（对标原版：旷课/有效/排队/已取消 四组） -->
+    <view v-if="absentList.length || validList.length || waitlist.length || cancelList.length" class="member-list">
+      <template v-for="group in [absentList, validList]" :key="group === absentList ? 'absent' : 'valid'">
+        <view v-for="item in group" :key="item.id" class="m-item">
+          <view class="m-ava" :class="{ gray: item.status === 'absent' }" @tap="openMember(item.memberId)">
+            {{ memberLabel(item)[0] }}
+          </view>
+          <view class="m-body">
+            <view class="m-flex">
+              <view class="m-left">
+                <text class="m-name" @tap="openMember(item.memberId)">{{ memberLabel(item) }}</text>
+                <text class="m-date">{{ item.bookedAt.replace("T", " ").slice(5, 16) }}</text>
+                <text v-if="item.staffNotes" class="m-remark">备注：<text class="m-remark-text">{{ item.staffNotes }}</text></text>
+              </view>
+              <view class="m-right">
+                <text v-if="item.deductAmount" class="m-price">-{{ item.deductAmount }}{{ item.cardUnit || "" }}</text>
+                <text class="m-card">
+                  {{ item.cardName || "" }}
+                  <text v-if="item.cardBalance != null" class="m-balance">余{{ item.cardBalance }}{{ item.cardUnit || "" }}</text>
+                </text>
+                <view class="m-status-row">
+                  <text v-if="item.operatorStaffName" class="m-operator">{{ item.operatorStaffName }}操作</text>
+                  <text class="m-status" :style="{ color: rowStatus(item).color }">{{ rowStatus(item).text }}</text>
+                </view>
+              </view>
+              <view v-if="item.status === 'confirmed'" class="m-more" @tap.stop="toggleDrop(item)">
+                <u-icon name="more-dot-fill" size="18" color="#989898" />
+                <view v-if="dropKey === item.id" class="m-drop" @tap.stop>
+                  <view v-if="canCancelItem(item)" class="m-drop-item" @tap="closeDrop(); confirmCancelAppointment(item)">取消预约</view>
+                  <view v-if="canMarkAbsentItem(item)" class="m-drop-item" @tap="closeDrop(); confirmMarkAbsent(item)">旷课</view>
+                  <view v-if="canEditNotesItem(item)" class="m-drop-item" @tap="closeDrop(); openNotesPanel(item)">写备注</view>
+                  <view v-if="canRescheduleItem(item)" class="m-drop-item" @tap="closeDrop(); openReschedulePanel(item)">修改预约</view>
+                </view>
+              </view>
+            </view>
+            <view v-if="item.status === 'absent'" class="m-truant-tag">旷课</view>
+          </view>
+        </view>
+      </template>
+
+      <!-- 排队组 -->
+      <view v-for="(item, index) in waitlist" :key="`w-${item.id}`" class="m-item">
+        <view class="m-ava" @tap="openMember(item.memberId)">{{ memberLabel(item)[0] }}</view>
+        <view class="m-body">
+          <view class="m-flex">
+            <view class="m-left">
+              <text class="m-name" @tap="openMember(item.memberId)">{{ memberLabel(item) }}</text>
+              <text class="m-date">{{ item.bookedAt.replace("T", " ").slice(5, 16) }}</text>
+              <text v-if="item.staffNotes" class="m-remark">备注：<text class="m-remark-text">{{ item.staffNotes }}</text></text>
+            </view>
+            <view class="m-right">
+              <text class="m-card">
+                {{ item.cardName || "" }}
+                <text v-if="item.cardBalance != null" class="m-balance">余{{ item.cardBalance }}{{ item.cardUnit || "" }}</text>
+              </text>
+              <view class="m-status-row">
+                <text class="m-queue-no">第{{ index + 1 }}位</text>
+                <text class="m-status" :style="{ color: rowStatus(item).color }">{{ rowStatus(item).text }}</text>
+              </view>
+            </view>
+            <view class="m-more" @tap.stop="toggleDrop(item)">
+              <u-icon name="more-dot-fill" size="18" color="#989898" />
+              <view v-if="dropKey === item.id" class="m-drop" @tap.stop>
+                <view v-if="canPromoteItem()" class="m-drop-item" @tap="closeDrop(); confirmPromoteWaitlist(item)">转正预约</view>
+                <view v-if="canCancelAppointment" class="m-drop-item" @tap="closeDrop(); confirmCancelAppointment(item)">取消排队</view>
+                <view v-if="canEditNotes" class="m-drop-item" @tap="closeDrop(); openNotesPanel(item)">写备注</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 已取消组（划线灰） -->
+      <view v-for="item in cancelList" :key="`c-${item.id}`" class="m-item cancelled">
+        <view class="m-ava gray" @tap="openMember(item.memberId)">{{ memberLabel(item)[0] }}</view>
+        <view class="m-body">
+          <view class="m-flex">
+            <view class="m-left">
+              <text class="m-name strike" @tap="openMember(item.memberId)">{{ memberLabel(item) }}</text>
+              <text class="m-date">{{ item.bookedAt.replace("T", " ").slice(5, 16) }}</text>
+            </view>
+            <view class="m-right">
+              <view class="m-status-row">
+                <text v-if="item.operatorStaffName" class="m-operator">{{ item.operatorStaffName }}操作</text>
+                <text class="m-status" :style="{ color: rowStatus(item).color }">{{ rowStatus(item).text }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 自动签到提示（原版 sign_hint_wrap） -->
+      <view class="sign-hint">
+        <u-icon name="bell" size="16" color="#C96B30" />
+        <text>下课后，将由系统5分钟内自动签到</text>
+      </view>
+    </view>
+    <view v-else class="nodata-box">
+      <text class="sg-empty-text">~ 还没有会员预约哦 ~</text>
+    </view>
 
     <u-empty v-if="forbidden" mode="permission" text="当前账号暂无课程详情权限" />
+    <view class="brand-footer">松果约课</view>
+
+    <!-- 课程管理弹窗组（对标原版编辑按钮 → course-management） -->
+    <session-manage
+      v-model:show="manageVisible"
+      :session="detail"
+      @success="onManageSuccess"
+      @deleted="onManageDeleted"
+    />
   </view>
+
   <u-empty v-else-if="!checking && !detail && !loading" mode="data" text="课程不存在或已删除" />
 
-  <view v-if="bookingOpen" class="booking-overlay" @tap="closeBookingPanel">
+  <!-- 代约第 1 步：选会员（对标原版 member-search 弹窗） -->
+  <member-picker
+    v-model:show="pickerOpen"
+    :site-id="session.currentSiteId ?? null"
+    @select="selectBookingMember"
+  />
+
+  <!-- 代约第 2 步：选卡确认（对标原版 select-member-card：卡面大卡 + 选择其它卡） -->
+  <view v-if="bookingOpen && selectedMember" class="booking-overlay" @tap="closeBookingPanel">
     <view class="booking-panel" @tap.stop>
       <view class="booking-header">
         <text class="booking-title">代预约</text>
         <button class="booking-close" @click="closeBookingPanel">关闭</button>
       </view>
 
-      <view v-if="!selectedMember">
-        <u-search
-          v-model="bookingQuery"
-          placeholder="姓名或完整手机号"
-          :show-action="false"
-          @search="searchBookingMembers"
-          @clear="bookingMembers = []"
-        />
-        <u-alert v-if="bookingError" class="booking-alert" type="error" :description="bookingError" />
-        <view v-if="bookingLoading" class="booking-hint">搜索中…</view>
-        <view v-else-if="bookingMembers.length" class="booking-list">
-          <view
-            v-for="member in bookingMembers"
-            :key="member.id"
-            class="booking-item"
-            @tap="selectBookingMember(member)"
-          >
-            <u-avatar :text="member.name?.slice(0, 1) || '?'" size="40" />
-            <view class="booking-item-main">
-              <text class="booking-item-name">{{ member.name || "未命名会员" }}</text>
-              <text class="booking-item-meta">{{ member.mobileMasked || "未留手机号" }} · {{ member.memberNo }}</text>
-            </view>
-            <u-icon name="arrow-right" color="#98a2b3" size="16" />
-          </view>
-        </view>
-        <view v-else class="booking-hint">输入姓名或手机号后搜索会员</view>
+      <view class="booking-selected">
+        <text class="booking-selected-label">会员</text>
+        <text class="booking-selected-name">{{ selectedMember.name || selectedMember.memberNo }}</text>
+        <button class="booking-back" @click="backToMemberSearch">重选</button>
       </view>
+      <u-alert v-if="bookingError" class="booking-alert" type="error" :description="bookingError" />
 
-      <view v-else>
-        <view class="booking-selected">
-          <text class="booking-selected-label">已选会员</text>
-          <text class="booking-selected-name">{{ selectedMember.name || selectedMember.memberNo }}</text>
-          <button class="booking-back" @click="backToMemberSearch">重选</button>
-        </view>
-        <u-alert v-if="bookingError" class="booking-alert" type="error" :description="bookingError" />
-        <view v-if="bookingLoading" class="booking-hint">加载会员卡…</view>
-        <view v-else-if="memberCards.length" class="booking-list">
-          <view
-            v-for="card in memberCards"
-            :key="card.id"
-            class="booking-item"
-            :class="{ active: selectedCardId === card.id }"
-            @tap="selectedCardId = card.id"
-          >
-            <view class="booking-item-main">
-              <text class="booking-item-name">{{ card.name || card.cardNo }}</text>
-              <text class="booking-item-meta">{{ cardSummary(card) }}</text>
-            </view>
-            <u-icon
-              :name="selectedCardId === card.id ? 'checkmark-circle-fill' : 'checkmark-circle'"
-              :color="selectedCardId === card.id ? '#1677ff' : '#d0d5dd'"
-              size="18"
-            />
-          </view>
-        </view>
-        <view class="booking-actions">
-          <u-button plain @click="closeBookingPanel">取消</u-button>
-          <u-button type="primary" :disabled="!selectedCardId" @click="confirmAssistBooking">确认预约</u-button>
-        </view>
-      </view>
+      <member-card-picker
+        v-model="selectedCardId"
+        :cards="memberCards"
+        :loading="bookingLoading"
+      />
+
+      <button
+        class="booking-confirm"
+        :disabled="!selectedCardId || bookingSubmitting"
+        @tap="confirmAssistBooking"
+      >
+        确认预约
+      </button>
     </view>
   </view>
 
@@ -740,7 +860,7 @@ function openEdit() {
             <text class="booking-item-name">{{ candidate.courseName || "私教课" }}</text>
             <text class="booking-item-meta">{{ formatSessionTime(candidate.startsAt, candidate.endsAt) }} · 余 {{ candidate.capacity - candidate.bookedCount }} 位</text>
           </view>
-          <u-icon name="arrow-right" color="#98a2b3" size="16" />
+          <u-icon name="arrow-right" color="#989898" size="16" />
         </view>
       </view>
     </view>
@@ -757,8 +877,7 @@ function openEdit() {
 .detail-card {
   padding: $spacing-md;
   background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-md;
+  border-radius: $radius-lg;
 }
 
 .detail-header {
@@ -972,4 +1091,105 @@ function openEdit() {
   gap: $spacing-sm;
   margin-top: $spacing-md;
 }
+
+// 代约确认按钮（对标原版 ff-popup 底部「确 定」：黄底大胶囊）
+.booking-confirm {
+  margin: 40rpx 0 10rpx;
+  height: 83rpx;
+  line-height: 83rpx;
+  background: $color-brand-yellow;
+  border-radius: 42rpx;
+  color: $color-text;
+  font-size: 32rpx;
+  font-weight: 500;
+
+  &[disabled] {
+    background: #e8e8e8;
+    color: #b0b0b0;
+  }
+}
+
+.booking-confirm::after {
+  border: 0;
+}
+
+// ===== 对标原版 leagueClassDetails =====
+.page-shell { min-height: 100vh; background: #f5f5f5; padding-bottom: 40rpx; }
+
+.hero {
+  position: relative;
+  padding: 26rpx 28rpx 34rpx;
+  overflow: hidden;
+}
+.hero-date { color: #fff; font-size: 30rpx; font-weight: 500; text-align: center; padding-bottom: 20rpx; }
+.hero-main { display: flex; justify-content: space-between; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-name { display: block; color: #fff; font-size: 44rpx; font-weight: 600; }
+.hero-info { display: flex; gap: 12rpx; margin-top: 16rpx; color: rgba(255,255,255,.9); font-size: 24rpx; }
+.hero-sep { color: rgba(255,255,255,.5); }
+.hero-coach { display: flex; align-items: center; gap: 12rpx; margin-top: 26rpx; }
+.hero-ava { display: flex; align-items: center; justify-content: center; width: 56rpx; height: 56rpx; border: 2rpx solid rgba(255,255,255,.6); border-radius: 50%; background: rgba(255,255,255,.25); color: #fff; font-size: 24rpx; }
+.hero-coach-name { color: #fff; font-size: 26rpx; }
+.hero-limit { margin-left: 8rpx; color: rgba(255,255,255,.85); font-size: 22rpx; }
+.hero-full { padding: 2rpx 12rpx; background: #d95872; border-radius: 999rpx; color: #fff; font-size: 20rpx; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; margin-left: 20rpx; }
+.hero-start { color: #fff; font-size: 44rpx; line-height: 44rpx; }
+.hero-end { margin-top: 12rpx; color: rgba(255,255,255,.85); font-size: 22rpx; }
+.hero-actions { display: flex; gap: 20rpx; margin-top: 30rpx; }
+.hero-action { width: auto; height: auto; padding: 8rpx 22rpx; border: 1rpx solid rgba(255,255,255,.7); border-radius: 999rpx; background: transparent; color: #fff; font-size: 22rpx; line-height: 1.6; margin: 0; text-align: center; }
+.share-btn::after { border: 0; }
+.hero-mask { position: absolute; inset: 0; background: rgba(255,255,255,.45); pointer-events: none; }
+.hero-stamp {
+  position: absolute; top: 50%; right: 60rpx; z-index: 2;
+  padding: 8rpx 22rpx; border: 4rpx solid #dc3c5c; border-radius: 12rpx;
+  color: #dc3c5c; font-size: 34rpx; font-weight: 600; letter-spacing: 4rpx;
+  transform: translateY(-50%) rotate(-14deg);
+  &.grey { border-color: #989898; color: #989898; }
+}
+
+.manage-row { display: flex; justify-content: flex-end; gap: 30rpx; padding: 18rpx 28rpx 0; }
+.manage-link { color: #505050; font-size: 24rpx; &.danger { color: #dc3c5c; } }
+
+.stat-row { display: flex; align-items: center; justify-content: space-between; padding: 24rpx 28rpx 10rpx; }
+.stat-left { display: flex; gap: 20rpx; }
+.stat-item { color: #181818; font-size: 28rpx; font-weight: 500; }
+.stat-btn {
+  width: 136rpx; height: 62rpx; border-radius: 31rpx; font-size: 26rpx; line-height: 62rpx; text-align: center;
+  &.green { background: #22c788; color: #fff; }
+  &.light { background: #ecf8f3; color: #22c788; }
+  &.grey { background: #bababa; color: #fff; }
+}
+
+.member-list { margin: 16rpx 24rpx 0; padding: 6rpx 24rpx; background: #fff; border-radius: 20rpx; }
+.m-item { position: relative; display: flex; gap: 18rpx; padding: 26rpx 0; border-bottom: 1rpx solid #f5f5f5; &:last-of-type { border-bottom: none; } }
+.m-ava { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 80rpx; height: 80rpx; border-radius: 50%; background: #f0f0f0; color: #505050; font-size: 30rpx; &.gray { filter: grayscale(100%); opacity: .7; } }
+.m-body { flex: 1; min-width: 0; }
+.m-flex { display: flex; gap: 10rpx; }
+.m-left { flex: 1; min-width: 0; }
+.m-name { display: block; color: #181818; font-size: 28rpx; font-weight: 500; &.strike { color: #989898; text-decoration: line-through; } }
+.m-date { display: block; margin-top: 10rpx; color: #989898; font-size: 22rpx; }
+.m-remark { display: block; margin-top: 10rpx; color: #989898; font-size: 22rpx; }
+.m-remark-text { color: #505050; }
+.m-right { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; }
+.m-price { color: #181818; font-size: 26rpx; font-weight: 600; }
+.m-card { margin-top: 10rpx; color: #989898; font-size: 22rpx; }
+.m-balance { margin-left: 8rpx; }
+.m-status-row { display: flex; align-items: center; gap: 10rpx; margin-top: 10rpx; }
+.m-operator { color: #bfbfbf; font-size: 20rpx; }
+.m-status { font-size: 24rpx; font-weight: 500; }
+.m-queue-no { color: #e98900; font-size: 22rpx; }
+.m-more { position: relative; flex-shrink: 0; padding: 4rpx; }
+.m-drop {
+  position: absolute; top: 40rpx; right: 0; z-index: 20;
+  min-width: 200rpx; padding: 8rpx 0; background: #fff; border-radius: 12rpx;
+  box-shadow: 0 8rpx 30rpx rgba(0,0,0,.15);
+}
+.m-drop-item { padding: 20rpx 28rpx; color: #181818; font-size: 26rpx; white-space: nowrap; border-bottom: 1rpx solid #f5f5f5; &:last-child { border-bottom: none; } }
+.m-truant-tag { position: absolute; top: 18rpx; right: 0; padding: 2rpx 10rpx; border: 2rpx solid #dc3c5c; border-radius: 8rpx; color: #dc3c5c; font-size: 18rpx; transform: rotate(12deg); }
+.m-item.cancelled { opacity: .75; }
+
+.sign-hint { display: flex; align-items: center; gap: 8rpx; padding: 22rpx 4rpx; color: #c96b30; font-size: 22rpx; }
+.nodata-box { padding: 120rpx 0; text-align: center; }
+.brand-footer { margin: 70rpx 0 20rpx; color: #d8d8d8; font-size: 26rpx; letter-spacing: 6rpx; text-align: center; }
+
 </style>

@@ -24,6 +24,8 @@ export interface CrmMember {
   joinedAt: string | null;
   notesCount?: number;
   accountLinked?: boolean;
+  pointsEnabled?: boolean;
+  totalPoint?: number | null;
 }
 
 export interface CrmPagination {
@@ -43,6 +45,35 @@ export interface CrmPinyinBucket {
   count: number;
   pingyinChar?: string;
   ncount?: number;
+}
+
+/** 代约选会员（对标原版 member-search 的 findUserdy2 返回项） */
+export interface BookingPickerMember {
+  id: number;
+  memberNo: string;
+  name: string | null;
+  initial: string;
+  avatarUrl: string | null;
+  mobileMasked: string | null;
+  joinedAt: string | null;
+  status: MemberStatus;
+  appAccessStatus: "allowed" | "blocked";
+  /** 全部店模式下会员归属其它店时的门店名（对标原版 otherSiteName） */
+  otherSiteName?: string | null;
+  balanceAmount: number | null;
+  balanceUnit: string | null;
+}
+
+export interface BookingPickerGroup {
+  initial: string;
+  count: number;
+  items: BookingPickerMember[];
+}
+
+export interface BookingPickerResult {
+  totalCount: number;
+  pinyinIndex: CrmPinyinBucket[];
+  groups: BookingPickerGroup[];
 }
 
 export interface CrmDashboardSummary {
@@ -168,6 +199,8 @@ export interface StaffMemberCardSummary {
   cardType: string;
   status: string;
   memberVisibility: string;
+  faceStyle?: number;
+  faceGradient?: string | null;
   name: string | null;
   cachedBalance: string | null;
   cachedRemainingCount: number | null;

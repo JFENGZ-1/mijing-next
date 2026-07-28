@@ -2,9 +2,12 @@
 
 namespace App\Services\Booking;
 
+use App\Enums\CardProductCourseScopeKind;
 use App\Enums\CardType;
+use App\Enums\CourseType;
 use App\Enums\MemberCardStatus;
 use App\Enums\ScheduleSessionKind;
+use App\Models\CardProductCourseScope;
 use App\Models\Course;
 use App\Models\Member;
 use App\Models\MemberCard;
@@ -80,15 +83,26 @@ class BookingPayableCardService
 
     public function deductSpec(MemberCard $card, ScheduleSession $session): array
     {
+        $session->loadMissing('course');
+        // 私教课扣费实时取 feeList（卡产品 courseScopes.price_override，对标原版 deductAmount）：
+        // 计次卡=扣次数（缺省 1），储值卡=扣金额（缺省走卡默认价）
+        $privateOverride = $session->course->course_type === CourseType::Private
+            ? $this->privatePriceOverride($card, $session->course)
+            : null;
+
         if ($card->card_type === CardType::Count) {
-            return ['type' => CardType::Count, 'count' => 1, 'amount' => null];
+            $count = $privateOverride !== null && $privateOverride >= 1 ? (int) round($privateOverride) : 1;
+
+            return ['type' => CardType::Count, 'count' => $count, 'amount' => null];
         }
 
         if ($card->card_type === CardType::Period) {
             return ['type' => CardType::Period, 'count' => null, 'amount' => null];
         }
 
-        $amount = $this->resolveStoredValueAmount($card, $session->course);
+        $amount = $privateOverride !== null
+            ? number_format($privateOverride, 2, '.', '')
+            : $this->resolveStoredValueAmount($card, $session->course);
 
         return ['type' => CardType::StoredValue, 'count' => null, 'amount' => $amount];
     }
@@ -142,6 +156,13 @@ class BookingPayableCardService
 
     private function cardCoversCourse(MemberCard $card, Course $course, ScheduleSessionKind $sessionKind): bool
     {
+        // 私教课（对标原版 getCardListForPay 按 courseId 实时查 feeList）：
+        // 按卡产品「当前」courseScopes 实时判定，不依赖发卡时拷贝的 product_snapshot——
+        // 私教扣费是后配的（applyFees 写卡产品 scopes），快照不会回填，实时查避免失配。
+        if ($course->course_type === CourseType::Private) {
+            return $this->productCoversPrivateCourse($card, $course);
+        }
+
         /** @var list<array<string, mixed>> $scopes */
         $scopes = $card->product_snapshot['courseScopes'] ?? [];
 
@@ -161,6 +182,61 @@ class BookingPayableCardService
         }
 
         return false;
+    }
+
+    /**
+     * 私教课卡覆盖判定：卡产品配了该私教课的 single scope 即可约；
+     * 卡产品完全无 scope（无限制卡）也可约；无卡产品（手工发卡）回退快照匹配。
+     */
+    private function productCoversPrivateCourse(MemberCard $card, Course $course): bool
+    {
+        $productId = (int) ($card->card_product_id ?? 0);
+        if ($productId < 1) {
+            $scopes = $card->product_snapshot['courseScopes'] ?? [];
+            if ($scopes === []) {
+                return true;
+            }
+            foreach ($scopes as $scope) {
+                if ($this->scopeMatchesCourse($scope, $course)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        $hasAnyScope = CardProductCourseScope::query()
+            ->where('tenant_id', $card->tenant_id)
+            ->where('card_product_id', $productId)
+            ->exists();
+        if (! $hasAnyScope) {
+            return true;
+        }
+
+        return CardProductCourseScope::query()
+            ->where('tenant_id', $card->tenant_id)
+            ->where('card_product_id', $productId)
+            ->where('scope_kind', CardProductCourseScopeKind::Single)
+            ->where('scope_key', (string) $course->id)
+            ->exists();
+    }
+
+    /** 私教课实时扣费价（feeList price_override；无配置/无卡产品 → null） */
+    private function privatePriceOverride(MemberCard $card, Course $course): ?float
+    {
+        $productId = (int) ($card->card_product_id ?? 0);
+        if ($productId < 1) {
+            return null;
+        }
+
+        $override = CardProductCourseScope::query()
+            ->where('tenant_id', $card->tenant_id)
+            ->where('card_product_id', $productId)
+            ->where('scope_kind', CardProductCourseScopeKind::Single)
+            ->where('scope_key', (string) $course->id)
+            ->value('price_override');
+
+        return $override !== null ? (float) $override : null;
     }
 
     /**

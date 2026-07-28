@@ -124,6 +124,12 @@ class CourseCatalogWriteService
         if (array_key_exists('tags', $payload)) {
             $attributes['tags'] = $payload['tags'];
         }
+        if (array_key_exists('faceStyle', $payload)) {
+            $attributes['face_style'] = $payload['faceStyle'];
+        }
+        if (array_key_exists('displayColor', $payload)) {
+            $attributes['display_color'] = $payload['displayColor'];
+        }
         if (array_key_exists('sortOrder', $payload)) {
             $attributes['sort_order'] = $payload['sortOrder'];
         }

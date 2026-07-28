@@ -47,9 +47,9 @@ class MemberBookingCatalogTest extends TestCase
             ->assertJsonPath('data.items.0.bookedCount', 0)
             ->assertJsonPath('data.items.0.waitlistEnabled', true)
             ->assertJsonPath('data.items.0.bookable', true)
-            ->assertJsonPath('data.items.0.memberAppointmentStatus', null);
-
-        $this->assertArrayNotHasKey('coachStaffId', $response->json('data.items.0'));
+            ->assertJsonPath('data.items.0.memberAppointmentStatus', null)
+            // 教练维度私教预约流需要以 coachStaffId 标识教练（会话详情本就公开该字段）
+            ->assertJsonPath('data.items.0.coachStaffId', $scheduled->coach_staff_id);
     }
 
     public function test_member_catalog_excludes_suspended_and_cancelled_sessions(): void

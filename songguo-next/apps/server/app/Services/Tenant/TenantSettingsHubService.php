@@ -114,7 +114,7 @@ class TenantSettingsHubService
             $this->item('card-products', '会员卡', '创建和管理售卖的会员卡母卡', '/pages/settings/card-products/index', 'card-product.catalog', 'card-product.catalog.read', $staff, $siteId, true, $setupCounts['cardProducts'] === 0),
             $this->item('staff-directory', '教练/员工', '添加教练与员工，并设置操作权限', '/pages/settings/staff/index', 'staff.directory.list', 'staff.directory.read', $staff, $siteId, true, $setupCounts['staffDirectory'] === 0),
             $this->item('course-catalog', '课程库', '创建如阿斯汤伽、垫上普拉提等课目', '/pages/settings/courses/index', 'course-catalog.read', 'course-catalog.read', $staff, $siteId, true, $setupCounts['courseCatalog'] === 0),
-            $this->item('card-course-links', '卡・课关联', '哪些卡可以预约哪些课，并设置课时费', '/pages/settings/card-products/index', 'card-product.course-scope', 'card-product.editor.write', $staff, $siteId, true, $setupCounts['cardCourseLinks'] === 0),
+            $this->item('card-course-links', '卡・课关联', '哪些卡可以预约哪些课，并设置课时费', '/pages/settings/card-products/course-matrix', 'card-product.course-scope', 'card-product.editor.write', $staff, $siteId, true, $setupCounts['cardCourseLinks'] === 0),
             $this->item('schedule-sessions', '排课/课程', '按日期进行排课管理', '/pages/course/timetable/index', 'schedule.session.read', 'schedule.session.read', $staff, $siteId, true, $setupCounts['scheduleSessions'] === 0),
         ];
 
@@ -141,7 +141,7 @@ class TenantSettingsHubService
             $this->item('card-products', '会员卡', null, '/pages/settings/card-products/index', 'card-product.catalog', 'card-product.catalog.read', $staff, $siteId, true, false),
             $this->item('staff-directory', '教练/员工', null, '/pages/settings/staff/index', 'staff.directory.list', 'staff.directory.read', $staff, $siteId, true, false),
             $this->item('course-catalog', '课程库', null, '/pages/settings/courses/index', 'course-catalog.read', 'course-catalog.read', $staff, $siteId, true, false),
-            $this->item('card-course-links', '卡・课关联', '在卡种编辑页配置可用课程与课时费', '/pages/settings/card-products/index', 'card-product.course-scope', 'card-product.editor.write', $staff, $siteId, true, false),
+            $this->item('card-course-links', '卡・课关联', '设置每张卡可预约的课程及课时费', '/pages/settings/card-products/course-matrix', 'card-product.course-scope', 'card-product.editor.write', $staff, $siteId, true, false),
             $this->item('schedule-sessions', '排课/课程', null, '/pages/course/timetable/index', 'schedule.session.read', 'schedule.session.read', $staff, $siteId, true, false),
         ];
 

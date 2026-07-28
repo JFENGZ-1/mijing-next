@@ -61,6 +61,11 @@ const tabs = computed<Array<{ key: DetailTab; label: string }>>(() => {
   return items;
 });
 
+function openPoints() {
+  if (!memberId.value) return;
+  uni.navigateTo({ url: `/pages/members/points?id=${memberId.value}` });
+}
+
 function statusLabel(value: MemberStatus) {
   return { lead: "潜客", active: "正式会员", frozen: "已冻结", closed: "已关闭" }[value];
 }
@@ -351,6 +356,15 @@ onShow(async () => {
           <u-button v-if="!member.owner && session.can('crm.member.owner.claim')" plain icon="account" @click="claimOwner">认领为我的会员</u-button>
         </view>
 
+        <view v-if="member.pointsEnabled" class="section-band">
+          <view class="section-heading">会员积分</view>
+          <view class="points-row" @tap="openPoints">
+            <text class="points-value">{{ member.totalPoint ?? 0 }}</text>
+            <text class="points-label">当前积分 · 点击查看明细与调整</text>
+            <u-icon name="arrow-right" size="16" color="#bfbfbf" />
+          </view>
+        </view>
+
         <view class="section-band">
           <view class="section-heading">内部备注</view>
           <view class="section-hint">仅员工可见，历史备注不可覆盖或删除</view>
@@ -422,7 +436,7 @@ onShow(async () => {
 .tab-button { margin: 0; padding: 14rpx 24rpx; color: $color-text-secondary; font-size: 26rpx; background: $color-page; border: 1rpx solid $color-border; border-radius: 999rpx; }
 .tab-button.active { color: #fff; background: $color-primary; border-color: $color-primary; }
 .cards-toolbar { display: flex; justify-content: flex-end; margin-bottom: 20rpx; }
-.section-band { padding: 28rpx 0; border-bottom: 1rpx solid $color-border; }
+.section-band { margin-top: 16rpx; padding: 28rpx 24rpx; background: $color-surface; border-radius: 20rpx; }
 .section-heading { font-size: 30rpx; font-weight: 600; }
 .tag-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10rpx; margin: 20rpx 0; }
 .link-button { margin: 0; padding: 0 12rpx; color: $color-primary; font-size: 24rpx; background: transparent; }
@@ -433,4 +447,7 @@ onShow(async () => {
 .scope-row { display: flex; gap: 12rpx; margin-bottom: 20rpx; }
 .scope-button { margin: 0; padding: 12rpx 24rpx; color: $color-text-secondary; font-size: 24rpx; background: $color-page; border: 1rpx solid $color-border; border-radius: 999rpx; }
 .scope-button.active { color: #fff; background: $color-primary; border-color: $color-primary; }
+.points-row { display: flex; align-items: center; gap: 16rpx; margin-top: 16rpx; }
+.points-value { color: $color-primary; font-size: 44rpx; font-weight: 600; }
+.points-label { flex: 1; color: $color-text-tertiary; font-size: 24rpx; }
 </style>

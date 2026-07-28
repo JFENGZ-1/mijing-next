@@ -33,9 +33,9 @@ onShow(async () => {
 </template>
 
 <style scoped lang="scss">
-.page-container { min-height: 100vh; padding: 24rpx; background: #f4f6f8; }
+.page-container { min-height: 100vh; padding: 24rpx; background: #f5f5f5; }
 .section { margin-bottom: 24rpx; padding: 24rpx; background: #fff; border-radius: 16rpx; }
 .section-title, .body { display: block; }
 .section-title { margin-bottom: 12rpx; font-size: 30rpx; font-weight: 600; }
-.body { color: #475467; font-size: 26rpx; line-height: 1.6; }
+.body { color: #505050; font-size: 26rpx; line-height: 1.6; }
 </style>

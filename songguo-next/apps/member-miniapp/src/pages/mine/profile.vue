@@ -54,9 +54,9 @@ function applyProfile(data: MemberTenantProfile) {
 }
 
 async function load() {
-  loading.value = true;
+  // 仅首次显示全屏加载，返回本页时静默刷新
+  loading.value = !tenantProfile.value;
   errorMessage.value = "";
-  tenantProfile.value = null;
 
   try {
     const tenant = await ensureMemberTenant();
@@ -122,6 +122,30 @@ function openAccountProfile() {
   uni.navigateTo({ url: "/pages/profile/index" });
 }
 
+function cropAvatar(src: string): Promise<string> {
+  // 对标原版头像裁剪：优先调用小程序裁剪能力，低版本环境退回原图
+  return new Promise((resolve) => {
+    const cropImage = (uni as unknown as {
+      cropImage?: (options: {
+        src: string;
+        cropScale: string;
+        success: (res: { tempFilePath: string }) => void;
+        fail: () => void;
+      }) => void;
+    }).cropImage;
+    if (typeof cropImage !== "function") {
+      resolve(src);
+      return;
+    }
+    cropImage({
+      src,
+      cropScale: "1:1",
+      success: (res) => resolve(res.tempFilePath || src),
+      fail: () => resolve(src),
+    });
+  });
+}
+
 function chooseAvatar() {
   if (!tenantProfile.value || !editableFields.value.has("avatarObjectKey") || uploadingAvatar.value) return;
   uni.chooseImage({
@@ -129,8 +153,9 @@ function chooseAvatar() {
     sizeType: ["compressed"],
     sourceType: ["album", "camera"],
     success: async (result) => {
-      const filePath = result.tempFilePaths[0];
-      if (!filePath) return;
+      const picked = result.tempFilePaths[0];
+      if (!picked) return;
+      const filePath = await cropAvatar(picked);
 
       const tenant = await ensureMemberTenant();
       if (!tenant || !tenantProfile.value) return;

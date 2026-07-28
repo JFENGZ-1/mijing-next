@@ -64,18 +64,18 @@ onShow(async () => {
       <view class="section-title">常见问题</view>
       <view v-for="link in contact.faqLinks" :key="link.url" class="card row" @click="openLink(link.url)">
         <text>{{ link.title }}</text>
-        <u-icon name="arrow-right" color="#98a2b3" />
+        <u-icon name="arrow-right" color="#989898" />
       </view>
     </template>
   </view>
 </template>
 
 <style scoped lang="scss">
-.page-container { min-height: 100vh; padding: 24rpx; background: #f4f6f8; }
+.page-container { min-height: 100vh; padding: 24rpx; background: #f5f5f5; }
 .card { margin-top: 16rpx; padding: 20rpx; background: #fff; border-radius: 16rpx; }
 .row { display: flex; align-items: center; justify-content: space-between; }
 .label, .value { display: block; }
-.label { margin-top: 12rpx; color: #98a2b3; font-size: 22rpx; }
+.label { margin-top: 12rpx; color: #989898; font-size: 22rpx; }
 .value { font-size: 28rpx; }
 .section-title { margin: 24rpx 0 8rpx; font-size: 28rpx; font-weight: 600; }
 </style>

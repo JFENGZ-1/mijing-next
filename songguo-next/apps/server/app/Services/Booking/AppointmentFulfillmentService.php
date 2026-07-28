@@ -19,6 +19,8 @@ class AppointmentFulfillmentService
         private BookingPolicyService $policy,
         private BookingPayableCardService $payableCards,
         private BookingEntitlementService $entitlements,
+        private \App\Services\Cards\CardProductBookingRulesService $cardRules,
+        private \App\Services\Cards\MemberCardAutoActivationService $cardActivation,
     ) {}
 
     /**
@@ -136,6 +138,76 @@ class AppointmentFulfillmentService
     /**
      * @return array{appointment: Appointment, created: bool}
      */
+    /**
+     * 自动签到（对齐原版「下课后，将由系统5分钟内自动签到」）：
+     * 把已下课（session.ends_at 已过）且仍 confirmed 的预约批量转 completed，
+     * 并触发开卡激活（first-class 首次上课 / first-use / delayed 到期兜底）。
+     * 由调度每 5 分钟调用；停课（suspended/cancelled）的课不自动签到。
+     */
+    public function autoCheckInEndedSessions(int $limit = 500): int
+    {
+        $dueIds = Appointment::query()
+            ->where('status', AppointmentStatus::Confirmed)
+            ->whereHas('session', fn ($query) => $query
+                ->where('status', ScheduleSessionStatus::Scheduled->value)
+                ->where('ends_at', '<=', now()))
+            ->orderBy('id')
+            ->limit($limit)
+            ->pluck('id');
+
+        $count = 0;
+        foreach ($dueIds as $appointmentId) {
+            DB::transaction(function () use ($appointmentId, &$count) {
+                $locked = Appointment::query()
+                    ->whereKey($appointmentId)
+                    ->lockForUpdate()
+                    ->first();
+                if ($locked === null || $locked->status !== AppointmentStatus::Confirmed) {
+                    return;
+                }
+
+                // 锁内二次确认「已下课且未停课」
+                $session = ScheduleSession::query()->whereKey($locked->session_id)->first();
+                if ($session === null
+                    || $session->status !== ScheduleSessionStatus::Scheduled
+                    || $session->ends_at->isFuture()) {
+                    return;
+                }
+
+                $locked->status = AppointmentStatus::Completed;
+                $locked->save();
+
+                // 自动开卡：first-class 首次上课激活（与手动签到一致）
+                if ($locked->member_card_id !== null) {
+                    $card = MemberCard::query()
+                        ->where('tenant_id', $locked->tenant_id)
+                        ->find($locked->member_card_id);
+                    if ($card !== null) {
+                        $this->cardActivation->maybeActivateForAttendance($card, null);
+                    }
+                }
+
+                AppointmentEvent::create([
+                    'tenant_id' => $locked->tenant_id,
+                    'appointment_id' => $locked->id,
+                    'event_type' => 'checked_in',
+                    'payload' => [
+                        'sessionId' => $session->id,
+                        'checkedInAt' => now()->toIso8601String(),
+                        'auto' => true,
+                    ],
+                    'command_key' => 'auto-check-in:'.$locked->id,
+                    'actor_staff_id' => null,
+                    'occurred_at' => now(),
+                ]);
+
+                $count++;
+            });
+        }
+
+        return $count;
+    }
+
     private function markCheckInInTransaction(
         int $tenantId,
         int $appointmentId,
@@ -189,6 +261,16 @@ class AppointmentFulfillmentService
 
         $locked->status = AppointmentStatus::Completed;
         $locked->save();
+
+        // 自动开卡：first-class 首次上课激活（first-use/delayed 到期在此兜底）
+        if ($locked->member_card_id !== null) {
+            $checkInCard = MemberCard::query()
+                ->where('tenant_id', $tenantId)
+                ->find($locked->member_card_id);
+            if ($checkInCard !== null) {
+                $this->cardActivation->maybeActivateForAttendance($checkInCard, $staff->id);
+            }
+        }
 
         AppointmentEvent::create([
             'tenant_id' => $tenantId,
@@ -254,14 +336,23 @@ class AppointmentFulfillmentService
             ? (bool) ($policy['group']['absentPenaltyEnabled'] ?? false)
             : (bool) ($policy['private']['absentPenaltyEnabled'] ?? false);
 
-        $penaltyLedgerEntryId = null;
-
-        if ($penaltyEnabled && $locked->member_card_id !== null) {
+        $memberCard = null;
+        if ($locked->member_card_id !== null) {
             $memberCard = MemberCard::query()
                 ->where('tenant_id', $tenantId)
                 ->whereKey($locked->member_card_id)
                 ->firstOrFail();
 
+            // 卡级旷课处罚规则（原版「高级选项」）优先于场馆级开关
+            $cardDecision = $this->cardRules->absenceChargeApplies($memberCard, $site);
+            if ($cardDecision !== null) {
+                $penaltyEnabled = $cardDecision;
+            }
+        }
+
+        $penaltyLedgerEntryId = null;
+
+        if ($penaltyEnabled && $memberCard !== null) {
             $penalty = $this->entitlements->applyAbsentPenalty(
                 $memberCard,
                 $site,
@@ -270,6 +361,21 @@ class AppointmentFulfillmentService
                 $staff,
             );
             $penaltyLedgerEntryId = $penalty['ledgerEntryId'];
+        }
+
+        // 卡级旷课处罚「扣除」动作（原版：扣X元/次/天），达阈值时执行
+        if ($memberCard !== null && $penaltyLedgerEntryId === null) {
+            $deduction = $this->cardRules->absenceDeductionSpec($memberCard, $site);
+            if ($deduction !== null) {
+                $result = $this->entitlements->applyAbsentDeduction(
+                    $memberCard,
+                    $site,
+                    $this->derivePenaltyCommandKey($commandKey),
+                    $deduction,
+                    $staff,
+                );
+                $penaltyLedgerEntryId = $result['ledgerEntryId'];
+            }
         }
 
         $locked->status = AppointmentStatus::Absent;
@@ -337,16 +443,7 @@ class AppointmentFulfillmentService
             ->where('tenant_id', $tenantId)
             ->firstOrFail();
 
-        $policy = $this->policy->policyForTenantSite($tenantId, $site->id);
-        $this->policy->assertBookingAllowed($site, $targetSession, $policy);
-
-        $sessionDate = $targetSession->starts_at->timezone($this->siteTimezone($site))->toDateString();
-        abort_unless(
-            $this->policy->memberSessionBookableOnDate($site, $sessionDate, ScheduleSessionKind::Private->value, $policy),
-            422,
-            'BOOKING_DATE_OUT_OF_ADVANCE_WINDOW',
-        );
-
+        // 员工改约私教：不受会员预约截止/提前天数限制
         $duplicate = Appointment::query()
             ->where('tenant_id', $tenantId)
             ->where('session_id', $targetSession->id)

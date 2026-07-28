@@ -6,6 +6,7 @@ import { getMemberMonthAppointments, getMemberMonthStats, getMemberYearStats } f
 import { ensureMemberTenant } from "@/composables/member-context";
 import type { MemberMonthAppointment, MemberMonthStats, MemberStatsBucket, MemberYearStats } from "@/types/member";
 import type { MemberAppointmentSummary } from "@/types/member";
+import { navigateToOnce } from "@/utils/navigate";
 
 const monthLoading = ref(false);
 const errorMessage = ref("");
@@ -75,11 +76,9 @@ async function loadMonthDetail() {
 }
 
 async function load() {
-  loading.value = true;
+  // 仅首次显示全屏加载，返回本页时静默刷新
+  loading.value = !yearStats.value && !monthStats.value;
   errorMessage.value = "";
-  yearStats.value = null;
-  monthStats.value = null;
-  appointments.value = [];
   try {
     if (monthOnly.value) {
       await loadMonthDetail();
@@ -117,6 +116,10 @@ async function selectMonth(month: number) {
   }
 }
 
+function onKindTabChange(item: { index: number }) {
+  void switchCourseKind(courseKindTabs[item.index]?.value ?? "all");
+}
+
 async function switchCourseKind(kind: "group" | "private" | "all") {
   if (courseKind.value === kind) return;
   courseKind.value = kind;
@@ -137,7 +140,7 @@ async function switchCourseKind(kind: "group" | "private" | "all") {
 }
 
 function openSessionDetail(item: MemberMonthAppointment) {
-  uni.navigateTo({ url: `/pages/booking/detail?id=${item.sessionId}` });
+  navigateToOnce(`/pages/booking/detail?id=${item.sessionId}`);
 }
 
 onShow(async () => {
@@ -206,23 +209,38 @@ onShow(async () => {
       <view class="detail-title">{{ monthOnly ? '本月上课明细' : `${selectedYear}年${selectedMonth}月明细` }}</view>
 
       <view v-if="monthStats" class="month-summary">
-        <view class="summary-total">本月上课 {{ bucketTotal(monthStats) }} 次</view>
+        <view class="month-statistics">
+          <view class="month-stat-item">
+            <view class="num">{{ monthStats.teamTimes ?? 0 }}</view>
+            <view class="text">常规课(次)</view>
+          </view>
+          <view class="month-stat-item">
+            <view class="num">{{ monthStats.teamAbsent ?? 0 }}</view>
+            <view class="text">旷课(次)</view>
+          </view>
+          <view class="month-stat-item">
+            <view class="num">{{ monthStats.privateTimes ?? 0 }}</view>
+            <view class="text">私教(次)</view>
+          </view>
+          <view class="month-stat-item">
+            <view class="num">{{ monthStats.privateAbsent ?? 0 }}</view>
+            <view class="text">旷课(次)</view>
+          </view>
+        </view>
         <view class="summary-meta">
-          待上课 {{ monthStats.confirmedCount }} · 取消 {{ monthStats.cancelledCount }}
+          本月共 {{ bucketTotal(monthStats) }} 次 · 待上课 {{ monthStats.confirmedCount }} · 取消 {{ monthStats.cancelledCount }}
         </view>
       </view>
 
-      <view class="kind-tabs">
-        <view
-          v-for="tab in courseKindTabs"
-          :key="tab.value"
-          class="kind-pill"
-          :class="{ active: courseKind === tab.value }"
-          @tap="switchCourseKind(tab.value)"
-        >
-          {{ tab.label }}
-        </view>
-      </view>
+      <u-tabs
+        :list="courseKindTabs.map((t) => ({ name: t.label }))"
+        :current="courseKindTabs.findIndex((t) => t.value === courseKind)"
+        line-color="#22C788"
+        :active-style="{ color: '#181818', fontWeight: 600 }"
+        :inactive-style="{ color: '#989898' }"
+        :custom-style="{ marginBottom: '20rpx' }"
+        @change="onKindTabChange"
+      />
 
       <u-empty v-if="appointments.length === 0" mode="list" text="本月暂无上课记录" />
       <view v-for="item in appointments" :key="item.id" class="appt-list">
@@ -365,42 +383,41 @@ onShow(async () => {
 
 .month-summary {
   margin-bottom: 20rpx;
-  padding: 24rpx;
+  padding: 40rpx 24rpx 28rpx;
   background: $color-surface;
   border-radius: $radius-md;
 }
 
-.summary-total {
-  color: $color-text;
-  font-size: 30rpx;
-  font-weight: 600;
+/* 对标原版月度统计：4 列橙色粗体数字 */
+.month-statistics {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 40rpx;
+}
+
+.month-stat-item {
+  text-align: center;
+
+  .num {
+    color: #ed920f;
+    font-size: 46rpx;
+    font-weight: 700;
+    line-height: 46rpx;
+  }
+
+  .text {
+    margin-top: 24rpx;
+    color: #7e7e7e;
+    font-size: 22rpx;
+    line-height: 22rpx;
+  }
 }
 
 .summary-meta {
-  margin-top: 8rpx;
+  margin-top: 28rpx;
   color: $color-text-secondary;
   font-size: 24rpx;
-}
-
-.kind-tabs {
-  display: flex;
-  gap: 16rpx;
-  margin-bottom: 20rpx;
-}
-
-.kind-pill {
-  padding: 8rpx 28rpx;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: 28rpx;
-  color: $color-text-secondary;
-  font-size: 24rpx;
-
-  &.active {
-    background: $color-primary;
-    border-color: $color-primary;
-    color: #fff;
-  }
+  text-align: center;
 }
 
 .appt-list {

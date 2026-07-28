@@ -51,9 +51,9 @@ onShow(async () => {
 </template>
 
 <style scoped lang="scss">
-.page-container { min-height: 100vh; padding: 24rpx; background: #f4f6f8; }
+.page-container { min-height: 100vh; padding: 24rpx; background: #f5f5f5; }
 .card { padding: 24rpx; background: #fff; border-radius: 16rpx; }
 .title, .meta, .hint { display: block; }
 .title { font-size: 32rpx; font-weight: 600; }
-.meta, .hint { margin-top: 12rpx; color: #667085; font-size: 24rpx; }
+.meta, .hint { margin-top: 12rpx; color: #505050; font-size: 24rpx; }
 </style>

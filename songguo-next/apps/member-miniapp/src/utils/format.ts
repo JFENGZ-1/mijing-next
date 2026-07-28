@@ -24,13 +24,13 @@ export function appointmentStatusLabel(status: string) {
     case "confirmed":
       return "已预约";
     case "waitlisted":
-      return "候补中";
+      return "排队中";
     case "cancelled":
       return "已取消";
     case "absent":
-      return "缺席";
+      return "已旷课";
     case "completed":
-      return "已完成";
+      return "已签到";
     default:
       return status;
   }

@@ -71,9 +71,9 @@ onShow(async () => {
 </template>
 
 <style scoped lang="scss">
-.page-container { min-height: 100vh; padding: 24rpx; background: #f4f6f8; }
+.page-container { min-height: 100vh; padding: 24rpx; background: #f5f5f5; }
 .totals-card, .list-card { margin-top: 16rpx; padding: 20rpx; background: #fff; border-radius: 16rpx; }
 .row { display: flex; align-items: center; justify-content: space-between; padding: 12rpx 0; border-bottom: 1rpx solid #f0f0f0; }
 .name, .meta { display: block; }
-.meta, .date { color: #667085; font-size: 24rpx; }
+.meta, .date { color: #505050; font-size: 24rpx; }
 </style>

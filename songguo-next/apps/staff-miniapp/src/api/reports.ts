@@ -291,3 +291,69 @@ export async function fetchReportCardSalesDetail(
   );
   return response.data;
 }
+
+// —— 会员卡分析 + 资产负债表 ——
+export interface ReportCardAnalyzeCard {
+  key: string;
+  label: string;
+  hint: string;
+  count: number;
+}
+
+export interface ReportCardAnalyzeSummary {
+  cards: ReportCardAnalyzeCard[];
+  balanceSheet: {
+    totalRevenue: string;
+    consumedValue: string;
+    remainingValue: string;
+    notes: string[];
+  };
+  generatedAt: string;
+}
+
+export async function fetchReportCardAnalyzeSummary(siteId: number) {
+  const response = await useApiClient().request<ReportCardAnalyzeSummary>(
+    reportsPath(siteId, "/card-analyze/summary"),
+  );
+  return response.data;
+}
+
+// —— 变更记录（发卡/请假/停卡/删卡） ——
+export interface ReportChangeLogItem {
+  id: number;
+  entryType: string;
+  entryLabel: string;
+  category: string;
+  memberId: number | null;
+  memberName: string | null;
+  memberCardId: number | null;
+  cardNo: string | null;
+  cardName: string | null;
+  amountDelta: string | null;
+  countDelta: number | null;
+  reason: string | null;
+  actorStaffId: number | null;
+  actorStaffName: string | null;
+  occurredAt: string | null;
+}
+
+export interface ReportChangeLogResponse {
+  items: ReportChangeLogItem[];
+  pagination: { page: number; perPage: number; total: number; lastPage: number };
+  categories: { key: string; label: string }[];
+}
+
+export async function fetchReportChangeLog(
+  siteId: number,
+  params: { category?: string; dateFrom?: string; dateTo?: string; actorStaffId?: number; page?: number; perPage?: number } = {},
+) {
+  const parts = [`page=${params.page ?? 1}`, `perPage=${params.perPage ?? 20}`];
+  if (params.category) parts.push(`category=${encodeURIComponent(params.category)}`);
+  if (params.dateFrom) parts.push(`dateFrom=${encodeURIComponent(params.dateFrom)}`);
+  if (params.dateTo) parts.push(`dateTo=${encodeURIComponent(params.dateTo)}`);
+  if (params.actorStaffId) parts.push(`actorStaffId=${params.actorStaffId}`);
+  const response = await useApiClient().request<ReportChangeLogResponse>(
+    `${reportsPath(siteId, "/change-log")}?${parts.join("&")}`,
+  );
+  return response.data;
+}

@@ -66,24 +66,34 @@ const coachInitial = computed(() => {
 
 const tagText = computed(() => (props.item.status === "waitlisted" ? "候补" : ""));
 
+// 对标原版右侧扣费信息（-1次 / -¥88）
+const chargeText = computed(() => {
+  const count = props.item.chargeCountDelta;
+  if (count != null && count !== 0) return `-${Math.abs(count)}次`;
+  const amount = props.item.chargeAmountDelta;
+  if (amount && Number(amount) !== 0) return `-¥${amount}`;
+  return "";
+});
+
 const cancelLabel = computed(() =>
   props.item.status === "waitlisted" ? "取消排队" : "取消预约",
 );
 
+// 对标原版：已签到绿色、失败/取消红色、排队橙色
 function statusColor(status: AppointmentStatus) {
   switch (status) {
     case "confirmed":
-      return "#07c160";
+      return "#22c788";
     case "waitlisted":
       return "#ff9c00";
     case "cancelled":
-      return "#888";
+      return "#dc3c5c";
     case "absent":
-      return "#fa5151";
+      return "#dc3c5c";
     case "completed":
-      return "#888";
+      return "#22c788";
     default:
-      return "#888";
+      return "#989898";
   }
 }
 
@@ -114,10 +124,11 @@ function onCancel() {
 </script>
 
 <template>
-  <!-- 旧版 photo + info 布局 -->
+  <!-- 对标原版：照片 + 课程信息 + 右侧扣费/状态列 -->
   <view v-if="variant === 'legacy'" class="appt-legacy" @tap="onTap">
     <view class="photo_img">
-      <view class="coach-avatar">{{ coachInitial }}</view>
+      <image v-if="item.coachAvatarUrl" class="coach-photo" :src="item.coachAvatarUrl" mode="aspectFill" />
+      <view v-else class="coach-avatar">{{ coachInitial }}</view>
     </view>
     <view class="info_box">
       <view class="info_box_wrap">
@@ -128,6 +139,7 @@ function onCancel() {
               <view class="tag_text">{{ tagText }}</view>
             </view>
           </view>
+          <view v-if="chargeText" class="charge_num">{{ chargeText }}</view>
         </view>
 
         <view v-if="item.coachName" class="row_item">
@@ -203,11 +215,17 @@ function onCancel() {
 
 .photo_img {
   flex-shrink: 0;
-  width: 112rpx;
-  height: 112rpx;
+  width: 125rpx;
+  height: 125rpx;
   margin-top: 8rpx;
-  border-radius: 12rpx;
+  border-radius: 20rpx;
   overflow: hidden;
+}
+
+.coach-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .coach-avatar {
@@ -254,6 +272,16 @@ function onCancel() {
   color: #181818;
   font-size: 32rpx;
   font-weight: 500;
+  line-height: 34rpx;
+}
+
+/* 对标原版右上角扣费大字 */
+.charge_num {
+  flex-shrink: 0;
+  margin-left: 16rpx;
+  color: #181818;
+  font-size: 32rpx;
+  font-weight: 600;
   line-height: 34rpx;
 }
 

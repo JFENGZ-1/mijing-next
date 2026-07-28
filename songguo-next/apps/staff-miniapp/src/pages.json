@@ -14,13 +14,24 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "松果工作台",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/course/index",
 			"style": {
-				"navigationBarTitleText": "课程日程",
+				"navigationBarTitleText": "约课管理",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/course/coach-board",
+			"style": {
+				"navigationBarTitleText": "私教预约",
 				"enablePullDownRefresh": true
 			}
 		},
@@ -39,7 +50,36 @@
 		},
 		{
 			"path": "pages/course/timetable/index",
-			"style": { "navigationBarTitleText": "课表编辑", "enablePullDownRefresh": true }
+			"style": {
+				"navigationBarTitleText": "课程/排课",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128",
+				"enablePullDownRefresh": false,
+				"onReachBottomDistance": 50
+			}
+		},
+		{
+			"path": "pages/settings/courses/private-edit",
+			"style": { "navigationBarTitleText": "编辑私教课" }
+		},
+		{
+			"path": "pages/settings/courses/card-fee",
+			"style": {
+				"navigationBarTitleText": "设置课时费",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128"
+			}
+		},
+		{
+			"path": "pages/course/timetable/all-course",
+			"style": {
+				"navigationBarTitleText": "全部课表",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128"
+			}
 		},
 		{
 			"path": "pages/course/timetable/display-config",
@@ -88,12 +128,23 @@
 		{
 			"path": "pages/course/batch-tools",
 			"style": {
-				"navigationBarTitleText": "批量课表"
+				"navigationBarTitleText": "批量操作",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128"
 			}
 		},
 		{
 			"path": "pages/members/archived-cards/index",
 			"style": { "navigationBarTitleText": "归档会员卡", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/members/points",
+			"style": { "navigationBarTitleText": "会员积分", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/points-config/index",
+			"style": { "navigationBarTitleText": "积分设置" }
 		},
 		{
 			"path": "pages/settings/hub/index",
@@ -146,6 +197,14 @@
 		{
 			"path": "pages/settings/platform/subscription-orders/index",
 			"style": { "navigationBarTitleText": "平台订阅订单", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/platform/subscription/index",
+			"style": { "navigationBarTitleText": "订阅续费", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/platform/subscription/agreement",
+			"style": { "navigationBarTitleText": "平台服务协议" }
 		},
 		{
 			"path": "pages/settings/chain/cross-site-cards/index",
@@ -213,23 +272,65 @@
 		},
 		{
 			"path": "pages/settings/staff/index",
-			"style": { "navigationBarTitleText": "员工管理", "enablePullDownRefresh": true }
+			"style": {
+				"navigationBarTitleText": "员工/教练",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128",
+				"enablePullDownRefresh": true
+			}
 		},
 		{
 			"path": "pages/settings/staff/edit",
-			"style": { "navigationBarTitleText": "员工资料" }
+			"style": {
+				"navigationBarTitleText": "编辑教练",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128"
+			}
 		},
 		{
 			"path": "pages/settings/card-products/index",
-			"style": { "navigationBarTitleText": "会员卡种", "enablePullDownRefresh": true }
+			"style": {
+				"navigationBarTitleText": "会员卡种类",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128",
+				"enablePullDownRefresh": true
+			}
 		},
 		{
 			"path": "pages/settings/card-products/edit",
-			"style": { "navigationBarTitleText": "卡种资料" }
+			"style": { "navigationBarTitleText": "创建会员卡" }
+		},
+		{
+			"path": "pages/settings/card-products/course-matrix",
+			"style": {
+				"navigationBarTitleText": "设置支持的课及课时费",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/settings/card-products/course-setting",
+			"style": {
+				"navigationBarTitleText": "设置关联课程",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#F5F5F5"
+			}
 		},
 		{
 			"path": "pages/settings/courses/index",
-			"style": { "navigationBarTitleText": "课程库", "enablePullDownRefresh": true }
+			"style": {
+				"navigationBarTitleText": "排课/课程",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128",
+				"enablePullDownRefresh": true
+			}
 		},
 		{
 			"path": "pages/settings/courses/edit",
@@ -306,32 +407,62 @@
 		{
 			"path": "pages/report/payroll/config/coach-rules",
 			"style": { "navigationBarTitleText": "教练工资规则", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/member-analyze/index",
+			"style": { "navigationBarTitleText": "会员分析", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/card-analyze/index",
+			"style": { "navigationBarTitleText": "会员卡分析", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/change-log/index",
+			"style": { "navigationBarTitleText": "变更记录", "enablePullDownRefresh": true }
 		}
 	],
 	"tabBar": {
-		"color": "#667085",
-		"selectedColor": "#1677ff",
-		"backgroundColor": "#ffffff",
+		"color": "#505050",
+		"selectedColor": "#181818",
+		"backgroundColor": "#FFFFFF",
 		"borderStyle": "black",
 		"list": [
 			{
 				"pagePath": "pages/index/index",
-				"text": "工作台",
-				"iconPath": "static/tabbar/dashboard.png",
-				"selectedIconPath": "static/tabbar/dashboard-active.png"
+				"text": "今天",
+				"iconPath": "static/tabbar/today.png",
+				"selectedIconPath": "static/tabbar/today-active.png"
 			},
 			{
 				"pagePath": "pages/course/index",
 				"text": "课程",
 				"iconPath": "static/tabbar/course.png",
 				"selectedIconPath": "static/tabbar/course-active.png"
+			},
+			{
+				"pagePath": "pages/members/index",
+				"text": "会员",
+				"iconPath": "static/tabbar/member.png",
+				"selectedIconPath": "static/tabbar/member-active.png"
+			},
+			{
+				"pagePath": "pages/report/index",
+				"text": "报表",
+				"iconPath": "static/tabbar/report.png",
+				"selectedIconPath": "static/tabbar/report-active.png"
+			},
+			{
+				"pagePath": "pages/settings/hub/index",
+				"text": "场馆",
+				"iconPath": "static/tabbar/shop.png",
+				"selectedIconPath": "static/tabbar/shop-active.png"
 			}
 		]
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "松果工作台",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F4F6F8"
+		"navigationBarTitleText": "松果约课",
+		"navigationBarBackgroundColor": "#F5F5F5",
+		"backgroundColor": "#F5F5F5"
 	}
 }

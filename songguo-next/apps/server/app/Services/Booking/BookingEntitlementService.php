@@ -10,6 +10,7 @@ use App\Models\Staff;
 use App\Models\EntitlementLedgerEntry;
 use App\Models\MemberCard;
 use App\Models\Site;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class BookingEntitlementService
@@ -27,6 +28,7 @@ class BookingEntitlementService
         ?int $actorAccountId = null,
         ?int $actorStaffId = null,
         string $reason = '预约扣费',
+        bool $allowPendingActivation = false,
     ): array {
         return DB::transaction(function () use (
             $memberCard,
@@ -38,6 +40,7 @@ class BookingEntitlementService
             $actorAccountId,
             $actorStaffId,
             $reason,
+            $allowPendingActivation,
         ) {
             $existing = EntitlementLedgerEntry::query()
                 ->where('tenant_id', $memberCard->tenant_id)
@@ -62,7 +65,11 @@ class BookingEntitlementService
                 'MEMBER_CARD_ARCHIVED_MUTATION_BLOCKED',
             );
             abort_if($locked->status === MemberCardStatus::Frozen, 409, 'FROZEN_CARD_DEBIT_BLOCKED');
-            abort_unless($locked->status === MemberCardStatus::Active, 409, 'BOOKING_CARD_NOT_PAYABLE');
+            // first-class 开卡模式：约课不开卡、上课才开卡，允许待激活扣费
+            $payableStatuses = $allowPendingActivation
+                ? [MemberCardStatus::Active, MemberCardStatus::PendingActivation]
+                : [MemberCardStatus::Active];
+            abort_unless(in_array($locked->status, $payableStatuses, true), 409, 'BOOKING_CARD_NOT_PAYABLE');
 
             if ($cardType === CardType::Count) {
                 $delta = (int) $countDelta;
@@ -185,6 +192,96 @@ class BookingEntitlementService
      *
      * @return array{ledgerEntryId: int, created: bool, cardFrozen: bool}
      */
+    /**
+     * 旷课处罚「扣除」动作（原版：储值卡扣X元 / 次卡扣X次 / 期限卡扣X天）。
+     * 幂等；余额/次数不足按可扣上限执行，不阻断旷课标记。
+     *
+     * @param  array{kind: 'money'|'count'|'days', value: float}  $spec
+     * @return array{ledgerEntryId: int|null, created: bool}
+     */
+    public function applyAbsentDeduction(
+        MemberCard $memberCard,
+        Site $site,
+        string $commandKey,
+        array $spec,
+        ?Staff $actorStaff = null,
+    ): array {
+        return DB::transaction(function () use ($memberCard, $site, $commandKey, $spec, $actorStaff) {
+            $existing = EntitlementLedgerEntry::query()
+                ->where('tenant_id', $memberCard->tenant_id)
+                ->where('command_key', $commandKey)
+                ->lockForUpdate()
+                ->first();
+
+            if ($existing) {
+                return ['ledgerEntryId' => $existing->id, 'created' => false];
+            }
+
+            $locked = MemberCard::query()
+                ->where('tenant_id', $memberCard->tenant_id)
+                ->whereKey($memberCard->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if (in_array($locked->status, [MemberCardStatus::Archived, MemberCardStatus::Voided], true)
+                || $locked->archived_at !== null) {
+                return ['ledgerEntryId' => null, 'created' => false];
+            }
+
+            $amountField = null;
+            $countField = null;
+            $validUntilAfter = null;
+
+            if ($spec['kind'] === 'money') {
+                $available = (float) ($locked->cached_balance ?? 0);
+                $delta = min($available, (float) $spec['value']);
+                if ($delta <= 0) {
+                    return ['ledgerEntryId' => null, 'created' => false];
+                }
+                $locked->cached_balance = number_format($available - $delta, 2, '.', '');
+                $amountField = number_format($delta, 2, '.', '');
+            } elseif ($spec['kind'] === 'count') {
+                $available = (int) ($locked->cached_remaining_count ?? 0);
+                $delta = min($available, (int) $spec['value']);
+                if ($delta <= 0) {
+                    return ['ledgerEntryId' => null, 'created' => false];
+                }
+                $locked->cached_remaining_count = $available - $delta;
+                $countField = $delta;
+            } else {
+                if ($locked->valid_until === null) {
+                    return ['ledgerEntryId' => null, 'created' => false];
+                }
+                $days = (int) $spec['value'];
+                if ($days <= 0) {
+                    return ['ledgerEntryId' => null, 'created' => false];
+                }
+                $locked->valid_until = Carbon::parse($locked->valid_until)->subDays($days)->toDateString();
+                $validUntilAfter = $locked->valid_until;
+            }
+
+            $entry = EntitlementLedgerEntry::create([
+                'tenant_id' => $locked->tenant_id,
+                'site_id' => $site->id,
+                'member_card_id' => $locked->id,
+                'member_id' => $locked->member_id,
+                'entry_type' => EntitlementLedgerEntryType::Penalty,
+                'direction' => EntitlementLedgerDirection::Debit,
+                'amount_delta' => $amountField,
+                'count_delta' => $countField,
+                'valid_until_after' => $validUntilAfter,
+                'command_key' => $commandKey,
+                'reason' => '旷课处罚扣除',
+                'actor_staff_id' => $actorStaff?->id,
+                'occurred_at' => now(),
+            ]);
+
+            $locked->save();
+
+            return ['ledgerEntryId' => $entry->id, 'created' => true];
+        });
+    }
+
     public function applyAbsentPenalty(
         MemberCard $memberCard,
         Site $site,

@@ -10,11 +10,18 @@ use Illuminate\Support\Facades\DB;
 
 class ScheduleSessionColorService
 {
+    // 对标原版课表背景色板：10 款标记色（仅用于生成课程表图片时区分课程类别）。
     private const DEFAULT_PALETTE = [
-        ['key' => 'default', 'label' => '默认', 'color' => '#1677ff'],
-        ['key' => 'green', 'label' => '绿色', 'color' => '#52c41a'],
-        ['key' => 'orange', 'label' => '橙色', 'color' => '#fa8c16'],
-        ['key' => 'purple', 'label' => '紫色', 'color' => '#722ed1'],
+        ['key' => 'red', 'label' => '红色', 'color' => '#e54d42'],
+        ['key' => 'orange', 'label' => '桔色', 'color' => '#f37b1d'],
+        ['key' => 'yellow', 'label' => '黄色', 'color' => '#fbbd08'],
+        ['key' => 'olive', 'label' => '橄榄', 'color' => '#8dc63f'],
+        ['key' => 'green', 'label' => '绿色', 'color' => '#39b54a'],
+        ['key' => 'cyan', 'label' => '青色', 'color' => '#1cbbb4'],
+        ['key' => 'blue', 'label' => '蓝色', 'color' => '#0081ff'],
+        ['key' => 'purple', 'label' => '紫色', 'color' => '#6739b6'],
+        ['key' => 'pink', 'label' => '粉色', 'color' => '#e03997'],
+        ['key' => 'grey', 'label' => '灰色', 'color' => '#8799a3'],
     ];
 
     public function __construct(

@@ -88,7 +88,7 @@ class StaffScheduleSessionController extends Controller
         $siteModel = $access->site($staff, $site);
         $access->assertPermission($staff, 'schedule.session.write', $siteModel->id);
         $sessionModel = $access->session($staff, $siteModel, $session);
-        $sessionModel = $writer->suspend($sessionModel);
+        $sessionModel = $writer->suspend($sessionModel, $staff, cascadeCancelAppointments: true);
 
         return ApiResponse::success($this->sessionData($sessionModel));
     }
@@ -142,6 +142,13 @@ class StaffScheduleSessionController extends Controller
             'status' => $session->status->value,
             'sessionKind' => $session->session_kind->value,
             'version' => $session->version,
+            'courseType' => $session->course?->course_type?->value,
+            'courseFaceStyle' => $session->course?->face_style,
+            'courseFaceGradient' => $session->course?->face_style !== null
+                ? app(\App\Services\Cards\CardFaceLibraryService::class)->gradientFor($session->course->face_style)
+                : null,
+            'displayColor' => $session->display_color ?: $session->course?->display_color,
+            'courseDisplayColor' => $session->course?->display_color,
             'createdAt' => $session->created_at?->toIso8601String(),
             'updatedAt' => $session->updated_at?->toIso8601String(),
         ];

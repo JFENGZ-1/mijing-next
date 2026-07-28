@@ -110,12 +110,12 @@ onShow(async () => {
 </template>
 
 <style scoped lang="scss">
-.page-container { min-height: 100vh; padding: 24rpx; background: #f4f6f8; }
+.page-container { min-height: 100vh; padding: 24rpx; background: #f5f5f5; }
 .actions { margin: 16rpx 0; }
 .manual-box { display: grid; gap: 12rpx; margin-bottom: 16rpx; }
 .result-card { padding: 20rpx; background: #fff; border-radius: 16rpx; }
 .title { display: block; margin-bottom: 12rpx; font-size: 30rpx; font-weight: 600; }
 .appointment-row { display: flex; align-items: center; justify-content: space-between; padding: 12rpx 0; border-top: 1rpx solid #f2f4f7; }
 .course, .meta { display: block; }
-.meta { color: #667085; font-size: 24rpx; }
+.meta { color: #505050; font-size: 24rpx; }
 </style>

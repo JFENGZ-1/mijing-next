@@ -11,7 +11,7 @@ class Appointment extends Model
     protected $fillable = [
         'tenant_id', 'site_id', 'session_id', 'member_id', 'status', 'command_key',
         'member_card_id', 'ledger_entry_id', 'booked_by_account_id', 'created_by_staff_id',
-        'booked_at', 'cancelled_at', 'staff_notes', 'absent_marked_at',
+        'booked_at', 'cancelled_at', 'staff_notes', 'member_remark', 'absent_marked_at',
         'rescheduled_from_session_id', 'penalty_ledger_entry_id',
     ];
 

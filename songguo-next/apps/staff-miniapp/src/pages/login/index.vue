@@ -42,15 +42,81 @@ async function login() {
 </script>
 
 <template>
-  <view class="page-container login-page">
-    <view class="brand">松果工作台</view>
-    <view class="description">仅已启用的场馆员工可以登录</view>
-    <u-button type="primary" :loading="loading" @click="login">员工微信登录</u-button>
+  <view class="login-page">
+    <view class="brand-area">
+      <image class="logo" src="/static/imgs/startlogo.png" mode="aspectFit" />
+      <view class="brand">松果约课 · 工作台</view>
+      <view class="description">仅已启用的场馆员工可以登录</view>
+    </view>
+    <button class="login-btn" :disabled="loading" @click="login">
+      {{ loading ? "登录中..." : "员工微信登录" }}
+    </button>
+    <view class="footer-hint">登录即代表同意平台服务协议</view>
   </view>
 </template>
 
 <style scoped lang="scss">
-.login-page { padding-top: 180rpx; }
-.brand { margin-bottom: $spacing-sm; font-size: 48rpx; font-weight: 600; }
-.description { margin-bottom: 64rpx; color: $color-text-secondary; }
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 64rpx;
+  box-sizing: border-box;
+  background: $color-surface;
+}
+
+.brand-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 220rpx;
+}
+
+.logo {
+  width: 176rpx;
+  height: 176rpx;
+  border-radius: 40rpx;
+}
+
+.brand {
+  margin-top: 36rpx;
+  font-size: 44rpx;
+  font-weight: 700;
+  color: $color-text;
+}
+
+.description {
+  margin-top: 20rpx;
+  color: $color-text-tertiary;
+  font-size: 26rpx;
+}
+
+.login-btn {
+  width: 100%;
+  height: 96rpx;
+  margin-top: 140rpx;
+  line-height: 96rpx;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+  background: $color-primary;
+  border-radius: 48rpx;
+
+  &[disabled] {
+    opacity: 0.6;
+    color: #fff;
+    background: $color-primary;
+  }
+}
+
+.login-btn::after {
+  border: 0;
+}
+
+.footer-hint {
+  margin-top: 32rpx;
+  color: $color-text-disabled;
+  font-size: 22rpx;
+}
 </style>

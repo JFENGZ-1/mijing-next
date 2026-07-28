@@ -141,10 +141,9 @@ function formatTime(iso: string) {
 async function loadSession() {
   if (!sessionId.value) return;
 
-  loading.value = true;
+  // 仅首次显示全屏加载，返回本页时静默刷新
+  loading.value = !session.value;
   errorMessage.value = "";
-  session.value = null;
-  myAppointmentId.value = null;
 
   try {
     const tenant = await ensureMemberTenant();
@@ -158,6 +157,8 @@ async function loadSession() {
 
     if (response.data.memberAppointmentStatus) {
       await resolveMyAppointmentId(tenant.tenantId);
+    } else {
+      myAppointmentId.value = null;
     }
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : "课程详情加载失败";

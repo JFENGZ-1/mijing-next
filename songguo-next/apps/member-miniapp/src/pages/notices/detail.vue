@@ -16,7 +16,7 @@ const loading = ref(true);
 async function loadNotice(refresh = false) {
   if (!noticeId.value) return;
 
-  loading.value = true;
+  loading.value = !notice.value;
   errorMessage.value = "";
   if (refresh) {
     notice.value = null;

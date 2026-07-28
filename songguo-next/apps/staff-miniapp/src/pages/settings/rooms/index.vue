@@ -93,7 +93,7 @@ onPullDownRefresh(async () => {
 
 .summary-row {
   margin-bottom: 16rpx;
-  color: #5f6368;
+  color: #505050;
   font-size: 26rpx;
 }
 
@@ -125,13 +125,13 @@ onPullDownRefresh(async () => {
   display: block;
   font-size: 30rpx;
   font-weight: 600;
-  color: #202124;
+  color: #181818;
 }
 
 .room-meta {
   display: block;
   margin-top: 8rpx;
-  color: #5f6368;
+  color: #505050;
   font-size: 24rpx;
 }
 </style>

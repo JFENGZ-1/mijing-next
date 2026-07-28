@@ -43,13 +43,15 @@ const form = reactive({
 });
 
 const isEdit = computed(() => sessionId.value > 0);
-const pageTitle = computed(() => (isEdit.value ? "编辑排课" : "新建排课"));
 const canWrite = computed(() => session.can("schedule.session.write"));
 const canLoadCourses = computed(() => session.can("course-catalog.read"));
 const canLoadRooms = computed(() => session.can("site.rooms.read"));
 const canLoadCoaches = computed(() => session.can("staff.directory.read"));
-const editBlocked = computed(() => isEdit.value && bookedCount.value > 0);
-const canSave = computed(() => canWrite.value && !editBlocked.value);
+// 有预约的排课允许编辑（员工排错课可修正），仅做细粒度限制：
+// 课程不可在表单内更换（换课请走详情页「课程管理 → 换课」，带二次确认）；
+// 容量不可小于已约人数（validateForm 校验 + 后端 SCHEDULE_SESSION_UPDATE_BLOCKED 兜底）。
+const hasBookings = computed(() => isEdit.value && bookedCount.value > 0);
+const canSave = computed(() => canWrite.value);
 
 const courseIndex = computed(() => courses.value.findIndex((item) => item.id === form.courseId));
 const coachIndex = computed(() => coaches.value.findIndex((item) => item.id === form.coachStaffId));
@@ -83,7 +85,7 @@ function isCoachCandidate(item: StaffDirectoryListItem) {
 }
 
 function onCoachPickerUnavailable() {
-  if (!canLoadCoaches.value || editBlocked.value) return;
+  if (!canLoadCoaches.value) return;
   if (loading.value) {
     uni.showToast({ title: "教练列表加载中", icon: "none" });
     return;
@@ -154,7 +156,7 @@ async function loadOptions() {
 
   if (canLoadCourses.value) {
     tasks.push(
-      fetchStaffCourseCatalog(session.currentSiteId, 1, 50)
+      fetchStaffCourseCatalog(session.currentSiteId, 1, 50, undefined, "group")
         .then((response) => {
           courses.value = response.items;
         })
@@ -236,6 +238,9 @@ function validateForm() {
   if (!form.startTime || !form.endTime) return "请选择开始和结束时间";
   const capacity = Number(form.capacity);
   if (!Number.isFinite(capacity) || capacity < 1) return "请填写有效容量";
+  if (hasBookings.value && capacity < bookedCount.value) {
+    return `容量不能小于已预约人数（当前已约 ${bookedCount.value} 人）`;
+  }
   if (form.startTime >= form.endTime) return "结束时间必须晚于开始时间";
   if (!isPrivateSession.value && !form.roomId && rooms.value.length) return "团课请选择教室";
   return "";
@@ -284,7 +289,7 @@ async function save() {
     setTimeout(() => uni.navigateBack(), 300);
   } catch (error) {
     if (error instanceof ApiError && error.payload.code === "SCHEDULE_SESSION_UPDATE_BLOCKED") {
-      errorMessage.value = "已有会员预约，无法修改本节课程";
+      errorMessage.value = error.payload.message || "已有会员预约，部分修改被限制";
       return;
     }
     if (error instanceof ApiError && error.payload.code === "SCHEDULE_SESSION_ROOM_CONFLICT") {
@@ -302,6 +307,7 @@ onLoad((options) => {
   if (options?.date) {
     form.date = String(options.date);
   }
+  uni.setNavigationBarTitle({ title: sessionId.value > 0 ? "编辑排课" : "新建排课" });
 });
 
 onShow(async () => {
@@ -317,156 +323,265 @@ onShow(async () => {
 
 <template>
   <u-loading-page :loading="checking || loading || saving" />
-  <view v-if="!checking && canWrite" class="page-container form-page">
-    <view class="page-title">{{ pageTitle }}</view>
-    <view class="page-hint">填写课程、教练、教室与时间。团课需指定教室，私教教室可选。</view>
-
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
-    <u-alert
-      v-if="editBlocked"
-      type="warning"
-      description="已有会员预约，无法修改本节课程。"
-    />
-    <u-alert
-      v-if="isEdit && sessionStatus !== 'scheduled'"
-      type="warning"
-      :description="`当前状态为「${sessionStatus === 'suspended' ? '已停课' : sessionStatus === 'cancelled' ? '已取消' : '已结束'}」，仅可查看。`"
-    />
-
-    <view v-if="!canLoadCourses" class="field-help">缺少 course-catalog.read 权限，无法加载课程列表</view>
-    <view class="field-label">课程</view>
-    <picker
-      :disabled="!canLoadCourses || !courses.length || editBlocked"
-      :range="courseLabels"
-      :value="courseIndex >= 0 ? courseIndex : 0"
-      @change="onCourseChange"
-    >
-      <view class="picker-field">{{ courseLabel() }}</view>
-    </picker>
-
-    <view v-if="!canLoadCoaches" class="field-help">缺少 staff.directory.read 权限，无法加载教练列表</view>
-    <view class="field-label">教练</view>
-    <picker
-      v-if="coachLabels.length"
-      :disabled="!canLoadCoaches || editBlocked"
-      :range="coachLabels"
-      :value="coachIndex >= 0 ? coachIndex : 0"
-      @change="onCoachChange"
-    >
-      <view class="picker-field">{{ coachLabel() }}</view>
-    </picker>
-    <view
-      v-else
-      class="picker-field"
-      :class="{ 'picker-field--disabled': !canLoadCoaches || editBlocked }"
-      @tap="onCoachPickerUnavailable"
-    >
-      {{ coachLabel() }}
+  <view v-if="!checking && canWrite" class="form-page">
+    <view class="alert-area">
+      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <u-alert
+        v-if="hasBookings"
+        type="warning"
+        :description="`已有 ${bookedCount} 位会员预约：教练/教室/时间可改，容量不可小于已约人数；换课请用详情页「课程管理 → 换课」。`"
+      />
+      <u-alert
+        v-if="isEdit && sessionStatus !== 'scheduled'"
+        type="warning"
+        :description="`当前状态为「${sessionStatus === 'suspended' ? '已停课' : sessionStatus === 'cancelled' ? '已取消' : '已结束'}」，仅可查看。`"
+      />
+      <view v-if="!canLoadCourses" class="field-help">缺少课程列表权限，请联系管理员开通</view>
+      <view v-if="!canLoadCoaches" class="field-help">缺少教练列表权限，请联系管理员开通</view>
+      <view v-if="!canLoadRooms" class="field-help">缺少教室列表权限，请联系管理员开通</view>
     </view>
 
-    <view v-if="!canLoadRooms" class="field-help">缺少 site.rooms.read 权限，无法加载教室列表</view>
-    <view class="field-label">{{ isPrivateSession ? "教室（选填）" : "教室" }}</view>
-    <picker
-      :disabled="!canLoadRooms || editBlocked"
-      :range="roomLabels"
-      :value="form.roomId ? roomIndex + 1 : 0"
-      @change="onRoomChange"
-    >
-      <view class="picker-field">{{ roomLabel() }}</view>
-    </picker>
+    <!-- 行式表单（对标原版 subject-edit：左label+右值+箭头） -->
+    <view class="form-card">
+      <picker
+        :disabled="!canLoadCourses || !courses.length || hasBookings"
+        :range="courseLabels"
+        :value="courseIndex >= 0 ? courseIndex : 0"
+        @change="onCourseChange"
+      >
+        <view class="form-row">
+          <text class="row-label required">课程</text>
+          <text class="row-value" :class="{ placeholder: !form.courseId }">{{ courseLabel() }}</text>
+          <u-icon name="arrow-right" size="15" color="#bfbfbf" />
+        </view>
+      </picker>
 
-    <view class="field-label">日期</view>
-    <picker
-      mode="date"
-      :value="form.date"
-      :disabled="editBlocked"
-      @change="onDateChange"
-    >
-      <view class="picker-field">{{ form.date || "请选择" }}</view>
-    </picker>
+      <picker
+        v-if="coachLabels.length"
+        :disabled="!canLoadCoaches"
+        :range="coachLabels"
+        :value="coachIndex >= 0 ? coachIndex : 0"
+        @change="onCoachChange"
+      >
+        <view class="form-row">
+          <text class="row-label required">教练</text>
+          <text class="row-value" :class="{ placeholder: !form.coachStaffId }">{{ coachLabel() }}</text>
+          <u-icon name="arrow-right" size="15" color="#bfbfbf" />
+        </view>
+      </picker>
+      <view v-else class="form-row" @tap="onCoachPickerUnavailable">
+        <text class="row-label required">教练</text>
+        <text class="row-value placeholder">{{ coachLabel() }}</text>
+        <u-icon name="arrow-right" size="15" color="#bfbfbf" />
+      </view>
 
-    <view class="field-label">开始时间</view>
-    <picker
-      mode="time"
-      :value="form.startTime"
-      :disabled="editBlocked"
-      @change="onStartTimeChange"
-    >
-      <view class="picker-field">{{ form.startTime || "请选择" }}</view>
-    </picker>
+      <picker
+        :disabled="!canLoadRooms"
+        :range="roomLabels"
+        :value="form.roomId ? roomIndex + 1 : 0"
+        @change="onRoomChange"
+      >
+        <view class="form-row">
+          <text class="row-label" :class="{ required: !isPrivateSession }">选择教室</text>
+          <text class="row-value" :class="{ placeholder: !form.roomId }">{{ roomLabel() }}</text>
+          <u-icon name="arrow-right" size="15" color="#bfbfbf" />
+        </view>
+      </picker>
 
-    <view class="field-label">结束时间</view>
-    <picker
-      mode="time"
-      :value="form.endTime"
-      :disabled="editBlocked"
-      @change="onEndTimeChange"
-    >
-      <view class="picker-field">{{ form.endTime || "请选择" }}</view>
-    </picker>
+      <picker mode="date" :value="form.date" @change="onDateChange">
+        <view class="form-row">
+          <text class="row-label required">日期</text>
+          <text class="row-value" :class="{ placeholder: !form.date }">{{ form.date || "请选择" }}</text>
+          <u-icon name="arrow-right" size="15" color="#bfbfbf" />
+        </view>
+      </picker>
 
-    <view class="field-label">容量</view>
-    <u-input
-      v-model="form.capacity"
-      type="number"
-      :disabled="editBlocked"
-      placeholder="请输入人数上限"
-    />
+      <picker mode="time" :value="form.startTime" @change="onStartTimeChange">
+        <view class="form-row">
+          <text class="row-label required">开始时间</text>
+          <text class="row-value" :class="{ placeholder: !form.startTime }">{{ form.startTime || "请选择" }}</text>
+          <u-icon name="arrow-right" size="15" color="#bfbfbf" />
+        </view>
+      </picker>
 
-    <view class="field-label">课程类型</view>
-    <view class="picker-field readonly">{{ isPrivateSession ? "私教" : "团课" }}</view>
-    <view class="field-help">由所选课程模板自动确定</view>
+      <picker mode="time" :value="form.endTime" @change="onEndTimeChange">
+        <view class="form-row">
+          <text class="row-label required">结束时间</text>
+          <text class="row-value" :class="{ placeholder: !form.endTime }">{{ form.endTime || "请选择" }}</text>
+          <u-icon name="arrow-right" size="15" color="#bfbfbf" />
+        </view>
+      </picker>
 
-    <u-button
-      v-if="canSave && (!isEdit || sessionStatus === 'scheduled')"
-      type="primary"
-      :loading="saving"
-      @click="save"
-    >
-      保存
-    </u-button>
+      <view class="form-row">
+        <text class="row-label required">开课规则</text>
+        <view class="capacity-wrap">
+          <text class="capacity-prefix">限</text>
+          <input
+            v-model="form.capacity"
+            class="capacity-input"
+            type="number"
+            placeholder="人数"
+          />
+          <text class="capacity-prefix">人</text>
+        </view>
+      </view>
+
+      <view class="form-row last">
+        <text class="row-label">课程类型</text>
+        <text class="kind-tag" :class="{ private: isPrivateSession }">{{ isPrivateSession ? "私教" : "团课" }}</text>
+      </view>
+      <view class="row-hint">类型与时长由所选课程模板自动确定</view>
+    </view>
+
+    <!-- 保存按钮（对标原版：黄底黑字大胶囊居中） -->
+    <view v-if="canSave && (!isEdit || sessionStatus === 'scheduled')" class="btn-box">
+      <button class="save-btn" :disabled="saving" @click="save">
+        {{ saving ? "保存中..." : "保存" }}
+      </button>
+    </view>
   </view>
-  <u-empty v-else-if="!checking && !canWrite" mode="permission" text="需要 schedule.session.write 权限" />
+  <u-empty v-else-if="!checking && !canWrite" mode="permission" text="需要排课编辑权限" />
 </template>
 
 <style scoped lang="scss">
 .form-page {
-  padding-bottom: 48rpx;
+  min-height: 100vh;
+  padding: $spacing-md;
+  box-sizing: border-box;
 }
 
-.page-title {
-  font-size: 36rpx;
-  font-weight: 600;
+.alert-area:not(:empty) {
+  margin-bottom: $spacing-sm;
 }
 
-.page-hint,
 .field-help {
   margin-top: 10rpx;
-  color: $color-text-secondary;
+  color: $color-text-tertiary;
   font-size: 24rpx;
   line-height: 1.5;
 }
 
-.field-label {
-  margin: 28rpx 0 12rpx;
-  color: $color-text-secondary;
-  font-size: 24rpx;
-}
-
-.picker-field {
-  min-height: 80rpx;
-  box-sizing: border-box;
-  padding: 20rpx;
+// —— 白卡行式表单（原版 u-cell 风格） ——
+.form-card {
+  padding: 4rpx 34rpx 24rpx;
   background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-sm;
+  border-radius: $radius-lg;
 }
 
-.picker-field.readonly {
-  color: $color-text-secondary;
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  min-height: 104rpx;
+  padding: 26rpx 0;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid $color-page;
+
+  &.last {
+    border-bottom: none;
+  }
 }
 
-.picker-field--disabled {
+.row-label {
+  flex-shrink: 0;
+  width: 176rpx;
+  color: $color-text;
+  font-size: 30rpx;
+
+  // 原版必填红星
+  &.required::after {
+    content: "*";
+    margin-left: 2rpx;
+    color: $color-danger;
+    font-size: 30rpx;
+  }
+}
+
+.row-value {
+  overflow: hidden;
+  flex: 1;
   color: $color-text-secondary;
+  font-size: 28rpx;
+  text-align: right;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  &.placeholder {
+    color: $color-text-disabled;
+  }
+}
+
+.capacity-wrap {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12rpx;
+}
+
+.capacity-prefix {
+  color: $color-text-secondary;
+  font-size: 28rpx;
+}
+
+.capacity-input {
+  width: 140rpx;
+  height: 64rpx;
+  padding: 0 16rpx;
+  background: $color-page;
+  border-radius: 12rpx;
+  color: $color-text;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+.kind-tag {
+  margin-left: auto;
+  padding: 4rpx 20rpx;
+  border: 1rpx solid $color-info;
+  border-radius: 8rpx;
+  color: $color-info;
+  font-size: 24rpx;
+
+  &.private {
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+}
+
+.row-hint {
+  padding: 12rpx 0 8rpx;
+  color: $color-text-disabled;
+  font-size: 22rpx;
+}
+
+// —— 原版保存按钮：黄底黑字大胶囊 ——
+.btn-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 80rpx;
+  padding-bottom: 60rpx;
+}
+
+.save-btn {
+  width: 458rpx;
+  height: 83rpx;
+  line-height: 83rpx;
+  background: $color-brand-yellow;
+  border-radius: 42rpx;
+  color: $color-text;
+  font-size: 32rpx;
+  font-weight: 500;
+
+  &[disabled] {
+    opacity: 0.6;
+    color: $color-text;
+    background: $color-brand-yellow;
+  }
+}
+
+.save-btn::after {
+  border: 0;
 }
 </style>

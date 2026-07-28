@@ -15,3 +15,71 @@ page {
   font-size: 30rpx;
   font-weight: 600;
 }
+
+// —— 原版风格通用类 ——
+// 白色大卡（原版圆角 20rpx）
+.sg-card {
+  background: $color-surface;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  box-sizing: border-box;
+}
+
+// 胶囊主按钮（原版橙色 CTA）
+.sg-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  border-radius: 44rpx;
+  background: $color-primary;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+// 橙色圆形浮动按钮（原版会员页「+」）
+.sg-fab {
+  position: fixed;
+  right: 30rpx;
+  bottom: 120rpx;
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 50%;
+  background: $color-primary;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6rpx 20rpx rgba(237, 146, 15, 0.4);
+  z-index: 10;
+}
+
+// 金额文字（橙）
+.sg-money {
+  color: $color-primary;
+  font-weight: 400;
+}
+
+// 标签
+.sg-tag-new {
+  background: $color-success;
+  color: #fff;
+  font-size: 20rpx;
+  border-radius: 8rpx;
+  padding: 2rpx 10rpx;
+}
+.sg-tag-danger {
+  background: $color-danger;
+  color: #fff;
+  font-size: 20rpx;
+  border-radius: 8rpx;
+  padding: 2rpx 10rpx;
+}
+
+// 列表空状态文案
+.sg-empty-text {
+  color: $color-text-disabled;
+  font-size: 25rpx;
+  text-align: center;
+}

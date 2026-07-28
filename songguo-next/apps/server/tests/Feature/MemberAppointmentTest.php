@@ -199,6 +199,35 @@ class MemberAppointmentTest extends TestCase
         ]);
     }
 
+    // 会员自约受「开课前 N 分钟停止预约」限制（员工代约不受限，见 StaffAppointmentTest）
+    public function test_booking_past_cutoff_is_rejected(): void
+    {
+        [$account, $tenant, , $site, $course, $coach, $room, $card] = $this->seedBookingFixture([
+            'starts_at' => now()->addMinutes(30),
+            'ends_at' => now()->addMinutes(90),
+        ]);
+        BookingPolicy::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'version' => 1,
+            'policy' => [
+                'group' => ['bookingCutoffMinutesBeforeStart' => 120],
+                'private' => [],
+            ],
+            'rules' => [],
+        ]);
+        $session = ScheduleSession::query()->firstOrFail();
+        $this->actAsMember($account);
+
+        $this->postJson('/api/v1/member/booking/appointments?tenantId='.$tenant->id, [
+            'sessionId' => $session->id,
+            'memberCardId' => $card->id,
+            'commandKey' => (string) Str::uuid(),
+        ])
+            ->assertStatus(422)
+            ->assertJsonPath('code', 'BOOKING_CUTOFF_PASSED');
+    }
+
     public function test_cancel_outside_cutoff_is_rejected(): void
     {
         [$account, $tenant, , $site, $course, $coach, $room, $card] = $this->seedBookingFixture([

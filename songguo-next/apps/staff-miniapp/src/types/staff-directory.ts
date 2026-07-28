@@ -34,6 +34,7 @@ export interface StaffDirectoryMember extends StaffDirectoryListItem {
   hasFutureBookings: boolean | null;
   joinedOn: string | null;
   leftOn: string | null;
+  inviteSign?: string | null;
 }
 
 export interface StaffRoleOption {

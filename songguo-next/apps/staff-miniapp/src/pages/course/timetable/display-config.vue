@@ -26,7 +26,7 @@ async function load() {
 }
 
 function addTag() {
-  config.value.displayTags.push({ key: `tag-${config.value.displayTags.length + 1}`, label: "新标签", color: "#1677ff" });
+  config.value.displayTags.push({ key: `tag-${config.value.displayTags.length + 1}`, label: "新标签", color: "#ed920f" });
 }
 
 function removeTag(index: number) {
@@ -68,7 +68,7 @@ onShow(async () => {
       <view class="section-title">展示标签</view>
       <view v-for="(tag, index) in config.displayTags" :key="tag.key" class="tag-row">
         <u-input v-model="tag.label" placeholder="标签名" :disabled="!session.can('schedule.session.write')" />
-        <u-input v-model="tag.color" placeholder="#1677ff" :disabled="!session.can('schedule.session.write')" />
+        <u-input v-model="tag.color" placeholder="#ed920f" :disabled="!session.can('schedule.session.write')" />
         <u-button v-if="session.can('schedule.session.write')" size="mini" text="删除" @click="removeTag(index)" />
       </view>
       <u-button v-if="session.can('schedule.session.write')" size="small" text="添加标签" @click="addTag" />
@@ -86,7 +86,7 @@ onShow(async () => {
 </template>
 
 <style scoped lang="scss">
-.page-container { min-height: 100vh; padding: 24rpx; background: #f4f6f8; }
+.page-container { min-height: 100vh; padding: 24rpx; background: #f5f5f5; }
 .section-card { padding: 24rpx; background: #fff; border-radius: 16rpx; }
 .section-title { margin: 20rpx 0 12rpx; font-size: 28rpx; font-weight: 600; }
 .tag-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12rpx; margin-bottom: 12rpx; }

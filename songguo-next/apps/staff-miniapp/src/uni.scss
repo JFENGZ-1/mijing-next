@@ -1,3 +1,17 @@
+/* 对标原版管理端色板：在 uview 主题导入前覆盖其 !default 变量 */
+$u-primary: #ed920f;
+$u-primary-dark: #f88302;
+$u-primary-disabled: #f7cf9a;
+$u-primary-light: #fdf3e3;
+$u-success: #22c788;
+$u-warning: #f88302;
+$u-error: #dc3c5c;
+$u-info: #5fa3ea;
+$u-main-color: #181818;
+$u-content-color: #505050;
+$u-tips-color: #989898;
+$u-light-color: #bfbfbf;
+
 @import "uview-plus/theme.scss";
 
 /**

@@ -2,8 +2,11 @@
 
 namespace App\Services\Booking;
 
+use App\Enums\AppointmentStatus;
+use App\Models\Appointment;
 use App\Models\ScheduleSession;
 use App\Models\Site;
+use Illuminate\Support\Collection;
 
 class StaffBookingDailyBoardService
 {
@@ -14,8 +17,24 @@ class StaffBookingDailyBoardService
      */
     public function board(Site $site, string $date): array
     {
-        $items = $this->query->staffDailyBoardSessions($site, $date)
-            ->map(fn (ScheduleSession $session) => $this->boardItem($session))
+        $sessions = $this->query->staffDailyBoardSessions($site, $date);
+
+        // 批量取各节课的预约会员（前排头像墙）与候补数，避免 N+1
+        $appointmentsBySession = Appointment::query()
+            ->where('tenant_id', $site->tenant_id)
+            ->where('site_id', $site->id)
+            ->whereIn('session_id', $sessions->pluck('id'))
+            ->whereIn('status', [AppointmentStatus::Confirmed, AppointmentStatus::Waitlisted])
+            ->with('member.crmProfile:member_id,name')
+            ->orderBy('id')
+            ->get(['id', 'session_id', 'member_id', 'status'])
+            ->groupBy('session_id');
+
+        $items = $sessions
+            ->map(fn (ScheduleSession $session) => $this->boardItem(
+                $session,
+                $appointmentsBySession->get($session->id) ?? collect(),
+            ))
             ->values()
             ->all();
 
@@ -26,10 +45,14 @@ class StaffBookingDailyBoardService
     }
 
     /**
+     * @param  Collection<int, Appointment>  $appointments
      * @return array<string, mixed>
      */
-    private function boardItem(ScheduleSession $session): array
+    private function boardItem(ScheduleSession $session, Collection $appointments): array
     {
+        $confirmed = $appointments->filter(fn (Appointment $item) => $item->status === AppointmentStatus::Confirmed);
+        $waitlisted = $appointments->filter(fn (Appointment $item) => $item->status === AppointmentStatus::Waitlisted);
+
         return [
             'id' => $session->id,
             'courseId' => $session->course_id,
@@ -45,6 +68,20 @@ class StaffBookingDailyBoardService
             'bookedCount' => $session->booked_count,
             'status' => $session->status->value,
             'sessionKind' => $session->session_kind->value,
+            // 课程卡背景图案（平台图案库）
+            'courseFaceStyle' => $session->course?->face_style,
+            'courseFaceGradient' => app(\App\Services\Cards\CardFaceLibraryService::class)
+                ->gradientFor($session->course?->face_style),
+            // 预约会员头像墙（对标原版 userlist，前 7 位）
+            'attendees' => $confirmed
+                ->take(7)
+                ->map(fn (Appointment $item) => [
+                    'memberId' => $item->member_id,
+                    'name' => $item->member?->crmProfile?->name,
+                ])
+                ->values()
+                ->all(),
+            'waitlistCount' => $waitlisted->count(),
         ];
     }
 }

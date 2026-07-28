@@ -167,14 +167,19 @@ export interface PaymentMarketingConfig {
 }
 
 export interface BookingPolicyGroupSettings {
+  signMinutesBeforeStart: number;
   advanceBookingDays: number;
+  advanceBookingDailyCutoffHour: number;
+  advanceBookingDailyCutoffMinute: number;
   calendarDisplayDays: number;
   bookingCutoffMinutesBeforeStart: number;
   cancelCutoffMinutesBeforeStart: number;
   waitlistEnabled: boolean;
   showBookedCount: boolean;
   autoCancelUnderMinStudentsEnabled: boolean;
+  autoCancelUnderMinStudentsMinutesBeforeStart: number;
   absentPenaltyEnabled: boolean;
+  maxBookingsPerDay: number | null;
 }
 
 export interface BookingPolicyPrivateSettings {
@@ -182,8 +187,11 @@ export interface BookingPolicyPrivateSettings {
   minimumLeadMinutes: number;
   cancelCutoffMinutesBeforeStart: number;
   slotIntervalMinutes: number;
+  preparationMinutes: number;
   grayOutBookedSlots: boolean;
+  groupConflictMode: "block" | "allow" | "overlap_warn";
   absentPenaltyEnabled: boolean;
+  maxBookingsPerDay: number | null;
 }
 
 export interface BookingPolicyConfig {

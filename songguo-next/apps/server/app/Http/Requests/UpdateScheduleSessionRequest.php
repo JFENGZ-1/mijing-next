@@ -20,6 +20,8 @@ class UpdateScheduleSessionRequest extends ApiFormRequest
             'endsAt' => ['sometimes', 'date'],
             'capacity' => ['sometimes', 'integer', 'min:1'],
             'sessionKind' => ['sometimes', 'string', 'in:group,private'],
+            'displayColor' => ['sometimes', 'nullable', 'string', 'max:24'],
+            'acknowledgeGroupOverlap' => ['sometimes', 'boolean'],
         ];
     }
 

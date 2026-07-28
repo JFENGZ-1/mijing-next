@@ -418,7 +418,7 @@ onUnmounted(() => {
 }
 
 .link-action {
-  color: #1a73e8;
+  color: #ed920f;
   font-size: 26rpx;
 }
 
@@ -442,9 +442,9 @@ onUnmounted(() => {
 }
 
 .chip.active {
-  border-color: #1a73e8;
-  color: #1a73e8;
-  background: #eef4ff;
+  border-color: #ed920f;
+  color: #ed920f;
+  background: #fdf3e3;
 }
 
 .recompute-row {
@@ -480,10 +480,10 @@ onUnmounted(() => {
 .report-amount {
   font-size: 28rpx;
   font-weight: 600;
-  color: #1a73e8;
+  color: #ed920f;
 }
 
 .error-text {
-  color: #d93025;
+  color: #dc3c5c;
 }
 </style>

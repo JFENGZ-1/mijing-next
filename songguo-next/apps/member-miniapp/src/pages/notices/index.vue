@@ -12,9 +12,10 @@ const siteName = ref("");
 const notices = ref<MemberNoticeTeaser[]>([]);
 
 const loading = ref(true);
+const hasLoaded = ref(false);
 
 async function loadNotices(refresh = false) {
-  loading.value = true;
+  loading.value = !hasLoaded.value;
   errorMessage.value = "";
   if (refresh) {
     notices.value = [];
@@ -34,6 +35,7 @@ async function loadNotices(refresh = false) {
     errorMessage.value = error instanceof Error ? error.message : "通知列表加载失败";
   } finally {
     loading.value = false;
+    hasLoaded.value = true;
   }
 }
 

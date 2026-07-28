@@ -265,9 +265,9 @@ onPullDownRefresh(() => load());
 }
 
 .chip.active {
-  border-color: #1a73e8;
-  color: #1a73e8;
-  background: #e8f0fe;
+  border-color: #ed920f;
+  color: #ed920f;
+  background: #fdf3e3;
 }
 
 .totals-card,

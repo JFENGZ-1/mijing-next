@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { onShow } from "@dcloudio/uni-app";
-import { getMemberMine } from "@/api/member";
+import { onPageScroll, onShow } from "@dcloudio/uni-app";
+import { getMemberHiddenCards, getMemberMine, hideMemberCard } from "@/api/member";
 import { requireMemberAuth } from "@/auth/guard";
 import { ensureMemberTenant, loadJoinableSites, loadJoinedMemberSites, selectMemberSite } from "@/composables/member-context";
 import type { MemberCardWalletSummary, MemberMineDashboard, MemberSiteOption } from "@/types/member";
+import { createCommandKey } from "@/utils/command-key";
 
 const loading = ref(true);
 const errorMessage = ref("");
@@ -12,12 +13,31 @@ const needsSite = ref(false);
 const sites = ref<MemberSiteOption[]>([]);
 const dashboard = ref<MemberMineDashboard | null>(null);
 const displayCards = ref<MemberCardWalletSummary[]>([]);
+const hiddenCardCount = ref(0);
+const showMoreMenu = ref(false);
+const hidingCard = ref(false);
+const fixedBarOpacity = ref(0);
 const statusBarHeight = ref(0);
+// 头部内容顶部留白：需避开微信右上角胶囊按钮，否则设置图标会被遮挡
+const headerPaddingTop = ref(24);
 try {
-  statusBarHeight.value = uni.getSystemInfoSync().statusBarHeight || 0;
+  const sys = uni.getSystemInfoSync();
+  statusBarHeight.value = sys.statusBarHeight || 0;
+  let top = statusBarHeight.value + 12;
+  const menuRect = uni.getMenuButtonBoundingClientRect?.();
+  if (menuRect?.bottom) {
+    top = Math.max(top, menuRect.bottom + 8);
+  }
+  headerPaddingTop.value = top;
 } catch {
   statusBarHeight.value = 0;
+  headerPaddingTop.value = 24;
 }
+
+onPageScroll((options) => {
+  const top = options.scrollTop || 0;
+  fixedBarOpacity.value = Math.min(Math.max(top - 40, 0) / 100, 1);
+});
 
 const statItems = computed(() => {
   if (!dashboard.value) return [];
@@ -41,7 +61,7 @@ const statItems = computed(() => {
 
 const menuItems = computed(() => {
   const items = [
-    { label: "约课统计", icon: "bar-chart", action: "stats" },
+    { label: "约课统计", icon: "calendar", action: "stats" },
     { label: "我的订单", icon: "order", action: "orders" },
     { label: "场馆详情", icon: "home", action: "site" },
     { label: "场馆资料", icon: "edit-pen", action: "profile" },
@@ -57,10 +77,10 @@ const menuItems = computed(() => {
 });
 
 async function loadDashboard() {
-  loading.value = true;
+  // 仅首次（无数据）时显示全屏加载，再次进入静默刷新
+  loading.value = !dashboard.value;
   errorMessage.value = "";
   needsSite.value = false;
-  dashboard.value = null;
 
   try {
     const tenant = await ensureMemberTenant();
@@ -73,10 +93,20 @@ async function loadDashboard() {
     const response = await getMemberMine(tenant.tenantId);
     dashboard.value = response.data;
     displayCards.value = [...(response.data.cardList ?? [])];
+    void loadHiddenCount(tenant.tenantId);
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : "我的页面加载失败";
   } finally {
     loading.value = false;
+  }
+}
+
+async function loadHiddenCount(tenantId: number) {
+  try {
+    const response = await getMemberHiddenCards(tenantId);
+    hiddenCardCount.value = response.data.length;
+  } catch {
+    hiddenCardCount.value = 0;
   }
 }
 
@@ -93,6 +123,8 @@ async function openSitePicker() {
       const site = sites.value[result.tapIndex];
       if (!site) return;
       selectMemberSite(site);
+      // 切换场馆属于数据源变更，清空后重新加载（显示全屏加载）
+      dashboard.value = null;
       await loadDashboard();
     },
   });
@@ -115,7 +147,14 @@ function openOnboarding() {
 }
 
 function openMyAppointments() {
-  uni.navigateTo({ url: "/pages/booking/my-appointments" });
+  const cardQuery = frontCard.value ? `?cardId=${frontCard.value.id}` : "";
+  uni.navigateTo({ url: `/pages/booking/my-appointments${cardQuery}` });
+}
+
+function openBalanceCheck() {
+  // 对标原版：余额核对 = 使用记录页第二个 tab
+  const cardQuery = frontCard.value ? `cardId=${frontCard.value.id}&` : "";
+  uni.navigateTo({ url: `/pages/booking/my-appointments?${cardQuery}tab=1` });
 }
 
 function openStatItem(item: { route?: string }) {
@@ -152,16 +191,70 @@ function openCardDetail(cardId: number) {
 
 const frontCard = computed(() => displayCards.value[displayCards.value.length - 1] ?? null);
 
-function switchCardFace() {
-  const list = displayCards.value;
-  if (list.length <= 1) {
-    uni.showToast({ title: "只有一张会员卡", icon: "none" });
+function onCardTap(card: MemberCardWalletSummary, index: number) {
+  // 对标原版：点击非顶层卡片将其切换到最前，点击顶层卡片进入详情
+  if (index !== displayCards.value.length - 1) {
+    const next = [...displayCards.value];
+    next.splice(index, 1);
+    next.push(card);
+    displayCards.value = next;
     return;
   }
-  const next = [...list];
-  const top = next.pop();
-  if (top) next.unshift(top);
-  displayCards.value = next;
+  openCardDetail(card.id);
+}
+
+function toggleMoreMenu() {
+  showMoreMenu.value = !showMoreMenu.value;
+}
+
+function closeMoreMenu() {
+  showMoreMenu.value = false;
+}
+
+function openRenew() {
+  closeMoreMenu();
+  uni.navigateTo({ url: "/pages/cards/catalog" });
+}
+
+function confirmHideFrontCard() {
+  closeMoreMenu();
+  const card = frontCard.value;
+  if (!card) {
+    uni.showToast({ title: "暂无会员卡", icon: "none" });
+    return;
+  }
+  uni.showModal({
+    title: "确认隐藏该卡吗？",
+    content: "隐藏后，可点击右下角回收站图标进行恢复显示",
+    success: async (result) => {
+      if (!result.confirm) return;
+      await hideFrontCard(card);
+    },
+  });
+}
+
+async function hideFrontCard(card: MemberCardWalletSummary) {
+  if (hidingCard.value) return;
+  const tenant = await ensureMemberTenant();
+  if (!tenant) return;
+
+  hidingCard.value = true;
+  try {
+    await hideMemberCard(tenant.tenantId, card.id, createCommandKey());
+    uni.showToast({ title: "已隐藏", icon: "success" });
+    await loadDashboard();
+  } catch (error) {
+    uni.showToast({
+      title: error instanceof Error ? error.message : "隐藏失败",
+      icon: "none",
+    });
+  } finally {
+    hidingCard.value = false;
+  }
+}
+
+function openHiddenCards() {
+  uni.navigateTo({ url: "/pages/cards/hidden" });
 }
 
 function openBenefits() {
@@ -191,7 +284,7 @@ onShow(async () => {
 <template>
   <u-loading-page :loading="loading" />
   <view v-if="!loading" class="mine-page">
-    <view v-if="needsSite" class="page-container" :style="{ paddingTop: statusBarHeight ? `${statusBarHeight}px` : '0' }">
+    <view v-if="needsSite" class="page-container" :style="{ paddingTop: `${headerPaddingTop}px` }">
       <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
       <view class="site-prompt">
         <view class="section-title">选择场馆</view>
@@ -202,9 +295,35 @@ onShow(async () => {
     </view>
 
     <template v-else-if="dashboard">
-      <view class="mine-header" :style="{ paddingTop: statusBarHeight ? `${statusBarHeight + 12}px` : '24rpx' }">
+      <view
+        class="fixed-bar"
+        :style="{
+          paddingTop: statusBarHeight ? `${statusBarHeight}px` : '0',
+          opacity: fixedBarOpacity,
+          pointerEvents: fixedBarOpacity > 0.1 ? 'auto' : 'none',
+        }"
+      >
+        <view class="fixed-bar-inner" @tap="openProfile">
+          <u-avatar
+            size="32"
+            :src="dashboard.profile.avatarUrl || undefined"
+            :icon="dashboard.profile.avatarUrl ? undefined : 'account-fill'"
+            bg-color="#ffffff"
+            color="#181818"
+          />
+          <text class="fixed-bar-name">{{ dashboard.profile.displayName || "会员" }}</text>
+        </view>
+      </view>
+
+      <view class="mine-header" :style="{ paddingTop: `${headerPaddingTop}px` }">
         <view class="profile-top" @tap="openProfile">
-          <u-avatar size="52" icon="account-fill" bg-color="#ffffff" color="#181818" />
+          <u-avatar
+            size="52"
+            :src="dashboard.profile.avatarUrl || undefined"
+            :icon="dashboard.profile.avatarUrl ? undefined : 'account-fill'"
+            bg-color="#ffffff"
+            color="#181818"
+          />
           <view class="profile-text">
             <view class="profile-name">{{ dashboard.profile.displayName || "会员" }}</view>
             <view class="profile-subtitle">{{ dashboard.helloMessage }}</view>
@@ -236,7 +355,7 @@ onShow(async () => {
               :key="`${card.id}-${index}`"
               class="card-item"
               :style="{ top: `${index * 30}rpx`, zIndex: index + 1 }"
-              @tap="openCardDetail(card.id)"
+              @tap="onCardTap(card, index)"
             >
               <member-card :card="card" />
             </view>
@@ -252,9 +371,9 @@ onShow(async () => {
               <text>预约记录</text>
             </view>
             <u-line color="#DADADA" direction="col" length="20" margin="0 25rpx" />
-            <view class="handle-item" @tap="frontCard ? openCardDetail(frontCard.id) : undefined">
+            <view class="handle-item" @tap="openBalanceCheck">
               <u-icon name="rmb-circle" size="20" color="#696B99" />
-              <text>余额变动</text>
+              <text>余额核对</text>
             </view>
             <u-line color="#DADADA" direction="col" length="20" margin="0 25rpx" />
             <view class="handle-item" @tap="openBenefits">
@@ -262,9 +381,24 @@ onShow(async () => {
               <text>权益</text>
             </view>
             <u-line color="#DADADA" direction="col" length="20" margin="0 25rpx" />
-            <view class="handle-item" @tap="switchCardFace">
-              <u-icon name="reload" size="20" color="#696B99" />
-              <text>切换</text>
+            <view class="handle-item handle-item--more">
+              <view class="more-trigger" @tap.stop="toggleMoreMenu">
+                <u-icon name="more-dot-fill" size="22" color="#696B99" />
+              </view>
+              <view v-if="showMoreMenu" class="more-mask" @tap="closeMoreMenu" />
+              <view v-if="showMoreMenu" class="drop-down">
+                <view class="drop-down-arrow" />
+                <view class="drop-down-list">
+                  <view class="drop-item" @tap="openRenew">
+                    <u-icon name="rmb-circle" size="18" color="#696B99" />
+                    <text>我要续费</text>
+                  </view>
+                  <view class="drop-item" @tap="confirmHideFrontCard">
+                    <u-icon name="eye-off" size="18" color="#696B99" />
+                    <text>{{ hidingCard ? "隐藏中..." : "隐藏该卡" }}</text>
+                  </view>
+                </view>
+              </view>
             </view>
           </view>
         </view>
@@ -283,6 +417,11 @@ onShow(async () => {
           </view>
         </view>
       </view>
+
+      <view v-if="hiddenCardCount > 0" class="recycle-float" @tap="openHiddenCards">
+        <u-icon name="trash" size="26" color="#696B99" />
+        <text class="recycle-count">{{ hiddenCardCount }}</text>
+      </view>
     </template>
   </view>
 </template>
@@ -291,6 +430,30 @@ onShow(async () => {
 .mine-page {
   min-height: 100vh;
   background: $color-page;
+}
+
+.fixed-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: $color-accent-yellow;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+}
+
+.fixed-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  height: 80rpx;
+  padding: 0 28rpx;
+}
+
+.fixed-bar-name {
+  color: $color-text;
+  font-size: 30rpx;
+  font-weight: 500;
 }
 
 .site-prompt {
@@ -445,6 +608,82 @@ onShow(async () => {
   gap: 8rpx;
   color: $color-text;
   font-size: 26rpx;
+}
+
+.handle-item--more {
+  position: relative;
+}
+
+.more-trigger {
+  display: flex;
+  align-items: center;
+  padding: 8rpx;
+}
+
+.more-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+}
+
+.drop-down {
+  position: absolute;
+  top: 56rpx;
+  right: -16rpx;
+  z-index: 31;
+}
+
+.drop-down-arrow {
+  position: absolute;
+  top: -10rpx;
+  right: 32rpx;
+  width: 0;
+  height: 0;
+  border-left: 12rpx solid transparent;
+  border-right: 12rpx solid transparent;
+  border-bottom: 12rpx solid $color-surface;
+  filter: drop-shadow(0 -2rpx 2rpx rgba(0, 0, 0, 0.04));
+}
+
+.drop-down-list {
+  min-width: 220rpx;
+  padding: 8rpx 0;
+  background: $color-surface;
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.12);
+}
+
+.drop-item {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 20rpx 28rpx;
+  color: $color-text;
+  font-size: 26rpx;
+  white-space: nowrap;
+}
+
+.recycle-float {
+  position: fixed;
+  right: 24rpx;
+  bottom: 160rpx;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 96rpx;
+  height: 96rpx;
+  background: $color-surface;
+  border-radius: 50%;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.12);
+}
+
+.recycle-count {
+  margin-top: 2rpx;
+  color: $color-text-secondary;
+  font-size: 20rpx;
+  line-height: 20rpx;
 }
 
 .menu-section {

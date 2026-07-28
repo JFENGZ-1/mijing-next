@@ -262,7 +262,7 @@ onPullDownRefresh(async () => {
 }
 
 .link-action {
-  color: #1a73e8;
+  color: #ed920f;
   font-size: 26rpx;
 }
 
@@ -282,8 +282,8 @@ onPullDownRefresh(async () => {
 }
 
 .site-chip.active {
-  border-color: #1a73e8;
-  background: #eef4ff;
+  border-color: #ed920f;
+  background: #fdf3e3;
 }
 
 .site-name {

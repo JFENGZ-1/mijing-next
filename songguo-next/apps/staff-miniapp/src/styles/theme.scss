@@ -1,15 +1,40 @@
-$color-primary: #1677ff;
-$color-success: #16a36a;
-$color-warning: #d97706;
-$color-danger: #d92d20;
-$color-text: #202124;
-$color-text-secondary: #667085;
-$color-border: #e4e7ec;
-$color-page: #f4f6f8;
+// 对标原版管理端色板（管理端/app.wxss 提取）
+// 品牌橙：金额、主操作、浮动按钮
+$color-primary: #ed920f;
+$color-primary-deep: #f88302;
+$color-primary-bright: #fc8c00;
+// 品牌黄：原版表单保存按钮/课程模块导航（#FBD128 黑字）
+$color-brand-yellow: #fbd128;
+// 功能色
+$color-success: #22c788;
+$color-warning: #f88302;
+$color-danger: #dc3c5c;
+$color-danger-soft: #e77a76;
+$color-info: #5fa3ea;
+// 中性色阶（原版黑白灰体系）
+$color-text: #181818;
+$color-text-secondary: #505050;
+$color-text-tertiary: #989898;
+$color-text-disabled: #bfbfbf;
+$color-border: #e5e5e5;
+$color-divider: #dddddd;
+$color-page: #f5f5f5;
 $color-surface: #ffffff;
+$color-surface-grey: #f8f8f8;
+// 间距
 $spacing-xs: 8rpx;
 $spacing-sm: 16rpx;
 $spacing-md: 24rpx;
 $spacing-lg: 32rpx;
-$radius-sm: 4rpx;
-$radius-md: 8rpx;
+// 圆角（原版：大卡 20-21rpx、小组件 12-16rpx、胶囊按钮 30-35rpx）
+$radius-sm: 12rpx;
+$radius-md: 16rpx;
+$radius-lg: 20rpx;
+$radius-pill: 35rpx;
+// 字号（原版层级）
+$font-hero: 90rpx; // 营业额大字
+$font-title-xl: 53rpx; // 首页问候
+$font-title: 32rpx;
+$font-body: 28rpx;
+$font-sub: 24rpx;
+$font-caption: 22rpx;

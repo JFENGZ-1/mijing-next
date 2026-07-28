@@ -58,6 +58,6 @@ onShow(async () => {
 .page-container {
   min-height: 100vh;
   padding: 24rpx;
-  background: #f4f6f8;
+  background: #f5f5f5;
 }
 </style>

@@ -11,6 +11,7 @@ import type {
 } from "@/types/dashboard";
 
 const session = useSessionStore();
+const statusBarHeight = uni.getSystemInfoSync().statusBarHeight ?? 20;
 const checking = ref(true);
 const loading = ref(false);
 const errorMessage = ref("");
@@ -19,8 +20,8 @@ const salesFeed = ref<StaffDashboardSalesFeedItem[]>([]);
 const appointmentFeed = ref<StaffDashboardAppointmentFeedItem[]>([]);
 const hideRevenue = ref(uni.getStorageSync("hide_dashboard_revenue") === true);
 
-const actions = ["排课", "会员", "发卡", "签到", "员工", "场馆", "报表"];
-const currentSiteName = computed(() => session.sites.find((site) => site.id === session.currentSiteId)?.name || "尚未选择场馆");
+const currentSiteName = computed(() => session.sites.find((site) => site.id === session.currentSiteId)?.name || "选择场馆");
+const canSwitchSite = computed(() => session.sites.length > 1);
 const canViewSummary = computed(() => session.can("staff.dashboard.read") || session.can("crm.member.read"));
 const canViewSalesFeed = computed(() => session.can("staff.dashboard.read") || session.can("order.read"));
 const canViewAppointmentFeed = computed(() => session.can("staff.dashboard.read"));
@@ -37,7 +38,12 @@ const metrics = computed(() => {
 
 const revenueDisplay = computed(() => {
   if (!canViewSummary.value || hideRevenue.value) return "******";
-  return `¥${summary.value?.kpis.todayRevenue ?? "0.00"}`;
+  return summary.value?.kpis.todayRevenue ?? "0.00";
+});
+
+const appointmentTotal = computed(() => {
+  const kpis = summary.value?.kpis;
+  return (kpis?.groupAppointmentCount ?? 0) + (kpis?.privateAppointmentCount ?? 0);
 });
 
 async function loadDashboard() {
@@ -111,340 +117,355 @@ function appointmentStatusLabel(status: string) {
   return status;
 }
 
-function openPersonalSettings() {
-  uni.navigateTo({ url: "/pages/settings/personal/index" });
+function memberInitial(name?: string | null) {
+  return (name || "客").slice(0, 1);
 }
 
-function openSettingsHub() {
-  if (!session.can("tenant.settings.read")) {
-    uni.showToast({ title: "暂无场馆设置权限", icon: "none" });
-    return;
-  }
-  uni.navigateTo({ url: "/pages/settings/hub/index" });
-}
-
-function openSiteSettings() {
-  if (!session.can("site.profile.read")) {
-    uni.showToast({ title: "暂无场馆资料权限", icon: "none" });
-    return;
-  }
-  uni.navigateTo({ url: "/pages/settings/site/index" });
-}
-
-function handleAction(action: string) {
-  if (action === "会员") {
-    uni.navigateTo({ url: "/pages/members/index" });
-    return;
-  }
-  if (action === "场馆") {
-    if (session.can("tenant.settings.read")) {
-      openSettingsHub();
-      return;
-    }
-    if (session.can("site.profile.read")) {
-      openSiteSettings();
-      return;
-    }
-    uni.navigateTo({ url: "/pages/sites/index" });
-    return;
-  }
-  if (action === "员工") {
-    if (!session.can("staff.directory.read")) {
-      uni.showToast({ title: "暂无员工目录权限", icon: "none" });
-      return;
-    }
-    uni.navigateTo({ url: "/pages/settings/staff/index" });
-    return;
-  }
-  if (action === "报表") {
-    if (!session.can("report.dashboard.read")) {
-      uni.showToast({ title: "暂无报表权限", icon: "none" });
-      return;
-    }
-    uni.navigateTo({ url: "/pages/report/index" });
-    return;
-  }
-  if (action === "排课") {
-    if (!session.can("booking.staff-daily-board.read") && !session.can("schedule.session.read")) {
-      uni.showToast({ title: "暂无课程日程权限", icon: "none" });
-      return;
-    }
-    uni.switchTab({ url: "/pages/course/index" });
-    return;
-  }
-  if (action === "发卡") {
-    if (!session.can("member-card.issue")) {
-      uni.showToast({ title: "暂无发卡权限", icon: "none" });
-      return;
-    }
-    if (!session.can("crm.member.read")) {
-      uni.showToast({ title: "暂无会员查看权限", icon: "none" });
-      return;
-    }
-    uni.navigateTo({ url: "/pages/members/index" });
-    return;
-  }
-  if (action === "签到") {
-    if (!session.can("booking.fulfillment.check-in")) {
-      uni.showToast({ title: "暂无签到权限", icon: "none" });
-      return;
-    }
-    uni.navigateTo({ url: "/pages/check-in/scan/index" });
-    return;
-  }
-  uni.showToast({ title: `${action}暂未开放`, icon: "none" });
+function openSiteSwitcher() {
+  uni.navigateTo({ url: "/pages/sites/index" });
 }
 </script>
 
 <template>
   <u-loading-page :loading="checking || loading" />
-  <view v-if="!checking" class="page-container">
-    <view class="header-row">
-      <view>
-        <text class="title">{{ summary?.greeting.headline || "今日工作台" }}</text>
-        <text class="subtitle">{{ summary?.greeting.hint || currentSiteName }}</text>
-        <text v-if="summary?.greeting.hint" class="site-name" @click="openSiteSettings">{{ currentSiteName }}</text>
-      </view>
-      <u-icon name="setting" size="24" color="#202124" @click="openPersonalSettings" />
-    </view>
-
-    <view v-if="errorMessage" class="error-text">{{ errorMessage }}</view>
-
-    <view v-if="canViewSummary" class="revenue-card">
-      <text class="revenue-value" @click="toggleRevenueVisibility">{{ revenueDisplay }}</text>
-      <text class="revenue-label">今日营业额</text>
-    </view>
-
-    <view v-if="canViewSummary" class="metric-grid">
-      <view v-for="metric in metrics" :key="metric.label" class="metric-cell">
-        <text class="metric-value">{{ metric.value }}</text>
-        <text class="metric-label">{{ metric.label }}</text>
-      </view>
-    </view>
-
-    <view class="section-title">快捷操作</view>
-    <view class="action-grid">
-      <button v-for="action in actions" :key="action" class="action-button" @click="handleAction(action)">{{ action }}</button>
-    </view>
-
-    <view v-if="canViewSalesFeed" class="section-title">今日售卡</view>
-    <view v-if="canViewSalesFeed && salesFeed.length" class="sales-list">
-      <view v-for="item in salesFeed" :key="item.id" class="sales-item">
-        <view class="sales-row">
-          <view>
-            <text class="sales-member">{{ item.memberName || "会员" }}</text>
-            <text class="sales-meta">{{ formatSoldTime(item.soldAt) }} · {{ item.cardName || "会员卡" }}</text>
-          </view>
-          <view class="sales-amount-wrap">
-            <text class="sales-amount">¥{{ item.amount }}</text>
-            <u-tag v-if="item.isNewMember" text="新会员" size="mini" type="success" />
-          </view>
-        </view>
-        <text v-if="item.remark" class="sales-remark">备注：{{ item.remark }}</text>
-      </view>
-    </view>
-    <u-empty v-else-if="canViewSalesFeed" mode="list" text="今天还没有售卡记录" />
-
-    <view v-if="canViewAppointmentFeed" class="section-title">今日预约</view>
-    <view v-if="canViewAppointmentFeed && appointmentFeed.length" class="appoint-list">
-      <view v-for="item in appointmentFeed" :key="item.id" class="appoint-item">
-        <view class="appoint-row">
-          <view>
-            <text class="appoint-member">{{ item.memberName || "会员" }}</text>
-            <text class="appoint-meta">
-              {{ formatSessionTime(item.startsAt, item.endsAt) }}
-              · {{ item.courseName || (item.sessionKind === "private" ? "私教" : "课程") }}
-              <template v-if="item.coachName"> · {{ item.coachName }}</template>
-            </text>
-          </view>
-          <u-tag :text="appointmentStatusLabel(item.status)" size="mini" type="success" />
+  <view v-if="!checking" class="home-container">
+    <!-- 顶部头图区（对标原版 home_top_bg，沉浸式，白字问候 + 场馆切换胶囊） -->
+    <view class="top-box" :style="{ paddingTop: statusBarHeight + 8 + 'px' }">
+      <view class="capsule-row">
+        <view class="site-capsule" @click="openSiteSwitcher">
+          <u-icon name="reload" size="15" color="#ffffff" />
+          <text class="site-name">{{ currentSiteName }}</text>
+          <u-icon v-if="canSwitchSite" name="arrow-down" size="12" color="#ffffff" />
         </view>
       </view>
+      <view class="greet-box">
+        <text class="time-greete">{{ summary?.greeting.headline || "今天" }}</text>
+        <text class="greet-hint">{{ summary?.greeting.hint || "祝您工作愉快" }}</text>
+      </view>
     </view>
-    <u-empty v-else-if="canViewAppointmentFeed" mode="list" text="今天还没有预约记录" />
 
-    <view v-if="!canViewSummary && !canViewSalesFeed && !canViewAppointmentFeed" class="section-title">待处理</view>
-    <u-empty v-if="!canViewSummary && !canViewSalesFeed && !canViewAppointmentFeed" mode="permission" text="当前账号暂无首页数据权限" />
+    <!-- 白色圆角内容区上盖头图（原版 -20rpx / 20rpx 顶圆角） -->
+    <view class="today-data">
+      <view v-if="errorMessage" class="error-text">{{ errorMessage }}</view>
+
+      <template v-if="canViewSummary">
+        <view class="money-row" @click="toggleRevenueVisibility">
+          <text class="money">{{ revenueDisplay }}</text>
+        </view>
+        <view class="money-label-row" @click="toggleRevenueVisibility">
+          <text class="money-label">今日营业额(元)</text>
+          <u-icon :name="hideRevenue ? 'eye-off' : 'eye'" size="17" color="#989898" />
+        </view>
+
+        <view class="metric-row">
+          <view v-for="(metric, index) in metrics" :key="metric.label" class="metric-cell" :class="{ 'with-divider': index > 0 }">
+            <text class="metric-value">{{ metric.value }}</text>
+            <text class="metric-label">{{ metric.label }}</text>
+          </view>
+        </view>
+      </template>
+
+      <!-- 今日售卡 -->
+      <template v-if="canViewSalesFeed">
+        <view class="feed-header">
+          <text class="feed-title">今日售卡</text>
+          <text class="feed-count">共{{ summary?.kpis.saleCardCount ?? salesFeed.length }}笔</text>
+        </view>
+        <view v-if="salesFeed.length" class="feed-list">
+          <view v-for="item in salesFeed" :key="item.id" class="sale-item">
+            <view class="avatar">{{ memberInitial(item.memberName) }}</view>
+            <view class="sale-main">
+              <view class="sale-line1">
+                <text class="sale-member">{{ item.memberName || "会员" }}</text>
+                <text class="sale-amount">¥{{ item.amount }}</text>
+              </view>
+              <view class="sale-line2">
+                <text class="sale-meta">{{ formatSoldTime(item.soldAt) }} · {{ item.cardName || "会员卡" }}</text>
+                <text v-if="item.isNewMember" class="sg-tag-new">新会员</text>
+              </view>
+              <text v-if="item.remark" class="sale-remark">{{ item.remark }}</text>
+            </view>
+          </view>
+        </view>
+        <view v-else class="nodata-box">
+          <text class="sg-empty-text">今天还没有售卡记录</text>
+        </view>
+      </template>
+
+      <!-- 今日约课 -->
+      <template v-if="canViewAppointmentFeed">
+        <view class="feed-header">
+          <text class="feed-title">今日约课</text>
+          <text class="feed-count">共{{ appointmentTotal }}人次</text>
+        </view>
+        <view v-if="appointmentFeed.length" class="feed-list">
+          <view v-for="item in appointmentFeed" :key="item.id" class="appoint-item">
+            <view class="avatar appoint-avatar">{{ memberInitial(item.memberName) }}</view>
+            <view class="sale-main">
+              <view class="sale-line1">
+                <text class="sale-member">{{ item.memberName || "会员" }}</text>
+                <text class="appoint-status">{{ appointmentStatusLabel(item.status) }}</text>
+              </view>
+              <text class="sale-meta">
+                {{ formatSessionTime(item.startsAt, item.endsAt) }}
+                · {{ item.courseName || (item.sessionKind === "private" ? "私教" : "课程") }}
+                <template v-if="item.coachName"> · {{ item.coachName }}</template>
+              </text>
+            </view>
+          </view>
+        </view>
+        <view v-else class="nodata-box">
+          <text class="sg-empty-text">今天还没有约课记录</text>
+        </view>
+      </template>
+
+      <u-empty
+        v-if="!canViewSummary && !canViewSalesFeed && !canViewAppointmentFeed"
+        mode="permission"
+        text="当前账号暂无首页数据权限"
+      />
+    </view>
   </view>
 </template>
 
 <style scoped lang="scss">
-.header-row {
+.home-container {
+  min-height: 100vh;
+  background: $color-page;
+}
+
+// —— 头图区（对标原版 310rpx 蓝色背景，沉浸式自适应状态栏） ——
+.top-box {
+  position: relative;
+  padding: 0 28rpx 60rpx;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #5fa3ea 0%, #3f77c9 100%);
+}
+
+.capsule-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.title,
-.subtitle,
-.site-name,
-.metric-value,
-.metric-label,
-.revenue-value,
-.revenue-label,
-.sales-member,
-.sales-meta,
-.sales-remark {
-  display: block;
-}
-
-.title {
-  font-size: 38rpx;
-  font-weight: 600;
-}
-
-.subtitle,
-.metric-label,
-.site-name,
-.sales-meta,
-.sales-remark {
-  margin-top: $spacing-xs;
-  color: $color-text-secondary;
-  font-size: 24rpx;
+.site-capsule {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  max-width: 420rpx;
+  height: 56rpx;
+  padding: 0 24rpx;
+  border-radius: 30rpx;
+  background: rgba(0, 0, 0, 0.18);
 }
 
 .site-name {
-  margin-top: 4rpx;
+  overflow: hidden;
+  color: #fff;
+  font-size: 28rpx;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.top-icons {
+  display: flex;
+  align-items: center;
+  gap: 28rpx;
+}
+
+.greet-box {
+  display: flex;
+  flex-direction: column;
+  margin-top: 46rpx;
+}
+
+.time-greete {
+  color: #fff;
+  font-size: 53rpx;
+  font-weight: 700;
+  line-height: 53rpx;
+}
+
+.greet-hint {
+  margin-top: 20rpx;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 22rpx;
+  line-height: 22rpx;
+}
+
+// —— 白色内容区上盖 ——
+.today-data {
+  position: relative;
+  margin-top: -20rpx;
+  padding: 56rpx 0 40rpx;
+  background: #fff;
+  border-radius: 20rpx 20rpx 0 0;
 }
 
 .error-text {
-  margin-top: $spacing-sm;
-  color: #d93025;
+  padding: 0 28rpx $spacing-sm;
+  color: $color-danger;
   font-size: 24rpx;
 }
 
-.revenue-card {
-  margin-top: $spacing-md;
-  padding: $spacing-md;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-md;
+// 营业额大字（原版 #ed920f 90rpx）
+.money-row {
+  display: flex;
+  justify-content: center;
 }
 
-.revenue-value {
-  font-size: 44rpx;
-  font-weight: 600;
+.money {
+  color: $color-primary;
+  font-size: 90rpx;
+  font-weight: 400;
+  line-height: 90rpx;
 }
 
-.revenue-label {
-  margin-top: $spacing-xs;
-  color: $color-text-secondary;
+.money-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  margin-top: 16rpx;
+}
+
+.money-label {
+  color: $color-text-tertiary;
   font-size: 24rpx;
 }
 
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: $spacing-md;
-  overflow: hidden;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-md;
+// 4 指标横排 + 竖分隔线（原版 #DDDDDD）
+.metric-row {
+  display: flex;
+  margin-top: 56rpx;
+  padding-bottom: 40rpx;
+  border-bottom: 1rpx solid $color-page;
 }
 
 .metric-cell {
-  min-height: 128rpx;
-  box-sizing: border-box;
-  padding: $spacing-md;
-  border-right: 1rpx solid $color-border;
-  border-bottom: 1rpx solid $color-border;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+
+  &.with-divider {
+    border-left: 1rpx solid $color-divider;
+  }
 }
 
 .metric-value {
-  font-size: 36rpx;
-  font-weight: 600;
-}
-
-.action-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: $spacing-sm;
-}
-
-.action-button {
-  width: 100%;
-  height: 88rpx;
-  padding: 0;
-  color: $color-text;
-  font-size: 28rpx;
-  line-height: 88rpx;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-sm;
-}
-
-.action-button::after {
-  border: 0;
-}
-
-.sales-list {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-sm;
-}
-
-.sales-item {
-  padding: $spacing-md;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-sm;
-}
-
-.sales-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: $spacing-sm;
-}
-
-.sales-member {
-  font-size: 30rpx;
-  font-weight: 600;
-}
-
-.sales-amount-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8rpx;
-}
-
-.sales-amount {
-  font-size: 30rpx;
+  font-size: 40rpx;
   font-weight: 600;
   color: $color-text;
 }
 
-.appoint-list {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-sm;
-}
-
-.appoint-item {
-  padding: $spacing-md;
-  background: $color-surface;
-  border: 1rpx solid $color-border;
-  border-radius: $radius-sm;
-}
-
-.appoint-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: $spacing-sm;
-}
-
-.appoint-member {
-  display: block;
-  font-size: 30rpx;
-  font-weight: 600;
-}
-
-.appoint-meta {
-  display: block;
-  margin-top: $spacing-xs;
+.metric-label {
+  margin-top: 12rpx;
   color: $color-text-secondary;
   font-size: 24rpx;
+}
+
+// —— 今日售卡 / 今日约课 ——
+.feed-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+  margin-top: 40rpx;
+  padding: 0 28rpx 8rpx;
+}
+
+.feed-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: $color-text;
+}
+
+.feed-count {
+  color: $color-text-tertiary;
+  font-size: 24rpx;
+}
+
+.feed-list {
+  padding: 0 28rpx;
+}
+
+.sale-item,
+.appoint-item {
+  display: flex;
+  gap: 20rpx;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid $color-page;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.avatar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 50%;
+  background: $color-primary;
+  color: #fff;
+  font-size: 30rpx;
+}
+
+.appoint-avatar {
+  background: $color-info;
+}
+
+.sale-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.sale-line1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sale-member {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: $color-text;
+}
+
+.sale-amount {
+  color: $color-primary;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.sale-line2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10rpx;
+}
+
+.sale-meta {
+  color: $color-text-tertiary;
+  font-size: 24rpx;
+}
+
+.sale-remark {
+  display: block;
+  margin-top: 8rpx;
+  color: $color-text-tertiary;
+  font-size: 22rpx;
+}
+
+.appoint-status {
+  color: $color-success;
+  font-size: 24rpx;
+}
+
+.nodata-box {
+  padding: 60rpx 0;
 }
 </style>

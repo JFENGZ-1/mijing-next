@@ -114,9 +114,13 @@ export interface MemberAppointmentSummary {
   cancelledAt: string | null;
   absentMarkedAt: string | null;
   courseName?: string | null;
+  courseType?: string | null;
   startsAt?: string | null;
   endsAt?: string | null;
   coachName?: string | null;
+  coachAvatarUrl?: string | null;
+  chargeAmountDelta?: string | null;
+  chargeCountDelta?: number | null;
 }
 
 export interface MemberBookingSessionDetail extends MemberBookingCatalogItem {
@@ -148,6 +152,7 @@ export interface MemberHomeDashboard {
 export interface MemberMineProfileSummary {
   displayName: string | null;
   avatarObjectKey: string | null;
+  avatarUrl: string | null;
   mobileMasked: string | null;
 }
 
@@ -166,6 +171,8 @@ export interface MemberCardWalletSummary {
   cardType: "stored_value" | "count" | "period";
   status: MemberCardStatus | string;
   cardNoMasked: string;
+  faceStyle?: number;
+  faceGradient?: string | null;
   name: string | null;
   balance: string | null;
   remainingCount: number | null;
@@ -248,6 +255,17 @@ export interface MemberCardPurchaseResult {
   payment?: {
     driver: string;
     autoPaid: boolean;
+    configured?: boolean;
+    orderNo?: string;
+    prepayId?: string;
+    paymentParams?: {
+      appId?: string;
+      timeStamp: string;
+      nonceStr: string;
+      package: string;
+      signType: string;
+      paySign: string;
+    };
   };
 }
 
@@ -276,8 +294,11 @@ export interface MemberBookingCatalogItem {
   startsAt: string;
   endsAt: string;
   coachName: string | null;
+  coachStaffId: number | null;
+  coachAvatarUrl: string | null;
   capacity: number;
   bookedCount: number | null;
+  bookedAvatars: (string | null)[];
   sessionKind: string;
   courseType: string;
   waitlistEnabled: boolean;
@@ -288,6 +309,35 @@ export interface MemberBookingCatalogItem {
 export interface MemberBookingCatalog {
   date: string;
   items: MemberBookingCatalogItem[];
+  limits?: {
+    catalogLastDate: string;
+    groupLastBookableDate: string;
+    privateLastBookableDate: string;
+  };
+}
+
+export interface MemberPrivateCoachProfile {
+  id: number;
+  coachStaffId: number;
+  coachName: string;
+  subjectMode: string;
+  uniformDurationMinutes: number;
+  courses: Array<{ id: number; name: string; durationMinutes: number }>;
+}
+
+export interface MemberPrivateCoachTimeSlot {
+  start: string;
+  startsAt: string;
+  available: boolean;
+}
+
+export interface MemberPrivateCoachTimeSlotsResponse {
+  date: string;
+  durationMinutes: number;
+  slotIntervalMinutes: number;
+  grayOutBookedSlots: boolean;
+  slots: MemberPrivateCoachTimeSlot[];
+  limits?: { privateLastBookableDate: string };
 }
 
 export interface MemberStatsBucket {

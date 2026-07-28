@@ -87,7 +87,7 @@ class StaffDirectoryController extends Controller
         $member = $access->directoryStaff($staff, $siteModel, $staffMember);
 
         return ApiResponse::success(
-            $directory->softDeparture($staff, $siteModel, $member),
+            $directory->softDeparture($staff, $siteModel, $member, $request->boolean('force')),
         );
     }
 

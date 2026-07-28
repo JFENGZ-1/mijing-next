@@ -140,7 +140,7 @@ onShow(async () => {
 .permission-code {
   display: block;
   margin-top: 4rpx;
-  color: #80868b;
+  color: #989898;
   font-size: 22rpx;
 }
 </style>

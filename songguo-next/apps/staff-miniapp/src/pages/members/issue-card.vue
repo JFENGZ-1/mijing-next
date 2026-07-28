@@ -199,7 +199,7 @@ onShow(async () => {
         <view class="picker-row" @click="chooseProduct">
           <text v-if="selectedProduct" class="picker-value">{{ selectedProduct.name }}</text>
           <text v-else class="picker-placeholder">选择要发放的卡产品</text>
-          <u-icon name="arrow-right" size="16" color="#999" />
+          <u-icon name="arrow-right" size="16" color="#bfbfbf" />
         </view>
         <view v-if="selectedProduct" class="meta">{{ productSummary(selectedProduct) }}</view>
         <view v-if="selectedProduct" class="section-hint">{{ productHint(selectedProduct) }}</view>
@@ -235,7 +235,7 @@ onShow(async () => {
 
 <style scoped lang="scss">
 .detail-page { padding-bottom: 48rpx; }
-.section-band { padding: 28rpx 0; border-bottom: 1rpx solid $color-border; }
+.section-band { margin-top: 16rpx; padding: 28rpx 24rpx; background: $color-surface; border-radius: 20rpx; }
 .section-heading { font-size: 30rpx; font-weight: 600; }
 .section-hint, .meta { margin-top: 8rpx; color: $color-text-secondary; font-size: 24rpx; }
 .picker-row { display: flex; align-items: center; justify-content: space-between; margin-top: 20rpx; padding: 24rpx; background: $color-page; border: 1rpx solid $color-border; border-radius: 12rpx; }

@@ -38,9 +38,18 @@ export async function updateStaffDirectoryMember(siteId: number, staffId: number
   return response.data;
 }
 
-export async function departStaffDirectoryMember(siteId: number, staffId: number) {
+export async function departStaffDirectoryMember(siteId: number, staffId: number, force = false) {
   const response = await useApiClient().request<StaffDirectoryMember>(
     `/staff/sites/${siteId}/staff-directory/${staffId}/departure`,
+    { method: "POST", data: force ? { force: true } : {} },
+  );
+  return response.data;
+}
+
+// 转让店长（权属人转移）
+export async function transferStaffOwnership(siteId: number, staffId: number) {
+  const response = await useApiClient().request<StaffDirectoryMember>(
+    `/staff/sites/${siteId}/staff-directory/${staffId}/transfer-ownership`,
     { method: "POST" },
   );
   return response.data;

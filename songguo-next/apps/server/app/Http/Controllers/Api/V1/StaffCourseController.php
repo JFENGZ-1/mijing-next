@@ -21,7 +21,8 @@ class StaffCourseController extends Controller
         $siteModel = $access->site($staff, $site);
         $access->assertPermission($staff, 'course-catalog.read', $siteModel->id);
 
-        $query = $access->catalogQuery($staff, $siteModel);
+        // 私教统一模式的内部课目不出现在课程库
+        $query = $access->catalogQuery($staff, $siteModel)->where('hidden_in_catalog', false);
         if ($request->filled('courseType')) {
             $query->where('course_type', $request->string('courseType')->toString());
         }
@@ -198,6 +199,10 @@ class StaffCourseController extends Controller
             'catalogStatus' => $course->catalog_status->value,
             'sortOrder' => $course->sort_order,
             'version' => $course->version,
+            'faceStyle' => $course->face_style,
+            'displayColor' => $course->display_color,
+            'faceGradient' => app(\App\Services\Cards\CardFaceLibraryService::class)->gradientFor($course->face_style),
+            'tags' => $course->tags ?? [],
         ];
     }
 

@@ -2,7 +2,7 @@
 import { computed, ref } from "vue";
 import { onLoad, onPullDownRefresh, onShow } from "@dcloudio/uni-app";
 import { requireMemberAuth } from "@/auth/guard";
-import { getMemberOrder } from "@/api/member";
+import { getMemberOrder, syncMemberOrderPayment } from "@/api/member";
 import { ensureMemberTenant } from "@/composables/member-context";
 import type { MemberCardWalletSummary, MemberOrderSummary } from "@/types/member";
 import { formatApiErrorMessage } from "@/utils/api-error";
@@ -56,6 +56,28 @@ async function loadOrder(refresh = false) {
   }
 }
 
+const syncing = ref(false);
+
+async function refreshPaymentStatus() {
+  if (syncing.value) return;
+  syncing.value = true;
+  try {
+    const tenant = await ensureMemberTenant();
+    if (!tenant) return;
+    const response = await syncMemberOrderPayment(tenant.tenantId, orderId.value);
+    order.value = response.data;
+    if (response.data.status === "paid") {
+      uni.showToast({ title: "支付成功", icon: "success" });
+    } else {
+      uni.showToast({ title: "尚未查询到支付结果", icon: "none" });
+    }
+  } catch (error) {
+    uni.showToast({ title: formatApiErrorMessage(error, "查询失败"), icon: "none" });
+  } finally {
+    syncing.value = false;
+  }
+}
+
 function openCardDetail() {
   if (!order.value?.memberCard) return;
   uni.navigateTo({ url: `/pages/cards/detail?id=${order.value.memberCard.id}` });
@@ -65,8 +87,12 @@ function openOrders() {
   uni.navigateTo({ url: "/pages/orders/index" });
 }
 
-function openWallet() {
-  uni.redirectTo({ url: "/pages/cards/index" });
+function goHome() {
+  uni.switchTab({ url: "/pages/index/index" });
+}
+
+function goMine() {
+  uni.switchTab({ url: "/pages/mine/index" });
 }
 
 onLoad((query) => {
@@ -84,31 +110,56 @@ onPullDownRefresh(async () => { await loadOrder(); uni.stopPullDownRefresh(); })
     <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
 
     <template v-if="order">
-      <view class="result-card">
-        <view class="success-icon">
-          <view class="check"></view>
+      <view class="hint-content">
+        <view
+          class="status-icon-wrap"
+          :class="{
+            'status-icon-wrap--pending': order.status === 'pending_payment',
+            'status-icon-wrap--muted': order.status !== 'paid' && order.status !== 'pending_payment',
+          }"
+        >
+          <view v-if="order.status === 'paid'" class="check"></view>
+          <u-icon v-else-if="order.status === 'pending_payment'" name="clock" size="34" color="#fff" />
+          <u-icon v-else name="close" size="30" color="#fff" />
         </view>
-        <view class="result-title">
+        <view
+          class="status-text"
+          :class="{
+            'status-text--pending': order.status === 'pending_payment',
+            'status-text--muted': order.status !== 'paid' && order.status !== 'pending_payment',
+          }"
+        >
           {{ order.status === "paid" ? "购卡成功" : orderStatusLabel(order.status) }}
         </view>
         <view v-if="order.effectiveAmount" class="result-amount">
-          <text class="yaun">¥</text><text class="num">{{ order.effectiveAmount }}</text>
+          <text class="yuan">¥</text><text class="num">{{ order.effectiveAmount }}</text>
         </view>
-        <view class="result-subtitle">{{ order.productName || "会员卡订单" }}</view>
+        <view class="hint-text-sub">
+          <template v-if="order.status === 'paid'">
+            <view>可在“我的”中查看</view>
+            <view>如拥有多张，点击后面的卡即可切换至前面</view>
+          </template>
+          <view v-else-if="order.status === 'pending_payment'">完成微信支付后，会员卡将自动发放</view>
+          <view v-else>{{ order.productName || "会员卡订单" }}</view>
+        </view>
+      </view>
+
+      <view v-if="issuedCard" class="issued-section" @tap="openCardDetail">
+        <member-card :card="issuedCard" />
       </view>
 
       <view class="detail-card">
         <view class="detail-row">
-          <text class="label">订单号</text>
+          <text class="label">订单编号</text>
           <text class="value">{{ order.orderNo }}</text>
         </view>
         <view v-if="order.siteName" class="detail-row">
           <text class="label">场馆</text>
           <text class="value">{{ order.siteName }}</text>
         </view>
-        <view class="detail-row">
-          <text class="label">订单状态</text>
-          <text class="value">{{ orderStatusLabel(order.status) }}</text>
+        <view v-if="order.productName" class="detail-row">
+          <text class="label">卡种</text>
+          <text class="value">{{ order.productName }}</text>
         </view>
         <view v-if="order.createdAt" class="detail-row">
           <text class="label">下单时间</text>
@@ -116,22 +167,19 @@ onPullDownRefresh(async () => { await loadOrder(); uni.stopPullDownRefresh(); })
         </view>
       </view>
 
-      <view v-if="issuedCard" class="issued-section">
-        <view class="issued-card">
-          <member-card :card="issuedCard" />
+      <view class="btn-wrap">
+        <view v-if="order.memberCard" class="btn btn--primary" @tap="goMine">马上查看</view>
+        <view
+          v-else-if="order.status === 'pending_payment'"
+          class="btn btn--primary"
+          :class="{ 'btn--loading': syncing }"
+          @tap="refreshPaymentStatus"
+        >
+          {{ syncing ? "查询中..." : "我已支付，刷新状态" }}
         </view>
+        <view class="btn btn--plain" @tap="goHome">回首页</view>
+        <view class="order-link" @tap="openOrders">查看全部订单 ›</view>
       </view>
-
-      <view class="actions">
-        <view v-if="order.memberCard" class="btn-primary" @tap="openCardDetail">查看会员卡</view>
-        <view class="btn-links">
-          <text class="link" @tap="openWallet">返回钱包</text>
-          <text class="link-divider">|</text>
-          <text class="link" @tap="openOrders">全部订单</text>
-        </view>
-      </view>
-
-      <bottom-logo />
     </template>
   </view>
 </template>
@@ -139,67 +187,93 @@ onPullDownRefresh(async () => { await loadOrder(); uni.stopPullDownRefresh(); })
 <style scoped lang="scss">
 .page-container {
   min-height: 100vh;
-  background: #ededed;
-  padding: 24rpx 28rpx 0;
+  background: $color-surface;
+  padding: 0 40rpx 60rpx;
 }
 
-.result-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 36rpx 32rpx 32rpx;
-  background: #fff;
-  border-radius: 16rpx;
+/* 对标原版 buySuccess：白底居中大状态图标 */
+.hint-content {
+  padding-top: 90rpx;
+  text-align: center;
 }
 
-.success-icon {
-  width: 84rpx;
-  height: 84rpx;
-  border-radius: 50%;
-  background: #07c160;
+.status-icon-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 140rpx;
+  height: 140rpx;
+  margin: 0 auto;
+  background: $color-primary;
+  border-radius: 50%;
+  box-shadow: 0 10rpx 30rpx rgba(34, 199, 136, 0.28);
+}
+
+.status-icon-wrap--pending {
+  background: #ffae00;
+  box-shadow: 0 10rpx 30rpx rgba(255, 174, 0, 0.28);
+}
+
+.status-icon-wrap--muted {
+  background: #bfbfbf;
+  box-shadow: none;
 }
 
 .check {
-  width: 26rpx;
-  height: 13rpx;
-  border-left: 5rpx solid #fff;
-  border-bottom: 5rpx solid #fff;
-  transform: rotate(-45deg) translate(1rpx, -3rpx);
+  width: 52rpx;
+  height: 26rpx;
+  border-left: 8rpx solid #fff;
+  border-bottom: 8rpx solid #fff;
+  border-radius: 2rpx;
+  transform: rotate(-45deg) translate(2rpx, -6rpx);
 }
 
-.result-title {
-  margin-top: 16rpx;
-  color: #181818;
-  font-size: 32rpx;
+.status-text {
+  margin-top: 32rpx;
+  color: $color-primary;
+  font-size: 34rpx;
   font-weight: 600;
+}
+
+.status-text--pending {
+  color: #ffae00;
+}
+
+.status-text--muted {
+  color: $color-text-muted;
 }
 
 .result-amount {
-  margin-top: 8rpx;
-  color: #181818;
-  font-weight: 600;
+  margin-top: 20rpx;
+  color: $color-text;
+  font-weight: 700;
 
-  .yaun {
-    font-size: 26rpx;
+  .yuan {
+    margin-right: 4rpx;
+    font-size: 30rpx;
   }
+
   .num {
-    font-size: 44rpx;
+    font-size: 56rpx;
   }
 }
 
-.result-subtitle {
-  margin-top: 6rpx;
-  color: #888;
-  font-size: 24rpx;
+.hint-text-sub {
+  margin-top: 14rpx;
+  color: $color-text-secondary;
+  font-size: 22rpx;
+  line-height: 36rpx;
 }
 
+.issued-section {
+  margin-top: 50rpx;
+}
+
+/* 订单信息：浅灰内嵌卡 */
 .detail-card {
-  margin-top: 24rpx;
-  padding: 0 32rpx;
-  background: #fff;
+  margin-top: 40rpx;
+  padding: 8rpx 30rpx;
+  background: $color-page;
   border-radius: 16rpx;
 }
 
@@ -208,63 +282,63 @@ onPullDownRefresh(async () => { await loadOrder(); uni.stopPullDownRefresh(); })
   align-items: center;
   justify-content: space-between;
   gap: 16rpx;
-  padding: 28rpx 0;
-  font-size: 28rpx;
+  font-size: 26rpx;
+  line-height: 64rpx;
 
   & + .detail-row {
-    border-top: 1rpx solid #f0f0f0;
+    border-top: 1rpx solid rgba(0, 0, 0, 0.04);
   }
 }
 
 .label {
-  color: #888;
   flex-shrink: 0;
+  color: $color-text-muted;
 }
 
 .value {
-  color: #181818;
+  color: $color-text;
   text-align: right;
-  word-break: break-all;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.issued-section {
-  margin-top: 24rpx;
+/* 对标原版：圆角大按钮组 */
+.btn-wrap {
+  margin-top: 70rpx;
 }
 
-.actions {
-  margin-top: 48rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32rpx;
-}
-
-.btn-primary {
-  width: 100%;
-  height: 88rpx;
+.btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #07c160;
-  border-radius: 88rpx;
-  color: #fff;
-  font-size: 32rpx;
+  height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 30rpx;
   font-weight: 500;
 }
 
-.btn-links {
-  display: flex;
-  align-items: center;
-  gap: 24rpx;
+.btn--primary {
+  background: $color-primary;
+  color: #fff;
+  box-shadow: 0 10rpx 24rpx rgba(34, 199, 136, 0.25);
 }
 
-.link {
-  color: #576b95;
-  font-size: 28rpx;
+.btn--plain {
+  margin-top: 28rpx;
+  background: $color-surface;
+  border: 1rpx solid $color-border-strong;
+  color: $color-text;
 }
 
-.link-divider {
-  color: #d0d0d0;
-  font-size: 24rpx;
+.btn--loading {
+  opacity: 0.6;
+}
+
+.order-link {
+  margin-top: 40rpx;
+  color: $color-text-muted;
+  font-size: 26rpx;
+  text-align: center;
 }
 </style>

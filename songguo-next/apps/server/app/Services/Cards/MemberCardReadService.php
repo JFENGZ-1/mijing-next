@@ -31,6 +31,7 @@ class MemberCardReadService
             ->whereIn('status', self::MEMBER_WALLET_STATUSES)
             ->where('member_visibility', MemberCardVisibility::Visible)
             ->whereNull('archived_at')
+            ->with('cardProduct:id,scope_config')
             ->orderByDesc('issued_at');
     }
 
@@ -42,6 +43,7 @@ class MemberCardReadService
             ->where('member_id', $member->id)
             ->where('status', '!=', MemberCardStatus::Voided)
             ->whereNull('archived_at')
+            ->with('cardProduct:id,scope_config')
             ->orderByDesc('issued_at');
     }
 
@@ -96,6 +98,25 @@ class MemberCardReadService
     /**
      * @return array<string, mixed>
      */
+    /**
+     * 卡面图案：卡种实时配置优先（改图案所有已发卡同步），回退发卡快照。
+     */
+    public function faceStyleFor(MemberCard $card): int
+    {
+        $live = $card->cardProduct?->scope_config['faceStyle'] ?? null;
+        if (is_numeric($live)) {
+            return (int) $live;
+        }
+        $snapshot = $card->product_snapshot['scopeConfig']['faceStyle'] ?? null;
+
+        return is_numeric($snapshot) ? (int) $snapshot : 0;
+    }
+
+    public function faceGradientFor(MemberCard $card): ?string
+    {
+        return app(CardFaceLibraryService::class)->gradientFor($this->faceStyleFor($card));
+    }
+
     public function memberWalletSummary(MemberCard $card): array
     {
         $snapshot = $card->product_snapshot;
@@ -106,6 +127,8 @@ class MemberCardReadService
             'cardType' => $card->card_type->value,
             'status' => $card->status->value,
             'cardNoMasked' => $this->maskCardNo($card->card_no),
+            'faceStyle' => $this->faceStyleFor($card),
+            'faceGradient' => $this->faceGradientFor($card),
             'name' => $snapshot['name'] ?? null,
             'balance' => $card->card_type === CardType::StoredValue
                 ? $this->nullableDecimal($card->cached_balance)
@@ -139,6 +162,8 @@ class MemberCardReadService
             'cardType' => $card->card_type->value,
             'status' => $card->status->value,
             'memberVisibility' => $card->member_visibility->value,
+            'faceStyle' => $this->faceStyleFor($card),
+            'faceGradient' => $this->faceGradientFor($card),
             'name' => $snapshot['name'] ?? null,
             'cachedBalance' => $this->nullableDecimal($card->cached_balance),
             'cachedRemainingCount' => $card->cached_remaining_count,
@@ -297,6 +322,7 @@ class MemberCardReadService
 
         return match ($entry->entry_type->value) {
             'issue' => '开卡',
+            'purchase' => '购卡',
             'balance_adjust' => $entry->direction->value === 'credit' ? '余额增加' : '余额扣减',
             'count_adjust' => $entry->direction->value === 'credit' ? '次数增加' : '次数扣减',
             'correction' => $isCount
@@ -305,7 +331,35 @@ class MemberCardReadService
             'reversal' => '冲正',
             'recharge' => '充值',
             'count_deduct' => '消费扣次',
-            default => $entry->reason ?? $entry->entry_type->value,
+            'period_use' => '入场使用',
+            'validity_change' => '有效期调整',
+            'freeze' => '卡片冻结',
+            'freeze_lift' => '解除冻结',
+            'holiday_apply' => '请假',
+            'holiday_cancel' => '销假',
+            'penalty' => '违约扣费',
+            'expire' => '到期',
+            'void' => '作废',
+            'archive' => '归档',
+            'archive_restore' => '恢复归档',
+            'visibility_change' => str_contains((string) $entry->reason, 'hid') ? '隐藏卡片' : '恢复显示',
+            default => $this->translateLedgerReason($entry),
+        };
+    }
+
+    /**
+     * 兜底：不透出英文 reason，翻译已知短语，未知归为"其他变动"。
+     */
+    private function translateLedgerReason(EntitlementLedgerEntry $entry): string
+    {
+        $reason = (string) ($entry->reason ?? '');
+
+        return match (true) {
+            str_contains($reason, 'purchase') => '购卡',
+            str_contains($reason, 'activation') => '激活',
+            str_contains($reason, 'hid card') => '隐藏卡片',
+            str_contains($reason, 'restored card') => '恢复显示',
+            default => '其他变动',
         };
     }
 

@@ -92,12 +92,12 @@ onShow(async () => {
 </template>
 
 <style scoped lang="scss">
-.page-container { min-height: 100vh; padding: 24rpx; background: #f4f6f8; }
+.page-container { min-height: 100vh; padding: 24rpx; background: #f5f5f5; }
 .card { margin-bottom: 16rpx; padding: 20rpx; background: #fff; border-radius: 16rpx; }
 .title, .meta, .hint { display: block; }
 .title { font-size: 30rpx; font-weight: 600; }
-.meta { margin-top: 8rpx; color: #667085; font-size: 24rpx; }
-.hint { margin-top: 12rpx; color: #98a2b3; font-size: 22rpx; }
+.meta { margin-top: 8rpx; color: #505050; font-size: 24rpx; }
+.hint { margin-top: 12rpx; color: #989898; font-size: 22rpx; }
 .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12rpx; }
-.summary { font-size: 26rpx; color: #475467; }
+.summary { font-size: 26rpx; color: #505050; }
 </style>

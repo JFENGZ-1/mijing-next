@@ -44,7 +44,7 @@ class MemberAppointmentController extends Controller
         }
 
         $items = $query
-            ->with(['session.course', 'session.coach'])
+            ->with(['session.course', 'session.coach.account', 'ledgerEntry'])
             ->limit(50)
             ->get()
             ->map(fn (Appointment $appointment) => MemberAppointmentPresenter::toArray($appointment))

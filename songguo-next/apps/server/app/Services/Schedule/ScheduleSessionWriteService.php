@@ -2,18 +2,30 @@
 
 namespace App\Services\Schedule;
 
+use App\Enums\AppointmentStatus;
 use App\Enums\CourseCatalogStatus;
 use App\Enums\ScheduleSessionKind;
 use App\Enums\ScheduleSessionStatus;
+use App\Models\Appointment;
 use App\Models\Course;
 use App\Models\Room;
 use App\Models\ScheduleSession;
 use App\Models\Site;
 use App\Models\Staff;
+use App\Services\Booking\AppointmentWriteService;
+use App\Services\Booking\BookingPolicyService;
+use App\Services\Booking\PrivateCoachAvailabilityService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ScheduleSessionWriteService
 {
+    public function __construct(
+        private readonly AppointmentWriteService $appointments,
+        private readonly PrivateCoachAvailabilityService $availability,
+        private readonly BookingPolicyService $bookingPolicies,
+    ) {}
+
     public function create(Staff $staff, Site $site, array $payload): ScheduleSession
     {
         return DB::transaction(function () use ($staff, $site, $payload) {
@@ -52,7 +64,16 @@ class ScheduleSessionWriteService
     public function update(ScheduleSession $session, array $payload): ScheduleSession
     {
         return DB::transaction(function () use ($session, $payload) {
-            abort_if($session->booked_count > 0, 409, 'SCHEDULE_SESSION_UPDATE_BLOCKED');
+            // 对标原版：换课/换老师/修改时间在已有预约时仍允许（前端会做预检确认）。
+            // 仅拦截会破坏既有预约结构的变更：容量小于已约人数、更改课程类型。
+            if (array_key_exists('capacity', $payload) && (int) $payload['capacity'] < $session->booked_count) {
+                abort(409, 'SCHEDULE_SESSION_UPDATE_BLOCKED');
+            }
+            if (array_key_exists('sessionKind', $payload)
+                && $payload['sessionKind'] !== $session->session_kind->value
+                && $session->booked_count > 0) {
+                abort(409, 'SCHEDULE_SESSION_UPDATE_BLOCKED');
+            }
 
             $startsAt = $payload['startsAt'] ?? $session->starts_at->toIso8601String();
             $endsAt = $payload['endsAt'] ?? $session->ends_at->toIso8601String();
@@ -77,6 +98,24 @@ class ScheduleSessionWriteService
                 $session->id,
             );
 
+            $coachStaffId = array_key_exists('coachStaffId', $payload)
+                ? (int) $payload['coachStaffId']
+                : (int) $session->coach_staff_id;
+            $timeOrCoachChanged = array_key_exists('startsAt', $payload)
+                || array_key_exists('endsAt', $payload)
+                || array_key_exists('coachStaffId', $payload);
+            if ($session->session_kind === ScheduleSessionKind::Private && $timeOrCoachChanged) {
+                $this->assertPrivateCoachScheduleSlot(
+                    $session->tenant_id,
+                    $session->site_id,
+                    $coachStaffId,
+                    \Carbon\Carbon::parse($startsAt),
+                    \Carbon\Carbon::parse($endsAt),
+                    $session->id,
+                    (bool) ($payload['acknowledgeGroupOverlap'] ?? false),
+                );
+            }
+
             $attributes = [];
             if (array_key_exists('courseId', $payload)) {
                 $attributes['course_id'] = $payload['courseId'];
@@ -99,6 +138,9 @@ class ScheduleSessionWriteService
             if (array_key_exists('sessionKind', $payload)) {
                 $attributes['session_kind'] = ScheduleSessionKind::from($payload['sessionKind']);
             }
+            if (array_key_exists('displayColor', $payload)) {
+                $attributes['display_color'] = $payload['displayColor'];
+            }
 
             $updated = ScheduleSession::query()
                 ->whereKey($session->id)
@@ -115,7 +157,7 @@ class ScheduleSessionWriteService
         });
     }
 
-    public function suspend(ScheduleSession $session): ScheduleSession
+    public function suspend(ScheduleSession $session, ?Staff $actor = null, bool $cascadeCancelAppointments = false): ScheduleSession
     {
         if ($session->status === ScheduleSessionStatus::Suspended) {
             return $session;
@@ -126,6 +168,11 @@ class ScheduleSessionWriteService
             409,
             'SCHEDULE_SESSION_STATUS_CONFLICT',
         );
+
+        // 对标原版：停课时强制取消已有会员预约（走正常退费链路）。
+        if ($cascadeCancelAppointments && $actor !== null) {
+            $this->cancelActiveAppointments($session, $actor);
+        }
 
         $session->update(['status' => ScheduleSessionStatus::Suspended]);
 
@@ -144,9 +191,32 @@ class ScheduleSessionWriteService
             'SCHEDULE_SESSION_STATUS_CONFLICT',
         );
 
+        // 对标原版删除拦截：已有会员预约（含候补）时禁止取消排课，需先手动取消约课。
+        $hasActiveAppointments = Appointment::query()
+            ->where('tenant_id', $session->tenant_id)
+            ->where('session_id', $session->id)
+            ->whereIn('status', [AppointmentStatus::Confirmed->value, AppointmentStatus::Waitlisted->value])
+            ->exists();
+        abort_if($hasActiveAppointments, 409, 'SCHEDULE_SESSION_CANCEL_HAS_APPOINTMENTS');
+
         $session->update(['status' => ScheduleSessionStatus::Cancelled]);
 
         return $session->fresh()->load(['course', 'room', 'coach']);
+    }
+
+    private function cancelActiveAppointments(ScheduleSession $session, Staff $actor): void
+    {
+        // 先候补后正式，避免取消正式时触发候补递补。
+        $active = Appointment::query()
+            ->where('tenant_id', $session->tenant_id)
+            ->where('session_id', $session->id)
+            ->whereIn('status', [AppointmentStatus::Confirmed->value, AppointmentStatus::Waitlisted->value])
+            ->orderByRaw("case when status = ? then 0 else 1 end", [AppointmentStatus::Waitlisted->value])
+            ->get();
+
+        foreach ($active as $appointment) {
+            $this->appointments->cancelForStaff($actor, $appointment, (string) Str::uuid());
+        }
     }
 
     public function unsuspend(ScheduleSession $session): ScheduleSession
@@ -236,5 +306,42 @@ class ScheduleSessionWriteService
         }
 
         abort_if($query->exists(), 409, 'SCHEDULE_SESSION_ROOM_CONFLICT');
+    }
+
+    private function assertPrivateCoachScheduleSlot(
+        int $tenantId,
+        int $siteId,
+        int $coachStaffId,
+        \Carbon\Carbon $startsAt,
+        \Carbon\Carbon $endsAt,
+        int $excludeSessionId,
+        bool $allowGroupOverlapWarn,
+    ): void {
+        $overlaps = ScheduleSession::query()
+            ->where('tenant_id', $tenantId)
+            ->where('site_id', $siteId)
+            ->where('coach_staff_id', $coachStaffId)
+            ->whereIn('status', [
+                ScheduleSessionStatus::Scheduled->value,
+                ScheduleSessionStatus::Suspended->value,
+            ])
+            ->whereKeyNot($excludeSessionId)
+            ->where('starts_at', '<', $endsAt)
+            ->where('ends_at', '>', $startsAt)
+            ->with(['appointments' => fn ($query) => $query->whereIn('status', [
+                AppointmentStatus::Confirmed,
+                AppointmentStatus::Completed,
+                AppointmentStatus::Waitlisted,
+            ])])
+            ->get();
+
+        $policy = $this->bookingPolicies->policyForTenantSite($tenantId, $siteId);
+        $this->availability->assertBookableSlot(
+            $startsAt,
+            $endsAt,
+            $overlaps,
+            $policy['private'],
+            $allowGroupOverlapWarn,
+        );
     }
 }

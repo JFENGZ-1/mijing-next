@@ -6,8 +6,10 @@ import type {
   ScheduleBatchCopyResult,
   ScheduleBatchSuspendInput,
   ScheduleBatchSuspendResult,
+  ScheduleChangeCoursePreflight,
   ScheduleDisplayConfig,
   ScheduleSession,
+  ScheduleSessionColorPalette,
   ScheduleSessionCreateInput,
   ScheduleSessionUpdateInput,
   StaffAppointment,
@@ -165,6 +167,35 @@ export async function cancelStaffScheduleSession(siteId: number, sessionId: numb
   return response.data;
 }
 
+export async function unsuspendStaffScheduleSession(siteId: number, sessionId: number) {
+  const response = await useApiClient().request<ScheduleSession>(
+    sitePath(siteId, `/schedule-sessions/${sessionId}/unsuspend`),
+    { method: "POST" },
+  );
+  return response.data;
+}
+
+// 换课预检（对标原版 checkchangeOtherCourse：判断是否已有会员预约）
+export async function fetchChangeCoursePreflight(
+  siteId: number,
+  sessionIds: number[],
+  targetCourseId: number,
+) {
+  const qs = sessionIds.map((id) => `sessionIds[]=${id}`).join("&");
+  const response = await useApiClient().request<ScheduleChangeCoursePreflight>(
+    `${sitePath(siteId, "/schedule-sessions/change-course-preflight")}?${qs}&targetCourseId=${targetCourseId}`,
+  );
+  return response.data;
+}
+
+// 课表背景色板（对标原版 getBgColor）
+export async function fetchScheduleSessionColors(siteId: number) {
+  const response = await useApiClient().request<ScheduleSessionColorPalette>(
+    sitePath(siteId, "/schedule-session-colors"),
+  );
+  return response.data;
+}
+
 export async function createStaffAppointment(
   siteId: number,
   sessionId: number,
@@ -224,6 +255,18 @@ export async function batchCancelStaffScheduleSessions(siteId: number, payload: 
   return response.data;
 }
 
+// 整体换课（对标原版 batchChangeCourse）
+export async function batchChangeCourseStaffScheduleSessions(
+  siteId: number,
+  payload: { sessionIds: number[]; targetCourseId: number; commandKey: string },
+) {
+  const response = await useApiClient().request<{ changedCount?: number; skipped?: unknown[] }>(
+    sitePath(siteId, "/schedule-sessions/batch-change-course"),
+    { method: "POST", data: payload },
+  );
+  return response.data;
+}
+
 export async function fetchScheduleDisplayConfig(siteId: number) {
   const response = await useApiClient().request<ScheduleDisplayConfig>(
     sitePath(siteId, "/schedule-display-config"),
@@ -236,5 +279,16 @@ export async function updateScheduleDisplayConfig(siteId: number, payload: Sched
     sitePath(siteId, "/schedule-display-config"),
     { method: "PUT", data: payload },
   );
+  return response.data;
+}
+
+// 下载课表图片（原版 getArrangeImage；后端当前为占位实现）
+export async function exportScheduleImage(siteId: number, from: string, to: string) {
+  const response = await useApiClient().request<{
+    imageUrl: string;
+    width: number;
+    height: number;
+    placeholder: boolean;
+  }>(sitePath(siteId, "/schedule-export-image"), { method: "POST", data: { from, to } });
   return response.data;
 }

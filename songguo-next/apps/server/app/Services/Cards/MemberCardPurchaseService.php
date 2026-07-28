@@ -256,6 +256,9 @@ class MemberCardPurchaseService
             'validityDays' => $product->validity_days,
             'validityMode' => $product->validity_mode,
             'activationMode' => $product->activation_mode,
+            'faceStyle' => (int) ($product->scope_config['faceStyle'] ?? 0),
+            'faceGradient' => app(CardFaceLibraryService::class)
+                ->gradientFor((int) ($product->scope_config['faceStyle'] ?? 0)),
         ];
     }
 

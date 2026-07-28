@@ -265,13 +265,13 @@ onPullDownRefresh(() => refresh());
       <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
       <u-empty v-else-if="members.length === 0" mode="list" :text="canCreate ? '暂无会员，点击添加录入潜客' : '暂无可查看会员'" />
       <view v-else>
-        <view v-for="member in members" :key="member.id" class="member-row" @click="openMember(member)">
-          <u-avatar :text="member.name?.slice(0, 1) || '?'" size="44" />
+        <view v-for="member in members" :key="member.id" class="member-card" @click="openMember(member)">
+          <u-avatar :text="member.name?.slice(0, 1) || '?'" size="52" bg-color="#5fa3ea" />
           <view class="member-main">
             <view class="name-line">
               <text class="member-name">{{ member.name || '未命名会员' }}</text>
               <u-tag :text="statusLabel(member.status)" :type="statusType(member.status)" size="mini" plain />
-              <u-icon v-if="member.appAccessStatus === 'blocked'" name="lock-fill" color="#b42318" size="16" />
+              <u-icon v-if="member.appAccessStatus === 'blocked'" name="lock-fill" color="#dc3c5c" size="16" />
             </view>
             <view class="member-meta">{{ member.mobileMasked || '未留手机号' }} · {{ member.owner?.name || '未分配顾问' }}</view>
             <view v-if="member.hasStickyRemark && member.stickyRemark" class="sticky-line">{{ member.stickyRemark }}</view>
@@ -279,7 +279,7 @@ onPullDownRefresh(() => refresh());
               <u-tag v-for="tag in member.tags" :key="tag.id" :text="tag.name" size="mini" plain />
             </view>
           </view>
-          <u-icon name="arrow-right" color="#98a2b3" size="18" />
+          <u-icon name="arrow-right" color="#bfbfbf" size="18" />
         </view>
         <u-loadmore :status="page >= lastPage ? 'nomore' : loadingMore ? 'loading' : 'loadmore'" @loadmore="loadMore" />
       </view>
@@ -313,10 +313,10 @@ onPullDownRefresh(() => refresh());
 .toolbar-link { margin: 0; padding: 0; color: $color-primary; font-size: 22rpx; line-height: 1.4; background: transparent; }
 .toolbar-link::after, .clear-filter::after { border: 0; }
 .site-context { color: $color-primary; }
-.filter-chip { display: flex; align-items: center; justify-content: space-between; margin-top: 12rpx; padding: 12rpx 16rpx; color: $color-primary; font-size: 22rpx; background: rgba(22, 119, 255, .08); border-radius: $radius-sm; }
+.filter-chip { display: flex; align-items: center; justify-content: space-between; margin-top: 12rpx; padding: 12rpx 16rpx; color: $color-primary; font-size: 22rpx; background: rgba(237, 146, 15, .08); border-radius: $radius-sm; }
 .clear-filter { margin: 0; padding: 0; color: $color-primary; font-size: 22rpx; background: transparent; }
-.list-area { padding: 0 24rpx 120rpx; }
-.member-row { display: flex; align-items: center; gap: 20rpx; min-height: 132rpx; border-bottom: 1rpx solid $color-border; }
+.list-area { padding: 16rpx 24rpx 120rpx; }
+.member-card { display: flex; align-items: center; gap: 20rpx; margin-bottom: 16rpx; padding: 24rpx; background: $color-surface; border-radius: 16rpx; }
 .member-main { min-width: 0; flex: 1; }
 .name-line { display: flex; align-items: center; gap: 10rpx; }
 .member-name { overflow: hidden; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }

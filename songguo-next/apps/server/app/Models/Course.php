@@ -12,7 +12,7 @@ class Course extends Model
     protected $fillable = [
         'tenant_id', 'site_id', 'course_type', 'name', 'description', 'duration_minutes',
         'difficulty', 'min_capacity', 'max_capacity', 'default_room_id', 'coach_staff_id',
-        'tags', 'catalog_status', 'sort_order', 'version', 'created_by_staff_id', 'archived_at',
+        'tags', 'face_style', 'display_color', 'hidden_in_catalog', 'catalog_status', 'sort_order', 'version', 'created_by_staff_id', 'archived_at',
     ];
 
     protected function casts(): array

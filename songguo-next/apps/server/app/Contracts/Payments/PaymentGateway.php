@@ -30,4 +30,11 @@ interface PaymentGateway
      * @return array<string, mixed>|null
      */
     public function parseWebhookPayload(Request $request): ?array;
+
+    /**
+     * 商户主动查单：支付成功返回交易信息（orderNo/eventType/transactionId），否则返回 null。
+     *
+     * @return array<string, mixed>|null
+     */
+    public function queryOrderPaid(string $orderNo): ?array;
 }

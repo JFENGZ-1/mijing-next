@@ -83,14 +83,76 @@ class BookingPolicyService
 
     public function memberSessionBookableOnDate(Site $site, string $date, string $sessionKind, array $policy): bool
     {
-        $today = now($this->siteTimezone($site))->startOfDay();
-        $requested = \Carbon\Carbon::parse($date, $this->siteTimezone($site))->startOfDay();
+        $timezone = $this->siteTimezone($site);
+        $today = now($timezone)->startOfDay();
+        $requested = \Carbon\Carbon::parse($date, $timezone)->startOfDay();
         $advanceDays = $sessionKind === ScheduleSessionKind::Private->value
             ? (int) $policy['private']['advanceBookingDays']
             : (int) $policy['group']['advanceBookingDays'];
-        $lastBookableDay = $today->copy()->addDays($advanceDays);
+        $effectiveAdvance = $this->effectiveAdvanceBookingDays($site, $advanceDays, $sessionKind, $policy);
+        $lastBookableDay = $today->copy()->addDays($effectiveAdvance);
 
         return $requested->lte($lastBookableDay);
+    }
+
+    /**
+     * 团课「提前预约」含每日刷新时刻：未到当日刷新点前，最远可约日少 1 天（对标 aheadAppointTime_team 带 param2）。
+     */
+    public function effectiveAdvanceBookingDays(Site $site, int $advanceDays, string $sessionKind, array $policy): int
+    {
+        $advanceDays = max(0, $advanceDays);
+        if ($sessionKind !== ScheduleSessionKind::Group->value) {
+            return $advanceDays;
+        }
+
+        $timezone = $this->siteTimezone($site);
+        $now = now($timezone);
+        $hour = (int) ($policy['group']['advanceBookingDailyCutoffHour'] ?? 0);
+        $minute = (int) ($policy['group']['advanceBookingDailyCutoffMinute'] ?? 0);
+        $cutoff = $now->copy()->startOfDay()->setTime($hour, $minute, 0);
+
+        if ($now->lt($cutoff)) {
+            return max(0, $advanceDays - 1);
+        }
+
+        return $advanceDays;
+    }
+
+    /**
+     * @param  array<string, mixed>  $policy
+     */
+    public function assertMemberDailyBookingQuota(
+        Site $site,
+        int $memberId,
+        ScheduleSession $session,
+        array $policy,
+    ): void {
+        $limit = $session->session_kind === ScheduleSessionKind::Group
+            ? $policy['group']['maxBookingsPerDay'] ?? null
+            : $policy['private']['maxBookingsPerDay'] ?? null;
+
+        if ($limit === null) {
+            return;
+        }
+
+        $timezone = $this->siteTimezone($site);
+        $dayStart = $session->starts_at->copy()->timezone($timezone)->startOfDay();
+        $dayEnd = $dayStart->copy()->endOfDay();
+
+        $count = \App\Models\Appointment::query()
+            ->where('tenant_id', $session->tenant_id)
+            ->where('member_id', $memberId)
+            ->whereIn('status', [
+                \App\Enums\AppointmentStatus::Confirmed,
+                \App\Enums\AppointmentStatus::Waitlisted,
+            ])
+            ->whereHas('session', function ($query) use ($session, $dayStart, $dayEnd) {
+                $query->where('session_kind', $session->session_kind)
+                    ->whereBetween('starts_at', [$dayStart, $dayEnd]);
+            })
+            ->count();
+
+        abort_if($count >= (int) $limit, 422, 'BOOKING_DAILY_LIMIT_REACHED');
     }
 
     /**
@@ -115,8 +177,12 @@ class BookingPolicyService
     /**
      * @param  array<string, mixed>  $policy
      */
-    public function assertCancellationAllowed(Site $site, ScheduleSession $session, array $policy): void
+    public function assertCancellationAllowed(Site $site, ScheduleSession $session, array $policy, bool $staffOverride = false): void
     {
+        if ($staffOverride) {
+            return;
+        }
+
         $now = now($this->siteTimezone($site));
         $startsAt = $session->starts_at->timezone($this->siteTimezone($site));
         $cutoffMinutes = $session->session_kind === ScheduleSessionKind::Group

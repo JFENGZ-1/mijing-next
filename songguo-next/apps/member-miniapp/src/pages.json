@@ -30,8 +30,14 @@
 		{
 			"path": "pages/booking/my-appointments",
 			"style": {
-				"navigationBarTitleText": "我的预约",
+				"navigationBarTitleText": "使用记录",
 				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/booking/coach",
+			"style": {
+				"navigationBarTitleText": "约私教"
 			}
 		},
 		{

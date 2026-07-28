@@ -68,7 +68,7 @@ onShow(async () => {
 </template>
 
 <style scoped lang="scss">
-.page-container { min-height: 100vh; padding: 24rpx; background: #f4f6f8; }
+.page-container { min-height: 100vh; padding: 24rpx; background: #f5f5f5; }
 .section-card { padding: 24rpx; background: #fff; border-radius: 16rpx; }
 .field { margin-bottom: 20rpx; }
 .label { display: block; margin-bottom: 8rpx; color: #666; font-size: 26rpx; }

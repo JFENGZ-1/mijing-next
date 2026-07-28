@@ -13,10 +13,11 @@ const errorMessage = ref("");
 const cards = ref<MemberCardWalletSummary[]>([]);
 const hideCommandKeys = new Map<number, string>();
 
+const hasLoaded = ref(false);
+
 async function loadCards() {
-  loading.value = true;
+  loading.value = !hasLoaded.value;
   errorMessage.value = "";
-  cards.value = [];
 
   try {
     const tenant = await ensureMemberTenant();
@@ -31,6 +32,7 @@ async function loadCards() {
     errorMessage.value = error instanceof Error ? error.message : "会员卡列表加载失败";
   } finally {
     loading.value = false;
+    hasLoaded.value = true;
   }
 }
 

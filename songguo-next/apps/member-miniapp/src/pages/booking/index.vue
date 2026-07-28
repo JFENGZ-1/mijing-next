@@ -10,6 +10,7 @@ import {
   selectMemberSite,
 } from "@/composables/member-context";
 import type { MemberBookingCatalogItem, MemberSiteOption } from "@/types/member";
+import { navigateToOnce } from "@/utils/navigate";
 
 // 本地日期键（YYYY-MM-DD），避免 toISOString() 的 UTC 偏移导致"今天"错位。
 function localDateKey(d: Date): string {
@@ -27,11 +28,12 @@ const siteName = ref("");
 const todayIso = localDateKey(new Date());
 const selectedDate = ref(todayIso);
 const sessions = ref<MemberBookingCatalogItem[]>([]);
+const catalogLastDate = ref("2050-12-31");
 const showCalendar = ref(false);
 
 const weekdayCn = ["日", "一", "二", "三", "四", "五", "六"];
 const minDateIso = todayIso;
-const maxDateIso = "2050-12-31";
+const maxDateIso = computed(() => catalogLastDate.value);
 
 // 当前可见 7 天条的第一列日期（锚点），初始为今天 → 今天落在第一列。
 const anchorDate = ref(todayIso);
@@ -78,7 +80,7 @@ const isGoBackToday = computed(() => {
 });
 
 const privateCoaches = computed(() => {
-  const map = new Map<string, { name: string; sessionId: number; tagText: string }>();
+  const map = new Map<string, { name: string; sessionId: number; tagText: string; avatarUrl: string | null }>();
   for (const s of sessions.value) {
     if (!isPrivateSession(s)) continue;
     const name = s.coachName || "私教";
@@ -87,6 +89,7 @@ const privateCoaches = computed(() => {
       name,
       sessionId: s.id,
       tagText: isFull(s) && s.waitlistEnabled ? "候补" : "私教",
+      avatarUrl: s.coachAvatarUrl ?? null,
     });
   }
   return Array.from(map.values());
@@ -178,11 +181,13 @@ function btnStyle(session: MemberBookingCatalogItem) {
   }
 }
 
+const hasLoaded = ref(false);
+
 async function loadCatalog() {
-  loading.value = true;
+  // 仅首次显示全屏加载；onShow 返回/切换 tab 时静默刷新
+  loading.value = !hasLoaded.value;
   errorMessage.value = "";
   needsSite.value = false;
-  sessions.value = [];
 
   try {
     const context = await ensureMemberContext();
@@ -195,15 +200,24 @@ async function loadCatalog() {
     siteName.value = context.siteName;
     const response = await getMemberBookingCatalog(context.tenantId, context.siteId, selectedDate.value);
     sessions.value = response.data.items;
+    if (response.data.limits?.catalogLastDate) {
+      catalogLastDate.value = response.data.limits.catalogLastDate;
+    }
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : "课程列表加载失败";
   } finally {
     loading.value = false;
+    hasLoaded.value = true;
   }
 }
 
 function selectDate(value: string) {
+  if (selectedDate.value === value) {
+    return;
+  }
   selectedDate.value = value;
+  // 切换日期清空旧列表，给出即时反馈
+  sessions.value = [];
   loadCatalog();
 }
 
@@ -263,11 +277,22 @@ function openOnboarding() {
 }
 
 function openSessionDetail(sessionId: number) {
-  uni.navigateTo({ url: `/pages/booking/detail?id=${sessionId}` });
+  navigateToOnce(`/pages/booking/detail?id=${sessionId}`);
 }
 
-function openCoach(sessionId: number) {
-  openSessionDetail(sessionId);
+function openCoach(coach: { name: string; sessionId: number; avatarUrl: string | null }) {
+  // 对标原版：进入教练维度的私教预约页（按天选时段）
+  const session = sessions.value.find((s) => s.id === coach.sessionId);
+  const coachId = session?.coachStaffId;
+  const params = [
+    coachId != null ? `coachId=${coachId}` : "",
+    `name=${encodeURIComponent(coach.name)}`,
+    coach.avatarUrl ? `avatar=${encodeURIComponent(coach.avatarUrl)}` : "",
+    `date=${selectedDate.value}`,
+  ]
+    .filter(Boolean)
+    .join("&");
+  uni.navigateTo({ url: `/pages/booking/coach?${params}` });
 }
 
 onShow(async () => {
@@ -306,13 +331,14 @@ onPullDownRefresh(async () => {
                   v-for="coach in privateCoaches"
                   :key="coach.name"
                   class="pt-scroll-item"
-                  @tap="openCoach(coach.sessionId)"
+                  @tap="openCoach(coach)"
                 >
                   <view class="image-wrap">
                     <view v-if="coach.tagText" class="tag">
                       <view class="text">{{ coach.tagText }}</view>
                     </view>
-                    <view class="coach-photo">{{ coach.name.slice(0, 1) }}</view>
+                    <image v-if="coach.avatarUrl" class="coach-photo coach-photo--img" :src="coach.avatarUrl" mode="aspectFill" />
+                    <view v-else class="coach-photo">{{ coach.name.slice(0, 1) }}</view>
                   </view>
                   <view class="pt-scroll-font">
                     <text>{{ coach.name }}</text>
@@ -422,12 +448,32 @@ onPullDownRefresh(async () => {
                         </view>
                         <view class="bottom-view">
                           <view class="course-photo">
-                            <view class="coach-avatar">{{ coachInitial(session) }}</view>
+                            <image
+                              v-if="session.coachAvatarUrl"
+                              class="coach-avatar coach-avatar--img"
+                              :src="session.coachAvatarUrl"
+                              mode="aspectFill"
+                            />
+                            <view v-else class="coach-avatar">{{ coachInitial(session) }}</view>
                           </view>
                           <view class="member-info">
                             <view class="member-info-wrap">
                               <view class="name">{{ session.coachName || "教练" }}</view>
                               <view class="photo-info">
+                                <view v-if="session.bookedAvatars?.length" class="booked-avatars">
+                                  <view
+                                    v-for="(avatar, ai) in session.bookedAvatars"
+                                    :key="ai"
+                                    class="booked-avatar-wrap"
+                                    :class="{ first: ai === 0 }"
+                                  >
+                                    <image v-if="avatar" class="booked-avatar" :src="avatar" mode="aspectFill" />
+                                    <view v-else class="booked-avatar booked-avatar--empty" />
+                                  </view>
+                                  <view v-if="(session.bookedCount ?? 0) > session.bookedAvatars.length" class="booked-more">
+                                    <u-icon name="more-dot-fill" size="10" color="#ffffff" />
+                                  </view>
+                                </view>
                                 <view class="forespeak-num">
                                   <text class="already-preengage">{{ session.bookedCount ?? 0 }}</text>/<text>{{ session.capacity }}</text>
                                 </view>
@@ -480,6 +526,7 @@ onPullDownRefresh(async () => {
     :default-date="selectedDate"
     :min-date="minDateIso"
     :max-date="maxDateIso"
+    :close-on-click-overlay="true"
     color="#22c788"
     :month-switch="true"
     @confirm="onCalendarConfirm"
@@ -857,6 +904,12 @@ onPullDownRefresh(async () => {
   font-weight: 500;
 }
 
+.coach-avatar--img {
+  display: block;
+  width: 82rpx;
+  height: 82rpx;
+}
+
 .member-info {
   margin: 8rpx 0 2rpx 8rpx;
 }
@@ -877,6 +930,45 @@ onPullDownRefresh(async () => {
   display: flex;
   align-items: center;
   height: 36rpx;
+}
+
+/* 已约会员头像重叠排列（对标原版） */
+.booked-avatars {
+  display: flex;
+  align-items: center;
+  margin-right: 10rpx;
+}
+
+.booked-avatar-wrap {
+  width: 36rpx;
+  height: 36rpx;
+  margin-left: -12rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  overflow: hidden;
+
+  &.first {
+    margin-left: 0;
+  }
+}
+
+.booked-avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.booked-avatar--empty {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.booked-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30rpx;
+  height: 30rpx;
+  margin-left: 4rpx;
 }
 
 .forespeak-num {

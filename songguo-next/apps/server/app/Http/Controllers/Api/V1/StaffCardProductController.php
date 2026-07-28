@@ -34,6 +34,7 @@ class StaffCardProductController extends Controller
         }
 
         $paginator = $query
+            ->with('courseScopes:id,card_product_id,scope_kind,scope_key')
             ->orderBy('sort_order')
             ->orderByDesc('id')
             ->paginate(min(max($request->integer('perPage', 20), 1), 50));
@@ -177,7 +178,7 @@ class StaffCardProductController extends Controller
 
     private function catalogItem(CardProduct $product): array
     {
-        return [
+        $item = [
             'id' => $product->id,
             'cardType' => $product->card_type->value,
             'name' => $product->name,
@@ -189,7 +190,19 @@ class StaffCardProductController extends Controller
             'catalogStatus' => $product->catalog_status->value,
             'sortOrder' => $product->sort_order,
             'version' => $product->version,
+            'faceStyle' => (int) ($product->scope_config['faceStyle'] ?? 0),
+            'faceGradient' => app(\App\Services\Cards\CardFaceLibraryService::class)
+                ->gradientFor((int) ($product->scope_config['faceStyle'] ?? 0)),
         ];
+
+        // 卡·课关联总览需要的可约课程摘要（列表 with courseScopes 时输出）
+        if ($product->relationLoaded('courseScopes')) {
+            $singleScopes = $product->courseScopes->where('scope_kind', \App\Enums\CardProductCourseScopeKind::Single);
+            $item['courseScopeCount'] = $singleScopes->count();
+            $item['courseScopeKeys'] = $singleScopes->pluck('scope_key')->map(fn ($key) => (int) $key)->values()->all();
+        }
+
+        return $item;
     }
 
     private function detailData(CardProduct $product): array

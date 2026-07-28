@@ -150,12 +150,13 @@ class StaffDirectoryService
         });
     }
 
-    public function softDeparture(Staff $actor, Site $site, Staff $member): array
+    public function softDeparture(Staff $actor, Site $site, Staff $member, bool $force = false): array
     {
         abort_if($member->id === $actor->id, 422, 'STAFF_SELF_DEPARTURE_FORBIDDEN');
         abort_if($site->owner_staff_id === $member->id, 422, 'SITE_OWNER_DEPARTURE_FORBIDDEN');
 
-        if ($this->preflight->hasFutureBookings($member, $site)) {
+        // 对标原版：仍在任课时默认拦截；勾选「我已阅读，仍要删除」后可强制离职。
+        if (! $force && $this->preflight->hasFutureBookings($member, $site)) {
             abort(409, 'STAFF_DEPARTURE_BLOCKED');
         }
 

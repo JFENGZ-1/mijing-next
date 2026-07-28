@@ -79,6 +79,10 @@ export interface StaffCardProductCatalogItem {
   catalogStatus: string;
   sortOrder: number;
   version: number;
+  faceStyle?: number;
+  faceGradient?: string | null;
+  courseScopeCount?: number;
+  courseScopeKeys?: number[];
 }
 
 export interface StaffCardProductCatalogList {
@@ -115,6 +119,29 @@ export interface StaffCardProductCourseScopeInput {
   sortOrder?: number;
 }
 
+// 卡级预约规则（对标原版会员卡「高级选项」）
+export interface CardProductBookingRules {
+  defaultPrice?: string | number | null;
+  timeRanges?: { start: string; end: string }[];
+  activationDays?: number | null; // 购卡X天后自动开卡
+  bookingLimit?: { perDay?: number | null; perWeek?: number | null; perMonth?: number | null };
+  advanceLimit?: number | null;
+  cancelLimit?: { perDay?: number | null; perWeek?: number | null; perMonth?: number | null };
+  repeatBooking?: { mode?: "deny" | "limit" | "allow"; max?: number | null };
+  multiPerson?: { mode?: "self" | "unlimited" | "limited"; enabled?: boolean; max?: number | null };
+  absencePenalty?: {
+    weekThreshold?: number | null;
+    monthThreshold?: number | null;
+    action?: "mark" | "no_refund" | "mark_or_no_refund" | "forbid" | "deduct";
+    forbidDays?: number | null;
+    deductValue?: number | null;
+    // 旧结构兼容
+    window?: "week" | "month";
+    threshold?: number | null;
+  };
+  [key: string]: unknown;
+}
+
 export interface StaffCardProductUpsertPayload {
   cardType: "stored_value" | "count" | "period";
   name: string;
@@ -127,6 +154,8 @@ export interface StaffCardProductUpsertPayload {
   activationMode?: string | null;
   saleStatus?: "on_sale" | "stopped";
   sortOrder?: number;
+  bookingRules?: CardProductBookingRules | null;
+  scopeConfig?: Record<string, unknown> | null;
   courseScopes?: StaffCardProductCourseScopeInput[];
 }
 
@@ -143,6 +172,8 @@ export interface StaffCardProductUpdatePayload {
   activationMode?: string | null;
   saleStatus?: "on_sale" | "stopped";
   sortOrder?: number;
+  bookingRules?: CardProductBookingRules | null;
+  scopeConfig?: Record<string, unknown> | null;
   courseScopes?: StaffCardProductCourseScopeInput[];
 }
 

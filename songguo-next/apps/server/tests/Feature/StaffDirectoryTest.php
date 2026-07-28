@@ -111,6 +111,24 @@ class StaffDirectoryTest extends TestCase
             ->assertJsonPath('code', 'STAFF_DEPARTURE_BLOCKED');
     }
 
+    public function test_soft_departure_with_force_bypasses_future_booking_block(): void
+    {
+        // 对标原版：勾选「我已阅读上面信息，仍要删除」后强制离职
+        [$staff, $site, $role] = $this->actAsStaff([
+            'staff.directory.read',
+            'staff.departure.soft',
+        ]);
+        $member = $this->createDirectoryMember($site, $role, 'Busy Coach 2', 'active');
+        $this->seedFutureCoachSession($site, $member);
+
+        $this->postJson("/api/v1/staff/sites/{$site->id}/staff-directory/{$member->id}/departure", ['force' => true])
+            ->assertOk()
+            ->assertJsonPath('data.status', 'departed');
+
+        $member->refresh();
+        $this->assertSame('departed', $member->status);
+    }
+
     public function test_transfer_ownership_requires_wechat_binding(): void
     {
         [$staff, $site, $role] = $this->actAsStaff([

@@ -14,10 +14,10 @@ const content = ref<MemberOfficialAccountFollow | null>(null);
 const loading = ref(true);
 
 async function load() {
-  loading.value = true;
+  // 仅首次显示全屏加载，返回本页时静默刷新
+  loading.value = !content.value;
   errorMessage.value = "";
   missing.value = false;
-  content.value = null;
 
   try {
     const context = await ensureMemberContext();

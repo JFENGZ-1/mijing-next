@@ -18,12 +18,21 @@ export interface ScheduleSession {
   status: ScheduleSessionStatus;
   sessionKind: ScheduleSessionKind;
   version: number;
+  courseType?: CourseType | null;
+  courseFaceStyle?: number | null;
+  courseFaceGradient?: string | null;
+  displayColor?: string | null;
+  courseDisplayColor?: string | null;
   createdAt?: string | null;
   updatedAt?: string | null;
 }
 
 export interface StaffBookingDailyBoardItem extends ScheduleSession {
   courseType: CourseType;
+  courseFaceStyle?: number | null;
+  courseFaceGradient?: string | null;
+  attendees?: { memberId: number; name: string | null }[];
+  waitlistCount?: number;
 }
 
 export interface StaffBookingDailyBoard {
@@ -46,9 +55,16 @@ export interface StaffAppointment {
   bookedAt: string;
   cancelledAt?: string | null;
   staffNotes?: string | null;
+  memberRemark?: string | null;
   absentMarkedAt?: string | null;
   rescheduledFromSessionId?: number | null;
   penaltyLedgerEntryId?: number | null;
+  // 对标原版行内信息：卡名/余额/本次扣费/代约操作人
+  cardName?: string | null;
+  cardUnit?: string | null;
+  cardBalance?: string | null;
+  deductAmount?: string | null;
+  operatorStaffName?: string | null;
 }
 
 export interface StaffAppointmentList {
@@ -74,6 +90,25 @@ export interface ScheduleSessionUpdateInput {
   endsAt?: string;
   capacity?: number;
   sessionKind?: ScheduleSessionKind;
+  displayColor?: string | null;
+  acknowledgeGroupOverlap?: boolean;
+}
+
+export interface ScheduleChangeCoursePreflight {
+  targetCourseId: number;
+  sessionCount: number;
+  canProceed: boolean;
+  blocked: { sessionId: number; code: string; bookedCount: number }[];
+}
+
+export interface ScheduleSessionColorItem {
+  key: string;
+  label: string;
+  color: string;
+}
+
+export interface ScheduleSessionColorPalette {
+  palette: ScheduleSessionColorItem[];
 }
 
 export interface StaffCreateAppointmentInput {

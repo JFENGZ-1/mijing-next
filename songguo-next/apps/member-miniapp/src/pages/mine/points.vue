@@ -19,7 +19,8 @@ function entryAmount(item: MemberPointLedgerEntry) {
 }
 
 async function load() {
-  loading.value = true;
+  // 仅首次显示全屏加载，返回本页时静默刷新
+  loading.value = !ledger.value;
   try {
     await loadLedger();
   } finally {
@@ -32,7 +33,6 @@ async function loadLedger(reset = true) {
     loadingMore.value = true;
   } else {
     page.value = 1;
-    ledger.value = null;
   }
   errorMessage.value = "";
 

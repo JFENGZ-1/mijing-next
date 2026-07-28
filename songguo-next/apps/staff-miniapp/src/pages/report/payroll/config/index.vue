@@ -491,9 +491,9 @@ onPullDownRefresh(async () => {
 }
 
 .chip.active {
-  border-color: #1a73e8;
-  color: #1a73e8;
-  background: #eef4ff;
+  border-color: #ed920f;
+  color: #ed920f;
+  background: #fdf3e3;
 }
 
 .panel {
@@ -567,7 +567,7 @@ onPullDownRefresh(async () => {
 }
 
 .tier-action {
-  color: #d93025;
+  color: #dc3c5c;
   font-size: 24rpx;
 }
 

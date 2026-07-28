@@ -63,8 +63,11 @@ function applyOnboarding(data: MemberOnboardingData) {
   acceptedDocumentIds.value = [...data.acceptedDocumentIds];
 }
 
+const hasLoaded = ref(false);
+
 async function load() {
-  loading.value = true;
+  // 仅首次显示全屏加载，返回本页时静默刷新
+  loading.value = !hasLoaded.value;
   errorMessage.value = "";
   try {
     const [onboarding, legal, siteOptions] = await Promise.all([
@@ -80,6 +83,7 @@ async function load() {
     errorMessage.value = error instanceof Error ? error.message : "资料加载失败";
   } finally {
     loading.value = false;
+    hasLoaded.value = true;
   }
 }
 

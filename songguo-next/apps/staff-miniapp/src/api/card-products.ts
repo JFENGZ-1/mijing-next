@@ -108,3 +108,17 @@ export async function updateCrossSiteCardProductLink(
   );
   return response.data;
 }
+
+// 卡面图案库（平台级，总 Web 后台管理）
+export interface CardFaceLibraryItem {
+  id: number;
+  name: string;
+  gradient: string;
+}
+
+export async function fetchCardFaceLibrary(siteId: number) {
+  const response = await useApiClient().request<{ items: CardFaceLibraryItem[] }>(
+    `/staff/sites/${siteId}/card-products/face-library`,
+  );
+  return response.data;
+}

@@ -52,10 +52,10 @@ async function loadRanking() {
 }
 
 async function load() {
-  loading.value = true;
+  // 仅首次显示全屏加载，返回本页时静默刷新
+  loading.value = !ranking.value;
   errorMessage.value = "";
   disabled.value = false;
-  ranking.value = null;
   try {
     await loadRanking();
   } catch (error) {
@@ -135,7 +135,8 @@ onShow(async () => { if (await requireMemberAuth()) await load(); });
       <view class="self-info">
         <view class="wrap">
           <view class="photo-image">
-            <view class="avatar-text">{{ rankAvatarText(myRank?.displayName ?? null) }}</view>
+            <image v-if="myRank?.avatarUrl" class="avatar-img" :src="myRank.avatarUrl" mode="aspectFill" />
+            <view v-else class="avatar-text">{{ rankAvatarText(myRank?.displayName ?? null) }}</view>
           </view>
           <view class="text-info">
             <view class="name">{{ myRank?.displayName || "会员" }}</view>
@@ -190,7 +191,8 @@ onShow(async () => { if (await requireMemberAuth()) await load(); });
             <text>{{ item.rank }}</text>
           </view>
           <view class="photo">
-            <view class="avatar-text">{{ rankAvatarText(item.displayName) }}</view>
+            <image v-if="item.avatarUrl" class="avatar-img" :src="item.avatarUrl" mode="aspectFill" />
+            <view v-else class="avatar-text">{{ rankAvatarText(item.displayName) }}</view>
           </view>
           <view class="name" :class="{ self: item.isMe }">{{ item.displayName || "会员" }}</view>
           <view class="count" :class="{ self: item.isMe }">{{ item.appointmentCount }}次</view>
@@ -268,6 +270,12 @@ onShow(async () => { if (await requireMemberAuth()) await load(); });
   color: #fff;
   font-size: 40rpx;
   font-weight: 500;
+}
+
+.avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .text-info {

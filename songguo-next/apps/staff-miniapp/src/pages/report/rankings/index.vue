@@ -123,6 +123,10 @@ async function switchTab(index: number) {
   await load();
 }
 
+function openPointsConfig() {
+  uni.navigateTo({ url: "/pages/settings/points-config/index" });
+}
+
 async function selectYear(year: number) {
   if (selectedYear.value === year) return;
   selectedYear.value = year;
@@ -152,6 +156,9 @@ onShow(async () => {
         <text class="title">排行榜</text>
         <text class="subtitle">{{ currentSiteName }}</text>
       </view>
+      <button v-if="session.can('points.config.read')" class="config-link" @click="openPointsConfig">
+        积分设置
+      </button>
     </view>
 
     <u-empty v-if="forbidden || !canView" mode="permission" text="暂无排行榜权限" />
@@ -277,9 +284,9 @@ onShow(async () => {
 }
 
 .chip.active {
-  border-color: #1a73e8;
-  color: #1a73e8;
-  background: #e8f0fe;
+  border-color: #ed920f;
+  color: #ed920f;
+  background: #fdf3e3;
 }
 
 .totals-card,
@@ -308,11 +315,30 @@ onShow(async () => {
   text-align: center;
   font-size: 30rpx;
   font-weight: 600;
-  color: #1a73e8;
+  color: #ed920f;
 }
 
 .rank-name {
   font-size: 28rpx;
   font-weight: 500;
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.config-link {
+  margin: 0;
+  padding: 8rpx 24rpx;
+  color: $color-primary;
+  font-size: 24rpx;
+  background: rgba(237, 146, 15, 0.08);
+  border-radius: 999rpx;
+}
+
+.config-link::after {
+  border: 0;
 }
 </style>

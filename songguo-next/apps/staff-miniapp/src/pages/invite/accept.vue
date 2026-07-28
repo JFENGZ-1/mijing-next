@@ -119,7 +119,7 @@ onLoad(async (query) => {
 .site-name {
   display: block;
   margin-bottom: 16rpx;
-  color: #1a73e8;
+  color: #ed920f;
   font-size: 28rpx;
 }
 
@@ -138,7 +138,7 @@ onLoad(async (query) => {
 .meta {
   display: block;
   margin-top: 12rpx;
-  color: #80868b;
+  color: #989898;
   font-size: 26rpx;
 }
 
@@ -147,7 +147,7 @@ onLoad(async (query) => {
   padding: 24rpx;
   border: none;
   border-radius: 12rpx;
-  background: #1a73e8;
+  background: #ed920f;
   color: #fff;
   font-size: 30rpx;
 }

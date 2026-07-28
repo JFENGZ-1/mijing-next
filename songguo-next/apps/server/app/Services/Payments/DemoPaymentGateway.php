@@ -43,4 +43,9 @@ class DemoPaymentGateway implements PaymentGateway
     {
         return null;
     }
+
+    public function queryOrderPaid(string $orderNo): ?array
+    {
+        return null;
+    }
 }

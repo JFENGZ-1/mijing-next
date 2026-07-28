@@ -1,53 +1,66 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref } from "vue";
-import { onHide, onPullDownRefresh, onShareAppMessage, onShow } from "@dcloudio/uni-app";
-import { getMemberBookingCatalog, getMemberHome, getMemberOfficialAccountFollow } from "@/api/member";
+import { computed, ref } from "vue";
+import { onPullDownRefresh, onShareAppMessage, onShow } from "@dcloudio/uni-app";
+import { cancelMemberAppointment, getMemberAppointments, getMemberHome, getMemberOfficialAccountFollow, getMemberSitePublicDetail } from "@/api/member";
 import { requireMemberAuth } from "@/auth/guard";
 import { ensureMemberContext, loadJoinableSites, loadJoinedMemberSites, selectMemberSite } from "@/composables/member-context";
-import type { MemberAppointmentSummary, MemberBookingCatalogItem, MemberHomeDashboard, MemberSiteOption } from "@/types/member";
+import type { MemberAppointmentSummary, MemberHomeDashboard, MemberSiteOption, MemberSitePublicDetail } from "@/types/member";
+import { createCommandKey } from "@/utils/command-key";
 import { formatIsoDate } from "@/utils/format";
-
-function localDateKey(d: Date): string {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
+import { navigateToOnce } from "@/utils/navigate";
 
 const loading = ref(true);
 const errorMessage = ref("");
 const needsSite = ref(false);
 const sites = ref<MemberSiteOption[]>([]);
 const currentSite = ref<MemberSiteOption | null>(null);
+const sitePublicDetail = ref<MemberSitePublicDetail | null>(null);
 const siteName = ref("");
 const dashboard = ref<MemberHomeDashboard | null>(null);
 const showOfficialAccountFollow = ref(false);
-const courseTab = ref(0);
 
+// 对标原版：我的约课（全部）/ 常规课 / 私教，按课程类型筛选自己的约课记录
+const courseTab = ref(0);
 const courseTabs = [
   { name: "我的约课" },
   { name: "常规课" },
   { name: "私教" },
 ];
 
-const todayIso = localDateKey(new Date());
+function onCourseTabChange(item: { index: number }) {
+  courseTab.value = item.index;
+}
+
+function isPrivateAppointment(item: MemberAppointmentSummary) {
+  return (item.courseType || "").toLowerCase().includes("private");
+}
+
 const statusBarHeight = ref(0);
 try {
   statusBarHeight.value = uni.getSystemInfoSync().statusBarHeight || 0;
 } catch {
   statusBarHeight.value = 0;
 }
-const catalogSessions = ref<MemberBookingCatalogItem[]>([]);
-const catalogLoaded = ref(false);
-const catalogLoading = ref(false);
-const catalogError = ref("");
 const homeTenantId = ref<number | null>(null);
-const homeSiteId = ref<number | null>(null);
+const pastAppointments = ref<MemberAppointmentSummary[]>([]);
+const cancellingId = ref<number | null>(null);
+const cancelCommandKeys = new Map<number, string>();
 
-function onCourseTabChange(item: { index: number }) {
-  courseTab.value = item.index;
-  if (item.index > 0) void ensureCatalog();
-}
+// 对标原版：场馆行营业时间，最多展示 2 条
+const openTimeLines = computed(() => {
+  const bh = sitePublicDetail.value?.businessHours;
+  if (!bh) return [] as string[];
+  if (typeof bh === "string") return [bh];
+  const lines: string[] = [];
+  for (const [key, value] of Object.entries(bh)) {
+    if (value && typeof value === "object") continue;
+    lines.push(`${key} ${String(value)}`);
+    if (lines.length >= 2) break;
+  }
+  return lines;
+});
+
+const siteLogoUrl = computed(() => sitePublicDetail.value?.logoUrl || null);
 
 const carouselItems = computed(() => {
   if (!dashboard.value) return [] as { imageUrl: string; linkUrl: string | null }[];
@@ -56,143 +69,86 @@ const carouselItems = computed(() => {
   return dashboard.value.carousel.defaultImageUrl ? [{ imageUrl: dashboard.value.carousel.defaultImageUrl, linkUrl: null }] : [];
 });
 
-function timeOfDayLabel(d: Date): string {
-  const h = d.getHours();
-  if (h < 12) return "上午";
-  if (h < 18) return "下午";
-  return "晚上";
-}
-
+// 对标原版：全部约课记录按"X年X月"分组，最新在前
 interface AppointmentSection {
   key: string;
   label: string;
   rows: MemberAppointmentSummary[];
 }
 
+function appointmentTime(item: MemberAppointmentSummary) {
+  const iso = item.startsAt || item.bookedAt;
+  const t = iso ? new Date(iso).getTime() : 0;
+  return Number.isNaN(t) ? 0 : t;
+}
+
 const appointmentSections = computed<AppointmentSection[]>(() => {
-  const list = dashboard.value?.upcomingAppointments ?? [];
+  const merged = [...(dashboard.value?.upcomingAppointments ?? []), ...pastAppointments.value]
+    .sort((a, b) => appointmentTime(b) - appointmentTime(a));
+
+  const list = courseTab.value === 0
+    ? merged
+    : merged.filter((item) =>
+        courseTab.value === 2 ? isPrivateAppointment(item) : !isPrivateAppointment(item),
+      );
+
   const sections: AppointmentSection[] = [];
   for (const appointment of list) {
-    const d = appointment.startsAt ? new Date(appointment.startsAt) : null;
-    const label = d && !Number.isNaN(d.getTime()) ? timeOfDayLabel(d) : "其它";
+    const iso = appointment.startsAt || appointment.bookedAt;
+    const d = iso ? new Date(iso) : null;
+    const label = d && !Number.isNaN(d.getTime())
+      ? `${d.getFullYear()}年${d.getMonth() + 1}月`
+      : "其它";
     const last = sections[sections.length - 1];
     if (last && last.label === label) {
       last.rows.push(appointment);
     } else {
-      sections.push({ key: `s-${appointment.id}`, label, rows: [appointment] });
+      sections.push({ key: label, label, rows: [appointment] });
     }
   }
   return sections;
 });
 
-const nowMs = ref(Date.now());
-let countdownTimer: ReturnType<typeof setInterval> | null = null;
-function startCountdownTick() {
-  stopCountdownTick();
-  countdownTimer = setInterval(() => {
-    nowMs.value = Date.now();
-  }, 1000);
+const hasAppointments = computed(() => appointmentSections.value.length > 0);
+
+function canCancel(item: MemberAppointmentSummary) {
+  return item.status === "confirmed" || item.status === "waitlisted";
 }
-function stopCountdownTick() {
-  if (countdownTimer) {
-    clearInterval(countdownTimer);
-    countdownTimer = null;
+
+function confirmCancel(item: MemberAppointmentSummary) {
+  const title = item.status === "waitlisted" ? "确认取消排队吗？" : "确认取消预约吗？";
+  uni.showModal({
+    title,
+    content: "将退还已扣相应费用",
+    success: async (result) => {
+      if (!result.confirm) return;
+      await cancelAppointment(item);
+    },
+  });
+}
+
+async function cancelAppointment(item: MemberAppointmentSummary) {
+  if (homeTenantId.value == null) return;
+
+  let commandKey = cancelCommandKeys.get(item.id);
+  if (!commandKey) {
+    commandKey = createCommandKey();
+    cancelCommandKeys.set(item.id, commandKey);
   }
-}
 
-const nearestCountdown = computed<{ id: number; text: string } | null>(() => {
-  const list = dashboard.value?.upcomingAppointments ?? [];
-  const now = nowMs.value;
-  for (const appointment of list) {
-    if (!appointment.startsAt) continue;
-    const t = new Date(appointment.startsAt).getTime();
-    if (Number.isNaN(t)) continue;
-    const diff = t - now;
-    if (diff <= 0) continue;
-    const totalMin = Math.floor(diff / 60000);
-    let text: string;
-    if (totalMin >= 60) {
-      const h = Math.floor(totalMin / 60);
-      const m = totalMin % 60;
-      text = `距开始 ${h}小时${m}分`;
-    } else if (totalMin >= 1) {
-      text = `距开始 ${totalMin}分钟`;
-    } else {
-      text = "即将开始";
-    }
-    return { id: appointment.id, text };
-  }
-  return null;
-});
-
-const groupSessions = computed(() =>
-  catalogSessions.value.filter((s) => (s.courseType || s.sessionKind) !== "private"),
-);
-
-const privateSessions = computed(() =>
-  catalogSessions.value.filter((s) => (s.courseType || s.sessionKind) === "private"),
-);
-
-function formatSessionTime(iso: string | null | undefined) {
-  if (!iso) return "";
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return "";
-  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
-}
-
-function catalogCoachInitial(session: MemberBookingCatalogItem) {
-  const name = session.coachName || "";
-  return name ? name.slice(0, 1) : "教";
-}
-
-function catalogTypeLabel(session: MemberBookingCatalogItem) {
-  return (session.courseType || session.sessionKind) === "private" ? "私教" : "团课";
-}
-
-function isCatalogFull(session: MemberBookingCatalogItem) {
-  const booked = session.bookedCount ?? 0;
-  return session.capacity > 0 && booked >= session.capacity;
-}
-
-function catalogStatusLabel(session: MemberBookingCatalogItem) {
-  if (session.memberAppointmentStatus === "confirmed") return "已预约";
-  if (session.memberAppointmentStatus === "waitlisted") return "排队中";
-  if (session.bookable) {
-    if (isCatalogFull(session) && session.waitlistEnabled) return "候补";
-    if (isCatalogFull(session)) return "已约满";
-    return "可约";
-  }
-  return isCatalogFull(session) ? "已约满" : "已截止";
-}
-
-function catalogStatusColor(session: MemberBookingCatalogItem) {
-  const label = catalogStatusLabel(session);
-  switch (label) {
-    case "可约":
-      return "#22c788";
-    case "候补":
-    case "排队中":
-      return "#ffae00";
-    case "已预约":
-      return "#dc3c5c";
-    default:
-      return "#989898";
-  }
-}
-
-async function ensureCatalog() {
-  if (catalogLoaded.value || catalogLoading.value) return;
-  if (homeTenantId.value == null || homeSiteId.value == null) return;
-  catalogLoading.value = true;
-  catalogError.value = "";
+  cancellingId.value = item.id;
   try {
-    const res = await getMemberBookingCatalog(homeTenantId.value, homeSiteId.value, todayIso);
-    catalogSessions.value = res.data.items;
-    catalogLoaded.value = true;
+    await cancelMemberAppointment(homeTenantId.value, item.id, commandKey);
+    cancelCommandKeys.delete(item.id);
+    uni.showToast({ title: "已取消", icon: "success" });
+    await loadDashboard();
   } catch (error) {
-    catalogError.value = error instanceof Error ? error.message : "课程列表加载失败";
+    uni.showToast({
+      title: error instanceof Error ? error.message : "取消失败",
+      icon: "none",
+    });
   } finally {
-    catalogLoading.value = false;
+    cancellingId.value = null;
   }
 }
 
@@ -204,10 +160,10 @@ const quickActions = [
 ];
 
 async function loadDashboard() {
-  loading.value = true;
+  // 仅首次（无数据）时显示全屏加载，再次进入静默刷新
+  loading.value = !dashboard.value;
   errorMessage.value = "";
   needsSite.value = false;
-  dashboard.value = null;
 
   try {
     const context = await ensureMemberContext();
@@ -219,14 +175,26 @@ async function loadDashboard() {
 
     siteName.value = context.siteName;
     homeTenantId.value = context.tenantId;
-    homeSiteId.value = context.siteId;
-    catalogLoaded.value = false;
-    catalogSessions.value = [];
     const joinedSites = await loadJoinedMemberSites();
     currentSite.value = joinedSites.find((site) => site.id === context.siteId && site.tenantId === context.tenantId) ?? null;
 
     const response = await getMemberHome(context.tenantId, context.siteId);
     dashboard.value = response.data;
+    // 对标原版：约课记录含历史，静默补充
+    void getMemberAppointments(context.tenantId, "past")
+      .then((past) => {
+        pastAppointments.value = past.data.items;
+      })
+      .catch(() => {
+        pastAppointments.value = [];
+      });
+    void getMemberSitePublicDetail(context.tenantId, context.siteId)
+      .then((detail) => {
+        sitePublicDetail.value = detail.data;
+      })
+      .catch(() => {
+        sitePublicDetail.value = null;
+      });
     showOfficialAccountFollow.value = false;
     try {
       await getMemberOfficialAccountFollow(context.tenantId, context.siteId);
@@ -254,6 +222,9 @@ async function openSitePicker() {
       const site = sites.value[result.tapIndex];
       if (!site) return;
       selectMemberSite(site);
+      // 切换场馆属于数据源变更，清空后重新加载（显示全屏加载）
+      dashboard.value = null;
+      sitePublicDetail.value = null;
       await loadDashboard();
     },
   });
@@ -286,16 +257,8 @@ function handleQuickAction(action: string) {
   else if (action === "stats") openStats();
 }
 
-function openMyAppointments() {
-  uni.navigateTo({ url: "/pages/booking/my-appointments" });
-}
-
 function openSessionDetail(appointment: MemberAppointmentSummary) {
-  uni.navigateTo({ url: `/pages/booking/detail?id=${appointment.sessionId}` });
-}
-
-function openSessionDetailById(sessionId: number) {
-  uni.navigateTo({ url: `/pages/booking/detail?id=${sessionId}` });
+  navigateToOnce(`/pages/booking/detail?id=${appointment.sessionId}`);
 }
 
 function openCarouselLink(linkUrl: string | null) {
@@ -327,16 +290,7 @@ function callSitePhone() {
 }
 
 onShow(async () => {
-  startCountdownTick();
   if (await requireMemberAuth()) await loadDashboard();
-});
-
-onHide(() => {
-  stopCountdownTick();
-});
-
-onUnmounted(() => {
-  stopCountdownTick();
 });
 
 onPullDownRefresh(async () => {
@@ -395,10 +349,18 @@ onShareAppMessage(() => ({
 
         <view class="shop-info" @tap="openSiteDetail">
           <view class="shop-photo">
-            <u-avatar :text="(siteName || '馆').slice(0, 1)" size="55" bg-color="#22c788" />
+            <u-avatar
+              :src="siteLogoUrl || undefined"
+              :text="siteLogoUrl ? undefined : (siteName || '馆').slice(0, 1)"
+              size="55"
+              bg-color="#22c788"
+            />
           </view>
           <view class="shop-center">
             <text class="shop-name">{{ siteName || "当前场馆" }}</text>
+            <view v-if="openTimeLines.length" class="shop-time">
+              <text v-for="(line, i) in openTimeLines" :key="i" class="shop-time-line">{{ line }}</text>
+            </view>
           </view>
           <view class="shop-switch" @tap.stop="openSitePicker">
             <u-icon name="reload" size="22" color="#181818" />
@@ -463,65 +425,30 @@ onShareAppMessage(() => ({
           <u-tabs
             :list="courseTabs"
             :current="courseTab"
+            :is-scroll="false"
             line-color="#22C788"
             :active-style="{ color: '#181818', fontWeight: 600 }"
             :inactive-style="{ color: '#989898' }"
             @change="onCourseTabChange"
           />
           <view class="appointment-list">
-            <template v-if="courseTab === 0">
-              <u-empty v-if="!appointmentSections.length" mode="list" text="~ 暂无约课记录 ~" />
-              <view v-for="section in appointmentSections" :key="section.key" class="appt-section">
-                <view class="tod-header">{{ section.label }}</view>
-                <view v-for="a in section.rows" :key="a.id" class="appointment-item">
-                  <view
-                    v-if="nearestCountdown && nearestCountdown.id === a.id"
-                    class="countdown-badge"
-                  >
-                    <u-icon name="clock" size="22" color="#22c788" />
-                    <text class="countdown-text">{{ nearestCountdown.text }}</text>
-                  </view>
-                  <appointment-row :item="a" variant="legacy" @tap="openSessionDetail(a)" />
-                </view>
+            <u-empty v-if="!hasAppointments" mode="list" text="~ 暂无约课记录 ~" />
+            <view v-for="section in appointmentSections" :key="section.key" class="appt-section">
+              <view class="month-date">{{ section.label }}</view>
+              <view v-for="a in section.rows" :key="a.id" class="appointment-item">
+                <appointment-row
+                  :item="a"
+                  variant="legacy"
+                  :cancellable="canCancel(a)"
+                  :cancelling="cancellingId === a.id"
+                  @tap="openSessionDetail(a)"
+                  @cancel="confirmCancel(a)"
+                />
               </view>
-              <view v-if="appointmentSections.length" class="appointment-more" @tap="openMyAppointments">
-                查看全部预约 ›
-              </view>
-            </template>
-
-            <template v-else>
-              <u-empty
-                v-if="!catalogLoading && !catalogSessions.length"
-                mode="list"
-                text="~ 今日无排课 ~"
-              />
-              <view
-                v-for="session in (courseTab === 1 ? groupSessions : privateSessions)"
-                :key="session.id"
-                class="catalog-row"
-                @tap="openSessionDetailById(session.id)"
-              >
-                <view class="catalog-avatar">{{ catalogCoachInitial(session) }}</view>
-                <view class="catalog-main">
-                  <view class="catalog-name-row">
-                    <text class="catalog-name">{{ session.courseName || "课程" }}</text>
-                    <text class="catalog-type">{{ catalogTypeLabel(session) }}</text>
-                  </view>
-                  <view class="catalog-sub">
-                    <text v-if="session.coachName" class="catalog-coach">{{ session.coachName }}</text>
-                    <text class="catalog-time">
-                      {{ formatSessionTime(session.startsAt) }}-{{ formatSessionTime(session.endsAt) }}
-                    </text>
-                  </view>
-                  <view class="catalog-cap">
-                    <text>{{ session.bookedCount ?? 0 }}/{{ session.capacity }}</text>
-                  </view>
-                </view>
-                <view class="catalog-status" :style="{ color: catalogStatusColor(session) }">
-                  {{ catalogStatusLabel(session) }}
-                </view>
-              </view>
-            </template>
+            </view>
+            <view v-if="hasAppointments" class="load-wrap">
+              <u-loadmore status="nomore" nomore-text="没有更多了" color="#BFBFBF" />
+            </view>
           </view>
         </view>
       </view>
@@ -624,6 +551,22 @@ onShareAppMessage(() => ({
   font-weight: 500;
   line-height: 42rpx;
   margin: 6rpx 0 16rpx;
+}
+
+.shop-time {
+  display: flex;
+  flex-direction: column;
+  max-width: 465rpx;
+  overflow: hidden;
+}
+
+.shop-time-line {
+  color: $color-text-secondary;
+  font-size: 22rpx;
+  line-height: 26rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .shop-switch {
@@ -821,113 +764,23 @@ onShareAppMessage(() => ({
 
 .appt-section {
   padding: 0 4rpx;
+  margin-bottom: 43rpx;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 }
 
-.tod-header {
-  margin: 24rpx 0 4rpx;
+/* 对标原版：年月分组标题 */
+.month-date {
+  margin-bottom: 24rpx;
   color: $color-text;
-  font-size: 28rpx;
+  font-size: 32rpx;
   font-weight: 500;
 }
 
-.countdown-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6rpx;
-  margin: 10rpx 0 4rpx;
-  padding: 4rpx 16rpx;
-  background: rgba(34, 199, 136, 0.12);
-  border-radius: 20rpx;
-  color: $color-primary;
-  line-height: 32rpx;
-}
-
-.countdown-text {
-  color: $color-primary;
-  font-size: 22rpx;
-}
-
-.appointment-more {
-  padding: 20rpx 0 4rpx;
-  color: $color-primary;
-  font-size: 26rpx;
-  text-align: center;
-}
-
-.catalog-row {
-  display: flex;
-  align-items: center;
-  padding: 24rpx 0;
-}
-
-.catalog-avatar {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 88rpx;
-  height: 88rpx;
-  border-radius: 12rpx;
-  background: linear-gradient(135deg, #22c788 0%, #1dac75 100%);
-  color: #fff;
-  font-size: 38rpx;
-  font-weight: 500;
-}
-
-.catalog-main {
-  flex: 1;
-  margin-left: 16rpx;
-}
-
-.catalog-name-row {
-  display: flex;
-  align-items: center;
-}
-
-.catalog-name {
-  color: $color-text;
-  font-size: 30rpx;
-  font-weight: 500;
-}
-
-.catalog-type {
-  margin-left: 12rpx;
-  padding: 0 12rpx;
-  height: 30rpx;
-  line-height: 30rpx;
-  background: $color-primary-light;
-  border-radius: 8rpx;
-  color: $color-primary;
-  font-size: 20rpx;
-}
-
-.catalog-sub {
-  display: flex;
-  align-items: center;
-  margin-top: 10rpx;
-  color: $color-text-muted;
-  font-size: 22rpx;
-}
-
-.catalog-coach {
-  margin-right: 16rpx;
-}
-
-.catalog-time {
-  color: $color-text-muted;
-}
-
-.catalog-cap {
-  margin-top: 8rpx;
-  color: $color-text-muted;
-  font-size: 22rpx;
-}
-
-.catalog-status {
-  flex-shrink: 0;
-  margin-left: 16rpx;
-  font-size: 26rpx;
-  font-weight: 500;
+.load-wrap {
+  padding: 24rpx 0 8rpx;
 }
 
 .bottom-logo {

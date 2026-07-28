@@ -59,11 +59,11 @@ onShow(async () => {
 </template>
 
 <style scoped lang="scss">
-.page-container { min-height: 100vh; padding: 24rpx; background: #f4f6f8; }
+.page-container { min-height: 100vh; padding: 24rpx; background: #f5f5f5; }
 .card { margin-bottom: 16rpx; padding: 20rpx; background: #fff; border-radius: 16rpx; }
 .title, .meta { display: block; }
 .title { font-size: 30rpx; font-weight: 600; }
-.meta { margin: 8rpx 0 12rpx; color: #667085; font-size: 24rpx; }
+.meta { margin: 8rpx 0 12rpx; color: #505050; font-size: 24rpx; }
 .row { display: flex; align-items: center; justify-content: space-between; padding: 8rpx 0; }
-.link { color: #1677ff; font-size: 24rpx; }
+.link { color: #ed920f; font-size: 24rpx; }
 </style>

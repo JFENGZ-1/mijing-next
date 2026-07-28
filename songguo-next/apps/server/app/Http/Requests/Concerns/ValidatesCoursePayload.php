@@ -20,6 +20,8 @@ trait ValidatesCoursePayload
             'defaultRoomId' => ['nullable', 'integer', 'min:1'],
             'coachStaffId' => ['nullable', 'integer', 'min:1'],
             'tags' => ['nullable', 'array'],
+            'faceStyle' => ['nullable', 'integer', 'min:0', 'max:99'],
+            'displayColor' => ['nullable', 'string', 'max:24'],
             'tags.*' => ['string', 'max:40'],
             'sortOrder' => ['nullable', 'integer', 'min:0'],
         ];

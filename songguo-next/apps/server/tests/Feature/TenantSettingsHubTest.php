@@ -66,7 +66,7 @@ class TenantSettingsHubTest extends TestCase
             ])
             ->assertJsonFragment([
                 'key' => 'card-course-links',
-                'route' => '/pages/settings/card-products/index',
+                'route' => '/pages/settings/card-products/course-matrix',
                 'implemented' => true,
             ])
             ->assertJsonFragment([
