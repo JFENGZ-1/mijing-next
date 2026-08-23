@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026年8月22日 18:23:45",
-  "sourceHash": "2c526fdc4e82dde1dcddd2b4dd9d832f493bf8c0ada03d2d5c42a494db1dd7d5",
-  "total": 311,
+  "generatedAt": "2026年8月23日 10:17:17",
+  "sourceHash": "6691048e7615e1fd110a3d5262d5862b7c76942502be80f2fb413a100e325662",
+  "total": 312,
   "counts": {
-    "ADOPT": 121,
-    "CUSTOM": 22,
+    "ADOPT": 134,
+    "CUSTOM": 31,
     "IGNORE": 50,
-    "UNCLASSIFIED": 118
+    "UNCLASSIFIED": 97
   },
   "changes": {
     "added": [],

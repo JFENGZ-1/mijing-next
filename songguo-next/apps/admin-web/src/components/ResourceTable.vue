@@ -12,16 +12,22 @@ defineProps<{
 }>();
 
 function displayValue(value: string | number, type?: ResourceColumn["type"]) {
+  const labels: Record<string, string> = { group: "团课", private: "私教" };
   if (type === "money" && typeof value === "number") {
     return new Intl.NumberFormat("zh-CN", { style: "currency", currency: "CNY" }).format(value);
   }
-  return value;
+  if (type === "date" && value && value !== "—") {
+    const date = new Date(value);
+    if (!Number.isNaN(date.getTime())) {
+      return new Intl.DateTimeFormat("zh-CN", { dateStyle: "medium", timeStyle: "short" }).format(date);
+    }
+  }
+  return labels[String(value)] ?? value;
 }
 </script>
 
 <template>
   <el-table :data="rows" class="resource-table" row-key="id">
-    <el-table-column type="selection" width="46" />
     <el-table-column
       v-for="column in columns"
       :key="column.key"
@@ -39,7 +45,7 @@ function displayValue(value: string | number, type?: ResourceColumn["type"]) {
         <span v-else>{{ displayValue(scope.row[column.key], column.type) }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="操作" fixed="right" width="150" align="right">
+    <el-table-column v-if="actions.length" label="操作" fixed="right" width="150" align="right">
       <template #default>
         <div class="row-actions">
           <button

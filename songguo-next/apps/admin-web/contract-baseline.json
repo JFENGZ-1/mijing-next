@@ -1,12 +1,12 @@
 {
-  "sourceHash": "2c526fdc4e82dde1dcddd2b4dd9d832f493bf8c0ada03d2d5c42a494db1dd7d5",
+  "sourceHash": "6691048e7615e1fd110a3d5262d5862b7c76942502be80f2fb413a100e325662",
   "operations": [
     {
       "operationId": "listAdminAuditLogs",
       "method": "GET",
       "path": "/admin/audit-logs",
       "group": "platform",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "79a9062013e5c10a4c3ec545d3dc4bb10e68e8d94b50f5eb0859a1ce697b461a"
     },
     {
@@ -14,7 +14,7 @@
       "method": "POST",
       "path": "/admin/auth/login",
       "group": "identity",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "CUSTOM",
       "signature": "119be40276c9b221342bf7dba7bcabbab38fe6a25e15afe8f964edef9869f9e8"
     },
     {
@@ -22,7 +22,7 @@
       "method": "POST",
       "path": "/admin/auth/logout",
       "group": "identity",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "CUSTOM",
       "signature": "6301ff53a1d4875fdd4ef52aea095fb8be10e04cedc90e0ab5ba2bdd3c0530bf"
     },
     {
@@ -30,7 +30,7 @@
       "method": "GET",
       "path": "/admin/dashboard",
       "group": "platform",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "2eae70a0127843faed30ce9a56be9cd9f0a17f46ed9002f2ff1129e423ff9f9f"
     },
     {
@@ -38,7 +38,7 @@
       "method": "GET",
       "path": "/admin/me",
       "group": "identity",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "42641ec27a6a66f63c28a8fe389c2c50568a68b7aa956cb6074c6de2a6a0fbbf"
     },
     {
@@ -46,7 +46,7 @@
       "method": "GET",
       "path": "/admin/media-assets",
       "group": "identity",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "140dfffbc6f6d738118d09527ec943f9508aedc12d89171bed6bc1e46cf39502"
     },
     {
@@ -54,7 +54,7 @@
       "method": "POST",
       "path": "/admin/media-assets",
       "group": "identity",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "CUSTOM",
       "signature": "b193205cc697176853c7616cbed9780866ccf8e8effe04fd365d122deed4a3e4"
     },
     {
@@ -62,7 +62,7 @@
       "method": "PUT",
       "path": "/admin/media-assets/{mediaAsset}",
       "group": "identity",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "CUSTOM",
       "signature": "5852ca3e996f6b6bbdee20a886c63f81d9e3aa2f0f16326da8349f4d60d6e598"
     },
     {
@@ -70,7 +70,7 @@
       "method": "POST",
       "path": "/admin/media-assets/{mediaAsset}/archive",
       "group": "identity",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "CUSTOM",
       "signature": "6353f00533fa1d51069d1013cb213c374129d3b9d60b5a1b04085e610eab4307"
     },
     {
@@ -78,7 +78,7 @@
       "method": "GET",
       "path": "/admin/media-assets/{mediaAsset}/content",
       "group": "identity",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "06b9da48c1d5228c5aa8ea4f18c75559ef990df205df5a4e5ad7c406f2f35883"
     },
     {
@@ -86,7 +86,7 @@
       "method": "POST",
       "path": "/admin/media-assets/{mediaAsset}/publish",
       "group": "identity",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "CUSTOM",
       "signature": "d5d26241dfc3833f33f16cfb01bcd29b96fc27a00d32758c6c94131f4f2165d4"
     },
     {
@@ -94,7 +94,7 @@
       "method": "GET",
       "path": "/admin/members",
       "group": "members",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "21168ef6df38eed95fd60461056af350aca41f5f50243e4112703c82ccd9d37f"
     },
     {
@@ -102,7 +102,7 @@
       "method": "GET",
       "path": "/admin/queues/batches",
       "group": "platform",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "95992effc6c40bc7ede1e05a1cd83762203a3bd62cee349b1f8043ca428bd264"
     },
     {
@@ -110,7 +110,7 @@
       "method": "GET",
       "path": "/admin/queues/failed",
       "group": "platform",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "767611674d4fd344cd72f0fcae721deb1196d41426a077d07e5ebd9d431b2136"
     },
     {
@@ -118,7 +118,7 @@
       "method": "DELETE",
       "path": "/admin/queues/failed/{uuid}",
       "group": "platform",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "CUSTOM",
       "signature": "b3e36f3636f0f35431ce620383de340411b0b70cae0b4af261b5a05f8cdf1029"
     },
     {
@@ -126,7 +126,7 @@
       "method": "POST",
       "path": "/admin/queues/failed/{uuid}/retry",
       "group": "platform",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "CUSTOM",
       "signature": "4d3479874f0bfa2ca5b64508ad793899729183e9a59de60fce808f2d1373fb0d"
     },
     {
@@ -134,7 +134,7 @@
       "method": "GET",
       "path": "/admin/queues/jobs",
       "group": "platform",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "d4c8af2d1eadf3c941c3c0bdea9346d61e3170d91b33a4ad1b24b8849f9f3694"
     },
     {
@@ -142,15 +142,23 @@
       "method": "GET",
       "path": "/admin/queues/overview",
       "group": "platform",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "04febe563cad6343aea27634c83edfdb695df33893273d9f5115c3fc9858d944"
+    },
+    {
+      "operationId": "listAdminResourceData",
+      "method": "GET",
+      "path": "/admin/resources/{resource}",
+      "group": "platform",
+      "disposition": "ADOPT",
+      "signature": "3734490c2f716ac029c56e9b20da54808df679927339d1ca6072a3ec876cb2d6"
     },
     {
       "operationId": "getAdminWechatPaymentConfig",
       "method": "GET",
       "path": "/admin/settings/payments/wechat",
       "group": "commerce",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "613ef76224cdb7978544cf6020e591e37bec5d755f96e09190202a50176e9468"
     },
     {
@@ -158,7 +166,7 @@
       "method": "PUT",
       "path": "/admin/settings/payments/wechat",
       "group": "commerce",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "CUSTOM",
       "signature": "d02c5303a93fb736b676b482a7fffc21f1e79ed2963b50aa07ca958f9488ec69"
     },
     {
@@ -166,7 +174,7 @@
       "method": "GET",
       "path": "/admin/tenants",
       "group": "platform",
-      "disposition": "UNCLASSIFIED",
+      "disposition": "ADOPT",
       "signature": "3a835a143af036f477bdfbfd20f7a538e75fc77ac30474876ba181052cdf6a40"
     },
     {

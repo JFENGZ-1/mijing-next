@@ -37,7 +37,7 @@ pnpm --filter @songguo/admin-web build
 
 ## 当前阶段
 
-当前已接入真实账号密码登录、登录态恢复/注销、平台总览、跨租户列表、跨租户会员列表、微信支付配置、图片/视频资源库，以及跨租户队列监控。页面只展示数据库与 Admin API 返回的数据；尚未接入接口的模块显示空状态，不生成演示记录。
+当前已接入真实账号密码登录、登录态恢复/注销、平台总览、租户、会员、员工、课程、排课、预约、会员卡、订单、平台经营汇总、微信支付配置、图片/视频资源库、跨租户队列监控和操作审计。所有资源页只展示数据库与 Admin API 返回的数据，代码中不保留演示记录。
 
 已实现的 Admin API：
 
@@ -47,6 +47,7 @@ pnpm --filter @songguo/admin-web build
 - `GET /api/v1/admin/dashboard`
 - `GET /api/v1/admin/tenants`
 - `GET /api/v1/admin/members`
+- `GET /api/v1/admin/resources/{resource}`（员工、课程、排课、预约、会员卡、订单）
 - `GET|PUT /api/v1/admin/settings/payments/wechat`
 - `GET|POST|PUT /api/v1/admin/media-assets...`
 - `GET /api/v1/media/{uuid}`（仅已发布资源）

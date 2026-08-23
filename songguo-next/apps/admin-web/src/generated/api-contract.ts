@@ -6,147 +6,154 @@ export const apiOperations: ApiOperationSummary[] = [
     "method": "GET",
     "path": "/admin/audit-logs",
     "group": "platform",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
   },
   {
     "operationId": "loginSuperAdmin",
     "method": "POST",
     "path": "/admin/auth/login",
     "group": "identity",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "CUSTOM"
   },
   {
     "operationId": "logoutSuperAdmin",
     "method": "POST",
     "path": "/admin/auth/logout",
     "group": "identity",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "CUSTOM"
   },
   {
     "operationId": "getAdminDashboard",
     "method": "GET",
     "path": "/admin/dashboard",
     "group": "platform",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
   },
   {
     "operationId": "getSuperAdminProfile",
     "method": "GET",
     "path": "/admin/me",
     "group": "identity",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
   },
   {
     "operationId": "listAdminMediaAssets",
     "method": "GET",
     "path": "/admin/media-assets",
     "group": "identity",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
   },
   {
     "operationId": "createAdminMediaAsset",
     "method": "POST",
     "path": "/admin/media-assets",
     "group": "identity",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "CUSTOM"
   },
   {
     "operationId": "updateAdminMediaAsset",
     "method": "PUT",
     "path": "/admin/media-assets/{mediaAsset}",
     "group": "identity",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "CUSTOM"
   },
   {
     "operationId": "archiveAdminMediaAsset",
     "method": "POST",
     "path": "/admin/media-assets/{mediaAsset}/archive",
     "group": "identity",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "CUSTOM"
   },
   {
     "operationId": "getAdminMediaAssetContent",
     "method": "GET",
     "path": "/admin/media-assets/{mediaAsset}/content",
     "group": "identity",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
   },
   {
     "operationId": "publishAdminMediaAsset",
     "method": "POST",
     "path": "/admin/media-assets/{mediaAsset}/publish",
     "group": "identity",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "CUSTOM"
   },
   {
     "operationId": "listAdminMembers",
     "method": "GET",
     "path": "/admin/members",
     "group": "members",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
   },
   {
     "operationId": "listAdminJobBatches",
     "method": "GET",
     "path": "/admin/queues/batches",
     "group": "platform",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
   },
   {
     "operationId": "listAdminFailedJobs",
     "method": "GET",
     "path": "/admin/queues/failed",
     "group": "platform",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
   },
   {
     "operationId": "forgetAdminFailedJob",
     "method": "DELETE",
     "path": "/admin/queues/failed/{uuid}",
     "group": "platform",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "CUSTOM"
   },
   {
     "operationId": "retryAdminFailedJob",
     "method": "POST",
     "path": "/admin/queues/failed/{uuid}/retry",
     "group": "platform",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "CUSTOM"
   },
   {
     "operationId": "listAdminQueueJobs",
     "method": "GET",
     "path": "/admin/queues/jobs",
     "group": "platform",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
   },
   {
     "operationId": "getAdminQueueOverview",
     "method": "GET",
     "path": "/admin/queues/overview",
     "group": "platform",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "listAdminResourceData",
+    "method": "GET",
+    "path": "/admin/resources/{resource}",
+    "group": "platform",
+    "disposition": "ADOPT"
   },
   {
     "operationId": "getAdminWechatPaymentConfig",
     "method": "GET",
     "path": "/admin/settings/payments/wechat",
     "group": "commerce",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
   },
   {
     "operationId": "updateAdminWechatPaymentConfig",
     "method": "PUT",
     "path": "/admin/settings/payments/wechat",
     "group": "commerce",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "CUSTOM"
   },
   {
     "operationId": "listAdminTenants",
     "method": "GET",
     "path": "/admin/tenants",
     "group": "platform",
-    "disposition": "UNCLASSIFIED"
+    "disposition": "ADOPT"
   },
   {
     "operationId": "logoutCurrentSession",
@@ -2181,14 +2188,14 @@ export const apiOperations: ApiOperationSummary[] = [
 ];
 
 export const contractReport: ContractReport = {
-  "generatedAt": "2026年8月22日 18:23:45",
-  "sourceHash": "2c526fdc4e82dde1dcddd2b4dd9d832f493bf8c0ada03d2d5c42a494db1dd7d5",
-  "total": 311,
+  "generatedAt": "2026年8月23日 10:17:17",
+  "sourceHash": "6691048e7615e1fd110a3d5262d5862b7c76942502be80f2fb413a100e325662",
+  "total": 312,
   "counts": {
-    "ADOPT": 121,
-    "CUSTOM": 22,
+    "ADOPT": 134,
+    "CUSTOM": 31,
     "IGNORE": 50,
-    "UNCLASSIFIED": 118
+    "UNCLASSIFIED": 97
   },
   "changes": {
     "added": [],

@@ -34,6 +34,7 @@ function groupForPath(path) {
 function dispositionFor(operation) {
   if (operation.path.startsWith("/member/") || operation.path.startsWith("/public/")) return "IGNORE";
   if (operation.operationId === "loginWithWechat") return "IGNORE";
+  if (operation.path.startsWith("/admin/")) return operation.method === "GET" ? "ADOPT" : "CUSTOM";
   if (operation.method === "GET" && (operation.path.startsWith("/staff/") || ["getHealth", "getCurrentAccount"].includes(operation.operationId))) return "ADOPT";
   if (/adjust|refund|void|cancel|promote|check.?in|freeze|transfer|payroll|reconciliation/i.test(operation.operationId)) return "CUSTOM";
   return "UNCLASSIFIED";

@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Admin\AdminDashboardController;
 use App\Http\Controllers\Api\V1\Admin\AdminMediaAssetController;
 use App\Http\Controllers\Api\V1\Admin\AdminMemberController;
 use App\Http\Controllers\Api\V1\Admin\AdminQueueController;
+use App\Http\Controllers\Api\V1\Admin\AdminResourceController;
 use App\Http\Controllers\Api\V1\Admin\AdminTenantController;
 use App\Http\Controllers\Api\V1\Admin\AdminWechatPaymentConfigController;
 use App\Http\Controllers\Api\V1\Admin\SuperAdminAuthController;
@@ -21,6 +22,8 @@ Route::middleware(['auth:sanctum', EnsureSuperAdmin::class, RecordSuperAdminAudi
     Route::get('/dashboard', AdminDashboardController::class);
     Route::get('/tenants', [AdminTenantController::class, 'index']);
     Route::get('/members', [AdminMemberController::class, 'index']);
+    Route::get('/resources/{resource}', [AdminResourceController::class, 'index'])
+        ->whereIn('resource', ['staff', 'courses', 'schedules', 'appointments', 'cards', 'orders']);
     Route::get('/settings/payments/wechat', [AdminWechatPaymentConfigController::class, 'show']);
     Route::put('/settings/payments/wechat', [AdminWechatPaymentConfigController::class, 'update']);
     Route::get('/media-assets', [AdminMediaAssetController::class, 'index']);

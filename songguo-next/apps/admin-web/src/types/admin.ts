@@ -38,7 +38,6 @@ export interface ResourceDefinition {
   operations: string[];
   columns: ResourceColumn[];
   actions: ResourceAction[];
-  rows: Array<Record<string, string | number>>;
 }
 
 export interface ApiOperationSummary {
