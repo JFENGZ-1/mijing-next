@@ -892,14 +892,6 @@ async function executeDownload() {
   try {
     const result = await exportScheduleImage(session.currentSiteId, downloadFrom.value, downloadTo.value);
     downloadVisible.value = false;
-    if (result.placeholder) {
-      uni.showModal({
-        title: "生成中",
-        content: "课表图片生成服务待接入正式环境，当前返回演示占位地址。",
-        showCancel: false,
-      });
-      return;
-    }
     uni.showLoading({ title: "正在生成中，请稍候" });
     uni.downloadFile({
       url: result.imageUrl,

@@ -538,6 +538,24 @@ export interface MemberSitePublicDetail {
   }[];
 }
 
+export type MemberPaymentCheckout = NonNullable<MemberCardPurchaseResult["payment"]>;
+
+export interface MemberOrderPaymentResumeResult {
+  order: MemberOrderSummary;
+  payment: MemberPaymentCheckout;
+}
+
+export interface MemberSiteClosureStatus {
+  siteId: number;
+  isClosed: boolean;
+  closure: {
+    id: number;
+    reason: string | null;
+    beginDate: string | null;
+    endDate: string | null;
+  } | null;
+}
+
 export interface MemberCardTransferPreview {
   token: string;
   expiresAt: string;

@@ -17,6 +17,7 @@ class StaffMemberBookingHistoryPresenter
             'id' => $appointment->id,
             'siteId' => $appointment->site_id,
             'sessionId' => $appointment->session_id,
+            'memberCardId' => $appointment->member_card_id,
             'status' => $appointment->status->value,
             'bookedAt' => $appointment->booked_at?->toIso8601String(),
             'cancelledAt' => $appointment->cancelled_at?->toIso8601String(),

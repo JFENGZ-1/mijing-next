@@ -81,16 +81,48 @@ class StaffCrmMemberArchiveService
         }
 
         DB::transaction(function () use ($request, $staff, $site, $member, $profile, $mobileHash) {
+            $restoredStatus = $member->status;
+            if ($member->status === 'closed') {
+                $previousStatus = DB::table('member_status_events')
+                    ->where('tenant_id', $staff->tenant_id)
+                    ->where('member_id', $member->id)
+                    ->where('to_status', 'closed')
+                    ->latest('id')
+                    ->value('from_status');
+                $restoredStatus = in_array($previousStatus, ['lead', 'active', 'frozen'], true)
+                    ? $previousStatus
+                    : ($member->account_id ? 'active' : 'lead');
+            }
+
             $updated = Member::whereKey($member->id)
                 ->whereNotNull('archived_at')
                 ->update([
                     'archived_at' => null,
+                    'status' => $restoredStatus,
+                    'status_changed_at' => now(),
+                    'status_changed_by_staff_id' => $staff->id,
                     'version' => DB::raw('version + 1'),
                 ]);
             abort_if($updated !== 1, 409, 'MEMBER_RESTORE_INVALID');
 
             if ($profile && ! $profile->mobile_hash && $mobileHash) {
                 $profile->update(['mobile_hash' => $mobileHash]);
+            }
+
+            if ($member->status === 'closed') {
+                DB::table('member_status_events')->insert([
+                    'tenant_id' => $staff->tenant_id,
+                    'member_id' => $member->id,
+                    'from_status' => 'closed',
+                    'to_status' => $restoredStatus,
+                    'reason' => '恢复归档会员',
+                    'site_id' => $site->id,
+                    'actor_staff_id' => $staff->id,
+                    'request_id' => $request->attributes->get('request_id'),
+                    'occurred_at' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
             }
 
             $this->audit->record($request, $staff, $site, $member, 'crm.member.restored');

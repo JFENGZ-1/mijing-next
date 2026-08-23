@@ -108,6 +108,10 @@ function readStoredFilters() {
   }
   try {
     const parsed = JSON.parse(raw) as CrmStoredMemberFilters;
+    if (parsed.cleared) {
+      filterLabel.value = "";
+      return {};
+    }
     filterLabel.value = parsed.label?.trim() || "已保存筛选";
     return parsed.query ?? {};
   } catch {

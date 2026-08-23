@@ -72,6 +72,23 @@ class StaffWaitlistTest extends TestCase
         ]);
     }
 
+    public function test_member_can_confirm_own_waitlisted_appointment(): void
+    {
+        [, $site, $session, $waitA] = $this->seedWaitlistFixture();
+        $member = Member::query()->with('account')->findOrFail($waitA->member_id);
+        Sanctum::actingAs($member->account, ['api', 'client:member']);
+
+        $this->postJson("/api/v1/member/booking/appointments/{$waitA->id}/promote?tenantId={$member->tenant_id}", [
+            'commandKey' => (string) Str::uuid(),
+        ])
+            ->assertCreated()
+            ->assertJsonPath('data.status', 'confirmed')
+            ->assertJsonPath('data.sessionId', $session->id);
+
+        $this->assertSame(AppointmentStatus::Confirmed, Appointment::findOrFail($waitA->id)->status);
+        $this->assertSame(1, ScheduleSession::findOrFail($session->id)->booked_count);
+    }
+
     public function test_promote_is_blocked_when_session_still_full(): void
     {
         [$staff, $site, $session, $waitA] = $this->seedWaitlistFixture();
@@ -275,8 +292,13 @@ class StaffWaitlistTest extends TestCase
      */
     private function makeMemberWithCard(Tenant $tenant, Site $site, Course $course, string $suffix, int $count): array
     {
+        $account = Account::create([
+            'display_name' => 'Member '.$suffix,
+            'status' => 'active',
+        ]);
         $member = Member::create([
             'tenant_id' => $tenant->id,
+            'account_id' => $account->id,
             'member_no' => 'MEM-'.$suffix,
             'registration_site_id' => $site->id,
             'home_site_id' => $site->id,

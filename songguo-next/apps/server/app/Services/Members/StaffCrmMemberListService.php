@@ -2,15 +2,21 @@
 
 namespace App\Services\Members;
 
+use App\Enums\AppointmentStatus;
 use App\Enums\CardType;
 use App\Enums\MemberCardStatus;
+use App\Models\Appointment;
 use App\Models\Member;
+use App\Models\MemberCard;
+use App\Models\MemberNote;
 use App\Models\Site;
 use App\Models\Staff;
+use App\Support\AvatarUrl;
 use App\Support\PinyinInitial;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 class StaffCrmMemberListService
 {
@@ -84,6 +90,125 @@ class StaffCrmMemberListService
             'pinyinIndex' => $pinyinIndex,
             'pinyinlist' => $pinyinIndex,
         ];
+    }
+
+    /**
+     * 列表行摘要（对标原版 findAllUser：卡数/余额/最近约课）。
+     *
+     * @param  Collection<int, Member>  $members
+     * @return array<int, array{
+     *   avatarUrl: ?string,
+     *   cardCount: int,
+     *   cardType: ?string,
+     *   balanceAmount: float|int|null,
+     *   balanceUnit: ?string,
+     *   lastAppointDate: ?string,
+     *   holidayDate: ?string,
+     *   hintMsg: ?string
+     * }>
+     */
+    public function listItemSummaries(Collection $members, Staff $staff, Site $site): array
+    {
+        if ($members->isEmpty()) {
+            return [];
+        }
+
+        $ids = $members->pluck('id')->all();
+        $today = Carbon::today();
+
+        $cardsByMember = MemberCard::query()
+            ->where('tenant_id', $site->tenant_id)
+            ->where('site_id', $site->id)
+            ->whereIn('member_id', $ids)
+            ->whereNull('archived_at')
+            ->where('status', '!=', MemberCardStatus::Voided)
+            ->orderByDesc('issued_at')
+            ->get()
+            ->groupBy('member_id');
+
+        $lastAppointDates = Appointment::query()
+            ->join('schedule_sessions', function ($join) {
+                $join->on('schedule_sessions.id', '=', 'appointments.session_id')
+                    ->on('schedule_sessions.tenant_id', '=', 'appointments.tenant_id');
+            })
+            ->where('appointments.tenant_id', $site->tenant_id)
+            ->where('appointments.site_id', $site->id)
+            ->whereIn('appointments.member_id', $ids)
+            ->whereIn('appointments.status', [
+                AppointmentStatus::Confirmed->value,
+                AppointmentStatus::Completed->value,
+                AppointmentStatus::Absent->value,
+            ])
+            ->groupBy('appointments.member_id')
+            ->selectRaw('appointments.member_id, max(schedule_sessions.starts_at) as last_starts_at')
+            ->pluck('last_starts_at', 'member_id');
+
+        // 对标原版 hintMsg：仅有备注读取权限时返回最新一条有效备注，避免列表旁路越权。
+        $latestNotes = collect();
+        if ($staff->hasPermission('crm.member.note.read', $site->id)) {
+            $latestNoteIds = MemberNote::query()
+                ->selectRaw('MAX(id)')
+                ->where('tenant_id', $site->tenant_id)
+                ->where('site_id', $site->id)
+                ->whereIn('member_id', $ids)
+                ->whereNull('correction_of_id')
+                ->groupBy('member_id');
+
+            $latestNotes = MemberNote::query()
+                ->whereIn('id', $latestNoteIds)
+                ->get(['id', 'member_id', 'body'])
+                ->keyBy('member_id');
+        }
+
+        $summaries = [];
+        foreach ($members as $member) {
+            $cards = $cardsByMember->get($member->id) ?? collect();
+            $primary = $cards->first();
+            [$balanceAmount, $balanceUnit] = $this->primaryCardBalance($primary, $today);
+            $lastAt = $lastAppointDates[$member->id] ?? null;
+            $note = $latestNotes->get($member->id);
+            $hintMsg = $note ? mb_strimwidth((string) $note->body, 0, 18, '…') : null;
+            $holidayDate = $cards
+                ->map(fn (MemberCard $card) => data_get($card->freeze_state, 'holiday.plannedEndAt'))
+                ->filter(fn ($date) => is_string($date) && $date >= $today->toDateString())
+                ->sort()
+                ->last();
+
+            $summaries[$member->id] = [
+                'avatarUrl' => AvatarUrl::fromObjectKey($member->account?->memberProfile?->avatar_object_key)
+                    ?? $member->account?->avatar_url,
+                'cardCount' => $cards->count(),
+                'cardType' => $primary?->card_type?->value,
+                'balanceAmount' => $balanceAmount,
+                'balanceUnit' => $balanceUnit,
+                'lastAppointDate' => $lastAt
+                    ? Carbon::parse($lastAt)->format('Y-m-d')
+                    : null,
+                'holidayDate' => $holidayDate,
+                'hintMsg' => $hintMsg,
+            ];
+        }
+
+        return $summaries;
+    }
+
+    /**
+     * @return array{0: float|int|null, 1: string|null}
+     */
+    private function primaryCardBalance(?MemberCard $card, Carbon $today): array
+    {
+        if (! $card) {
+            return [null, null];
+        }
+
+        return match ($card->card_type) {
+            CardType::StoredValue => [(float) $card->cached_balance, '元'],
+            CardType::Count => [$card->cached_remaining_count, '次'],
+            CardType::Period => $card->valid_until
+                ? [max(0, (int) $today->diffInDays($card->valid_until, false)), '天']
+                : [null, null],
+            default => [null, null],
+        };
     }
 
     public function applyListFilters(Builder $query, Request $request, Staff $staff, Site $site): Builder

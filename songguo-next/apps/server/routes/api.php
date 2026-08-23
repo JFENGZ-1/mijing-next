@@ -124,6 +124,7 @@ Route::middleware('auth:sanctum')->prefix('/v1')->group(function () {
         Route::get('/legal-documents', [MemberContextController::class, 'legalDocuments']);
         Route::get('/orders', [MemberMemberCardOrderController::class, 'index']);
         Route::get('/orders/{order}', [MemberMemberCardOrderController::class, 'show']);
+        Route::post('/orders/{order}/payment', [MemberMemberCardOrderController::class, 'resumePayment']);
         Route::post('/orders/{order}/sync-payment', [MemberMemberCardOrderController::class, 'syncPayment']);
         Route::get('/sites/{site}/public-detail', [MemberSiteController::class, 'show']);
         Route::get('/sites/{site}/closure-status', [MemberSiteController::class, 'closureStatus']);

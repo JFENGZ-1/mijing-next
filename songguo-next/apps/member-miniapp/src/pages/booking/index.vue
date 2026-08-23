@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { onPullDownRefresh, onShow } from "@dcloudio/uni-app";
-import { getMemberBookingCatalog } from "@/api/member";
+import { getMemberBookingCatalog, getMemberSiteClosureStatus } from "@/api/member";
 import { requireMemberAuth } from "@/auth/guard";
 import {
   ensureMemberContext,
@@ -9,7 +9,7 @@ import {
   loadJoinedMemberSites,
   selectMemberSite,
 } from "@/composables/member-context";
-import type { MemberBookingCatalogItem, MemberSiteOption } from "@/types/member";
+import type { MemberBookingCatalogItem, MemberSiteClosureStatus, MemberSiteOption } from "@/types/member";
 import { navigateToOnce } from "@/utils/navigate";
 
 // 本地日期键（YYYY-MM-DD），避免 toISOString() 的 UTC 偏移导致"今天"错位。
@@ -28,8 +28,18 @@ const siteName = ref("");
 const todayIso = localDateKey(new Date());
 const selectedDate = ref(todayIso);
 const sessions = ref<MemberBookingCatalogItem[]>([]);
+const closureStatus = ref<MemberSiteClosureStatus | null>(null);
 const catalogLastDate = ref("2050-12-31");
 const showCalendar = ref(false);
+
+const closureMessage = computed(() => {
+  const closure = closureStatus.value?.closure;
+  if (!closureStatus.value?.isClosed || !closure) return "";
+  const period = closure.beginDate && closure.endDate
+    ? `${closure.beginDate} 至 ${closure.endDate}`
+    : "当前日期";
+  return `${period} 场馆闭店${closure.reason ? `：${closure.reason}` : ""}`;
+});
 
 const weekdayCn = ["日", "一", "二", "三", "四", "五", "六"];
 const minDateIso = todayIso;
@@ -198,8 +208,12 @@ async function loadCatalog() {
     }
 
     siteName.value = context.siteName;
-    const response = await getMemberBookingCatalog(context.tenantId, context.siteId, selectedDate.value);
+    const [response, closureResponse] = await Promise.all([
+      getMemberBookingCatalog(context.tenantId, context.siteId, selectedDate.value),
+      getMemberSiteClosureStatus(context.tenantId, context.siteId).catch(() => null),
+    ]);
     sessions.value = response.data.items;
+    closureStatus.value = closureResponse?.data ?? null;
     if (response.data.limits?.catalogLastDate) {
       catalogLastDate.value = response.data.limits.catalogLastDate;
     }
@@ -277,10 +291,18 @@ function openOnboarding() {
 }
 
 function openSessionDetail(sessionId: number) {
+  if (closureStatus.value?.isClosed) {
+    uni.showToast({ title: "场馆闭店期间暂不可约课", icon: "none" });
+    return;
+  }
   navigateToOnce(`/pages/booking/detail?id=${sessionId}`);
 }
 
 function openCoach(coach: { name: string; sessionId: number; avatarUrl: string | null }) {
+  if (closureStatus.value?.isClosed) {
+    uni.showToast({ title: "场馆闭店期间暂不可约课", icon: "none" });
+    return;
+  }
   // 对标原版：进入教练维度的私教预约页（按天选时段）
   const session = sessions.value.find((s) => s.id === coach.sessionId);
   const coachId = session?.coachStaffId;
@@ -320,6 +342,13 @@ onPullDownRefresh(async () => {
 
     <template v-else>
       <view class="main-content">
+        <u-alert
+          v-if="closureMessage"
+          type="warning"
+          title="场馆闭店提示"
+          :description="closureMessage"
+          :custom-style="{ margin: '20rpx 28rpx 0' }"
+        />
         <view class="body">
           <view v-if="privateCoaches.length" class="pt">
             <view class="pt-font">

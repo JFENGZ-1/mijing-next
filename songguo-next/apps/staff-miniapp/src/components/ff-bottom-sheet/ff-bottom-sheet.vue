@@ -50,10 +50,12 @@ function handleClose() {
     <view class="ff-sheet" :style="{ height: `${heightRpx}rpx` }">
       <view class="ff-sheet-title" :class="{ 'ff-sheet-title--left': titleAlign === 'left' }">{{ title }}</view>
       <scroll-view scroll-y class="ff-sheet-scroll" :enhanced="true" :show-scrollbar="false">
-        <view v-if="tips" class="ff-sheet-tips">
-          <u-icon name="bell" size="13" color="#d76418" />
-          <text class="ff-sheet-tips-text">{{ tips }}</text>
-        </view>
+        <slot name="tips">
+          <view v-if="tips" class="ff-sheet-tips">
+            <u-icon name="bell" size="13" color="#d76418" />
+            <text class="ff-sheet-tips-text">{{ tips }}</text>
+          </view>
+        </slot>
         <view class="ff-sheet-body" :class="{ 'ff-sheet-body--flush': flushBody }">
           <slot />
         </view>
@@ -152,5 +154,20 @@ function handleClose() {
 
 .ff-sheet-confirm::after {
   border: 0;
+}
+</style>
+
+<style lang="scss">
+/* 对标原版 ff-popup 关闭钮：灰圆底 */
+.u-popup__content__close--top-right,
+.u-popup .u-popup__content__close {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  top: 20rpx !important;
+  width: 47rpx !important;
+  height: 47rpx !important;
+  background: #f5f5f5 !important;
+  border-radius: 50% !important;
 }
 </style>

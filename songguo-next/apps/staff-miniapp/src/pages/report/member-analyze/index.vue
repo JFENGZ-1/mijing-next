@@ -13,6 +13,8 @@ const errorMessage = ref("");
 const dashboard = ref<CrmDashboardSummary | null>(null);
 const presets = ref<CrmMemberFilterPresets | null>(null);
 
+const canAnalyze = computed(() => session.can("crm.member.read") || session.can("report.read"));
+
 const summaryCards = computed(() => [
   { label: "全部会员", value: dashboard.value?.totalCount ?? 0, query: { sumMode: "all" } },
   { label: "本月新增", value: dashboard.value?.monthCount ?? 0, query: { sumMode: "monthNew" } },
@@ -33,8 +35,16 @@ const hints = [
 ];
 
 async function load() {
+  if (!canAnalyze.value) {
+    loading.value = false;
+    dashboard.value = null;
+    presets.value = null;
+    errorMessage.value = "";
+    return;
+  }
   if (!session.currentSiteId) {
     loading.value = false;
+    errorMessage.value = "当前账号没有可用场馆";
     return;
   }
   loading.value = true;
@@ -58,6 +68,10 @@ function openMemberList(label: string, query: CrmFilterPresetQuery) {
   uni.switchTab({ url: "/pages/members/index" });
 }
 
+function goMembersHome() {
+  uni.switchTab({ url: "/pages/members/index" });
+}
+
 onShow(async () => {
   if (await requireStaffAuth()) await load();
 });
@@ -71,61 +85,81 @@ onPullDownRefresh(async () => {
 <template>
   <u-loading-page :loading="loading" />
   <view v-if="!loading" class="page-container">
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+    <view v-if="!canAnalyze" class="empty-perm">
+      <u-empty mode="permission" text="暂无会员分析权限" />
+      <view class="empty-hint">需要 crm.member.read 或 report.read 权限</view>
+      <u-button type="primary" plain @click="goMembersHome">返回会员管理</u-button>
+    </view>
 
-    <!-- 会员分层计数（对标原版会员分析网格） -->
-    <view class="sg-card">
-      <text class="card-title">会员分析</text>
-      <view class="grid">
-        <view
-          v-for="item in summaryCards"
-          :key="item.label"
-          class="grid-cell"
-          @tap="openMemberList(item.label, item.query)"
-        >
-          <text class="cell-value">{{ item.value }}</text>
-          <text class="cell-label">{{ item.label }}</text>
+    <template v-else>
+      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+
+      <view class="sg-card">
+        <text class="card-title">会员分析</text>
+        <view class="grid">
+          <view
+            v-for="item in summaryCards"
+            :key="item.label"
+            class="grid-cell"
+            @tap="openMemberList(item.label, item.query)"
+          >
+            <text class="cell-value">{{ item.value }}</text>
+            <text class="cell-label">{{ item.label }}</text>
+          </view>
         </view>
       </view>
-    </view>
 
-    <!-- 风险/沉寂/流失（原版 60/90/120 天未上课分档） -->
-    <view v-if="runOffPresets.length" class="sg-card block-card">
-      <text class="card-title">未上课风险分层</text>
-      <view
-        v-for="item in runOffPresets"
-        :key="item.runOff"
-        class="preset-row"
-        @tap="openMemberList(item.label, item.query)"
-      >
-        <text class="row-label">{{ item.label }}</text>
-        <u-icon name="arrow-right" size="16" color="#bfbfbf" />
+      <view v-if="runOffPresets.length" class="sg-card block-card">
+        <text class="card-title">未上课风险分层</text>
+        <view
+          v-for="item in runOffPresets"
+          :key="item.runOff"
+          class="preset-row"
+          @tap="openMemberList(item.label, item.query)"
+        >
+          <text class="row-label">{{ item.label }}</text>
+          <u-icon name="arrow-right" size="16" color="#bfbfbf" />
+        </view>
       </view>
-    </view>
 
-    <!-- 上课会员分层 -->
-    <view v-if="flagPresets.length" class="sg-card block-card">
-      <text class="card-title">上课会员</text>
-      <view
-        v-for="item in flagPresets"
-        :key="item.flag"
-        class="preset-row"
-        @tap="openMemberList(item.label, item.query)"
-      >
-        <text class="row-label">{{ item.label }}</text>
-        <u-icon name="arrow-right" size="16" color="#bfbfbf" />
+      <view v-if="flagPresets.length" class="sg-card block-card">
+        <text class="card-title">上课会员</text>
+        <view
+          v-for="item in flagPresets"
+          :key="item.flag"
+          class="preset-row"
+          @tap="openMemberList(item.label, item.query)"
+        >
+          <text class="row-label">{{ item.label }}</text>
+          <u-icon name="arrow-right" size="16" color="#bfbfbf" />
+        </view>
       </view>
-    </view>
 
-    <!-- 统计口径说明（对标原版"统计说明"） -->
-    <view class="sg-card block-card">
-      <text class="card-title">统计说明</text>
-      <text v-for="hint in hints" :key="hint" class="hint-line">{{ hint }}</text>
-    </view>
+      <view class="sg-card block-card">
+        <text class="card-title">统计说明</text>
+        <text v-for="hint in hints" :key="hint" class="hint-line">{{ hint }}</text>
+      </view>
+
+      <u-button class="back-home" plain @click="goMembersHome">返回会员列表</u-button>
+    </template>
   </view>
 </template>
 
 <style scoped lang="scss">
+.empty-perm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24rpx;
+  padding: 80rpx 32rpx;
+}
+
+.empty-hint {
+  color: $color-text-secondary;
+  font-size: 24rpx;
+  text-align: center;
+}
+
 .card-title {
   display: block;
   margin-bottom: 8rpx;
@@ -189,5 +223,9 @@ onPullDownRefresh(async () => {
   color: $color-text-tertiary;
   font-size: 24rpx;
   line-height: 1.6;
+}
+
+.back-home {
+  margin-top: 32rpx;
 }
 </style>

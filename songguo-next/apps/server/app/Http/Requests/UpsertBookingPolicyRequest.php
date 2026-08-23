@@ -17,6 +17,7 @@ class UpsertBookingPolicyRequest extends ApiFormRequest
             'version' => ['required', 'integer', 'min:0'],
             'group' => ['required', 'array'],
             'group.signMinutesBeforeStart' => ['required', 'integer', 'min:0'],
+            'group.autoCheckInMinutesAfterEnd' => ['required', 'integer', 'min:1', 'max:60'],
             'group.advanceBookingDays' => ['required', 'integer', 'min:0'],
             'group.advanceBookingDailyCutoffHour' => ['required', 'integer', 'min:0', 'max:23'],
             'group.advanceBookingDailyCutoffMinute' => ['required', 'integer', 'min:0', 'max:59'],

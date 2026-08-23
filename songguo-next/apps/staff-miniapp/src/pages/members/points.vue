@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/** 对标原版 pageMember/details/memberPoint */
 import { computed, ref } from "vue";
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app";
 import { adjustMemberPoints, fetchMemberPointLedger } from "@/api/points";
@@ -6,6 +7,9 @@ import type { MemberPointLedgerItem } from "@/api/points";
 import { requireStaffAuth } from "@/auth/guard";
 import { useSessionStore } from "@/stores/session";
 import { createCommandKey } from "@/utils/command-key";
+import CustomNav from "@/components/custom-nav/custom-nav.vue";
+import FfBottomLogo from "@/components/ff-bottom-logo/ff-bottom-logo.vue";
+import FfBottomSheet from "@/components/ff-bottom-sheet/ff-bottom-sheet.vue";
 
 const session = useSessionStore();
 const loading = ref(true);
@@ -13,6 +17,8 @@ const loadingMore = ref(false);
 const submitting = ref(false);
 const errorMessage = ref("");
 const memberId = ref(0);
+const userName = ref("会员");
+const userFaceurl = ref("");
 const totalPoint = ref(0);
 const items = ref<MemberPointLedgerItem[]>([]);
 const page = ref(1);
@@ -24,6 +30,7 @@ const adjustAmount = ref("");
 const adjustReason = ref("");
 
 const canAdjust = computed(() => session.can("points.adjust"));
+const adjustTitle = computed(() => (adjustDirection.value === "credit" ? "加积分" : "减积分"));
 
 async function load(reset = true) {
   if (!session.currentSiteId || !memberId.value) {
@@ -92,12 +99,14 @@ async function submitAdjust() {
 }
 
 function formatTime(value: string | null) {
-  if (!value) return "";
+  if (!value) return "--";
   return value.slice(0, 16).replace("T", " ");
 }
 
 onLoad(async (query) => {
   memberId.value = Number(query?.id ?? 0);
+  userName.value = decodeURIComponent(String(query?.name ?? "会员"));
+  userFaceurl.value = decodeURIComponent(String(query?.avatar ?? ""));
   if (await requireStaffAuth()) await load();
 });
 
@@ -114,174 +123,201 @@ onReachBottom(async () => {
 
 <template>
   <u-loading-page :loading="loading" />
-  <view v-if="!loading" class="page-container">
-    <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
-
-    <!-- 积分余额卡（对标原版 memberPoint 顶部） -->
-    <view class="points-card">
-      <text class="points-total">{{ totalPoint }}</text>
-      <text class="points-label">当前积分</text>
-      <view v-if="canAdjust" class="adjust-row">
-        <button class="adjust-btn credit" @click="openAdjust('credit')">加分</button>
-        <button class="adjust-btn debit" @click="openAdjust('debit')">减分</button>
-      </view>
-    </view>
-
-    <!-- 积分流水 -->
-    <view class="section-title">积分明细</view>
-    <view v-if="items.length" class="ledger-list">
-      <view v-for="item in items" :key="item.id" class="ledger-row">
-        <view class="ledger-main">
-          <text class="ledger-title">{{ item.title || item.reason || "积分变动" }}</text>
-          <text class="ledger-time">{{ formatTime(item.createdAt) }}</text>
+  <view v-if="!loading" class="page">
+    <CustomNav :text="userName" bg="rgba(255,255,255,0)" :head-url="userFaceurl" />
+    <view class="main">
+      <view class="head">
+        <view class="summarize">
+          <view class="num">{{ totalPoint }}</view>
+          <view class="num-text">有效积分</view>
+          <view v-if="canAdjust" class="edit-point">
+            <view class="but" @tap.stop="openAdjust('credit')">
+              <u-icon name="plus-circle-fill" size="18" color="#22C788" />
+              <text>加积分</text>
+            </view>
+            <view class="but" @tap.stop="openAdjust('debit')">
+              <u-icon name="minus-circle-fill" size="18" color="#DC3C5C" />
+              <text>减积分</text>
+            </view>
+          </view>
         </view>
-        <text class="ledger-delta" :class="item.direction">
-          {{ item.amountDelta > 0 ? "+" : "" }}{{ item.amountDelta }}
-        </text>
       </view>
-      <u-loadmore :status="page >= lastPage ? 'nomore' : loadingMore ? 'loading' : 'loadmore'" />
-    </view>
-    <view v-else class="nodata-box">
-      <text class="sg-empty-text">暂无积分记录</text>
+
+      <view class="content">
+        <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+        <view class="setting_wrap">
+          <view class="list">
+            <template v-if="items.length">
+              <view v-for="(item, index) in items" :key="item.id" class="sale-item">
+                <view class="detail-info-wrap">
+                  <view class="l-info">
+                    <view class="l-info-head">{{ item.title || item.reason || "积分变动" }}</view>
+                    <view class="time-and-type">{{ formatTime(item.createdAt) }}</view>
+                  </view>
+                  <view class="r-info">
+                    <view class="day-num" :class="{ redtext: item.amountDelta < 0 }">
+                      <text v-if="item.amountDelta > 0">+</text>{{ item.amountDelta }}
+                    </view>
+                    <view class="day-num1">
+                      <text :class="item.amountDelta > 0 ? 'greentext' : 'redtext'">{{ item.reason || "" }}</text>
+                    </view>
+                  </view>
+                </view>
+                <u-line v-if="index < items.length - 1" color="#F0F0F0" margin="24rpx 0 0 18rpx" />
+              </view>
+              <u-loadmore :status="page >= lastPage ? 'nomore' : loadingMore ? 'loading' : 'loadmore'" />
+            </template>
+            <view v-else class="noCourseData">
+              <u-icon name="integral" size="72" color="#dadada" />
+              <text class="explain">~ 没有积分记录 ~</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <FfBottomLogo />
     </view>
 
-    <!-- 调整弹窗 -->
-    <u-popup :show="showAdjust" mode="bottom" round="20" @close="showAdjust = false">
-      <view class="adjust-popup">
-        <text class="popup-title">{{ adjustDirection === "credit" ? "增加积分" : "扣减积分" }}</text>
-        <u-input v-model="adjustAmount" type="number" placeholder="积分数量（正整数）" border="bottom" />
-        <u-input v-model="adjustReason" placeholder="原因（必填）" border="bottom" />
-        <button class="sg-btn-primary popup-submit" :disabled="submitting" @click="submitAdjust">
-          {{ submitting ? "提交中..." : "确认" }}
-        </button>
+    <FfBottomSheet
+      v-model:show="showAdjust"
+      :title="adjustTitle"
+      :height-rpx="720"
+      confirm-text="确　定"
+      :confirm-disabled="submitting"
+      @confirm="submitAdjust"
+    >
+      <view class="adjust-form">
+        <u-input v-model="adjustAmount" type="number" placeholder="积分数量（正整数）" border="surround" />
+        <view class="gap" />
+        <u-input v-model="adjustReason" placeholder="原因（必填）" border="surround" />
       </view>
-    </u-popup>
+    </FfBottomSheet>
   </view>
 </template>
 
 <style scoped lang="scss">
-.points-card {
+.page {
+  min-height: 100vh;
+  background: #fff;
+}
+
+.main {
+  padding-top: calc(var(--status-bar-height, 20px) + 44px);
+}
+
+.head {
+  padding: 40rpx 0 20rpx;
+}
+
+.summarize {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 56rpx 24rpx 40rpx;
-  background: $color-surface;
-  border-radius: $radius-lg;
 }
 
-.points-total {
-  color: $color-primary;
+.num {
+  color: #ed920f;
   font-size: 80rpx;
   font-weight: 600;
-  line-height: 80rpx;
+  line-height: 1;
 }
 
-.points-label {
+.num-text {
   margin-top: 14rpx;
-  color: $color-text-tertiary;
+  color: #989898;
   font-size: 24rpx;
 }
 
-.adjust-row {
+.edit-point {
   display: flex;
-  gap: 24rpx;
+  gap: 48rpx;
   margin-top: 36rpx;
 }
 
-.adjust-btn {
-  margin: 0;
-  width: 200rpx;
-  height: 72rpx;
-  line-height: 72rpx;
-  font-size: 28rpx;
-  border-radius: 36rpx;
-  color: #fff;
-
-  &.credit {
-    background: $color-success;
-  }
-
-  &.debit {
-    background: $color-danger;
-  }
-}
-
-.adjust-btn::after {
-  border: 0;
-}
-
-.ledger-list {
-  background: $color-surface;
-  border-radius: $radius-lg;
-  padding: 0 $spacing-md;
-}
-
-.ledger-row {
+.but {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 24rpx 0;
-  border-bottom: 1rpx solid $color-page;
-
-  &:last-of-type {
-    border-bottom: none;
-  }
+  gap: 8rpx;
+  color: #181818;
+  font-size: 26rpx;
 }
 
-.ledger-main {
+.content {
+  margin-top: 20rpx;
+}
+
+.setting_wrap .list {
+  min-height: 700rpx;
+  margin: 0 14rpx;
+  padding: 8rpx 20rpx 40rpx;
+  background: #fff;
+  border-radius: 21rpx;
+}
+
+.sale-item {
+  padding-top: 28rpx;
+}
+
+.detail-info-wrap {
   display: flex;
-  flex-direction: column;
-  min-width: 0;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-left: 18rpx;
 }
 
-.ledger-title {
+.l-info-head {
+  color: #181818;
   font-size: 28rpx;
-  color: $color-text;
+  font-weight: 500;
 }
 
-.ledger-time {
-  margin-top: 8rpx;
-  color: $color-text-disabled;
+.time-and-type {
+  margin-top: 10rpx;
+  color: #989898;
   font-size: 22rpx;
 }
 
-.ledger-delta {
+.r-info {
+  text-align: right;
+}
+
+.day-num {
+  color: #22c788;
   font-size: 32rpx;
   font-weight: 600;
-
-  &.credit {
-    color: $color-success;
-  }
-
-  &.debit {
-    color: $color-danger;
-  }
 }
 
-.nodata-box {
-  padding: 100rpx 0;
+.day-num.redtext {
+  color: #dc3c5c;
 }
 
-.adjust-popup {
+.day-num1 {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+}
+
+.greentext {
+  color: #22c788;
+}
+
+.redtext {
+  color: #dc3c5c;
+}
+
+.noCourseData {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
-  padding: 40rpx 32rpx calc(40rpx + env(safe-area-inset-bottom));
+  align-items: center;
+  gap: 16rpx;
+  padding: 120rpx 0;
+  color: #bfbfbf;
+  font-size: 26rpx;
 }
 
-.popup-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  text-align: center;
-  color: $color-text;
+.adjust-form {
+  padding: 20rpx 8rpx 40rpx;
 }
 
-.popup-submit {
-  margin-top: 16rpx;
-  border: none;
-}
-
-.popup-submit::after {
-  border: 0;
+.gap {
+  height: 24rpx;
 }
 </style>

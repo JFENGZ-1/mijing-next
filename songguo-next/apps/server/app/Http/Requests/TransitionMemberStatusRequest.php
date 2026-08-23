@@ -10,7 +10,7 @@ class TransitionMemberStatusRequest extends ApiFormRequest
     {
         return [
             'version' => ['required', 'integer', 'min:1'],
-            'targetStatus' => ['required', 'string', 'in:active,frozen'],
+            'targetStatus' => ['required', 'string', 'in:active,frozen,closed'],
             'reason' => ['required', 'string', 'max:500'],
         ];
     }

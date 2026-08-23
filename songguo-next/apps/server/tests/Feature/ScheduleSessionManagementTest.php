@@ -169,6 +169,29 @@ class ScheduleSessionManagementTest extends TestCase
             ->assertJsonCount(10, 'data.palette');
     }
 
+    public function test_schedule_export_generates_a_real_downloadable_png(): void
+    {
+        $fixture = $this->seedFixture();
+        $this->actAsScheduleStaff($fixture);
+        $date = $fixture['session']->starts_at->toDateString();
+
+        $response = $this->postJson("/api/v1/staff/sites/{$fixture['site']->id}/schedule-export-image", [
+            'from' => $date,
+            'to' => $date,
+        ])->assertOk()
+            ->assertJsonPath('data.placeholder', false)
+            ->assertJsonPath('data.width', 1080);
+
+        $urlPath = (string) parse_url($response->json('data.imageUrl'), PHP_URL_PATH);
+        $imagePath = public_path(str_replace('/', DIRECTORY_SEPARATOR, ltrim($urlPath, '/')));
+        $this->assertFileExists($imagePath);
+        $this->assertSame('image/png', mime_content_type($imagePath));
+        $dimensions = getimagesize($imagePath);
+        $this->assertSame(1080, $dimensions[0]);
+        $this->assertSame((int) $response->json('data.height'), $dimensions[1]);
+        unlink($imagePath);
+    }
+
     // ================= fixture =================
 
     /**

@@ -69,6 +69,47 @@ class MemberCardWechatPaymentTest extends TestCase
         $this->assertSame(0, MemberCard::query()->where('tenant_id', $tenant->id)->count());
     }
 
+    public function test_member_can_resume_own_pending_wechat_payment(): void
+    {
+        [$account, $tenant, $site] = $this->seedPurchasableMember();
+        $product = $this->createProduct($site, CardType::StoredValue, ['price' => 288]);
+        $this->actAsMember($account);
+
+        $created = $this->postJson($this->purchasePath($tenant, $site), [
+            'cardProductId' => $product->id,
+            'commandKey' => (string) Str::uuid(),
+        ])->assertCreated();
+
+        $orderId = $created->json('data.order.id');
+        $prepayId = $created->json('data.payment.prepayId');
+        $this->postJson("/api/v1/member/orders/{$orderId}/payment?tenantId={$tenant->id}")
+            ->assertOk()
+            ->assertJsonPath('data.order.status', MemberCardOrderStatus::PendingPayment->value)
+            ->assertJsonPath('data.payment.driver', 'wechat')
+            ->assertJsonPath('data.payment.prepayId', $prepayId)
+            ->assertJsonStructure(['data' => ['payment' => ['paymentParams' => [
+                'timeStamp', 'nonceStr', 'package', 'signType', 'paySign',
+            ]]]]);
+    }
+
+    public function test_paid_order_cannot_resume_payment(): void
+    {
+        [$account, $tenant, $site, $member] = $this->seedPurchasableMember();
+        $order = MemberCardOrder::create([
+            'tenant_id' => $tenant->id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'order_no' => 'ORD-ALREADY-PAID',
+            'amount' => 100,
+            'status' => MemberCardOrderStatus::Paid,
+            'command_key' => (string) Str::uuid(),
+        ]);
+        $this->actAsMember($account);
+
+        $this->postJson("/api/v1/member/orders/{$order->id}/payment?tenantId={$tenant->id}")
+            ->assertStatus(409);
+    }
+
     public function test_wechat_webhook_fulfills_pending_order_and_issues_card(): void
     {
         [$account, $tenant, $site, $member] = $this->seedPurchasableMember();

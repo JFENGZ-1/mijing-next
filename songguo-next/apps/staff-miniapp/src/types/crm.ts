@@ -6,6 +6,19 @@ export interface CrmTag {
   color: string;
 }
 
+export interface CrmMemberMetrics {
+  totalPayAmount: string | null;
+  groupMonthCount: number | null;
+  groupTotalCount: number | null;
+  privateMonthCount: number | null;
+  privateTotalCount: number | null;
+  absenceMonthCount: number | null;
+  absenceTotalCount: number | null;
+  consumedAmount: string | null;
+  residualValue: string | null;
+  noClassDays: number | null;
+}
+
 export interface CrmMember {
   id: number;
   memberNo: string;
@@ -14,6 +27,9 @@ export interface CrmMember {
   mobileVerified: boolean;
   gender: "male" | "female" | "undisclosed" | null;
   birthDate: string | null;
+  nationalIdMasked: string | null;
+  heightCm: number | null;
+  weightKg: number | null;
   status: MemberStatus;
   appAccessStatus: "allowed" | "blocked";
   owner: { id: number; name: string } | null;
@@ -26,6 +42,19 @@ export interface CrmMember {
   accountLinked?: boolean;
   pointsEnabled?: boolean;
   totalPoint?: number | null;
+  metrics?: CrmMemberMetrics;
+  /** 列表摘要字段（dashboard/list） */
+  avatarUrl?: string | null;
+  pinyinInitial?: string;
+  cardCount?: number;
+  cardType?: string | null;
+  balanceAmount?: number | null;
+  balanceUnit?: string | null;
+  lastAppointDate?: string | null;
+  /** 请假到期日（对标原版 holidayDate 行内 chip） */
+  holidayDate?: string | null;
+  /** 备注提示（对标原版 hintMsg 行内 chip） */
+  hintMsg?: string | null;
 }
 
 export interface CrmPagination {
@@ -207,6 +236,8 @@ export interface StaffMemberCardSummary {
   validFrom: string | null;
   validUntil: string | null;
   issuedAt: string | null;
+  staffRemark?: string | null;
+  openingType?: string | null;
 }
 
 export interface StaffBookingHistoryItem {
@@ -214,6 +245,7 @@ export interface StaffBookingHistoryItem {
   siteId: number;
   sessionId: number;
   status: string;
+  memberCardId?: number | null;
   bookedAt: string | null;
   cancelledAt: string | null;
   absentMarkedAt: string | null;
@@ -234,6 +266,10 @@ export interface CrmMemberCreateInput {
   mobile?: string | null;
   gender?: "male" | "female" | "undisclosed" | null;
   birthDate?: string | null;
+  nationalId?: string | null;
+  heightCm?: number | null;
+  weightKg?: number | null;
+  ownerStaffId?: number | null;
   assignToMe?: boolean;
 }
 
@@ -243,11 +279,15 @@ export interface CrmMemberUpdateInput {
   mobile?: string | null;
   gender?: "male" | "female" | "undisclosed" | null;
   birthDate?: string | null;
+  nationalId?: string | null;
+  heightCm?: number | null;
+  weightKg?: number | null;
+  ownerStaffId?: number | null;
 }
 
 export interface CrmMemberStatusTransitionInput {
   version: number;
-  targetStatus: "active" | "frozen";
+  targetStatus: "active" | "frozen" | "closed";
   reason: string;
 }
 
@@ -282,4 +322,6 @@ export const CRM_MEMBER_FILTER_STORAGE_KEY = "crm_member_list_filters";
 export interface CrmStoredMemberFilters {
   label?: string;
   query: CrmFilterPresetQuery;
+  /** 筛选页点清除时写入，主页读到后重置 sumMode/runOff/flag */
+  cleared?: boolean;
 }

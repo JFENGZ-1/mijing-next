@@ -15,6 +15,7 @@ import type {
   CrmMemberStatusTransitionInput,
   CrmMemberTagsInput,
   CrmMemberUpdateInput,
+  CrmSalesStaff,
   CrmTag,
   MemberLinkReview,
   MemberLinkReviewDecisionInput,
@@ -40,6 +41,10 @@ export async function fetchCrmDashboardSummary(siteId: number) {
 
 export async function fetchCrmMemberFilterPresets(siteId: number) {
   return useApiClient().request<CrmMemberFilterPresets>(sitePath(siteId, "/crm/member-filter-presets"));
+}
+
+export async function fetchCrmSalesStaff(siteId: number) {
+  return useApiClient().request<{ items: CrmSalesStaff[] }>(sitePath(siteId, "/crm/sales-staff"));
 }
 
 export async function fetchCrmMembers(siteId: number, query: CrmMemberListQuery = {}) {

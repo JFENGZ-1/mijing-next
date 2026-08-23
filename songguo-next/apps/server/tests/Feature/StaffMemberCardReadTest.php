@@ -63,7 +63,19 @@ class StaffMemberCardReadTest extends TestCase
             ->assertOk()
             ->assertJsonPath('data.id', $card->id)
             ->assertJsonPath('data.snapshot.name', '计次权益卡')
-            ->assertJsonPath('data.cachedRemainingCount', 4);
+            ->assertJsonPath('data.cachedRemainingCount', 4)
+            ->assertJsonPath('data.issuedByStaffName', null)
+            ->assertJsonStructure([
+                'data' => [
+                    'paidAmount',
+                    'unitConvert',
+                    'consumedAmount',
+                    'residualValue',
+                    'initialTotal',
+                    'holidaySummary' => ['count', 'days'],
+                    'freezeSummary' => ['count', 'days'],
+                ],
+            ]);
 
         $this->getJson("/api/v1/staff/sites/{$site->id}/member-cards/{$card->id}/benefits")
             ->assertOk()
@@ -135,6 +147,30 @@ class StaffMemberCardReadTest extends TestCase
             ->assertOk()
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.id', $active->id);
+    }
+
+    public function test_staff_card_detail_enriches_issuer_and_metrics(): void
+    {
+        [$staff, $site, $member] = $this->actAsStaff(['member-card.read']);
+        $card = $this->createCard($site, $member, 'MC-METRICS', MemberCardStatus::Active, CardType::StoredValue, [
+            'cached_balance' => 40,
+            'issued_by_staff_id' => $staff->id,
+            'product_snapshot' => [
+                'name' => '储值卡',
+                'cardType' => 'stored_value',
+                'price' => '100.00',
+                'faceValue' => '100.00',
+            ],
+        ]);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/member-cards/{$card->id}")
+            ->assertOk()
+            ->assertJsonPath('data.issuedByStaffName', 'Card Reader')
+            ->assertJsonPath('data.paidAmount', '100.00')
+            ->assertJsonPath('data.unitConvert', '1.00')
+            ->assertJsonPath('data.initialTotal', '100.00')
+            ->assertJsonPath('data.holidaySummary.count', 0)
+            ->assertJsonPath('data.freezeSummary.count', 0);
     }
 
     /**

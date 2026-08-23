@@ -15,6 +15,363 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthEnvelope"
+  /admin/auth/login:
+    post:
+      operationId: loginSuperAdmin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SuperAdminLoginRequest" }
+      responses:
+        "200":
+          description: Super administrator authenticated with an independent admin session
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SuperAdminLoginEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/auth/logout:
+    post:
+      operationId: logoutSuperAdmin
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Current super administrator token revoked
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LogoutEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+  /admin/me:
+    get:
+      operationId: getSuperAdminProfile
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Current platform super administrator profile
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SuperAdminProfileEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+  /admin/dashboard:
+    get:
+      operationId: getAdminDashboard
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Cross-tenant platform dashboard
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminDashboardEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+  /admin/tenants:
+    get:
+      operationId: listAdminTenants
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { type: string, maxLength: 24 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200":
+          description: Cross-tenant tenant directory
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminTenantListEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+  /admin/members:
+    get:
+      operationId: listAdminMembers
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: tenantId, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/CrmMemberStatus" } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200":
+          description: Cross-tenant member directory with masked mobile numbers
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminMemberListEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+  /admin/settings/payments/wechat:
+    get:
+      operationId: getAdminWechatPaymentConfig
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Safe WeChat payment configuration without secret values
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminWechatPaymentConfigEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    put:
+      operationId: updateAdminWechatPaymentConfig
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateAdminWechatPaymentConfigRequest" }
+      responses:
+        "200":
+          description: WeChat payment configuration updated using optimistic locking
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminWechatPaymentConfigEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/media-assets:
+    get:
+      operationId: listAdminMediaAssets
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: kind, in: query, schema: { type: string, enum: [image, video] } }
+        - { name: status, in: query, schema: { type: string, enum: [draft, published, archived] } }
+        - { name: tenantId, in: query, schema: { type: integer, minimum: 1, nullable: true } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200":
+          description: Platform-managed image and video resources
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminMediaAssetListEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createAdminMediaAsset
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema: { $ref: "#/components/schemas/CreateAdminMediaAssetRequest" }
+      responses:
+        "201":
+          description: Draft media asset uploaded
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminMediaAssetEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/media-assets/{mediaAsset}:
+    parameters:
+      - name: mediaAsset
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    put:
+      operationId: updateAdminMediaAsset
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateAdminMediaAssetRequest" }
+      responses:
+        "200":
+          description: Media asset metadata updated with optimistic locking
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminMediaAssetEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/media-assets/{mediaAsset}/publish:
+    parameters:
+      - name: mediaAsset
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    post:
+      operationId: publishAdminMediaAsset
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AdminVersionRequest" }
+      responses:
+        "200":
+          description: Media asset published for public consumption
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminMediaAssetEnvelope" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/media-assets/{mediaAsset}/archive:
+    parameters:
+      - name: mediaAsset
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    post:
+      operationId: archiveAdminMediaAsset
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AdminVersionRequest" }
+      responses:
+        "200":
+          description: Media asset archived
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminMediaAssetEnvelope" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/media-assets/{mediaAsset}/content:
+    parameters:
+      - name: mediaAsset
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    get:
+      operationId: getAdminMediaAssetContent
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Private inline media bytes for an authenticated super administrator
+          content:
+            application/octet-stream:
+              schema: { type: string, format: binary }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /media/{uuid}:
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      operationId: getPublishedMediaAsset
+      responses:
+        "200":
+          description: Public immutable bytes for a published media asset
+          content:
+            application/octet-stream:
+              schema: { type: string, format: binary }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /admin/queues/overview:
+    get:
+      operationId: getAdminQueueOverview
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Cross-queue platform workload overview
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminQueueOverviewEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+  /admin/queues/jobs:
+    get:
+      operationId: listAdminQueueJobs
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: queue, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { type: string, enum: [ready, reserved, delayed] } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200":
+          description: Pending, reserved and delayed queue jobs
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminQueueJobListEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+  /admin/queues/failed:
+    get:
+      operationId: listAdminFailedJobs
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: queue, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200":
+          description: Failed queue jobs across tenants
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminFailedJobListEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+  /admin/queues/batches:
+    get:
+      operationId: listAdminJobBatches
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200":
+          description: Queue job batches
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminJobBatchListEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+  /admin/queues/failed/{uuid}/retry:
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      operationId: retryAdminFailedJob
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Failed job returned to its queue
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminFailedJobActionEnvelope" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /admin/queues/failed/{uuid}:
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    delete:
+      operationId: forgetAdminFailedJob
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Failed job permanently forgotten
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminFailedJobActionEnvelope" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /admin/audit-logs:
+    get:
+      operationId: listAdminAuditLogs
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: method, in: query, schema: { type: string, enum: [POST, PUT, PATCH, DELETE] } }
+        - { name: status, in: query, schema: { type: string, enum: [success, failure] } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200":
+          description: Safe metadata for sensitive super administrator write operations; request bodies, secrets, queue payloads and full exceptions are never returned
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminAuditLogListEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
   /auth/wechat/login:
     post:
       operationId: loginWithWechat
@@ -758,6 +1115,55 @@ paths:
       responses:
         "200":
           description: Member order detail including issued card summary
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MemberSelfOrderEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /member/orders/{order}/payment:
+    parameters:
+      - name: order
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    post:
+      operationId: resumeMemberOrderPayment
+      x-required-client: member
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: tenantId
+          in: query
+          required: true
+          schema: { type: integer, minimum: 1 }
+      responses:
+        "200":
+          description: Pending order checkout returned so the miniapp can invoke WeChat payment again
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MemberOrderPaymentResumeEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /member/orders/{order}/sync-payment:
+    parameters:
+      - name: order
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    post:
+      operationId: syncMemberOrderPayment
+      x-required-client: member
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: tenantId
+          in: query
+          required: true
+          schema: { type: integer, minimum: 1 }
+      responses:
+        "200":
+          description: Payment channel queried and paid order fulfilled when the webhook was delayed
           content:
             application/json:
               schema: { $ref: "#/components/schemas/MemberSelfOrderEnvelope" }
@@ -3439,7 +3845,7 @@ paths:
               required: [version, targetStatus, reason]
               properties:
                 version: { type: integer, minimum: 1 }
-                targetStatus: { type: string, enum: [active, frozen] }
+                targetStatus: { type: string, enum: [active, frozen, closed] }
                 reason: { type: string, maxLength: 500 }
       responses:
         "200":
@@ -5868,8 +6274,19 @@ paths:
       x-required-client: staff
       security:
         - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ScheduleExportImageRequest" }
       responses:
-        "200": { description: OK }
+        "200":
+          description: Downloadable PNG schedule generated for up to 31 days
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScheduleExportImageEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+        "503": { $ref: "#/components/responses/ServiceUnavailable" }
   /staff/sites/{site}/member-cards/batch-balance-adjustments:
     post:
       operationId: batchBalanceAdjustStaffMemberCards
@@ -6770,7 +7187,7 @@ components:
         commandKey: { type: string, format: uuid }
     MemberCardPurchaseResult:
       type: object
-      required: [order, memberCard]
+      required: [order]
       properties:
         order:
           type: object
@@ -6797,6 +7214,38 @@ components:
             cachedRemainingCount: { type: integer, nullable: true }
             validFrom: { type: string, format: date, nullable: true }
             validUntil: { type: string, format: date, nullable: true }
+        payment: { $ref: "#/components/schemas/MemberPaymentCheckout" }
+    MemberPaymentCheckout:
+      type: object
+      required: [driver, autoPaid]
+      properties:
+        driver: { type: string, enum: [wechat, demo] }
+        autoPaid: { type: boolean }
+        configured: { type: boolean }
+        orderNo: { type: string }
+        prepayId: { type: string }
+        paymentParams:
+          type: object
+          required: [timeStamp, nonceStr, package, signType, paySign]
+          properties:
+            appId: { type: string }
+            timeStamp: { type: string }
+            nonceStr: { type: string }
+            package: { type: string }
+            signType: { type: string, enum: [RSA] }
+            paySign: { type: string }
+    MemberOrderPaymentResumeResult:
+      type: object
+      required: [order, payment]
+      properties:
+        order: { $ref: "#/components/schemas/MemberSelfOrderSummary" }
+        payment: { $ref: "#/components/schemas/MemberPaymentCheckout" }
+    MemberOrderPaymentResumeEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/MemberOrderPaymentResumeResult" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
     MemberCardPurchaseEnvelope:
       type: object
       required: [data, requestId]
@@ -7217,6 +7666,9 @@ components:
         mobileVerified: { type: boolean }
         gender: { type: string, enum: [male, female, undisclosed], nullable: true }
         birthDate: { type: string, format: date, nullable: true }
+        nationalIdMasked: { type: string, nullable: true, description: Masked value; the plaintext identity number is never returned }
+        heightCm: { type: number, format: float, nullable: true, minimum: 30, maximum: 300 }
+        weightKg: { type: number, format: float, nullable: true, minimum: 2, maximum: 500 }
         status: { $ref: "#/components/schemas/CrmMemberStatus" }
         appAccessStatus: { type: string, enum: [allowed, blocked] }
         owner:
@@ -7232,8 +7684,42 @@ components:
         hasStickyRemark: { type: boolean }
         version: { type: integer, minimum: 1 }
         joinedAt: { type: string, format: date-time, nullable: true }
+        avatarUrl: { type: string, nullable: true }
+        pinyinInitial: { type: string, nullable: true }
+        cardCount: { type: integer, nullable: true, minimum: 0 }
+        cardType: { type: string, nullable: true, enum: [stored_value, count, period] }
+        balanceAmount: { type: number, nullable: true }
+        balanceUnit: { type: string, nullable: true, enum: [元, 次, 天] }
+        lastAppointDate: { type: string, format: date, nullable: true }
+        holidayDate: { type: string, format: date, nullable: true }
+        hintMsg: { type: string, nullable: true }
         notesCount: { type: integer }
         accountLinked: { type: boolean }
+        metrics: { $ref: "#/components/schemas/CrmMemberMetrics" }
+    CrmMemberMetrics:
+      type: object
+      required:
+        - totalPayAmount
+        - groupMonthCount
+        - groupTotalCount
+        - privateMonthCount
+        - privateTotalCount
+        - absenceMonthCount
+        - absenceTotalCount
+        - consumedAmount
+        - residualValue
+        - noClassDays
+      properties:
+        totalPayAmount: { type: string, nullable: true, pattern: "^-?[0-9]+\\.[0-9]{2}$" }
+        groupMonthCount: { type: integer, nullable: true, minimum: 0 }
+        groupTotalCount: { type: integer, nullable: true, minimum: 0 }
+        privateMonthCount: { type: integer, nullable: true, minimum: 0 }
+        privateTotalCount: { type: integer, nullable: true, minimum: 0 }
+        absenceMonthCount: { type: integer, nullable: true, minimum: 0 }
+        absenceTotalCount: { type: integer, nullable: true, minimum: 0 }
+        consumedAmount: { type: string, nullable: true, pattern: "^-?[0-9]+\\.[0-9]{2}$" }
+        residualValue: { type: string, nullable: true, pattern: "^-?[0-9]+\\.[0-9]{2}$" }
+        noClassDays: { type: integer, nullable: true, minimum: 0 }
     CrmMemberEnvelope:
       type: object
       required: [data, requestId]
@@ -9220,6 +9706,10 @@ components:
         mobile: { type: string, nullable: true, maxLength: 24 }
         gender: { type: string, enum: [male, female, undisclosed], nullable: true }
         birthDate: { type: string, format: date, nullable: true }
+        nationalId: { type: string, nullable: true, minLength: 6, maxLength: 32, writeOnly: true }
+        heightCm: { type: number, nullable: true, minimum: 30, maximum: 300 }
+        weightKg: { type: number, nullable: true, minimum: 2, maximum: 500 }
+        ownerStaffId: { type: integer, nullable: true, minimum: 1 }
         assignToMe: { type: boolean, default: true }
     UpdateCrmMemberRequest:
       type: object
@@ -9230,6 +9720,10 @@ components:
         mobile: { type: string, nullable: true, maxLength: 24 }
         gender: { type: string, enum: [male, female, undisclosed], nullable: true }
         birthDate: { type: string, format: date, nullable: true }
+        nationalId: { type: string, nullable: true, minLength: 6, maxLength: 32, writeOnly: true }
+        heightCm: { type: number, nullable: true, minimum: 30, maximum: 300 }
+        weightKg: { type: number, nullable: true, minimum: 2, maximum: 500 }
+        ownerStaffId: { type: integer, nullable: true, minimum: 1 }
     UpdateCrmMemberStickyRemarkRequest:
       type: object
       required: [version, stickyRemark]
@@ -11251,4 +11745,452 @@ components:
       required: [data, requestId]
       properties:
         data: { $ref: "#/components/schemas/PayrollRecomputeJobList" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    SuperAdminLoginRequest:
+      type: object
+      required: [login, password]
+      properties:
+        login: { type: string, maxLength: 190 }
+        password: { type: string, format: password, maxLength: 255, writeOnly: true }
+        deviceName: { type: string, maxLength: 100, default: admin-web }
+    SuperAdminProfile:
+      type: object
+      required: [id, username, name, role, permissions]
+      properties:
+        id: { type: integer, minimum: 1 }
+        username: { type: string }
+        name: { type: string }
+        email: { type: string, format: email, nullable: true }
+        role: { type: string, enum: [platform_super_admin] }
+        permissions:
+          type: array
+          items: { type: string }
+        lastLoginAt: { type: string, format: date-time, nullable: true }
+    SuperAdminProfileEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/SuperAdminProfile" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    SuperAdminLoginEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [accessToken, tokenType, expiresAt, admin]
+          properties:
+            accessToken: { type: string }
+            tokenType: { type: string, enum: [Bearer] }
+            expiresAt: { type: string, format: date-time }
+            admin: { $ref: "#/components/schemas/SuperAdminProfile" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminTenantSummary:
+      type: object
+      required: [id, name, code, status, siteCount]
+      properties:
+        id: { type: integer, minimum: 1 }
+        name: { type: string }
+        code: { type: string }
+        status: { type: string }
+        timezone: { type: string, nullable: true }
+        siteCount: { type: integer, minimum: 0 }
+        memberCount: { type: integer, minimum: 0 }
+        staffCount: { type: integer, minimum: 0 }
+        createdAt: { type: string, format: date-time, nullable: true }
+    AdminDashboardEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [totals, tenantStatus, recentTenants, generatedAt]
+          properties:
+            totals:
+              type: object
+              required: [tenants, sites, accounts, members, staff, paidRevenue]
+              properties:
+                tenants: { type: integer, minimum: 0 }
+                sites: { type: integer, minimum: 0 }
+                accounts: { type: integer, minimum: 0 }
+                members: { type: integer, minimum: 0 }
+                staff: { type: integer, minimum: 0 }
+                paidRevenue: { type: string }
+            tenantStatus:
+              type: object
+              additionalProperties: { type: integer, minimum: 0 }
+            recentTenants:
+              type: array
+              items: { $ref: "#/components/schemas/AdminTenantSummary" }
+            generatedAt: { type: string, format: date-time }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminTenantListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items:
+              type: array
+              items: { $ref: "#/components/schemas/AdminTenantSummary" }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminMemberSummary:
+      type: object
+      required: [id, memberNo, name, status]
+      properties:
+        id: { type: integer, minimum: 1 }
+        memberNo: { type: string }
+        name: { type: string }
+        mobile: { type: string, nullable: true, description: Masked mobile number }
+        tenant:
+          type: object
+          nullable: true
+          properties:
+            id: { type: integer, minimum: 1 }
+            name: { type: string }
+            code: { type: string }
+        homeSite:
+          type: object
+          nullable: true
+          properties:
+            id: { type: integer, minimum: 1 }
+            name: { type: string }
+        status: { $ref: "#/components/schemas/CrmMemberStatus" }
+        joinedAt: { type: string, format: date-time, nullable: true }
+    AdminMemberListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items:
+              type: array
+              items: { $ref: "#/components/schemas/AdminMemberSummary" }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminWechatPaymentConfig:
+      type: object
+      required:
+        - exists
+        - source
+        - enabled
+        - hasPrivateKey
+        - hasApiV3Key
+        - hasPlatformPublicKey
+        - hasWebhookSecret
+        - configured
+        - version
+      properties:
+        exists: { type: boolean }
+        source: { type: string, enum: [environment, database] }
+        enabled: { type: boolean }
+        merchantId: { type: string, nullable: true }
+        merchantSerialNo: { type: string, nullable: true }
+        platformPublicKeyId: { type: string, nullable: true }
+        notifyUrl: { type: string, format: uri, nullable: true }
+        hasPrivateKey: { type: boolean }
+        hasApiV3Key: { type: boolean }
+        hasPlatformPublicKey: { type: boolean }
+        hasWebhookSecret: { type: boolean }
+        configured: { type: boolean }
+        version: { type: integer, minimum: 0 }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedBy:
+          type: object
+          nullable: true
+          properties:
+            id: { type: integer, minimum: 1 }
+            username: { type: string }
+            name: { type: string }
+    AdminWechatPaymentConfigEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/AdminWechatPaymentConfig" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    UpdateAdminWechatPaymentConfigRequest:
+      type: object
+      required: [version, enabled]
+      properties:
+        version: { type: integer, minimum: 0 }
+        enabled: { type: boolean }
+        merchantId: { type: string, nullable: true, maxLength: 64 }
+        merchantSerialNo: { type: string, nullable: true, maxLength: 128 }
+        privateKey: { type: string, nullable: true, maxLength: 20000, writeOnly: true }
+        apiV3Key: { type: string, nullable: true, minLength: 32, maxLength: 32, writeOnly: true }
+        platformPublicKey: { type: string, nullable: true, maxLength: 20000, writeOnly: true }
+        platformPublicKeyId: { type: string, nullable: true, maxLength: 128 }
+        notifyUrl: { type: string, format: uri, nullable: true, maxLength: 500 }
+        webhookSecret: { type: string, nullable: true, minLength: 32, maxLength: 500, writeOnly: true }
+        clearSecrets:
+          type: array
+          items:
+            type: string
+            enum: [privateKey, apiV3Key, platformPublicKey, webhookSecret]
+    AdminVersionRequest:
+      type: object
+      required: [version]
+      properties:
+        version: { type: integer, minimum: 1 }
+    CreateAdminMediaAssetRequest:
+      type: object
+      required: [file]
+      properties:
+        file:
+          type: string
+          format: binary
+          description: JPEG, PNG, WebP, GIF, MP4, WebM or QuickTime media
+        tenantId: { type: integer, nullable: true, minimum: 1 }
+        title: { type: string, nullable: true, maxLength: 160 }
+        altText: { type: string, nullable: true, maxLength: 500 }
+    UpdateAdminMediaAssetRequest:
+      type: object
+      required: [version]
+      properties:
+        version: { type: integer, minimum: 1 }
+        tenantId: { type: integer, nullable: true, minimum: 1 }
+        title: { type: string, nullable: true, maxLength: 160 }
+        altText: { type: string, nullable: true, maxLength: 500 }
+    AdminMediaAsset:
+      type: object
+      required:
+        - id
+        - uuid
+        - kind
+        - status
+        - originalName
+        - mimeType
+        - sizeBytes
+        - checksumSha256
+        - previewUrl
+        - previewPath
+        - version
+      properties:
+        id: { type: integer, minimum: 1 }
+        uuid: { type: string, format: uuid }
+        kind: { type: string, enum: [image, video] }
+        status: { type: string, enum: [draft, published, archived] }
+        title: { type: string, nullable: true }
+        altText: { type: string, nullable: true }
+        originalName: { type: string }
+        mimeType: { type: string }
+        extension: { type: string, nullable: true }
+        sizeBytes: { type: integer, minimum: 0 }
+        width: { type: integer, nullable: true, minimum: 1 }
+        height: { type: integer, nullable: true, minimum: 1 }
+        durationSeconds: { type: integer, nullable: true, minimum: 0 }
+        checksumSha256: { type: string, minLength: 64, maxLength: 64 }
+        tenant: { $ref: "#/components/schemas/AdminMediaTenant" }
+        uploadedBy: { $ref: "#/components/schemas/AdminMediaUploader" }
+        previewUrl: { type: string, format: uri }
+        previewPath: { type: string }
+        publishedUrl: { type: string, format: uri, nullable: true }
+        version: { type: integer, minimum: 1 }
+        publishedAt: { type: string, format: date-time, nullable: true }
+        createdAt: { type: string, format: date-time, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+    AdminMediaTenant:
+      type: object
+      nullable: true
+      properties:
+        id: { type: integer, minimum: 1 }
+        name: { type: string }
+        code: { type: string }
+    AdminMediaUploader:
+      type: object
+      nullable: true
+      properties:
+        id: { type: integer, minimum: 1 }
+        username: { type: string }
+        name: { type: string }
+    AdminMediaAssetEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/AdminMediaAsset" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminMediaAssetListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items:
+              type: array
+              items: { $ref: "#/components/schemas/AdminMediaAsset" }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminQueueOverviewEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [connection, driver, totals, queues, generatedAt]
+          properties:
+            connection: { type: string }
+            driver: { type: string }
+            totals:
+              type: object
+              required: [ready, reserved, delayed, failed, batchesPending]
+              properties:
+                ready: { type: integer, minimum: 0 }
+                reserved: { type: integer, minimum: 0 }
+                delayed: { type: integer, minimum: 0 }
+                failed: { type: integer, minimum: 0 }
+                batchesPending: { type: integer, minimum: 0 }
+            queues:
+              type: array
+              items:
+                type: object
+                required: [name, ready, reserved, delayed, failed, oldestWaitSeconds]
+                properties:
+                  name: { type: string }
+                  ready: { type: integer, minimum: 0 }
+                  reserved: { type: integer, minimum: 0 }
+                  delayed: { type: integer, minimum: 0 }
+                  failed: { type: integer, minimum: 0 }
+                  oldestWaitSeconds: { type: integer, minimum: 0 }
+            generatedAt: { type: string, format: date-time }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminQueueJob:
+      type: object
+      required: [id, queue, name, status, attempts, createdAt, availableAt]
+      properties:
+        id: { type: integer, minimum: 1 }
+        queue: { type: string }
+        name: { type: string }
+        status: { type: string, enum: [ready, reserved, delayed] }
+        attempts: { type: integer, minimum: 0 }
+        createdAt: { type: string, format: date-time }
+        availableAt: { type: string, format: date-time }
+        reservedAt: { type: string, format: date-time, nullable: true }
+    AdminFailedJob:
+      type: object
+      required: [id, uuid, connection, queue, name, exception, failedAt]
+      properties:
+        id: { type: integer, minimum: 1 }
+        uuid: { type: string, format: uuid }
+        connection: { type: string }
+        queue: { type: string }
+        name: { type: string }
+        exception: { type: string }
+        failedAt: { type: string, format: date-time }
+    AdminJobBatch:
+      type: object
+      required: [id, name, totalJobs, pendingJobs, failedJobs, createdAt]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        totalJobs: { type: integer, minimum: 0 }
+        pendingJobs: { type: integer, minimum: 0 }
+        failedJobs: { type: integer, minimum: 0 }
+        cancelledAt: { type: string, format: date-time, nullable: true }
+        createdAt: { type: string, format: date-time }
+        finishedAt: { type: string, format: date-time, nullable: true }
+    AdminQueueJobListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminQueueJob" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminFailedJobListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminFailedJob" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminJobBatchListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminJobBatch" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminFailedJobActionEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [uuid]
+          properties:
+            uuid: { type: string, format: uuid }
+            retried: { type: boolean }
+            forgotten: { type: boolean }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminAuditLog:
+      type: object
+      required: [id, action, method, path, statusCode]
+      description: Safe metadata only; no request body, secret value, queue payload or full exception text.
+      properties:
+        id: { type: integer, minimum: 1 }
+        actor:
+          type: object
+          nullable: true
+          properties:
+            id: { type: integer, minimum: 1 }
+            username: { type: string }
+            name: { type: string }
+        action: { type: string }
+        method: { type: string, enum: [POST, PUT, PATCH, DELETE] }
+        path: { type: string }
+        subject: { type: object, nullable: true, additionalProperties: true }
+        requestId: { type: string, format: uuid, nullable: true }
+        statusCode: { type: integer, minimum: 100, maximum: 599 }
+        ipAddress: { type: string, nullable: true }
+        occurredAt: { type: string, format: date-time, nullable: true }
+    AdminAuditLogListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminAuditLog" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    ScheduleExportImageRequest:
+      type: object
+      required: [from, to]
+      properties:
+        from: { type: string, format: date }
+        to: { type: string, format: date }
+    ScheduleExportImageResult:
+      type: object
+      required: [imageUrl, width, height, placeholder, from, to]
+      properties:
+        imageUrl: { type: string, format: uri }
+        width: { type: integer, minimum: 1 }
+        height: { type: integer, minimum: 1 }
+        placeholder: { type: boolean, enum: [false] }
+        from: { type: string, format: date }
+        to: { type: string, format: date }
+    ScheduleExportImageEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/ScheduleExportImageResult" }
         requestId: { $ref: "#/components/schemas/RequestId" }

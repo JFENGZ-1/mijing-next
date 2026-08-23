@@ -39,20 +39,29 @@ class StaffBookingHistoryController extends Controller
             ->orderByDesc('id');
 
         if ($scope === 'past') {
-            $query->whereIn('status', [
-                AppointmentStatus::Cancelled,
-                AppointmentStatus::Absent,
-                AppointmentStatus::Completed,
-            ]);
+            // 含已结束仍为 confirmed 的预约（对标管理端上课统计，不只看终态）
+            $query->where(function ($builder) {
+                $builder->whereIn('status', [
+                    AppointmentStatus::Cancelled,
+                    AppointmentStatus::Absent,
+                    AppointmentStatus::Completed,
+                ])->orWhere(function ($inner) {
+                    $inner->where('status', AppointmentStatus::Confirmed)
+                        ->whereHas('session', fn ($session) => $session->where('starts_at', '<', now()));
+                });
+            });
         } else {
             $query->whereIn('status', [
                 AppointmentStatus::Confirmed,
                 AppointmentStatus::Waitlisted,
-            ]);
+            ])->where(function ($builder) {
+                $builder->whereDoesntHave('session')
+                    ->orWhereHas('session', fn ($session) => $session->where('starts_at', '>=', now()));
+            });
         }
 
         $items = $query
-            ->limit(50)
+            ->limit(200)
             ->get()
             ->map(fn (Appointment $appointment) => StaffMemberBookingHistoryPresenter::toArray($appointment))
             ->values()

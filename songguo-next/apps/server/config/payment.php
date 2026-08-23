@@ -2,6 +2,7 @@
 
 return [
     'driver' => env('PAYMENT_DRIVER', 'demo'),
+    'order_ttl_minutes' => max(1, (int) env('PAYMENT_ORDER_TTL_MINUTES', 5)),
 
     'wechat' => [
         // 商户号

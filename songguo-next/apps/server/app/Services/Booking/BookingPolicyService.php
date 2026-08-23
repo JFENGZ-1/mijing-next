@@ -19,6 +19,7 @@ class BookingPolicyService
         return [
             'group' => [
                 'signMinutesBeforeStart' => 30,
+                'autoCheckInMinutesAfterEnd' => 5,
                 'advanceBookingDays' => 7,
                 'advanceBookingDailyCutoffHour' => 0,
                 'advanceBookingDailyCutoffMinute' => 0,
@@ -277,6 +278,7 @@ class BookingPolicyService
 
         return [
             'signMinutesBeforeStart' => max(0, (int) ($group['signMinutesBeforeStart'] ?? $defaults['signMinutesBeforeStart'])),
+            'autoCheckInMinutesAfterEnd' => max(1, (int) ($group['autoCheckInMinutesAfterEnd'] ?? $defaults['autoCheckInMinutesAfterEnd'])),
             'advanceBookingDays' => max(0, (int) ($group['advanceBookingDays'] ?? $defaults['advanceBookingDays'])),
             'advanceBookingDailyCutoffHour' => min(23, max(0, (int) ($group['advanceBookingDailyCutoffHour'] ?? $defaults['advanceBookingDailyCutoffHour']))),
             'advanceBookingDailyCutoffMinute' => min(59, max(0, (int) ($group['advanceBookingDailyCutoffMinute'] ?? $defaults['advanceBookingDailyCutoffMinute']))),

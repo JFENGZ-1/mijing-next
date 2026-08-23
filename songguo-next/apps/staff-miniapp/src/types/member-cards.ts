@@ -6,11 +6,14 @@ export interface StaffMemberCardDetail extends StaffMemberCardSummary {
   snapshot: {
     name?: string | null;
     cardType?: string;
+    price?: string | null;
     faceValue?: string | null;
     initialCount?: number | null;
     validityDays?: number | null;
     activationMode?: string | null;
     productVersion?: string | null;
+    openingType?: string | null;
+    staffRemark?: string | null;
   };
   freezeState: {
     frozenAt?: string;
@@ -18,7 +21,15 @@ export interface StaffMemberCardDetail extends StaffMemberCardSummary {
     holiday?: { startedAt?: string; plannedEndAt?: string; startedByStaffId?: number };
   } | null;
   issuedByStaffId: number | null;
+  issuedByStaffName?: string | null;
   archivedAt: string | null;
+  paidAmount?: string | null;
+  unitConvert?: string | null;
+  consumedAmount?: string | null;
+  residualValue?: string | null;
+  initialTotal?: string | null;
+  holidaySummary?: { count: number; days: number };
+  freezeSummary?: { count: number; days: number };
 }
 
 export interface StaffMemberCardLedgerEntry {

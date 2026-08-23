@@ -2,7 +2,7 @@
 import { computed, ref } from "vue";
 import { onLoad, onPullDownRefresh, onShow } from "@dcloudio/uni-app";
 import { requireMemberAuth } from "@/auth/guard";
-import { getMemberOrder, syncMemberOrderPayment } from "@/api/member";
+import { getMemberOrder, resumeMemberOrderPayment, syncMemberOrderPayment } from "@/api/member";
 import { ensureMemberTenant } from "@/composables/member-context";
 import type { MemberCardWalletSummary, MemberOrderSummary } from "@/types/member";
 import { formatApiErrorMessage } from "@/utils/api-error";
@@ -57,6 +57,59 @@ async function loadOrder(refresh = false) {
 }
 
 const syncing = ref(false);
+const paying = ref(false);
+
+function requestWechatPayment(params: {
+  timeStamp: string;
+  nonceStr: string;
+  package: string;
+  signType: string;
+  paySign: string;
+}) {
+  return new Promise<boolean>((resolve) => {
+    uni.requestPayment({
+      provider: "wxpay",
+      timeStamp: params.timeStamp,
+      nonceStr: params.nonceStr,
+      package: params.package,
+      signType: params.signType as "RSA",
+      paySign: params.paySign,
+      success: () => resolve(true),
+      fail: () => resolve(false),
+    } as UniApp.RequestPaymentOptions);
+  });
+}
+
+async function continuePayment() {
+  if (paying.value || order.value?.status !== "pending_payment") return;
+  paying.value = true;
+  try {
+    const tenant = await ensureMemberTenant();
+    if (!tenant) return;
+    const response = await resumeMemberOrderPayment(tenant.tenantId, orderId.value);
+    order.value = response.data.order;
+    const payment = response.data.payment;
+    if (payment.driver !== "wechat" || payment.configured === false || !payment.paymentParams) {
+      uni.showToast({ title: "微信支付暂不可用，请稍后再试", icon: "none" });
+      return;
+    }
+    const accepted = await requestWechatPayment(payment.paymentParams);
+    if (!accepted) {
+      uni.showToast({ title: "支付未完成，订单仍为待支付", icon: "none" });
+      return;
+    }
+    const synced = await syncMemberOrderPayment(tenant.tenantId, orderId.value);
+    order.value = synced.data;
+    uni.showToast({
+      title: synced.data.status === "paid" ? "支付成功" : "支付结果确认中",
+      icon: synced.data.status === "paid" ? "success" : "none",
+    });
+  } catch (error) {
+    uni.showToast({ title: formatApiErrorMessage(error, "继续支付失败"), icon: "none" });
+  } finally {
+    paying.value = false;
+  }
+}
 
 async function refreshPaymentStatus() {
   if (syncing.value) return;
@@ -172,6 +225,14 @@ onPullDownRefresh(async () => { await loadOrder(); uni.stopPullDownRefresh(); })
         <view
           v-else-if="order.status === 'pending_payment'"
           class="btn btn--primary"
+          :class="{ 'btn--loading': paying }"
+          @tap="continuePayment"
+        >
+          {{ paying ? "支付处理中..." : "继续支付" }}
+        </view>
+        <view
+          v-if="order.status === 'pending_payment'"
+          class="btn btn--plain"
           :class="{ 'btn--loading': syncing }"
           @tap="refreshPaymentStatus"
         >

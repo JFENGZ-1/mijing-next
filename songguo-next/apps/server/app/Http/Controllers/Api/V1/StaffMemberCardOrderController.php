@@ -33,7 +33,7 @@ class StaffMemberCardOrderController extends Controller
 
         return ApiResponse::success([
             'items' => collect($paginator->items())
-                ->map(fn (MemberCardOrder $order) => $orders->orderSummary($order))
+                ->map(fn (MemberCardOrder $order) => $orders->memberOrderDetail($order))
                 ->values()
                 ->all(),
             'pagination' => [

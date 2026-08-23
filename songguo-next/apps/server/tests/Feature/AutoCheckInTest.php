@@ -34,7 +34,7 @@ class AutoCheckInTest extends TestCase
 
     public function test_ended_confirmed_appointment_is_auto_checked_in_and_first_class_card_activates(): void
     {
-        [$tenant, $site, , $card, $session] = $this->seedCheckInFixture(endsAt: now()->subMinutes(10));
+        [$tenant, $site, , $card, $session] = $this->seedCheckInFixture(endsAt: now()->subMinutes(2));
 
         $appointment = $this->makeAppointment($tenant, $site, $card, $session);
 
@@ -65,11 +65,22 @@ class AutoCheckInTest extends TestCase
         $this->assertSame(0, AppointmentEvent::query()->where('appointment_id', $appointment->id)->count());
     }
 
+    public function test_ended_outside_post_class_window_is_not_auto_checked_in(): void
+    {
+        [$tenant, $site, , $card, $session] = $this->seedCheckInFixture(endsAt: now()->subMinutes(10));
+
+        $appointment = $this->makeAppointment($tenant, $site, $card, $session);
+
+        $this->artisan('appointments:auto-check-in')->assertSuccessful();
+
+        $this->assertSame(AppointmentStatus::Confirmed, $appointment->fresh()->status);
+    }
+
     public function test_suspended_or_cancelled_session_is_not_auto_checked_in(): void
     {
         // 停课（suspended）：会员没来上课，不自动签到（等恢复或人工处理）
         [$tenant, $site, , $card, $session] = $this->seedCheckInFixture(
-            endsAt: now()->subMinutes(10),
+            endsAt: now()->subMinutes(2),
             sessionStatus: ScheduleSessionStatus::Suspended,
         );
         $appointment = $this->makeAppointment($tenant, $site, $card, $session);
@@ -81,7 +92,7 @@ class AutoCheckInTest extends TestCase
 
     public function test_rerun_is_idempotent(): void
     {
-        [$tenant, $site, , $card, $session] = $this->seedCheckInFixture(endsAt: now()->subMinutes(10));
+        [$tenant, $site, , $card, $session] = $this->seedCheckInFixture(endsAt: now()->subMinutes(2));
         $appointment = $this->makeAppointment($tenant, $site, $card, $session);
 
         $this->artisan('appointments:auto-check-in')->assertSuccessful();

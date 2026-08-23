@@ -91,15 +91,52 @@
 		},
 		{
 			"path": "pages/members/index",
-			"style": { "navigationBarTitleText": "会员管理", "enablePullDownRefresh": true }
+			"style": {
+				"navigationBarTitleText": "会员管理",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/members/search",
+			"style": {
+				"navigationBarTitleText": "搜索会员",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128"
+			}
+		},
+		{
+			"path": "pages/members/batch-ops",
+			"style": { "navigationBarTitleText": "批量操作" }
+		},
+		{
+			"path": "pages/members/batch-workbench",
+			"style": { "navigationBarTitleText": "批量卡操作", "enablePullDownRefresh": false }
 		},
 		{
 			"path": "pages/members/detail",
-			"style": { "navigationBarTitleText": "会员档案" }
+			"style": {
+				"navigationBarTitleText": "会员档案",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#F5F5F5"
+			}
 		},
 		{
 			"path": "pages/members/card-detail",
-			"style": { "navigationBarTitleText": "会员卡详情" }
+			"style": {
+				"navigationBarTitleText": "会员卡详情",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#F5F5F5"
+			}
 		},
 		{
 			"path": "pages/members/issue-card",
@@ -107,7 +144,31 @@
 		},
 		{
 			"path": "pages/members/form",
-			"style": { "navigationBarTitleText": "会员资料" }
+			"style": {
+				"navigationBarTitleText": "会员资料",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/members/recharge-amount",
+			"style": {
+				"navigationBarTitleText": "累计消费",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"onReachBottomDistance": 80
+			}
+		},
+		{
+			"path": "pages/members/course-stats",
+			"style": {
+				"navigationBarTitleText": "上课统计",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black"
+			}
 		},
 		{
 			"path": "pages/members/link-requests",
@@ -136,19 +197,38 @@
 		},
 		{
 			"path": "pages/members/archived-cards/index",
-			"style": { "navigationBarTitleText": "归档会员卡", "enablePullDownRefresh": true }
+			"style": {
+				"navigationBarTitleText": "删除的卡",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": true
+			}
 		},
 		{
 			"path": "pages/members/points",
-			"style": { "navigationBarTitleText": "会员积分", "enablePullDownRefresh": true }
+			"style": {
+				"navigationBarTitleText": "会员积分",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": true
+			}
 		},
 		{
 			"path": "pages/settings/points-config/index",
 			"style": { "navigationBarTitleText": "积分设置" }
 		},
-		{
+        {
 			"path": "pages/settings/hub/index",
-			"style": { "navigationBarTitleText": "场馆设置", "enablePullDownRefresh": true }
+			"style": {
+				"navigationBarTitleText": "场馆",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FBD128",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#FBD128",
+				"enablePullDownRefresh": true
+			}
 		},
 		{
 			"path": "pages/settings/crm/field-config/index",
@@ -184,7 +264,12 @@
 		},
 		{
 			"path": "pages/settings/booking-policy/index",
-			"style": { "navigationBarTitleText": "预约设置" }
+			"style": {
+				"navigationBarTitleText": "预约设置",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FBD128",
+				"backgroundColor": "#FBD128"
+			}
 		},
 		{
 			"path": "pages/settings/defaults/card-reminder-config/index",

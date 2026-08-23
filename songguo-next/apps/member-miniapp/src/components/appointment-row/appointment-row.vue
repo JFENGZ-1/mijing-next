@@ -8,14 +8,17 @@ const props = withDefaults(
     item: MemberAppointmentSummary;
     cancellable?: boolean;
     cancelling?: boolean;
+    promotable?: boolean;
+    promoting?: boolean;
     variant?: "card" | "legacy";
   }>(),
-  { cancellable: false, cancelling: false, variant: "card" },
+  { cancellable: false, cancelling: false, promotable: false, promoting: false, variant: "card" },
 );
 
 const emit = defineEmits<{
   (e: "tap"): void;
   (e: "cancel"): void;
+  (e: "promote"): void;
 }>();
 
 const weekdayCn = ["日", "一", "二", "三", "四", "五", "六"];
@@ -121,6 +124,10 @@ function onTap() {
 function onCancel() {
   emit("cancel");
 }
+
+function onPromote() {
+  emit("promote");
+}
 </script>
 
 <template>
@@ -158,9 +165,18 @@ function onCancel() {
           </view>
         </view>
 
-        <view v-if="cancellable" class="row_item row_foot">
+        <view v-if="cancellable || promotable" class="row_item row_foot">
           <view class="foot-left" />
           <view
+            v-if="promotable"
+            class="promote-btn"
+            :class="{ 'promote-btn--disabled': promoting }"
+            @tap.stop="onPromote"
+          >
+            <text>{{ promoting ? "确认中..." : "确认候补" }}</text>
+          </view>
+          <view
+            v-if="cancellable"
             class="cancel-btn"
             :class="{ 'cancel-btn--disabled': cancelling }"
             @tap.stop="onCancel"
@@ -194,8 +210,17 @@ function onCancel() {
       </view>
     </view>
 
-    <view v-if="cancellable" class="card-foot">
+    <view v-if="cancellable || promotable" class="card-foot">
       <view
+        v-if="promotable"
+        class="promote-link"
+        :class="{ 'promote-link--disabled': promoting }"
+        @tap.stop="onPromote"
+      >
+        {{ promoting ? "确认中..." : "确认候补" }}
+      </view>
+      <view
+        v-if="cancellable"
         class="cancel-link"
         :class="{ 'cancel-link--disabled': cancelling }"
         @tap.stop="onCancel"
@@ -358,6 +383,20 @@ function onCancel() {
   line-height: 32rpx;
 }
 
+.promote-btn {
+  margin-right: 12rpx;
+  padding: 6rpx 22rpx;
+  border: 1rpx solid #22c788;
+  border-radius: 30rpx;
+  color: #159b68;
+  font-size: 22rpx;
+  line-height: 32rpx;
+}
+
+.promote-btn--disabled {
+  opacity: 0.5;
+}
+
 .cancel-btn--disabled {
   opacity: 0.5;
 }
@@ -435,6 +474,17 @@ function onCancel() {
   justify-content: flex-end;
   border-top: 1rpx solid #f0f0f0;
   padding-top: 20rpx;
+  gap: 24rpx;
+}
+
+.promote-link {
+  color: #159b68;
+  font-size: 26rpx;
+  padding: 4rpx 12rpx;
+}
+
+.promote-link--disabled {
+  color: #c0c0c0;
 }
 
 .cancel-link {

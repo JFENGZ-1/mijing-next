@@ -27,7 +27,9 @@ import type {
   MemberYearStats,
   MemberCardTransferPreview,
   MemberOrderList,
+  MemberOrderPaymentResumeResult,
   MemberOrderSummary,
+  MemberSiteClosureStatus,
   MemberSitePublicDetail,
   MemberCardBenefits,
   LegalDocumentData,
@@ -148,6 +150,20 @@ export async function cancelMemberAppointment(
 ) {
   return useApiClient().request<MemberAppointment>(
     `/member/booking/appointments/${appointmentId}/cancel?${tenantQuery(tenantId)}`,
+    {
+      method: "POST",
+      data: { commandKey },
+    },
+  );
+}
+
+export async function promoteMemberAppointment(
+  tenantId: number,
+  appointmentId: number,
+  commandKey: string,
+) {
+  return useApiClient().request<MemberAppointment>(
+    `/member/booking/appointments/${appointmentId}/promote?${tenantQuery(tenantId)}`,
     {
       method: "POST",
       data: { commandKey },
@@ -357,6 +373,13 @@ export async function syncMemberOrderPayment(tenantId: number, orderId: number) 
   );
 }
 
+export async function resumeMemberOrderPayment(tenantId: number, orderId: number) {
+  return useApiClient().request<MemberOrderPaymentResumeResult>(
+    `/member/orders/${orderId}/payment?${tenantQuery(tenantId)}`,
+    { method: "POST" },
+  );
+}
+
 export async function getMemberLegalDocuments() {
   return useApiClient().request<LegalDocumentData[]>("/member/legal-documents");
 }
@@ -364,6 +387,12 @@ export async function getMemberLegalDocuments() {
 export async function getMemberSitePublicDetail(tenantId: number, siteId: number) {
   return useApiClient().request<MemberSitePublicDetail>(
     `/member/sites/${siteId}/public-detail?${tenantQuery(tenantId)}`,
+  );
+}
+
+export async function getMemberSiteClosureStatus(tenantId: number, siteId: number) {
+  return useApiClient().request<MemberSiteClosureStatus>(
+    `/member/sites/${siteId}/closure-status?${tenantQuery(tenantId)}`,
   );
 }
 

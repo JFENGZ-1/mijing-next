@@ -282,7 +282,7 @@ export async function updateScheduleDisplayConfig(siteId: number, payload: Sched
   return response.data;
 }
 
-// 下载课表图片（原版 getArrangeImage；后端当前为占位实现）
+// 下载课表图片（原版 getArrangeImage）
 export async function exportScheduleImage(siteId: number, from: string, to: string) {
   const response = await useApiClient().request<{
     imageUrl: string;

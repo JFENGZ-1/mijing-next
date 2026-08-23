@@ -14,6 +14,10 @@ class UpdateStaffMemberRequest extends ApiFormRequest
             'mobile' => ['sometimes', 'nullable', 'string', 'max:24', 'regex:/^\+?[0-9 -]{7,24}$/'],
             'gender' => ['sometimes', 'nullable', 'string', 'in:male,female,undisclosed'],
             'birthDate' => ['sometimes', 'nullable', 'date_format:Y-m-d', 'before_or_equal:today'],
+            'nationalId' => ['sometimes', 'nullable', 'string', 'max:32', 'regex:/^[0-9A-Za-z -]{6,32}$/'],
+            'heightCm' => ['sometimes', 'nullable', 'numeric', 'between:30,300'],
+            'weightKg' => ['sometimes', 'nullable', 'numeric', 'between:2,500'],
+            'ownerStaffId' => ['sometimes', 'nullable', 'integer', 'min:1'],
         ];
     }
 }

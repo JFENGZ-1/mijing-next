@@ -32,6 +32,48 @@ class MemberCardPurchaseService
         return $this->paymentGateway;
     }
 
+    /**
+     * Return a member-owned pending order checkout so the miniapp can invoke wx.requestPayment again.
+     * Existing signed checkout parameters are reused; a missing checkout is rebuilt through the active gateway.
+     *
+     * @return array<string, mixed>
+     */
+    public function resumePayment(Account $account, Member $member, MemberCardOrder $order): array
+    {
+        abort_unless(
+            $order->tenant_id === $member->tenant_id && $order->member_id === $member->id,
+            404,
+        );
+        abort_unless($order->status === MemberCardOrderStatus::PendingPayment, 409, 'ORDER_PAYMENT_INVALID');
+
+        $metadata = $order->metadata ?? [];
+        $payment = $metadata['payment'] ?? null;
+        if (is_array($payment) && is_array($payment['paymentParams'] ?? null)) {
+            return $payment;
+        }
+
+        $site = Site::query()
+            ->where('tenant_id', $member->tenant_id)
+            ->whereKey($order->site_id)
+            ->firstOrFail();
+        $product = CardProduct::query()
+            ->where('tenant_id', $member->tenant_id)
+            ->whereKey((int) ($metadata['cardProductId'] ?? 0))
+            ->firstOrFail();
+
+        $payment = $this->paymentGateway->createMemberCardCheckout($order, $account, $member, $site, $product);
+        abort_unless(
+            ($payment['driver'] ?? null) === 'wechat' && is_array($payment['paymentParams'] ?? null),
+            409,
+            'ORDER_PAYMENT_UNAVAILABLE',
+        );
+
+        $metadata['payment'] = $payment;
+        $order->update(['metadata' => $metadata]);
+
+        return $payment;
+    }
+
     public function sellableProductsQuery(Site $site): Builder
     {
         return CardProduct::query()

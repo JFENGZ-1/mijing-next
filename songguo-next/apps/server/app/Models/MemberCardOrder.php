@@ -13,6 +13,8 @@ class MemberCardOrder extends Model
     protected $fillable = [
         'tenant_id', 'site_id', 'member_id', 'member_card_id', 'order_no', 'amount',
         'status', 'command_key', 'metadata', 'created_by_staff_id', 'voided_at',
+        'payment_expires_at', 'closed_at', 'close_reason', 'payment_transaction_id',
+        'payment_state_version',
     ];
 
     protected function casts(): array
@@ -22,6 +24,9 @@ class MemberCardOrder extends Model
             'status' => MemberCardOrderStatus::class,
             'metadata' => 'array',
             'voided_at' => 'datetime',
+            'payment_expires_at' => 'datetime',
+            'closed_at' => 'datetime',
+            'payment_state_version' => 'integer',
         ];
     }
 

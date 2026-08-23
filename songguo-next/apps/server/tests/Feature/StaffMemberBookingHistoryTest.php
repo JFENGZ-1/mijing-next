@@ -63,6 +63,26 @@ class StaffMemberBookingHistoryTest extends TestCase
             ->assertJsonCount(0, 'data.items');
     }
 
+    public function test_past_scope_includes_confirmed_appointments_after_session_start(): void
+    {
+        [$staff, $site, $member, $appointment, $session] = $this->seedHistoryFixture();
+        $session->update([
+            'starts_at' => now()->subHour(),
+            'ends_at' => now()->subMinutes(30),
+        ]);
+        Sanctum::actingAs($staff->account, ['api', 'client:staff', "staff:{$staff->id}", "tenant:{$staff->tenant_id}"]);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/members/{$member->id}/booking-history?scope=past")
+            ->assertOk()
+            ->assertJsonCount(1, 'data.items')
+            ->assertJsonPath('data.items.0.id', $appointment->id)
+            ->assertJsonPath('data.items.0.status', 'confirmed');
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/members/{$member->id}/booking-history?scope=upcoming")
+            ->assertOk()
+            ->assertJsonCount(0, 'data.items');
+    }
+
     public function test_staff_upcoming_lists_coach_sessions(): void
     {
         [$staff, $site, , , $session] = $this->seedHistoryFixture();

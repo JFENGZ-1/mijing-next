@@ -40,6 +40,7 @@ class StaffMemberAccessService
     {
         return Member::query()
             ->where('members.tenant_id', $staff->tenant_id)
+            ->whereNull('members.archived_at')
             ->whereHas('sites', fn ($query) => $query
                 ->whereKey($site->id)
                 ->where('member_sites.tenant_id', $staff->tenant_id)

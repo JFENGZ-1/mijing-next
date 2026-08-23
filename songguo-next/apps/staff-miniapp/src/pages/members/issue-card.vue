@@ -176,7 +176,7 @@ async function submit() {
 }
 
 onLoad((options) => {
-  memberId.value = Number(options?.memberId);
+  memberId.value = Number(options?.memberId ?? options?.id);
 });
 
 onShow(async () => {

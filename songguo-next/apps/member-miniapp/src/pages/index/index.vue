@@ -1,10 +1,24 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { onPullDownRefresh, onShareAppMessage, onShow } from "@dcloudio/uni-app";
-import { cancelMemberAppointment, getMemberAppointments, getMemberHome, getMemberOfficialAccountFollow, getMemberSitePublicDetail } from "@/api/member";
+import {
+  cancelMemberAppointment,
+  getMemberAppointments,
+  getMemberHome,
+  getMemberOfficialAccountFollow,
+  getMemberSiteClosureStatus,
+  getMemberSitePublicDetail,
+  promoteMemberAppointment,
+} from "@/api/member";
 import { requireMemberAuth } from "@/auth/guard";
 import { ensureMemberContext, loadJoinableSites, loadJoinedMemberSites, selectMemberSite } from "@/composables/member-context";
-import type { MemberAppointmentSummary, MemberHomeDashboard, MemberSiteOption, MemberSitePublicDetail } from "@/types/member";
+import type {
+  MemberAppointmentSummary,
+  MemberHomeDashboard,
+  MemberSiteClosureStatus,
+  MemberSiteOption,
+  MemberSitePublicDetail,
+} from "@/types/member";
 import { createCommandKey } from "@/utils/command-key";
 import { formatIsoDate } from "@/utils/format";
 import { navigateToOnce } from "@/utils/navigate";
@@ -15,6 +29,7 @@ const needsSite = ref(false);
 const sites = ref<MemberSiteOption[]>([]);
 const currentSite = ref<MemberSiteOption | null>(null);
 const sitePublicDetail = ref<MemberSitePublicDetail | null>(null);
+const closureStatus = ref<MemberSiteClosureStatus | null>(null);
 const siteName = ref("");
 const dashboard = ref<MemberHomeDashboard | null>(null);
 const showOfficialAccountFollow = ref(false);
@@ -45,6 +60,17 @@ const homeTenantId = ref<number | null>(null);
 const pastAppointments = ref<MemberAppointmentSummary[]>([]);
 const cancellingId = ref<number | null>(null);
 const cancelCommandKeys = new Map<number, string>();
+const promotingId = ref<number | null>(null);
+const promoteCommandKeys = new Map<number, string>();
+
+const closureMessage = computed(() => {
+  const closure = closureStatus.value?.closure;
+  if (!closureStatus.value?.isClosed || !closure) return "";
+  const period = closure.beginDate && closure.endDate
+    ? `${closure.beginDate} 至 ${closure.endDate}`
+    : "当前日期";
+  return `${period} 场馆闭店${closure.reason ? `：${closure.reason}` : ""}`;
+});
 
 // 对标原版：场馆行营业时间，最多展示 2 条
 const openTimeLines = computed(() => {
@@ -152,6 +178,43 @@ async function cancelAppointment(item: MemberAppointmentSummary) {
   }
 }
 
+function confirmPromote(item: MemberAppointmentSummary) {
+  uni.showModal({
+    title: "确认候补名额",
+    content: "确认后将尝试转为正式预约，并按课程规则扣减会员卡。",
+    confirmText: "确认",
+    success: async (result) => {
+      if (!result.confirm) return;
+      await promoteAppointment(item);
+    },
+  });
+}
+
+async function promoteAppointment(item: MemberAppointmentSummary) {
+  if (homeTenantId.value == null || promotingId.value === item.id) return;
+
+  let commandKey = promoteCommandKeys.get(item.id);
+  if (!commandKey) {
+    commandKey = createCommandKey();
+    promoteCommandKeys.set(item.id, commandKey);
+  }
+
+  promotingId.value = item.id;
+  try {
+    await promoteMemberAppointment(homeTenantId.value, item.id, commandKey);
+    promoteCommandKeys.delete(item.id);
+    uni.showToast({ title: "候补已确认", icon: "success" });
+    await loadDashboard();
+  } catch (error) {
+    uni.showToast({
+      title: error instanceof Error ? error.message : "候补确认失败",
+      icon: "none",
+    });
+  } finally {
+    promotingId.value = null;
+  }
+}
+
 const quickActions = [
   { label: "场馆信息", icon: "home", color: "#FF846D", action: "site" },
   { label: "购卡续费", icon: "coupon", color: "#48AFFF", action: "buy" },
@@ -195,6 +258,13 @@ async function loadDashboard() {
       .catch(() => {
         sitePublicDetail.value = null;
       });
+    void getMemberSiteClosureStatus(context.tenantId, context.siteId)
+      .then((response) => {
+        closureStatus.value = response.data;
+      })
+      .catch(() => {
+        closureStatus.value = null;
+      });
     showOfficialAccountFollow.value = false;
     try {
       await getMemberOfficialAccountFollow(context.tenantId, context.siteId);
@@ -225,6 +295,7 @@ async function openSitePicker() {
       // 切换场馆属于数据源变更，清空后重新加载（显示全屏加载）
       dashboard.value = null;
       sitePublicDetail.value = null;
+      closureStatus.value = null;
       await loadDashboard();
     },
   });
@@ -243,6 +314,10 @@ function openBuyCard() {
 }
 
 function openBooking() {
+  if (closureStatus.value?.isClosed) {
+    uni.showToast({ title: "场馆闭店期间暂不可约课", icon: "none" });
+    return;
+  }
   uni.switchTab({ url: "/pages/booking/index" });
 }
 
@@ -346,6 +421,13 @@ onShareAppMessage(() => ({
           :description="dashboard.linkRequestWarning.message"
           :custom-style="{ margin: '24rpx 28rpx 0' }"
         />
+        <u-alert
+          v-if="closureMessage"
+          type="warning"
+          title="场馆闭店提示"
+          :description="closureMessage"
+          :custom-style="{ margin: '24rpx 28rpx 0' }"
+        />
 
         <view class="shop-info" @tap="openSiteDetail">
           <view class="shop-photo">
@@ -441,8 +523,11 @@ onShareAppMessage(() => ({
                   variant="legacy"
                   :cancellable="canCancel(a)"
                   :cancelling="cancellingId === a.id"
+                  :promotable="a.status === 'waitlisted'"
+                  :promoting="promotingId === a.id"
                   @tap="openSessionDetail(a)"
                   @cancel="confirmCancel(a)"
+                  @promote="confirmPromote(a)"
                 />
               </view>
             </view>

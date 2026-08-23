@@ -168,6 +168,7 @@ export interface PaymentMarketingConfig {
 
 export interface BookingPolicyGroupSettings {
   signMinutesBeforeStart: number;
+  autoCheckInMinutesAfterEnd: number;
   advanceBookingDays: number;
   advanceBookingDailyCutoffHour: number;
   advanceBookingDailyCutoffMinute: number;

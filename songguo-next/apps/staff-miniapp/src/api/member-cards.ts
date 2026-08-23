@@ -121,6 +121,113 @@ export async function issueMemberCard(
   );
 }
 
+export async function createMemberCardTransferShareToken(siteId: number, memberCardId: number) {
+  return useApiClient().request<{ memberCardId: number; token: string; expiresAt: string }>(
+    cardPath(siteId, memberCardId, "/transfer-share-token"),
+    { method: "POST" },
+  );
+}
+
+export async function updateMemberCardRemark(
+  siteId: number,
+  memberCardId: number,
+  remark: string,
+) {
+  return useApiClient().request<{ memberCardId: number; remark: string }>(
+    cardPath(siteId, memberCardId, "/remark"),
+    { method: "PATCH" as UniApp.RequestOptions["method"], data: { remark } },
+  );
+}
+
+export async function updateMemberCardOpeningType(
+  siteId: number,
+  memberCardId: number,
+  openingType: string,
+) {
+  return useApiClient().request<{ memberCardId: number; openingType: string }>(
+    cardPath(siteId, memberCardId, "/opening-type"),
+    { method: "PATCH" as UniApp.RequestOptions["method"], data: { openingType } },
+  );
+}
+
+export interface StaffMemberCardOrderItem {
+  id: number;
+  orderNo: string;
+  memberId: number;
+  memberCardId: number;
+  originalAmount: string;
+  effectiveAmount: string;
+  status: string;
+  voidedAt: string | null;
+  createdAt: string | null;
+  siteId?: number;
+  siteName?: string | null;
+  productName?: string | null;
+  channel?: string | null;
+  memberCard?: {
+    id: number;
+    cardType: string;
+    status: string;
+    name: string | null;
+    cachedBalance: string | null;
+    cachedRemainingCount: number | null;
+    validFrom: string | null;
+    validUntil: string | null;
+  };
+}
+
+export async function fetchMemberOrders(siteId: number, memberId: number, page = 1, perPage = 20) {
+  return useApiClient().request<{
+    items: StaffMemberCardOrderItem[];
+    pagination: { page: number; perPage: number; total: number; lastPage: number };
+  }>(`${`/staff/sites/${siteId}/members/${memberId}/orders`}${buildQuery({ page, perPage })}`);
+}
+
+export async function correctMemberOrderAmount(
+  siteId: number,
+  orderId: number,
+  payload: { amount: number; reason: string; commandKey: string; correctsEntryId?: number },
+) {
+  return useApiClient().request<{
+    orderId: number;
+    correctionEntryIds: number[];
+    originalAmount: string;
+    effectiveAmount: string;
+  }>(`/staff/sites/${siteId}/orders/${orderId}/amount-corrections`, {
+    method: "POST",
+    data: payload,
+  });
+}
+
+export async function appendMemberOrderInternalNote(
+  siteId: number,
+  orderId: number,
+  payload: { body: string; commandKey: string },
+) {
+  return useApiClient().request<{
+    id: number;
+    orderId: number;
+    body: string;
+    authorStaffId: number;
+    authorStaffName: string | null;
+    createdAt: string | null;
+  }>(`/staff/sites/${siteId}/orders/${orderId}/internal-notes`, {
+    method: "POST",
+    data: payload,
+  });
+}
+
+export async function voidMemberOrder(
+  siteId: number,
+  orderId: number,
+  payload: { reason: string; commandKey: string },
+) {
+  return useApiClient().request<{ orderId: number; status: string; voidedAt: string | null }>(
+    `/staff/sites/${siteId}/orders/${orderId}/void`,
+    { method: "POST", data: payload },
+  );
+}
+
 export async function fetchMemberCardBenefits(siteId: number, memberCardId: number) {
   return useApiClient().request<StaffMemberCardBenefits>(cardPath(siteId, memberCardId, "/benefits"));
 }
@@ -195,4 +302,81 @@ export async function updateMemberCardReminderConfig(siteId: number, payload: Me
     { method: "PUT", data: payload },
   );
   return response.data;
+}
+
+export interface MemberCardBatchResult {
+  commandKey: string;
+  succeeded: Array<{ memberCardId: number; ledgerEntryIds?: number[]; created?: boolean }>;
+  failed: Array<{ memberCardId: number | null; code: string }>;
+}
+
+export async function batchAdjustMemberCardBalances(
+  siteId: number,
+  payload: {
+    commandKey: string;
+    items: Array<{
+      memberCardId: number;
+      commandKey: string;
+      direction: "credit" | "debit";
+      amount: number;
+      reason?: string;
+    }>;
+  },
+) {
+  return useApiClient().request<MemberCardBatchResult>(
+    `/staff/sites/${siteId}/member-cards/batch-balance-adjustments`,
+    { method: "POST", data: payload },
+  );
+}
+
+export async function batchExtendMemberCardValidity(
+  siteId: number,
+  payload: {
+    commandKey: string;
+    items: Array<{
+      memberCardId: number;
+      commandKey: string;
+      validUntil: string;
+      reason?: string;
+    }>;
+  },
+) {
+  return useApiClient().request<MemberCardBatchResult>(
+    `/staff/sites/${siteId}/member-cards/batch-validity-extensions`,
+    { method: "POST", data: payload },
+  );
+}
+
+export async function batchFreezeMemberCards(
+  siteId: number,
+  payload: {
+    commandKey: string;
+    items: Array<{
+      memberCardId: number;
+      commandKey: string;
+      reason?: string;
+    }>;
+  },
+) {
+  return useApiClient().request<MemberCardBatchResult>(
+    `/staff/sites/${siteId}/member-cards/batch-freeze`,
+    { method: "POST", data: payload },
+  );
+}
+
+export async function batchUnfreezeMemberCards(
+  siteId: number,
+  payload: {
+    commandKey: string;
+    items: Array<{
+      memberCardId: number;
+      commandKey: string;
+      reason?: string;
+    }>;
+  },
+) {
+  return useApiClient().request<MemberCardBatchResult>(
+    `/staff/sites/${siteId}/member-cards/batch-unfreeze`,
+    { method: "POST", data: payload },
+  );
 }

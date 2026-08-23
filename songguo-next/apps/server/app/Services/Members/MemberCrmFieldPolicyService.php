@@ -99,7 +99,15 @@ class MemberCrmFieldPolicyService
             'name' => filled($payload['name'] ?? ($isCreate ? null : $profile?->name)),
             'gender' => filled($payload['gender'] ?? ($isCreate ? null : $profile?->gender)),
             'birthDate' => filled($payload['birthDate'] ?? ($isCreate ? null : $profile?->birth_date?->format('Y-m-d'))),
-            'nationalId', 'heightCm', 'weightKg' => false,
+            'nationalId' => array_key_exists('nationalId', $payload)
+                ? filled($payload['nationalId'])
+                : (! $isCreate && filled($profile?->national_id_hash)),
+            'heightCm' => array_key_exists('heightCm', $payload)
+                ? filled($payload['heightCm'])
+                : (! $isCreate && $profile?->height_cm !== null),
+            'weightKg' => array_key_exists('weightKg', $payload)
+                ? filled($payload['weightKg'])
+                : (! $isCreate && $profile?->weight_kg !== null),
             'ownerStaffId' => $this->hasOwnerStaff($payload, $isCreate, $member),
             default => true,
         };

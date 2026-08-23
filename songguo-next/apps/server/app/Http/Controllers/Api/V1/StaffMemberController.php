@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\CardType;
+use App\Enums\MemberCardStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BatchImportStaffMembersRequest;
 use App\Http\Requests\ChangeMemberAppAccessRequest;
@@ -12,8 +14,6 @@ use App\Http\Requests\SyncMemberTagsRequest;
 use App\Http\Requests\TransitionMemberStatusRequest;
 use App\Http\Requests\UpdateMemberStickyRemarkRequest;
 use App\Http\Requests\UpdateStaffMemberRequest;
-use App\Enums\CardType;
-use App\Enums\MemberCardStatus;
 use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\MemberCrmProfile;
@@ -23,9 +23,11 @@ use App\Models\Staff;
 use App\Services\Members\MemberAuditService;
 use App\Services\Members\MemberCrmFieldPolicyService;
 use App\Services\Members\MobileProtectionService;
+use App\Services\Members\NationalIdProtectionService;
 use App\Services\Members\StaffCrmBatchImportService;
 use App\Services\Members\StaffCrmMemberArchiveService;
 use App\Services\Members\StaffCrmMemberListService;
+use App\Services\Members\StaffCrmMemberMetricsService;
 use App\Services\Members\StaffMemberAccessService;
 use App\Services\Points\PointLedgerReadService;
 use App\Services\Points\PointLedgerWriteService;
@@ -48,16 +50,21 @@ class StaffMemberController extends Controller
         $access->assertPermission($staff, 'crm.member.read', $siteModel->id);
 
         $query = $crmList->applyListFilters(
-            $crmList->scopedQuery($staff, $siteModel)->with(['crmProfile', 'owner', 'tags']),
+            $crmList->scopedQuery($staff, $siteModel)->with(['crmProfile', 'owner', 'tags', 'account.memberProfile']),
             $request,
             $staff,
             $siteModel,
         );
 
-        $paginator = $query->orderByDesc('members.id')->paginate(min(max($request->integer('perPage', 20), 1), 50));
+        // 拼音分组列表需要更大页容量（对标原版 pagesize≈9999，这里上限 200）
+        $paginator = $query->orderByDesc('members.id')->paginate(min(max($request->integer('perPage', 20), 1), 200));
+        $members = collect($paginator->items());
+        $summaries = $crmList->listItemSummaries($members, $staff, $siteModel);
 
         return ApiResponse::success([
-            'items' => collect($paginator->items())->map(fn (Member $member) => $this->memberData($member)),
+            'items' => $members->map(function (Member $member) use ($summaries) {
+                return $this->memberData($member, $summaries[$member->id] ?? null);
+            })->values()->all(),
             'pagination' => [
                 'page' => $paginator->currentPage(),
                 'perPage' => $paginator->perPage(),
@@ -220,6 +227,7 @@ class StaffMemberController extends Controller
         int $site,
         StaffMemberAccessService $access,
         MobileProtectionService $mobile,
+        NationalIdProtectionService $nationalId,
         MemberAuditService $audit,
         MemberCrmFieldPolicyService $fieldPolicy,
     ) {
@@ -229,9 +237,14 @@ class StaffMemberController extends Controller
         $access->assertPermission($staff, 'crm.member.create', $siteModel->id);
         $fieldPolicy->assertUpsertAllowed($staff->tenant, $request->all(), isCreate: true);
 
+        $ownerStaffId = $request->has('ownerStaffId')
+            ? $this->ownerStaffId($request->input('ownerStaffId'), $staff, $siteModel->id)
+            : ($request->boolean('assignToMe', true) ? $staff->id : null);
+
         try {
-            $member = DB::transaction(function () use ($request, $staff, $siteModel, $mobile, $audit) {
+            $member = DB::transaction(function () use ($request, $staff, $siteModel, $mobile, $nationalId, $audit, $ownerStaffId) {
                 $contact = $this->contactAttributes($request->input('mobile'), $staff->tenant_id, $mobile);
+                $identity = $this->nationalIdAttributes($request->input('nationalId'), $staff->tenant_id, $nationalId);
                 if ($contact['mobile_hash'] && MemberCrmProfile::where('tenant_id', $staff->tenant_id)->where('mobile_hash', $contact['mobile_hash'])->exists()) {
                     abort(409, 'CRM_MOBILE_CONFLICT');
                 }
@@ -244,7 +257,7 @@ class StaffMemberController extends Controller
                     'source' => 'staff-miniapp',
                     'registration_site_id' => $siteModel->id,
                     'home_site_id' => $siteModel->id,
-                    'owner_staff_id' => $request->boolean('assignToMe', true) ? $staff->id : null,
+                    'owner_staff_id' => $ownerStaffId,
                     'joined_at' => now(),
                     'status_changed_at' => now(),
                     'status_changed_by_staff_id' => $staff->id,
@@ -255,6 +268,9 @@ class StaffMemberController extends Controller
                     'name' => $request->string('name')->toString(),
                     'gender' => $request->input('gender'),
                     'birth_date' => $request->input('birthDate'),
+                    'height_cm' => $request->input('heightCm'),
+                    'weight_kg' => $request->input('weightKg'),
+                    ...$identity,
                     ...$contact,
                 ]);
                 DB::table('member_sites')->insert([
@@ -292,8 +308,14 @@ class StaffMemberController extends Controller
         return ApiResponse::success($this->memberData($member->fresh(['crmProfile', 'owner', 'tags'])), 201);
     }
 
-    public function show(Request $request, int $site, int $member, StaffMemberAccessService $access, PointLedgerReadService $points)
-    {
+    public function show(
+        Request $request,
+        int $site,
+        int $member,
+        StaffMemberAccessService $access,
+        PointLedgerReadService $points,
+        StaffCrmMemberMetricsService $metrics,
+    ) {
         $staff = $this->staff($request);
         $siteModel = $access->site($staff, $site);
         $access->assertPermission($staff, 'crm.member.read', $siteModel->id);
@@ -307,6 +329,7 @@ class StaffMemberController extends Controller
             'accountLinked' => $memberModel->account_id !== null,
             'pointsEnabled' => $pointsEnabled,
             'totalPoint' => $pointsEnabled ? $points->totalPoint($memberModel) : null,
+            'metrics' => $metrics->summarize($staff, $siteModel, $memberModel),
         ]);
     }
 
@@ -316,6 +339,7 @@ class StaffMemberController extends Controller
         int $member,
         StaffMemberAccessService $access,
         MobileProtectionService $mobile,
+        NationalIdProtectionService $nationalId,
         MemberAuditService $audit,
         MemberCrmFieldPolicyService $fieldPolicy,
     ) {
@@ -327,9 +351,17 @@ class StaffMemberController extends Controller
         $fieldPolicy->assertUpsertAllowed($staff->tenant, $request->all(), isCreate: false, member: $memberModel);
 
         try {
-            DB::transaction(function () use ($request, $staff, $siteModel, $memberModel, $mobile, $audit) {
+            DB::transaction(function () use ($request, $staff, $siteModel, $memberModel, $mobile, $nationalId, $audit) {
+                $memberAttributes = [];
+                if ($request->has('ownerStaffId')) {
+                    $memberAttributes['owner_staff_id'] = $this->ownerStaffId(
+                        $request->input('ownerStaffId'),
+                        $staff,
+                        $siteModel->id,
+                    );
+                }
                 $updated = Member::whereKey($memberModel->id)->where('version', $request->integer('version'))
-                    ->update(['version' => DB::raw('version + 1')]);
+                    ->update([...$memberAttributes, 'version' => DB::raw('version + 1')]);
                 abort_if($updated !== 1, 409, 'MEMBER_VERSION_CONFLICT');
 
                 $profile = $memberModel->crmProfile()->firstOrFail();
@@ -343,6 +375,19 @@ class StaffMemberController extends Controller
                 if ($request->has('birthDate')) {
                     $attributes['birth_date'] = $request->input('birthDate');
                 }
+                if ($request->has('nationalId')) {
+                    $attributes = [...$attributes, ...$this->nationalIdAttributes(
+                        $request->input('nationalId'),
+                        $staff->tenant_id,
+                        $nationalId,
+                    )];
+                }
+                if ($request->has('heightCm')) {
+                    $attributes['height_cm'] = $request->input('heightCm');
+                }
+                if ($request->has('weightKg')) {
+                    $attributes['weight_kg'] = $request->input('weightKg');
+                }
                 if ($request->has('mobile')) {
                     $attributes = [...$attributes, ...$this->contactAttributes($request->input('mobile'), $staff->tenant_id, $mobile)];
                     if ($attributes['mobile_hash'] && MemberCrmProfile::where('tenant_id', $staff->tenant_id)
@@ -351,7 +396,9 @@ class StaffMemberController extends Controller
                     }
                 }
                 $profile->update([...$attributes, 'version' => $profile->version + 1]);
-                $audit->record($request, $staff, $siteModel, $memberModel, 'crm.member.updated', ['fields' => array_keys($attributes)]);
+                $audit->record($request, $staff, $siteModel, $memberModel, 'crm.member.updated', [
+                    'fields' => [...array_keys($attributes), ...array_keys($memberAttributes)],
+                ]);
             });
         } catch (QueryException) {
             return ApiResponse::error('CRM_MOBILE_CONFLICT', '该手机号已存在于当前租户，不会自动合并会员', 409);
@@ -372,7 +419,10 @@ class StaffMemberController extends Controller
         $access->assertPermission($staff, 'crm.member.status.manage', $siteModel->id);
         $memberModel = $access->member($staff, $siteModel, $member);
         $target = $request->string('targetStatus')->toString();
-        $allowed = ['lead:active', 'active:frozen', 'frozen:active'];
+        $allowed = [
+            'lead:active', 'active:frozen', 'frozen:active',
+            'lead:closed', 'active:closed', 'frozen:closed',
+        ];
         abort_unless(in_array("{$memberModel->status}:{$target}", $allowed, true), 409, 'INVALID_MEMBER_STATUS_TRANSITION');
 
         DB::transaction(function () use ($request, $staff, $siteModel, $memberModel, $target, $audit) {
@@ -383,6 +433,7 @@ class StaffMemberController extends Controller
                     'status' => $target,
                     'status_changed_at' => now(),
                     'status_changed_by_staff_id' => $staff->id,
+                    'archived_at' => $target === 'closed' ? now() : null,
                     'version' => DB::raw('version + 1'),
                 ]);
             abort_if($updated !== 1, 409, 'MEMBER_VERSION_CONFLICT');
@@ -666,9 +717,52 @@ class StaffMemberController extends Controller
         ];
     }
 
-    private function memberData(Member $member): array
+    private function nationalIdAttributes(?string $value, int $tenantId, NationalIdProtectionService $nationalId): array
     {
+        if (blank($value)) {
+            return ['national_id_ciphertext' => null, 'national_id_hash' => null, 'national_id_last4' => null];
+        }
+        $normalized = $nationalId->normalize($value);
+
         return [
+            'national_id_ciphertext' => $nationalId->encrypt($normalized),
+            'national_id_hash' => $nationalId->hashForTenant($normalized, $tenantId),
+            'national_id_last4' => substr($normalized, -4),
+        ];
+    }
+
+    private function ownerStaffId(mixed $value, Staff $actor, int $siteId): ?int
+    {
+        if (blank($value)) {
+            return null;
+        }
+
+        return Staff::query()
+            ->whereKey((int) $value)
+            ->where('tenant_id', $actor->tenant_id)
+            ->where('status', 'active')
+            ->whereHas('sites', fn (Builder $sites) => $sites
+                ->whereKey($siteId)
+                ->where('site_staff.tenant_id', $actor->tenant_id))
+            ->value('id') ?? abort(422, 'INVALID_OWNER_STAFF');
+    }
+
+    /**
+     * @param  array{
+     *   avatarUrl?: ?string,
+     *   pinyinInitial?: string,
+     *   cardCount?: int,
+     *   cardType?: ?string,
+     *   balanceAmount?: float|int|null,
+     *   balanceUnit?: ?string,
+     *   lastAppointDate?: ?string,
+     *   holidayDate?: ?string,
+     *   hintMsg?: ?string
+     * }|null  $listSummary
+     */
+    private function memberData(Member $member, ?array $listSummary = null): array
+    {
+        $data = [
             'id' => $member->id,
             'memberNo' => $member->member_no,
             'name' => $member->crmProfile?->name,
@@ -676,6 +770,11 @@ class StaffMemberController extends Controller
             'mobileVerified' => (bool) $member->crmProfile?->mobile_verified_at,
             'gender' => $member->crmProfile?->gender,
             'birthDate' => $member->crmProfile?->birth_date?->format('Y-m-d'),
+            'nationalIdMasked' => $member->crmProfile?->national_id_last4
+                ? "**************{$member->crmProfile->national_id_last4}"
+                : null,
+            'heightCm' => $member->crmProfile?->height_cm !== null ? (float) $member->crmProfile->height_cm : null,
+            'weightKg' => $member->crmProfile?->weight_kg !== null ? (float) $member->crmProfile->weight_kg : null,
             'status' => $member->status,
             'appAccessStatus' => $member->app_access_status,
             'owner' => $member->owner ? ['id' => $member->owner->id, 'name' => $member->owner->name] : null,
@@ -684,7 +783,25 @@ class StaffMemberController extends Controller
             'hasStickyRemark' => filled($member->crmProfile?->sticky_remark),
             'version' => $member->version,
             'joinedAt' => $member->joined_at?->toISOString(),
+            'avatarUrl' => AvatarUrl::fromObjectKey($member->account?->memberProfile?->avatar_object_key)
+                ?? $member->account?->avatar_url,
+            'pinyinInitial' => PinyinInitial::fromName($member->crmProfile?->name),
         ];
+
+        if ($listSummary !== null) {
+            $data['cardCount'] = $listSummary['cardCount'];
+            $data['cardType'] = $listSummary['cardType'];
+            $data['balanceAmount'] = $listSummary['balanceAmount'];
+            $data['balanceUnit'] = $listSummary['balanceUnit'];
+            $data['lastAppointDate'] = $listSummary['lastAppointDate'];
+            $data['holidayDate'] = $listSummary['holidayDate'];
+            $data['hintMsg'] = $listSummary['hintMsg'];
+            if (($listSummary['avatarUrl'] ?? null) !== null) {
+                $data['avatarUrl'] = $listSummary['avatarUrl'];
+            }
+        }
+
+        return $data;
     }
 
     private function staff(Request $request): Staff

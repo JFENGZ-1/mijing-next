@@ -11,6 +11,7 @@ use App\Models\CardProduct;
 use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\MemberCrmProfile;
+use App\Models\MemberNote;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Site;
@@ -110,6 +111,72 @@ class StaffCrmDashboardTest extends TestCase
             ->assertOk()
             ->assertJsonCount(1, 'data.items')
             ->assertJsonPath('data.items.0.id', $valid->id);
+    }
+
+    public function test_member_list_includes_list_summary_fields(): void
+    {
+        [, $site] = $this->actAsStaff(['crm.member.read']);
+        $member = $this->createMemberAtSite($site->tenant_id, $site, 'Summary Alice', 'active');
+        $this->createMemberCard($site, $member, MemberCardStatus::Active, CardType::StoredValue, [
+            'cached_balance' => 88.5,
+            'valid_until' => now()->addMonth()->toDateString(),
+        ]);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/members")
+            ->assertOk()
+            ->assertJsonPath('data.items.0.name', 'Summary Alice')
+            ->assertJsonPath('data.items.0.cardCount', 1)
+            ->assertJsonPath('data.items.0.cardType', CardType::StoredValue->value)
+            ->assertJsonPath('data.items.0.balanceAmount', 88.5)
+            ->assertJsonPath('data.items.0.balanceUnit', '元')
+            ->assertJsonPath('data.items.0.lastAppointDate', null)
+            ->assertJsonPath('data.items.0.holidayDate', null)
+            ->assertJsonPath('data.items.0.hintMsg', null)
+            ->assertJsonStructure([
+                'data' => [
+                    'items' => [['pinyinInitial', 'lastAppointDate', 'avatarUrl']],
+                ],
+            ]);
+    }
+
+    public function test_member_list_includes_active_holiday_and_authorized_note_hint(): void
+    {
+        [$staff, $site] = $this->actAsStaff(['crm.member.read', 'crm.member.note.read']);
+        $member = $this->createMemberAtSite($site->tenant_id, $site, 'Holiday Alice', 'active');
+        $holidayDate = now()->addDays(7)->toDateString();
+        $this->createMemberCard($site, $member, MemberCardStatus::Active, CardType::Period, [
+            'valid_until' => now()->addMonths(3)->toDateString(),
+            'freeze_state' => [
+                'holiday' => [
+                    'startedAt' => now()->subDay()->toDateString(),
+                    'plannedEndAt' => $holidayDate,
+                    'startedByStaffId' => $staff->id,
+                ],
+            ],
+        ]);
+        MemberNote::create([
+            'tenant_id' => $site->tenant_id,
+            'member_id' => $member->id,
+            'site_id' => $site->id,
+            'author_staff_id' => $staff->id,
+            'body' => '需跟进续卡',
+        ]);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/members")
+            ->assertOk()
+            ->assertJsonPath('data.items.0.holidayDate', $holidayDate)
+            ->assertJsonPath('data.items.0.hintMsg', '需跟进续卡');
+    }
+
+    public function test_member_list_last_appoint_date_is_null_without_appointments(): void
+    {
+        [, $site] = $this->actAsStaff(['crm.member.read']);
+        $this->createMemberAtSite($site->tenant_id, $site, 'No Appoint Bob', 'lead');
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/members")
+            ->assertOk()
+            ->assertJsonPath('data.items.0.name', 'No Appoint Bob')
+            ->assertJsonPath('data.items.0.lastAppointDate', null);
     }
 
     public function test_dashboard_summary_requires_crm_read_permission(): void

@@ -2,18 +2,36 @@
 
 namespace Tests\Feature;
 
+use App\Enums\AppointmentStatus;
+use App\Enums\CardType;
+use App\Enums\CourseCatalogStatus;
+use App\Enums\CourseType;
+use App\Enums\EntitlementLedgerDirection;
+use App\Enums\EntitlementLedgerEntryType;
+use App\Enums\MemberCardOrderStatus;
+use App\Enums\MemberCardStatus;
+use App\Enums\ScheduleSessionKind;
+use App\Enums\ScheduleSessionStatus;
 use App\Models\Account;
+use App\Models\Appointment;
+use App\Models\Course;
+use App\Models\EntitlementLedgerEntry;
 use App\Models\Member;
+use App\Models\MemberCard;
+use App\Models\MemberCardOrder;
 use App\Models\MemberCrmProfile;
 use App\Models\MemberTag;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\ScheduleSession;
 use App\Models\Site;
 use App\Models\Staff;
 use App\Models\Tenant;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -53,6 +71,200 @@ class StaffMemberCrmTest extends TestCase
 
         $this->assertDatabaseCount('members', 1);
         $this->assertDatabaseCount('accounts', 1);
+    }
+
+    public function test_staff_can_manage_complete_profile_with_masked_national_id_and_site_owner(): void
+    {
+        [$staff, $site] = $this->actAsStaff($this->allCrmPermissions());
+        $ownerAccount = Account::create(['display_name' => '顾问李四', 'status' => 'active']);
+        $owner = Staff::create([
+            'tenant_id' => $staff->tenant_id,
+            'account_id' => $ownerAccount->id,
+            'employee_no' => 'OWNER001',
+            'name' => '顾问李四',
+            'status' => 'active',
+        ]);
+        $owner->sites()->attach($site->id, ['tenant_id' => $staff->tenant_id, 'is_primary' => false]);
+
+        $created = $this->postJson("/api/v1/staff/sites/{$site->id}/members", [
+            'name' => '完整档案会员',
+            'nationalId' => '11010119900101123X',
+            'heightCm' => 168.5,
+            'weightKg' => 52.25,
+            'ownerStaffId' => $owner->id,
+        ])->assertCreated()
+            ->assertJsonPath('data.nationalIdMasked', '**************123X')
+            ->assertJsonPath('data.heightCm', 168.5)
+            ->assertJsonPath('data.weightKg', 52.25)
+            ->assertJsonPath('data.owner.id', $owner->id)
+            ->assertJsonMissing(['nationalId' => '11010119900101123X']);
+
+        $profile = MemberCrmProfile::where('member_id', $created->json('data.id'))->firstOrFail();
+        $this->assertNotSame('11010119900101123X', $profile->getRawOriginal('national_id_ciphertext'));
+        $this->assertSame('11010119900101123X', Crypt::decryptString($profile->getRawOriginal('national_id_ciphertext')));
+
+        $this->patchJson("/api/v1/staff/sites/{$site->id}/members/{$created->json('data.id')}", [
+            'version' => $created->json('data.version'),
+            'heightCm' => 170,
+            'weightKg' => null,
+            'ownerStaffId' => null,
+        ])->assertOk()
+            ->assertJsonPath('data.nationalIdMasked', '**************123X')
+            ->assertJsonPath('data.heightCm', 170)
+            ->assertJsonPath('data.weightKg', null)
+            ->assertJsonPath('data.owner', null);
+    }
+
+    public function test_closed_member_moves_to_deleted_list_and_restore_recovers_previous_status(): void
+    {
+        [, $site] = $this->actAsStaff($this->allCrmPermissions());
+        $created = $this->postJson("/api/v1/staff/sites/{$site->id}/members", ['name' => '待归档会员'])
+            ->assertCreated();
+        $memberId = $created->json('data.id');
+
+        $this->postJson("/api/v1/staff/sites/{$site->id}/members/{$memberId}/status-transitions", [
+            'version' => $created->json('data.version'),
+            'targetStatus' => 'closed',
+            'reason' => '员工端归档会员',
+        ])->assertOk()->assertJsonPath('data.status', 'closed');
+
+        $this->assertNotNull(Member::findOrFail($memberId)->archived_at);
+        $this->getJson("/api/v1/staff/sites/{$site->id}/members/{$memberId}")->assertNotFound();
+        $this->getJson("/api/v1/staff/sites/{$site->id}/members/deleted")
+            ->assertOk()->assertJsonPath('data.items.0.id', $memberId);
+
+        $this->postJson("/api/v1/staff/sites/{$site->id}/members/{$memberId}/restore")
+            ->assertOk()->assertJsonPath('data.status', 'lead');
+        $this->assertNull(Member::findOrFail($memberId)->archived_at);
+        $this->assertDatabaseHas('member_status_events', [
+            'member_id' => $memberId,
+            'from_status' => 'closed',
+            'to_status' => 'lead',
+        ]);
+    }
+
+    public function test_member_detail_returns_complete_authorized_operational_metrics(): void
+    {
+        [$staff, $site] = $this->actAsStaff([
+            ...$this->allCrmPermissions(),
+            'booking.member-history.list',
+            'order.read',
+            'member-card.read',
+        ]);
+        $created = $this->postJson("/api/v1/staff/sites/{$site->id}/members", [
+            'name' => '指标会员',
+        ])->assertCreated();
+        $member = Member::findOrFail($created->json('data.id'));
+
+        $groupCourse = Course::create([
+            'tenant_id' => $staff->tenant_id,
+            'site_id' => $site->id,
+            'course_type' => CourseType::Group,
+            'name' => '指标团课',
+            'duration_minutes' => 60,
+            'catalog_status' => CourseCatalogStatus::Active,
+        ]);
+        $privateCourse = Course::create([
+            'tenant_id' => $staff->tenant_id,
+            'site_id' => $site->id,
+            'course_type' => CourseType::Private,
+            'name' => '指标私教',
+            'duration_minutes' => 60,
+            'catalog_status' => CourseCatalogStatus::Active,
+        ]);
+
+        $groupSession = $this->createMetricSession(
+            $staff,
+            $site,
+            $groupCourse,
+            ScheduleSessionKind::Group,
+            now()->subDays(2),
+        );
+        $privateSession = $this->createMetricSession(
+            $staff,
+            $site,
+            $privateCourse,
+            ScheduleSessionKind::Private,
+            now()->subMonth()->subDay(),
+        );
+        $absentSession = $this->createMetricSession(
+            $staff,
+            $site,
+            $groupCourse,
+            ScheduleSessionKind::Group,
+            now()->subDay(),
+        );
+
+        $this->createMetricAppointment($staff, $site, $member, $groupSession, AppointmentStatus::Completed);
+        $this->createMetricAppointment($staff, $site, $member, $privateSession, AppointmentStatus::Completed);
+        $this->createMetricAppointment($staff, $site, $member, $absentSession, AppointmentStatus::Absent);
+
+        $card = MemberCard::create([
+            'tenant_id' => $staff->tenant_id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'card_type' => CardType::StoredValue,
+            'card_no' => 'MC-MEMBER-METRICS',
+            'status' => MemberCardStatus::Active,
+            'product_snapshot' => [
+                'name' => '指标储值卡',
+                'cardType' => CardType::StoredValue->value,
+                'price' => '100.00',
+                'faceValue' => '100.00',
+            ],
+            'cached_balance' => 40,
+            'issued_at' => now(),
+        ]);
+        MemberCardOrder::create([
+            'tenant_id' => $staff->tenant_id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'member_card_id' => $card->id,
+            'order_no' => 'ORD-MEMBER-METRICS',
+            'amount' => 100,
+            'status' => MemberCardOrderStatus::Paid,
+            'command_key' => (string) Str::uuid(),
+        ]);
+        EntitlementLedgerEntry::create([
+            'tenant_id' => $staff->tenant_id,
+            'site_id' => $site->id,
+            'member_card_id' => $card->id,
+            'member_id' => $member->id,
+            'entry_type' => EntitlementLedgerEntryType::BalanceAdjust,
+            'direction' => EntitlementLedgerDirection::Debit,
+            'amount_delta' => 60,
+            'reason' => '课程消费',
+            'occurred_at' => now(),
+        ]);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/members/{$member->id}")
+            ->assertOk()
+            ->assertJsonPath('data.metrics.totalPayAmount', '100.00')
+            ->assertJsonPath('data.metrics.groupMonthCount', 1)
+            ->assertJsonPath('data.metrics.groupTotalCount', 1)
+            ->assertJsonPath('data.metrics.privateMonthCount', 0)
+            ->assertJsonPath('data.metrics.privateTotalCount', 1)
+            ->assertJsonPath('data.metrics.absenceMonthCount', 1)
+            ->assertJsonPath('data.metrics.absenceTotalCount', 1)
+            ->assertJsonPath('data.metrics.consumedAmount', '60.00')
+            ->assertJsonPath('data.metrics.residualValue', '40.00')
+            ->assertJsonPath('data.metrics.noClassDays', 2);
+    }
+
+    public function test_member_detail_hides_metrics_without_domain_permissions(): void
+    {
+        [, $site] = $this->actAsStaff($this->allCrmPermissions());
+        $created = $this->postJson("/api/v1/staff/sites/{$site->id}/members", [
+            'name' => '权限受限会员',
+        ])->assertCreated();
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/members/{$created->json('data.id')}")
+            ->assertOk()
+            ->assertJsonPath('data.metrics.totalPayAmount', null)
+            ->assertJsonPath('data.metrics.groupTotalCount', null)
+            ->assertJsonPath('data.metrics.consumedAmount', null)
+            ->assertJsonPath('data.metrics.residualValue', null)
+            ->assertJsonPath('data.metrics.noClassDays', null);
     }
 
     public function test_staff_cannot_access_member_outside_assigned_site_or_tenant(): void
@@ -163,7 +375,48 @@ class StaffMemberCrmTest extends TestCase
             'crm.member.read', 'crm.member.mobile.search', 'crm.member.create', 'crm.member.update',
             'crm.member.status.manage', 'crm.member.owner.claim', 'crm.member.note.read',
             'crm.member.note.add', 'crm.member.tag.assign', 'crm.tag.manage', 'crm.member.app_access.manage',
+            'crm.member.deleted.read', 'crm.member.restore',
         ];
+    }
+
+    private function createMetricSession(
+        Staff $staff,
+        Site $site,
+        Course $course,
+        ScheduleSessionKind $kind,
+        $startsAt,
+    ): ScheduleSession {
+        return ScheduleSession::create([
+            'tenant_id' => $staff->tenant_id,
+            'site_id' => $site->id,
+            'course_id' => $course->id,
+            'coach_staff_id' => $staff->id,
+            'starts_at' => $startsAt,
+            'ends_at' => $startsAt->copy()->addHour(),
+            'capacity' => 10,
+            'status' => ScheduleSessionStatus::Scheduled,
+            'session_kind' => $kind,
+            'version' => 1,
+        ]);
+    }
+
+    private function createMetricAppointment(
+        Staff $staff,
+        Site $site,
+        Member $member,
+        ScheduleSession $session,
+        AppointmentStatus $status,
+    ): Appointment {
+        return Appointment::create([
+            'tenant_id' => $staff->tenant_id,
+            'site_id' => $site->id,
+            'session_id' => $session->id,
+            'member_id' => $member->id,
+            'status' => $status,
+            'command_key' => (string) Str::uuid(),
+            'booked_at' => $session->starts_at->copy()->subDay(),
+            'absent_marked_at' => $status === AppointmentStatus::Absent ? $session->ends_at : null,
+        ]);
     }
 
     private function actAsStaff(array $permissions): array

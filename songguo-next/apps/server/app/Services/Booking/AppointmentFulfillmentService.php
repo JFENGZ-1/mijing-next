@@ -140,24 +140,40 @@ class AppointmentFulfillmentService
      */
     /**
      * 自动签到（对齐原版「下课后，将由系统5分钟内自动签到」）：
-     * 把已下课（session.ends_at 已过）且仍 confirmed 的预约批量转 completed，
-     * 并触发开卡激活（first-class 首次上课 / first-use / delayed 到期兜底）。
+     * 仅在课后 `group.autoCheckInMinutesAfterEnd`（默认 5）分钟内，把仍 confirmed 的预约转 completed。
      * 由调度每 5 分钟调用；停课（suspended/cancelled）的课不自动签到。
      */
     public function autoCheckInEndedSessions(int $limit = 500): int
     {
-        $dueIds = Appointment::query()
+        $policyMinutesCache = [];
+        $candidates = Appointment::query()
             ->where('status', AppointmentStatus::Confirmed)
             ->whereHas('session', fn ($query) => $query
                 ->where('status', ScheduleSessionStatus::Scheduled->value)
-                ->where('ends_at', '<=', now()))
+                ->where('ends_at', '<=', now())
+                ->where('ends_at', '>', now()->subMinutes(60)))
+            ->with('session')
             ->orderBy('id')
             ->limit($limit)
-            ->pluck('id');
+            ->get();
+
+        $dueIds = [];
+        foreach ($candidates as $appointment) {
+            $session = $appointment->session;
+            if ($session === null || ! $this->isWithinAutoCheckInWindow(
+                $session,
+                $appointment->tenant_id,
+                $appointment->site_id,
+                $policyMinutesCache,
+            )) {
+                continue;
+            }
+            $dueIds[] = $appointment->id;
+        }
 
         $count = 0;
         foreach ($dueIds as $appointmentId) {
-            DB::transaction(function () use ($appointmentId, &$count) {
+            DB::transaction(function () use ($appointmentId, &$count, &$policyMinutesCache) {
                 $locked = Appointment::query()
                     ->whereKey($appointmentId)
                     ->lockForUpdate()
@@ -170,7 +186,13 @@ class AppointmentFulfillmentService
                 $session = ScheduleSession::query()->whereKey($locked->session_id)->first();
                 if ($session === null
                     || $session->status !== ScheduleSessionStatus::Scheduled
-                    || $session->ends_at->isFuture()) {
+                    || $session->ends_at->isFuture()
+                    || ! $this->isWithinAutoCheckInWindow(
+                        $session,
+                        $locked->tenant_id,
+                        $locked->site_id,
+                        $policyMinutesCache,
+                    )) {
                     return;
                 }
 
@@ -252,9 +274,7 @@ class AppointmentFulfillmentService
             ->firstOrFail();
 
         $policy = $this->policy->policyForTenantSite($tenantId, $site->id);
-        $signWindowMinutes = $session->session_kind === ScheduleSessionKind::Group
-            ? (int) ($policy['group']['signMinutesBeforeStart'] ?? 30)
-            : (int) ($policy['private']['signMinutesBeforeStart'] ?? 30);
+        $signWindowMinutes = (int) ($policy['group']['signMinutesBeforeStart'] ?? 30);
 
         $earliestCheckIn = $session->starts_at->copy()->subMinutes(max(0, $signWindowMinutes));
         abort_unless(now()->greaterThanOrEqualTo($earliestCheckIn), 409, 'CHECK_IN_TOO_EARLY');
@@ -498,6 +518,29 @@ class AppointmentFulfillmentService
     private function siteTimezone(Site $site): string
     {
         return $site->timezone ?: (string) config('app.timezone');
+    }
+
+    /**
+     * @param  array<int, int>  $policyMinutesCache
+     */
+    private function isWithinAutoCheckInWindow(
+        ScheduleSession $session,
+        int $tenantId,
+        int $siteId,
+        array &$policyMinutesCache,
+    ): bool {
+        if ($session->ends_at->isFuture()) {
+            return false;
+        }
+
+        if (! array_key_exists($siteId, $policyMinutesCache)) {
+            $policy = $this->policy->policyForTenantSite($tenantId, $siteId);
+            $policyMinutesCache[$siteId] = max(1, (int) ($policy['group']['autoCheckInMinutesAfterEnd'] ?? 5));
+        }
+
+        $deadline = $session->ends_at->copy()->addMinutes($policyMinutesCache[$siteId]);
+
+        return now()->lte($deadline);
     }
 
     private function derivePenaltyCommandKey(string $markAbsentCommandKey): string

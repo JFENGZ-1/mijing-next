@@ -5,11 +5,13 @@ import {
   getMemberAppointments,
   getMemberCardLedgerEntries,
   getMemberWalletCards,
+  promoteMemberAppointment,
 } from "@/api/member";
 import { requireMemberAuth } from "@/auth/guard";
 import { ensureMemberTenant } from "@/composables/member-context";
 import type { MemberAppointmentSummary, MemberCardLedgerEntry, MemberCardWalletSummary } from "@/types/member";
 import { formatIsoDate } from "@/utils/format";
+import { createCommandKey } from "@/utils/command-key";
 import { navigateToOnce } from "@/utils/navigate";
 
 const loading = ref(true);
@@ -24,6 +26,8 @@ const requestedCardId = ref(0);
 const currentCard = ref<MemberCardWalletSummary | null>(null);
 
 const appointments = ref<MemberAppointmentSummary[]>([]);
+const promotingId = ref<number | null>(null);
+const promoteCommandKeys = new Map<number, string>();
 
 const ledgerItems = ref<MemberCardLedgerEntry[]>([]);
 const ledgerPage = ref(1);
@@ -113,6 +117,44 @@ function openDetail(item: MemberAppointmentSummary) {
   navigateToOnce(`/pages/booking/detail?id=${item.sessionId}`);
 }
 
+function confirmPromote(item: MemberAppointmentSummary) {
+  uni.showModal({
+    title: "确认候补名额",
+    content: "确认后将尝试转为正式预约，并按课程规则扣减会员卡。",
+    confirmText: "确认",
+    success: async (result) => {
+      if (!result.confirm) return;
+      await promoteAppointment(item);
+    },
+  });
+}
+
+async function promoteAppointment(item: MemberAppointmentSummary) {
+  const tenant = await ensureMemberTenant();
+  if (!tenant || promotingId.value === item.id) return;
+
+  let commandKey = promoteCommandKeys.get(item.id);
+  if (!commandKey) {
+    commandKey = createCommandKey();
+    promoteCommandKeys.set(item.id, commandKey);
+  }
+
+  promotingId.value = item.id;
+  try {
+    await promoteMemberAppointment(tenant.tenantId, item.id, commandKey);
+    promoteCommandKeys.delete(item.id);
+    uni.showToast({ title: "候补已确认", icon: "success" });
+    await loadAll();
+  } catch (error) {
+    uni.showToast({
+      title: error instanceof Error ? error.message : "候补确认失败",
+      icon: "none",
+    });
+  } finally {
+    promotingId.value = null;
+  }
+}
+
 onLoad((query) => {
   requestedCardId.value = Number(query?.cardId ?? 0);
   if (query?.tab === "1") tabCurrent.value = 1;
@@ -160,7 +202,14 @@ onPullDownRefresh(async () => {
           margin-top="60"
         />
         <view v-for="item in appointments" :key="item.id" class="list-item">
-          <appointment-row :item="item" variant="legacy" @tap="openDetail(item)" />
+          <appointment-row
+            :item="item"
+            variant="legacy"
+            :promotable="item.status === 'waitlisted'"
+            :promoting="promotingId === item.id"
+            @tap="openDetail(item)"
+            @promote="confirmPromote(item)"
+          />
         </view>
       </view>
 
