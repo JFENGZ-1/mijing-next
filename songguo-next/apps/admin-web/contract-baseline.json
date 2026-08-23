@@ -1,0 +1,2493 @@
+{
+  "sourceHash": "2c526fdc4e82dde1dcddd2b4dd9d832f493bf8c0ada03d2d5c42a494db1dd7d5",
+  "operations": [
+    {
+      "operationId": "listAdminAuditLogs",
+      "method": "GET",
+      "path": "/admin/audit-logs",
+      "group": "platform",
+      "disposition": "UNCLASSIFIED",
+      "signature": "79a9062013e5c10a4c3ec545d3dc4bb10e68e8d94b50f5eb0859a1ce697b461a"
+    },
+    {
+      "operationId": "loginSuperAdmin",
+      "method": "POST",
+      "path": "/admin/auth/login",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "119be40276c9b221342bf7dba7bcabbab38fe6a25e15afe8f964edef9869f9e8"
+    },
+    {
+      "operationId": "logoutSuperAdmin",
+      "method": "POST",
+      "path": "/admin/auth/logout",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "6301ff53a1d4875fdd4ef52aea095fb8be10e04cedc90e0ab5ba2bdd3c0530bf"
+    },
+    {
+      "operationId": "getAdminDashboard",
+      "method": "GET",
+      "path": "/admin/dashboard",
+      "group": "platform",
+      "disposition": "UNCLASSIFIED",
+      "signature": "2eae70a0127843faed30ce9a56be9cd9f0a17f46ed9002f2ff1129e423ff9f9f"
+    },
+    {
+      "operationId": "getSuperAdminProfile",
+      "method": "GET",
+      "path": "/admin/me",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "42641ec27a6a66f63c28a8fe389c2c50568a68b7aa956cb6074c6de2a6a0fbbf"
+    },
+    {
+      "operationId": "listAdminMediaAssets",
+      "method": "GET",
+      "path": "/admin/media-assets",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "140dfffbc6f6d738118d09527ec943f9508aedc12d89171bed6bc1e46cf39502"
+    },
+    {
+      "operationId": "createAdminMediaAsset",
+      "method": "POST",
+      "path": "/admin/media-assets",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "b193205cc697176853c7616cbed9780866ccf8e8effe04fd365d122deed4a3e4"
+    },
+    {
+      "operationId": "updateAdminMediaAsset",
+      "method": "PUT",
+      "path": "/admin/media-assets/{mediaAsset}",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "5852ca3e996f6b6bbdee20a886c63f81d9e3aa2f0f16326da8349f4d60d6e598"
+    },
+    {
+      "operationId": "archiveAdminMediaAsset",
+      "method": "POST",
+      "path": "/admin/media-assets/{mediaAsset}/archive",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "6353f00533fa1d51069d1013cb213c374129d3b9d60b5a1b04085e610eab4307"
+    },
+    {
+      "operationId": "getAdminMediaAssetContent",
+      "method": "GET",
+      "path": "/admin/media-assets/{mediaAsset}/content",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "06b9da48c1d5228c5aa8ea4f18c75559ef990df205df5a4e5ad7c406f2f35883"
+    },
+    {
+      "operationId": "publishAdminMediaAsset",
+      "method": "POST",
+      "path": "/admin/media-assets/{mediaAsset}/publish",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "d5d26241dfc3833f33f16cfb01bcd29b96fc27a00d32758c6c94131f4f2165d4"
+    },
+    {
+      "operationId": "listAdminMembers",
+      "method": "GET",
+      "path": "/admin/members",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "21168ef6df38eed95fd60461056af350aca41f5f50243e4112703c82ccd9d37f"
+    },
+    {
+      "operationId": "listAdminJobBatches",
+      "method": "GET",
+      "path": "/admin/queues/batches",
+      "group": "platform",
+      "disposition": "UNCLASSIFIED",
+      "signature": "95992effc6c40bc7ede1e05a1cd83762203a3bd62cee349b1f8043ca428bd264"
+    },
+    {
+      "operationId": "listAdminFailedJobs",
+      "method": "GET",
+      "path": "/admin/queues/failed",
+      "group": "platform",
+      "disposition": "UNCLASSIFIED",
+      "signature": "767611674d4fd344cd72f0fcae721deb1196d41426a077d07e5ebd9d431b2136"
+    },
+    {
+      "operationId": "forgetAdminFailedJob",
+      "method": "DELETE",
+      "path": "/admin/queues/failed/{uuid}",
+      "group": "platform",
+      "disposition": "UNCLASSIFIED",
+      "signature": "b3e36f3636f0f35431ce620383de340411b0b70cae0b4af261b5a05f8cdf1029"
+    },
+    {
+      "operationId": "retryAdminFailedJob",
+      "method": "POST",
+      "path": "/admin/queues/failed/{uuid}/retry",
+      "group": "platform",
+      "disposition": "UNCLASSIFIED",
+      "signature": "4d3479874f0bfa2ca5b64508ad793899729183e9a59de60fce808f2d1373fb0d"
+    },
+    {
+      "operationId": "listAdminQueueJobs",
+      "method": "GET",
+      "path": "/admin/queues/jobs",
+      "group": "platform",
+      "disposition": "UNCLASSIFIED",
+      "signature": "d4c8af2d1eadf3c941c3c0bdea9346d61e3170d91b33a4ad1b24b8849f9f3694"
+    },
+    {
+      "operationId": "getAdminQueueOverview",
+      "method": "GET",
+      "path": "/admin/queues/overview",
+      "group": "platform",
+      "disposition": "UNCLASSIFIED",
+      "signature": "04febe563cad6343aea27634c83edfdb695df33893273d9f5115c3fc9858d944"
+    },
+    {
+      "operationId": "getAdminWechatPaymentConfig",
+      "method": "GET",
+      "path": "/admin/settings/payments/wechat",
+      "group": "commerce",
+      "disposition": "UNCLASSIFIED",
+      "signature": "613ef76224cdb7978544cf6020e591e37bec5d755f96e09190202a50176e9468"
+    },
+    {
+      "operationId": "updateAdminWechatPaymentConfig",
+      "method": "PUT",
+      "path": "/admin/settings/payments/wechat",
+      "group": "commerce",
+      "disposition": "UNCLASSIFIED",
+      "signature": "d02c5303a93fb736b676b482a7fffc21f1e79ed2963b50aa07ca958f9488ec69"
+    },
+    {
+      "operationId": "listAdminTenants",
+      "method": "GET",
+      "path": "/admin/tenants",
+      "group": "platform",
+      "disposition": "UNCLASSIFIED",
+      "signature": "3a835a143af036f477bdfbfd20f7a538e75fc77ac30474876ba181052cdf6a40"
+    },
+    {
+      "operationId": "logoutCurrentSession",
+      "method": "POST",
+      "path": "/auth/logout",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "e729b164d0e854f1aec1956c97a38500722820a0099aee79d4fbc8c393672705"
+    },
+    {
+      "operationId": "loginWithWechat",
+      "method": "POST",
+      "path": "/auth/wechat/login",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "69e4cb861b371c54ea59dfef4a970530a33bbe5e890a7215716b98e23d156f46"
+    },
+    {
+      "operationId": "getHealth",
+      "method": "GET",
+      "path": "/health",
+      "group": "platform",
+      "disposition": "ADOPT",
+      "signature": "16680c434df181cc0960d4561def0a735f5a9d06718a004b63d62a411a9d17f4"
+    },
+    {
+      "operationId": "resolveWechatUnionId",
+      "method": "POST",
+      "path": "/identity/wechat/unionid",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "c23ab45fd386193168acc75f0982d6fe3137c14c911ad3d834fa94a9e4f13a3f"
+    },
+    {
+      "operationId": "getCurrentAccount",
+      "method": "GET",
+      "path": "/me",
+      "group": "identity",
+      "disposition": "ADOPT",
+      "signature": "fbf2ff5d55cb85eeb2ad8139bf3f509da7aaf636a6e39560628d645c4ff526e9"
+    },
+    {
+      "operationId": "getPublishedMediaAsset",
+      "method": "GET",
+      "path": "/media/{uuid}",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "f7dc9e6e5e8ab316ceae8bbe2acca7680629721d87c8c4f239b920bcb5458219"
+    },
+    {
+      "operationId": "listMemberAppointments",
+      "method": "GET",
+      "path": "/member/booking/appointments",
+      "group": "booking",
+      "disposition": "IGNORE",
+      "signature": "101198757c826f5dc5151b07d53866617f6a3ffea328c6b031b6ddde837a1b57"
+    },
+    {
+      "operationId": "createMemberAppointment",
+      "method": "POST",
+      "path": "/member/booking/appointments",
+      "group": "booking",
+      "disposition": "IGNORE",
+      "signature": "99e9ecedde5fd1b260d2caa32304e6d1868c92273e56b0e26bb994c5c35bfc13"
+    },
+    {
+      "operationId": "cancelMemberAppointment",
+      "method": "POST",
+      "path": "/member/booking/appointments/{appointment}/cancel",
+      "group": "booking",
+      "disposition": "IGNORE",
+      "signature": "57f5d7d094e803c9b66436d70e90937d213293bb92d4718ef615bc552a34deb0"
+    },
+    {
+      "operationId": "promoteMemberWaitlistAppointment",
+      "method": "POST",
+      "path": "/member/booking/appointments/{appointment}/promote",
+      "group": "booking",
+      "disposition": "IGNORE",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "listMemberBookingCatalog",
+      "method": "GET",
+      "path": "/member/booking/catalog",
+      "group": "booking",
+      "disposition": "IGNORE",
+      "signature": "b6c669624522b53e319f0abf946e8c01c897462c3c5b756d2b80ab1400fbd29f"
+    },
+    {
+      "operationId": "getMemberBookingSession",
+      "method": "GET",
+      "path": "/member/booking/sessions/{session}",
+      "group": "booking",
+      "disposition": "IGNORE",
+      "signature": "5169b7e79faf92c3ae95a198b053d16ba9bf0a57dc0bb73dc4947ce5e7ed4eb8"
+    },
+    {
+      "operationId": "listMemberBookingPayableCards",
+      "method": "GET",
+      "path": "/member/booking/sessions/{session}/payable-cards",
+      "group": "booking",
+      "disposition": "IGNORE",
+      "signature": "359d4d61e64272df364357d628018679999b230e2c1d848f1d2e23450e7a9514"
+    },
+    {
+      "operationId": "listMemberCardProducts",
+      "method": "GET",
+      "path": "/member/card-products",
+      "group": "entitlement",
+      "disposition": "IGNORE",
+      "signature": "e0f45889aa22ecd2d078e025103c59c1268d4625b634f6c4c57488fdcfa28d73"
+    },
+    {
+      "operationId": "submitMemberCardPurchase",
+      "method": "POST",
+      "path": "/member/card-purchases",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "efd4248902631954424a77f701ad230efc56720cb43ee0b2a83732289c42ba2b"
+    },
+    {
+      "operationId": "previewMemberCardTransfer",
+      "method": "GET",
+      "path": "/member/card-transfers/{token}",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "cb866813bd42806cbbdb8dc5f8ad3f1643432de64fa4a744bc88933deec765ca"
+    },
+    {
+      "operationId": "claimMemberCardTransfer",
+      "method": "POST",
+      "path": "/member/card-transfers/{token}/claim",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "9ad5b0a2248cfbb635ff25264378a4dea44d561a86a7b3f7756f73f51353740f"
+    },
+    {
+      "operationId": "getMemberHomeDashboard",
+      "method": "GET",
+      "path": "/member/home",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "9beb36008892661e94ef005ce8128bf34157f7af41fcae38e45f44cf3f354218"
+    },
+    {
+      "operationId": "listCurrentMemberLegalDocuments",
+      "method": "GET",
+      "path": "/member/legal-documents",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "3fab3154dcae964efeb11e4dc5bf8342915ebdcbd8df7734adb43670b066b734"
+    },
+    {
+      "operationId": "listMemberWalletCards",
+      "method": "GET",
+      "path": "/member/member-cards",
+      "group": "entitlement",
+      "disposition": "IGNORE",
+      "signature": "ef2092a8f531f5e691e4f63981443de800377919c19b8840a0007d15e9ad46d0"
+    },
+    {
+      "operationId": "activateMemberCard",
+      "method": "POST",
+      "path": "/member/member-cards/{memberCard}/activate",
+      "group": "entitlement",
+      "disposition": "IGNORE",
+      "signature": "f148981f757e827bc3958f9c7a228f5074b44a3c53944248c251e7e0926fe414"
+    },
+    {
+      "operationId": "getMemberMemberCardBenefits",
+      "method": "GET",
+      "path": "/member/member-cards/{memberCard}/benefits",
+      "group": "entitlement",
+      "disposition": "IGNORE",
+      "signature": "286ff9a5bc724a7c539170636c27060686c66e78483e026c2971d63c49c0ef9f"
+    },
+    {
+      "operationId": "hideMemberCard",
+      "method": "POST",
+      "path": "/member/member-cards/{memberCard}/hide",
+      "group": "entitlement",
+      "disposition": "IGNORE",
+      "signature": "6a11f6aaa03c4632b7377c7163dbf19bcb608164537cc32292c2421060427c65"
+    },
+    {
+      "operationId": "listMemberCardLedgerEntries",
+      "method": "GET",
+      "path": "/member/member-cards/{memberCard}/ledger-entries",
+      "group": "entitlement",
+      "disposition": "IGNORE",
+      "signature": "43dcedd2a6fe217c5d8f0ed97fd24174e614fa4df6b84a0c514af5ed035a4a53"
+    },
+    {
+      "operationId": "restoreMemberCardVisibility",
+      "method": "POST",
+      "path": "/member/member-cards/{memberCard}/restore-visibility",
+      "group": "entitlement",
+      "disposition": "IGNORE",
+      "signature": "5ef574af950abb53b9820f9709420b35351a11ec9cb5e68dcf70e58ba04a598a"
+    },
+    {
+      "operationId": "listMemberHiddenCards",
+      "method": "GET",
+      "path": "/member/member-cards/hidden",
+      "group": "entitlement",
+      "disposition": "IGNORE",
+      "signature": "86a7e71db9065408a691d8048c49cc0352068c543127f3ae8451e5cec9baae1d"
+    },
+    {
+      "operationId": "listOwnMemberLinkRequests",
+      "method": "GET",
+      "path": "/member/member-link-requests",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "990687c00c143ad0bbdd11ffba0769c4a0a3583ee09d0a699ff083d7e47e7662"
+    },
+    {
+      "operationId": "decideOwnMemberLinkRequest",
+      "method": "POST",
+      "path": "/member/member-link-requests/{linkRequest}/decision",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "b158fb5741764120faf2b888dad282303d18b05148390bb964e4797a79bac710"
+    },
+    {
+      "operationId": "joinMemberSite",
+      "method": "POST",
+      "path": "/member/memberships",
+      "group": "members",
+      "disposition": "IGNORE",
+      "signature": "e25ab48701f6778b06e4ceb7c8b39c2c1c7d3bd894fef9f26aceb1ff0a691f47"
+    },
+    {
+      "operationId": "getMemberMineDashboard",
+      "method": "GET",
+      "path": "/member/mine",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "f82a596bd52d55cd05bc9ac8e018c4740be9e5653b57ae0a3bfac2f9b0223ed3"
+    },
+    {
+      "operationId": "listMemberNotices",
+      "method": "GET",
+      "path": "/member/notices",
+      "group": "organization",
+      "disposition": "IGNORE",
+      "signature": "ecfd15c5e1ae85062bdc6924a1b1215dc2ad4b2ee3c5b926dca236ee1bbaa426"
+    },
+    {
+      "operationId": "getMemberNoticeDetail",
+      "method": "GET",
+      "path": "/member/notices/{notice}",
+      "group": "organization",
+      "disposition": "IGNORE",
+      "signature": "c525ea0d01aec2d87954904e42104c36af11f13a3649f8541cad903558aa92e2"
+    },
+    {
+      "operationId": "getMemberOfficialAccountFollow",
+      "method": "GET",
+      "path": "/member/official-account-follow",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "53891d4e609a4ccdaa925c6fd310235117228e1d787b99aa1268bb1216da0416"
+    },
+    {
+      "operationId": "getMemberOnboarding",
+      "method": "GET",
+      "path": "/member/onboarding",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "6c11307b190b944ea72cd4449dd53f653494bef87dacd0aa3d68344ab93a8187"
+    },
+    {
+      "operationId": "listMemberOrders",
+      "method": "GET",
+      "path": "/member/orders",
+      "group": "commerce",
+      "disposition": "IGNORE",
+      "signature": "e1db4f29ad9506aab421588c7d7e0edd8d761038d5fc8d258f20ee735c64e740"
+    },
+    {
+      "operationId": "getMemberOrder",
+      "method": "GET",
+      "path": "/member/orders/{order}",
+      "group": "commerce",
+      "disposition": "IGNORE",
+      "signature": "b6551ce4b60766fe564fe2ed0dfbec5a0f66c6ae0cb91070b8b32aadfe9b77b0"
+    },
+    {
+      "operationId": "resumeMemberOrderPayment",
+      "method": "POST",
+      "path": "/member/orders/{order}/payment",
+      "group": "commerce",
+      "disposition": "IGNORE",
+      "signature": "ffe6077bdf9a98d873bd1281a1a47978921d56b403b31e9b95b64107b2d7b13e"
+    },
+    {
+      "operationId": "syncMemberOrderPayment",
+      "method": "POST",
+      "path": "/member/orders/{order}/sync-payment",
+      "group": "commerce",
+      "disposition": "IGNORE",
+      "signature": "352151e86bdd134a5f8f76ef18a8d273a4e814c472a8261d37b2073f00b9470f"
+    },
+    {
+      "operationId": "listMemberPointLedger",
+      "method": "GET",
+      "path": "/member/points/ledger",
+      "group": "entitlement",
+      "disposition": "IGNORE",
+      "signature": "ef621f17ecf4b25a37c866712afea6cce353b5738e201303f5e932cedb523d78"
+    },
+    {
+      "operationId": "getMemberTenantProfile",
+      "method": "GET",
+      "path": "/member/profile",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "8b2d12e2a0070f0a0fcfd5b727408ad286870040c7b9bef771647608c697a301"
+    },
+    {
+      "operationId": "patchMemberTenantProfile",
+      "method": "PATCH",
+      "path": "/member/profile",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "5cac28b89062f48aeddb4651e9d3c0d560fe3a0459fd9e38e4afdb3d4e3b4c60"
+    },
+    {
+      "operationId": "updateOwnMemberProfile",
+      "method": "PUT",
+      "path": "/member/profile",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "959cf860edfb249aeb9e27b5b0e0cd52c28f10d5290505078d44a7502c053400"
+    },
+    {
+      "operationId": "uploadMemberAvatar",
+      "method": "POST",
+      "path": "/member/profile/avatar",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "7fc06bd029d7a6fda6aee065ec931e7630a3ffb79a83dccf4fae3e0da53c414f"
+    },
+    {
+      "operationId": "getMemberPurchaseGate",
+      "method": "GET",
+      "path": "/member/profile/purchase-gate",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "9653f833b364e3fc69aedca4f67ae8c670b5dfecc04534f9601c63519879096f"
+    },
+    {
+      "operationId": "updateMemberRankingOptIn",
+      "method": "PATCH",
+      "path": "/member/profile/ranking-opt-in",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "a237f9118014161906e5ffb60fc8bcc686e06d7e022fca247a068cf18e552dfa"
+    },
+    {
+      "operationId": "verifyOwnWechatMobile",
+      "method": "POST",
+      "path": "/member/profile/verify-mobile",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "8149517d1cf4f54d0003fa0eef702f8b9ba4bcdc30db4fdae1fad99c13a2ab09"
+    },
+    {
+      "operationId": "listMemberMonthlyRanking",
+      "method": "GET",
+      "path": "/member/ranking/monthly",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "ce354f1597071cc81b93217d788f0103807a45df75f2e8262a569e04ab25c8cc"
+    },
+    {
+      "operationId": "listJoinableMemberSites",
+      "method": "GET",
+      "path": "/member/sites",
+      "group": "organization",
+      "disposition": "IGNORE",
+      "signature": "2713131421066432859ee49f8e446ff64a0aac294a93379980bf017d65043b62"
+    },
+    {
+      "operationId": "getMemberSiteClosureStatus",
+      "method": "GET",
+      "path": "/member/sites/{site}/closure-status",
+      "group": "organization",
+      "disposition": "IGNORE",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "getMemberSitePublicDetail",
+      "method": "GET",
+      "path": "/member/sites/{site}/public-detail",
+      "group": "organization",
+      "disposition": "IGNORE",
+      "signature": "a00570015f0043be3febb899e476f008eacaa7fd16343a6f4fe1c8e34b692488"
+    },
+    {
+      "operationId": "getMemberMonthStats",
+      "method": "GET",
+      "path": "/member/stats/month",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "728fcd98b8f70694c24233f99df24a5d8119348c27babea2fac73458326d9f43"
+    },
+    {
+      "operationId": "listMemberMonthAppointments",
+      "method": "GET",
+      "path": "/member/stats/month/appointments",
+      "group": "booking",
+      "disposition": "IGNORE",
+      "signature": "4fa094acb84489a4a53262ee2824592d8ac04b9eb4ab1ad7aafcadf3cd920d9a"
+    },
+    {
+      "operationId": "getMemberYearStats",
+      "method": "GET",
+      "path": "/member/stats/year",
+      "group": "identity",
+      "disposition": "IGNORE",
+      "signature": "534aff7c3160351479196b3d4d4e4d5bf3ed5ab227f79ffee540d2c47474e9b9"
+    },
+    {
+      "operationId": "getPublicBookingShareSession",
+      "method": "GET",
+      "path": "/public/booking/share/sessions/{token}",
+      "group": "booking",
+      "disposition": "IGNORE",
+      "signature": "c3dbd015de835b82de9c1969b9ce707a000c99c022a79bc2e1b6686580a2d07a"
+    },
+    {
+      "operationId": "getPublicBookingWarmHint",
+      "method": "GET",
+      "path": "/public/booking/warm-hint/sites/{site}",
+      "group": "booking",
+      "disposition": "IGNORE",
+      "signature": "08510e3d706203a7e4a0054981bcb73349b0d19c9571f2be2c3e7136649dc9eb"
+    },
+    {
+      "operationId": "listSites",
+      "method": "GET",
+      "path": "/sites",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "4876e0cf821d07650b1397c47ee60f2d47a01506b4361c208b325926a3228d02"
+    },
+    {
+      "operationId": "createSite",
+      "method": "POST",
+      "path": "/sites",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "5770b6f2ed9943c7e489d1a9a6a073be24eeb3a228f12673c667b08dfed7ec26"
+    },
+    {
+      "operationId": "disableSite",
+      "method": "DELETE",
+      "path": "/sites/{site}",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "422f0fc5df8f33654fc1ef789a1fc639d890ee150544a5bb37b1276a33d3ba58"
+    },
+    {
+      "operationId": "getSite",
+      "method": "GET",
+      "path": "/sites/{site}",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "b7397bf0f3767ea47680d1e585f90e28bc1a75e9c98db34ec805cede36756842"
+    },
+    {
+      "operationId": "updateSite",
+      "method": "PATCH",
+      "path": "/sites/{site}",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "96739320569d0d0b233ab8d89ae83c6bfbaf572942b3846c6af2a223a4c469bd"
+    },
+    {
+      "operationId": "getStaffChainBrand",
+      "method": "GET",
+      "path": "/staff/chain/brand",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "f3d8a1fbabbf41a7ecfd444e975efecc9c2f72cd0d41f4ead65e9cc59df06ea0"
+    },
+    {
+      "operationId": "updateStaffChainBrand",
+      "method": "PUT",
+      "path": "/staff/chain/brand",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "560ccc1d1642144c0178a3ee1a8a59ebfc9cc6dcf6e08901ba60f9e1f1fb18aa"
+    },
+    {
+      "operationId": "getStaffChainCourseSummary",
+      "method": "GET",
+      "path": "/staff/chain/reports/courses/summary",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "2a7ec9395ab91137870fa721b2f5af9e00364760a2241303e9116dc89ff94793"
+    },
+    {
+      "operationId": "getStaffChainFinanceSummary",
+      "method": "GET",
+      "path": "/staff/chain/reports/finance/summary",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "635518c3e185c85c199840cc6df2fbd5dc269ff05faeb568d482ca9c94b6429e"
+    },
+    {
+      "operationId": "getStaffChainMembersSummary",
+      "method": "GET",
+      "path": "/staff/chain/reports/members/summary",
+      "group": "members",
+      "disposition": "ADOPT",
+      "signature": "ae0741f39869c4dc47149130f8ea09055dd681d725423fa8d58ac179b4a84b8b"
+    },
+    {
+      "operationId": "getStaffChainSites",
+      "method": "GET",
+      "path": "/staff/chain/sites",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "50b251dc4b74a8a4944830e86e446d3cc1a78607bfbb34ffec4ba33b843f4b3a"
+    },
+    {
+      "operationId": "listStaffChainHeadquartersStaff",
+      "method": "GET",
+      "path": "/staff/chain/staff",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "bc007ce4af0b62c642abd2c9cb796ad2e6c793ce242dc2302d4f891d2d23644c"
+    },
+    {
+      "operationId": "listStaffChainStoreCourses",
+      "method": "GET",
+      "path": "/staff/chain/store-courses",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "b25fa27787e59053c3223372e13ea88c1e4b75c707aa2747f39ea4b777e4865f"
+    },
+    {
+      "operationId": "getStaffCommonData",
+      "method": "GET",
+      "path": "/staff/constants/common-data",
+      "group": "platform",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "getStaffRegionConstants",
+      "method": "GET",
+      "path": "/staff/constants/regions",
+      "group": "platform",
+      "disposition": "ADOPT",
+      "signature": "f4f25bc18e45e7b245077c8e9360fc05b6e4fb2b341a35ad756c60586b726cdb"
+    },
+    {
+      "operationId": "previewStaffInvite",
+      "method": "GET",
+      "path": "/staff/invites/{sign}",
+      "group": "access",
+      "disposition": "ADOPT",
+      "signature": "5c46d14b95ad3fad305d7dc1d91bd777dd5ddf6076434e360aec7a48e83b7979"
+    },
+    {
+      "operationId": "acceptStaffInvite",
+      "method": "POST",
+      "path": "/staff/invites/{sign}/accept",
+      "group": "access",
+      "disposition": "UNCLASSIFIED",
+      "signature": "1704ce180794917649ac653ca4f712885a7d3243c8db88f35f237eb5b842ea4a"
+    },
+    {
+      "operationId": "listMemberTags",
+      "method": "GET",
+      "path": "/staff/member-tags",
+      "group": "members",
+      "disposition": "ADOPT",
+      "signature": "e8578c3156a0364ed0c334399ea99b6b5e99f26cd675adf5fc659bbeb32beb9e"
+    },
+    {
+      "operationId": "createMemberTag",
+      "method": "POST",
+      "path": "/staff/member-tags",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "f760825341ba0c05b90db7989cc87c605d248056c2543dabe0da926dbc536b61"
+    },
+    {
+      "operationId": "getStaffPermissionCatalog",
+      "method": "GET",
+      "path": "/staff/permission-catalog",
+      "group": "access",
+      "disposition": "ADOPT",
+      "signature": "cac881b958eb18fd3968bbda318905580f40c81ae998f75e54a18f905bea7d01"
+    },
+    {
+      "operationId": "getStaffPlatformSubscriptionAgreement",
+      "method": "GET",
+      "path": "/staff/platform/subscription/agreement",
+      "group": "commerce",
+      "disposition": "ADOPT",
+      "signature": "80595817f9b279a6d1aff0817d17fd5a78e5af488d08f0d02365b9ed533381c6"
+    },
+    {
+      "operationId": "payStaffPlatformSubscription",
+      "method": "POST",
+      "path": "/staff/platform/subscription/pay",
+      "group": "commerce",
+      "disposition": "UNCLASSIFIED",
+      "signature": "024a1327658a22886d9be68de0541548c68929c47dfc482d1514026bc61101da"
+    },
+    {
+      "operationId": "getStaffPlatformSubscriptionPricing",
+      "method": "GET",
+      "path": "/staff/platform/subscription/pricing",
+      "group": "commerce",
+      "disposition": "ADOPT",
+      "signature": "df6df410b939a90f482da9b42551a7998dfb8020a6f409d521c1a8bfa4f3d497"
+    },
+    {
+      "operationId": "getStaffProfile",
+      "method": "GET",
+      "path": "/staff/profile",
+      "group": "identity",
+      "disposition": "ADOPT",
+      "signature": "e581bb813c7205bfa530b6227b742b2b182c8301c2a54bb1c2f7b41b680b344c"
+    },
+    {
+      "operationId": "updateStaffProfile",
+      "method": "PATCH",
+      "path": "/staff/profile",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "df881fdc1231c7643041d556ef4e0d92dbb015f325e1abf420391f7ca77dc3e0"
+    },
+    {
+      "operationId": "uploadStaffProfileAvatar",
+      "method": "POST",
+      "path": "/staff/profile/avatar",
+      "group": "identity",
+      "disposition": "UNCLASSIFIED",
+      "signature": "a20d82012d88b2b490d1c60a5a03f2775aecefc9d42febbcbc3c3998cd881700"
+    },
+    {
+      "operationId": "listStaffRoles",
+      "method": "GET",
+      "path": "/staff/roles",
+      "group": "access",
+      "disposition": "ADOPT",
+      "signature": "66b2efd5c89b85e8736a8f5f99090518dfc6cf37e336f5a7cb2c2b2b7f045809"
+    },
+    {
+      "operationId": "upsertStaffRole",
+      "method": "POST",
+      "path": "/staff/roles",
+      "group": "access",
+      "disposition": "UNCLASSIFIED",
+      "signature": "7b803fd35b60c8c5fe1d478ae5e47e457ab0cf637fd4a4d14ae94cadcae87ad2"
+    },
+    {
+      "operationId": "getStaffRoleDetail",
+      "method": "GET",
+      "path": "/staff/roles/{role}",
+      "group": "access",
+      "disposition": "ADOPT",
+      "signature": "53939836bdf7c16c9381ef400ba3f5a3f46f2f6f86c4ef529cde0b0e14385a9d"
+    },
+    {
+      "operationId": "cancelStaffAppointment",
+      "method": "POST",
+      "path": "/staff/sites/{site}/appointments/{appointment}/cancel",
+      "group": "booking",
+      "disposition": "CUSTOM",
+      "signature": "d1beec3234e0f6b4c3ece8d3e0fa2801efdc500c69183bc8f3b6c2897d07be5d"
+    },
+    {
+      "operationId": "markStaffAppointmentAbsent",
+      "method": "POST",
+      "path": "/staff/sites/{site}/appointments/{appointment}/mark-absent",
+      "group": "booking",
+      "disposition": "UNCLASSIFIED",
+      "signature": "fab8582fafd4fe18c18c1c44c36f0c01d441a66bce9fff782d79fbe97ad1397b"
+    },
+    {
+      "operationId": "markStaffAppointmentCheckIn",
+      "method": "POST",
+      "path": "/staff/sites/{site}/appointments/{appointment}/mark-check-in",
+      "group": "booking",
+      "disposition": "CUSTOM",
+      "signature": "db0344156be069e6e045444e2c9f7978412e9fcc2ee2854dab77a43a9326aeb3"
+    },
+    {
+      "operationId": "promoteStaffWaitlistAppointment",
+      "method": "POST",
+      "path": "/staff/sites/{site}/appointments/{appointment}/promote",
+      "group": "booking",
+      "disposition": "CUSTOM",
+      "signature": "e970b1f0996056a0a82233a4c29053ec957782ffdd981c713cc020c9315c6207"
+    },
+    {
+      "operationId": "rescheduleStaffPrivateAppointment",
+      "method": "POST",
+      "path": "/staff/sites/{site}/appointments/{appointment}/reschedule",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "f6f8a19fb900375ddbdb8b0907045cbfc0a73c81925daf7a604d71024c18b41c"
+    },
+    {
+      "operationId": "updateStaffAppointmentNotes",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/appointments/{appointment}/staff-notes",
+      "group": "booking",
+      "disposition": "UNCLASSIFIED",
+      "signature": "75db9c77efa625fc614ce1600b260f7f927548a2abfd8e1bf615493ed5cb754c"
+    },
+    {
+      "operationId": "getStaffBookingPolicy",
+      "method": "GET",
+      "path": "/staff/sites/{site}/booking-policy",
+      "group": "booking",
+      "disposition": "ADOPT",
+      "signature": "3751c32edd4581836475ef99275acafde2ad8e5dffcf195e9370b9846c5dba2b"
+    },
+    {
+      "operationId": "patchStaffBookingPolicy",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/booking-policy",
+      "group": "booking",
+      "disposition": "UNCLASSIFIED",
+      "signature": "562b5f685e6e78279a3187841ecba09980117fe267644237271df66825a4c2a1"
+    },
+    {
+      "operationId": "updateStaffBookingPolicy",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/booking-policy",
+      "group": "booking",
+      "disposition": "UNCLASSIFIED",
+      "signature": "562b5f685e6e78279a3187841ecba09980117fe267644237271df66825a4c2a1"
+    },
+    {
+      "operationId": "getStaffBookingDailyBoard",
+      "method": "GET",
+      "path": "/staff/sites/{site}/booking/daily-board",
+      "group": "booking",
+      "disposition": "ADOPT",
+      "signature": "42424efb04148a086c835f916e9aaacef458e803a7ce7ea3c3b59028c50e739a"
+    },
+    {
+      "operationId": "listStaffBookingUpcoming",
+      "method": "GET",
+      "path": "/staff/sites/{site}/booking/upcoming",
+      "group": "booking",
+      "disposition": "ADOPT",
+      "signature": "534e6c5a950d4e0eaef03b892516b4269e6e516abf02b1aa878001b480435d62"
+    },
+    {
+      "operationId": "listStaffCardProducts",
+      "method": "GET",
+      "path": "/staff/sites/{site}/card-products",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "6f3effb73b8ba017cafb897ed2ca29873a90f9d71ab70ca174754879804c3595"
+    },
+    {
+      "operationId": "createStaffCardProduct",
+      "method": "POST",
+      "path": "/staff/sites/{site}/card-products",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "77a41a1670ad69a054af5b29a82877d832c59c1fa78a0988042d6c4fb5e913a9"
+    },
+    {
+      "operationId": "deleteStaffCardProduct",
+      "method": "DELETE",
+      "path": "/staff/sites/{site}/card-products/{cardProduct}",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "8bc3d2c179611d7abb8e3e3ca6493bd7b6bcbe8b11d675d883d4432e6fd455dd"
+    },
+    {
+      "operationId": "getStaffCardProduct",
+      "method": "GET",
+      "path": "/staff/sites/{site}/card-products/{cardProduct}",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "235b4173662336d4135ebf37a398ba328ce2f552d154163c46cc0f87158e6560"
+    },
+    {
+      "operationId": "patchStaffCardProduct",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/card-products/{cardProduct}",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "1ed3dd85272f70ceee120e09df23c1ef985d8fe23f0d1bbe82928a6bab30043c"
+    },
+    {
+      "operationId": "updateStaffCardProduct",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/card-products/{cardProduct}",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "1ed3dd85272f70ceee120e09df23c1ef985d8fe23f0d1bbe82928a6bab30043c"
+    },
+    {
+      "operationId": "archiveStaffCardProduct",
+      "method": "POST",
+      "path": "/staff/sites/{site}/card-products/{cardProduct}/archive",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "f608f854496a3c5e1439a5a9b73171d04e14ab20302e3e4c1d2d3fdec1d1d3f2"
+    },
+    {
+      "operationId": "getStaffCardProductGroupHistory",
+      "method": "GET",
+      "path": "/staff/sites/{site}/card-products/{cardProduct}/group-history",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "restoreStaffCardProduct",
+      "method": "POST",
+      "path": "/staff/sites/{site}/card-products/{cardProduct}/restore",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "d9b9f678084e7be88abe4f16e8a80e5bbd1ac876d88d08f3713a8f798afb01fe"
+    },
+    {
+      "operationId": "createStaffCardProductExportJob",
+      "method": "POST",
+      "path": "/staff/sites/{site}/card-products/export-jobs",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "024a1327658a22886d9be68de0541548c68929c47dfc482d1514026bc61101da"
+    },
+    {
+      "operationId": "getStaffCardProductFaceLibrary",
+      "method": "GET",
+      "path": "/staff/sites/{site}/card-products/face-library",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "resolveStaffCheckIn",
+      "method": "POST",
+      "path": "/staff/sites/{site}/check-in/resolve",
+      "group": "booking",
+      "disposition": "CUSTOM",
+      "signature": "78674e4cc8826eeb4c4561673635959f7b2ec02717a4ebae701d4874dcc0ec4f"
+    },
+    {
+      "operationId": "listStaffSiteClosures",
+      "method": "GET",
+      "path": "/staff/sites/{site}/closure-calendar",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "8520e0ef4a297f45917969eaa01f0899939e0cf218847d18dc24763c921a8476"
+    },
+    {
+      "operationId": "createStaffSiteClosure",
+      "method": "POST",
+      "path": "/staff/sites/{site}/closure-calendar",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "de92b8d6c95c47bb34197a0dd537577337007e39c3701bc58ab2f331602e96af"
+    },
+    {
+      "operationId": "updateStaffSiteClosure",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/closure-calendar/{closure}",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "a569b3af56473ac19d0a4b3710a75bc3b7f35d46b6ebc13fc107219176565616"
+    },
+    {
+      "operationId": "getStaffCourseTags",
+      "method": "GET",
+      "path": "/staff/sites/{site}/course-tags",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "updateStaffCourseTags",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/course-tags",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "listStaffCourses",
+      "method": "GET",
+      "path": "/staff/sites/{site}/courses",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "6aa11ce14ea060ef7680a7b0e9e5545e20da95eda44b552dfd905cae8b350417"
+    },
+    {
+      "operationId": "createStaffCourse",
+      "method": "POST",
+      "path": "/staff/sites/{site}/courses",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "0eb31e583b65480c82631643ed7d015cbff78aa4ad5ef6ff3cb71737ee1e25c8"
+    },
+    {
+      "operationId": "deleteStaffCourse",
+      "method": "DELETE",
+      "path": "/staff/sites/{site}/courses/{course}",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "07fe9159d7830b34067f5c0c73dbdfb63e5c142f9831253f35829d682f947b20"
+    },
+    {
+      "operationId": "getStaffCourse",
+      "method": "GET",
+      "path": "/staff/sites/{site}/courses/{course}",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "09c3369f62b635082df854bc2fc4fb3f15f7436b10a81ffd2861cb715dffa6f4"
+    },
+    {
+      "operationId": "patchStaffCourse",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/courses/{course}",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "939af650ab162f0f3e0d003c5a4155a23dd050051a1f226a0069caa74b7418a5"
+    },
+    {
+      "operationId": "updateStaffCourse",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/courses/{course}",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "939af650ab162f0f3e0d003c5a4155a23dd050051a1f226a0069caa74b7418a5"
+    },
+    {
+      "operationId": "archiveStaffCourse",
+      "method": "POST",
+      "path": "/staff/sites/{site}/courses/{course}/archive",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "a1ae707c14317008ece4445968f9064809f76b576c87ab8982eb866ef6515dde"
+    },
+    {
+      "operationId": "getStaffCourseDeletePreflight",
+      "method": "GET",
+      "path": "/staff/sites/{site}/courses/{course}/delete-preflight",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "restoreStaffCourse",
+      "method": "POST",
+      "path": "/staff/sites/{site}/courses/{course}/restore",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "3db697351e1cb8fc60efb356c6edc3cfa53fe8531b577dadadc0b489851fdf5f"
+    },
+    {
+      "operationId": "getStaffCrmDashboardSummary",
+      "method": "GET",
+      "path": "/staff/sites/{site}/crm/dashboard-summary",
+      "group": "members",
+      "disposition": "ADOPT",
+      "signature": "993496558b134920036f295cb3a1046f4536e2406a16eae3e316d8eea1d634d2"
+    },
+    {
+      "operationId": "getStaffCrmMemberFieldPolicy",
+      "method": "GET",
+      "path": "/staff/sites/{site}/crm/member-field-policy",
+      "group": "members",
+      "disposition": "ADOPT",
+      "signature": "ca75d5e8951415adb3cef42be5a05f5b139e63275d9c6da6629c2369c09f1962"
+    },
+    {
+      "operationId": "updateStaffCrmMemberFieldPolicy",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/crm/member-field-policy",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "d7421f6cc01ec86754561c9e65692286137ce7b072a24a4162ae360d7524fab6"
+    },
+    {
+      "operationId": "getStaffCrmMemberFilterPresets",
+      "method": "GET",
+      "path": "/staff/sites/{site}/crm/member-filter-presets",
+      "group": "members",
+      "disposition": "ADOPT",
+      "signature": "0a519d554407d22d603a4080457553b02e880e8532e4c27e6b4c4aae257e127b"
+    },
+    {
+      "operationId": "listStaffCrmSalesStaff",
+      "method": "GET",
+      "path": "/staff/sites/{site}/crm/sales-staff",
+      "group": "members",
+      "disposition": "ADOPT",
+      "signature": "c6d9febda2d51ff768528eee287a5d42ba6f732571bdcd03a5dea8e420e249db"
+    },
+    {
+      "operationId": "getStaffDashboardAppointmentFeed",
+      "method": "GET",
+      "path": "/staff/sites/{site}/dashboard/appointment-feed",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "4e129e73b5da491f507dd3aa9edc7fa17179537ca09844aa0e182434cd65c9e6"
+    },
+    {
+      "operationId": "getStaffDashboardSalesFeed",
+      "method": "GET",
+      "path": "/staff/sites/{site}/dashboard/sales-feed",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "1f6f83575a4b52068637657061d22eea425f847f1234b6808870829a943247c1"
+    },
+    {
+      "operationId": "getStaffDashboardSummary",
+      "method": "GET",
+      "path": "/staff/sites/{site}/dashboard/summary",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "6d7b2975d4180e5915adb87d2a362d023b6fd811ab7b401d951abae3acb93deb"
+    },
+    {
+      "operationId": "listStaffExportJobs",
+      "method": "GET",
+      "path": "/staff/sites/{site}/exports/jobs",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "5d2ce45b9204b7ffe0bc65ab786329833fcdda2f3e8f4c34e41edd40ecec7450"
+    },
+    {
+      "operationId": "downloadStaffExportJob",
+      "method": "GET",
+      "path": "/staff/sites/{site}/exports/jobs/{job}/download",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "4b0aad170073d5d707823eac037f1997054f169c3a69169c91f580dfa14c9c22"
+    },
+    {
+      "operationId": "createStaffMemberExportJob",
+      "method": "POST",
+      "path": "/staff/sites/{site}/exports/members",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "54a4015e8c028b6c44ad05a66273a2cd9154e4dfdbbe90b7f660083ca79c6830"
+    },
+    {
+      "operationId": "listStaffLedgerReconciliationJobs",
+      "method": "GET",
+      "path": "/staff/sites/{site}/ledger-reconciliation-jobs",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "createStaffLedgerReconciliationJob",
+      "method": "POST",
+      "path": "/staff/sites/{site}/ledger-reconciliation-jobs",
+      "group": "reporting",
+      "disposition": "CUSTOM",
+      "signature": "024a1327658a22886d9be68de0541548c68929c47dfc482d1514026bc61101da"
+    },
+    {
+      "operationId": "getStaffMembershipAgreement",
+      "method": "GET",
+      "path": "/staff/sites/{site}/legal/membership-agreement",
+      "group": "members",
+      "disposition": "ADOPT",
+      "signature": "1eaed9c60832f2fa3dab8f251dce093819f7c469c396008cb5f20ff357b8cbb4"
+    },
+    {
+      "operationId": "updateStaffMembershipAgreement",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/legal/membership-agreement",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "62eedfc1756e049b558107df3ab9973cc570961643f08395c344c05d1a690bff"
+    },
+    {
+      "operationId": "getMemberCardReminderConfig",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-card-reminder-config",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "9c837c112d4a5aa81059115a76e8c14a3d9282675f2bd2ef00d6473310d4aa08"
+    },
+    {
+      "operationId": "updateMemberCardReminderConfig",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/member-card-reminder-config",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "3c9961fa7ff17eb465d10e0e0aedb0549fca471c7891648e22ebdc095061e2e5"
+    },
+    {
+      "operationId": "listExpiringMemberCardReminders",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-card-reminders/expiring",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "28c8de0213266fb9daa955e3988ecb89db606baf3f9029a5cc7c963c8f13b4cd"
+    },
+    {
+      "operationId": "listPenalizedMemberCardReminders",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-card-reminders/penalized",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "9f11e318d1ff4b0475c850efb54d9a825ced5e7b1fae140d83e502946f61e26d"
+    },
+    {
+      "operationId": "listPendingOpenMemberCardReminders",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-card-reminders/pending-open",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "67ba2a55857f4160f370827927ea60ae66960b5063e5da43b6645d238a7c5b35"
+    },
+    {
+      "operationId": "listZeroBalanceMemberCardReminders",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-card-reminders/zero-balance",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "610dc86cd628291de4494a928aeb2a25be12f147e11639fb1e07835230e38b0b"
+    },
+    {
+      "operationId": "getStaffMemberCard",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "7b4e3b880cb06b83032e7423963c1cd850acdd9ad24e9f4dec0c78bf148add19"
+    },
+    {
+      "operationId": "archiveStaffMemberCard",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/archive",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "4acf41c2207874bb99983d5949301d2cfe6ea190501b9bd361cf7d1e08acd3f9"
+    },
+    {
+      "operationId": "adjustStaffMemberCardBalance",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/balance-adjustments",
+      "group": "entitlement",
+      "disposition": "CUSTOM",
+      "signature": "d1535a229db47b9207bddd3bb41f3c33678b1ac1e0daff7e9de0e33444b5778e"
+    },
+    {
+      "operationId": "getStaffMemberCardBenefits",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/benefits",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "b3fd5f1aee0602fe83c77b392ab0e57f8ecd0a8d45b040868ded15756ebb35b7"
+    },
+    {
+      "operationId": "adjustStaffMemberCardCount",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/count-adjustments",
+      "group": "entitlement",
+      "disposition": "CUSTOM",
+      "signature": "12f99e1a3d82e3b510ed949c368ffca9fedfae5371081cb4493b0a4fe8c831ee"
+    },
+    {
+      "operationId": "getStaffMemberCardDefaultFee",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/default-fee",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "getStaffMemberCardDynamicFields",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/dynamic-fields",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "freezeStaffMemberCard",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/freeze",
+      "group": "entitlement",
+      "disposition": "CUSTOM",
+      "signature": "ae636643c1e7e4368c5dcdc628f0c771f68ce9734ea51156c2ecaeba492f369c"
+    },
+    {
+      "operationId": "getStaffMemberCardFreezeLedgerLast",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/freeze-ledger-last",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "getStaffMemberCardHolidayLast",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/holiday-last",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "endStaffMemberCardHoliday",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/holiday/end",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "d119b0079aea62b98f5c7eac54e30705bd1e6318ff8ad7f082c7b358e0255f02"
+    },
+    {
+      "operationId": "startStaffMemberCardHoliday",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/holiday/start",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "a649451a4825314b51050faa1f448d0a56da4366428d77128359afec23bcf296"
+    },
+    {
+      "operationId": "listStaffMemberCardLedgerEntries",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/ledger-entries",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "6f6a52897a2d543d3433ccbfaf384f79a37facbbd784419cdc200309581ddb41"
+    },
+    {
+      "operationId": "patchStaffMemberCardOpeningType",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/opening-type",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "patchStaffMemberCardRemark",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/remark",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "restoreStaffMemberCard",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/restore",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "1cdb43dbdbcf2f69eb879ba58ae443b832d0f0d2b6357b53f2f7231a36eea393"
+    },
+    {
+      "operationId": "issueMemberCardTransferShareToken",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/transfer-share-token",
+      "group": "entitlement",
+      "disposition": "CUSTOM",
+      "signature": "150a7a36802b5585efb689210e7316c6a5e726296df111fd61d69d55bff35302"
+    },
+    {
+      "operationId": "unfreezeStaffMemberCard",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/unfreeze",
+      "group": "entitlement",
+      "disposition": "CUSTOM",
+      "signature": "3a3b9bab44b6bb468e9f2c61b486d20283940960a6efcf3221f4d585b810fc55"
+    },
+    {
+      "operationId": "extendStaffMemberCardValidity",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/{memberCard}/validity-extensions",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "560b88af858c0537f0147b45061aacd6f7c3006620e4e40e8e88fb152f645fbe"
+    },
+    {
+      "operationId": "listStaffArchivedMemberCards",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-cards/archived",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "81e1bfe63390ab32c595a8b7b922333405400fb6fe0fd0d83597885f7eda4726"
+    },
+    {
+      "operationId": "batchBalanceAdjustStaffMemberCards",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/batch-balance-adjustments",
+      "group": "entitlement",
+      "disposition": "CUSTOM",
+      "signature": "024a1327658a22886d9be68de0541548c68929c47dfc482d1514026bc61101da"
+    },
+    {
+      "operationId": "batchFreezeStaffMemberCards",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/batch-freeze",
+      "group": "entitlement",
+      "disposition": "CUSTOM",
+      "signature": "024a1327658a22886d9be68de0541548c68929c47dfc482d1514026bc61101da"
+    },
+    {
+      "operationId": "batchUnfreezeStaffMemberCards",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/batch-unfreeze",
+      "group": "entitlement",
+      "disposition": "CUSTOM",
+      "signature": "024a1327658a22886d9be68de0541548c68929c47dfc482d1514026bc61101da"
+    },
+    {
+      "operationId": "batchValidityExtendStaffMemberCards",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-cards/batch-validity-extensions",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "024a1327658a22886d9be68de0541548c68929c47dfc482d1514026bc61101da"
+    },
+    {
+      "operationId": "getStaffMemberCarousel",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-carousel",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "2940c534427622783d5c57c5b79666c1322286e14a310a577a9036d3979b051b"
+    },
+    {
+      "operationId": "updateStaffMemberCarousel",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/member-carousel",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "d5de71a1877317cb2a4184f4b6b66365efca0f3e73f382129086354adf4198c6"
+    },
+    {
+      "operationId": "listStaffMemberLinkRequests",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-link-requests",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "8b992024745e58af36a4ab4f78c29c42f4bfaf32f5c8e1971f7925e837a21f43"
+    },
+    {
+      "operationId": "reviewStaffMemberLinkRequest",
+      "method": "POST",
+      "path": "/staff/sites/{site}/member-link-requests/{linkRequest}/decision",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "24ef72cc203b4665d9b271ffca3f28c411dd1f93e247cce245a881a9b0712d70"
+    },
+    {
+      "operationId": "getStaffMemberMiniappLayout",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-miniapp-layout",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "c509312619d8ca6f679bac18bffa51c7b337f526664db1959489ba870adca624"
+    },
+    {
+      "operationId": "updateStaffMemberMiniappLayout",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/member-miniapp-layout",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "93c3efb1374d76aff3d12eab0147b558c9a431a16e225be873715bf4a99e7346"
+    },
+    {
+      "operationId": "getStaffMemberOnboardingHelp",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-onboarding-help",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "1499fa526c2add27324bae8e161bc43883ba333b591b7a8ce686761cc51340d7"
+    },
+    {
+      "operationId": "updateStaffMemberOnboardingHelp",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/member-onboarding-help",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "1d00de7cbb407240b10939105e2b12947609b5e8b0be8141423e5a9fd05509f3"
+    },
+    {
+      "operationId": "getStaffMemberWarmHint",
+      "method": "GET",
+      "path": "/staff/sites/{site}/member-warm-hint",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "e51d87584bbe4bd5dd08b1d20c8a78a9a06a26ba6d8b119ac309209bad857dfb"
+    },
+    {
+      "operationId": "updateStaffMemberWarmHint",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/member-warm-hint",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "0f8dcba55647673236fdec51ffd9e48f7ccd57ca530a51fa4935e3f95ae03a5a"
+    },
+    {
+      "operationId": "listStaffMembers",
+      "method": "GET",
+      "path": "/staff/sites/{site}/members",
+      "group": "members",
+      "disposition": "ADOPT",
+      "signature": "792454261f60a5fe92213d22af5748af9d545e2fbef78c62355908b5e9eaeab7"
+    },
+    {
+      "operationId": "createStaffMemberLead",
+      "method": "POST",
+      "path": "/staff/sites/{site}/members",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "c35366c67bc8e1a5e1fb61edc9b4386fb3eb40441394517126430d94d5b84583"
+    },
+    {
+      "operationId": "getStaffMember",
+      "method": "GET",
+      "path": "/staff/sites/{site}/members/{member}",
+      "group": "members",
+      "disposition": "ADOPT",
+      "signature": "afa4a9240c911c159a074cd425fb8877041714591c306758fa6a4ebff2fbb54e"
+    },
+    {
+      "operationId": "partiallyUpdateStaffMember",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/members/{member}",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "89d5600d060952b8cc71691509e14d32f3e11b3077bd2910e0c39704519aaaa0"
+    },
+    {
+      "operationId": "updateStaffMember",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/members/{member}",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "623869611e91b53746d277f696f335b903c3e30c8689c1368bd4bd7923706ed2"
+    },
+    {
+      "operationId": "changeStaffMemberAppAccess",
+      "method": "POST",
+      "path": "/staff/sites/{site}/members/{member}/app-access",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "035225b3417ba25145a5043f38c500199aac7b9797dc71ebb4ee68ba684e484a"
+    },
+    {
+      "operationId": "listStaffMemberBookingHistory",
+      "method": "GET",
+      "path": "/staff/sites/{site}/members/{member}/booking-history",
+      "group": "booking",
+      "disposition": "ADOPT",
+      "signature": "e9d1393507fc2a203caa253c1ee6aaf12fe195131bd22bd15b0fc169040afa25"
+    },
+    {
+      "operationId": "listStaffMemberCards",
+      "method": "GET",
+      "path": "/staff/sites/{site}/members/{member}/member-cards",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "c425e6d62c65ffc7d7705c58a802e86c01085e0fcd5577e7f9166a68c5ef602c"
+    },
+    {
+      "operationId": "issueStaffMemberCard",
+      "method": "POST",
+      "path": "/staff/sites/{site}/members/{member}/member-cards",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "56e486c60bd458f569b8b9e123456f93e7c727aae2172168e36d7e9960dfc2ad"
+    },
+    {
+      "operationId": "listStaffMemberNotes",
+      "method": "GET",
+      "path": "/staff/sites/{site}/members/{member}/notes",
+      "group": "members",
+      "disposition": "ADOPT",
+      "signature": "2842b7a686f8116b276cd254e853a44e8a744caf7c0fc310f6a840c8aebf16fc"
+    },
+    {
+      "operationId": "addStaffMemberNote",
+      "method": "POST",
+      "path": "/staff/sites/{site}/members/{member}/notes",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "c375b453bcab0a5a30234daaa93fd5bbf0a52d83fe126db2199892d133d96c57"
+    },
+    {
+      "operationId": "listMemberCardOrders",
+      "method": "GET",
+      "path": "/staff/sites/{site}/members/{member}/orders",
+      "group": "commerce",
+      "disposition": "ADOPT",
+      "signature": "b7da91d60b9f2b67835504037f901dfc18bc70335d627074896af2b7cb9de271"
+    },
+    {
+      "operationId": "claimStaffMemberOwner",
+      "method": "POST",
+      "path": "/staff/sites/{site}/members/{member}/owner-claim",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "8446e79ea40d18e19ecb3d47f04d48e3d2b4bea06b8491939058c8d9651089ed"
+    },
+    {
+      "operationId": "adjustStaffMemberPoints",
+      "method": "POST",
+      "path": "/staff/sites/{site}/members/{member}/point-adjustments",
+      "group": "members",
+      "disposition": "CUSTOM",
+      "signature": "21e601abbd106e0176e1536b21be175fb83d6107c678ed4705c8f6f0b0530b4a"
+    },
+    {
+      "operationId": "restoreStaffMember",
+      "method": "POST",
+      "path": "/staff/sites/{site}/members/{member}/restore",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "2dd68ae177ba2726e7f977a786a184916926aee204495c54e56ffeed9f1dea91"
+    },
+    {
+      "operationId": "transitionStaffMemberStatus",
+      "method": "POST",
+      "path": "/staff/sites/{site}/members/{member}/status-transitions",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "023d9c9643ece4fc0bbf1ac0058a04a14e74cc321e365f0cff153b93bd465d18"
+    },
+    {
+      "operationId": "updateStaffMemberStickyRemark",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/members/{member}/sticky-remark",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "cbba1122adf4798790bad8de41e82090c9e9696573950c59a0b9d6f4f07efb74"
+    },
+    {
+      "operationId": "syncStaffMemberTags",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/members/{member}/tags",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "615fdb4010f910a55e1aa0a6dab024a8dbbdd4ba9eceaefa65a16b6fb9802836"
+    },
+    {
+      "operationId": "batchImportStaffMembers",
+      "method": "POST",
+      "path": "/staff/sites/{site}/members/batch-import",
+      "group": "members",
+      "disposition": "UNCLASSIFIED",
+      "signature": "fc3b3a98a15635d02bf6d57d1f26e93b4517ffb6eb2459e9b32fe82a874170ea"
+    },
+    {
+      "operationId": "listDeletedStaffMembers",
+      "method": "GET",
+      "path": "/staff/sites/{site}/members/deleted",
+      "group": "members",
+      "disposition": "ADOPT",
+      "signature": "8f74b1af71cf685893bfa8213c6d029d7897c40d58543d8517b9d4f62ae1e158"
+    },
+    {
+      "operationId": "listStaffSiteNotices",
+      "method": "GET",
+      "path": "/staff/sites/{site}/notices",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "73ae441b231715da95fef1b5d356095bb383615f207b6c1db7db0d054ffa1aa1"
+    },
+    {
+      "operationId": "createStaffSiteNotice",
+      "method": "POST",
+      "path": "/staff/sites/{site}/notices",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "ff3908f33203a8aabd8f8cf1f791a612e428141cc038b5f1cf7bd02bcc74e5b4"
+    },
+    {
+      "operationId": "updateStaffSiteNotice",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/notices/{notice}",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "2f6f231f99dfdc0739c554ae20e3cb09a14e836e00e9cc03047e26d169273391"
+    },
+    {
+      "operationId": "archiveStaffSiteNotice",
+      "method": "POST",
+      "path": "/staff/sites/{site}/notices/{notice}/archive",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "fe740c18ed1ad5f10583397a1cbc16458704aadc54684f8d56472299503bee21"
+    },
+    {
+      "operationId": "getStaffNotificationChannels",
+      "method": "GET",
+      "path": "/staff/sites/{site}/notification-channels",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "8a46de9c278ac426fb5eef97e50709c15c60175fb15131e3ede3557005bfc669"
+    },
+    {
+      "operationId": "updateStaffNotificationChannels",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/notification-channels",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "b28b947b72e33f2926d62895a70769c4775ea30771ccefd87dfbd012d7a270c8"
+    },
+    {
+      "operationId": "deleteMemberCardOrderForbidden",
+      "method": "DELETE",
+      "path": "/staff/sites/{site}/orders/{order}",
+      "group": "commerce",
+      "disposition": "UNCLASSIFIED",
+      "signature": "60bf721852d8cece0a1e60b7ee3df96027b0aa7e1179dbebf684b66f21da729d"
+    },
+    {
+      "operationId": "correctMemberCardOrderAmount",
+      "method": "POST",
+      "path": "/staff/sites/{site}/orders/{order}/amount-corrections",
+      "group": "commerce",
+      "disposition": "UNCLASSIFIED",
+      "signature": "9a947107055d773eb88166e3553326758af0ac6ce09920ebc6aad8d103c968e0"
+    },
+    {
+      "operationId": "appendStaffOrderInternalNote",
+      "method": "POST",
+      "path": "/staff/sites/{site}/orders/{order}/internal-notes",
+      "group": "commerce",
+      "disposition": "UNCLASSIFIED",
+      "signature": "024a1327658a22886d9be68de0541548c68929c47dfc482d1514026bc61101da"
+    },
+    {
+      "operationId": "voidMemberCardOrder",
+      "method": "POST",
+      "path": "/staff/sites/{site}/orders/{order}/void",
+      "group": "commerce",
+      "disposition": "CUSTOM",
+      "signature": "4be0f94a9829c91962dd2ac69634801e2a02b0306965e66db4aa844298d404ff"
+    },
+    {
+      "operationId": "getStaffPaymentMarketing",
+      "method": "GET",
+      "path": "/staff/sites/{site}/payment-marketing",
+      "group": "commerce",
+      "disposition": "ADOPT",
+      "signature": "70826fadf9aa94ae189651caec8f9261a268b922dd36251fb26921333aee5935"
+    },
+    {
+      "operationId": "getStaffPayrollCoachConfig",
+      "method": "GET",
+      "path": "/staff/sites/{site}/payroll/coach-config",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "c5fac895a14f4ceb581d9dd8f5e216b1a5bf82a928823a89644a876b1b006f50"
+    },
+    {
+      "operationId": "updateStaffPayrollCoachConfig",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/payroll/coach-config",
+      "group": "reporting",
+      "disposition": "CUSTOM",
+      "signature": "ffcd4042c815caf4138eb742e1b79e1d180f119e719dbfb0718b1815bceea619"
+    },
+    {
+      "operationId": "listStaffPayrollCoachReports",
+      "method": "GET",
+      "path": "/staff/sites/{site}/payroll/coach-reports",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "284f4a6231e661b09fc6d74dab668803d22baaa9336470512a90fb22606b6e8c"
+    },
+    {
+      "operationId": "getStaffPayrollCoachReportDetail",
+      "method": "GET",
+      "path": "/staff/sites/{site}/payroll/coach-reports/{coachStaff}",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "9e55e07949c3a4caca55c7b942c6440e6ba662a67b1017ca3dad543450ce43ca"
+    },
+    {
+      "operationId": "getStaffPayrollCoachRules",
+      "method": "GET",
+      "path": "/staff/sites/{site}/payroll/coach-rules",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "d4cf4c46ac68eb73def11d1c723f45e7a4b71ba8289ca769ff904ae54d90dbcd"
+    },
+    {
+      "operationId": "updateStaffPayrollCoachRules",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/payroll/coach-rules",
+      "group": "reporting",
+      "disposition": "CUSTOM",
+      "signature": "f98ed602f52194582be1ec3f0bb55ac2a6a668fd335ddceb2ea15962660f7bec"
+    },
+    {
+      "operationId": "listStaffPayrollCoaches",
+      "method": "GET",
+      "path": "/staff/sites/{site}/payroll/coaches",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "92dfee8dc1c47b8ff83b2562b0f16af734c7ac28f0a471ef5eb9c74adaa624d7"
+    },
+    {
+      "operationId": "getStaffPayrollCourseCommissionReport",
+      "method": "GET",
+      "path": "/staff/sites/{site}/payroll/course-commission",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "a34b5bad2c2322be6c37f4259089d19c072f93219aae45b8fa8977ab98ef3b83"
+    },
+    {
+      "operationId": "listStaffPayrollRecomputeJobs",
+      "method": "GET",
+      "path": "/staff/sites/{site}/payroll/recompute-jobs",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "92f887fd78e0d7b324ff2da60661b9c27e55c1b62a7165776bc0cab23615e8a1"
+    },
+    {
+      "operationId": "createStaffPayrollRecomputeJob",
+      "method": "POST",
+      "path": "/staff/sites/{site}/payroll/recompute-jobs",
+      "group": "reporting",
+      "disposition": "CUSTOM",
+      "signature": "b462b804f397cdb31692acec8051dd61169bc545c48af248687651a3dfe55185"
+    },
+    {
+      "operationId": "getStaffPayrollSalesConfig",
+      "method": "GET",
+      "path": "/staff/sites/{site}/payroll/sales-config",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "cfe2950fa7cef78215e7345a7a9e6946a001d1ca0a95b64d5ec7e50e06d0cb60"
+    },
+    {
+      "operationId": "updateStaffPayrollSalesConfig",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/payroll/sales-config",
+      "group": "reporting",
+      "disposition": "CUSTOM",
+      "signature": "b3dcb93a86381d53b74bf76603f1e105bf74ca7708ed4768e7123132d665a6ee"
+    },
+    {
+      "operationId": "listStaffPayrollSalesReports",
+      "method": "GET",
+      "path": "/staff/sites/{site}/payroll/sales-reports",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "5a05e9aecdc5525021647cca2550e457680e4a381f2a3c4f9559327746624c83"
+    },
+    {
+      "operationId": "getStaffPayrollSalesReportDetail",
+      "method": "GET",
+      "path": "/staff/sites/{site}/payroll/sales-reports/{salesStaff}",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "536f098ae345049b2637d3c7bb79428319d723f82c3888befba8c609364d10d4"
+    },
+    {
+      "operationId": "getStaffPlatformSubscriptionSiteStatus",
+      "method": "GET",
+      "path": "/staff/sites/{site}/platform/subscription/status",
+      "group": "commerce",
+      "disposition": "ADOPT",
+      "signature": "0bb84b5b3bd51c5b67978c32e12707361680d77e6116515000984fa9c4503041"
+    },
+    {
+      "operationId": "getStaffPointsConfig",
+      "method": "GET",
+      "path": "/staff/sites/{site}/points-config",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "updateStaffPointsConfig",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/points-config",
+      "group": "entitlement",
+      "disposition": "UNCLASSIFIED",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "getStaffSiteProfile",
+      "method": "GET",
+      "path": "/staff/sites/{site}/profile",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "674cd065671d07240132b8a06c25f1fe339581ad2fa93efc8c1a5797ad032330"
+    },
+    {
+      "operationId": "updateStaffSiteProfile",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/profile",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "ed4f167ef0f579e2d00694d021659a6851e01ab4cfc38241ecee4c6b997454c6"
+    },
+    {
+      "operationId": "getStaffReportCalendarMonthOptions",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/calendar/month-options",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "74e71923e2e419ec78da530476cdb2ca9dfe5eec10534293979a5f595b4aa095"
+    },
+    {
+      "operationId": "getStaffReportCoachAppointmentDetail",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/coaches/{coachStaff}/appointments",
+      "group": "booking",
+      "disposition": "ADOPT",
+      "signature": "f59ddfe17334149b8aa3f676c711022c8ac09d750201a5b005dfb80c73c01e99"
+    },
+    {
+      "operationId": "getStaffReportCoachMonthlyRankings",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/coaches/rankings",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "8eb094e18e6e87f1050a21313a424132b1b6b1b341040d03a7cf3654bf7a03d9"
+    },
+    {
+      "operationId": "getStaffReportCourseCalendar",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/courses/calendar",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "6d41ea240f2ae5ee87f8a4b11a50556bf165b05f57ce4c752fc714b7fdbee945"
+    },
+    {
+      "operationId": "getStaffReportCourseDaily",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/courses/daily",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "f6d59031d0dfff84d0fb53941538eea30677dda1e1941a136c674b0e4cc535c2"
+    },
+    {
+      "operationId": "getStaffReportCourseSummary",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/courses/summary",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "db83cea8f847089c4e1a381acaa4f5cd8b039ab2bd9d75ab5a8b5b664aed6e28"
+    },
+    {
+      "operationId": "getStaffReportDashboardSummary",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/dashboard-summary",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "0be76e38188e4b4eee77a363183f4947d56c3ac20d7a7819e34a9fd827efb2ea"
+    },
+    {
+      "operationId": "getStaffReportFinanceProfitCalendar",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/finance/profit-calendar",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "c299891d88d78fc9dc179a0ad9563b40b87ca804778880058659c80b4db22270"
+    },
+    {
+      "operationId": "getStaffReportFinanceProfitDaily",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/finance/profit-daily",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "ebcd74c84410e179f593c661e1858932fd7c33330127048b206cef260c640f1b"
+    },
+    {
+      "operationId": "getStaffReportFinanceProfitSummary",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/finance/profit-summary",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "40601cd24005334d8cb02430d70e0a2f0508f78b9ce9e7330ffe733c7abfa66f"
+    },
+    {
+      "operationId": "getStaffReportCourseAttendanceRanking",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/rankings/course-attendance",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "85ce81770986bcd656f1ced9f40f673e172416e4b5e8cf587932ab6e345b15ed"
+    },
+    {
+      "operationId": "getStaffReportOrderRanking",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/rankings/orders",
+      "group": "commerce",
+      "disposition": "ADOPT",
+      "signature": "65719fe4fa7adfbaff10c8811e98f64c5b30a463a4c9518c2b1fb3dbccffd300"
+    },
+    {
+      "operationId": "getStaffReportPointsRanking",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/rankings/points",
+      "group": "entitlement",
+      "disposition": "ADOPT",
+      "signature": "a598d7051f8f54a1e25487b685f1dadc3787181043388df2d5f4e4aa3a403878"
+    },
+    {
+      "operationId": "getStaffReportSalesStaffRanking",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/rankings/sales-staff",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "c5b45c310968f1f1a7242cb2906f049af84586d92d33e3ef5743b9f3e8e1a4bf"
+    },
+    {
+      "operationId": "getStaffReportSalesStaffRankingDetail",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/rankings/sales-staff/{salesStaff}",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "dd1c4b6f852ad7e366c667d1e43955bfdf8526f1a7cb17284e43652abe417bb2"
+    },
+    {
+      "operationId": "listStaffAnniversaryReminders",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/reminders/anniversary",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "3dc09d118e864a33b2e5b0d92d3da99eb92969ef554a024f89ba539a5207bb00"
+    },
+    {
+      "operationId": "listStaffBirthdayReminders",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/reminders/birthdays",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "65eb59127b46560f53fb49e2de12c8e49e6e8e3ff73a355bd5dd115330c8f9bc"
+    },
+    {
+      "operationId": "listStaffHolidayDueReminders",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/reminders/holiday-due",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "c5398fdfdb3288ffae5d9c390b131a882ccd6e9f19d5f3176bf7e07b4d158d35"
+    },
+    {
+      "operationId": "listStaffNoClassReminders",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/reminders/no-class",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "049ce69b417146165f5de633c0360430688d568b95c258653f56bc9767870df2"
+    },
+    {
+      "operationId": "listStaffVisitorReminders",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/reminders/visitors",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "eb7b48c91655041b1d277573b899bdbf9ebf47e2b04fc36f527368b0b4e10b87"
+    },
+    {
+      "operationId": "listStaffRooms",
+      "method": "GET",
+      "path": "/staff/sites/{site}/rooms",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "30082d68bae49ccf8cf6d9391fbd648f1f533bd85c3e9c2218754d27dc72d965"
+    },
+    {
+      "operationId": "createStaffRoom",
+      "method": "POST",
+      "path": "/staff/sites/{site}/rooms",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "4fd588cabe1586b6a17d6521a2dbd156eeb4de9a8ae3d949bdda0a12877ad4c0"
+    },
+    {
+      "operationId": "deleteStaffRoom",
+      "method": "DELETE",
+      "path": "/staff/sites/{site}/rooms/{room}",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "8319a96587b9f92730a1852b49df2e8e675e491573b196ffae6a3ad77b98029b"
+    },
+    {
+      "operationId": "getStaffRoom",
+      "method": "GET",
+      "path": "/staff/sites/{site}/rooms/{room}",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "b8ff6f99ee25266706bba862089a6fc72b6dbd90a4d8342f3f24bdd8c3d91f2b"
+    },
+    {
+      "operationId": "patchStaffRoom",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/rooms/{room}",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "bf8f3273186868be257f69ab0634442429f94fc2b33fe48b5229a90a492c6b14"
+    },
+    {
+      "operationId": "updateStaffRoom",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/rooms/{room}",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "bf8f3273186868be257f69ab0634442429f94fc2b33fe48b5229a90a492c6b14"
+    },
+    {
+      "operationId": "getStaffScheduleDisplayConfig",
+      "method": "GET",
+      "path": "/staff/sites/{site}/schedule-display-config",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "da8aa0d3834339b7b47a90969db0ed6911d9760fd12c612be5258537ef9f4961"
+    },
+    {
+      "operationId": "updateStaffScheduleDisplayConfig",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/schedule-display-config",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "da8aa0d3834339b7b47a90969db0ed6911d9760fd12c612be5258537ef9f4961"
+    },
+    {
+      "operationId": "exportStaffScheduleImage",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-export-image",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "05f67150493a5beac9d3d6e025e11b1a2d930e5456e6b84fc92f55906d415988"
+    },
+    {
+      "operationId": "getStaffScheduleRecurringTemplate",
+      "method": "GET",
+      "path": "/staff/sites/{site}/schedule-recurring-template",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "da8aa0d3834339b7b47a90969db0ed6911d9760fd12c612be5258537ef9f4961"
+    },
+    {
+      "operationId": "getStaffScheduleSessionColors",
+      "method": "GET",
+      "path": "/staff/sites/{site}/schedule-session-colors",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "da8aa0d3834339b7b47a90969db0ed6911d9760fd12c612be5258537ef9f4961"
+    },
+    {
+      "operationId": "updateStaffScheduleSessionColors",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/schedule-session-colors",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "da8aa0d3834339b7b47a90969db0ed6911d9760fd12c612be5258537ef9f4961"
+    },
+    {
+      "operationId": "listStaffScheduleSessions",
+      "method": "GET",
+      "path": "/staff/sites/{site}/schedule-sessions",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "c087af517629e8cacdc15f676915d885b19ba79dc30a7a8b09da198cd5dee255"
+    },
+    {
+      "operationId": "createStaffScheduleSession",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-sessions",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "68ca427c366b9ae81e4e0b4a728399d4b5e692bcdc5badb53146f55e5b8a9d80"
+    },
+    {
+      "operationId": "getStaffScheduleSession",
+      "method": "GET",
+      "path": "/staff/sites/{site}/schedule-sessions/{session}",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "d6faa233a50648bf58aa421545ac4b951e5c706ea1c10d73fca7e363f4a6b293"
+    },
+    {
+      "operationId": "patchStaffScheduleSession",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/schedule-sessions/{session}",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "d73add61d52d79c48c6f98d8b08ef952e894da0b6bc41de91b7ac21a9d9d9890"
+    },
+    {
+      "operationId": "updateStaffScheduleSession",
+      "method": "PUT",
+      "path": "/staff/sites/{site}/schedule-sessions/{session}",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "d73add61d52d79c48c6f98d8b08ef952e894da0b6bc41de91b7ac21a9d9d9890"
+    },
+    {
+      "operationId": "listStaffSessionAppointments",
+      "method": "GET",
+      "path": "/staff/sites/{site}/schedule-sessions/{session}/appointments",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "8de394b1223c4819c9410a5d6b53a1ee734902eb7d5c86ebba5ac7947dfcd11c"
+    },
+    {
+      "operationId": "createStaffAppointment",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-sessions/{session}/appointments",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "313318a6e322ee9d5724103b1b132b920de54c5691b9c9a44ca6ecf9cbc1b704"
+    },
+    {
+      "operationId": "cancelStaffScheduleSession",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-sessions/{session}/cancel",
+      "group": "scheduling",
+      "disposition": "CUSTOM",
+      "signature": "937103dee1a5ebb2d45edc8a7970b7e2299dc3b955dc0d36d83ec7a5b575a744"
+    },
+    {
+      "operationId": "createStaffScheduleSessionShareLink",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-sessions/{session}/share-link",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "8b5a18e8bf4d2034e9afa8db5970893118ba65f07f2cbdbffd9bb33b8a1a94c1"
+    },
+    {
+      "operationId": "suspendStaffScheduleSession",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-sessions/{session}/suspend",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "f1ce15656dd8a7f114607988953a502f12ec45281bda0473415685343f27d3b6"
+    },
+    {
+      "operationId": "unsuspendStaffScheduleSession",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-sessions/{session}/unsuspend",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "45ae2cd93b4a92887daf1a0d4302bbb6efdc51357f5c0ce6521e2d013798e346"
+    },
+    {
+      "operationId": "listStaffSessionWaitlist",
+      "method": "GET",
+      "path": "/staff/sites/{site}/schedule-sessions/{session}/waitlist",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "8ae2a7c47b0d1dea0a09389b63bfd464cf78c49a4e4c99a49313b83d279c44fc"
+    },
+    {
+      "operationId": "batchCancelStaffScheduleSessions",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-sessions/batch-cancel",
+      "group": "scheduling",
+      "disposition": "CUSTOM",
+      "signature": "4191f25a1a465005186ac573179a68ed83c6333b450b2a179ff0d934f39bc7c1"
+    },
+    {
+      "operationId": "batchChangeCourseStaffScheduleSessions",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-sessions/batch-change-course",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "da8aa0d3834339b7b47a90969db0ed6911d9760fd12c612be5258537ef9f4961"
+    },
+    {
+      "operationId": "batchCopyStaffScheduleSessions",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-sessions/batch-copy",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "7a5189be062974ef4c60220792ec230db48e837f30f870f85284d0f70585ce91"
+    },
+    {
+      "operationId": "batchSuspendStaffScheduleSessions",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-sessions/batch-suspend",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "b668ed5fd8451f53fd280e720406dbcf62212a2a35f293e7bc6c94c3a6fcd233"
+    },
+    {
+      "operationId": "batchUnsuspendStaffScheduleSessions",
+      "method": "POST",
+      "path": "/staff/sites/{site}/schedule-sessions/batch-unsuspend",
+      "group": "scheduling",
+      "disposition": "UNCLASSIFIED",
+      "signature": "da8aa0d3834339b7b47a90969db0ed6911d9760fd12c612be5258537ef9f4961"
+    },
+    {
+      "operationId": "changeCoursePreflightStaffScheduleSessions",
+      "method": "GET",
+      "path": "/staff/sites/{site}/schedule-sessions/change-course-preflight",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "da8aa0d3834339b7b47a90969db0ed6911d9760fd12c612be5258537ef9f4961"
+    },
+    {
+      "operationId": "copyPreflightStaffScheduleSessions",
+      "method": "GET",
+      "path": "/staff/sites/{site}/schedule-sessions/copy-preflight",
+      "group": "scheduling",
+      "disposition": "ADOPT",
+      "signature": "da8aa0d3834339b7b47a90969db0ed6911d9760fd12c612be5258537ef9f4961"
+    },
+    {
+      "operationId": "getStaffSettingsHub",
+      "method": "GET",
+      "path": "/staff/sites/{site}/settings-hub",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "b265115d74d98bd814137ed11a8202fb7a248270bc9b364376b1e3574eb74637"
+    },
+    {
+      "operationId": "listStaffDirectory",
+      "method": "GET",
+      "path": "/staff/sites/{site}/staff-directory",
+      "group": "access",
+      "disposition": "ADOPT",
+      "signature": "89bb25c142a03644d80c7d346af137461735ef6f7a428e3618bc01379fd6e7e5"
+    },
+    {
+      "operationId": "createStaffDirectoryMember",
+      "method": "POST",
+      "path": "/staff/sites/{site}/staff-directory",
+      "group": "access",
+      "disposition": "UNCLASSIFIED",
+      "signature": "244341a54e51352b8219b8cf457b2edf16a995f17a1bb92a3c45c958e693a361"
+    },
+    {
+      "operationId": "getStaffDirectoryMember",
+      "method": "GET",
+      "path": "/staff/sites/{site}/staff-directory/{staffMember}",
+      "group": "access",
+      "disposition": "ADOPT",
+      "signature": "b5fcf39d4c6ab98b8c02c9554222071c117980afcbe566979ce463dd883e61b4"
+    },
+    {
+      "operationId": "updateStaffDirectoryMember",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/staff-directory/{staffMember}",
+      "group": "access",
+      "disposition": "UNCLASSIFIED",
+      "signature": "c73da98d982eed9f4239ae1508c11e43e38b600efbee6b414704d03b3d07a4e4"
+    },
+    {
+      "operationId": "departStaffDirectoryMember",
+      "method": "POST",
+      "path": "/staff/sites/{site}/staff-directory/{staffMember}/departure",
+      "group": "access",
+      "disposition": "UNCLASSIFIED",
+      "signature": "5105738de3609c19fca28661f8a1654151ea1fdeea39d5a8ab87339e5e537ebf"
+    },
+    {
+      "operationId": "transferSiteOwnership",
+      "method": "POST",
+      "path": "/staff/sites/{site}/staff-directory/{staffMember}/transfer-ownership",
+      "group": "access",
+      "disposition": "CUSTOM",
+      "signature": "c6a16a8353833ce1efdf1ceffd8601f93bb15a8d04935788192b2659fee10cab"
+    },
+    {
+      "operationId": "listStaffVacationRollup",
+      "method": "GET",
+      "path": "/staff/sites/{site}/staff-vacations",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "06bed811fe6fbc4edfad50283a1c25efdfa10ca018e853dc6b55092fa96ed802"
+    },
+    {
+      "operationId": "listStaffMemberVacations",
+      "method": "GET",
+      "path": "/staff/sites/{site}/staff/{staffMember}/vacations",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "ef9906ce7fa6d3702adeb07542e26b1bbf8ebf8045a770e35771dd962d15a1f6"
+    },
+    {
+      "operationId": "createStaffMemberVacation",
+      "method": "POST",
+      "path": "/staff/sites/{site}/staff/{staffMember}/vacations",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "1049d80b9b9e2bb62a360a72273d330532e71b5c13ff2ddba0cab4cd1e8e08cc"
+    },
+    {
+      "operationId": "updateStaffMemberVacation",
+      "method": "PATCH",
+      "path": "/staff/sites/{site}/staff/{staffMember}/vacations/{vacation}",
+      "group": "organization",
+      "disposition": "UNCLASSIFIED",
+      "signature": "0ed9ede90e3d0cd3a8e24e370a65738b21941d90c8a7e03a02f1067b8756ad99"
+    },
+    {
+      "operationId": "getStaffSupportContact",
+      "method": "GET",
+      "path": "/staff/sites/{site}/support/contact",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "10818632afb63496da57e881bce7f3c221281f20bc9cbba5aac965c724a66256"
+    },
+    {
+      "operationId": "getStaffSupportVideoHelp",
+      "method": "GET",
+      "path": "/staff/sites/{site}/support/video-help",
+      "group": "organization",
+      "disposition": "ADOPT",
+      "signature": "3ee2e04e488641c660355a0d5ce861aa865ed8599cf2c265ba6a020c1aa8b765"
+    }
+  ]
+}

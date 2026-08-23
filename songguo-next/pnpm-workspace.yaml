@@ -12,3 +12,7 @@ allowBuilds:
   core-js: true
   esbuild: true
   vue-demi: true
+minimumReleaseAgeExclude:
+  - '@vue/language-core@3.3.11'
+  - element-plus@2.14.5
+  - vue-tsc@3.3.11
