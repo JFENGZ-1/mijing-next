@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026年8月22日 18:23:45",
+  "sourceHash": "2c526fdc4e82dde1dcddd2b4dd9d832f493bf8c0ada03d2d5c42a494db1dd7d5",
+  "total": 311,
+  "counts": {
+    "ADOPT": 121,
+    "CUSTOM": 22,
+    "IGNORE": 50,
+    "UNCLASSIFIED": 118
+  },
+  "changes": {
+    "added": [],
+    "changed": [],
+    "removed": [],
+    "sourceChanged": false
+  }
+}
