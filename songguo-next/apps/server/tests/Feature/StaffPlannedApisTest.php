@@ -75,9 +75,15 @@ class StaffPlannedApisTest extends TestCase
 
         $from = now()->startOfWeek()->toDateString();
         $to = now()->endOfWeek()->toDateString();
-        $this->postJson("/api/v1/staff/sites/{$site->id}/schedule-export-image", compact('from', 'to'))
+        $response = $this->postJson("/api/v1/staff/sites/{$site->id}/schedule-export-image", compact('from', 'to'))
             ->assertOk()
-            ->assertJsonPath('data.placeholder', true);
+            ->assertJsonPath('data.placeholder', false)
+            ->assertJsonStructure(['data' => ['imageUrl', 'width', 'height']]);
+
+        $urlPath = (string) parse_url($response->json('data.imageUrl'), PHP_URL_PATH);
+        $imagePath = public_path(str_replace('/', DIRECTORY_SEPARATOR, ltrim($urlPath, '/')));
+        $this->assertFileExists($imagePath);
+        unlink($imagePath);
     }
 
     public function test_schedule_display_config_and_copy_preflight(): void
