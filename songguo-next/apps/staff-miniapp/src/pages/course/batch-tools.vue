@@ -230,7 +230,7 @@ onShow(async () => {
           <view v-else class="guide-text">选择日期区间后点击「加载课表」，勾选需要操作的排课。</view>
         </view>
 
-        <view class="brand-footer">松果约课</view>
+        <view class="brand-footer">觅境约课</view>
       </template>
     </view>
   </view>

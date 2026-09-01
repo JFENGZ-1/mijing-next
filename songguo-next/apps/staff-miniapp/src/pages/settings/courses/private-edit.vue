@@ -520,7 +520,7 @@ onShow(async () => {
         <button v-if="isEdit" class="delete-btn" :disabled="saving" @tap="remove">删除</button>
       </view>
 
-      <view class="brand-footer">松果约课</view>
+      <view class="brand-footer">觅境约课</view>
     </template>
 
     <!-- ===== 教练选择弹窗 ===== -->

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessPaymentNotificationJob;
+use App\Models\PaymentNotificationInbox;
 use App\Services\Cards\MemberCardPurchaseService;
 use App\Support\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class WechatPayWebhookController extends Controller
 {
@@ -23,14 +26,49 @@ class WechatPayWebhookController extends Controller
             return ApiResponse::success(['accepted' => true, 'ignored' => true]);
         }
 
-        $result = $purchases->fulfillWechatPaidOrder((string) $payload['orderNo'], $payload);
+        if (($payload['official'] ?? false) === true) {
+            foreach (['transactionId', 'amountTotal', 'currency', 'appid', 'merchantId', 'successTime'] as $field) {
+                if (! isset($payload[$field]) || $payload[$field] === '') {
+                    return ApiResponse::error('WEBHOOK_PAYLOAD_INVALID', '支付回调内容无效', 422);
+                }
+            }
+        }
+
+        $occurredAt = null;
+        if (is_string($payload['successTime'] ?? null) && $payload['successTime'] !== '') {
+            try {
+                $occurredAt = Carbon::parse($payload['successTime']);
+            } catch (\Throwable) {
+                return ApiResponse::error('WEBHOOK_PAYLOAD_INVALID', '支付回调内容无效', 422);
+            }
+        }
+
+        $notification = PaymentNotificationInbox::query()->firstOrCreate(
+            [
+                'provider' => 'wechat',
+                'notification_id' => (string) $payload['notificationId'],
+            ],
+            [
+                'event_type' => (string) $payload['eventType'],
+                'order_no' => (string) $payload['orderNo'],
+                'transaction_id' => $payload['transactionId'] ?? null,
+                'amount_total' => $payload['amountTotal'] ?? null,
+                'currency' => $payload['currency'] ?? null,
+                'appid' => $payload['appid'] ?? null,
+                'merchant_id' => $payload['merchantId'] ?? null,
+                'occurred_at' => $occurredAt,
+                'status' => 'pending',
+            ],
+        );
+
+        if ($notification->status !== 'processed') {
+            ProcessPaymentNotificationJob::dispatchAfterResponse($notification->id);
+        }
 
         return ApiResponse::success([
             'accepted' => true,
-            'orderId' => $result['order']->id,
-            'status' => $result['order']->status->value,
-            'memberCardId' => $result['memberCard']?->id,
-            'created' => $result['created'],
+            'notificationId' => $notification->id,
+            'created' => $notification->wasRecentlyCreated,
         ]);
     }
 }

@@ -25,3 +25,13 @@ Schedule::command('schedule:auto-cancel-under-min')
     ->everyFiveMinutes()
     ->withoutOverlapping()
     ->onOneServer();
+
+Schedule::command('payments:close-expired-orders')
+    ->everyMinute()
+    ->withoutOverlapping()
+    ->onOneServer();
+
+Schedule::command('payments:dispatch-notifications')
+    ->everyMinute()
+    ->withoutOverlapping()
+    ->onOneServer();

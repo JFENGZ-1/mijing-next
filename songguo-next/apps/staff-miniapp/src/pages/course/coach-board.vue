@@ -917,7 +917,7 @@ onShow(async () => {
       </view>
     </view>
 
-    <view class="brand-footer">松果约课</view>
+    <view class="brand-footer">觅境约课</view>
   </view>
 
   <!-- 弹层置于 page-root 外，避免被列表层叠/点击穿透影响 -->

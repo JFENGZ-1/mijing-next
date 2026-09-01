@@ -281,7 +281,7 @@ onPageScroll(({ scrollTop }) => {
             <u-icon name="server-fill" size="34" color="#ffffff" />
           </view>
           <view class="text">
-            <view class="first-text">松果服务中心</view>
+            <view class="first-text">觅境服务中心</view>
             <view class="last-text">客服・续费・协议・我们</view>
           </view>
           <u-icon name="arrow-right" size="25rpx" color="#385161" />

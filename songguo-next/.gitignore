@@ -13,3 +13,8 @@ bootstrap/cache/*.php
 .DS_Store
 Thumbs.db
 
+# Local diagnostics and runtime-generated artifacts
+.codex-artifacts/
+apps/*-miniapp/.tmp-shot-*.png
+apps/server/public/generated/schedule-exports/
+apps/server/tmp/

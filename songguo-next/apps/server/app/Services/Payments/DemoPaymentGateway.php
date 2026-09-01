@@ -48,4 +48,22 @@ class DemoPaymentGateway implements PaymentGateway
     {
         return null;
     }
+
+    public function queryOrder(string $orderNo): array
+    {
+        return [
+            'state' => 'UNKNOWN',
+            'orderNo' => $orderNo,
+            'configured' => false,
+        ];
+    }
+
+    public function closeOrder(string $orderNo): array
+    {
+        return [
+            'state' => 'CLOSED',
+            'orderNo' => $orderNo,
+            'configured' => false,
+        ];
+    }
 }

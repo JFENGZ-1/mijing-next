@@ -24,7 +24,7 @@ class OfficialAccountFollowSeeder extends Seeder
         SiteOfficialAccountFollow::updateOrCreate(
             ['tenant_id' => $site->tenant_id, 'site_id' => $site->id],
             [
-                'image_url' => 'https://cdn.example.com/songguo/official-account-qr.png',
+                'image_url' => 'https://cdn.example.com/mijing/official-account-qr.png',
                 'instructions_text' => '【提醒通知】即可收到课程取消、上课提醒、排队成功等通知',
                 'status' => 'published',
             ],

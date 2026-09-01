@@ -517,7 +517,7 @@ onShow(async () => {
           <view v-if="showTransferBtn" class="transfer-btn" @tap="openTransfer">转让店长</view>
         </view>
 
-        <view class="brand-footer">松果约课</view>
+        <view class="brand-footer">觅境约课</view>
       </template>
     </view>
 
@@ -676,7 +676,7 @@ onShow(async () => {
         <text class="confirm-title">转让失败！</text>
         <view class="confirm-body">
           <text class="confirm-text">「{{ displayName }}」{{ transferFailReason }}</text>
-          <text class="confirm-text">如无法解决，请联系松果客服协助您处理</text>
+          <text class="confirm-text">如无法解决，请联系觅境客服协助您处理</text>
         </view>
         <view class="confirm-btns center">
           <button class="btn-ok" @tap="transferFailVisible = false">知道了</button>

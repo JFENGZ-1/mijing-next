@@ -1,6 +1,6 @@
 # Production queue workers
 
-Songguo Next dispatches long-running staff jobs to Laravel queues:
+Mijing Next dispatches long-running staff jobs to Laravel queues:
 
 | Job class | Trigger | Domain table |
 |---|---|---|

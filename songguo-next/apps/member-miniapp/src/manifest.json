@@ -1,7 +1,7 @@
 {
-    "name" : "",
+    "name" : "觅境约课",
     "appid" : "wx8778626edd0675bf",
-    "description" : "",
+    "description" : "觅境会员约课小程序",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
@@ -51,6 +51,7 @@
     /* 小程序特有相关 */
     "mp-weixin" : {
         "appid" : "wx8778626edd0675bf",
+        "libVersion" : "3.15.2",
         "setting" : {
             "urlCheck" : false
         },

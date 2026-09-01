@@ -78,7 +78,7 @@ class MemberDashboardService
             'carousel' => [
                 'items' => $carouselItems,
                 'defaultImageUrl' => $carouselItems === []
-                    ? ($site->carousel_default_image_url ?? 'https://cdn.example.com/songguo/default-home-banner.jpg')
+                    ? ($site->carousel_default_image_url ?? 'https://cdn.example.com/mijing/default-home-banner.jpg')
                     : null,
             ],
             'notices' => $notices,

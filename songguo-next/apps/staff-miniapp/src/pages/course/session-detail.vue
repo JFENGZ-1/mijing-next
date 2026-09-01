@@ -774,7 +774,7 @@ function openEdit() {
     </view>
 
     <u-empty v-if="forbidden" mode="permission" text="当前账号暂无课程详情权限" />
-    <view class="brand-footer">松果约课</view>
+    <view class="brand-footer">觅境约课</view>
 
     <!-- 课程管理弹窗组（对标原版编辑按钮 → course-management） -->
     <session-manage

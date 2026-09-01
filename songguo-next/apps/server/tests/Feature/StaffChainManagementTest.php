@@ -31,12 +31,12 @@ class StaffChainManagementTest extends TestCase
     {
         [$staff, $siteA] = $this->actAsStaff(['tenant.settings.chain.read']);
         $tenant = Tenant::query()->findOrFail($staff->tenant_id);
-        $tenant->update(['chain_brand_name' => '松果瑜伽']);
+        $tenant->update(['chain_brand_name' => '觅境瑜伽']);
         Site::create(['tenant_id' => $tenant->id, 'name' => '分店B', 'code' => 'branch-b', 'status' => 'active', 'address' => '地址B']);
 
         $this->getJson('/api/v1/staff/chain/sites')
             ->assertOk()
-            ->assertJsonPath('data.brand.name', '松果瑜伽')
+            ->assertJsonPath('data.brand.name', '觅境瑜伽')
             ->assertJsonPath('data.brand.chainActivated', true)
             ->assertJsonCount(2, 'data.sites');
     }

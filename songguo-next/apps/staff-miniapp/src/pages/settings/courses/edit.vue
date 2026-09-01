@@ -632,7 +632,7 @@ onShow(async () => {
         <button v-if="canWrite && isArchived" class="save-btn" :disabled="saving" @click="restore">恢复课程</button>
       </view>
 
-      <view class="brand-footer">松果约课</view>
+      <view class="brand-footer">觅境约课</view>
 
       <!-- 编辑弹窗 -->
       <u-popup :show="activePanel !== null" mode="bottom" round="20" @close="closePanel">

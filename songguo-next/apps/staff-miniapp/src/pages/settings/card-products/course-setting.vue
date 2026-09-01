@@ -441,7 +441,7 @@ onShow(async () => {
           <button class="save-btn" :disabled="saving" @tap="save">保存</button>
         </view>
 
-        <view class="brand-footer">松果约课</view>
+        <view class="brand-footer">觅境约课</view>
       </view>
     </template>
 

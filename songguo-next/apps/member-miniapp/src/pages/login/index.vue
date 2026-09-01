@@ -34,7 +34,7 @@ async function login() {
 <template>
   <view class="login-page">
     <view class="login-hero">
-      <view class="login-logo">松果约课</view>
+      <view class="login-logo">觅境约课</view>
       <view class="login-tagline">会员约课 · 场馆服务</view>
     </view>
 
@@ -42,7 +42,7 @@ async function login() {
       <view class="welcome-text">欢迎使用</view>
       <view class="description">登录后查看课程、预约和会员权益</view>
       <button class="login-btn" :loading="loading" @tap="login">微信登录</button>
-      <view class="login-foot">安全登录 · 松果约课会员端</view>
+      <view class="login-foot">安全登录 · 觅境约课会员端</view>
     </view>
   </view>
 </template>

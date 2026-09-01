@@ -24,10 +24,10 @@ class TenantSupportService
 
         return [
             'phone' => (string) ($contact['phone'] ?? '400-000-0000'),
-            'wechatId' => (string) ($contact['wechatId'] ?? 'songguo-support'),
+            'wechatId' => (string) ($contact['wechatId'] ?? 'mijing-support'),
             'hours' => (string) ($contact['hours'] ?? '工作日 9:00-18:00'),
             'faqLinks' => $this->faqLinks($contact),
-            'supportHint' => (string) ($contact['supportHint'] ?? '如需开通微信支付、短信或连锁功能，请联系松果客服。'),
+            'supportHint' => (string) ($contact['supportHint'] ?? '如需开通微信支付、短信或连锁功能，请联系觅境客服。'),
             'siteName' => $site->name,
         ];
     }
@@ -87,9 +87,9 @@ class TenantSupportService
         }
 
         return [
-            ['title' => '如何约课与签到', 'url' => 'https://help.songguo.example/booking'],
-            ['title' => '会员卡与退款说明', 'url' => 'https://help.songguo.example/cards'],
-            ['title' => '连锁分店设置指南', 'url' => 'https://help.songguo.example/chain'],
+            ['title' => '如何约课与签到', 'url' => 'https://help.mijing.example/booking'],
+            ['title' => '会员卡与退款说明', 'url' => 'https://help.mijing.example/cards'],
+            ['title' => '连锁分店设置指南', 'url' => 'https://help.mijing.example/chain'],
         ];
     }
 
@@ -101,19 +101,19 @@ class TenantSupportService
         return [
             [
                 'title' => '员工端快速入门（演示占位）',
-                'url' => 'https://help.songguo.example/videos/staff-intro',
+                'url' => 'https://help.mijing.example/videos/staff-intro',
                 'durationLabel' => '3分钟',
                 'isPlaceholder' => true,
             ],
             [
                 'title' => '排课与签到操作（演示占位）',
-                'url' => 'https://help.songguo.example/videos/scheduling-checkin',
+                'url' => 'https://help.mijing.example/videos/scheduling-checkin',
                 'durationLabel' => '5分钟',
                 'isPlaceholder' => true,
             ],
             [
                 'title' => '连锁通用卡配置（演示占位）',
-                'url' => 'https://help.songguo.example/videos/chain-cards',
+                'url' => 'https://help.mijing.example/videos/chain-cards',
                 'durationLabel' => '4分钟',
                 'isPlaceholder' => true,
             ],

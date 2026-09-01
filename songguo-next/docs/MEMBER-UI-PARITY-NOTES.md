@@ -20,7 +20,7 @@ Active implementation: `songguo-next/apps/member-miniapp/`.
 |---|---|---|---|
 | Nav bar background | `#F5F5F5` | `#F8F8F8` | `#F5F5F5` |
 | Page background | `#F5F5F5` | `#F5F7FA` | `#F5F5F5` |
-| Default title | `我要约课` | `松果约课` | `我要约课` |
+| Default title | `我要约课` | `觅境约课` | `我要约课` |
 
 ### Color tokens (from `app.wxss` + page styles)
 

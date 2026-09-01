@@ -475,8 +475,11 @@ export interface MemberOrderSummary {
   memberCardId: number | null;
   originalAmount: string;
   effectiveAmount: string;
-  status: "pending_payment" | "paid" | "voided" | string;
+  status: "pending_payment" | "closing" | "paid" | "closed" | "voided" | string;
   voidedAt: string | null;
+  paymentExpiresAt: string | null;
+  closedAt: string | null;
+  closeReason: string | null;
   createdAt: string | null;
   siteId?: number;
   siteName?: string | null;

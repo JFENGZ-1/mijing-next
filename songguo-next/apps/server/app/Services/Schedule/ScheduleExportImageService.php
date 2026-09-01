@@ -58,7 +58,7 @@ class ScheduleExportImageService
         imagefilledrectangle($image, 0, 0, self::WIDTH, 168, $yellow);
         $this->text($image, 42, 52, 82, $ink, $site->name, $font);
         $this->text($image, 23, 54, 132, $ink, $from->format('Y.m.d').' - '.$to->format('Y.m.d'), $font);
-        $this->text($image, 20, 780, 132, $ink, '松果约课 · 课程表', $font);
+        $this->text($image, 20, 780, 132, $ink, '觅境约课 · 课程表', $font);
 
         $y = 198;
         foreach ($dates as $day) {

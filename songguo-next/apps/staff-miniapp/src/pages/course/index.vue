@@ -519,7 +519,7 @@ function coachInitial(name?: string | null) {
     <u-empty v-else-if="forbidden" mode="permission" text="当前账号暂无课程日程权限" />
     <u-empty v-else mode="permission" text="需要课程日程查看权限" />
 
-    <view class="brand-footer">松果约课</view>
+    <view class="brand-footer">觅境约课</view>
     </view>
 
     <!-- 日历弹窗（对标原版 u-calendar） -->

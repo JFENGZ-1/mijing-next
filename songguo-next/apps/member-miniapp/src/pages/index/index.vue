@@ -374,7 +374,7 @@ onPullDownRefresh(async () => {
 });
 
 onShareAppMessage(() => ({
-  title: siteName.value ? `${siteName.value} · 松果约课` : "松果约课",
+  title: siteName.value ? `${siteName.value} · 觅境约课` : "觅境约课",
   path: "/pages/index/index",
 }));
 </script>
@@ -539,7 +539,7 @@ onShareAppMessage(() => ({
       </view>
 
       <view class="bottom-logo">
-        <text>松果约课 · 让每一次约课都简单</text>
+        <text>觅境约课 · 让每一次约课都简单</text>
       </view>
 
       <view v-if="showOfficialAccountFollow" class="follow-banner-wrap">

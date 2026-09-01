@@ -45,7 +45,7 @@ async function login() {
   <view class="login-page">
     <view class="brand-area">
       <image class="logo" src="/static/imgs/startlogo.png" mode="aspectFit" />
-      <view class="brand">松果约课 · 工作台</view>
+      <view class="brand">觅境约课 · 工作台</view>
       <view class="description">仅已启用的场馆员工可以登录</view>
     </view>
     <button class="login-btn" :disabled="loading" @click="login">

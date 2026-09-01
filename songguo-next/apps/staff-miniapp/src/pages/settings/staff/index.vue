@@ -161,7 +161,7 @@ onPullDownRefresh(async () => {
           </view>
         </view>
 
-        <view class="brand-footer">松果约课</view>
+        <view class="brand-footer">觅境约课</view>
       </template>
     </view>
 

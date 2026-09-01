@@ -186,7 +186,7 @@ onShow(async () => {
         <u-empty v-if="!courseStats.length" mode="list" text="暂无课程" />
       </template>
 
-      <view class="brand-footer">松果约课</view>
+      <view class="brand-footer">觅境约课</view>
     </view>
   </view>
 </template>

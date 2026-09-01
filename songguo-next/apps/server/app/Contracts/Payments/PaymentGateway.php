@@ -37,4 +37,18 @@ interface PaymentGateway
      * @return array<string, mixed>|null
      */
     public function queryOrderPaid(string $orderNo): ?array;
+
+    /**
+     * Return the provider state without collapsing unpaid, closed and transport failures.
+     *
+     * @return array{state: string, orderNo: string, transactionId?: ?string, amountTotal?: ?int, currency?: ?string, appid?: ?string, merchantId?: ?string, successTime?: ?string, configured?: bool}
+     */
+    public function queryOrder(string $orderNo): array;
+
+    /**
+     * Close an unpaid provider order.
+     *
+     * @return array{state: string, orderNo: string, configured?: bool, errorCode?: ?string}
+     */
+    public function closeOrder(string $orderNo): array;
 }

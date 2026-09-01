@@ -48,10 +48,10 @@ class StaffPlatformSubscriptionTest extends TestCase
 
         $response->assertOk()
             ->assertJsonPath('data.version', '2026-01')
-            ->assertJsonPath('data.title', '松果软件服务协议')
+            ->assertJsonPath('data.title', '觅境软件服务协议')
             ->assertJsonPath('data.html', '<p>平台服务协议正文</p>')
             ->assertJsonPath('data.support.customServicer', true)
-            ->assertJsonPath('data.support.servicerNickName', '松果客服');
+            ->assertJsonPath('data.support.servicerNickName', '觅境客服');
     }
 
     public function test_site_status_returns_tenant_license_and_software_expire_overlay(): void
@@ -232,12 +232,12 @@ class StaffPlatformSubscriptionTest extends TestCase
 
         PlatformServiceAgreement::create([
             'version' => '2026-01',
-            'title' => '松果软件服务协议',
+            'title' => '觅境软件服务协议',
             'html' => '<p>平台服务协议正文</p>',
             'effective_at' => now()->subMonth(),
             'status' => 'current',
             'support_contact_enabled' => true,
-            'support_contact_name' => '松果客服',
+            'support_contact_name' => '觅境客服',
             'support_protocol_url' => 'https://support.example.com/protocol',
         ]);
     }

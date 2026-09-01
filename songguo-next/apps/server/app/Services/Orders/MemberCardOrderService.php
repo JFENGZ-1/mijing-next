@@ -202,6 +202,9 @@ class MemberCardOrderService
             'effectiveAmount' => $this->effectiveAmount($order),
             'status' => $order->status->value,
             'voidedAt' => $order->voided_at?->toIso8601String(),
+            'paymentExpiresAt' => $order->payment_expires_at?->toIso8601String(),
+            'closedAt' => $order->closed_at?->toIso8601String(),
+            'closeReason' => $order->close_reason,
             'createdAt' => $order->created_at?->toIso8601String(),
         ];
     }

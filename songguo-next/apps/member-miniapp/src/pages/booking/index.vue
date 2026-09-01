@@ -544,7 +544,7 @@ onPullDownRefresh(async () => {
       </view>
 
       <view class="bottom-logo">
-        <text>松果约课</text>
+        <text>觅境约课</text>
       </view>
     </template>
   </view>

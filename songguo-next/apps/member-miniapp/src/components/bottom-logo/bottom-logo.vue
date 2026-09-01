@@ -1,5 +1,5 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ text?: string }>(), { text: "松果瑜伽 · 让练习成为日常" });
+withDefaults(defineProps<{ text?: string }>(), { text: "觅境瑜伽 · 让练习成为日常" });
 </script>
 
 <template>

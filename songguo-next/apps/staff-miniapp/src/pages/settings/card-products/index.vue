@@ -323,7 +323,7 @@ onPullDownRefresh(async () => {
           </text>
         </view>
 
-        <view class="brand-footer">松果约课</view>
+        <view class="brand-footer">觅境约课</view>
 
         <!-- 浮动创建按钮（原版右下黄色圆钮两行字） -->
         <view v-if="canWrite && !isArchivedTab" class="create-fab" @tap="openCreate">

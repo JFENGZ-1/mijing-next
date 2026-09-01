@@ -23,12 +23,12 @@ class CarouselSeeder extends Seeder
 
         $items = [
             [
-                'image_url' => 'https://cdn.example.com/songguo/carousel/site-1-banner-1.jpg',
+                'image_url' => 'https://cdn.example.com/mijing/carousel/site-1-banner-1.jpg',
                 'link_url' => null,
                 'sort_order' => 1,
             ],
             [
-                'image_url' => 'https://cdn.example.com/songguo/carousel/site-1-banner-2.jpg',
+                'image_url' => 'https://cdn.example.com/mijing/carousel/site-1-banner-2.jpg',
                 'link_url' => '/pages/appointmentCourse/index',
                 'sort_order' => 2,
             ],

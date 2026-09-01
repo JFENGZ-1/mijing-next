@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Songguo Next API
+  title: Mijing Next API
   version: 0.2.0
 servers:
   - url: http://127.0.0.1:8010/api/v1
@@ -101,6 +101,36 @@ paths:
               schema: { $ref: "#/components/schemas/AdminMemberListEnvelope" }
         "401": { $ref: "#/components/responses/Unauthorized" }
         "403": { $ref: "#/components/responses/Forbidden" }
+  /admin/resources/{resource}:
+    parameters:
+      - name: resource
+        in: path
+        required: true
+        schema:
+          type: string
+          enum: [staff, courses, schedules, appointments, cards, orders]
+    get:
+      operationId: listAdminResourceData
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: tenantId, in: query, schema: { type: integer, minimum: 1, nullable: true } }
+        - { name: siteId, in: query, schema: { type: integer, minimum: 1, nullable: true } }
+        - { name: query, in: query, schema: { type: string, maxLength: 120, nullable: true } }
+        - { name: status, in: query, schema: { type: string, maxLength: 32, nullable: true } }
+        - { name: from, in: query, schema: { type: string, format: date, nullable: true } }
+        - { name: to, in: query, schema: { type: string, format: date, nullable: true } }
+        - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200":
+          description: Server-filtered, cross-tenant read-only rows for the selected platform resource
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminResourceListEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
   /admin/settings/payments/wechat:
     get:
       operationId: getAdminWechatPaymentConfig
@@ -7199,8 +7229,11 @@ components:
             memberCardId: { type: integer, nullable: true }
             originalAmount: { type: string }
             effectiveAmount: { type: string }
-            status: { type: string }
+            status: { $ref: "#/components/schemas/MemberCardOrderStatus" }
             voidedAt: { type: string, format: date-time, nullable: true }
+            paymentExpiresAt: { type: string, format: date-time, nullable: true }
+            closedAt: { type: string, format: date-time, nullable: true }
+            closeReason: { type: string, nullable: true, enum: [payment_timeout, null] }
             createdAt: { type: string, format: date-time, nullable: true }
         memberCard:
           type: object
@@ -7224,6 +7257,7 @@ components:
         configured: { type: boolean }
         orderNo: { type: string }
         prepayId: { type: string }
+        expiresAt: { type: string, format: date-time, nullable: true }
         paymentParams:
           type: object
           required: [timeStamp, nonceStr, package, signType, paySign]
@@ -11177,7 +11211,7 @@ components:
         requestId: { $ref: "#/components/schemas/RequestId" }
     MemberCardOrderStatus:
       type: string
-      enum: [pending_payment, paid, voided]
+      enum: [pending_payment, closing, paid, closed, voided]
     MemberCardOrderSummary:
       type: object
       required: [id, orderNo, memberId, originalAmount, effectiveAmount, status]
@@ -11190,6 +11224,9 @@ components:
         effectiveAmount: { type: string }
         status: { $ref: "#/components/schemas/MemberCardOrderStatus" }
         voidedAt: { type: string, format: date-time, nullable: true }
+        paymentExpiresAt: { type: string, format: date-time, nullable: true }
+        closedAt: { type: string, format: date-time, nullable: true }
+        closeReason: { type: string, nullable: true, enum: [payment_timeout, null] }
         createdAt: { type: string, format: date-time, nullable: true }
     MemberCardOrderListEnvelope:
       type: object
@@ -11871,6 +11908,106 @@ components:
             items:
               type: array
               items: { $ref: "#/components/schemas/AdminMemberSummary" }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminStaffResourceRow:
+      type: object
+      required: [id, name, employeeNo, role, site, lastActive, status, tenant]
+      properties:
+        id: { type: integer, minimum: 1 }
+        name: { type: string }
+        employeeNo: { type: string, nullable: true }
+        role: { type: string }
+        site: { type: string }
+        lastActive: { type: string }
+        status: { type: string }
+        tenant: { type: string }
+    AdminCourseResourceRow:
+      type: object
+      required: [id, name, type, duration, coaches, updatedAt, status, tenant, site]
+      properties:
+        id: { type: integer, minimum: 1 }
+        name: { type: string }
+        type: { type: string }
+        duration: { type: string }
+        coaches: { type: string }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        status: { type: string }
+        tenant: { type: string }
+        site: { type: string }
+    AdminScheduleResourceRow:
+      type: object
+      required: [id, time, course, coach, room, capacity, status, tenant, site]
+      properties:
+        id: { type: integer, minimum: 1 }
+        time: { type: string, format: date-time, nullable: true }
+        course: { type: string }
+        coach: { type: string }
+        room: { type: string }
+        capacity: { type: string }
+        status: { type: string }
+        tenant: { type: string }
+        site: { type: string }
+    AdminAppointmentResourceRow:
+      type: object
+      required: [id, member, session, bookedAt, card, status, tenant, site]
+      properties:
+        id: { type: integer, minimum: 1 }
+        member: { type: string }
+        session: { type: string }
+        bookedAt: { type: string, format: date-time, nullable: true }
+        card: { type: string }
+        status: { type: string }
+        tenant: { type: string }
+        site: { type: string }
+    AdminCardResourceRow:
+      type: object
+      required: [id, member, product, balance, expires, status, cardNo, tenant, site]
+      properties:
+        id: { type: integer, minimum: 1 }
+        member: { type: string }
+        product: { type: string }
+        balance: { type: string }
+        expires: { type: string }
+        status: { type: string }
+        cardNo: { type: string }
+        tenant: { type: string }
+        site: { type: string }
+    AdminOrderResourceRow:
+      type: object
+      required: [id, orderNo, member, item, amount, createdAt, status, tenantId, siteId]
+      properties:
+        id: { type: integer, minimum: 1 }
+        orderNo: { type: string }
+        member: { type: string }
+        item: { type: string }
+        amount: { type: number, format: double, minimum: 0 }
+        createdAt: { type: string, format: date-time, nullable: true }
+        status: { type: string }
+        tenantId: { type: integer, minimum: 1 }
+        siteId: { type: integer, minimum: 1 }
+    AdminResourceRow:
+      oneOf:
+        - { $ref: "#/components/schemas/AdminStaffResourceRow" }
+        - { $ref: "#/components/schemas/AdminCourseResourceRow" }
+        - { $ref: "#/components/schemas/AdminScheduleResourceRow" }
+        - { $ref: "#/components/schemas/AdminAppointmentResourceRow" }
+        - { $ref: "#/components/schemas/AdminCardResourceRow" }
+        - { $ref: "#/components/schemas/AdminOrderResourceRow" }
+    AdminResourceListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [resource, items, pagination]
+          properties:
+            resource:
+              type: string
+              enum: [staff, courses, schedules, appointments, cards, orders]
+            items:
+              type: array
+              items: { $ref: "#/components/schemas/AdminResourceRow" }
             pagination: { $ref: "#/components/schemas/PaginationMeta" }
         requestId: { $ref: "#/components/schemas/RequestId" }
     AdminWechatPaymentConfig:

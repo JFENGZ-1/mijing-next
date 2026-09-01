@@ -53,7 +53,7 @@ class StaffSiteProfileTest extends TestCase
         [$staff, $site] = $this->actAsStaff(['site.profile.read', 'site.profile.write']);
 
         $this->patchJson("/api/v1/staff/sites/{$site->id}/profile", [
-            'name' => '松果瑜伽南山店',
+            'name' => '觅境瑜伽南山店',
             'phone' => '13900139000',
             'address' => '科技园南路 1 号',
             'description' => '精品小班课',
@@ -72,13 +72,13 @@ class StaffSiteProfileTest extends TestCase
             'version' => 1,
         ])
             ->assertOk()
-            ->assertJsonPath('data.name', '松果瑜伽南山店')
+            ->assertJsonPath('data.name', '觅境瑜伽南山店')
             ->assertJsonPath('data.phone', '13900139000')
             ->assertJsonPath('data.businessHours.1.weekDays', '67')
             ->assertJsonPath('data.version', 2);
 
         $site->refresh();
-        $this->assertSame('松果瑜伽南山店', $site->name);
+        $this->assertSame('觅境瑜伽南山店', $site->name);
         $this->assertSame('13900139000', $site->phone);
         $this->assertCount(2, $site->business_hours);
     }

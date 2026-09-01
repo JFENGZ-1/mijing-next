@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Enums\MemberCardOrderStatus;
 use App\Http\Controllers\Controller;
+use App\Jobs\CloseExpiredMemberCardOrderJob;
 use App\Models\MemberCardOrder;
 use App\Services\Cards\MemberCardPurchaseService;
 use App\Services\Members\TenantMemberAccessService;
@@ -115,9 +116,17 @@ class MemberMemberCardOrderController extends Controller
             ->firstOrFail();
 
         if ($orderModel->status === MemberCardOrderStatus::PendingPayment) {
-            $paid = $purchases->paymentGateway()->queryOrderPaid((string) $orderModel->order_no);
-            if ($paid !== null && ($paid['eventType'] ?? '') === 'TRANSACTION.SUCCESS') {
-                $purchases->fulfillWechatPaidOrder((string) $orderModel->order_no, $paid);
+            $provider = $purchases->paymentGateway()->queryOrder((string) $orderModel->order_no);
+            if (($provider['state'] ?? '') === 'SUCCESS') {
+                $purchases->fulfillWechatPaidOrder((string) $orderModel->order_no, [
+                    ...$provider,
+                    'eventType' => 'TRANSACTION.SUCCESS',
+                ]);
+            } elseif (
+                ! ($orderModel->payment_expires_at?->isFuture() ?? true)
+                || ($provider['state'] ?? '') === 'CLOSED'
+            ) {
+                CloseExpiredMemberCardOrderJob::dispatch($orderModel->id);
             }
         }
 

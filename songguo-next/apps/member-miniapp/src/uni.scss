@@ -1,3 +1,18 @@
+// Resolve uView's !default theme variables at Sass compile time. Keeping these
+// as CSS var() fallbacks produces WXSS that the current WeChat compiler rejects.
+$u-primary: #22c788;
+$u-primary-dark: #1dac75;
+$u-primary-disabled: #a6e7d0;
+$u-primary-light: #ecf8f3;
+$u-success: #19be6b;
+$u-warning: #f90;
+$u-error: #dc3c5c;
+$u-info: #5fa3ea;
+$u-main-color: #181818;
+$u-content-color: #505050;
+$u-tips-color: #989898;
+$u-light-color: #bfbfbf;
+
 @import "uview-plus/theme.scss";
 
 /**

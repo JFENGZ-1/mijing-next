@@ -22,7 +22,7 @@ class MemberSitePublicTest extends TestCase
         $account = Account::create(['status' => 'active']);
         $site = Site::create([
             'tenant_id' => $tenant->id,
-            'name' => '松果瑜伽',
+            'name' => '觅境瑜伽',
             'code' => 'main',
             'status' => 'active',
             'phone' => '13800000000',
@@ -50,7 +50,7 @@ class MemberSitePublicTest extends TestCase
 
         $this->getJson("/api/v1/member/sites/{$site->id}/public-detail?tenantId={$tenant->id}")
             ->assertOk()
-            ->assertJsonPath('data.name', '松果瑜伽')
+            ->assertJsonPath('data.name', '觅境瑜伽')
             ->assertJsonPath('data.phone', '13800000000')
             ->assertJsonPath('data.description', '欢迎光临');
     }

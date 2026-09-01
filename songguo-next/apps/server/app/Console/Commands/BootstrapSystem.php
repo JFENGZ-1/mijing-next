@@ -20,7 +20,7 @@ class BootstrapSystem extends Command
      * @var string
      */
     protected $signature = 'system:bootstrap
-        {--tenant-name=松果约课 : Tenant display name}
+        {--tenant-name=觅境约课 : Tenant display name}
         {--tenant-code=songguo : Stable tenant code}
         {--site-name=示范场馆 : Initial site name}
         {--site-code=main : Initial site code}

@@ -63,6 +63,7 @@ class WechatPaymentGateway implements PaymentGateway
             'description' => mb_substr('会员卡-'.$product->name, 0, 127),
             'out_trade_no' => $order->order_no,
             'notify_url' => (string) config('payment.wechat.notify_url'),
+            'time_expire' => $order->payment_expires_at?->toRfc3339String(),
             'amount' => [
                 'total' => (int) round(((float) $order->amount) * 100),
                 'currency' => 'CNY',
@@ -95,6 +96,7 @@ class WechatPaymentGateway implements PaymentGateway
             'configured' => true,
             'orderNo' => $order->order_no,
             'prepayId' => $prepayId,
+            'expiresAt' => $order->payment_expires_at?->toIso8601String(),
             'paymentParams' => $this->jsapiPaymentParams($appid, $prepayId),
         ];
     }
@@ -149,9 +151,20 @@ class WechatPaymentGateway implements PaymentGateway
             }
 
             return [
+                'notificationId' => is_string($payload['id'] ?? null)
+                    ? $payload['id']
+                    : hash('sha256', $request->getContent()),
                 'orderNo' => $orderNo,
                 'eventType' => $eventType,
                 'transactionId' => $transaction['transaction_id'] ?? null,
+                'amountTotal' => is_numeric($transaction['amount']['total'] ?? null)
+                    ? (int) $transaction['amount']['total']
+                    : null,
+                'currency' => $transaction['amount']['currency'] ?? null,
+                'appid' => $transaction['appid'] ?? null,
+                'merchantId' => $transaction['mchid'] ?? null,
+                'successTime' => $transaction['success_time'] ?? null,
+                'official' => true,
             ];
         }
 
@@ -164,9 +177,20 @@ class WechatPaymentGateway implements PaymentGateway
         }
 
         return [
+            'notificationId' => is_string($payload['id'] ?? null)
+                ? $payload['id']
+                : hash('sha256', $request->getContent()),
             'orderNo' => $orderNo,
             'eventType' => is_string($eventType) ? $eventType : 'TRANSACTION.SUCCESS',
             'transactionId' => $payload['transaction_id'] ?? $payload['transactionId'] ?? null,
+            'amountTotal' => is_numeric($payload['amount']['total'] ?? $payload['amountTotal'] ?? null)
+                ? (int) ($payload['amount']['total'] ?? $payload['amountTotal'])
+                : null,
+            'currency' => $payload['amount']['currency'] ?? $payload['currency'] ?? null,
+            'appid' => $payload['appid'] ?? null,
+            'merchantId' => $payload['mchid'] ?? $payload['merchantId'] ?? null,
+            'successTime' => $payload['success_time'] ?? $payload['successTime'] ?? null,
+            'official' => false,
         ];
     }
 
@@ -177,12 +201,35 @@ class WechatPaymentGateway implements PaymentGateway
      */
     public function queryOrderPaid(string $orderNo): ?array
     {
+        $result = $this->queryOrder($orderNo);
+
+        return $result['state'] === 'SUCCESS'
+            ? [
+                'orderNo' => $orderNo,
+                'eventType' => 'TRANSACTION.SUCCESS',
+                'transactionId' => $result['transactionId'] ?? null,
+                'amountTotal' => $result['amountTotal'] ?? null,
+                'currency' => $result['currency'] ?? null,
+                'appid' => $result['appid'] ?? null,
+                'merchantId' => $result['merchantId'] ?? null,
+                'successTime' => $result['successTime'] ?? null,
+            ]
+            : null;
+    }
+
+    public function queryOrder(string $orderNo): array
+    {
         if (! $this->configured()) {
-            return null;
+            return [
+                'state' => 'UNKNOWN',
+                'orderNo' => $orderNo,
+                'configured' => false,
+            ];
         }
 
         $mchid = (string) config('payment.wechat.merchant_id');
-        $path = "/v3/pay/transactions/out-trade-no/{$orderNo}?mchid={$mchid}";
+        $encodedOrderNo = rawurlencode($orderNo);
+        $path = "/v3/pay/transactions/out-trade-no/{$encodedOrderNo}?mchid={$mchid}";
 
         $response = Http::withHeaders([
             'Authorization' => $this->authorizationHeader('GET', $path, ''),
@@ -196,17 +243,70 @@ class WechatPaymentGateway implements PaymentGateway
                 'status' => $response->status(),
             ]);
 
-            return null;
-        }
-
-        if ($response->json('trade_state') !== 'SUCCESS') {
-            return null;
+            return [
+                'state' => 'UNKNOWN',
+                'orderNo' => $orderNo,
+                'configured' => true,
+                'errorCode' => $response->json('code'),
+            ];
         }
 
         return [
+            'state' => (string) $response->json('trade_state', 'UNKNOWN'),
             'orderNo' => $orderNo,
-            'eventType' => 'TRANSACTION.SUCCESS',
             'transactionId' => $response->json('transaction_id'),
+            'amountTotal' => is_numeric($response->json('amount.total'))
+                ? (int) $response->json('amount.total')
+                : null,
+            'currency' => $response->json('amount.currency'),
+            'appid' => $response->json('appid'),
+            'merchantId' => $response->json('mchid'),
+            'successTime' => $response->json('success_time'),
+            'configured' => true,
+        ];
+    }
+
+    public function closeOrder(string $orderNo): array
+    {
+        if (! $this->configured()) {
+            return [
+                'state' => 'CLOSED',
+                'orderNo' => $orderNo,
+                'configured' => false,
+            ];
+        }
+
+        $encodedOrderNo = rawurlencode($orderNo);
+        $path = "/v3/pay/transactions/out-trade-no/{$encodedOrderNo}/close";
+        $body = json_encode([
+            'mchid' => (string) config('payment.wechat.merchant_id'),
+        ], JSON_THROW_ON_ERROR);
+
+        $response = Http::withHeaders([
+            'Authorization' => $this->authorizationHeader('POST', $path, $body),
+            'Accept' => 'application/json',
+            'User-Agent' => 'songguo-next-server',
+        ])->withBody($body, 'application/json')->post(self::API_BASE.$path);
+
+        if ($response->successful()) {
+            return [
+                'state' => 'CLOSED',
+                'orderNo' => $orderNo,
+                'configured' => true,
+            ];
+        }
+
+        Log::warning('wechat-pay order close failed', [
+            'orderNo' => $orderNo,
+            'status' => $response->status(),
+            'code' => $response->json('code'),
+        ]);
+
+        return [
+            'state' => 'UNKNOWN',
+            'orderNo' => $orderNo,
+            'configured' => true,
+            'errorCode' => $response->json('code'),
         ];
     }
 
@@ -223,6 +323,7 @@ class WechatPaymentGateway implements PaymentGateway
             'configured' => false,
             'orderNo' => $order->order_no,
             'prepayId' => $prepayId,
+            'expiresAt' => $order->payment_expires_at?->toIso8601String(),
             'paymentParams' => [
                 'timeStamp' => (string) now()->timestamp,
                 'nonceStr' => Str::random(16),

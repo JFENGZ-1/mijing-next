@@ -33,10 +33,12 @@
 
 ### L5 前置条件（必须）
 
+唯一主版本和微信开发者工具入口是 `dist/dev/mp-weixin`。`pnpm dev:member|staff` 启动前会自动删除两端旧的 `dist/build`；`pnpm build:member|staff` 也定向输出到同一 `dist/dev/mp-weixin`，禁止同时保留或混用两套产物。
+
 在 `pnpm build:member|staff` 之后、打开目标页截图之前，**必须**对每个小程序 dist 执行缓存清理，否则模拟器会渲染空白页：
 
 ```bash
-wechatide -c cursor -t debug_clear_cache --project <apps/*/dist/build/mp-weixin> --action cleanAll
+wechatide -c cursor -t debug_clear_cache --project <apps/*/dist/dev/mp-weixin> --action cleanAll
 ```
 
 **认证优先级（D-L > D-S）：**

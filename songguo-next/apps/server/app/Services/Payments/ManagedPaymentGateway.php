@@ -49,6 +49,16 @@ class ManagedPaymentGateway implements PaymentGateway
         return $this->webhookGateway()->queryOrderPaid($orderNo);
     }
 
+    public function queryOrder(string $orderNo): array
+    {
+        return $this->webhookGateway()->queryOrder($orderNo);
+    }
+
+    public function closeOrder(string $orderNo): array
+    {
+        return $this->webhookGateway()->closeOrder($orderNo);
+    }
+
     private function checkoutGateway(): PaymentGateway
     {
         $snapshot = $this->hydrateWechatConfig();

@@ -8,10 +8,8 @@ use App\Enums\CardProductSaleStatus;
 use App\Enums\CardType;
 use App\Enums\EntitlementLedgerEntryType;
 use App\Enums\MemberCardOrderStatus;
-use App\Enums\MemberCardStatus;
 use App\Models\Account;
 use App\Models\CardProduct;
-use App\Models\EntitlementLedgerEntry;
 use App\Models\LegalConsent;
 use App\Models\LegalDocument;
 use App\Models\Member;
@@ -19,10 +17,14 @@ use App\Models\MemberCard;
 use App\Models\MemberCardOrder;
 use App\Models\MemberCrmProfile;
 use App\Models\MemberProfile;
+use App\Models\PaymentNotificationInbox;
 use App\Models\Site;
 use App\Models\Tenant;
+use App\Models\WechatIdentity;
+use App\Services\Payments\MemberCardPaymentLifecycleService;
 use App\Services\Payments\WechatPaymentGateway;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -92,6 +94,150 @@ class MemberCardWechatPaymentTest extends TestCase
             ]]]]);
     }
 
+    public function test_pending_payment_expires_after_five_minutes_and_cannot_resume(): void
+    {
+        $this->travelTo(now()->startOfSecond());
+        [$account, $tenant, $site] = $this->seedPurchasableMember();
+        $product = $this->createProduct($site, CardType::StoredValue, ['price' => 188]);
+        $this->actAsMember($account);
+
+        $created = $this->postJson($this->purchasePath($tenant, $site), [
+            'cardProductId' => $product->id,
+            'commandKey' => (string) Str::uuid(),
+        ])->assertCreated();
+
+        $order = MemberCardOrder::query()->findOrFail($created->json('data.order.id'));
+        $this->assertTrue($order->payment_expires_at->equalTo(now()->addMinutes(5)));
+        $this->assertSame(
+            $order->payment_expires_at->toIso8601String(),
+            $created->json('data.order.paymentExpiresAt'),
+        );
+
+        $this->travel(5)->minutes();
+        $this->postJson("/api/v1/member/orders/{$order->id}/payment?tenantId={$tenant->id}")
+            ->assertStatus(409)
+            ->assertJsonPath('code', 'ORDER_PAYMENT_EXPIRED');
+    }
+
+    public function test_expired_unpaid_order_is_closed_at_provider_then_locally(): void
+    {
+        [$account, $tenant, $site] = $this->seedPurchasableMember();
+        $product = $this->createProduct($site, CardType::StoredValue, ['price' => 199]);
+        $this->actAsMember($account);
+        $orderId = $this->postJson($this->purchasePath($tenant, $site), [
+            'cardProductId' => $product->id,
+            'commandKey' => (string) Str::uuid(),
+        ])->json('data.order.id');
+
+        MemberCardOrder::query()->whereKey($orderId)->update(['payment_expires_at' => now()->subSecond()]);
+        $gateway = \Mockery::mock(PaymentGateway::class);
+        $gateway->shouldReceive('queryOrder')->once()->andReturn([
+            'state' => 'NOTPAY',
+            'orderNo' => 'ignored-by-service',
+            'configured' => true,
+        ]);
+        $gateway->shouldReceive('closeOrder')->once()->andReturn([
+            'state' => 'CLOSED',
+            'orderNo' => 'ignored-by-service',
+            'configured' => true,
+        ]);
+        $this->app->instance(PaymentGateway::class, $gateway);
+
+        app(MemberCardPaymentLifecycleService::class)->closeExpiredOrder($orderId);
+
+        $order = MemberCardOrder::query()->findOrFail($orderId);
+        $this->assertSame(MemberCardOrderStatus::Closed, $order->status);
+        $this->assertSame('payment_timeout', $order->close_reason);
+        $this->assertNotNull($order->closed_at);
+    }
+
+    public function test_payment_success_wins_while_expiry_job_is_closing_order(): void
+    {
+        [$account, $tenant, $site] = $this->seedPurchasableMember();
+        $product = $this->createProduct($site, CardType::StoredValue, ['price' => 233]);
+        $this->actAsMember($account);
+        $orderId = $this->postJson($this->purchasePath($tenant, $site), [
+            'cardProductId' => $product->id,
+            'commandKey' => (string) Str::uuid(),
+        ])->json('data.order.id');
+
+        $order = MemberCardOrder::query()->findOrFail($orderId);
+        $order->update([
+            'status' => MemberCardOrderStatus::Closing,
+            'payment_expires_at' => now()->subSecond(),
+        ]);
+
+        $gateway = \Mockery::mock(PaymentGateway::class);
+        $gateway->shouldReceive('queryOrder')->once()->andReturn([
+            'state' => 'SUCCESS',
+            'orderNo' => $order->order_no,
+            'transactionId' => 'wx-race-success',
+            'amountTotal' => 23300,
+            'currency' => 'CNY',
+            'configured' => true,
+        ]);
+        $gateway->shouldReceive('driver')->once()->andReturn('wechat');
+        $this->app->instance(PaymentGateway::class, $gateway);
+
+        app(MemberCardPaymentLifecycleService::class)->closeExpiredOrder($orderId);
+
+        $order->refresh();
+        $this->assertSame(MemberCardOrderStatus::Paid, $order->status);
+        $this->assertSame('wx-race-success', $order->payment_transaction_id);
+        $this->assertNotNull($order->member_card_id);
+        $this->assertTrue((bool) ($order->metadata['latePaymentReconciled'] ?? false));
+    }
+
+    public function test_official_wechat_checkout_passes_expiry_and_gateway_queries_then_closes(): void
+    {
+        $this->configureOfficialWechatGateway();
+        [$account, $tenant, $site, $member] = $this->seedPurchasableMember();
+        $product = $this->createProduct($site, CardType::StoredValue, ['price' => 166]);
+        WechatIdentity::create([
+            'account_id' => $account->id,
+            'appid' => 'wx-member-appid',
+            'openid' => 'member-openid',
+            'last_authenticated_at' => now(),
+        ]);
+        $order = MemberCardOrder::create([
+            'tenant_id' => $tenant->id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'order_no' => 'ORD-OFFICIAL-GATEWAY',
+            'amount' => 166,
+            'status' => MemberCardOrderStatus::PendingPayment,
+            'command_key' => (string) Str::uuid(),
+            'payment_expires_at' => now()->addMinutes(5)->startOfSecond(),
+        ]);
+
+        Http::fake(function ($request) use ($order) {
+            if ($request->method() === 'POST' && str_ends_with($request->url(), '/v3/pay/transactions/jsapi')) {
+                $this->assertSame($order->payment_expires_at->toRfc3339String(), $request->data()['time_expire']);
+
+                return Http::response(['prepay_id' => 'wx-official-prepay'], 200);
+            }
+            if ($request->method() === 'GET') {
+                return Http::response([
+                    'out_trade_no' => $order->order_no,
+                    'trade_state' => 'NOTPAY',
+                ], 200);
+            }
+
+            return Http::response([], 204);
+        });
+
+        $gateway = new WechatPaymentGateway;
+        $checkout = $gateway->createMemberCardCheckout($order, $account, $member, $site, $product);
+        $queried = $gateway->queryOrder($order->order_no);
+        $closed = $gateway->closeOrder($order->order_no);
+
+        $this->assertSame('wx-official-prepay', $checkout['prepayId']);
+        $this->assertSame($order->payment_expires_at->toIso8601String(), $checkout['expiresAt']);
+        $this->assertSame('NOTPAY', $queried['state']);
+        $this->assertSame('CLOSED', $closed['state']);
+        Http::assertSentCount(3);
+    }
+
     public function test_paid_order_cannot_resume_payment(): void
     {
         [$account, $tenant, $site, $member] = $this->seedPurchasableMember();
@@ -140,9 +286,17 @@ class MemberCardWechatPaymentTest extends TestCase
             ->assertJsonPath('data.accepted', true)
             ->assertJsonPath('data.created', true);
 
+        $this->postJson('/webhooks/wechat-pay', json_decode($payload, true), [
+            'X-Wechat-Signature' => $signature,
+        ])
+            ->assertOk()
+            ->assertJsonPath('data.accepted', true)
+            ->assertJsonPath('data.created', false);
+
         $order = MemberCardOrder::query()->where('order_no', $orderNo)->firstOrFail();
         $this->assertSame(MemberCardOrderStatus::Paid, $order->status);
         $this->assertNotNull($order->member_card_id);
+        $this->assertSame(1, PaymentNotificationInbox::query()->where('order_no', $orderNo)->count());
 
         $this->assertDatabaseHas('entitlement_ledger_entries', [
             'tenant_id' => $tenant->id,
@@ -246,6 +400,33 @@ class MemberCardWechatPaymentTest extends TestCase
             'status' => 'published',
             'is_required' => true,
             'published_at' => now(),
+        ]);
+    }
+
+    private function configureOfficialWechatGateway(): void
+    {
+        $options = [
+            'private_key_bits' => 2048,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+        ];
+        $bundledConfig = dirname(PHP_BINARY).DIRECTORY_SEPARATOR.'extras'.DIRECTORY_SEPARATOR.'ssl'.DIRECTORY_SEPARATOR.'openssl.cnf';
+        if (is_file($bundledConfig)) {
+            $options['config'] = $bundledConfig;
+        }
+
+        $key = openssl_pkey_new($options);
+        $this->assertNotFalse($key);
+
+        $privateKey = '';
+        $this->assertTrue(openssl_pkey_export($key, $privateKey, null, $options));
+
+        config([
+            'wechat.apps.member.appid' => 'wx-member-appid',
+            'payment.wechat.merchant_id' => 'merchant-test',
+            'payment.wechat.merchant_serial_no' => 'serial-test',
+            'payment.wechat.private_key' => $privateKey,
+            'payment.wechat.api_v3_key' => str_repeat('k', 32),
+            'payment.wechat.notify_url' => 'https://example.test/webhooks/wechat-pay',
         ]);
     }
 }

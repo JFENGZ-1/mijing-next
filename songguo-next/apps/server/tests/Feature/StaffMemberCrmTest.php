@@ -178,21 +178,21 @@ class StaffMemberCrmTest extends TestCase
             $site,
             $groupCourse,
             ScheduleSessionKind::Group,
-            now()->subDays(2),
+            now()->startOfDay(),
         );
         $privateSession = $this->createMetricSession(
             $staff,
             $site,
             $privateCourse,
             ScheduleSessionKind::Private,
-            now()->subMonth()->subDay(),
+            now()->startOfMonth()->subDay(),
         );
         $absentSession = $this->createMetricSession(
             $staff,
             $site,
             $groupCourse,
             ScheduleSessionKind::Group,
-            now()->subDay(),
+            now()->startOfDay(),
         );
 
         $this->createMetricAppointment($staff, $site, $member, $groupSession, AppointmentStatus::Completed);
@@ -248,7 +248,7 @@ class StaffMemberCrmTest extends TestCase
             ->assertJsonPath('data.metrics.absenceTotalCount', 1)
             ->assertJsonPath('data.metrics.consumedAmount', '60.00')
             ->assertJsonPath('data.metrics.residualValue', '40.00')
-            ->assertJsonPath('data.metrics.noClassDays', 2);
+            ->assertJsonPath('data.metrics.noClassDays', 0);
     }
 
     public function test_member_detail_hides_metrics_without_domain_permissions(): void

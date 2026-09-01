@@ -48,7 +48,7 @@ class StaffTenantSettingsController extends Controller
                     'contactLabel' => '联系客服了解',
                 ],
             ],
-            'supportHint' => '收款账户配置需联系松果客服协助开通，本页仅作说明。',
+            'supportHint' => '收款账户配置需联系觅境客服协助开通，本页仅作说明。',
         ]);
     }
 

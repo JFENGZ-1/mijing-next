@@ -741,7 +741,7 @@ onShow(async () => {
           <button v-if="isEdit && canArchive" class="delete-btn" :disabled="saving" @click="archive">删除</button>
         </view>
 
-        <view class="brand-footer">松果约课</view>
+        <view class="brand-footer">觅境约课</view>
 
         <!-- ============ 编辑弹窗 ============ -->
         <u-popup :show="activePanel !== null" mode="bottom" round="20" @close="closePanel">

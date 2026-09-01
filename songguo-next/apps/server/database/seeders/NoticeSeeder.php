@@ -23,8 +23,8 @@ class NoticeSeeder extends Seeder
 
         $notices = [
             [
-                'title' => '欢迎加入松果瑜伽',
-                'body' => '感谢您选择松果瑜伽。请提前预约课程，按时到场签到。',
+                'title' => '欢迎加入觅境瑜伽',
+                'body' => '感谢您选择觅境瑜伽。请提前预约课程，按时到场签到。',
                 'sort_order' => 1,
             ],
             [

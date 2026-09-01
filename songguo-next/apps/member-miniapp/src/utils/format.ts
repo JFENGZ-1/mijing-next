@@ -124,6 +124,10 @@ export function orderStatusLabel(status: string) {
       return "已支付";
     case "pending_payment":
       return "待支付";
+    case "closing":
+      return "关闭处理中";
+    case "closed":
+      return "支付超时已关闭";
     case "voided":
       return "已作废";
     default:
