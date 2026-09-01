@@ -6,6 +6,7 @@ use App\Enums\CourseCatalogStatus;
 use App\Enums\CourseType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
@@ -48,5 +49,10 @@ class Course extends Model
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(Staff::class, 'created_by_staff_id');
+    }
+
+    public function compensationRules(): HasMany
+    {
+        return $this->hasMany(CourseCompensationRule::class);
     }
 }

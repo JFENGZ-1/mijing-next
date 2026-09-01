@@ -214,6 +214,10 @@ onPullDownRefresh(async () => { await loadOrder(); uni.stopPullDownRefresh(); })
           <text class="label">卡种</text>
           <text class="value">{{ order.productName }}</text>
         </view>
+        <view v-if="order.paymentMethod" class="detail-row">
+          <text class="label">支付方式</text>
+          <text class="value">{{ order.paymentMethod === "balance" ? "会员余额" : "在线支付" }}</text>
+        </view>
         <view v-if="order.createdAt" class="detail-row">
           <text class="label">下单时间</text>
           <text class="value">{{ formatIsoDate(order.createdAt) }}</text>

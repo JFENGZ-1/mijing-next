@@ -25,6 +25,12 @@ import type { BookingPickerMember, StaffMemberCardSummary } from "@/types/crm";
 import type { StaffAppointment, ScheduleSession } from "@/types/scheduling";
 import { createCommandKey } from "@/utils/command-key";
 import {
+  fetchAppointmentConsumptionPreview,
+  fetchAppointmentConsumptionSettlement,
+} from "@/api/consumption";
+import ConsumptionStatus from "@/components/consumption-status/consumption-status.vue";
+import type { AppointmentConsumptionPreview, ConsumptionSettlement } from "@/types/consumption";
+import {
   appointmentStatusLabel,
   formatClock,
   formatSessionTime,
@@ -42,6 +48,7 @@ const errorMessage = ref("");
 const detail = ref<ScheduleSession | null>(null);
 const waitlist = ref<StaffAppointment[]>([]);
 const confirmedAppointments = ref<StaffAppointment[]>([]);
+const consumptionByAppointment = ref<Record<number, AppointmentConsumptionPreview | ConsumptionSettlement | null>>({});
 
 // —— 代约（对标原版 member-search 流程：member-picker 选会员 → 选卡确认） ——
 const pickerOpen = ref(false);
@@ -91,6 +98,18 @@ const isPrivateSession = computed(() => detail.value?.sessionKind === "private")
 const hasWaitlistSeat = computed(
   () => (detail.value?.bookedCount ?? 0) < (detail.value?.capacity ?? 0),
 );
+const actualDeliveryAssignments = computed(() => {
+  if (detail.value?.deliveryAssignments?.length) return detail.value.deliveryAssignments;
+  if (!detail.value?.coachStaffId) return [];
+  return [{
+    staffId: detail.value.coachStaffId,
+    staffName: detail.value.coachName,
+    compensationRoleId: 0,
+    roleName: "主教练（兼容）",
+    allocationBps: 10000,
+    isPrimary: true,
+  }];
+});
 
 const waitlistCount = computed(() => waitlist.value.length);
 const confirmedCount = computed(() => confirmedAppointments.value.length);
@@ -121,6 +140,7 @@ async function loadDetail() {
     detail.value = sessionDetail;
     waitlist.value = waitlistResponse.items;
     confirmedAppointments.value = appointmentsResponse.items;
+    await loadAppointmentConsumptions(appointmentsResponse.items);
   } catch (error) {
     if (error instanceof ApiError && error.statusCode === 403) {
       forbidden.value = true;
@@ -130,6 +150,22 @@ async function loadDetail() {
   } finally {
     loading.value = false;
   }
+}
+
+async function loadAppointmentConsumptions(items: StaffAppointment[]) {
+  if (!session.currentSiteId) return;
+  const entries = await Promise.all(items.map(async (item) => {
+    try {
+      const value = item.status === "completed"
+        ? await fetchAppointmentConsumptionSettlement(session.currentSiteId!, item.id)
+          ?? await fetchAppointmentConsumptionPreview(session.currentSiteId!, item.id)
+        : await fetchAppointmentConsumptionPreview(session.currentSiteId!, item.id);
+      return [item.id, value] as const;
+    } catch {
+      return [item.id, null] as const;
+    }
+  }));
+  consumptionByAppointment.value = Object.fromEntries(entries);
 }
 
 const pendingAutoBook = ref(false);
@@ -672,6 +708,23 @@ function openEdit() {
       </view>
     </view>
 
+    <view v-if="actualDeliveryAssignments.length" class="delivery-summary">
+      <view class="delivery-summary-head">
+        <text>实际授课人员（A）</text>
+        <text>{{ detail.deliveryAssignments?.length ? "按结算分配" : "沿用单教练" }}</text>
+      </view>
+      <view class="delivery-summary-list">
+        <view v-for="assignment in actualDeliveryAssignments" :key="`${assignment.staffId}-${assignment.compensationRoleId}`" class="delivery-summary-item">
+          <view class="delivery-avatar">{{ (assignment.staffName || detail.coachName || "教")[0] }}</view>
+          <view class="delivery-summary-main">
+            <text>{{ assignment.staffName || (assignment.staffId === detail.coachStaffId ? detail.coachName : null) || `员工 #${assignment.staffId}` }}</text>
+            <text>{{ assignment.roleName || `A 角色 #${assignment.compensationRoleId}` }}</text>
+          </view>
+          <text class="delivery-ratio">{{ assignment.allocationBps / 100 }}%</text>
+        </view>
+      </view>
+    </view>
+
     <!-- 会员列表（对标原版：旷课/有效/排队/已取消 四组） -->
     <view v-if="absentList.length || validList.length || waitlist.length || cancelList.length" class="member-list">
       <template v-for="group in [absentList, validList]" :key="group === absentList ? 'absent' : 'valid'">
@@ -708,6 +761,7 @@ function openEdit() {
               </view>
             </view>
             <view v-if="item.status === 'absent'" class="m-truant-tag">旷课</view>
+            <ConsumptionStatus :value="consumptionByAppointment[item.id]" compact />
           </view>
         </view>
       </template>
@@ -1159,6 +1213,18 @@ function openEdit() {
   &.light { background: #ecf8f3; color: #22c788; }
   &.grey { background: #bababa; color: #fff; }
 }
+
+.delivery-summary { margin: 14rpx 24rpx 0; padding: 22rpx 24rpx; background: #fff; border-radius: 20rpx; }
+.delivery-summary-head { display: flex; align-items: center; justify-content: space-between; font-size: 25rpx; font-weight: 600; }
+.delivery-summary-head text:last-child { color: #989898; font-size: 20rpx; font-weight: 400; }
+.delivery-summary-list { margin-top: 12rpx; }
+.delivery-summary-item { display: flex; align-items: center; gap: 14rpx; padding: 12rpx 0; border-top: 1rpx solid #f3f3f3; }
+.delivery-avatar { display: flex; align-items: center; justify-content: center; width: 58rpx; height: 58rpx; color: #fff; background: #696b99; border-radius: 50%; font-size: 23rpx; }
+.delivery-summary-main { flex: 1; min-width: 0; }
+.delivery-summary-main text { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.delivery-summary-main text:first-child { color: #181818; font-size: 24rpx; }
+.delivery-summary-main text:last-child { margin-top: 4rpx; color: #989898; font-size: 20rpx; }
+.delivery-ratio { color: #8b6c00; font-size: 23rpx; font-weight: 600; }
 
 .member-list { margin: 16rpx 24rpx 0; padding: 6rpx 24rpx; background: #fff; border-radius: 20rpx; }
 .m-item { position: relative; display: flex; gap: 18rpx; padding: 26rpx 0; border-bottom: 1rpx solid #f5f5f5; &:last-of-type { border-bottom: none; } }

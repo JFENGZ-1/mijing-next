@@ -6,15 +6,19 @@ use App\Enums\CardType;
 use App\Enums\EntitlementLedgerDirection;
 use App\Enums\EntitlementLedgerEntryType;
 use App\Enums\MemberCardStatus;
-use App\Models\Staff;
 use App\Models\EntitlementLedgerEntry;
 use App\Models\MemberCard;
 use App\Models\Site;
+use App\Models\Staff;
+use App\Services\Compensation\MemberCardValueLotService;
+use App\Support\Finance\Money;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class BookingEntitlementService
 {
+    public function __construct(private readonly MemberCardValueLotService $valueLots) {}
+
     /**
      * @return array{ledgerEntryId: int, created: bool}
      */
@@ -30,17 +34,26 @@ class BookingEntitlementService
         string $reason = '预约扣费',
         bool $allowPendingActivation = false,
     ): array {
+        $amountCents = $cardType === CardType::StoredValue ? Money::decimalToCents($amountDelta) : null;
+        $fingerprint = $this->fingerprint([
+            'operation' => 'booking_deduct', 'cardId' => $memberCard->id, 'siteId' => $site->id,
+            'cardType' => $cardType->value, 'count' => $countDelta, 'amountCents' => $amountCents,
+            'actorAccountId' => $actorAccountId, 'actorStaffId' => $actorStaffId,
+            'reason' => $reason, 'allowPendingActivation' => $allowPendingActivation,
+        ]);
+
         return DB::transaction(function () use (
             $memberCard,
             $site,
             $commandKey,
             $cardType,
             $countDelta,
-            $amountDelta,
             $actorAccountId,
             $actorStaffId,
             $reason,
             $allowPendingActivation,
+            $amountCents,
+            $fingerprint,
         ) {
             $existing = EntitlementLedgerEntry::query()
                 ->where('tenant_id', $memberCard->tenant_id)
@@ -49,6 +62,8 @@ class BookingEntitlementService
                 ->first();
 
             if ($existing) {
+                $this->assertReplay($existing, $memberCard, $site, $fingerprint);
+
                 return ['ledgerEntryId' => $existing->id, 'created' => false];
             }
 
@@ -57,6 +72,14 @@ class BookingEntitlementService
                 ->whereKey($memberCard->id)
                 ->lockForUpdate()
                 ->firstOrFail();
+            $existing = EntitlementLedgerEntry::query()
+                ->where('tenant_id', $memberCard->tenant_id)->where('command_key', $commandKey)
+                ->lockForUpdate()->first();
+            if ($existing) {
+                $this->assertReplay($existing, $locked, $site, $fingerprint);
+
+                return ['ledgerEntryId' => $existing->id, 'created' => false];
+            }
 
             abort_if(
                 in_array($locked->status, [MemberCardStatus::Archived, MemberCardStatus::Voided], true)
@@ -79,19 +102,23 @@ class BookingEntitlementService
                 $entryType = EntitlementLedgerEntryType::CountDeduct;
                 $amountField = null;
                 $countField = $delta;
+                $countValue = $this->valueLots->allocateCountValue($locked, $delta);
             } elseif ($cardType === CardType::Period) {
                 abort_unless($locked->card_type === CardType::Period, 409, 'BOOKING_CARD_NOT_PAYABLE');
                 $entryType = EntitlementLedgerEntryType::PeriodUse;
                 $amountField = null;
                 $countField = null;
+                $countValue = null;
             } else {
-                $delta = number_format((float) $amountDelta, 2, '.', '');
+                $delta = (int) $amountCents;
                 abort_unless($locked->card_type === CardType::StoredValue, 409, 'MEMBER_CARD_BALANCE_ADJUST_INVALID');
-                abort_if((float) ($locked->cached_balance ?? 0) < (float) $delta, 409, 'INSUFFICIENT_BALANCE');
-                $locked->cached_balance = number_format((float) $locked->cached_balance - (float) $delta, 2, '.', '');
+                $balanceCents = Money::decimalToCents($locked->cached_balance ?? '0');
+                abort_if($balanceCents < $delta, 409, 'INSUFFICIENT_BALANCE');
+                $locked->cached_balance = Money::centsToDecimal($balanceCents - $delta);
                 $entryType = EntitlementLedgerEntryType::BalanceAdjust;
-                $amountField = $delta;
+                $amountField = Money::centsToDecimal($delta);
                 $countField = null;
+                $countValue = null;
             }
 
             $entry = EntitlementLedgerEntry::create([
@@ -105,6 +132,15 @@ class BookingEntitlementService
                 'count_delta' => $countField,
                 'command_key' => $commandKey,
                 'reason' => $reason,
+                'metadata' => [
+                    'commandFingerprint' => $fingerprint,
+                    'countValueAllocations' => $countValue['allocations'] ?? [],
+                    'knownValueCents' => $countValue['knownValueCents'] ?? null,
+                    'unknownCount' => $countValue['unknownCount'] ?? 0,
+                    'valueProvenance' => $countValue['provenance'] ?? null,
+                    'reservedValueCents' => $countValue['valueCents'] ?? null,
+                    'valueLotId' => $countValue['valueLotId'] ?? null,
+                ],
                 'actor_account_id' => $actorAccountId,
                 'actor_staff_id' => $actorStaffId,
                 'occurred_at' => now(),
@@ -125,8 +161,17 @@ class BookingEntitlementService
         string $commandKey,
         ?int $actorAccountId = null,
         ?int $actorStaffId = null,
+        string $reason = '取消预约返还',
+        array $metadata = [],
     ): array {
-        return DB::transaction(function () use ($original, $site, $commandKey, $actorAccountId, $actorStaffId) {
+        $fingerprint = $this->fingerprint([
+            'operation' => 'booking_refund', 'originalId' => $original->id,
+            'cardId' => $original->member_card_id, 'siteId' => $site->id,
+            'actorAccountId' => $actorAccountId, 'actorStaffId' => $actorStaffId,
+            'reason' => $reason, 'metadata' => $metadata,
+        ]);
+
+        return DB::transaction(function () use ($original, $site, $commandKey, $actorAccountId, $actorStaffId, $reason, $metadata, $fingerprint) {
             $existing = EntitlementLedgerEntry::query()
                 ->where('tenant_id', $original->tenant_id)
                 ->where('command_key', $commandKey)
@@ -134,6 +179,8 @@ class BookingEntitlementService
                 ->first();
 
             if ($existing) {
+                $this->assertReplay($existing, $original->memberCard, $site, $fingerprint);
+
                 return ['ledgerEntryId' => $existing->id, 'created' => false];
             }
 
@@ -142,6 +189,14 @@ class BookingEntitlementService
                 ->whereKey($original->member_card_id)
                 ->lockForUpdate()
                 ->firstOrFail();
+            $existing = EntitlementLedgerEntry::query()
+                ->where('tenant_id', $original->tenant_id)->where('command_key', $commandKey)
+                ->lockForUpdate()->first();
+            if ($existing) {
+                $this->assertReplay($existing, $locked, $site, $fingerprint);
+
+                return ['ledgerEntryId' => $existing->id, 'created' => false];
+            }
 
             $reversalDirection = match ($original->direction) {
                 EntitlementLedgerDirection::Debit => EntitlementLedgerDirection::Credit,
@@ -150,10 +205,11 @@ class BookingEntitlementService
             };
 
             if ($original->amount_delta !== null) {
-                $current = (float) ($locked->cached_balance ?? 0);
-                $locked->cached_balance = $reversalDirection === EntitlementLedgerDirection::Credit
-                    ? number_format($current + (float) $original->amount_delta, 2, '.', '')
-                    : number_format($current - (float) $original->amount_delta, 2, '.', '');
+                $current = Money::decimalToCents($locked->cached_balance ?? '0');
+                $delta = Money::decimalToCents($original->amount_delta);
+                $next = $reversalDirection === EntitlementLedgerDirection::Credit ? $current + $delta : $current - $delta;
+                abort_if($next < 0, 409, 'INSUFFICIENT_BALANCE');
+                $locked->cached_balance = Money::centsToDecimal($next);
             }
 
             if ($original->count_delta !== null) {
@@ -161,6 +217,13 @@ class BookingEntitlementService
                 $locked->cached_remaining_count = $reversalDirection === EntitlementLedgerDirection::Credit
                     ? $current + (int) $original->count_delta
                     : $current - (int) $original->count_delta;
+                abort_if((int) $locked->cached_remaining_count < 0, 409, 'INSUFFICIENT_COUNT');
+                if ($reversalDirection === EntitlementLedgerDirection::Credit) {
+                    $this->valueLots->restoreCountAllocations(
+                        $locked,
+                        $original->metadata['countValueAllocations'] ?? [],
+                    );
+                }
             }
 
             $entry = EntitlementLedgerEntry::create([
@@ -174,7 +237,12 @@ class BookingEntitlementService
                 'count_delta' => $original->count_delta,
                 'reversal_of_id' => $original->id,
                 'command_key' => $commandKey,
-                'reason' => '取消预约返还',
+                'reason' => $reason,
+                'metadata' => [
+                    ...$metadata,
+                    'commandFingerprint' => $fingerprint,
+                    'restoredValueLotAllocations' => $original->metadata['countValueAllocations'] ?? [],
+                ],
                 'actor_account_id' => $actorAccountId,
                 'actor_staff_id' => $actorStaffId,
                 'occurred_at' => now(),
@@ -206,7 +274,14 @@ class BookingEntitlementService
         array $spec,
         ?Staff $actorStaff = null,
     ): array {
-        return DB::transaction(function () use ($memberCard, $site, $commandKey, $spec, $actorStaff) {
+        $amountCents = $spec['kind'] === 'money' ? Money::decimalToCents($spec['value']) : null;
+        $fingerprint = $this->fingerprint([
+            'operation' => 'absent_deduction', 'cardId' => $memberCard->id, 'siteId' => $site->id,
+            'kind' => $spec['kind'], 'value' => $spec['kind'] === 'money' ? $amountCents : (int) $spec['value'],
+            'actorStaffId' => $actorStaff?->id,
+        ]);
+
+        return DB::transaction(function () use ($memberCard, $site, $commandKey, $spec, $actorStaff, $amountCents, $fingerprint) {
             $existing = EntitlementLedgerEntry::query()
                 ->where('tenant_id', $memberCard->tenant_id)
                 ->where('command_key', $commandKey)
@@ -214,6 +289,8 @@ class BookingEntitlementService
                 ->first();
 
             if ($existing) {
+                $this->assertReplay($existing, $memberCard, $site, $fingerprint);
+
                 return ['ledgerEntryId' => $existing->id, 'created' => false];
             }
 
@@ -222,6 +299,14 @@ class BookingEntitlementService
                 ->whereKey($memberCard->id)
                 ->lockForUpdate()
                 ->firstOrFail();
+            $existing = EntitlementLedgerEntry::query()
+                ->where('tenant_id', $memberCard->tenant_id)->where('command_key', $commandKey)
+                ->lockForUpdate()->first();
+            if ($existing) {
+                $this->assertReplay($existing, $locked, $site, $fingerprint);
+
+                return ['ledgerEntryId' => $existing->id, 'created' => false];
+            }
 
             if (in_array($locked->status, [MemberCardStatus::Archived, MemberCardStatus::Voided], true)
                 || $locked->archived_at !== null) {
@@ -231,15 +316,16 @@ class BookingEntitlementService
             $amountField = null;
             $countField = null;
             $validUntilAfter = null;
+            $countValue = null;
 
             if ($spec['kind'] === 'money') {
-                $available = (float) ($locked->cached_balance ?? 0);
-                $delta = min($available, (float) $spec['value']);
+                $available = Money::decimalToCents($locked->cached_balance ?? '0');
+                $delta = min($available, (int) $amountCents);
                 if ($delta <= 0) {
                     return ['ledgerEntryId' => null, 'created' => false];
                 }
-                $locked->cached_balance = number_format($available - $delta, 2, '.', '');
-                $amountField = number_format($delta, 2, '.', '');
+                $locked->cached_balance = Money::centsToDecimal($available - $delta);
+                $amountField = Money::centsToDecimal($delta);
             } elseif ($spec['kind'] === 'count') {
                 $available = (int) ($locked->cached_remaining_count ?? 0);
                 $delta = min($available, (int) $spec['value']);
@@ -248,6 +334,7 @@ class BookingEntitlementService
                 }
                 $locked->cached_remaining_count = $available - $delta;
                 $countField = $delta;
+                $countValue = $this->valueLots->allocateCountValue($locked, $delta);
             } else {
                 if ($locked->valid_until === null) {
                     return ['ledgerEntryId' => null, 'created' => false];
@@ -272,6 +359,14 @@ class BookingEntitlementService
                 'valid_until_after' => $validUntilAfter,
                 'command_key' => $commandKey,
                 'reason' => '旷课处罚扣除',
+                'metadata' => [
+                    'commandFingerprint' => $fingerprint,
+                    'countValueAllocations' => $countValue['allocations'] ?? [],
+                    'knownValueCents' => $countValue['knownValueCents'] ?? null,
+                    'unknownCount' => $countValue['unknownCount'] ?? 0,
+                    'valueProvenance' => $countValue['provenance'] ?? null,
+                    'penaltyDoesNotGenerateCommission' => true,
+                ],
                 'actor_staff_id' => $actorStaff?->id,
                 'occurred_at' => now(),
             ]);
@@ -289,7 +384,15 @@ class BookingEntitlementService
         int $appointmentId,
         ?Staff $actorStaff = null,
     ): array {
-        return DB::transaction(function () use ($memberCard, $site, $commandKey, $appointmentId, $actorStaff) {
+        $fingerprint = $this->fingerprint([
+            'operation' => 'absent_penalty',
+            'cardId' => $memberCard->id,
+            'siteId' => $site->id,
+            'appointmentId' => $appointmentId,
+            'actorStaffId' => $actorStaff?->id,
+        ]);
+
+        return DB::transaction(function () use ($memberCard, $site, $commandKey, $appointmentId, $actorStaff, $fingerprint) {
             $existing = EntitlementLedgerEntry::query()
                 ->where('tenant_id', $memberCard->tenant_id)
                 ->where('command_key', $commandKey)
@@ -297,6 +400,8 @@ class BookingEntitlementService
                 ->first();
 
             if ($existing) {
+                $this->assertReplay($existing, $memberCard, $site, $fingerprint);
+
                 return [
                     'ledgerEntryId' => $existing->id,
                     'created' => false,
@@ -309,6 +414,20 @@ class BookingEntitlementService
                 ->whereKey($memberCard->id)
                 ->lockForUpdate()
                 ->firstOrFail();
+            $existing = EntitlementLedgerEntry::query()
+                ->where('tenant_id', $memberCard->tenant_id)
+                ->where('command_key', $commandKey)
+                ->lockForUpdate()
+                ->first();
+            if ($existing) {
+                $this->assertReplay($existing, $locked, $site, $fingerprint);
+
+                return [
+                    'ledgerEntryId' => $existing->id,
+                    'created' => false,
+                    'cardFrozen' => $locked->status === MemberCardStatus::Frozen,
+                ];
+            }
 
             abort_if(
                 in_array($locked->status, [MemberCardStatus::Archived, MemberCardStatus::Voided], true)
@@ -355,7 +474,11 @@ class BookingEntitlementService
                 'direction' => EntitlementLedgerDirection::Neutral,
                 'command_key' => $commandKey,
                 'reason' => '旷课处罚',
-                'metadata' => ['appointmentId' => $appointmentId, 'cardFrozen' => $cardFrozen],
+                'metadata' => [
+                    'appointmentId' => $appointmentId,
+                    'cardFrozen' => $cardFrozen,
+                    'commandFingerprint' => $fingerprint,
+                ],
                 'actor_staff_id' => $actorStaff?->id,
                 'occurred_at' => now(),
             ]);
@@ -376,5 +499,38 @@ class BookingEntitlementService
             substr($hash, 16, 4),
             substr($hash, 20, 12),
         );
+    }
+
+    private function assertReplay(
+        EntitlementLedgerEntry $entry,
+        MemberCard $card,
+        Site $site,
+        string $fingerprint,
+    ): void {
+        abort_unless(
+            $entry->member_card_id === $card->id
+            && $entry->site_id === $site->id
+            && hash_equals((string) ($entry->metadata['commandFingerprint'] ?? ''), $fingerprint),
+            409,
+            'IDEMPOTENCY_KEY_REUSED',
+        );
+    }
+
+    private function fingerprint(array $payload): string
+    {
+        $sort = function (&$value) use (&$sort) {
+            if (! is_array($value)) {
+                return;
+            }
+            foreach ($value as &$item) {
+                $sort($item);
+            }
+            if (! array_is_list($value)) {
+                ksort($value);
+            }
+        };
+        $sort($payload);
+
+        return hash('sha256', json_encode($payload, JSON_THROW_ON_ERROR));
     }
 }

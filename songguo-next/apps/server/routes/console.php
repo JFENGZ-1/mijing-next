@@ -21,6 +21,12 @@ Schedule::command('appointments:auto-check-in')
     ->withoutOverlapping()
     ->onOneServer();
 
+// 取消已提交但即时候补转正遭遇短暂失败时，可靠重试补位。
+Schedule::command('appointments:reconcile-waitlists --limit=200')
+    ->everyMinute()
+    ->withoutOverlapping()
+    ->onOneServer();
+
 Schedule::command('schedule:auto-cancel-under-min')
     ->everyFiveMinutes()
     ->withoutOverlapping()
@@ -33,5 +39,11 @@ Schedule::command('payments:close-expired-orders')
 
 Schedule::command('payments:dispatch-notifications')
     ->everyMinute()
+    ->withoutOverlapping()
+    ->onOneServer();
+
+// 期限卡按场馆本地业务日结算；00:30 宽限后封存前一日，迟到调整只追加差额。
+Schedule::command('consumption:finalize-period-days --grace=30')
+    ->everyTenMinutes()
     ->withoutOverlapping()
     ->onOneServer();

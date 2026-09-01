@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class ScheduleSession extends Model
 {
     protected $fillable = [
-        'tenant_id', 'site_id', 'course_id', 'room_id', 'coach_staff_id',
+        'tenant_id', 'site_id', 'course_id', 'room_id', 'coach_staff_id', 'delivery_role_id',
         'starts_at', 'ends_at', 'capacity', 'booked_count', 'status',
         'session_kind', 'display_color', 'version', 'created_by_staff_id',
     ];
@@ -59,5 +59,10 @@ class ScheduleSession extends Model
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class, 'session_id');
+    }
+
+    public function deliveryAssignments(): HasMany
+    {
+        return $this->hasMany(ScheduleSessionStaffAssignment::class);
     }
 }

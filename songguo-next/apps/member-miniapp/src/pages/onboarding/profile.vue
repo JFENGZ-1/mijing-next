@@ -199,7 +199,7 @@ async function handleLinkReview(link: MemberLinkReview) {
   }
 }
 
-onShow(async () => { if (await requireMemberAuth()) await load(); });
+onShow(async () => { if (await requireMemberAuth({ allowIncomplete: true })) await load(); });
 </script>
 
 <template>

@@ -39,6 +39,7 @@ async function loadLedger(reset = true) {
   try {
     const tenant = await ensureMemberTenant();
     if (!tenant) {
+      if (!reset) page.value = Math.max(1, page.value - 1);
       errorMessage.value = "请先选择场馆";
       return;
     }
@@ -52,6 +53,7 @@ async function loadLedger(reset = true) {
       };
     }
   } catch (error) {
+    if (!reset) page.value = Math.max(1, page.value - 1);
     errorMessage.value = error instanceof Error ? error.message : "积分明细加载失败";
   } finally {
     loadingMore.value = false;

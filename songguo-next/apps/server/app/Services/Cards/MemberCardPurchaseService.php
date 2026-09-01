@@ -13,8 +13,13 @@ use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\MemberCardOrder;
 use App\Models\Site;
+use App\Services\Compensation\MemberCardShareAssignmentService;
+use App\Services\Compensation\MemberCardValueLotService;
 use App\Services\Members\MemberPurchaseGateService;
 use App\Services\Orders\MemberCardOrderService;
+use App\Services\Wallet\MemberWalletService;
+use App\Support\Finance\Money;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -26,6 +31,10 @@ class MemberCardPurchaseService
         private readonly MemberCardIssueService $issuer,
         private readonly MemberCardOrderService $orders,
         private readonly PaymentGateway $paymentGateway,
+        private readonly MemberWalletService $wallets,
+        private readonly MemberCardValueLotService $valueLots,
+        private readonly MemberCardShareAssignmentService $shareAssignments,
+        private readonly CardProductPaymentMethodService $paymentMethods,
     ) {}
 
     public function paymentGateway(): PaymentGateway
@@ -98,9 +107,10 @@ class MemberCardPurchaseService
     public function submit(Account $account, Member $member, Site $site, array $payload): array
     {
         $commandKey = $payload['commandKey'];
-        $driver = $this->paymentGateway->driver();
+        $paymentMethod = (string) ($payload['paymentMethod'] ?? 'online');
+        $driver = $paymentMethod === 'online' ? $this->paymentGateway->driver() : null;
 
-        $result = DB::transaction(function () use ($account, $member, $site, $payload, $commandKey, $driver) {
+        $result = DB::transaction(function () use ($account, $member, $site, $payload, $commandKey, $driver, $paymentMethod) {
             $existingOrder = MemberCardOrder::query()
                 ->where('tenant_id', $member->tenant_id)
                 ->where('command_key', $commandKey)
@@ -108,6 +118,8 @@ class MemberCardPurchaseService
                 ->first();
 
             if ($existingOrder) {
+                $this->assertSubmitReplayMatches($existingOrder, $member, $site, $payload, $paymentMethod);
+
                 return $this->existingSubmitResult($existingOrder);
             }
 
@@ -118,6 +130,28 @@ class MemberCardPurchaseService
                 ->whereKey($payload['cardProductId'])
                 ->lockForUpdate()
                 ->firstOrFail();
+
+            // Product lock is the submit serialization point. Recheck the command under that lock.
+            $existingOrder = MemberCardOrder::query()
+                ->where('tenant_id', $member->tenant_id)
+                ->where('command_key', $commandKey)
+                ->lockForUpdate()
+                ->first();
+            if ($existingOrder) {
+                $this->assertSubmitReplayMatches($existingOrder, $member, $site, $payload, $paymentMethod);
+
+                return $this->existingSubmitResult($existingOrder);
+            }
+
+            abort_unless(
+                in_array($paymentMethod, $this->paymentMethods->methods($product), true),
+                422,
+                'CARD_PRODUCT_PAYMENT_METHOD_NOT_ALLOWED',
+            );
+
+            if ($paymentMethod === 'balance') {
+                return $this->submitBalancePaid($account, $member, $site, $product, $commandKey);
+            }
 
             if ($driver === 'demo') {
                 return $this->submitDemoPaid($account, $member, $site, $product, $commandKey);
@@ -177,12 +211,24 @@ class MemberCardPurchaseService
                     'PAYMENT_TRANSACTION_CONFLICT',
                 );
 
+                $memberCard = MemberCard::query()
+                    ->where('tenant_id', $order->tenant_id)
+                    ->whereKey($order->member_card_id)
+                    ->firstOrFail();
+                $member = Member::query()
+                    ->where('tenant_id', $order->tenant_id)
+                    ->whereKey($order->member_id)
+                    ->firstOrFail();
+                $site = Site::query()
+                    ->where('tenant_id', $order->tenant_id)
+                    ->whereKey($order->site_id)
+                    ->firstOrFail();
+                $this->valueLots->recordForOrder($order, $memberCard);
+                $this->shareAssignments->assignOwnerDefaults($memberCard, $member, $site);
+
                 return [
                     'order' => $order,
-                    'memberCard' => MemberCard::query()
-                        ->where('tenant_id', $order->tenant_id)
-                        ->whereKey($order->member_card_id)
-                        ->firstOrFail(),
+                    'memberCard' => $memberCard,
                     'created' => false,
                 ];
             }
@@ -239,11 +285,20 @@ class MemberCardPurchaseService
                 'metadata' => $metadata,
                 'payment_transaction_id' => $webhookPayload['transactionId'] ?? $order->payment_transaction_id,
                 'payment_state_version' => $order->payment_state_version + 1,
+                'payment_method' => 'online',
+                'paid_amount_cents' => Money::decimalToCents($order->amount),
+                'paid_at' => isset($webhookPayload['successTime'])
+                    ? Carbon::parse($webhookPayload['successTime'])
+                    : now(),
                 'voided_at' => null,
             ]);
 
+            $paidOrder = $order->fresh();
+            $this->valueLots->recordForOrder($paidOrder, $memberCard);
+            $this->shareAssignments->assignOwnerDefaults($memberCard, $member, $site);
+
             return [
-                'order' => $order->fresh(),
+                'order' => $paidOrder,
                 'memberCard' => $memberCard,
                 'created' => true,
             ];
@@ -274,6 +329,24 @@ class MemberCardPurchaseService
         ];
     }
 
+    private function assertSubmitReplayMatches(
+        MemberCardOrder $order,
+        Member $member,
+        Site $site,
+        array $payload,
+        string $paymentMethod,
+    ): void {
+        $metadata = $order->metadata ?? [];
+        abort_unless(
+            (int) $order->member_id === $member->id
+            && (int) $order->site_id === $site->id
+            && (int) ($metadata['cardProductId'] ?? 0) === (int) $payload['cardProductId']
+            && ($order->payment_method ?? 'online') === $paymentMethod,
+            409,
+            'IDEMPOTENCY_KEY_REUSED',
+        );
+    }
+
     /**
      * @return array{order: MemberCardOrder, memberCard: MemberCard, payment: null, created: bool}
      */
@@ -294,6 +367,9 @@ class MemberCardPurchaseService
             'member_card_id' => $memberCard->id,
             'order_no' => $this->nextOrderNo(),
             'amount' => $product->price,
+            'payment_method' => 'online',
+            'paid_amount_cents' => Money::decimalToCents($product->price),
+            'paid_at' => now(),
             'status' => MemberCardOrderStatus::Paid,
             'command_key' => $commandKey,
             'metadata' => [
@@ -302,6 +378,56 @@ class MemberCardPurchaseService
                 'productVersion' => $product->version,
             ],
         ]);
+
+        $this->valueLots->recordForOrder($order, $memberCard);
+        $this->shareAssignments->assignOwnerDefaults($memberCard, $member, $site);
+
+        return ['order' => $order->fresh(), 'memberCard' => $memberCard, 'payment' => null, 'created' => true];
+    }
+
+    /**
+     * @return array{order: MemberCardOrder, memberCard: MemberCard, payment: null, created: bool}
+     */
+    private function submitBalancePaid(
+        Account $account,
+        Member $member,
+        Site $site,
+        CardProduct $product,
+        string $commandKey,
+    ): array {
+        $amountCents = Money::decimalToCents($product->price);
+        $issueResult = $this->issuer->purchaseIssue($account, $site, $member, $product, $commandKey);
+        $memberCard = $issueResult['memberCard'];
+        $order = MemberCardOrder::create([
+            'tenant_id' => $member->tenant_id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'member_card_id' => $memberCard->id,
+            'order_no' => $this->nextOrderNo(),
+            'amount' => $product->price,
+            'payment_method' => 'balance',
+            'paid_amount_cents' => $amountCents,
+            'paid_at' => now(),
+            'status' => MemberCardOrderStatus::Paid,
+            'command_key' => $commandKey,
+            'metadata' => [
+                'channel' => 'member_wallet',
+                'cardProductId' => $product->id,
+                'productVersion' => $product->version,
+            ],
+        ]);
+        if ($amountCents > 0) {
+            $this->wallets->debitForPurchase(
+                $account,
+                $member,
+                $site,
+                $order,
+                $amountCents,
+                'wallet:card-purchase:'.$order->id,
+            );
+        }
+        $this->valueLots->recordForOrder($order, $memberCard);
+        $this->shareAssignments->assignOwnerDefaults($memberCard, $member, $site);
 
         return ['order' => $order->fresh(), 'memberCard' => $memberCard, 'payment' => null, 'created' => true];
     }
@@ -322,6 +448,7 @@ class MemberCardPurchaseService
             'member_card_id' => null,
             'order_no' => $this->nextOrderNo(),
             'amount' => $product->price,
+            'payment_method' => 'online',
             'status' => MemberCardOrderStatus::PendingPayment,
             'command_key' => $commandKey,
             'payment_expires_at' => now()->addMinutes((int) config('payment.order_ttl_minutes', 5)),
@@ -382,6 +509,7 @@ class MemberCardPurchaseService
             'validityDays' => $product->validity_days,
             'validityMode' => $product->validity_mode,
             'activationMode' => $product->activation_mode,
+            'allowedPaymentMethods' => app(CardProductPaymentMethodService::class)->methods($product),
             'faceStyle' => (int) ($product->scope_config['faceStyle'] ?? 0),
             'faceGradient' => app(CardFaceLibraryService::class)
                 ->gradientFor((int) ($product->scope_config['faceStyle'] ?? 0)),
@@ -452,7 +580,7 @@ class MemberCardPurchaseService
         $amountTotal = $payload['amountTotal'] ?? null;
         abort_if(
             $amountTotal !== null
-            && (int) $amountTotal !== (int) round(((float) $order->amount) * 100),
+            && (int) $amountTotal !== Money::decimalToCents($order->amount),
             422,
             'PAYMENT_AMOUNT_MISMATCH',
         );

@@ -58,6 +58,7 @@ const faceValue = ref("");
 const initialCount = ref("");
 const validityDays = ref("");
 const saleOn = ref(true);
+const allowedPaymentMethods = ref<Array<"online" | "balance">>(["online", "balance"]);
 const sortOrder = ref("0");
 const faceIndex = ref(0);
 const faceLibrary = ref<CardFaceLibraryItem[]>([]); // 平台图案库（总 Web 后台可控）
@@ -280,6 +281,9 @@ function fillForm(detail: StaffCardProductDetail) {
   initialCount.value = detail.initialCount != null ? String(detail.initialCount) : "";
   validityDays.value = detail.validityDays != null ? String(detail.validityDays) : "";
   saleOn.value = detail.saleStatus === "on_sale";
+  allowedPaymentMethods.value = detail.allowedPaymentMethods?.length
+    ? [...detail.allowedPaymentMethods]
+    : ["online", "balance"];
   sortOrder.value = String(detail.sortOrder);
   const storedActivation = detail.activationMode ?? "immediate";
   activationMode.value = (["immediate", "first-use", "manual", "delayed", "first-class"].includes(storedActivation)
@@ -320,6 +324,18 @@ function parsePrice(value: string, label: string): number | null {
   return amount;
 }
 
+function togglePaymentMethod(method: "online" | "balance") {
+  if (allowedPaymentMethods.value.includes(method)) {
+    if (allowedPaymentMethods.value.length === 1) {
+      uni.showToast({ title: "至少保留一种可用支付方式", icon: "none" });
+      return;
+    }
+    allowedPaymentMethods.value = allowedPaymentMethods.value.filter((item) => item !== method);
+    return;
+  }
+  allowedPaymentMethods.value = [...allowedPaymentMethods.value, method];
+}
+
 function parsePositiveInt(value: string, label: string): number | null {
   const trimmed = value.trim();
   if (!trimmed) return null;
@@ -347,7 +363,7 @@ function intOrUndefined(value: string): number | undefined {
 }
 
 function buildCourseScopePayload(): StaffCardProductCourseScopeInput[] {
-  // 「支持的课」在「设置支持的课及课时费」页维护（对标原版 card-subject），
+  // 「支持的课」在卡课扣费规则页维护，
   // 此处原样透传已有配置，避免保存卡种资料时清空关联。
   return (product.value?.courseScopes ?? [])
     .filter((scope) => scope.scopeKind === "single")
@@ -486,6 +502,7 @@ function buildPayload(): StaffCardProductUpsertPayload | null {
     sortOrder: Number.parseInt(sortOrder.value, 10) || 0,
     bookingRules,
     courseScopes: courseScopePayload,
+    allowedPaymentMethods: [...allowedPaymentMethods.value],
   };
   if (description.value.trim()) payload.description = description.value.trim();
   payload.validityMode = product.value?.validityMode ?? null;
@@ -660,6 +677,28 @@ onShow(async () => {
           <view class="p-row">
             <text class="p-label required">售&nbsp;&nbsp;&nbsp;价</text>
             <input v-model="price" class="p-input" type="digit" placeholder="请输入售价" />
+          </view>
+          <view class="payment-row">
+            <text class="p-label required">支付方式</text>
+            <view class="payment-options">
+              <view
+                v-for="option in [
+                  { value: 'online', label: '在线支付' },
+                  { value: 'balance', label: '余额' },
+                ]"
+                :key="option.value"
+                class="payment-option"
+                :class="{ active: allowedPaymentMethods.includes(option.value as 'online' | 'balance') }"
+                @tap="togglePaymentMethod(option.value as 'online' | 'balance')"
+              >
+                <u-icon
+                  :name="allowedPaymentMethods.includes(option.value as 'online' | 'balance') ? 'checkmark-circle-fill' : 'checkmark-circle'"
+                  :color="allowedPaymentMethods.includes(option.value as 'online' | 'balance') ? '#22c788' : '#dadada'"
+                  size="17"
+                />
+                <text>{{ option.label }}</text>
+              </view>
+            </view>
           </view>
           <view v-if="isStoredValue || isCount" class="p-row" @tap="openPanel('quota')">
             <text class="p-label required">卡额度</text>
@@ -1256,6 +1295,39 @@ onShow(async () => {
 .save-btn::after,
 .delete-btn::after {
   border: 0;
+}
+
+.payment-row {
+  display: flex;
+  align-items: center;
+  min-height: 104rpx;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  box-sizing: border-box;
+}
+
+.payment-options {
+  display: flex;
+  flex: 1;
+  gap: 12rpx;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 7rpx;
+  padding: 12rpx 18rpx;
+  color: $color-text-tertiary;
+  background: $color-page;
+  border: 1rpx solid transparent;
+  border-radius: 999rpx;
+  font-size: 23rpx;
+}
+
+.payment-option.active {
+  color: $color-text;
+  background: #fffbed;
+  border-color: $color-brand-yellow;
 }
 
 .brand-footer {

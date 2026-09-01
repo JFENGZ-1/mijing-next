@@ -14,7 +14,8 @@ import {
   updateStaffCourse,
 } from "@/api/catalog";
 import type { CourseTagItem } from "@/api/catalog";
-import { fetchCardFaceLibrary, fetchCardProducts } from "@/api/card-products";
+import { fetchCardFaceLibrary, fetchAllCardProducts } from "@/api/card-products";
+import { fetchCardProductCourseRuleSets } from "@/api/compensation";
 import type { CardFaceLibraryItem } from "@/api/card-products";
 import { fetchStaffDirectory } from "@/api/staff-directory";
 import { requireStaffAuth } from "@/auth/guard";
@@ -110,10 +111,19 @@ function pickFace(id: number) {
 async function loadSupportCardCount() {
   if (!courseId.value || !session.currentSiteId || !session.can("card-product.catalog.read")) return;
   try {
-    const response = await fetchCardProducts(session.currentSiteId, 1, 50, undefined, "active");
-    supportCardCount.value = response.data.items.filter(
-      (item) => (item.courseScopeKeys ?? []).includes(courseId.value as number),
-    ).length;
+    const products = await fetchAllCardProducts(session.currentSiteId, undefined, "active");
+    const selectedCourseId = courseId.value;
+    const rulesByProduct = await fetchCardProductCourseRuleSets(
+      session.currentSiteId,
+      products.map((product) => product.id),
+    );
+    supportCardCount.value = products.filter((product) => {
+      const rules = rulesByProduct.get(product.id);
+      if (rules?.items.length) {
+        return rules.items.some((rule) => rule.courseId === selectedCourseId);
+      }
+      return (product.courseScopeKeys ?? []).includes(selectedCourseId);
+    }).length;
   } catch {
     supportCardCount.value = null;
   }
@@ -204,9 +214,13 @@ async function addTag() {
   newTagName.value = "";
 }
 
-// —— 会员卡扣费：跳转「设置课时费」页（对标原版 suject-choice-card 独立页面） ——
+// —— 会员卡扣费：跳转独立的卡课扣费规则页 ——
 function goCardFee() {
   if (!courseId.value) return;
+  if (!session.can("compensation.rule.write")) {
+    uni.showToast({ title: "暂无卡课规则编辑权限", icon: "none" });
+    return;
+  }
   uni.navigateTo({
     url: `/pages/settings/courses/card-fee?courseId=${courseId.value}&name=${encodeURIComponent(name.value.trim())}`,
   });
@@ -605,7 +619,7 @@ onShow(async () => {
           <u-icon name="arrow-right" size="15" color="#bfbfbf" />
         </view>
 
-        <!-- 会员卡扣费（原版：请设置会员卡扣费 / 已设置X张卡 → 设置课时费页） -->
+        <!-- 会员卡扣费：按卡类型配置金额、次数或按日自动分摊 -->
         <view v-if="isEdit" class="p-row" @tap="goCardFee">
           <text class="p-label">会员卡扣费</text>
           <text class="p-value" :class="{ placeholder: !supportCardCount }">

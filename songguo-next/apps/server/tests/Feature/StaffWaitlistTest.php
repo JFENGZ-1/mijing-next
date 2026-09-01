@@ -13,6 +13,7 @@ use App\Enums\ScheduleSessionKind;
 use App\Enums\ScheduleSessionStatus;
 use App\Models\Account;
 use App\Models\Appointment;
+use App\Models\AuditEvent;
 use App\Models\BookingPolicy;
 use App\Models\Course;
 use App\Models\EntitlementLedgerEntry;
@@ -26,6 +27,7 @@ use App\Models\Site;
 use App\Models\Staff;
 use App\Models\Tenant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -161,6 +163,89 @@ class StaffWaitlistTest extends TestCase
         $this->assertSame(AppointmentStatus::Waitlisted, Appointment::findOrFail($waitB->id)->status);
         $this->assertSame(1, ScheduleSession::findOrFail($session->id)->booked_count);
         $this->assertNotNull(Appointment::findOrFail($waitA->id)->ledger_entry_id);
+    }
+
+    public function test_waitlist_reconciliation_retries_a_vacancy_idempotently(): void
+    {
+        [, , $session, $waitA, $waitB] = $this->seedWaitlistFixture();
+
+        $this->assertSame(0, Artisan::call('appointments:reconcile-waitlists', ['--limit' => 10]));
+        $this->assertSame(AppointmentStatus::Confirmed, $waitA->fresh()->status);
+        $this->assertSame(AppointmentStatus::Waitlisted, $waitB->fresh()->status);
+        $this->assertSame(1, $session->fresh()->booked_count);
+
+        $ledgerCount = EntitlementLedgerEntry::query()->where('member_card_id', $waitA->member_card_id)->count();
+        $this->assertSame(0, Artisan::call('appointments:reconcile-waitlists', ['--limit' => 10]));
+        $this->assertSame($ledgerCount, EntitlementLedgerEntry::query()->where('member_card_id', $waitA->member_card_id)->count());
+    }
+
+    public function test_reconciliation_cancels_terminal_invalid_head_and_promotes_second_idempotently(): void
+    {
+        [, , $session, $waitA, $waitB] = $this->seedWaitlistFixture();
+        $invalidCard = MemberCard::query()->findOrFail($waitA->member_card_id);
+        $invalidCard->status = MemberCardStatus::Voided;
+        $invalidCard->archived_at = now();
+        $invalidCard->save();
+
+        $this->assertSame(0, Artisan::call('appointments:reconcile-waitlists', ['--limit' => 10]));
+
+        $cancelledHead = $waitA->fresh();
+        $this->assertSame(AppointmentStatus::Cancelled, $cancelledHead->status);
+        $this->assertNotNull($cancelledHead->cancelled_at);
+        $this->assertNotNull($cancelledHead->cancel_command_key);
+        $this->assertNotNull($cancelledHead->cancel_payload_hash);
+        $this->assertStringContainsString('WAITLIST_MEMBER_CARD_VOIDED', (string) $cancelledHead->staff_notes);
+        $this->assertSame(AppointmentStatus::Confirmed, $waitB->fresh()->status);
+        $this->assertSame(1, $session->fresh()->booked_count);
+
+        $audit = AuditEvent::query()
+            ->where('action', 'booking.waitlist.auto_cancelled_unpromotable')
+            ->where('subject_type', 'appointment')
+            ->where('subject_id', $waitA->id)
+            ->sole();
+        $this->assertSame('WAITLIST_MEMBER_CARD_VOIDED', $audit->metadata['reasonCode']);
+        $this->assertSame($waitA->member_card_id, $audit->metadata['memberCardId']);
+
+        $deductCount = EntitlementLedgerEntry::query()
+            ->where('member_card_id', $waitB->member_card_id)
+            ->where('entry_type', EntitlementLedgerEntryType::CountDeduct)
+            ->count();
+
+        $this->assertSame(0, Artisan::call('appointments:reconcile-waitlists', ['--limit' => 10]));
+        $this->assertSame(1, AuditEvent::query()
+            ->where('action', 'booking.waitlist.auto_cancelled_unpromotable')
+            ->where('subject_id', $waitA->id)
+            ->count());
+        $this->assertSame($deductCount, EntitlementLedgerEntry::query()
+            ->where('member_card_id', $waitB->member_card_id)
+            ->where('entry_type', EntitlementLedgerEntryType::CountDeduct)
+            ->count());
+        $this->assertSame(AppointmentStatus::Confirmed, $waitB->fresh()->status);
+        $this->assertSame(1, $session->fresh()->booked_count);
+    }
+
+    public function test_reconciliation_does_not_skip_or_cancel_temporarily_blocked_head(): void
+    {
+        [, , $session, $waitA, $waitB] = $this->seedWaitlistFixture();
+        $temporarilyBlockedCard = MemberCard::query()->findOrFail($waitA->member_card_id);
+        $temporarilyBlockedCard->status = MemberCardStatus::Frozen;
+        $temporarilyBlockedCard->save();
+
+        $this->assertSame(0, Artisan::call('appointments:reconcile-waitlists', ['--limit' => 10]));
+        $this->assertSame(AppointmentStatus::Waitlisted, $waitA->fresh()->status);
+        $this->assertSame(AppointmentStatus::Waitlisted, $waitB->fresh()->status);
+        $this->assertSame(0, $session->fresh()->booked_count);
+        $this->assertSame(0, AuditEvent::query()
+            ->where('action', 'booking.waitlist.auto_cancelled_unpromotable')
+            ->count());
+
+        $temporarilyBlockedCard->status = MemberCardStatus::Active;
+        $temporarilyBlockedCard->save();
+
+        $this->assertSame(0, Artisan::call('appointments:reconcile-waitlists', ['--limit' => 10]));
+        $this->assertSame(AppointmentStatus::Confirmed, $waitA->fresh()->status);
+        $this->assertSame(AppointmentStatus::Waitlisted, $waitB->fresh()->status);
+        $this->assertSame(1, $session->fresh()->booked_count);
     }
 
     /**

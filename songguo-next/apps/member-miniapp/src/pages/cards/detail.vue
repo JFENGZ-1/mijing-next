@@ -129,6 +129,10 @@ function openBenefits() {
   uni.navigateTo({ url: `/pages/cards/benefits?id=${cardId.value}` });
 }
 
+function openConsumption() {
+  uni.navigateTo({ url: `/pages/cards/consumption?cardId=${cardId.value}` });
+}
+
 function confirmHide() {
   if (!card.value) return;
   uni.showModal({
@@ -206,6 +210,12 @@ onPullDownRefresh(async () => {
 
       <!-- 快捷操作卡 -->
       <view class="action-row">
+        <view class="action-cell" @tap="openConsumption">
+          <view class="action-icon action-icon--green">
+            <u-icon name="list-dot" size="22" color="#22c788" />
+          </view>
+          <text>耗卡明细</text>
+        </view>
         <view class="action-cell" @tap="openBenefits">
           <view class="action-icon action-icon--green">
             <u-icon name="gift" size="22" color="#22c788" />

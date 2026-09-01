@@ -2,7 +2,11 @@
 import { computed, reactive, ref } from "vue";
 import { onLoad, onShow } from "@dcloudio/uni-app";
 import { ApiError } from "@songguo/api-client";
-import { fetchStaffCourseCatalog, fetchStaffRoomCatalog } from "@/api/catalog";
+import { fetchAllStaffCourseCatalog, fetchStaffRoomCatalog } from "@/api/catalog";
+import {
+  fetchAllCompensationRoles,
+  fetchStaffCompensationRoleAssignmentSets,
+} from "@/api/compensation";
 import {
   createStaffScheduleSession,
   fetchStaffScheduleSession,
@@ -12,9 +16,11 @@ import { fetchStaffDirectory } from "@/api/staff-directory";
 import { requireStaffAuth } from "@/auth/guard";
 import { useSessionStore } from "@/stores/session";
 import type { CourseCatalogItem, RoomCatalogItem } from "@/types/catalog";
+import type { CompensationRole, StaffCompensationRoleAssignmentItem } from "@/types/compensation";
 import type { ScheduleSession, ScheduleSessionKind } from "@/types/scheduling";
 import type { StaffDirectoryListItem } from "@/types/staff-directory";
 import { combineLocalDateTime, splitLocalDateTime, todayIsoDate } from "@/utils/format";
+import { createCommandKey } from "@/utils/command-key";
 
 const session = useSessionStore();
 const sessionId = ref(0);
@@ -30,6 +36,18 @@ const sessionStatus = ref<ScheduleSession["status"]>("scheduled");
 const courses = ref<CourseCatalogItem[]>([]);
 const rooms = ref<RoomCatalogItem[]>([]);
 const coaches = ref<StaffDirectoryListItem[]>([]);
+const staffMembers = ref<StaffDirectoryListItem[]>([]);
+const deliveryRoles = ref<CompensationRole[]>([]);
+const staffDeliveryRoleIds = ref<Record<number, number[]>>({});
+const staffDeliveryRoleAssignments = ref<Record<number, StaffCompensationRoleAssignmentItem[]>>({});
+
+interface DeliveryAssignmentDraft {
+  staffId: number;
+  compensationRoleId: number;
+  allocationPercent: string;
+}
+
+const deliveryAssignments = ref<DeliveryAssignmentDraft[]>([]);
 
 const form = reactive({
   courseId: 0,
@@ -47,11 +65,12 @@ const canWrite = computed(() => session.can("schedule.session.write"));
 const canLoadCourses = computed(() => session.can("course-catalog.read"));
 const canLoadRooms = computed(() => session.can("site.rooms.read"));
 const canLoadCoaches = computed(() => session.can("staff.directory.read"));
+const canReadDeliveryRoles = computed(() => session.can("compensation.role.read"));
 // 有预约的排课允许编辑（员工排错课可修正），仅做细粒度限制：
 // 课程不可在表单内更换（换课请走详情页「课程管理 → 换课」，带二次确认）；
 // 容量不可小于已约人数（validateForm 校验 + 后端 SCHEDULE_SESSION_UPDATE_BLOCKED 兜底）。
 const hasBookings = computed(() => isEdit.value && bookedCount.value > 0);
-const canSave = computed(() => canWrite.value);
+const canSave = computed(() => canWrite.value && (!isEdit.value || sessionStatus.value === "scheduled"));
 
 const courseIndex = computed(() => courses.value.findIndex((item) => item.id === form.courseId));
 const coachIndex = computed(() => coaches.value.findIndex((item) => item.id === form.coachStaffId));
@@ -62,6 +81,35 @@ const isPrivateSession = computed(() => form.sessionKind === "private");
 const courseLabels = computed(() => courses.value.map((item) => `${item.name}（${item.courseType === "private" ? "私教" : "团课"}）`));
 const coachLabels = computed(() => coaches.value.map((item) => item.displayName));
 const roomLabels = computed(() => ["不指定教室", ...rooms.value.map((item) => item.name)]);
+const deliveryAllocationTotals = computed(() => deliveryAssignments.value.reduce<Record<number, number>>(
+  (totals, assignment) => {
+    totals[assignment.compensationRoleId] = (totals[assignment.compensationRoleId] ?? 0)
+      + (Number(assignment.allocationPercent) || 0);
+    return totals;
+  },
+  {},
+));
+const deliveryAllocationValid = computed(() => deliveryAssignments.value.length > 0
+  && Object.values(deliveryAllocationTotals.value).every((total) => Math.round(total * 100) === 10000));
+const deliveryAllocationSummary = computed(() => Object.entries(deliveryAllocationTotals.value)
+  .map(([roleId, total]) => `${deliveryRoleName(Number(roleId))} ${total}%`)
+  .join(" · "));
+const deliveryStaffCandidates = computed(() => staffMembers.value.filter(
+  (staff) => deliveryRoleIdsForDate(staff.id).some((roleId) =>
+    deliveryRoles.value.some((role) => role.id === roleId),
+  ),
+));
+
+function deliveryRoleIdsForDate(staffId: number) {
+  const assignments = staffDeliveryRoleAssignments.value[staffId];
+  if (!assignments) return staffDeliveryRoleIds.value[staffId] ?? [];
+  return assignments
+    .filter((assignment) => assignment.roleType === "delivery"
+      && ["active", "archived"].includes(assignment.status ?? "active")
+      && (!assignment.effectiveFrom || assignment.effectiveFrom <= form.date)
+      && (!assignment.effectiveUntil || assignment.effectiveUntil >= form.date))
+    .map((assignment) => assignment.roleId);
+}
 
 function courseLabel() {
   if (!form.courseId) return "请选择课程";
@@ -71,6 +119,104 @@ function courseLabel() {
 function coachLabel() {
   if (!form.coachStaffId) return "请选择教练";
   return coachLabels.value[coachIndex.value] || "请选择教练";
+}
+
+function deliveryStaffName(staffId: number) {
+  return staffMembers.value.find((staff) => staff.id === staffId)?.displayName || "请选择授课员工";
+}
+
+function availableDeliveryRoles(staffId: number) {
+  const roleIds = deliveryRoleIdsForDate(staffId);
+  return deliveryRoles.value.filter((role) => roleIds.includes(role.id));
+}
+
+function deliveryRoleName(roleId: number) {
+  return deliveryRoles.value.find((role) => role.id === roleId)?.name || "请选择 A 角色";
+}
+
+function syncPrimaryCoach() {
+  if (deliveryAssignments.value[0]?.staffId) {
+    form.coachStaffId = deliveryAssignments.value[0].staffId;
+  }
+}
+
+function ensureLegacyDeliveryAssignment() {
+  if (!form.coachStaffId || deliveryAssignments.value.length) return;
+  const role = availableDeliveryRoles(form.coachStaffId)[0];
+  if (!role) return;
+  deliveryAssignments.value = [{
+    staffId: form.coachStaffId,
+    compensationRoleId: role.id,
+    allocationPercent: "100",
+  }];
+}
+
+function addDeliveryAssignment() {
+  const candidates = deliveryStaffCandidates.value;
+  if (!deliveryRoles.value.length) {
+    uni.showToast({ title: "请先在设置中心创建 A 类型业务角色", icon: "none" });
+    return;
+  }
+  if (!candidates.length) {
+    uni.showToast({ title: "请先为授课员工分配 A 类型业务角色", icon: "none" });
+    return;
+  }
+  uni.showActionSheet({
+    itemList: candidates.map((staff) => staff.displayName),
+    success: ({ tapIndex }) => {
+      const staff = candidates[tapIndex];
+      const role = availableDeliveryRoles(staff.id)[0];
+      const remaining = Math.max(0, 100 - (deliveryAllocationTotals.value[role.id] ?? 0));
+      deliveryAssignments.value.push({
+        staffId: staff.id,
+        compensationRoleId: role.id,
+        allocationPercent: String(deliveryAssignments.value.length ? remaining : 100),
+      });
+      syncPrimaryCoach();
+    },
+  });
+}
+
+function chooseDeliveryStaff(index: number) {
+  const candidates = deliveryStaffCandidates.value;
+  if (!candidates.length) return addDeliveryAssignment();
+  uni.showActionSheet({
+    itemList: candidates.map((staff) => staff.displayName),
+    success: ({ tapIndex }) => {
+      const staff = candidates[tapIndex];
+      const current = deliveryAssignments.value[index];
+      if (!current) return;
+      current.staffId = staff.id;
+      const validRoles = availableDeliveryRoles(staff.id);
+      if (!validRoles.some((role) => role.id === current.compensationRoleId)) {
+        current.compensationRoleId = validRoles[0]?.id ?? 0;
+      }
+      if (index === 0) syncPrimaryCoach();
+    },
+  });
+}
+
+function chooseDeliveryRole(index: number) {
+  const assignment = deliveryAssignments.value[index];
+  if (!assignment) return;
+  const roles = availableDeliveryRoles(assignment.staffId);
+  if (!roles.length) {
+    uni.showToast({ title: "该员工尚未分配 A 类型业务角色", icon: "none" });
+    return;
+  }
+  uni.showActionSheet({
+    itemList: roles.map((role) => role.name),
+    success: ({ tapIndex }) => { assignment.compensationRoleId = roles[tapIndex].id; },
+  });
+}
+
+function removeDeliveryAssignment(index: number) {
+  if (deliveryAssignments.value.length <= 1) {
+    uni.showToast({ title: "排课必须保留至少一名实际授课人员", icon: "none" });
+    return;
+  }
+  deliveryAssignments.value.splice(index, 1);
+  syncPrimaryCoach();
 }
 
 function roomLabel() {
@@ -120,11 +266,27 @@ function onCourseChange(event: { detail: { value: string | number } }) {
   if (!course) return;
   form.courseId = course.id;
   applyCourseDefaults(course);
+  if (deliveryAssignments.value.length) syncPrimaryCoach();
+  else ensureLegacyDeliveryAssignment();
 }
 
 function onCoachChange(event: { detail: { value: string | number } }) {
   const coach = coaches.value[Number(event.detail.value)];
+  if (!coach) return;
+  const roles = availableDeliveryRoles(coach.id);
+  if (deliveryAssignments.value.length && !roles.length) {
+    uni.showToast({ title: "该教练尚未分配 A 类型业务角色", icon: "none" });
+    return;
+  }
   form.coachStaffId = coach?.id || 0;
+  if (deliveryAssignments.value.length) {
+    deliveryAssignments.value[0].staffId = coach.id;
+    if (!roles.some((role) => role.id === deliveryAssignments.value[0].compensationRoleId)) {
+      deliveryAssignments.value[0].compensationRoleId = roles[0]?.id ?? 0;
+    }
+  } else {
+    ensureLegacyDeliveryAssignment();
+  }
 }
 
 function onRoomChange(event: { detail: { value: string | number } }) {
@@ -156,9 +318,9 @@ async function loadOptions() {
 
   if (canLoadCourses.value) {
     tasks.push(
-      fetchStaffCourseCatalog(session.currentSiteId, 1, 50, undefined, "group")
-        .then((response) => {
-          courses.value = response.items;
+      fetchAllStaffCourseCatalog(session.currentSiteId)
+        .then((items) => {
+          courses.value = items;
         })
         .catch(() => {
           courses.value = [];
@@ -182,15 +344,43 @@ async function loadOptions() {
     tasks.push(
       fetchStaffDirectory(session.currentSiteId)
         .then((response) => {
-          coaches.value = response.items.filter(isCoachCandidate);
+          staffMembers.value = response.items.filter((item) => item.status === "active");
+          coaches.value = staffMembers.value.filter(isCoachCandidate);
         })
         .catch(() => {
+          staffMembers.value = [];
           coaches.value = [];
         }),
     );
   }
 
+  if (canReadDeliveryRoles.value) tasks.push(
+    fetchAllCompensationRoles(session.currentSiteId)
+      .then((roles) => {
+        deliveryRoles.value = roles.filter((role) => role.type === "delivery" && role.status === "active");
+      })
+      .catch(() => {
+        deliveryRoles.value = [];
+      }),
+  );
+
   await Promise.all(tasks);
+
+  if (staffMembers.value.length && deliveryRoles.value.length) {
+    const assignments = await fetchStaffCompensationRoleAssignmentSets(
+      session.currentSiteId,
+      staffMembers.value.map((staff) => staff.id),
+    );
+    staffDeliveryRoleIds.value = Object.fromEntries(
+      staffMembers.value.map((staff) => [staff.id, assignments.get(staff.id)?.roleIds ?? []]),
+    );
+    staffDeliveryRoleAssignments.value = Object.fromEntries(
+      staffMembers.value.map((staff) => [staff.id, assignments.get(staff.id)?.items ?? []]),
+    );
+  } else {
+    staffDeliveryRoleIds.value = {};
+    staffDeliveryRoleAssignments.value = {};
+  }
 }
 
 async function loadSession() {
@@ -209,6 +399,12 @@ async function loadSession() {
   form.date = start.date;
   form.startTime = start.time;
   form.endTime = end.time;
+  deliveryAssignments.value = (detail.deliveryAssignments ?? []).map((assignment) => ({
+    staffId: assignment.staffId,
+    compensationRoleId: assignment.compensationRoleId,
+    allocationPercent: String(assignment.allocationBps / 100),
+  }));
+  ensureLegacyDeliveryAssignment();
 }
 
 async function load() {
@@ -219,9 +415,11 @@ async function load() {
     await loadOptions();
     if (isEdit.value) {
       await loadSession();
-    } else if (!form.courseId && courses.value.length) {
-      form.courseId = courses.value[0].id;
-      applyCourseDefaults(courses.value[0]);
+    } else if (courses.value.length) {
+      const course = courses.value.find((item) => item.id === form.courseId) ?? courses.value[0];
+      form.courseId = course.id;
+      applyCourseDefaults(course);
+      ensureLegacyDeliveryAssignment();
     }
     loaded.value = true;
   } catch (error) {
@@ -229,6 +427,15 @@ async function load() {
   } finally {
     loading.value = false;
   }
+}
+
+function deliveryPayload() {
+  return deliveryAssignments.value.map((assignment, index) => ({
+    staffId: assignment.staffId,
+    compensationRoleId: assignment.compensationRoleId,
+    allocationBps: Math.round(Number(assignment.allocationPercent) * 100),
+    isPrimary: index === 0,
+  }));
 }
 
 function validateForm() {
@@ -243,6 +450,28 @@ function validateForm() {
   }
   if (form.startTime >= form.endTime) return "结束时间必须晚于开始时间";
   if (!isPrivateSession.value && !form.roomId && rooms.value.length) return "团课请选择教室";
+  if (!deliveryAssignments.value.length) return "请至少配置一名实际授课人员及其 A 类型角色";
+  const seen = new Set<string>();
+  for (const assignment of deliveryAssignments.value) {
+    if (!assignment.staffId || !assignment.compensationRoleId) return "请完整选择授课员工和 A 类型角色";
+    if (!deliveryRoleIdsForDate(assignment.staffId).includes(assignment.compensationRoleId)) {
+      return `${deliveryStaffName(assignment.staffId)} 在 ${form.date} 未处于所选 A 类型角色的有效任期`;
+    }
+    const percent = Number(assignment.allocationPercent);
+    if (!Number.isFinite(percent) || percent <= 0 || percent > 100) return "授课分配比例需大于 0% 且不超过 100%";
+    const key = `${assignment.staffId}:${assignment.compensationRoleId}`;
+    if (seen.has(key)) return "同一授课员工与 A 角色不能重复";
+    seen.add(key);
+  }
+  const payload = deliveryPayload();
+  if (payload.filter((assignment) => assignment.isPrimary).length !== 1) return "实际授课人员必须且只能有一名主授课";
+  const totals = payload.reduce<Record<number, number>>((result, assignment) => {
+    result[assignment.compensationRoleId] = (result[assignment.compensationRoleId] ?? 0) + assignment.allocationBps;
+    return result;
+  }, {});
+  const invalidRoleId = Object.keys(totals).find((roleId) => totals[Number(roleId)] !== 10000);
+  if (invalidRoleId) return `${deliveryRoleName(Number(invalidRoleId))} 的分配比例合计必须为 100%`;
+  syncPrimaryCoach();
   return "";
 }
 
@@ -260,10 +489,12 @@ async function save() {
   const endsAt = combineLocalDateTime(form.date, form.endTime);
   const capacity = Number(form.capacity);
   const roomId = form.roomId > 0 ? form.roomId : null;
+  const assignments = deliveryPayload();
 
   try {
-    if (isEdit.value) {
-      await updateStaffScheduleSession(session.currentSiteId, sessionId.value, {
+    const wasEdit = isEdit.value;
+    const saved = wasEdit
+      ? await updateStaffScheduleSession(session.currentSiteId, sessionId.value, {
         version: version.value,
         courseId: form.courseId,
         coachStaffId: form.coachStaffId,
@@ -272,10 +503,10 @@ async function save() {
         endsAt,
         capacity,
         sessionKind: form.sessionKind,
-      });
-      uni.showToast({ title: "已保存", icon: "success" });
-    } else {
-      await createStaffScheduleSession(session.currentSiteId, {
+        deliveryAssignments: assignments,
+        assignmentCommandKey: createCommandKey(),
+      })
+      : await createStaffScheduleSession(session.currentSiteId, {
         courseId: form.courseId,
         coachStaffId: form.coachStaffId,
         roomId,
@@ -283,9 +514,16 @@ async function save() {
         endsAt,
         capacity,
         sessionKind: form.sessionKind,
+        deliveryAssignments: assignments,
+        assignmentCommandKey: createCommandKey(),
       });
-      uni.showToast({ title: "排课已创建", icon: "success" });
-    }
+
+    sessionId.value = saved.id;
+    version.value = saved.version;
+    sessionStatus.value = saved.status;
+    uni.setNavigationBarTitle({ title: "编辑排课" });
+
+    uni.showToast({ title: wasEdit ? "已保存" : "排课已创建", icon: "success" });
     setTimeout(() => uni.navigateBack(), 300);
   } catch (error) {
     if (error instanceof ApiError && error.payload.code === "SCHEDULE_SESSION_UPDATE_BLOCKED") {
@@ -306,6 +544,12 @@ onLoad((options) => {
   sessionId.value = Number(options?.id || 0);
   if (options?.date) {
     form.date = String(options.date);
+  }
+  if (!sessionId.value && options?.courseId) {
+    form.courseId = Number(options.courseId) || 0;
+  }
+  if (!sessionId.value && options?.startTime) {
+    form.startTime = String(options.startTime);
   }
   uni.setNavigationBarTitle({ title: sessionId.value > 0 ? "编辑排课" : "新建排课" });
 });
@@ -433,6 +677,42 @@ onShow(async () => {
       <view class="row-hint">类型与时长由所选课程模板自动确定</view>
     </view>
 
+    <view class="delivery-card">
+      <view class="delivery-head">
+        <view>
+          <text class="delivery-title">实际授课人员（A）</text>
+          <text class="delivery-hint">多人授课时按比例拆分课时费与 A 耗卡提成；最终金额由后端结算。</text>
+        </view>
+        <text class="delivery-total" :class="{ invalid: deliveryAssignments.length && !deliveryAllocationValid }">
+          {{ deliveryAssignments.length ? deliveryAllocationSummary : "未配置" }}
+        </text>
+      </view>
+
+      <view v-for="(assignment, index) in deliveryAssignments" :key="`${assignment.staffId}-${assignment.compensationRoleId}-${index}`" class="delivery-item">
+        <view class="delivery-item-head">
+          <text>{{ index === 0 ? "主授课" : `协同授课 ${index + 1}` }}</text>
+          <text class="delivery-remove" @tap="removeDeliveryAssignment(index)">移除</text>
+        </view>
+        <view class="delivery-field" @tap="chooseDeliveryStaff(index)">
+          <text>授课员工</text>
+          <view><text>{{ deliveryStaffName(assignment.staffId) }}</text><u-icon name="arrow-right" size="14" color="#bfbfbf" /></view>
+        </view>
+        <view class="delivery-field" @tap="chooseDeliveryRole(index)">
+          <text>A 类型角色</text>
+          <view><text>{{ deliveryRoleName(assignment.compensationRoleId) }}</text><u-icon name="arrow-right" size="14" color="#bfbfbf" /></view>
+        </view>
+        <view class="delivery-field">
+          <text>分配比例</text>
+          <view class="allocation-input"><input v-model="assignment.allocationPercent" type="digit" /><text>%（角色组内）</text></view>
+        </view>
+      </view>
+
+      <view v-if="!deliveryAssignments.length" class="delivery-empty">
+        排课必须明确配置至少一名实际授课人员及其 A 类型角色，不能仅按主教练静默结算。
+      </view>
+      <button class="delivery-add" @tap="addDeliveryAssignment">+ 添加实际授课人员</button>
+    </view>
+
     <!-- 保存按钮（对标原版：黄底黑字大胶囊居中） -->
     <view v-if="canSave && (!isEdit || sessionStatus === 'scheduled')" class="btn-box">
       <button class="save-btn" :disabled="saving" @click="save">
@@ -553,6 +833,133 @@ onShow(async () => {
   padding: 12rpx 0 8rpx;
   color: $color-text-disabled;
   font-size: 22rpx;
+}
+
+.delivery-card {
+  margin-top: $spacing-md;
+  padding: 28rpx 28rpx 24rpx;
+  background: $color-surface;
+  border-radius: $radius-lg;
+}
+
+.delivery-head,
+.delivery-item-head,
+.delivery-field,
+.delivery-field > view,
+.allocation-input {
+  display: flex;
+  align-items: center;
+}
+
+.delivery-head,
+.delivery-item-head,
+.delivery-field {
+  justify-content: space-between;
+}
+
+.delivery-head {
+  gap: 20rpx;
+}
+
+.delivery-title,
+.delivery-hint {
+  display: block;
+}
+
+.delivery-title {
+  font-size: 29rpx;
+  font-weight: 600;
+}
+
+.delivery-hint {
+  max-width: 470rpx;
+  margin-top: 6rpx;
+  color: $color-text-tertiary;
+  font-size: 21rpx;
+  line-height: 32rpx;
+}
+
+.delivery-total {
+  flex-shrink: 0;
+  max-width: 270rpx;
+  color: $color-success;
+  font-size: 23rpx;
+  line-height: 32rpx;
+  text-align: right;
+
+  &.invalid {
+    color: $color-danger;
+  }
+}
+
+.delivery-item {
+  margin-top: 20rpx;
+  padding: 18rpx 20rpx;
+  background: $color-page;
+  border-radius: 14rpx;
+}
+
+.delivery-item-head {
+  padding-bottom: 12rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.delivery-remove {
+  color: $color-danger;
+  font-size: 21rpx;
+  font-weight: 400;
+}
+
+.delivery-field {
+  min-height: 72rpx;
+  color: $color-text-secondary;
+  border-top: 1rpx solid #ececec;
+  font-size: 23rpx;
+}
+
+.delivery-field > view {
+  gap: 7rpx;
+  max-width: 430rpx;
+  color: $color-text;
+}
+
+.allocation-input {
+  gap: 6rpx;
+}
+
+.allocation-input input {
+  width: 120rpx;
+  height: 56rpx;
+  padding: 0 12rpx;
+  text-align: right;
+  background: $color-surface;
+  border-radius: 10rpx;
+  box-sizing: border-box;
+}
+
+.delivery-empty {
+  margin-top: 20rpx;
+  padding: 18rpx;
+  color: $color-text-tertiary;
+  background: $color-page;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  line-height: 34rpx;
+}
+
+.delivery-add {
+  height: 68rpx;
+  margin-top: 20rpx;
+  color: $color-text-secondary;
+  background: $color-page;
+  border-radius: 34rpx;
+  font-size: 24rpx;
+  line-height: 68rpx;
+}
+
+.delivery-add::after {
+  border: 0;
 }
 
 // —— 原版保存按钮：黄底黑字大胶囊 ——

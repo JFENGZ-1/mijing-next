@@ -37,6 +37,23 @@ export async function fetchCardProducts(
   );
 }
 
+export async function fetchAllCardProducts(
+  siteId: number,
+  q?: string,
+  catalogStatus: CardProductCatalogFilter = "active",
+) {
+  const items: StaffCardProductCatalogList["items"] = [];
+  let page = 1;
+  let lastPage = 1;
+  do {
+    const response = await fetchCardProducts(siteId, page, 50, q, catalogStatus);
+    items.push(...response.data.items);
+    lastPage = response.data.pagination?.lastPage ?? page;
+    page += 1;
+  } while (page <= lastPage);
+  return items;
+}
+
 export async function fetchCardProduct(siteId: number, cardProductId: number) {
   return useApiClient().request<StaffCardProductDetail>(productPath(siteId, cardProductId));
 }

@@ -21,6 +21,8 @@ trait ValidatesCardProductPayload
             'validityDays' => ['nullable', 'integer', 'min:1'],
             'validityMode' => ['nullable', 'string', 'max:32'],
             'activationMode' => ['nullable', 'string', 'max:32'],
+            'allowedPaymentMethods' => ['nullable', 'array', 'min:1'],
+            'allowedPaymentMethods.*' => ['required', Rule::in(['online', 'balance']), 'distinct'],
             'saleStatus' => ['nullable', Rule::enum(CardProductSaleStatus::class)],
             'sortOrder' => ['nullable', 'integer', 'min:0'],
             'scopeConfig' => ['nullable', 'array'],

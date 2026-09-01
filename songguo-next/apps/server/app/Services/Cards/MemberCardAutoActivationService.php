@@ -28,10 +28,18 @@ class MemberCardAutoActivationService
     public function activationMode(MemberCard $card): string
     {
         $card->loadMissing('cardProduct');
-        $mode = $card->cardProduct?->activation_mode
-            ?? ($card->product_snapshot['activationMode'] ?? null);
+        $snapshot = $card->product_snapshot ?? [];
+        $mode = $snapshot['activationModeOverride']
+            ?? $card->cardProduct?->activation_mode
+            ?? ($snapshot['activationMode'] ?? null);
 
-        return is_string($mode) && $mode !== '' ? $mode : 'immediate';
+        return match (is_string($mode) ? $mode : '') {
+            'first_use', 'first-use', 'on_first_use' => 'first-use',
+            'first_class', 'first-class', 'on_first_class' => 'first-class',
+            'keep_pending', 'manual' => 'manual',
+            'delayed' => 'delayed',
+            default => 'immediate',
+        };
     }
 
     public function activationDelayDays(MemberCard $card): int
@@ -167,7 +175,7 @@ class MemberCardAutoActivationService
                 $days = (int) ($snapshot['validityDays'] ?? 0);
                 abort_if($days < 1, 409, 'MEMBER_CARD_ACTIVATION_INVALID');
                 $validFrom = now()->toDateString();
-                $validUntil = now()->addDays($days)->toDateString();
+                $validUntil = now()->addDays($days - 1)->toDateString();
                 $updates['valid_from'] = $validFrom;
                 $updates['valid_until'] = $validUntil;
             }

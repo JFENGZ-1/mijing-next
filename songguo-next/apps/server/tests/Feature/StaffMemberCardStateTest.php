@@ -2,19 +2,30 @@
 
 namespace Tests\Feature;
 
+use App\Enums\AppointmentStatus;
 use App\Enums\CardType;
+use App\Enums\CourseCatalogStatus;
+use App\Enums\CourseType;
 use App\Enums\EntitlementLedgerEntryType;
 use App\Enums\MemberCardStatus;
+use App\Enums\ScheduleSessionKind;
+use App\Enums\ScheduleSessionStatus;
 use App\Models\Account;
+use App\Models\Appointment;
+use App\Models\Course;
 use App\Models\EntitlementLedgerEntry;
 use App\Models\Member;
 use App\Models\MemberCard;
+use App\Models\MemberCardValueLot;
 use App\Models\MemberCrmProfile;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\ScheduleSession;
 use App\Models\Site;
 use App\Models\Staff;
 use App\Models\Tenant;
+use App\Services\Booking\BookingPayableCardService;
+use App\Services\Compensation\MemberCardValueLotService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -150,6 +161,94 @@ class StaffMemberCardStateTest extends TestCase
         Carbon::setTestNow();
     }
 
+    public function test_holiday_rejects_reserved_service_blocks_usage_and_shifts_paid_period_days_without_dilution(): void
+    {
+        Carbon::setTestNow('2026-01-01 12:00:00');
+        [$staff, $site, $member, $card] = $this->actAsStaff(
+            ['member-card.holiday.manage'],
+            CardType::Period,
+            [
+                'valid_from' => '2026-01-01',
+                'valid_until' => '2026-12-31',
+                'product_snapshot' => ['name' => '年卡', 'validityDays' => 365],
+            ],
+        );
+        $course = Course::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'course_type' => CourseType::Group,
+            'name' => '请假测试课',
+            'duration_minutes' => 60,
+            'catalog_status' => CourseCatalogStatus::Active,
+        ]);
+        $session = ScheduleSession::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'course_id' => $course->id,
+            'coach_staff_id' => $staff->id,
+            'starts_at' => '2026-01-06 10:00:00',
+            'ends_at' => '2026-01-06 11:00:00',
+            'capacity' => 10,
+            'booked_count' => 1,
+            'status' => ScheduleSessionStatus::Scheduled,
+            'session_kind' => ScheduleSessionKind::Group,
+            'version' => 1,
+        ]);
+        $appointment = Appointment::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'session_id' => $session->id,
+            'member_id' => $member->id,
+            'member_card_id' => $card->id,
+            'status' => AppointmentStatus::Confirmed,
+            'command_key' => (string) Str::uuid(),
+            'booked_at' => now(),
+        ]);
+
+        $holidayPayload = [
+            'beginDate' => '2026-01-05',
+            'plannedEndDate' => '2026-01-07',
+            'reason' => '请假三天',
+            'commandKey' => (string) Str::uuid(),
+        ];
+        $this->postJson($this->holidayStartPath($site, $card), $holidayPayload)->assertStatus(409);
+        $this->assertNull($card->fresh()->freeze_state);
+
+        $appointment->update(['status' => AppointmentStatus::Cancelled]);
+        $this->postJson($this->holidayStartPath($site, $card), $holidayPayload)->assertCreated();
+        $this->assertFalse(app(BookingPayableCardService::class)->isEligibleForSession($card->fresh(), $session));
+        $this->postJson($this->holidayEndPath($site, $card), [
+            'endDate' => '2026-01-07',
+            'reason' => '按期销假',
+            'commandKey' => (string) Str::uuid(),
+        ])->assertCreated()->assertJsonPath('data.validUntil', '2027-01-03');
+
+        MemberCardValueLot::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'member_card_id' => $card->id,
+            'source_type' => 'purchase',
+            'payment_method' => 'online',
+            'value_provenance' => 'actual',
+            'paid_amount_cents' => 3_650_000,
+            'entitlement_days' => 365,
+            'valid_from' => '2026-01-01',
+            'valid_until' => '2026-12-31',
+            'command_key' => 'holiday-value-'.Str::uuid(),
+            'occurred_at' => now(),
+        ]);
+        $valueLots = app(MemberCardValueLotService::class);
+        $afterHoliday = $valueLots->periodDayValue($card->fresh(), '2026-01-08');
+        $extendedLastDay = $valueLots->periodDayValue($card->fresh(), '2027-01-03');
+        $this->assertSame(4, $afterHoliday['dayOrdinal']);
+        $this->assertSame(10_000, $afterHoliday['valueCents']);
+        $this->assertSame(364, $extendedLastDay['dayOrdinal']);
+        $this->assertSame(10_000, $extendedLastDay['valueCents']);
+
+        Carbon::setTestNow();
+    }
+
     public function test_staff_can_extend_validity_by_days_or_absolute_date(): void
     {
         [, $site, , $card] = $this->actAsStaff(
@@ -200,6 +299,32 @@ class StaffMemberCardStateTest extends TestCase
         ])->assertOk();
 
         $this->assertSame($first->json('data.ledgerEntryIds'), $second->json('data.ledgerEntryIds'));
+        $this->assertSame(1, EntitlementLedgerEntry::query()->where('command_key', $commandKey)->count());
+    }
+
+    public function test_state_command_key_is_bound_to_card_action_actor_and_payload(): void
+    {
+        [, $site, $member, $card] = $this->actAsStaff(['member-card.freeze']);
+        $otherCard = $this->createCard($site, $member, CardType::StoredValue);
+        $commandKey = (string) Str::uuid();
+
+        $this->postJson($this->freezePath($site, $card), [
+            'reason' => '命令指纹测试',
+            'commandKey' => $commandKey,
+        ])->assertCreated();
+
+        $this->postJson($this->freezePath($site, $card), [
+            'reason' => '篡改后的理由',
+            'commandKey' => $commandKey,
+        ])->assertStatus(409);
+
+        $this->postJson($this->freezePath($site, $otherCard), [
+            'reason' => '命令指纹测试',
+            'commandKey' => $commandKey,
+        ])->assertStatus(409);
+
+        $this->assertSame(MemberCardStatus::Frozen, $card->fresh()->status);
+        $this->assertSame(MemberCardStatus::Active, $otherCard->fresh()->status);
         $this->assertSame(1, EntitlementLedgerEntry::query()->where('command_key', $commandKey)->count());
     }
 

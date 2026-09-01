@@ -3,14 +3,17 @@
 namespace App\Services\Booking;
 
 use App\Enums\AppointmentStatus;
+use App\Enums\MemberCardStatus;
 use App\Enums\ScheduleSessionKind;
 use App\Enums\ScheduleSessionStatus;
 use App\Models\Appointment;
+use App\Models\AuditEvent;
 use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\ScheduleSession;
 use App\Models\Site;
 use App\Models\Staff;
+use App\Services\Compensation\EntitlementReservationService;
 use Illuminate\Support\Facades\DB;
 
 class AppointmentWriteService
@@ -21,6 +24,7 @@ class AppointmentWriteService
         private BookingEntitlementService $entitlements,
         private \App\Services\Cards\CardProductBookingRulesService $cardRules,
         private \App\Services\Cards\MemberCardAutoActivationService $autoActivation,
+        private EntitlementReservationService $reservations,
     ) {}
 
     /**
@@ -111,12 +115,16 @@ class AppointmentWriteService
     ): array {
         abort_unless($appointment->tenant_id === $staff->tenant_id, 404);
 
-        return DB::transaction(fn () => $this->promoteInTransaction(
-            $staff->tenant_id,
-            $appointment->id,
-            $commandKey,
-            actorStaffId: $staff->id,
-        ));
+        return DB::transaction(function () use ($staff, $appointment, $commandKey) {
+            $this->lockPromotionSession($staff->tenant_id, $appointment->id);
+
+            return $this->promoteInTransaction(
+                $staff->tenant_id,
+                $appointment->id,
+                $commandKey,
+                actorStaffId: $staff->id,
+            );
+        });
     }
 
     /**
@@ -130,12 +138,74 @@ class AppointmentWriteService
     ): array {
         abort_unless($appointment->member_id === $member->id, 404);
 
-        return DB::transaction(fn () => $this->promoteInTransaction(
-            $member->tenant_id,
-            $appointment->id,
-            $commandKey,
-            actorAccountId: $accountId,
-        ));
+        return DB::transaction(function () use ($member, $appointment, $commandKey, $accountId) {
+            $this->lockPromotionSession($member->tenant_id, $appointment->id);
+
+            return $this->promoteInTransaction(
+                $member->tenant_id,
+                $appointment->id,
+                $commandKey,
+                actorAccountId: $accountId,
+            );
+        });
+    }
+
+    /**
+     * Repair vacancies left when the best-effort post-cancellation promotion
+     * was interrupted. Each session is locked before its first waitlisted
+     * appointment, preserving the global session -> appointment -> card order.
+     *
+     * @return array{sessionsScanned:int,appointmentsPromoted:int,appointmentsCancelled:int}
+     */
+    public function reconcileWaitlists(int $limit = 200): array
+    {
+        $sessionIds = ScheduleSession::query()
+            ->where('status', ScheduleSessionStatus::Scheduled)
+            ->where('session_kind', ScheduleSessionKind::Group)
+            ->whereColumn('booked_count', '<', 'capacity')
+            ->whereHas('appointments', fn ($query) => $query->where('status', AppointmentStatus::Waitlisted))
+            ->orderBy('starts_at')
+            ->orderBy('id')
+            ->limit(max(1, $limit))
+            ->pluck('id');
+        $promoted = 0;
+        $cancelled = 0;
+
+        foreach ($sessionIds as $sessionId) {
+            DB::transaction(function () use ($sessionId, &$promoted, &$cancelled) {
+                $session = ScheduleSession::query()->whereKey($sessionId)->lockForUpdate()->first();
+                if ($session === null
+                    || $session->status !== ScheduleSessionStatus::Scheduled
+                    || $session->session_kind !== ScheduleSessionKind::Group) {
+                    return;
+                }
+                $site = Site::query()
+                    ->where('tenant_id', $session->tenant_id)
+                    ->whereKey($session->site_id)
+                    ->firstOrFail();
+
+                while ((int) $session->booked_count < (int) $session->capacity) {
+                    $outcome = $this->tryAutoPromoteFirstWaitlisted(
+                        (int) $session->tenant_id,
+                        $session,
+                        $site,
+                        'waitlist-reconcile:'.$session->id,
+                    );
+                    $cancelled += $outcome['cancelled'];
+                    $session->refresh();
+                    if (! $outcome['promoted']) {
+                        break;
+                    }
+                    $promoted++;
+                }
+            });
+        }
+
+        return [
+            'sessionsScanned' => $sessionIds->count(),
+            'appointmentsPromoted' => $promoted,
+            'appointmentsCancelled' => $cancelled,
+        ];
     }
 
     /**
@@ -153,6 +223,12 @@ class AppointmentWriteService
     ): array {
         abort_unless($member->tenant_id === $session->tenant_id, 404);
         abort_unless($memberCard->member_id === $member->id, 409, 'BOOKING_CARD_NOT_PAYABLE');
+        $payloadHash = $this->commandHash([
+            'operation' => 'create', 'memberId' => $member->id, 'sessionId' => $session->id,
+            'memberCardId' => $memberCard->id, 'bookedByAccountId' => $bookedByAccountId,
+            'createdByStaffId' => $createdByStaffId, 'actorStaffId' => $actorStaffId,
+            'memberRemark' => $memberRemark,
+        ]);
 
         $existing = Appointment::query()
             ->where('tenant_id', $member->tenant_id)
@@ -160,6 +236,8 @@ class AppointmentWriteService
             ->first();
 
         if ($existing) {
+            $this->assertCreateReplay($existing, $member, $session, $memberCard, $payloadHash);
+
             return ['appointment' => $existing, 'created' => false];
         }
 
@@ -172,12 +250,21 @@ class AppointmentWriteService
             $createdByStaffId,
             $actorStaffId,
             $memberRemark,
+            $payloadHash,
         ) {
             $lockedSession = ScheduleSession::query()
                 ->where('tenant_id', $member->tenant_id)
                 ->whereKey($session->id)
                 ->lockForUpdate()
                 ->firstOrFail();
+            $existing = Appointment::query()
+                ->where('tenant_id', $member->tenant_id)->where('command_key', $commandKey)
+                ->lockForUpdate()->first();
+            if ($existing) {
+                $this->assertCreateReplay($existing, $member, $lockedSession, $memberCard, $payloadHash);
+
+                return ['appointment' => $existing, 'created' => false];
+            }
 
             $site = Site::query()
                 ->whereKey($lockedSession->site_id)
@@ -201,6 +288,13 @@ class AppointmentWriteService
                 ->exists();
 
             abort_if($duplicate, 409, 'APPOINTMENT_ALREADY_EXISTS');
+
+            $memberCard = MemberCard::query()
+                ->where('tenant_id', $member->tenant_id)
+                ->whereKey($memberCard->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+            abort_unless((int) $memberCard->member_id === (int) $member->id, 409, 'BOOKING_CARD_NOT_PAYABLE');
 
             abort_unless($this->payableCards->isEligibleForSession($memberCard, $lockedSession), 409, 'BOOKING_CARD_NOT_PAYABLE');
 
@@ -248,6 +342,7 @@ class AppointmentWriteService
                 'member_id' => $member->id,
                 'status' => $status,
                 'command_key' => $commandKey,
+                'command_payload_hash' => $payloadHash,
                 'member_card_id' => $memberCard->id,
                 'ledger_entry_id' => $ledgerEntryId,
                 'booked_by_account_id' => $bookedByAccountId,
@@ -255,6 +350,7 @@ class AppointmentWriteService
                 'member_remark' => $memberRemark,
                 'booked_at' => now(),
             ]);
+            $this->reservations->reserve($appointment);
 
             return ['appointment' => $appointment, 'created' => true];
         });
@@ -271,28 +367,52 @@ class AppointmentWriteService
         ?int $actorStaffId = null,
         bool $skipBookingPolicy = false,
     ): array {
-        return DB::transaction(function () use ($tenantId, $appointment, $commandKey, $actorAccountId, $actorStaffId, $skipBookingPolicy) {
+        $payloadHash = $this->commandHash([
+            'operation' => 'cancel', 'appointmentId' => $appointment->id,
+            'actorAccountId' => $actorAccountId, 'actorStaffId' => $actorStaffId,
+            'skipBookingPolicy' => $skipBookingPolicy,
+        ]);
+        $sessionId = (int) Appointment::query()
+            ->where('tenant_id', $tenantId)
+            ->whereKey($appointment->id)
+            ->value('session_id');
+        abort_if($sessionId < 1, 404);
+
+        $promotion = null;
+        $result = DB::transaction(function () use ($tenantId, $appointment, $sessionId, $commandKey, $actorAccountId, $actorStaffId, $skipBookingPolicy, $payloadHash, &$promotion) {
+            // Global booking lock order: session -> appointment -> card/ledger.
+            // This matches create/promote and prevents cancel-vs-rebook deadlocks.
+            $session = ScheduleSession::query()
+                ->where('tenant_id', $tenantId)
+                ->whereKey($sessionId)
+                ->lockForUpdate()
+                ->firstOrFail();
             $locked = Appointment::query()
                 ->where('tenant_id', $tenantId)
                 ->whereKey($appointment->id)
                 ->lockForUpdate()
                 ->firstOrFail();
+            abort_unless((int) $locked->session_id === $sessionId, 409, 'APPOINTMENT_SESSION_CHANGED');
 
             if ($locked->status === AppointmentStatus::Cancelled) {
+                abort_unless(
+                    $locked->cancel_command_key === $commandKey
+                    && hash_equals((string) $locked->cancel_payload_hash, $payloadHash),
+                    409,
+                    'IDEMPOTENCY_KEY_REUSED',
+                );
+
                 return ['appointment' => $locked, 'created' => false];
             }
+            abort_if(Appointment::query()->where('tenant_id', $tenantId)
+                ->where('cancel_command_key', $commandKey)->whereKeyNot($locked->id)->exists(),
+                409, 'IDEMPOTENCY_KEY_REUSED');
 
             abort_unless(
                 in_array($locked->status, [AppointmentStatus::Confirmed, AppointmentStatus::Waitlisted], true),
                 409,
                 'APPOINTMENT_CANCEL_INVALID',
             );
-
-            $session = ScheduleSession::query()
-                ->where('tenant_id', $locked->tenant_id)
-                ->whereKey($locked->session_id)
-                ->lockForUpdate()
-                ->firstOrFail();
 
             $site = Site::query()
                 ->whereKey($locked->site_id)
@@ -334,25 +454,59 @@ class AppointmentWriteService
                         actorStaffId: $actorStaffId,
                     );
                 }
+                $this->reservations->release($locked);
             }
 
             $locked->status = AppointmentStatus::Cancelled;
             $locked->cancelled_at = now();
+            $locked->cancel_command_key = $commandKey;
+            $locked->cancel_payload_hash = $payloadHash;
             $locked->save();
 
             if ($wasConfirmed) {
-                $this->tryAutoPromoteFirstWaitlisted(
-                    $locked->tenant_id,
-                    $session,
-                    $site,
-                    $commandKey,
-                    $actorAccountId,
-                    $actorStaffId,
-                );
+                $promotion = [
+                    'tenantId' => (int) $locked->tenant_id,
+                    'sessionId' => (int) $session->id,
+                    'siteId' => (int) $site->id,
+                    'commandKey' => $commandKey,
+                    'actorAccountId' => $actorAccountId,
+                    'actorStaffId' => $actorStaffId,
+                ];
             }
 
             return ['appointment' => $locked->fresh(), 'created' => true];
         });
+
+        // Promotion is a follow-up command after the cancellation commit. This
+        // avoids appointment-A -> session -> appointment-B deadlocks while keeping
+        // the API synchronous. A promotion failure never rolls back the cancellation.
+        if ($promotion !== null && $result['created']) {
+            try {
+                DB::transaction(function () use ($promotion) {
+                    $session = ScheduleSession::query()
+                        ->where('tenant_id', $promotion['tenantId'])
+                        ->whereKey($promotion['sessionId'])
+                        ->lockForUpdate()
+                        ->firstOrFail();
+                    $site = Site::query()
+                        ->where('tenant_id', $promotion['tenantId'])
+                        ->whereKey($promotion['siteId'])
+                        ->firstOrFail();
+                    $this->tryAutoPromoteFirstWaitlisted(
+                        $promotion['tenantId'],
+                        $session,
+                        $site,
+                        $promotion['commandKey'],
+                        $promotion['actorAccountId'],
+                        $promotion['actorStaffId'],
+                    );
+                });
+            } catch (\Throwable $exception) {
+                report($exception);
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -372,6 +526,18 @@ class AppointmentWriteService
             ->firstOrFail();
 
         if ($locked->status === AppointmentStatus::Confirmed) {
+            $ledger = $locked->ledger_entry_id !== null
+                ? $locked->ledgerEntry()->first()
+                : null;
+            abort_unless(
+                $ledger !== null
+                && $ledger->command_key === $commandKey
+                && (int) ($ledger->actor_account_id ?? 0) === (int) ($actorAccountId ?? 0)
+                && (int) ($ledger->actor_staff_id ?? 0) === (int) ($actorStaffId ?? 0),
+                409,
+                'IDEMPOTENCY_KEY_REUSED',
+            );
+
             return ['appointment' => $locked, 'created' => false];
         }
 
@@ -421,6 +587,7 @@ class AppointmentWriteService
         $locked->status = AppointmentStatus::Confirmed;
         $locked->ledger_entry_id = $deduct['ledgerEntryId'];
         $locked->save();
+        $this->reservations->reserve($locked->fresh());
 
         $session->booked_count = $session->booked_count + 1;
         $session->save();
@@ -428,6 +595,14 @@ class AppointmentWriteService
         return ['appointment' => $locked->fresh(), 'created' => true];
     }
 
+    /**
+     * Terminally invalid queue heads are explicitly cancelled and audited so
+     * they cannot block every member behind them forever. Reversible failures
+     * (for example a frozen card or temporarily insufficient entitlement) keep
+     * their place and block promotion, preserving FIFO fairness.
+     *
+     * @return array{promoted:bool,cancelled:int}
+     */
     private function tryAutoPromoteFirstWaitlisted(
         int $tenantId,
         ScheduleSession $session,
@@ -435,48 +610,183 @@ class AppointmentWriteService
         string $cancelCommandKey,
         ?int $actorAccountId = null,
         ?int $actorStaffId = null,
-    ): void {
+    ): array {
         if ($session->booked_count >= $session->capacity) {
-            return;
+            return ['promoted' => false, 'cancelled' => 0];
         }
 
         $policy = $this->policy->policyForTenantSite($tenantId, $site->id);
         if ($session->session_kind !== ScheduleSessionKind::Group
             || ! (bool) ($policy['group']['waitlistEnabled'] ?? false)) {
-            return;
+            return ['promoted' => false, 'cancelled' => 0];
         }
 
-        $first = Appointment::query()
-            ->where('tenant_id', $tenantId)
-            ->where('session_id', $session->id)
-            ->where('status', AppointmentStatus::Waitlisted)
-            ->orderBy('booked_at')
-            ->orderBy('id')
-            ->lockForUpdate()
-            ->first();
+        $cancelled = 0;
 
-        if ($first === null) {
-            return;
+        while ($session->booked_count < $session->capacity) {
+            $first = Appointment::query()
+                ->where('tenant_id', $tenantId)
+                ->where('session_id', $session->id)
+                ->where('status', AppointmentStatus::Waitlisted)
+                ->orderBy('booked_at')
+                ->orderBy('id')
+                ->lockForUpdate()
+                ->first();
+
+            if ($first === null) {
+                return ['promoted' => false, 'cancelled' => $cancelled];
+            }
+
+            // Global booking lock order remains session -> appointment -> card.
+            // Locking the card makes the terminal/transient classification stable
+            // against a concurrent restore, unfreeze or entitlement adjustment.
+            $memberCard = MemberCard::query()
+                ->where('tenant_id', $tenantId)
+                ->whereKey($first->member_card_id)
+                ->lockForUpdate()
+                ->first();
+
+            $terminalReason = $this->terminalWaitlistIneligibility($first, $memberCard);
+            if ($terminalReason !== null) {
+                $this->cancelTerminalWaitlisted(
+                    $first,
+                    $terminalReason,
+                    $cancelCommandKey,
+                    $actorAccountId,
+                    $actorStaffId,
+                );
+                $cancelled++;
+
+                continue;
+            }
+
+            try {
+                $payable = $memberCard !== null
+                    && $this->payableCards->isPayableForSession($memberCard, $session);
+            } catch (\Symfony\Component\HttpKernel\Exception\HttpException) {
+                // Missing pricing/rules can be repaired by an operator. Keep the
+                // member at the head instead of converting a temporary error into
+                // an irreversible cancellation.
+                return ['promoted' => false, 'cancelled' => $cancelled];
+            }
+
+            if (! $payable) {
+                return ['promoted' => false, 'cancelled' => $cancelled];
+            }
+
+            $promoteCommandKey = $this->derivePromoteCommandKey($cancelCommandKey, $first->id);
+
+            $this->promoteInTransaction(
+                $tenantId,
+                $first->id,
+                $promoteCommandKey,
+                $actorAccountId,
+                $actorStaffId,
+            );
+
+            return ['promoted' => true, 'cancelled' => $cancelled];
         }
 
-        $memberCard = MemberCard::query()
-            ->where('tenant_id', $tenantId)
-            ->whereKey($first->member_card_id)
-            ->first();
+        return ['promoted' => false, 'cancelled' => $cancelled];
+    }
 
-        if ($memberCard === null || ! $this->payableCards->isPayableForSession($memberCard, $session)) {
-            return;
+    private function terminalWaitlistIneligibility(Appointment $appointment, ?MemberCard $memberCard): ?string
+    {
+        if ($memberCard === null) {
+            return 'WAITLIST_MEMBER_CARD_MISSING';
         }
 
-        $promoteCommandKey = $this->derivePromoteCommandKey($cancelCommandKey, $first->id);
+        if ((int) $memberCard->member_id !== (int) $appointment->member_id) {
+            return 'WAITLIST_MEMBER_CARD_OWNER_MISMATCH';
+        }
 
-        $this->promoteInTransaction(
-            $tenantId,
-            $first->id,
-            $promoteCommandKey,
-            $actorAccountId,
-            $actorStaffId,
+        if ((int) $memberCard->site_id !== (int) $appointment->site_id) {
+            return 'WAITLIST_MEMBER_CARD_SITE_MISMATCH';
+        }
+
+        if ($memberCard->archived_at !== null
+            && ! in_array($memberCard->status, [MemberCardStatus::Archived, MemberCardStatus::Voided], true)) {
+            return 'WAITLIST_MEMBER_CARD_ARCHIVE_STATE_INVALID';
+        }
+
+        return match ($memberCard->status) {
+            MemberCardStatus::Voided => 'WAITLIST_MEMBER_CARD_VOIDED',
+            MemberCardStatus::Expired => 'WAITLIST_MEMBER_CARD_EXPIRED',
+            MemberCardStatus::Exhausted => 'WAITLIST_MEMBER_CARD_EXHAUSTED',
+            default => null,
+        };
+    }
+
+    private function cancelTerminalWaitlisted(
+        Appointment $appointment,
+        string $reasonCode,
+        string $sourceCommandKey,
+        ?int $actorAccountId,
+        ?int $actorStaffId,
+    ): void {
+        $cancelledAt = now();
+        $commandKey = $this->deriveWaitlistCancelCommandKey((int) $appointment->id);
+        $payloadHash = $this->commandHash([
+            'operation' => 'waitlist_terminal_cancel',
+            'appointmentId' => (int) $appointment->id,
+            'memberCardId' => $appointment->member_card_id !== null ? (int) $appointment->member_card_id : null,
+            'reasonCode' => $reasonCode,
+        ]);
+        $systemNote = "系统取消候补：{$reasonCode}";
+        $existingNote = trim((string) ($appointment->staff_notes ?? ''));
+
+        $appointment->status = AppointmentStatus::Cancelled;
+        $appointment->cancelled_at = $cancelledAt;
+        $appointment->cancel_command_key = $commandKey;
+        $appointment->cancel_payload_hash = $payloadHash;
+        $appointment->staff_notes = $existingNote === '' ? $systemNote : $existingNote."\n".$systemNote;
+        $appointment->save();
+
+        AuditEvent::create([
+            'tenant_id' => $appointment->tenant_id,
+            'site_id' => $appointment->site_id,
+            'actor_account_id' => $actorAccountId,
+            'actor_staff_id' => $actorStaffId,
+            'action' => 'booking.waitlist.auto_cancelled_unpromotable',
+            'subject_type' => 'appointment',
+            'subject_id' => $appointment->id,
+            'metadata' => [
+                'reasonCode' => $reasonCode,
+                'sessionId' => (int) $appointment->session_id,
+                'memberCardId' => $appointment->member_card_id !== null ? (int) $appointment->member_card_id : null,
+                'sourceCommandKey' => $sourceCommandKey,
+                'cancelCommandKey' => $commandKey,
+            ],
+            'occurred_at' => $cancelledAt,
+        ]);
+    }
+
+    private function deriveWaitlistCancelCommandKey(int $appointmentId): string
+    {
+        $hash = hash('sha256', 'waitlist-terminal-cancel:'.$appointmentId);
+
+        return sprintf(
+            '%s-%s-%s-%s-%s',
+            substr($hash, 0, 8),
+            substr($hash, 8, 4),
+            substr($hash, 12, 4),
+            substr($hash, 16, 4),
+            substr($hash, 20, 12),
         );
+    }
+
+    private function lockPromotionSession(int $tenantId, int $appointmentId): ScheduleSession
+    {
+        $snapshot = Appointment::query()
+            ->where('tenant_id', $tenantId)
+            ->whereKey($appointmentId)
+            ->firstOrFail();
+
+        return ScheduleSession::query()
+            ->where('tenant_id', $tenantId)
+            ->whereKey($snapshot->session_id)
+            ->lockForUpdate()
+            ->firstOrFail();
     }
 
     /**
@@ -515,5 +825,29 @@ class AppointmentWriteService
             substr($hash, 16, 4),
             substr($hash, 20, 12),
         );
+    }
+
+    private function assertCreateReplay(
+        Appointment $appointment,
+        Member $member,
+        ScheduleSession $session,
+        MemberCard $card,
+        string $payloadHash,
+    ): void {
+        abort_unless(
+            $appointment->member_id === $member->id
+            && $appointment->session_id === $session->id
+            && $appointment->member_card_id === $card->id
+            && hash_equals((string) $appointment->command_payload_hash, $payloadHash),
+            409,
+            'IDEMPOTENCY_KEY_REUSED',
+        );
+    }
+
+    private function commandHash(array $payload): string
+    {
+        ksort($payload);
+
+        return hash('sha256', json_encode($payload, JSON_THROW_ON_ERROR));
     }
 }

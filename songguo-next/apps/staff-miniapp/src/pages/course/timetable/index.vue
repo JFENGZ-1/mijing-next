@@ -7,7 +7,6 @@ import {
   batchCancelStaffScheduleSessions,
   batchCopyStaffScheduleSessions,
   cancelStaffScheduleSession,
-  createStaffScheduleSession,
   exportScheduleImage,
   fetchScheduleSessionColors,
   fetchStaffScheduleSessions,
@@ -300,34 +299,10 @@ async function submitTime() {
 async function submitAddCourse(time: string) {
   const course = pendingCourse.value;
   if (!course || !session.currentSiteId || !pendingDay.value) return;
-  if (!course.coachStaffId) {
-    uni.showToast({ title: "该课程未绑定教练，请先在课程库中设置", icon: "none" });
-    return;
-  }
-  working.value = true;
-  try {
-    const startsAt = `${pendingDay.value}T${time}:00`;
-    const startDate = new Date(startsAt);
-    const endDate = new Date(startDate.getTime() + (course.durationMinutes || 60) * 60_000);
-    const endsAt = `${fmt(endDate)}T${String(endDate.getHours()).padStart(2, "0")}:${String(endDate.getMinutes()).padStart(2, "0")}:00`;
-    await createStaffScheduleSession(session.currentSiteId, {
-      courseId: course.id,
-      roomId: course.defaultRoomId ?? null,
-      coachStaffId: course.coachStaffId,
-      startsAt,
-      endsAt,
-      capacity: course.maxCapacity ?? (course.courseType === "private" ? 1 : 20),
-      sessionKind: course.courseType === "private" ? "private" : "group",
-    });
-    timePickVisible.value = false;
-    coursePickVisible.value = false;
-    uni.showToast({ title: "已添加", icon: "none" });
-    await loadGrid();
-  } catch (error) {
-    uni.showToast({ title: error instanceof Error ? error.message : "添加失败", icon: "none" });
-  } finally {
-    working.value = false;
-  }
+  timePickVisible.value = false;
+  coursePickVisible.value = false;
+  const url = `/pages/course/session-form?date=${encodeURIComponent(pendingDay.value)}&courseId=${course.id}&startTime=${encodeURIComponent(time)}`;
+  await uni.navigateTo({ url });
 }
 
 // ================= 课程管理弹窗（原版 course-management） =================

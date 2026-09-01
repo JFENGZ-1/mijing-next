@@ -6,7 +6,6 @@ use App\Enums\CardProductCatalogStatus;
 use App\Enums\CardProductSaleStatus;
 use App\Enums\CardType;
 use App\Enums\EntitlementLedgerEntryType;
-use App\Enums\MemberCardStatus;
 use App\Models\Account;
 use App\Models\CardProduct;
 use App\Models\EntitlementLedgerEntry;
@@ -71,7 +70,98 @@ class StaffMemberCardIssueTest extends TestCase
             ->assertJsonPath('data.cardType', 'period')
             ->assertJsonPath('data.status', 'active')
             ->assertJsonPath('data.validFrom', now()->toDateString())
-            ->assertJsonPath('data.validUntil', now()->addDays(30)->toDateString());
+            ->assertJsonPath('data.validUntil', now()->addDays(29)->toDateString());
+    }
+
+    public function test_issue_applies_opening_type_atomically_and_instance_override_drives_activation(): void
+    {
+        [, $site, $member] = $this->actAsStaff(['member-card.issue']);
+        $period = $this->createProduct($site, CardType::Period, [
+            'validity_days' => 30,
+            'activation_mode' => 'manual',
+        ]);
+
+        $immediate = $this->postJson($this->issuePath($site, $member), [
+            'cardProductId' => $period->id,
+            'openingType' => 'immediate',
+            'commandKey' => (string) Str::uuid(),
+        ])->assertCreated()
+            ->assertJsonPath('data.openingType', 'immediate')
+            ->assertJsonPath('data.snapshot.activationModeOverride', 'immediate')
+            ->assertJsonPath('data.status', 'active')
+            ->assertJsonPath('data.validUntil', now()->addDays(29)->toDateString());
+
+        foreach ([
+            'first_use' => 'first-use',
+            'first_class' => 'first-class',
+            'keep_pending' => 'manual',
+        ] as $openingType => $mode) {
+            $response = $this->postJson($this->issuePath($site, $member), [
+                'cardProductId' => $period->id,
+                'openingType' => $openingType,
+                'commandKey' => (string) Str::uuid(),
+            ])->assertCreated()
+                ->assertJsonPath('data.openingType', $openingType)
+                ->assertJsonPath('data.snapshot.activationModeOverride', $mode)
+                ->assertJsonPath('data.status', 'pending_activation')
+                ->assertJsonPath('data.validFrom', null)
+                ->assertJsonPath('data.validUntil', null);
+
+            $card = MemberCard::findOrFail($response->json('data.id'));
+            $this->assertSame($mode, app(\App\Services\Cards\MemberCardAutoActivationService::class)->activationMode($card));
+        }
+
+        $this->assertSame('immediate', MemberCard::findOrFail($immediate->json('data.id'))->product_snapshot['openingType']);
+    }
+
+    public function test_issue_opening_type_is_part_of_idempotency_fingerprint_and_validation_is_atomic(): void
+    {
+        [, $site, $member] = $this->actAsStaff(['member-card.issue']);
+        $product = $this->createProduct($site, CardType::Count, ['initial_count' => 10]);
+        $commandKey = (string) Str::uuid();
+
+        $this->postJson($this->issuePath($site, $member), [
+            'cardProductId' => $product->id,
+            'openingType' => 'first_use',
+            'commandKey' => $commandKey,
+        ])->assertCreated();
+        $this->postJson($this->issuePath($site, $member), [
+            'cardProductId' => $product->id,
+            'openingType' => 'keep_pending',
+            'commandKey' => $commandKey,
+        ])->assertStatus(409);
+
+        $before = MemberCard::query()->where('member_id', $member->id)->count();
+        $this->postJson($this->issuePath($site, $member), [
+            'cardProductId' => $product->id,
+            'openingType' => 'not-a-mode',
+            'commandKey' => (string) Str::uuid(),
+        ])->assertUnprocessable();
+        $this->assertSame($before, MemberCard::query()->where('member_id', $member->id)->count());
+    }
+
+    public function test_paid_staff_issue_requires_payment_method_and_auditable_reason(): void
+    {
+        [, $site, $member] = $this->actAsStaff(['member-card.issue']);
+        $product = $this->createProduct($site, CardType::StoredValue, ['face_value' => 100]);
+
+        $this->postJson($this->issuePath($site, $member), [
+            'cardProductId' => $product->id,
+            'actualAmount' => '100.00',
+            'commandKey' => (string) Str::uuid(),
+        ])->assertUnprocessable()->assertJsonPath('code', 'VALIDATION_FAILED')
+            ->assertJsonPath('details.paymentMethod.0', fn ($message) => is_string($message));
+        $this->postJson($this->issuePath($site, $member), [
+            'cardProductId' => $product->id,
+            'paymentMethod' => 'online',
+            'actualAmount' => '100.00',
+            'reason' => '短',
+            'commandKey' => (string) Str::uuid(),
+        ])->assertUnprocessable()->assertJsonPath('code', 'VALIDATION_FAILED')
+            ->assertJsonPath('details.reason.0', fn ($message) => is_string($message));
+
+        $this->assertDatabaseCount('member_cards', 0);
+        $this->assertDatabaseCount('member_card_orders', 0);
     }
 
     public function test_issue_creates_opening_ledger_entries(): void

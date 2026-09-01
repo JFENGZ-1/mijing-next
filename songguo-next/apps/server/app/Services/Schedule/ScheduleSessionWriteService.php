@@ -7,6 +7,7 @@ use App\Enums\CourseCatalogStatus;
 use App\Enums\ScheduleSessionKind;
 use App\Enums\ScheduleSessionStatus;
 use App\Models\Appointment;
+use App\Models\ConsumptionEvent;
 use App\Models\Course;
 use App\Models\Room;
 use App\Models\ScheduleSession;
@@ -64,6 +65,18 @@ class ScheduleSessionWriteService
     public function update(ScheduleSession $session, array $payload): ScheduleSession
     {
         return DB::transaction(function () use ($session, $payload) {
+            $hasConsumption = ConsumptionEvent::query()
+                ->where('tenant_id', $session->tenant_id)
+                ->where('session_id', $session->id)
+                ->exists();
+            if ($hasConsumption) {
+                $changesFinancialContext = (array_key_exists('courseId', $payload) && (int) $payload['courseId'] !== (int) $session->course_id)
+                    || (array_key_exists('coachStaffId', $payload) && (int) $payload['coachStaffId'] !== (int) $session->coach_staff_id)
+                    || (array_key_exists('sessionKind', $payload) && (string) $payload['sessionKind'] !== $session->session_kind->value)
+                    || (array_key_exists('startsAt', $payload) && ! $session->starts_at->equalTo(\Carbon\Carbon::parse($payload['startsAt'])))
+                    || (array_key_exists('endsAt', $payload) && ! $session->ends_at->equalTo(\Carbon\Carbon::parse($payload['endsAt'])));
+                abort_if($changesFinancialContext, 409, 'SCHEDULE_SESSION_FINANCIAL_CONTEXT_LOCKED');
+            }
             // 对标原版：换课/换老师/修改时间在已有预约时仍允许（前端会做预检确认）。
             // 仅拦截会破坏既有预约结构的变更：容量小于已约人数、更改课程类型。
             if (array_key_exists('capacity', $payload) && (int) $payload['capacity'] < $session->booked_count) {
@@ -211,7 +224,7 @@ class ScheduleSessionWriteService
             ->where('tenant_id', $session->tenant_id)
             ->where('session_id', $session->id)
             ->whereIn('status', [AppointmentStatus::Confirmed->value, AppointmentStatus::Waitlisted->value])
-            ->orderByRaw("case when status = ? then 0 else 1 end", [AppointmentStatus::Waitlisted->value])
+            ->orderByRaw('case when status = ? then 0 else 1 end', [AppointmentStatus::Waitlisted->value])
             ->get();
 
         foreach ($active as $appointment) {

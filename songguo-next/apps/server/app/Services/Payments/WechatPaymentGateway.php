@@ -8,6 +8,7 @@ use App\Models\CardProduct;
 use App\Models\Member;
 use App\Models\MemberCardOrder;
 use App\Models\Site;
+use App\Support\Finance\Money;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -65,7 +66,7 @@ class WechatPaymentGateway implements PaymentGateway
             'notify_url' => (string) config('payment.wechat.notify_url'),
             'time_expire' => $order->payment_expires_at?->toRfc3339String(),
             'amount' => [
-                'total' => (int) round(((float) $order->amount) * 100),
+                'total' => Money::decimalToCents($order->amount),
                 'currency' => 'CNY',
             ],
             'payer' => ['openid' => $openid],

@@ -48,7 +48,8 @@ class MemberMemberCardActivateTest extends TestCase
         ])
             ->assertOk()
             ->assertJsonPath('data.validFrom', now()->toDateString())
-            ->assertJsonPath('data.validUntil', now()->addDays(45)->toDateString());
+            // validityDays includes the activation day, so a 45-day card ends at +44.
+            ->assertJsonPath('data.validUntil', now()->addDays(44)->toDateString());
 
         $this->assertDatabaseHas('entitlement_ledger_entries', [
             'member_card_id' => $card->id,

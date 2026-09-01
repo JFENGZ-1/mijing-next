@@ -32,6 +32,9 @@ import type {
   MemberSiteClosureStatus,
   MemberSitePublicDetail,
   MemberCardBenefits,
+  MemberCardPaymentMethod,
+  MemberCashWallet,
+  MemberConsumptionSettlementList,
   LegalDocumentData,
 } from "@/types/member";
 
@@ -343,7 +346,7 @@ export async function getMemberCardProductCatalog(tenantId: number, siteId: numb
 export async function submitMemberCardPurchase(
   tenantId: number,
   siteId: number,
-  payload: { cardProductId: number; commandKey: string },
+  payload: { cardProductId: number; paymentMethod: MemberCardPaymentMethod; commandKey: string },
 ) {
   return useApiClient().request<MemberCardPurchaseResult>(
     `/member/card-purchases?${siteQuery(tenantId, siteId)}`,
@@ -351,6 +354,34 @@ export async function submitMemberCardPurchase(
       method: "POST",
       data: payload,
     },
+  );
+}
+
+export async function getMemberCashWallet(tenantId: number) {
+  return useApiClient().request<MemberCashWallet>(`/member/wallet?${tenantQuery(tenantId)}`);
+}
+
+export async function getMemberConsumptionSettlements(
+  tenantId: number,
+  params: {
+    from?: string;
+    to?: string;
+    memberCardId?: number;
+    status?: string;
+    page?: number;
+    perPage?: number;
+  } = {},
+) {
+  const query = [`tenantId=${tenantId}`];
+  if (params.from) query.push(`from=${encodeURIComponent(params.from)}`);
+  if (params.to) query.push(`to=${encodeURIComponent(params.to)}`);
+  if (params.memberCardId) query.push(`memberCardId=${params.memberCardId}`);
+  if (params.status) query.push(`status=${encodeURIComponent(params.status)}`);
+  if (params.page) query.push(`page=${params.page}`);
+  if (params.perPage) query.push(`perPage=${params.perPage}`);
+
+  return useApiClient().request<MemberConsumptionSettlementList>(
+    `/member/consumption-settlements?${query.join("&")}`,
   );
 }
 

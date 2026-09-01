@@ -33,6 +33,9 @@ const fixedBarPx = navTotalPx - 8;
 const headerHeightPx = navTotalPx + 76 + 18;
 
 const canReadSettings = computed(() => session.can("tenant.settings.read"));
+const canReadCompensationRoles = computed(() => session.can("compensation.role.read"));
+const canReadCompensationRules = computed(() => session.can("compensation.rule.read"));
+const canReadCompensationSettings = computed(() => canReadCompensationRoles.value || canReadCompensationRules.value);
 const canReadSite = computed(() => session.can("site.profile.read"));
 const currentSiteName = computed(
   () => siteProfile.value?.name
@@ -103,6 +106,14 @@ function openCustomerService() {
 
 function openVideoHelp() {
   uni.navigateTo({ url: "/pages/settings/support/video-help/index" });
+}
+
+function openBusinessSetting(route: string, permission: string) {
+  if (!session.can(permission)) {
+    uni.showToast({ title: "暂无权限", icon: "none" });
+    return;
+  }
+  uni.navigateTo({ url: route });
 }
 
 function nameInitial(name?: string | null) {
@@ -244,6 +255,24 @@ onPageScroll(({ scrollTop }) => {
       <view class="content-inner">
         <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
 
+        <view v-if="canReadCompensationSettings" class="module-group business-module module-group--first">
+          <view class="title"><text>耗卡与薪酬</text></view>
+          <view class="group">
+            <view v-if="canReadCompensationRoles" class="group-item" @tap="openBusinessSetting('/pages/settings/business-roles/index', 'compensation.role.read')">
+              <view class="logo-wrap" style="background: #696b99"><u-icon name="account-fill" :size="32" color="#ffffff" /></view>
+              <view class="text-wrap">业务角色</view>
+            </view>
+            <view v-if="canReadCompensationRules" class="group-item" @tap="openBusinessSetting('/pages/settings/compensation/index', 'compensation.rule.read')">
+              <view class="logo-wrap" style="background: #42c598"><u-icon name="rmb-circle-fill" :size="32" color="#ffffff" /></view>
+              <view class="text-wrap">课程薪酬</view>
+            </view>
+            <view v-if="canReadCompensationRules" class="group-item" @tap="openBusinessSetting('/pages/settings/card-products/course-matrix', 'compensation.rule.read')">
+              <view class="logo-wrap" style="background: #f2a33c"><u-icon name="list-dot" :size="32" color="#ffffff" /></view>
+              <view class="text-wrap">卡课扣费</view>
+            </view>
+          </view>
+        </view>
+
         <template v-if="canReadSettings && hub">
           <template v-for="(section, sectionIndex) in hub.sections" :key="section.key">
             <view
@@ -272,7 +301,7 @@ onPageScroll(({ scrollTop }) => {
           </template>
         </template>
 
-        <view v-else class="empty-wrap">
+        <view v-else-if="!canReadCompensationSettings" class="empty-wrap">
           <u-empty mode="permission" text="暂无查看权限" />
         </view>
 

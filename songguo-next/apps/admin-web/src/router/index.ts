@@ -21,6 +21,31 @@ const router = createRouter({
         { path: "media", name: "media-library", component: () => import("@/views/MediaLibraryView.vue") },
         { path: "queues", name: "queue-monitor", component: () => import("@/views/QueueMonitorView.vue") },
         {
+          path: "card-consumption/roles",
+          name: "compensation-roles",
+          component: () => import("@/views/CompensationRolesView.vue"),
+        },
+        {
+          path: "card-consumption/rules",
+          name: "card-course-rules",
+          component: () => import("@/views/CardCourseRulesView.vue"),
+        },
+        {
+          path: "card-consumption/wallets",
+          name: "member-wallets",
+          component: () => import("@/views/WalletGovernanceView.vue"),
+        },
+        {
+          path: "card-consumption/reports",
+          name: "consumption-reports",
+          component: () => import("@/views/ConsumptionReportsView.vue"),
+        },
+        {
+          path: "card-consumption/settlements",
+          name: "settlement-governance",
+          component: () => import("@/views/SettlementGovernanceView.vue"),
+        },
+        {
           path: "resource/:resourceKey",
           name: "resource",
           component: () => import("@/views/ResourceView.vue"),

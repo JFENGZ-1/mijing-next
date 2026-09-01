@@ -192,7 +192,7 @@ class MemberCardWechatPaymentTest extends TestCase
     {
         $this->configureOfficialWechatGateway();
         [$account, $tenant, $site, $member] = $this->seedPurchasableMember();
-        $product = $this->createProduct($site, CardType::StoredValue, ['price' => 166]);
+        $product = $this->createProduct($site, CardType::StoredValue, ['price' => '0.29']);
         WechatIdentity::create([
             'account_id' => $account->id,
             'appid' => 'wx-member-appid',
@@ -204,7 +204,7 @@ class MemberCardWechatPaymentTest extends TestCase
             'site_id' => $site->id,
             'member_id' => $member->id,
             'order_no' => 'ORD-OFFICIAL-GATEWAY',
-            'amount' => 166,
+            'amount' => '0.29',
             'status' => MemberCardOrderStatus::PendingPayment,
             'command_key' => (string) Str::uuid(),
             'payment_expires_at' => now()->addMinutes(5)->startOfSecond(),
@@ -213,6 +213,7 @@ class MemberCardWechatPaymentTest extends TestCase
         Http::fake(function ($request) use ($order) {
             if ($request->method() === 'POST' && str_ends_with($request->url(), '/v3/pay/transactions/jsapi')) {
                 $this->assertSame($order->payment_expires_at->toRfc3339String(), $request->data()['time_expire']);
+                $this->assertSame(29, $request->data()['amount']['total']);
 
                 return Http::response(['prepay_id' => 'wx-official-prepay'], 200);
             }

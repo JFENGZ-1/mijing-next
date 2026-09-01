@@ -4,8 +4,10 @@ namespace App\Services\Schedule;
 
 use App\Enums\ScheduleSessionStatus;
 use App\Models\Appointment;
+use App\Models\CompensationRole;
 use App\Models\ScheduleBatchCommand;
 use App\Models\ScheduleSession;
+use App\Models\ScheduleSessionStaffAssignment;
 use App\Models\Site;
 use App\Models\Staff;
 use Carbon\Carbon;
@@ -19,6 +21,18 @@ class ScheduleBatchWriteService
         return $this->runIdempotent($staff, $site, $payload['commandKey'], 'copy', function () use ($staff, $site, $payload) {
             $sources = $this->resolveCopySources($staff, $site, $payload);
             abort_if($sources->isEmpty(), 422, 'SCHEDULE_BATCH_COPY_EMPTY');
+            $sources->load('deliveryAssignments');
+            $deliveryRolesEnabled = CompensationRole::query()
+                ->where('tenant_id', $staff->tenant_id)
+                ->where('site_id', $site->id)
+                ->where('role_type', 'delivery')
+                ->where('status', 'active')
+                ->exists();
+            abort_if(
+                $deliveryRolesEnabled && $sources->contains(fn (ScheduleSession $session) => $session->deliveryAssignments->isEmpty()),
+                422,
+                'SCHEDULE_DELIVERY_ASSIGNMENTS_REQUIRED',
+            );
 
             $dayOffset = $this->resolveCopyDayOffset($payload, $sources);
             $targets = $sources->map(function (ScheduleSession $session) use ($dayOffset) {
@@ -50,6 +64,7 @@ class ScheduleBatchWriteService
                         'course_id' => $session->course_id,
                         'room_id' => $session->room_id,
                         'coach_staff_id' => $session->coach_staff_id,
+                        'delivery_role_id' => $session->delivery_role_id,
                         'starts_at' => $target['startsAt'],
                         'ends_at' => $target['endsAt'],
                         'capacity' => $session->capacity,
@@ -59,6 +74,19 @@ class ScheduleBatchWriteService
                         'version' => 1,
                         'created_by_staff_id' => $staff->id,
                     ]);
+                    $created = $createdSessions[array_key_last($createdSessions)];
+                    foreach ($session->deliveryAssignments as $assignment) {
+                        ScheduleSessionStaffAssignment::create([
+                            'tenant_id' => $created->tenant_id,
+                            'site_id' => $created->site_id,
+                            'schedule_session_id' => $created->id,
+                            'staff_id' => $assignment->staff_id,
+                            'compensation_role_id' => $assignment->compensation_role_id,
+                            'is_primary' => $assignment->is_primary,
+                            'allocation_bps' => $assignment->allocation_bps,
+                            'assignment_version' => 1,
+                        ]);
+                    }
                 }
 
                 return $createdSessions;
@@ -77,7 +105,7 @@ class ScheduleBatchWriteService
             $sessions = $this->resolveSessions($staff, $site, $payload['sessionIds']);
             $succeeded = [];
 
-            DB::transaction(function () use ($sessions, $payload, &$succeeded) {
+            DB::transaction(function () use ($sessions, &$succeeded) {
                 foreach ($sessions as $session) {
                     if ($session->status === ScheduleSessionStatus::Suspended) {
                         $succeeded[] = $session->id;
@@ -187,7 +215,7 @@ class ScheduleBatchWriteService
             $succeeded = [];
             $failed = [];
 
-            DB::transaction(function () use ($staff, $site, $sessions, $targetCourseId, &$succeeded, &$failed) {
+            DB::transaction(function () use ($sessions, $targetCourseId, &$succeeded, &$failed) {
                 foreach ($sessions as $session) {
                     if ($session->booked_count > 0) {
                         $failed[] = [

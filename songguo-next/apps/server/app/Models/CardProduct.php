@@ -14,7 +14,7 @@ class CardProduct extends Model
     protected $fillable = [
         'tenant_id', 'site_id', 'card_type', 'name', 'description', 'price', 'face_value',
         'initial_count', 'validity_days', 'validity_mode', 'activation_mode', 'scope_config',
-        'booking_rules', 'sale_status', 'catalog_status', 'sort_order', 'version',
+        'allowed_payment_methods', 'booking_rules', 'sale_status', 'catalog_status', 'sort_order', 'version', 'course_rule_version',
         'created_by_staff_id', 'archived_at',
     ];
 
@@ -27,6 +27,7 @@ class CardProduct extends Model
             'price' => 'decimal:2',
             'face_value' => 'decimal:2',
             'scope_config' => 'array',
+            'allowed_payment_methods' => 'array',
             'booking_rules' => 'array',
             'archived_at' => 'datetime',
         ];
@@ -55,5 +56,10 @@ class CardProduct extends Model
     public function memberCards(): HasMany
     {
         return $this->hasMany(MemberCard::class);
+    }
+
+    public function courseRules(): HasMany
+    {
+        return $this->hasMany(CardProductCourseRule::class);
     }
 }

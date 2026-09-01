@@ -7,10 +7,11 @@ use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Course;
 use App\Models\Staff;
-use App\Services\Catalog\CourseCatalogWriteService;
 use App\Services\Catalog\CourseCatalogExtrasService;
+use App\Services\Catalog\CourseCatalogWriteService;
 use App\Services\Catalog\StaffCourseCatalogAccessService;
 use App\Support\ApiResponse;
+use App\Support\DomainActor;
 use Illuminate\Http\Request;
 
 class StaffCourseController extends Controller
@@ -83,7 +84,7 @@ class StaffCourseController extends Controller
         $siteModel = $access->site($staff, $site);
         $access->assertPermission($staff, 'course-catalog.write', $siteModel->id);
         $courseModel = $access->course($staff, $siteModel, $course);
-        $courseModel = $writer->update($courseModel, $request->validated());
+        $courseModel = $writer->updateForActor(DomainActor::staff($staff), $siteModel, $courseModel, $request->validated());
 
         return ApiResponse::success($this->detailData($courseModel));
     }
@@ -99,7 +100,16 @@ class StaffCourseController extends Controller
         $siteModel = $access->site($staff, $site);
         $access->assertPermission($staff, 'course-catalog.write', $siteModel->id);
         $courseModel = $access->course($staff, $siteModel, $course);
-        $courseModel = $writer->archive($courseModel);
+        $command = $request->validate([
+            'version' => ['sometimes', 'integer', 'min:1'],
+            'commandKey' => ['sometimes', 'uuid'],
+            'reason' => ['sometimes', 'nullable', 'string', 'max:500'],
+        ]);
+        $courseModel = $writer->archiveForActor(
+            DomainActor::staff($staff), $siteModel, $courseModel,
+            (int) ($command['version'] ?? $courseModel->version),
+            $command['commandKey'] ?? null, $command['reason'] ?? null,
+        );
 
         return ApiResponse::success($this->detailData($courseModel));
     }
@@ -115,7 +125,16 @@ class StaffCourseController extends Controller
         $siteModel = $access->site($staff, $site);
         $access->assertPermission($staff, 'course-catalog.write', $siteModel->id);
         $courseModel = $access->course($staff, $siteModel, $course);
-        $courseModel = $writer->restore($courseModel);
+        $command = $request->validate([
+            'version' => ['sometimes', 'integer', 'min:1'],
+            'commandKey' => ['sometimes', 'uuid'],
+            'reason' => ['sometimes', 'nullable', 'string', 'max:500'],
+        ]);
+        $courseModel = $writer->restoreForActor(
+            DomainActor::staff($staff), $siteModel, $courseModel,
+            (int) ($command['version'] ?? $courseModel->version),
+            $command['commandKey'] ?? null, $command['reason'] ?? null,
+        );
 
         return ApiResponse::success($this->detailData($courseModel));
     }

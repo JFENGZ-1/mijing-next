@@ -7,24 +7,31 @@ use App\Enums\CardType;
 use App\Enums\CourseType;
 use App\Enums\MemberCardStatus;
 use App\Enums\ScheduleSessionKind;
+use App\Models\CardProductCourseRule;
 use App\Models\CardProductCourseScope;
 use App\Models\Course;
 use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\ScheduleSession;
+use App\Services\Cards\MemberCardHolidayCalendarService;
 use App\Services\Cards\MemberCardReadService;
-use Illuminate\Support\Collection;
+use App\Services\Compensation\CardProductCourseRuleService;
+use App\Support\Finance\Money;
 
 class BookingPayableCardService
 {
-    public function __construct(private MemberCardReadService $cards) {}
+    public function __construct(
+        private MemberCardReadService $cards,
+        private CardProductCourseRuleService $courseRules,
+        private MemberCardHolidayCalendarService $holidays,
+    ) {}
 
     /**
      * @return list<array<string, mixed>>
      */
     public function payableCardsForSession(Member $member, ScheduleSession $session): array
     {
-        $session->loadMissing('course');
+        $session->loadMissing(['course', 'site']);
         $cards = $this->cards->memberWalletQuery($member)
             ->where('site_id', $session->site_id)
             ->get()
@@ -44,7 +51,7 @@ class BookingPayableCardService
 
     public function resolvePayableCard(Member $member, ScheduleSession $session, int $memberCardId): MemberCard
     {
-        $session->loadMissing('course');
+        $session->loadMissing(['course', 'site']);
         $card = MemberCard::query()
             ->where('tenant_id', $member->tenant_id)
             ->where('member_id', $member->id)
@@ -53,6 +60,18 @@ class BookingPayableCardService
             ->firstOrFail();
 
         abort_unless($this->isEligibleForSession($card, $session), 409, 'BOOKING_CARD_NOT_PAYABLE');
+        $spec = $this->deductSpec($card, $session);
+        if ($spec['type'] === CardType::Count) {
+            abort_if((int) ($card->cached_remaining_count ?? 0) < (int) $spec['count'], 409, 'INSUFFICIENT_COUNT');
+        } elseif ($spec['type'] === CardType::StoredValue) {
+            abort_if(
+                Money::decimalToCents($card->cached_balance ?? '0') < Money::decimalToCents($spec['amount']),
+                409,
+                'INSUFFICIENT_BALANCE',
+            );
+        } else {
+            abort_unless($this->withinValidPeriod($card, $session), 409, 'BOOKING_CARD_NOT_PAYABLE');
+        }
 
         return $card;
     }
@@ -78,12 +97,25 @@ class BookingPayableCardService
             return false;
         }
 
-        return $this->cardCoversCourse($card, $session->course, $session->session_kind);
+        $session->loadMissing('site');
+        $serviceDate = $session->starts_at
+            ->copy()
+            ->timezone($session->site?->timezone ?: config('app.timezone'))
+            ->toDateString();
+        if ($this->holidays->isBlockedOn($card, $serviceDate)) {
+            return false;
+        }
+
+        return $this->cardCoversCourse($card, $session->course, $session->session_kind, $session->starts_at);
     }
 
     public function deductSpec(MemberCard $card, ScheduleSession $session): array
     {
         $session->loadMissing('course');
+        $versionedRule = $this->courseRules->activeRuleFor($card, $session->course, $session->starts_at);
+        if ($versionedRule !== null) {
+            return $this->courseRules->deductSpec($versionedRule);
+        }
         // 私教课扣费实时取 feeList（卡产品 courseScopes.price_override，对标原版 deductAmount）：
         // 计次卡=扣次数（缺省 1），储值卡=扣金额（缺省走卡默认价）
         $privateOverride = $session->course->course_type === CourseType::Private
@@ -91,7 +123,9 @@ class BookingPayableCardService
             : null;
 
         if ($card->card_type === CardType::Count) {
-            $count = $privateOverride !== null && $privateOverride >= 1 ? (int) round($privateOverride) : 1;
+            $count = $privateOverride !== null
+                ? max(1, intdiv(Money::decimalToCents($privateOverride) + 50, 100))
+                : 1;
 
             return ['type' => CardType::Count, 'count' => $count, 'amount' => null];
         }
@@ -101,7 +135,7 @@ class BookingPayableCardService
         }
 
         $amount = $privateOverride !== null
-            ? number_format($privateOverride, 2, '.', '')
+            ? Money::centsToDecimal(Money::decimalToCents($privateOverride))
             : $this->resolveStoredValueAmount($card, $session->course);
 
         return ['type' => CardType::StoredValue, 'count' => null, 'amount' => $amount];
@@ -116,21 +150,24 @@ class BookingPayableCardService
         }
 
         if ($spec['type'] === CardType::Period) {
-            return $this->withinValidPeriod($card);
+            return $this->withinValidPeriod($card, $session);
         }
 
-        return (float) ($card->cached_balance ?? 0) >= (float) $spec['amount'];
+        return Money::decimalToCents($card->cached_balance ?? '0') >= Money::decimalToCents($spec['amount']);
     }
 
-    private function withinValidPeriod(MemberCard $card): bool
+    private function withinValidPeriod(MemberCard $card, ScheduleSession $session): bool
     {
-        $today = now()->startOfDay();
+        $serviceDate = $session->starts_at
+            ->copy()
+            ->timezone($session->site?->timezone ?: config('app.timezone'))
+            ->startOfDay();
 
-        if ($card->valid_from !== null && $today->lt($card->valid_from)) {
+        if ($card->valid_from !== null && $serviceDate->lt($card->valid_from)) {
             return false;
         }
 
-        if ($card->valid_until !== null && $today->gt($card->valid_until)) {
+        if ($card->valid_until !== null && $serviceDate->gt($card->valid_until)) {
             return false;
         }
 
@@ -143,7 +180,7 @@ class BookingPayableCardService
             if ($this->scopeMatchesCourse($scope, $course)) {
                 $override = $scope['priceOverride'] ?? null;
                 if ($override !== null && $override !== '') {
-                    return number_format((float) $override, 2, '.', '');
+                    return Money::centsToDecimal(Money::decimalToCents($override));
                 }
             }
         }
@@ -151,11 +188,22 @@ class BookingPayableCardService
         $default = $card->product_snapshot['bookingRules']['defaultPrice'] ?? null;
         abort_if($default === null || $default === '', 409, 'BOOKING_CARD_PRICE_UNKNOWN');
 
-        return number_format((float) $default, 2, '.', '');
+        return Money::centsToDecimal(Money::decimalToCents($default));
     }
 
-    private function cardCoversCourse(MemberCard $card, Course $course, ScheduleSessionKind $sessionKind): bool
+    private function cardCoversCourse(MemberCard $card, Course $course, ScheduleSessionKind $sessionKind, $at): bool
     {
+        if ($this->courseRules->activeRuleFor($card, $course, $at) !== null) {
+            return true;
+        }
+        if ($card->card_product_id !== null && CardProductCourseRule::query()
+            ->where('tenant_id', $card->tenant_id)
+            ->where('card_product_id', $card->card_product_id)
+            ->where('effective_at', '<=', $at)
+            ->exists()) {
+            return false;
+        }
+
         // 私教课（对标原版 getCardListForPay 按 courseId 实时查 feeList）：
         // 按卡产品「当前」courseScopes 实时判定，不依赖发卡时拷贝的 product_snapshot——
         // 私教扣费是后配的（applyFees 写卡产品 scopes），快照不会回填，实时查避免失配。
@@ -222,7 +270,7 @@ class BookingPayableCardService
     }
 
     /** 私教课实时扣费价（feeList price_override；无配置/无卡产品 → null） */
-    private function privatePriceOverride(MemberCard $card, Course $course): ?float
+    private function privatePriceOverride(MemberCard $card, Course $course): ?string
     {
         $productId = (int) ($card->card_product_id ?? 0);
         if ($productId < 1) {
@@ -236,7 +284,7 @@ class BookingPayableCardService
             ->where('scope_key', (string) $course->id)
             ->value('price_override');
 
-        return $override !== null ? (float) $override : null;
+        return $override !== null ? (string) $override : null;
     }
 
     /**

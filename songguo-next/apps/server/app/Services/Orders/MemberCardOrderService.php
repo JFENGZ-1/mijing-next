@@ -11,6 +11,7 @@ use App\Models\MemberCardOrder;
 use App\Models\OrderAmountCorrection;
 use App\Models\Site;
 use App\Models\Staff;
+use App\Support\Finance\Money;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -41,8 +42,9 @@ class MemberCardOrderService
     public function correctAmount(Staff $staff, Site $site, MemberCardOrder $order, array $payload): array
     {
         $commandKey = $payload['commandKey'];
+        $correctedAmount = Money::centsToDecimal(Money::decimalToCents($payload['amount']));
 
-        return DB::transaction(function () use ($staff, $site, $order, $payload, $commandKey) {
+        return DB::transaction(function () use ($staff, $site, $order, $payload, $commandKey, $correctedAmount) {
             $existing = OrderAmountCorrection::query()
                 ->where('tenant_id', $staff->tenant_id)
                 ->where('command_key', $commandKey)
@@ -50,6 +52,16 @@ class MemberCardOrderService
                 ->first();
 
             if ($existing) {
+                abort_unless(
+                    (int) $existing->order_id === (int) $order->id
+                    && (int) $existing->actor_staff_id === (int) $staff->id
+                    && Money::decimalToCents($existing->corrected_amount) === Money::decimalToCents($correctedAmount)
+                    && (string) $existing->reason === (string) $payload['reason']
+                    && (int) ($existing->reversal_of_id ?? 0) === (int) ($payload['correctsEntryId'] ?? 0),
+                    409,
+                    'IDEMPOTENCY_KEY_REUSED',
+                );
+
                 return [
                     'order' => MemberCardOrder::query()
                         ->where('tenant_id', $staff->tenant_id)
@@ -67,9 +79,11 @@ class MemberCardOrderService
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            abort_if($locked->status === MemberCardOrderStatus::Voided, 409, 'ORDER_VOIDED_MUTATION_BLOCKED');
+            // There is no draft/pre-checkout order state in this domain. Once an
+            // order row exists its WeChat checkout/paid amount is an immutable fact;
+            // changing a display-only correction would split order, callback and lot.
+            abort(409, 'ORDER_AMOUNT_CORRECTION_REQUIRES_REISSUE');
 
-            $correctedAmount = $this->decimalString($payload['amount']);
             $correctionEntryIds = [];
 
             if (! empty($payload['correctsEntryId'])) {
@@ -200,6 +214,12 @@ class MemberCardOrderService
             'memberCardId' => $order->member_card_id,
             'originalAmount' => $this->decimalString($order->amount),
             'effectiveAmount' => $this->effectiveAmount($order),
+            'paymentMethod' => $order->payment_method ?? 'online',
+            'paidAmountCents' => $order->paid_amount_cents,
+            'paidAmount' => $order->paid_amount_cents !== null
+                ? Money::centsToDecimal((int) $order->paid_amount_cents)
+                : null,
+            'paidAt' => $order->paid_at?->toIso8601String(),
             'status' => $order->status->value,
             'voidedAt' => $order->voided_at?->toIso8601String(),
             'paymentExpiresAt' => $order->payment_expires_at?->toIso8601String(),

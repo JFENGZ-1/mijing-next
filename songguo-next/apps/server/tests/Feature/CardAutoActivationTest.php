@@ -49,7 +49,8 @@ class CardAutoActivationTest extends TestCase
         $card = MemberCard::findOrFail($fixture['card']->id);
         $this->assertSame(MemberCardStatus::Active, $card->status);
         $this->assertSame(now()->toDateString(), $card->valid_from?->toDateString());
-        $this->assertSame(now()->addDays(30)->toDateString(), $card->valid_until?->toDateString());
+        // validityDays is an inclusive service-day count: activation day is day 1.
+        $this->assertSame(now()->addDays(29)->toDateString(), $card->valid_until?->toDateString());
     }
 
     public function test_first_class_card_books_while_pending_and_activates_on_check_in(): void

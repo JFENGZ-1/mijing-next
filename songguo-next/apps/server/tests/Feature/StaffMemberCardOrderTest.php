@@ -36,43 +36,34 @@ class StaffMemberCardOrderTest extends TestCase
             ->assertJsonPath('data.items.0.effectiveAmount', '1200.00');
     }
 
-    public function test_amount_correction_appends_rows_without_updating_order_amount(): void
+    public function test_created_order_amount_cannot_be_corrected_and_must_be_reissued(): void
     {
         [$staff, $site, $member] = $this->actAsStaff(['order.amount.correct']);
-        $order = $this->createOrder($site, $member, 1000, MemberCardOrderStatus::Paid);
-        $originalAmount = $order->amount;
-
+        $order = $this->createOrder($site, $member, 1000, MemberCardOrderStatus::PendingPayment);
         $this->postJson($this->correctionPath($site, $order), [
             'amount' => 850,
             'reason' => '财务更正',
             'commandKey' => (string) Str::uuid(),
-        ])
-            ->assertCreated()
-            ->assertJsonPath('data.originalAmount', '1000.00')
-            ->assertJsonPath('data.effectiveAmount', '850.00')
-            ->assertJsonCount(1, 'data.correctionEntryIds');
+        ])->assertStatus(409);
 
-        $order->refresh();
-        $this->assertSame(number_format((float) $originalAmount, 2, '.', ''), number_format((float) $order->amount, 2, '.', ''));
-        $this->assertDatabaseHas('order_amount_corrections', [
-            'order_id' => $order->id,
-            'entry_type' => OrderAmountCorrectionType::Correction->value,
-            'corrected_amount' => '850.00',
-            'actor_staff_id' => $staff->id,
-        ]);
+        $this->assertDatabaseCount('order_amount_corrections', 0);
     }
 
     public function test_amount_correction_is_idempotent_by_command_key(): void
     {
         [, $site, $member] = $this->actAsStaff(['order.amount.correct']);
-        $order = $this->createOrder($site, $member, 1000, MemberCardOrderStatus::Paid);
+        $order = $this->createOrder($site, $member, 1000, MemberCardOrderStatus::PendingPayment);
         $commandKey = (string) Str::uuid();
-
-        $this->postJson($this->correctionPath($site, $order), [
-            'amount' => 900,
+        OrderAmountCorrection::create([
+            'tenant_id' => $site->tenant_id,
+            'order_id' => $order->id,
+            'entry_type' => OrderAmountCorrectionType::Correction,
+            'corrected_amount' => '900.00',
+            'command_key' => $commandKey,
             'reason' => '更正',
-            'commandKey' => $commandKey,
-        ])->assertCreated();
+            'actor_staff_id' => Staff::query()->where('tenant_id', $site->tenant_id)->firstOrFail()->id,
+            'occurred_at' => now(),
+        ]);
 
         $this->postJson($this->correctionPath($site, $order), [
             'amount' => 900,
@@ -83,6 +74,20 @@ class StaffMemberCardOrderTest extends TestCase
             ->assertJsonCount(1, 'data.correctionEntryIds');
 
         $this->assertSame(1, OrderAmountCorrection::query()->where('order_id', $order->id)->count());
+    }
+
+    public function test_paid_order_amount_is_immutable_after_value_lot_is_established(): void
+    {
+        [, $site, $member] = $this->actAsStaff(['order.amount.correct']);
+        $order = $this->createOrder($site, $member, 1000, MemberCardOrderStatus::Paid);
+
+        $this->postJson($this->correctionPath($site, $order), [
+            'amount' => '900.00',
+            'reason' => '不得改写已支付实付金额',
+            'commandKey' => (string) Str::uuid(),
+        ])->assertStatus(409);
+
+        $this->assertDatabaseCount('order_amount_corrections', 0);
     }
 
     public function test_void_only_allows_pending_payment_orders(): void

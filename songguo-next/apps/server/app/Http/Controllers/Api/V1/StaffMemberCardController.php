@@ -12,16 +12,20 @@ use App\Http\Requests\HolidayStartMemberCardRequest;
 use App\Http\Requests\IssueMemberCardRequest;
 use App\Http\Requests\ValidityExtensionMemberCardRequest;
 use App\Models\MemberCard;
+use App\Models\MemberCardShareAssignment;
 use App\Models\Staff;
 use App\Services\Cards\CardTransferShareTokenService;
-use App\Services\Cards\MemberCardExtrasService;
 use App\Services\Cards\MemberCardAdjustService;
+use App\Services\Cards\MemberCardExtrasService;
 use App\Services\Cards\MemberCardIssueService;
 use App\Services\Cards\MemberCardLifecycleService;
 use App\Services\Cards\MemberCardReadService;
 use App\Services\Cards\MemberCardStateService;
+use App\Services\Compensation\MemberCardShareAssignmentService;
 use App\Services\Members\StaffMemberAccessService;
 use App\Support\ApiResponse;
+use App\Support\DomainActor;
+use App\Support\Finance\Money;
 use Illuminate\Http\Request;
 
 class StaffMemberCardController extends Controller
@@ -95,6 +99,67 @@ class StaffMemberCardController extends Controller
         $card = $reader->staffCard($staff, $siteModel, $memberCard);
 
         return ApiResponse::success($reader->benefits($card));
+    }
+
+    public function shareAssignments(
+        Request $request,
+        int $site,
+        int $memberCard,
+        StaffMemberAccessService $access,
+    ) {
+        $staff = $this->staff($request);
+        $siteModel = $access->site($staff, $site);
+        $access->assertPermission($staff, 'compensation.rule.read', $siteModel->id);
+        $card = MemberCard::query()->where('tenant_id', $staff->tenant_id)
+            ->where('site_id', $siteModel->id)->findOrFail($memberCard);
+        $today = now()->timezone($siteModel->timezone ?: config('app.timezone'))->toDateString();
+        $items = MemberCardShareAssignment::query()
+            ->where('tenant_id', $staff->tenant_id)->where('site_id', $siteModel->id)
+            ->where('member_card_id', $card->id)->whereIn('status', ['active', 'archived'])
+            ->where(fn ($query) => $query->where('status', 'active')->orWhere('effective_until', '>=', $today))
+            ->with(['staff', 'role'])->orderBy('compensation_role_id')->orderBy('effective_from')->orderBy('id')->get();
+
+        return ApiResponse::success([
+            'memberCardId' => $card->id,
+            'version' => (int) $card->share_assignment_version,
+            'items' => $items->map(fn (MemberCardShareAssignment $item) => $this->shareAssignmentData($item, $today))->values(),
+        ]);
+    }
+
+    public function replaceShareAssignments(
+        Request $request,
+        int $site,
+        int $memberCard,
+        StaffMemberAccessService $access,
+        MemberCardShareAssignmentService $assignments,
+    ) {
+        $staff = $this->staff($request);
+        $siteModel = $access->site($staff, $site);
+        $access->assertPermission($staff, 'compensation.rule.write', $siteModel->id);
+        $card = MemberCard::query()->where('tenant_id', $staff->tenant_id)
+            ->where('site_id', $siteModel->id)->findOrFail($memberCard);
+        $payload = $request->validate([
+            'assignments' => ['required', 'array'],
+            'assignments.*.staffId' => ['required', 'integer', 'min:1'],
+            'assignments.*.compensationRoleId' => ['required', 'integer', 'min:1'],
+            'assignments.*.allocationBps' => ['required', 'integer', 'between:1,10000'],
+            'assignments.*.effectiveFrom' => ['sometimes', 'nullable', 'date_format:Y-m-d'],
+            'assignments.*.effectiveUntil' => ['sometimes', 'nullable', 'date_format:Y-m-d'],
+            'expectedVersion' => ['required', 'integer', 'min:0'],
+            'reason' => ['required', 'string', 'min:2', 'max:500'],
+            'commandKey' => ['required', 'uuid'],
+        ]);
+        $saved = $assignments->replace(
+            $card, $siteModel, $payload['assignments'], DomainActor::staff($staff),
+            $payload['commandKey'], $payload['reason'], (int) $payload['expectedVersion'],
+        );
+        $today = now()->timezone($siteModel->timezone ?: config('app.timezone'))->toDateString();
+
+        return ApiResponse::success([
+            'memberCardId' => $card->id,
+            'version' => (int) $card->fresh()->share_assignment_version,
+            'items' => collect($saved)->map(fn (MemberCardShareAssignment $item) => $this->shareAssignmentData($item, $today))->values(),
+        ]);
     }
 
     public function transferShareToken(
@@ -348,8 +413,23 @@ class StaffMemberCardController extends Controller
 
         $result = $issuer->issue($staff, $siteModel, $memberModel, $request->validated());
 
+        $data = $this->issuedCardData($result['memberCard']);
+        if (($result['order'] ?? null) !== null) {
+            $data['order'] = [
+                'id' => $result['order']->id,
+                'orderNo' => $result['order']->order_no,
+                'paymentMethod' => $result['order']->payment_method,
+                'actualAmount' => Money::centsToDecimal((int) $result['order']->paid_amount_cents),
+                'paidAmountCents' => $result['order']->paid_amount_cents,
+                'paidAt' => $result['order']->paid_at?->toIso8601String(),
+                'status' => $result['order']->status->value,
+                'collectionConfirmation' => $result['order']->metadata['collectionConfirmation'] ?? null,
+                'gatewayTransactionId' => $result['order']->metadata['gatewayTransactionId'] ?? null,
+            ];
+        }
+
         return ApiResponse::success(
-            $this->issuedCardData($result['memberCard']),
+            $data,
             $result['created'] ? 201 : 200,
         );
     }
@@ -458,6 +538,31 @@ class StaffMemberCardController extends Controller
         return ApiResponse::success($extras->updateRemark($staff, $siteModel, $card, $payload));
     }
 
+    private function shareAssignmentData(MemberCardShareAssignment $assignment, string $today): array
+    {
+        $assignment->loadMissing(['staff', 'role']);
+        $from = $assignment->effective_from?->toDateString();
+        $until = $assignment->effective_until?->toDateString();
+        $effectiveState = $from !== null && $from > $today
+            ? 'scheduled'
+            : (($until === null || $until >= $today) ? 'current' : 'expired');
+
+        return [
+            'id' => $assignment->id,
+            'staffId' => $assignment->staff_id,
+            'staffName' => $assignment->staff?->name,
+            'compensationRoleId' => $assignment->compensation_role_id,
+            'roleName' => $assignment->role?->name,
+            'roleType' => $assignment->role?->role_type,
+            'allocationBps' => $assignment->allocation_bps,
+            'effectiveFrom' => $from,
+            'effectiveUntil' => $until,
+            'effectiveState' => $effectiveState,
+            'status' => $assignment->status,
+            'version' => $assignment->version,
+        ];
+    }
+
     private function adjustmentData(MemberCard $memberCard, array $ledgerEntryIds): array
     {
         return [
@@ -502,6 +607,7 @@ class StaffMemberCardController extends Controller
             'status' => $memberCard->status->value,
             'memberId' => $memberCard->member_id,
             'cardProductId' => $memberCard->card_product_id,
+            'openingType' => $snapshot['openingType'] ?? null,
             'snapshot' => [
                 'name' => $snapshot['name'] ?? null,
                 'cardType' => $snapshot['cardType'] ?? $memberCard->card_type->value,
@@ -509,6 +615,8 @@ class StaffMemberCardController extends Controller
                 'initialCount' => $snapshot['initialCount'] ?? null,
                 'validityDays' => $snapshot['validityDays'] ?? null,
                 'activationMode' => $snapshot['activationMode'] ?? null,
+                'activationModeOverride' => $snapshot['activationModeOverride'] ?? null,
+                'openingType' => $snapshot['openingType'] ?? null,
                 'productVersion' => $snapshot['productVersion'] ?? null,
             ],
             'cachedBalance' => $this->nullableDecimal($memberCard->cached_balance),

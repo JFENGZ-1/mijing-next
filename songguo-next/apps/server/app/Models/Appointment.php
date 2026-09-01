@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Enums\AppointmentStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Appointment extends Model
 {
     protected $fillable = [
-        'tenant_id', 'site_id', 'session_id', 'member_id', 'status', 'command_key',
+        'tenant_id', 'site_id', 'session_id', 'member_id', 'status', 'command_key', 'command_payload_hash',
         'member_card_id', 'ledger_entry_id', 'booked_by_account_id', 'created_by_staff_id',
-        'booked_at', 'cancelled_at', 'staff_notes', 'member_remark', 'absent_marked_at',
+        'booked_at', 'cancelled_at', 'cancel_command_key', 'cancel_payload_hash', 'staff_notes', 'member_remark', 'absent_marked_at',
         'rescheduled_from_session_id', 'penalty_ledger_entry_id',
     ];
 
@@ -63,5 +64,15 @@ class Appointment extends Model
     public function createdByStaff(): BelongsTo
     {
         return $this->belongsTo(Staff::class, 'created_by_staff_id');
+    }
+
+    public function entitlementReservation(): HasOne
+    {
+        return $this->hasOne(EntitlementReservation::class);
+    }
+
+    public function consumptionEvent(): HasOne
+    {
+        return $this->hasOne(ConsumptionEvent::class);
     }
 }

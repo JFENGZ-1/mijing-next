@@ -11,7 +11,10 @@ const loading = ref(true);
 const errorMessage = ref("");
 const summary = ref<ReportDashboardSummary | null>(null);
 
-const canView = computed(() => session.can("report.dashboard.read"));
+const canViewDashboard = computed(() => session.can("report.dashboard.read"));
+const canView = computed(() => canViewDashboard.value
+  || session.can("consumption.read")
+  || session.can("payroll.period.close"));
 const currentSiteName = computed(() => session.sites.find((site) => site.id === session.currentSiteId)?.name || "当前场馆");
 
 const overviewMetrics = computed(() => {
@@ -83,9 +86,11 @@ const reportGroups: ReportGroup[] = [
     ],
   },
   {
-    title: "老师",
+    title: "耗卡与薪酬",
     links: [
-      { key: "payroll", label: "工资报表", desc: "教练/会籍工资", route: "/pages/report/payroll/index", permission: "payroll.report.read" },
+      { key: "consumption", label: "耗卡结算与提成", desc: "A履约人/B分成角色/学员/课程/卡项", route: "/pages/report/consumption/index", permission: "consumption.read" },
+      { key: "payroll-periods", label: "月结与关账", desc: "创建自然月期间并按后端状态关账", route: "/pages/report/payroll-periods/index", permission: "payroll.period.close" },
+      { key: "payroll", label: "旧版工资报表", desc: "售卡等旧口径，与耗卡提成分列", route: "/pages/report/payroll/index", permission: "payroll.report.read" },
     ],
   },
   {
@@ -98,6 +103,11 @@ const reportGroups: ReportGroup[] = [
 
 async function load() {
   if (!session.currentSiteId || !canView.value) {
+    loading.value = false;
+    return;
+  }
+  if (!canViewDashboard.value) {
+    summary.value = null;
     loading.value = false;
     return;
   }
@@ -124,6 +134,9 @@ function canOpenReportLink(link: ReportLink) {
   }
   if (link.key === "payroll") {
     return session.can("payroll.report.read") || session.can("payroll.recompute.execute");
+  }
+  if (link.key === "payroll-periods") {
+    return session.can("payroll.period.close");
   }
   return session.can(link.permission);
 }
@@ -154,7 +167,7 @@ onPullDownRefresh(async () => {
       <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
 
       <!-- 顶部收款大卡（对标原版：橙色大字 + 指标行） -->
-      <view class="revenue-card">
+      <view v-if="canViewDashboard" class="revenue-card">
         <text class="revenue-title">本月营业额(元)</text>
         <text class="revenue-money">{{ summary?.kpis.monthRevenue ?? "0.00" }}</text>
         <text class="revenue-site">{{ currentSiteName }}</text>
@@ -167,7 +180,7 @@ onPullDownRefresh(async () => {
       </view>
 
       <!-- 近 12 月趋势 -->
-      <view class="trend-card">
+      <view v-if="canViewDashboard" class="trend-card">
         <text class="group-title">近 12 月营业额</text>
         <view v-for="item in profitTrend" :key="item.label" class="trend-row">
           <text class="trend-label">{{ item.label }}</text>

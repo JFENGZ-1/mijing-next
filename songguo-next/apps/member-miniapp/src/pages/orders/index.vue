@@ -32,6 +32,13 @@ function orderStateClass(status: string) {
   return "state--muted";
 }
 
+function orderChannelLabel(order: MemberOrderSummary) {
+  if (order.paymentMethod === "balance") return "余额购卡";
+  if (order.paymentMethod === "online") return "在线购卡";
+  // 旧订单可能没有 paymentMethod 快照；不把历史 channel 暴露为新的可选支付方式。
+  return "购卡订单";
+}
+
 function cardFaceText(order: MemberOrderSummary) {
   const card = order.memberCard;
   if (!card) return "";
@@ -63,6 +70,7 @@ async function loadOrders(reset = true) {
   try {
     const tenant = await ensureMemberTenant();
     if (!tenant) {
+      if (!reset) page.value = Math.max(1, page.value - 1);
       errorMessage.value = "请先选择场馆";
       return;
     }
@@ -71,6 +79,7 @@ async function loadOrders(reset = true) {
     orders.value = reset ? response.data.items : [...orders.value, ...response.data.items];
     lastPage.value = response.data.pagination.lastPage;
   } catch (error) {
+    if (!reset) page.value = Math.max(1, page.value - 1);
     errorMessage.value = formatApiErrorMessage(error, "订单列表加载失败");
   } finally {
     loading.value = false;
@@ -104,11 +113,11 @@ onPullDownRefresh(async () => {
   <view v-if="!loading" class="orders-page">
     <u-alert v-if="errorMessage" type="error" :description="errorMessage" :custom-style="{ margin: '24rpx 28rpx 0' }" />
 
-    <u-empty v-if="orders.length === 0 && !errorMessage" mode="list" text="仅显示在线购卡记录哦" />
+    <u-empty v-if="orders.length === 0 && !errorMessage" mode="list" text="暂无购卡记录" />
 
     <view v-for="order in orders" :key="order.id" class="order-wrap" @tap="openOrder(order.id)">
       <view class="title-wrap">
-        <view class="entry">{{ order.channel === "offline" ? "线下支付" : "在线购卡" }}</view>
+        <view class="entry">{{ orderChannelLabel(order) }}</view>
         <view class="state" :class="orderStateClass(order.status)">{{ orderStateText(order.status) }}</view>
       </view>
 

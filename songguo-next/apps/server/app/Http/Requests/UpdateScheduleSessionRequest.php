@@ -22,6 +22,12 @@ class UpdateScheduleSessionRequest extends ApiFormRequest
             'sessionKind' => ['sometimes', 'string', 'in:group,private'],
             'displayColor' => ['sometimes', 'nullable', 'string', 'max:24'],
             'acknowledgeGroupOverlap' => ['sometimes', 'boolean'],
+            'deliveryAssignments' => ['sometimes', 'array', 'min:1'],
+            'deliveryAssignments.*.staffId' => ['required', 'integer', 'min:1'],
+            'deliveryAssignments.*.compensationRoleId' => ['required', 'integer', 'min:1'],
+            'deliveryAssignments.*.allocationBps' => ['required', 'integer', 'min:1', 'max:10000'],
+            'deliveryAssignments.*.isPrimary' => ['sometimes', 'boolean'],
+            'assignmentCommandKey' => ['required_with:deliveryAssignments', 'uuid'],
         ];
     }
 

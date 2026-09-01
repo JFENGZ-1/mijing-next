@@ -66,7 +66,7 @@
 		{
 			"path": "pages/settings/courses/card-fee",
 			"style": {
-				"navigationBarTitleText": "设置课时费",
+				"navigationBarTitleText": "课程扣卡规则",
 				"navigationBarBackgroundColor": "#FBD128",
 				"navigationBarTextStyle": "black",
 				"backgroundColor": "#FBD128"
@@ -139,8 +139,16 @@
 			}
 		},
 		{
+			"path": "pages/members/card-share-assignments",
+			"style": { "navigationBarTitleText": "耗卡分成归属", "enablePullDownRefresh": true }
+		},
+		{
 			"path": "pages/members/issue-card",
 			"style": { "navigationBarTitleText": "发卡" }
+		},
+		{
+			"path": "pages/members/wallet",
+			"style": { "navigationBarTitleText": "会员钱包" }
 		},
 		{
 			"path": "pages/members/form",
@@ -375,6 +383,26 @@
 			}
 		},
 		{
+			"path": "pages/settings/business-roles/index",
+			"style": { "navigationBarTitleText": "业务角色", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/business-roles/edit",
+			"style": { "navigationBarTitleText": "编辑业务角色" }
+		},
+		{
+			"path": "pages/settings/business-roles/assignments",
+			"style": { "navigationBarTitleText": "员工业务角色", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/compensation/index",
+			"style": { "navigationBarTitleText": "课程薪酬", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/settings/compensation/course-rule",
+			"style": { "navigationBarTitleText": "课程薪酬规则" }
+		},
+		{
 			"path": "pages/settings/card-products/index",
 			"style": {
 				"navigationBarTitleText": "会员卡种类",
@@ -391,7 +419,7 @@
 		{
 			"path": "pages/settings/card-products/course-matrix",
 			"style": {
-				"navigationBarTitleText": "设置支持的课及课时费",
+				"navigationBarTitleText": "卡课扣费规则",
 				"navigationBarBackgroundColor": "#FBD128",
 				"navigationBarTextStyle": "black",
 				"backgroundColor": "#FBD128",
@@ -484,6 +512,18 @@
 		{
 			"path": "pages/report/payroll/index",
 			"style": { "navigationBarTitleText": "工资报表", "enablePullDownRefresh": true }
+		},
+		{
+			"path": "pages/report/consumption/index",
+			"style": { "navigationBarTitleText": "耗卡与提成", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
+		},
+		{
+			"path": "pages/report/consumption/detail",
+			"style": { "navigationBarTitleText": "耗卡结算明细" }
+		},
+		{
+			"path": "pages/report/payroll-periods/index",
+			"style": { "navigationBarTitleText": "月结与关账", "enablePullDownRefresh": true }
 		},
 		{
 			"path": "pages/report/payroll/config/index",

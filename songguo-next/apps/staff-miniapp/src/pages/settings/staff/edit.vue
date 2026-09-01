@@ -37,6 +37,7 @@ const isEdit = computed(() => staffId.value !== null);
 const canWrite = computed(() => session.can("staff.directory.write"));
 const canDepart = computed(() => session.can("staff.departure.soft"));
 const canTransfer = computed(() => session.can("staff.directory.transfer-ownership"));
+const canWriteBusinessRoles = computed(() => session.can("compensation.role.write"));
 const isSiteOwner = computed(() => member.value?.isSiteOwner ?? false);
 const isDeparted = computed(() => member.value?.status === "departed");
 
@@ -121,6 +122,18 @@ function submitIdentity() {
   coachChecked.value = draftCoach.value;
   salesChecked.value = draftSales.value;
   identityVisible.value = false;
+}
+
+function openBusinessRoles() {
+  if (!canWriteBusinessRoles.value) {
+    uni.showToast({ title: "暂无员工业务角色分配权限", icon: "none" });
+    return;
+  }
+  if (!staffId.value) {
+    uni.showToast({ title: "请先保存员工，再分配业务角色", icon: "none" });
+    return;
+  }
+  uni.navigateTo({ url: `/pages/settings/business-roles/assignments?staffId=${staffId.value}` });
 }
 
 function onCoachSwitch(event: { detail: { value: boolean } }) {
@@ -491,6 +504,11 @@ onShow(async () => {
           <view class="p-row" @tap="openIdentity">
             <text class="p-label required">身份</text>
             <text class="p-value" :class="{ placeholder: !identName }">{{ identName || "请选择" }}</text>
+            <u-icon name="arrow-right" size="15" color="#bfbfbf" />
+          </view>
+          <view v-if="canWriteBusinessRoles" class="p-row" @tap="openBusinessRoles">
+            <text class="p-label">业务角色</text>
+            <text class="p-value">A / B 多角色分配</text>
             <u-icon name="arrow-right" size="15" color="#bfbfbf" />
           </view>
           <view class="p-row last" @tap="openPermission">

@@ -122,6 +122,7 @@ const canCountAdjust = computed(() => session.can("member-card.count.adjust"));
 const canArchive = computed(() => session.can("member-card.archive"));
 const canHolidayManage = computed(() => session.can("member-card.holiday.manage"));
 const canValidityExtend = computed(() => session.can("member-card.validity.extend"));
+const canReadShareAssignments = computed(() => session.can("compensation.rule.read"));
 
 const isStoredValue = computed(() => card.value?.cardType === "stored_value");
 const isCount = computed(() => card.value?.cardType === "count");
@@ -334,6 +335,15 @@ function goBack() {
   const pages = getCurrentPages();
   if (pages.length > 1) uni.navigateBack();
   else uni.switchTab({ url: "/pages/settings/hub/index" });
+}
+
+function openShareAssignments() {
+  if (!memberCardId.value || !canReadShareAssignments.value) {
+    uni.showToast({ title: "暂无耗卡分成归属查看权限", icon: "none" });
+    return;
+  }
+  const name = encodeURIComponent(card.value?.name || "会员卡");
+  uni.navigateTo({ url: `/pages/members/card-share-assignments?memberCardId=${memberCardId.value}&name=${name}` });
 }
 
 function onTabChange(e: { index: number }) {
@@ -970,6 +980,10 @@ onShow(async () => {
               <view class="manage-item" @tap="onManageTap(7)">
                 <u-icon name="edit-pen" size="28" color="#181818" />
                 <text>卡备注</text>
+              </view>
+              <view v-if="canReadShareAssignments" class="manage-item" @tap="openShareAssignments">
+                <u-icon name="account-fill" size="28" color="#181818" />
+                <text>分成归属</text>
               </view>
               <view class="manage-item" @tap="onManageTap(6)">
                 <u-icon name="trash" size="28" color="#181818" />

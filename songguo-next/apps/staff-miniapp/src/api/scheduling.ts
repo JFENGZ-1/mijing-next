@@ -11,6 +11,9 @@ import type {
   ScheduleSession,
   ScheduleSessionColorPalette,
   ScheduleSessionCreateInput,
+  ScheduleSessionDeliveryAssignment,
+  ScheduleSessionDeliveryAssignmentsInput,
+  ScheduleSessionDeliveryAssignmentsResult,
   ScheduleSessionUpdateInput,
   StaffAppointment,
   StaffAppointmentList,
@@ -25,6 +28,46 @@ import type {
 
 function sitePath(siteId: number, suffix: string) {
   return `/staff/sites/${siteId}${suffix}`;
+}
+
+type ScheduleSessionWire = Omit<ScheduleSession, "deliveryAssignments"> & {
+  deliveryAssignments?: DeliveryAssignmentWire[];
+};
+
+interface DeliveryAssignmentWire {
+    id?: number;
+    staffId: number;
+    staffName?: string | null;
+    compensationRoleId?: number;
+    roleId?: number;
+    roleName?: string | null;
+    allocationBps?: number;
+    allocationBasisPoints?: number;
+    isPrimary?: boolean;
+}
+
+function mapDeliveryAssignment(assignment: DeliveryAssignmentWire): ScheduleSessionDeliveryAssignment | null {
+  const compensationRoleId = assignment.compensationRoleId ?? assignment.roleId;
+  if (!compensationRoleId) return null;
+  return {
+    id: assignment.id,
+    staffId: Number(assignment.staffId),
+    staffName: assignment.staffName,
+    compensationRoleId: Number(compensationRoleId),
+    roleName: assignment.roleName,
+    allocationBps: Number(assignment.allocationBps ?? assignment.allocationBasisPoints ?? 10000),
+    isPrimary: assignment.isPrimary,
+  };
+}
+
+function mapScheduleSession(value: ScheduleSessionWire): ScheduleSession {
+  return {
+    ...value,
+    deliveryAssignments: (value.deliveryAssignments ?? []).flatMap((assignment) => {
+      const mapped = mapDeliveryAssignment(assignment);
+      return mapped ? [mapped] : [];
+    }),
+  };
 }
 
 export async function fetchStaffBookingDailyBoard(siteId: number, date: string) {
@@ -43,10 +86,10 @@ export async function fetchStaffScheduleSessions(siteId: number, from: string, t
 }
 
 export async function fetchStaffScheduleSession(siteId: number, sessionId: number) {
-  const response = await useApiClient().request<ScheduleSession>(
+  const response = await useApiClient().request<ScheduleSessionWire>(
     sitePath(siteId, `/schedule-sessions/${sessionId}`),
   );
-  return response.data;
+  return mapScheduleSession(response.data);
 }
 
 export async function fetchStaffSessionWaitlist(siteId: number, sessionId: number) {
@@ -209,11 +252,11 @@ export async function createStaffAppointment(
 }
 
 export async function createStaffScheduleSession(siteId: number, payload: ScheduleSessionCreateInput) {
-  const response = await useApiClient().request<ScheduleSession>(sitePath(siteId, "/schedule-sessions"), {
+  const response = await useApiClient().request<ScheduleSessionWire>(sitePath(siteId, "/schedule-sessions"), {
     method: "POST",
     data: payload,
   });
-  return response.data;
+  return mapScheduleSession(response.data);
 }
 
 export async function updateStaffScheduleSession(
@@ -221,14 +264,38 @@ export async function updateStaffScheduleSession(
   sessionId: number,
   payload: ScheduleSessionUpdateInput,
 ) {
-  const response = await useApiClient().request<ScheduleSession>(
+  const response = await useApiClient().request<ScheduleSessionWire>(
     sitePath(siteId, `/schedule-sessions/${sessionId}`),
     {
       method: "PATCH" as UniApp.RequestOptions["method"],
       data: payload,
     },
   );
-  return response.data;
+  return mapScheduleSession(response.data);
+}
+
+export async function replaceStaffScheduleSessionDeliveryAssignments(
+  siteId: number,
+  sessionId: number,
+  payload: ScheduleSessionDeliveryAssignmentsInput,
+) {
+  const response = await useApiClient().request<{
+    sessionId: number;
+    version: number;
+    assignments: DeliveryAssignmentWire[];
+  }>(sitePath(siteId, `/schedule-sessions/${sessionId}/delivery-assignments`), {
+    method: "PUT",
+    data: payload,
+  });
+  const result: ScheduleSessionDeliveryAssignmentsResult = {
+    sessionId: Number(response.data.sessionId),
+    version: Number(response.data.version),
+    assignments: (response.data.assignments ?? []).flatMap((assignment) => {
+      const mapped = mapDeliveryAssignment(assignment);
+      return mapped ? [mapped] : [];
+    }),
+  };
+  return result;
 }
 
 export async function batchCopyStaffScheduleSessions(siteId: number, payload: ScheduleBatchCopyInput) {

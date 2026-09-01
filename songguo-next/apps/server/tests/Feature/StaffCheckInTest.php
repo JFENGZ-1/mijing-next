@@ -10,7 +10,6 @@ use App\Enums\ScheduleSessionStatus;
 use App\Models\Account;
 use App\Models\Appointment;
 use App\Models\BookingPolicy;
-use App\Services\Booking\BookingPolicyService;
 use App\Models\Course;
 use App\Models\Member;
 use App\Models\Permission;
@@ -20,6 +19,7 @@ use App\Models\ScheduleSession;
 use App\Models\Site;
 use App\Models\Staff;
 use App\Models\Tenant;
+use App\Services\Booking\BookingPolicyService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
@@ -128,6 +128,11 @@ class StaffCheckInTest extends TestCase
             'catalog_status' => CourseCatalogStatus::Active,
             'duration_minutes' => 60,
         ]);
+        // Keep the fixture on the current site-local calendar day. Using
+        // `now()->addHour()` makes this test create tomorrow's session when
+        // the suite runs after 23:00, while the endpoint correctly queries
+        // today's appointments.
+        $startsAt = now()->startOfMinute();
         $session = ScheduleSession::create([
             'tenant_id' => $tenant->id,
             'site_id' => $site->id,
@@ -136,8 +141,8 @@ class StaffCheckInTest extends TestCase
             'coach_staff_id' => $staff->id,
             'session_kind' => ScheduleSessionKind::Group,
             'status' => ScheduleSessionStatus::Scheduled,
-            'starts_at' => now()->addHour(),
-            'ends_at' => now()->addHours(2),
+            'starts_at' => $startsAt,
+            'ends_at' => $startsAt->copy()->addHour(),
             'capacity' => 10,
         ]);
         $appointment = Appointment::create([

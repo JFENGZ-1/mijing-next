@@ -6318,6 +6318,7 @@ paths:
         "422": { $ref: "#/components/responses/ValidationFailed" }
         "503": { $ref: "#/components/responses/ServiceUnavailable" }
   /staff/sites/{site}/member-cards/batch-balance-adjustments:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     post:
       operationId: batchBalanceAdjustStaffMemberCards
       x-required-client: staff
@@ -6326,6 +6327,7 @@ paths:
       responses:
         "201": { description: Created }
   /staff/sites/{site}/member-cards/batch-validity-extensions:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     post:
       operationId: batchValidityExtendStaffMemberCards
       x-required-client: staff
@@ -6334,6 +6336,7 @@ paths:
       responses:
         "201": { description: Created }
   /staff/sites/{site}/member-cards/batch-freeze:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     post:
       operationId: batchFreezeStaffMemberCards
       x-required-client: staff
@@ -6342,6 +6345,7 @@ paths:
       responses:
         "201": { description: Created }
   /staff/sites/{site}/member-cards/batch-unfreeze:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     post:
       operationId: batchUnfreezeStaffMemberCards
       x-required-client: staff
@@ -6350,6 +6354,9 @@ paths:
       responses:
         "201": { description: Created }
   /staff/sites/{site}/member-cards/{memberCard}/holiday-last:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberCardId" }
     get:
       operationId: getStaffMemberCardHolidayLast
       x-required-client: staff
@@ -6358,6 +6365,9 @@ paths:
       responses:
         "200": { description: OK }
   /staff/sites/{site}/member-cards/{memberCard}/freeze-ledger-last:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberCardId" }
     get:
       operationId: getStaffMemberCardFreezeLedgerLast
       x-required-client: staff
@@ -6366,6 +6376,9 @@ paths:
       responses:
         "200": { description: OK }
   /staff/sites/{site}/member-cards/{memberCard}/default-fee:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberCardId" }
     get:
       operationId: getStaffMemberCardDefaultFee
       x-required-client: staff
@@ -6374,6 +6387,9 @@ paths:
       responses:
         "200": { description: OK }
   /staff/sites/{site}/member-cards/{memberCard}/dynamic-fields:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberCardId" }
     get:
       operationId: getStaffMemberCardDynamicFields
       x-required-client: staff
@@ -6382,6 +6398,9 @@ paths:
       responses:
         "200": { description: OK }
   /staff/sites/{site}/member-cards/{memberCard}/opening-type:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberCardId" }
     patch:
       operationId: patchStaffMemberCardOpeningType
       x-required-client: staff
@@ -6390,6 +6409,9 @@ paths:
       responses:
         "200": { description: OK }
   /staff/sites/{site}/member-cards/{memberCard}/remark:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberCardId" }
     patch:
       operationId: patchStaffMemberCardRemark
       x-required-client: staff
@@ -6398,6 +6420,9 @@ paths:
       responses:
         "200": { description: OK }
   /staff/sites/{site}/card-products/{cardProduct}/group-history:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CardProductId" }
     get:
       operationId: getStaffCardProductGroupHistory
       x-required-client: staff
@@ -6406,6 +6431,7 @@ paths:
       responses:
         "200": { description: OK }
   /staff/sites/{site}/card-products/face-library:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     get:
       operationId: getStaffCardProductFaceLibrary
       x-required-client: staff
@@ -6414,6 +6440,7 @@ paths:
       responses:
         "200": { description: OK }
   /staff/sites/{site}/card-products/export-jobs:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     post:
       operationId: createStaffCardProductExportJob
       x-required-client: staff
@@ -6422,6 +6449,7 @@ paths:
       responses:
         "201": { description: Created }
   /staff/sites/{site}/course-tags:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     get:
       operationId: getStaffCourseTags
       x-required-client: staff
@@ -6437,6 +6465,9 @@ paths:
       responses:
         "200": { description: OK }
   /staff/sites/{site}/courses/{course}/delete-preflight:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CourseId" }
     get:
       operationId: getStaffCourseDeletePreflight
       x-required-client: staff
@@ -6445,6 +6476,7 @@ paths:
       responses:
         "200": { description: OK }
   /staff/sites/{site}/points-config:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     get:
       operationId: getStaffPointsConfig
       x-required-client: staff
@@ -6460,6 +6492,7 @@ paths:
       responses:
         "200": { description: OK }
   /staff/sites/{site}/ledger-reconciliation-jobs:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     get:
       operationId: listStaffLedgerReconciliationJobs
       x-required-client: staff
@@ -6475,6 +6508,9 @@ paths:
       responses:
         "201": { description: Created }
   /staff/sites/{site}/orders/{order}/internal-notes:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/OrderId" }
     post:
       operationId: appendStaffOrderInternalNote
       x-required-client: staff
@@ -6491,6 +6527,7 @@ paths:
       responses:
         "201": { description: Created }
   /staff/sites/{site}/reports/calendar/month-options:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     get:
       operationId: getStaffReportCalendarMonthOptions
       x-required-client: staff
@@ -6507,6 +6544,7 @@ paths:
       responses:
         "200": { description: OK }
   /member/sites/{site}/closure-status:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     get:
       operationId: getMemberSiteClosureStatus
       x-required-client: member
@@ -6515,11 +6553,13 @@ paths:
       responses:
         "200": { description: OK }
   /public/booking/warm-hint/sites/{site}:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
     get:
       operationId: getPublicBookingWarmHint
       responses:
         "200": { description: OK }
   /member/booking/appointments/{appointment}/promote:
+    parameters: [{ $ref: "#/components/parameters/AppointmentId" }]
     post:
       operationId: promoteMemberWaitlistAppointment
       x-required-client: member
@@ -6527,6 +6567,846 @@ paths:
         - bearerAuth: []
       responses:
         "200": { description: OK }
+  /member/wallet:
+    get:
+      operationId: getMemberWallet
+      x-required-client: member
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: tenantId, in: query, required: true, schema: { type: integer, minimum: 1 } }
+        - { name: ledgerLimit, in: query, schema: { type: integer, minimum: 0, maximum: 100, default: 20 } }
+      responses:
+        "200": { description: Current member wallet balance in integer cents and immutable ledger entries, content: { application/json: { schema: { $ref: "#/components/schemas/MemberWalletEnvelope" } } } }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /member/consumption-settlements:
+    get:
+      operationId: listMemberConsumptionSettlements
+      x-required-client: member
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: tenantId, in: query, required: true, schema: { type: integer, minimum: 1 } }
+        - { name: from, in: query, schema: { type: string, format: date, nullable: true } }
+        - { name: to, in: query, schema: { type: string, format: date, nullable: true } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/ConsumptionDisplayStatus" } }
+        - { name: memberCardId, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: page, in: query, schema: { type: integer, minimum: 1, default: 1 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+      responses:
+        "200": { description: Member-facing consumption history with no staff compensation disclosure, content: { application/json: { schema: { $ref: "#/components/schemas/MemberConsumptionSettlementListEnvelope" } } } }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/compensation-roles:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
+    get:
+      operationId: listStaffCompensationRoles
+      x-required-client: staff
+      x-required-permission: compensation.role.read
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/CatalogRecordStatus" } }
+        - { name: roleType, in: query, schema: { $ref: "#/components/schemas/CompensationRoleType" } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+      responses:
+        "200": { description: Business compensation roles, content: { application/json: { schema: { $ref: "#/components/schemas/CompensationRoleListEnvelope" } } } }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createStaffCompensationRole
+      x-required-client: staff
+      x-required-permission: compensation.role.write
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateCompensationRoleRequest" } } } }
+      responses:
+        "201": { description: Compensation role created idempotently, content: { application/json: { schema: { $ref: "#/components/schemas/CompensationRoleEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/compensation-roles/{compensationRole}:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CompensationRoleId" }
+    put:
+      operationId: updateStaffCompensationRole
+      x-required-client: staff
+      x-required-permission: compensation.role.write
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateCompensationRoleRequest" } } } }
+      responses:
+        "200": { description: Compensation role updated using optimistic locking, content: { application/json: { schema: { $ref: "#/components/schemas/CompensationRoleEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/compensation-roles/{compensationRole}/archive:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CompensationRoleId" }
+    post:
+      operationId: archiveStaffCompensationRole
+      x-required-client: staff
+      x-required-permission: compensation.role.write
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/VersionedOptionalReasonCommandRequest" } } } }
+      responses:
+        "200": { description: Compensation role archived while historical settlements remain immutable, content: { application/json: { schema: { $ref: "#/components/schemas/CompensationRoleEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/staff-directory/{staffMember}/compensation-roles:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/StaffMemberId" }
+    get:
+      operationId: listStaffCompensationRoleAssignments
+      x-required-client: staff
+      x-required-permission: compensation.role.read
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Current, scheduled and recently expired role assignments for one staff member, content: { application/json: { schema: { $ref: "#/components/schemas/StaffCompensationRoleAssignmentListEnvelope" } } } }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      operationId: replaceStaffCompensationRoleAssignments
+      x-required-client: staff
+      x-required-permission: compensation.role.write
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ReplaceStaffCompensationRoleAssignmentsRequest" } } } }
+      responses:
+        "200": { description: Effective-dated staff business roles replaced idempotently, content: { application/json: { schema: { $ref: "#/components/schemas/StaffCompensationRoleAssignmentListEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/members/{member}/wallet:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberId" }
+    get:
+      operationId: getStaffMemberWallet
+      x-required-client: staff
+      x-required-permission: wallet.read
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: ledgerLimit, in: query, schema: { type: integer, minimum: 0, maximum: 100, default: 20 } }
+      responses:
+        "200": { description: Member wallet balance and immutable ledger, content: { application/json: { schema: { $ref: "#/components/schemas/MemberWalletEnvelope" } } } }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /staff/sites/{site}/members/{member}/wallet-adjustments:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberId" }
+    post:
+      operationId: adjustStaffMemberWallet
+      x-required-client: staff
+      x-required-permission: wallet.adjust
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/WalletAdjustmentRequest" } } } }
+      responses:
+        "200": { description: Idempotent replay of a wallet adjustment, content: { application/json: { schema: { $ref: "#/components/schemas/WalletAdjustmentEnvelope" } } } }
+        "201": { description: Wallet adjustment appended, content: { application/json: { schema: { $ref: "#/components/schemas/WalletAdjustmentEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/card-products/{cardProduct}/course-rules:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CardProductId" }
+    get:
+      operationId: getStaffCardCourseRules
+      x-required-client: staff
+      x-required-permission: compensation.rule.read
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Deduction rules for every course linked to the card product, content: { application/json: { schema: { $ref: "#/components/schemas/CardCourseRuleSetEnvelope" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      operationId: replaceStaffCardCourseRules
+      x-required-client: staff
+      x-required-permission: compensation.rule.write
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ReplaceStaffCardCourseRulesRequest" } } } }
+      responses:
+        "200": { description: Full card-course rule set replaced using aggregate version locking, content: { application/json: { schema: { $ref: "#/components/schemas/CardCourseRuleSetEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/courses/{course}/compensation-rules:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CourseId" }
+    get:
+      operationId: getStaffCourseCompensationRule
+      x-required-client: staff
+      x-required-permission: compensation.rule.read
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Latest active or scheduled course compensation rule, content: { application/json: { schema: { $ref: "#/components/schemas/CourseCompensationRuleEnvelope" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      operationId: saveStaffCourseCompensationRule
+      x-required-client: staff
+      x-required-permission: compensation.rule.write
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/SaveCourseCompensationRuleRequest" } } } }
+      responses:
+        "200": { description: New immutable course compensation rule version saved, content: { application/json: { schema: { $ref: "#/components/schemas/CourseCompensationRuleEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/schedule-sessions/{session}/delivery-assignments:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/ScheduleSessionId" }
+    put:
+      operationId: replaceStaffScheduleSessionDeliveryAssignments
+      x-required-client: staff
+      x-required-permission: schedule.session.write
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ReplaceSessionDeliveryAssignmentsRequest" } } } }
+      responses:
+        "200": { description: One or more A-type delivery assignments saved for the session, content: { application/json: { schema: { $ref: "#/components/schemas/SessionDeliveryAssignmentSetEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/member-cards/{memberCard}/share-assignments:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberCardId" }
+    get:
+      operationId: listStaffMemberCardShareAssignments
+      x-required-client: staff
+      x-required-permission: compensation.rule.read
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Effective-dated B-type share assignments for a member card, content: { application/json: { schema: { $ref: "#/components/schemas/MemberCardShareAssignmentListEnvelope" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      operationId: replaceStaffMemberCardShareAssignments
+      x-required-client: staff
+      x-required-permission: compensation.rule.write
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ReplaceMemberCardShareAssignmentsRequest" } } } }
+      responses:
+        "200": { description: Full B-type share assignment set replaced using card scope version, content: { application/json: { schema: { $ref: "#/components/schemas/MemberCardShareAssignmentListEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/appointments/{appointment}/consumption-preview:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/AppointmentId" }
+    get:
+      operationId: previewStaffAppointmentConsumption
+      x-required-client: staff
+      x-required-permission: consumption.read
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Preview card deduction and estimated value without posting, content: { application/json: { schema: { $ref: "#/components/schemas/ConsumptionPreviewEnvelope" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /staff/sites/{site}/appointments/{appointment}/consumption-settlement:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/AppointmentId" }
+    get:
+      operationId: getStaffAppointmentConsumptionSettlement
+      x-required-client: staff
+      x-required-permission: consumption.read
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Existing settlement or null, content: { application/json: { schema: { $ref: "#/components/schemas/NullableConsumptionSettlementEnvelope" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: settleStaffAppointmentConsumption
+      x-required-client: staff
+      x-required-permission: consumption.adjust
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Appointment consumption settled idempotently after completion, content: { application/json: { schema: { $ref: "#/components/schemas/NullableConsumptionSettlementEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/consumption-settlements:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
+    get:
+      operationId: listStaffConsumptionSettlements
+      x-required-client: staff
+      x-required-permission: consumption.read
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: from, in: query, schema: { type: string, format: date } }
+        - { name: to, in: query, schema: { type: string, format: date } }
+        - { name: memberId, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: courseId, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: memberCardId, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: coachStaffId, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/ConsumptionDisplayStatus" } }
+        - { name: dimension, in: query, schema: { $ref: "#/components/schemas/ConsumptionReportDimension" } }
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+      responses:
+        "200": { description: Settlement rows or a requested aggregation dimension, content: { application/json: { schema: { $ref: "#/components/schemas/StaffConsumptionSettlementListEnvelope" } } } }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/consumption-settlements/{event}:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/ConsumptionEventId" }
+    get:
+      operationId: getStaffConsumptionSettlement
+      x-required-client: staff
+      x-required-permission: consumption.read
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Settlement formula snapshot and compensation lines, content: { application/json: { schema: { $ref: "#/components/schemas/ConsumptionSettlementEnvelope" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /staff/sites/{site}/consumption-settlements/{event}/reverse:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/ConsumptionEventId" }
+    post:
+      operationId: reverseStaffConsumptionSettlement
+      x-required-client: staff
+      x-required-permission: consumption.adjust
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ReasonedCommandRequest" } } } }
+      responses:
+        "200": { description: Settlement reversed with immutable counter-ledger entries, content: { application/json: { schema: { $ref: "#/components/schemas/ConsumptionSettlementEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/payroll-periods:
+    parameters: [{ $ref: "#/components/parameters/SiteId" }]
+    get:
+      operationId: listStaffPayrollPeriods
+      x-required-client: staff
+      x-required-permission: payroll.period.close
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: year, in: query, schema: { type: integer, minimum: 2000, maximum: 2200 } }
+        - { name: month, in: query, schema: { type: integer, minimum: 1, maximum: 12 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+      responses:
+        "200": { description: Payroll periods with close readiness and cent totals, content: { application/json: { schema: { $ref: "#/components/schemas/PayrollPeriodListEnvelope" } } } }
+    post:
+      operationId: createStaffPayrollPeriod
+      x-required-client: staff
+      x-required-permission: payroll.period.close
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateStaffPayrollPeriodRequest" } } } }
+      responses:
+        "201": { description: Non-overlapping payroll period created, content: { application/json: { schema: { $ref: "#/components/schemas/PayrollPeriodEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /staff/sites/{site}/payroll-periods/{period}/close:
+    parameters:
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/PayrollPeriodId" }
+    post:
+      operationId: closeStaffPayrollPeriod
+      x-required-client: staff
+      x-required-permission: payroll.period.close
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CloseStaffPayrollPeriodRequest" } } } }
+      responses:
+        "200": { description: Payroll period closed after all period-day buckets are final, content: { application/json: { schema: { $ref: "#/components/schemas/PayrollPeriodEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites:
+    parameters: [{ $ref: "#/components/parameters/TenantId" }]
+    get:
+      operationId: listAdminTenantSites
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { type: string, maxLength: 24 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+      responses:
+        "200": { description: Sites belonging to the selected tenant, content: { application/json: { schema: { $ref: "#/components/schemas/AdminSiteListEnvelope" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /admin/tenants/{tenant}/sites/{site}/card-consumption/options:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: getAdminCardConsumptionOptions
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Bounded selector options for card consumption governance, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCardConsumptionOptionsEnvelope" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /admin/tenants/{tenant}/sites/{site}/compensation-roles:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminCompensationRoles
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/CatalogRecordStatus" } }
+        - { name: roleType, in: query, schema: { $ref: "#/components/schemas/CompensationRoleType" } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Site-scoped A and B business roles, content: { application/json: { schema: { $ref: "#/components/schemas/CompensationRoleListEnvelope" } } } }
+    post:
+      operationId: createAdminCompensationRole
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateCompensationRoleRequest" } } } }
+      responses:
+        "201": { description: Compensation role created, content: { application/json: { schema: { $ref: "#/components/schemas/CompensationRoleEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/compensation-roles/{compensationRole}:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CompensationRoleId" }
+    put:
+      operationId: updateAdminCompensationRole
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateCompensationRoleRequest" } } } }
+      responses:
+        "200": { description: Compensation role updated, content: { application/json: { schema: { $ref: "#/components/schemas/CompensationRoleEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/compensation-roles/{compensationRole}/archive:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CompensationRoleId" }
+    post:
+      operationId: archiveAdminCompensationRole
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/VersionedCommandRequest" } } } }
+      responses:
+        "200": { description: Role archived without changing historical snapshots, content: { application/json: { schema: { $ref: "#/components/schemas/CompensationRoleEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/compensation-role-assignments:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminCompensationRoleAssignments
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/CatalogRecordStatus" } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Effective-dated staff business role assignments, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCompensationRoleAssignmentListEnvelope" } } } }
+    post:
+      operationId: createAdminCompensationRoleAssignment
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateAdminCompensationRoleAssignmentRequest" } } } }
+      responses:
+        "201": { description: Staff business role assignment created, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCompensationRoleAssignmentEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/compensation-role-assignments/{assignment}/end:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/AssignmentId" }
+    post:
+      operationId: endAdminCompensationRoleAssignment
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/EndCompensationRoleAssignmentRequest" } } } }
+      responses:
+        "200": { description: Assignment ended on the requested effective date, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCompensationRoleAssignmentEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/member-card-share-assignments:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminMemberCardShareAssignments
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/CatalogRecordStatus" } }
+        - { name: memberCardId, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: B-type share assignments with member-card aggregate version, content: { application/json: { schema: { $ref: "#/components/schemas/AdminMemberCardShareAssignmentListEnvelope" } } } }
+    post:
+      operationId: createAdminMemberCardShareAssignment
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateAdminMemberCardShareAssignmentRequest" } } } }
+      responses:
+        "201": { description: B-type share assignment appended through aggregate replacement, content: { application/json: { schema: { $ref: "#/components/schemas/MemberCardShareAssignmentListEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/member-card-share-assignments/{assignment}/end:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/AssignmentId" }
+    post:
+      operationId: endAdminMemberCardShareAssignment
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ExpectedVersionCommandRequest" } } } }
+      responses:
+        "200": { description: B-type assignment ended idempotently, content: { application/json: { schema: { $ref: "#/components/schemas/MemberCardShareAssignmentListEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/member-cards/{memberCard}/share-assignments:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberCardId" }
+    put:
+      operationId: replaceAdminMemberCardShareAssignments
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ReplaceMemberCardShareAssignmentsRequest" } } } }
+      responses:
+        "200": { description: Full B-type assignment set replaced, content: { application/json: { schema: { $ref: "#/components/schemas/MemberCardShareAssignmentListEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/delivery-assignments:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminSessionDeliveryAssignments
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: sessionId, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: from, in: query, schema: { type: string, format: date } }
+        - { name: to, in: query, schema: { type: string, format: date } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Multi-A session delivery assignments, content: { application/json: { schema: { $ref: "#/components/schemas/AdminSessionDeliveryAssignmentListEnvelope" } } } }
+  /admin/tenants/{tenant}/sites/{site}/sessions/{session}/delivery-assignments:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/ScheduleSessionId" }
+    put:
+      operationId: replaceAdminSessionDeliveryAssignments
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ReplaceAdminSessionDeliveryAssignmentsRequest" } } } }
+      responses:
+        "200": { description: Session A-type assignments replaced with session version locking, content: { application/json: { schema: { $ref: "#/components/schemas/SessionDeliveryAssignmentSetEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/card-products:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminCardProducts
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/CardProductCatalogStatus" } }
+        - { name: saleStatus, in: query, schema: { $ref: "#/components/schemas/CardProductSaleStatus" } }
+        - { name: cardType, in: query, schema: { $ref: "#/components/schemas/CardType" } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Site card products with cent-denominated finance fields, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCardProductListEnvelope" } } } }
+    post:
+      operationId: createAdminCardProduct
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateAdminCardProductRequest" } } } }
+      responses:
+        "201": { description: Card product created, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCardProductEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/card-products/{cardProduct}:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CardProductId" }
+    put:
+      operationId: updateAdminCardProduct
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateAdminCardProductRequest" } } } }
+      responses:
+        "200": { description: Card product updated with optimistic locking, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCardProductEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/card-products/{cardProduct}/archive:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CardProductId" }
+    post:
+      operationId: archiveAdminCardProduct
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/VersionedCommandRequest" } } } }
+      responses:
+        "200": { description: Card product archived, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCardProductEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /admin/tenants/{tenant}/sites/{site}/card-products/{cardProduct}/restore:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CardProductId" }
+    post:
+      operationId: restoreAdminCardProduct
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/VersionedCommandRequest" } } } }
+      responses:
+        "200": { description: Card product restored, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCardProductEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /admin/tenants/{tenant}/sites/{site}/courses:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminCourses
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/CourseCatalogStatus" } }
+        - { name: courseType, in: query, schema: { $ref: "#/components/schemas/CourseType" } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Site course catalog, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCourseListEnvelope" } } } }
+    post:
+      operationId: createAdminCourse
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateAdminCourseRequest" } } } }
+      responses:
+        "201": { description: Course created, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCourseEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/courses/{course}:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CourseId" }
+    put:
+      operationId: updateAdminCourse
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateAdminCourseRequest" } } } }
+      responses:
+        "200": { description: Course updated with optimistic locking, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCourseEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/courses/{course}/archive:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CourseId" }
+    post:
+      operationId: archiveAdminCourse
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/VersionedCommandRequest" } } } }
+      responses:
+        "200": { description: Course archived, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCourseEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /admin/tenants/{tenant}/sites/{site}/courses/{course}/restore:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CourseId" }
+    post:
+      operationId: restoreAdminCourse
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/VersionedCommandRequest" } } } }
+      responses:
+        "200": { description: Course restored, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCourseEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /admin/tenants/{tenant}/sites/{site}/card-product-payment-methods:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminCardProductPaymentMethods
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { type: string, maxLength: 32 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Allowed purchase methods per card product, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCardProductPaymentMethodListEnvelope" } } } }
+  /admin/tenants/{tenant}/sites/{site}/card-products/{cardProduct}/payment-methods:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CardProductId" }
+    put:
+      operationId: updateAdminCardProductPaymentMethods
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateCardProductPaymentMethodsRequest" } } } }
+      responses:
+        "200": { description: Online and balance purchase methods updated, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCardProductPaymentMethodEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/card-course-rules:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminCardCourseRules
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Card products and their current or scheduled course deduction rules, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCardCourseRuleSetListEnvelope" } } } }
+  /admin/tenants/{tenant}/sites/{site}/card-products/{cardProduct}/course-rules:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/CardProductId" }
+    put:
+      operationId: replaceAdminCardCourseRules
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ReplaceAdminCardCourseRulesRequest" } } } }
+      responses:
+        "200": { description: Full card-course rule set replaced, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCardCourseRuleSetEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/course-compensation-rules:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminCourseCompensationRules
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { type: string, enum: [active, scheduled] } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Latest active or scheduled compensation rule per course, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCourseCompensationRuleListEnvelope" } } } }
+    put:
+      operationId: saveAdminCourseCompensationRule
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/SaveAdminCourseCompensationRuleRequest" } } } }
+      responses:
+        "200": { description: Immutable course compensation version saved, content: { application/json: { schema: { $ref: "#/components/schemas/AdminCourseCompensationRuleEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/member-wallets:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminMemberWallets
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { type: string, maxLength: 32 } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Member wallets with cent balances and optimistic versions, content: { application/json: { schema: { $ref: "#/components/schemas/AdminMemberWalletListEnvelope" } } } }
+  /admin/tenants/{tenant}/sites/{site}/member-wallets/{member}/ledger:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberId" }
+    get:
+      operationId: listAdminMemberWalletLedger
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Immutable wallet ledger safe for platform governance, content: { application/json: { schema: { $ref: "#/components/schemas/AdminMemberWalletLedgerListEnvelope" } } } }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /admin/tenants/{tenant}/sites/{site}/member-wallets/{member}/adjustments:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/MemberId" }
+    post:
+      operationId: adjustAdminMemberWallet
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/WalletAdjustmentRequest" } } } }
+      responses:
+        "200": { description: Idempotent replay of wallet adjustment, content: { application/json: { schema: { $ref: "#/components/schemas/AdminWalletAdjustmentEnvelope" } } } }
+        "201": { description: Wallet adjustment appended, content: { application/json: { schema: { $ref: "#/components/schemas/AdminWalletAdjustmentEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/consumption-reports:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminConsumptionReports
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: dimension, in: query, required: true, schema: { $ref: "#/components/schemas/AdminConsumptionReportDimension" } }
+        - { name: status, in: query, schema: { type: string, enum: [provisional, final, adjusted] } }
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: from, in: query, schema: { type: string, format: date } }
+        - { name: to, in: query, schema: { type: string, format: date } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Consumption and compensation aggregated by A, B, member, course or card, content: { application/json: { schema: { $ref: "#/components/schemas/AdminConsumptionReportListEnvelope" } } } }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/consumption-events:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminConsumptionEvents
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/ConsumptionDisplayStatus" } }
+        - { name: from, in: query, schema: { type: string, format: date } }
+        - { name: to, in: query, schema: { type: string, format: date } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Formula snapshots, recipients, value-lot allocations and settlement lines, content: { application/json: { schema: { $ref: "#/components/schemas/AdminConsumptionEventListEnvelope" } } } }
+  /admin/tenants/{tenant}/sites/{site}/consumption-events/{consumptionEvent}/reverse:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/AdminConsumptionEventId" }
+    post:
+      operationId: reverseAdminConsumptionEvent
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ReasonedCommandRequest" } } } }
+      responses:
+        "200": { description: Consumption event reversed with counter-ledger entries, content: { application/json: { schema: { $ref: "#/components/schemas/ConsumptionSettlementEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/period-settlement-days:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminPeriodSettlementDays
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: year, in: query, schema: { type: integer, minimum: 2000, maximum: 2200 } }
+        - { name: month, in: query, schema: { type: integer, minimum: 1, maximum: 12 } }
+        - { name: status, in: query, schema: { type: string, enum: [open, closed] } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Period-card daily value buckets and calculation revisions, content: { application/json: { schema: { $ref: "#/components/schemas/AdminPeriodSettlementDayListEnvelope" } } } }
+  /admin/tenants/{tenant}/sites/{site}/payroll-periods:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+    get:
+      operationId: listAdminPayrollPeriods
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: year, in: query, schema: { type: integer, minimum: 2000, maximum: 2200 } }
+        - { name: status, in: query, schema: { type: string, enum: [open, closed] } }
+        - { name: perPage, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        "200": { description: Site payroll periods and close barriers, content: { application/json: { schema: { $ref: "#/components/schemas/AdminPayrollPeriodListEnvelope" } } } }
+    post:
+      operationId: createAdminPayrollPeriod
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateAdminPayrollPeriodRequest" } } } }
+      responses:
+        "201": { description: Calendar-month payroll period created, content: { application/json: { schema: { $ref: "#/components/schemas/AdminPayrollPeriodEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+  /admin/tenants/{tenant}/sites/{site}/payroll-periods/{payrollPeriod}/close:
+    parameters:
+      - { $ref: "#/components/parameters/TenantId" }
+      - { $ref: "#/components/parameters/SiteId" }
+      - { $ref: "#/components/parameters/AdminPayrollPeriodId" }
+    post:
+      operationId: closeAdminPayrollPeriod
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ClosePayrollPeriodRequest" } } } }
+      responses:
+        "200": { description: Payroll period atomically closed and metrics snapshotted, content: { application/json: { schema: { $ref: "#/components/schemas/AdminPayrollPeriodEnvelope" } } } }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
 components:
   securitySchemes:
     bearerAuth:
@@ -6619,6 +7499,41 @@ components:
       schema:
         type: integer
         minimum: 1
+    TenantId:
+      name: tenant
+      in: path
+      required: true
+      schema: { type: integer, minimum: 1 }
+    CompensationRoleId:
+      name: compensationRole
+      in: path
+      required: true
+      schema: { type: integer, minimum: 1 }
+    AssignmentId:
+      name: assignment
+      in: path
+      required: true
+      schema: { type: integer, minimum: 1 }
+    ConsumptionEventId:
+      name: event
+      in: path
+      required: true
+      schema: { type: integer, minimum: 1 }
+    AdminConsumptionEventId:
+      name: consumptionEvent
+      in: path
+      required: true
+      schema: { type: integer, minimum: 1 }
+    PayrollPeriodId:
+      name: period
+      in: path
+      required: true
+      schema: { type: integer, minimum: 1 }
+    AdminPayrollPeriodId:
+      name: payrollPeriod
+      in: path
+      required: true
+      schema: { type: integer, minimum: 1 }
   responses:
     Unauthorized:
       description: Missing, expired or revoked token
@@ -6653,6 +7568,13 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorPayload"
+    ValidationError:
+      $ref: "#/components/responses/ValidationFailed"
+    Gone:
+      description: Signed token or time-limited resource expired
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorPayload" }
     ServiceUnavailable:
       description: WeChat app is not configured or provider is unavailable
       content:
@@ -6683,6 +7605,18 @@ components:
           additionalProperties: true
         requestId:
           $ref: "#/components/schemas/RequestId"
+    ErrorEnvelope:
+      $ref: "#/components/schemas/ErrorPayload"
+    PaginationMeta:
+      type: object
+      required: [page, perPage, total, lastPage]
+      properties:
+        page: { type: integer, minimum: 1 }
+        perPage: { type: integer, minimum: 0 }
+        total: { type: integer, minimum: 0 }
+        lastPage: { type: integer, minimum: 1 }
+    Pagination:
+      $ref: "#/components/schemas/PaginationMeta"
     HealthEnvelope:
       type: object
       required: [data, requestId]
@@ -7183,7 +8117,7 @@ components:
           $ref: "#/components/schemas/RequestId"
     MemberCardProductCatalogItem:
       type: object
-      required: [id, cardType, name, price, activationMode]
+      required: [id, cardType, name, price, activationMode, allowedPaymentMethods]
       properties:
         id: { type: integer, minimum: 1 }
         cardType: { type: string, enum: [stored_value, count, period] }
@@ -7195,6 +8129,14 @@ components:
         validityDays: { type: integer, nullable: true }
         validityMode: { type: string, nullable: true }
         activationMode: { type: string }
+        allowedPaymentMethods:
+          type: array
+          minItems: 1
+          maxItems: 2
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/PaymentMethod" }
+        faceStyle: { type: integer, minimum: 0 }
+        faceGradient: { type: array, minItems: 2, items: { type: string } }
     MemberCardProductCatalog:
       type: object
       required: [items, pagination]
@@ -7215,6 +8157,7 @@ components:
       properties:
         cardProductId: { type: integer, minimum: 1 }
         commandKey: { type: string, format: uuid }
+        paymentMethod: { $ref: "#/components/schemas/PaymentMethod" }
     MemberCardPurchaseResult:
       type: object
       required: [order]
@@ -8543,6 +9486,9 @@ components:
         id: { type: integer, minimum: 1 }
         memberNo: { type: string }
         displayName: { type: string }
+    StaffAppointment:
+      allOf:
+        - $ref: "#/components/schemas/Appointment"
     StaffCheckInResolve:
       type: object
       required: [member, appointments]
@@ -9983,6 +10929,12 @@ components:
         validityDays: { type: integer, nullable: true, minimum: 1 }
         validityMode: { type: string, nullable: true, maxLength: 32 }
         activationMode: { type: string, nullable: true, maxLength: 32 }
+        allowedPaymentMethods:
+          type: array
+          nullable: true
+          minItems: 1
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/PaymentMethod" }
         saleStatus: { $ref: "#/components/schemas/CardProductSaleStatus" }
         sortOrder: { type: integer, minimum: 0 }
         scopeConfig: { type: object, nullable: true, additionalProperties: true }
@@ -10154,6 +11106,9 @@ components:
         status: { $ref: "#/components/schemas/ScheduleSessionStatus" }
         sessionKind: { $ref: "#/components/schemas/ScheduleSessionKind" }
         version: { type: integer, minimum: 1 }
+        deliveryAssignments:
+          type: array
+          items: { $ref: "#/components/schemas/SessionDeliveryAssignment" }
         createdAt: { type: string, format: date-time, nullable: true }
         updatedAt: { type: string, format: date-time, nullable: true }
     MemberBookingCatalogItem:
@@ -10604,6 +11559,11 @@ components:
         endsAt: { type: string, format: date-time }
         capacity: { type: integer, minimum: 1 }
         sessionKind: { $ref: "#/components/schemas/ScheduleSessionKind" }
+        deliveryAssignments:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/SessionDeliveryAssignmentInput" }
+        assignmentCommandKey: { type: string, format: uuid }
     ScheduleSessionUpdateInput:
       type: object
       required: [version]
@@ -10616,6 +11576,13 @@ components:
         endsAt: { type: string, format: date-time }
         capacity: { type: integer, minimum: 1 }
         sessionKind: { $ref: "#/components/schemas/ScheduleSessionKind" }
+        displayColor: { type: string, nullable: true, maxLength: 24 }
+        acknowledgeGroupOverlap: { type: boolean }
+        deliveryAssignments:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/SessionDeliveryAssignmentInput" }
+        assignmentCommandKey: { type: string, format: uuid }
     ScheduleBatchCopyInput:
       type: object
       required: [commandKey]
@@ -10788,7 +11755,20 @@ components:
         commandKey: { type: string, format: uuid }
         openingBalance: { type: number, nullable: true, minimum: 0 }
         openingCount: { type: integer, nullable: true, minimum: 1 }
-        reason: { type: string, nullable: true, maxLength: 500 }
+        openingType:
+          type: string
+          nullable: true
+          enum: [new, legacy, immediate, first_use, first-use, first_class, first-class, keep_pending, manual, delayed, null]
+        reason: { type: string, nullable: true, minLength: 4, maxLength: 500 }
+        paymentMethod:
+          allOf: [{ $ref: "#/components/schemas/PaymentMethod" }]
+          nullable: true
+        actualAmount: { type: string, nullable: true, pattern: "^\\d{1,10}(?:\\.\\d{1,2})?$" }
+        paidAmountCents: { type: integer, minimum: 0, nullable: true }
+        shareAssignments:
+          type: array
+          nullable: true
+          items: { $ref: "#/components/schemas/MemberCardShareAssignmentInput" }
     MemberCardIssued:
       type: object
       required: [id, cardNo, cardType, status, memberId, snapshot, issuedAt]
@@ -12330,4 +13310,1334 @@ components:
       required: [data, requestId]
       properties:
         data: { $ref: "#/components/schemas/ScheduleExportImageResult" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    PaymentMethod:
+      type: string
+      enum: [online, balance]
+      description: The only supported card purchase payment methods.
+    CatalogRecordStatus:
+      type: string
+      enum: [active, archived]
+    CompensationRoleType:
+      type: string
+      enum: [delivery, share]
+      description: delivery is an A-type session performer; share is a B-type revenue-share role.
+    ConsumptionDisplayStatus:
+      type: string
+      enum: [provisional, final, reversed, adjusted]
+    ConsumptionReportDimension:
+      type: string
+      enum: [coach, share, member, course, card]
+    AdminConsumptionReportDimension:
+      type: string
+      enum: [delivery, share, member, course, card]
+    ReasonedCommandRequest:
+      type: object
+      required: [reason, commandKey]
+      properties:
+        reason: { type: string, minLength: 4, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    VersionedCommandRequest:
+      allOf:
+        - $ref: "#/components/schemas/ReasonedCommandRequest"
+        - type: object
+          required: [version]
+          properties:
+            version: { type: integer, minimum: 1 }
+    VersionedOptionalReasonCommandRequest:
+      type: object
+      required: [version, commandKey]
+      properties:
+        version: { type: integer, minimum: 1 }
+        reason: { type: string, nullable: true, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    ExpectedVersionCommandRequest:
+      type: object
+      required: [expectedVersion, reason, commandKey]
+      properties:
+        expectedVersion: { type: integer, minimum: 1 }
+        reason: { type: string, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    ClosePayrollPeriodRequest:
+      type: object
+      required: [expectedVersion, reason, commandKey]
+      properties:
+        expectedVersion: { type: integer, minimum: 1 }
+        version:
+          type: integer
+          minimum: 1
+          deprecated: true
+          description: Staff compatibility alias for expectedVersion.
+        reason: { type: string, minLength: 4, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    CloseStaffPayrollPeriodRequest:
+      type: object
+      required: [reason, commandKey]
+      properties:
+        expectedVersion: { type: integer, minimum: 1 }
+        version: { type: integer, minimum: 1, deprecated: true }
+        reason: { type: string, minLength: 4, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+      oneOf:
+        - required: [expectedVersion]
+        - required: [version]
+    CompensationRole:
+      type: object
+      required: [id, siteId, name, roleType, status, version]
+      properties:
+        id: { type: integer, minimum: 1 }
+        siteId: { type: integer, minimum: 1 }
+        code: { type: string, nullable: true, maxLength: 80 }
+        name: { type: string, minLength: 2, maxLength: 120 }
+        roleType: { $ref: "#/components/schemas/CompensationRoleType" }
+        roleTypeLabel: { type: string, nullable: true }
+        assignedStaffCount: { type: integer, minimum: 0 }
+        status: { $ref: "#/components/schemas/CatalogRecordStatus" }
+        version: { type: integer, minimum: 1 }
+        archivedAt: { type: string, format: date-time, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+    CreateCompensationRoleRequest:
+      type: object
+      required: [name, roleType, commandKey]
+      properties:
+        name: { type: string, minLength: 2, maxLength: 120 }
+        code: { type: string, nullable: true, maxLength: 80 }
+        roleType: { $ref: "#/components/schemas/CompensationRoleType" }
+        version: { type: integer, minimum: 0 }
+        reason: { type: string, nullable: true, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    UpdateCompensationRoleRequest:
+      type: object
+      required: [name, roleType, version, commandKey]
+      properties:
+        name: { type: string, minLength: 2, maxLength: 120 }
+        code: { type: string, nullable: true, maxLength: 80 }
+        roleType: { $ref: "#/components/schemas/CompensationRoleType" }
+        status: { $ref: "#/components/schemas/CatalogRecordStatus" }
+        version: { type: integer, minimum: 1 }
+        reason: { type: string, nullable: true, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    CompensationRoleEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/CompensationRole" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    CompensationRoleListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/CompensationRole" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    StaffCompensationRoleAssignment:
+      type: object
+      required: [id, staffId, roleId, roleType, status, version]
+      properties:
+        id: { type: integer, minimum: 1 }
+        staffId: { type: integer, minimum: 1 }
+        staffName: { type: string, nullable: true }
+        roleId: { type: integer, minimum: 1 }
+        roleName: { type: string, nullable: true }
+        roleType: { $ref: "#/components/schemas/CompensationRoleType" }
+        effectiveFrom: { type: string, format: date, nullable: true }
+        effectiveUntil: { type: string, format: date, nullable: true }
+        effectiveState: { type: string, enum: [scheduled, current, expired] }
+        status: { $ref: "#/components/schemas/CatalogRecordStatus" }
+        version: { type: integer, minimum: 1 }
+    StaffCompensationRoleAssignmentInput:
+      type: object
+      required: [compensationRoleId]
+      properties:
+        compensationRoleId: { type: integer, minimum: 1 }
+        activeFrom: { type: string, format: date, nullable: true }
+        activeUntil: { type: string, format: date, nullable: true }
+    ReplaceStaffCompensationRoleAssignmentsRequest:
+      type: object
+      required: [assignments, reason, commandKey]
+      properties:
+        assignments:
+          type: array
+          items: { $ref: "#/components/schemas/StaffCompensationRoleAssignmentInput" }
+        reason: { type: string, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    StaffCompensationRoleAssignmentListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/StaffCompensationRoleAssignment" } }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    MemberWalletLedgerEntry:
+      type: object
+      required: [id, entryType, direction, amountCents, balanceAfterCents]
+      properties:
+        id: { type: integer, minimum: 1 }
+        entryType: { type: string }
+        direction: { type: string, enum: [credit, debit] }
+        amountCents: { type: integer, minimum: 0 }
+        balanceAfterCents: { type: integer, minimum: 0 }
+        orderId: { type: integer, minimum: 1, nullable: true }
+        reason: { type: string, nullable: true }
+        occurredAt: { type: string, format: date-time, nullable: true }
+    MemberWallet:
+      type: object
+      required: [memberId, tenantId, balanceCents, balance, currency, version, ledgerEntries]
+      properties:
+        memberId: { type: integer, minimum: 1 }
+        tenantId: { type: integer, minimum: 1 }
+        balanceCents: { type: integer, minimum: 0 }
+        balance: { type: string, pattern: "^-?\\d+\\.\\d{2}$", description: Compatibility decimal; use balanceCents for calculations. }
+        currency: { type: string, enum: [CNY] }
+        version: { type: integer, minimum: 1 }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        ledgerEntries: { type: array, items: { $ref: "#/components/schemas/MemberWalletLedgerEntry" } }
+    MemberWalletEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/MemberWallet" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    WalletAdjustmentRequest:
+      type: object
+      required: [amountCents, version, reason, commandKey]
+      properties:
+        amountCents: { type: integer, not: { enum: [0] } }
+        version: { type: integer, minimum: 1 }
+        reason: { type: string, minLength: 4, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    WalletAdjustmentResult:
+      type: object
+      required: [wallet, entry, created]
+      properties:
+        wallet: { $ref: "#/components/schemas/MemberWallet" }
+        entry: { $ref: "#/components/schemas/MemberWalletLedgerEntry" }
+        created: { type: boolean }
+    WalletAdjustmentEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/WalletAdjustmentResult" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    MemberConsumptionSettlement:
+      type: object
+      required: [id, appointmentId, memberCardId, cardType, status, calculationVersion]
+      properties:
+        id: { type: integer, minimum: 1 }
+        appointmentId: { type: integer, minimum: 1 }
+        memberCardId: { type: integer, minimum: 1 }
+        memberCardName: { type: string, nullable: true }
+        cardType: { $ref: "#/components/schemas/CardType" }
+        courseName: { type: string, nullable: true }
+        coachName: { type: string, nullable: true }
+        serviceDate: { type: string, format: date, nullable: true }
+        startsAt: { type: string, format: date-time, nullable: true }
+        deductionAmount: { type: string, nullable: true, description: Decimal compatibility value; no staff compensation is exposed. }
+        deductionCount: { type: integer, minimum: 0, nullable: true }
+        consumptionValue: { type: string, nullable: true, description: Decimal compatibility value. }
+        status: { $ref: "#/components/schemas/ConsumptionDisplayStatus" }
+        calculationVersion: { type: integer, minimum: 1 }
+        settledAt: { type: string, format: date-time, nullable: true }
+    MemberConsumptionSettlementListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, summary, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/MemberConsumptionSettlement" } }
+            summary:
+              type: object
+              required: [consumptionValue, finalizedValue, pendingValue, unvaluedCount, hasUnvalued]
+              properties:
+                consumptionValue: { type: string }
+                finalizedValue: { type: string }
+                pendingValue: { type: string }
+                unvaluedCount: { type: integer, minimum: 0 }
+                hasUnvalued: { type: boolean }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    CardCourseDeductionType:
+      type: string
+      enum: [amount, count, period_auto]
+    StaffCardCourseRule:
+      type: object
+      required: [id, cardProductId, courseId, deductionType, version, status]
+      properties:
+        id: { type: integer, minimum: 1 }
+        cardProductId: { type: integer, minimum: 1 }
+        courseId: { type: integer, minimum: 1 }
+        courseName: { type: string, nullable: true }
+        courseType: { $ref: "#/components/schemas/CourseType" }
+        deductionType: { $ref: "#/components/schemas/CardCourseDeductionType" }
+        amountCents: { type: integer, minimum: 1, nullable: true }
+        countUnits: { type: integer, minimum: 1, nullable: true }
+        version: { type: integer, minimum: 1 }
+        effectiveAt: { type: string, format: date-time, nullable: true }
+        status: { type: string, enum: [active, scheduled, archived] }
+    CardCourseRuleSet:
+      type: object
+      required: [cardProductId, cardProductName, cardType, rulesVersion, items]
+      properties:
+        cardProductId: { type: integer, minimum: 1 }
+        cardProductName: { type: string }
+        cardType: { $ref: "#/components/schemas/CardType" }
+        rulesVersion: { type: integer, minimum: 0 }
+        items: { type: array, items: { $ref: "#/components/schemas/StaffCardCourseRule" } }
+    StaffCardCourseRuleInput:
+      type: object
+      required: [courseId, deductionType]
+      properties:
+        courseId: { type: integer, minimum: 1 }
+        deductionType: { $ref: "#/components/schemas/CardCourseDeductionType" }
+        amountCents: { type: integer, minimum: 1, nullable: true }
+        countUnits: { type: integer, minimum: 1, nullable: true }
+        effectiveAt: { type: string, format: date-time, nullable: true }
+    ReplaceStaffCardCourseRulesRequest:
+      type: object
+      required: [rules, expectedVersion, reason, commandKey]
+      properties:
+        rules: { type: array, maxItems: 500, items: { $ref: "#/components/schemas/StaffCardCourseRuleInput" } }
+        expectedVersion: { type: integer, minimum: 0 }
+        reason: { type: string, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    CardCourseRuleSetEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/CardCourseRuleSet" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    CourseCompensationRoleRate:
+      type: object
+      required: [compensationRoleId, roleType, rateBps]
+      properties:
+        compensationRoleId: { type: integer, minimum: 1 }
+        roleName: { type: string, nullable: true }
+        roleType: { $ref: "#/components/schemas/CompensationRoleType" }
+        rateBps: { type: integer, minimum: 0, maximum: 10000 }
+    CourseCompensationRule:
+      type: object
+      required: [id, courseId, sessionFeeCents, version, status, roleRates]
+      properties:
+        id: { type: integer, minimum: 1 }
+        courseId: { type: integer, minimum: 1 }
+        sessionFeeCents: { type: integer, minimum: 0 }
+        version: { type: integer, minimum: 1 }
+        status: { type: string, enum: [active, scheduled, archived] }
+        effectiveAt: { type: string, format: date-time, nullable: true }
+        roleRates: { type: array, items: { $ref: "#/components/schemas/CourseCompensationRoleRate" } }
+    SaveCourseCompensationRuleRequest:
+      type: object
+      required: [sessionFeeCents, roleRates, expectedVersion, commandKey, reason]
+      properties:
+        sessionFeeCents: { type: integer, minimum: 0 }
+        effectiveAt: { type: string, format: date-time, nullable: true }
+        roleRates:
+          type: array
+          items:
+            type: object
+            required: [compensationRoleId, rateBps]
+            properties:
+              compensationRoleId: { type: integer, minimum: 1 }
+              rateBps: { type: integer, minimum: 0, maximum: 10000 }
+        expectedVersion: { type: integer, minimum: 0 }
+        commandKey: { type: string, format: uuid }
+        reason: { type: string, minLength: 2, maxLength: 500 }
+    CourseCompensationRuleEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [courseId, rule]
+          properties:
+            courseId: { type: integer, minimum: 1 }
+            rule:
+              allOf: [{ $ref: "#/components/schemas/CourseCompensationRule" }]
+              nullable: true
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    SessionDeliveryAssignmentInput:
+      type: object
+      required: [staffId, compensationRoleId]
+      properties:
+        staffId: { type: integer, minimum: 1 }
+        compensationRoleId: { type: integer, minimum: 1 }
+        allocationBps: { type: integer, minimum: 1, maximum: 10000, default: 10000 }
+        isPrimary: { type: boolean, default: false }
+    ReplaceSessionDeliveryAssignmentsRequest:
+      type: object
+      required: [commandKey, assignments]
+      properties:
+        commandKey: { type: string, format: uuid }
+        expectedVersion: { type: integer, minimum: 1 }
+        assignments:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/SessionDeliveryAssignmentInput" }
+    SessionDeliveryAssignment:
+      type: object
+      required: [id, staffId, compensationRoleId, allocationBps, isPrimary, assignmentVersion]
+      properties:
+        id: { type: integer, minimum: 1 }
+        staffId: { type: integer, minimum: 1 }
+        staffName: { type: string, nullable: true }
+        compensationRoleId: { type: integer, minimum: 1 }
+        roleName: { type: string, nullable: true }
+        roleType: { $ref: "#/components/schemas/CompensationRoleType" }
+        allocationBps: { type: integer, minimum: 1, maximum: 10000 }
+        isPrimary: { type: boolean }
+        assignmentVersion: { type: integer, minimum: 1 }
+    SessionDeliveryAssignmentSetEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [sessionId, sessionVersion, items]
+          properties:
+            sessionId: { type: integer, minimum: 1 }
+            sessionVersion: { type: integer, minimum: 1 }
+            items: { type: array, items: { $ref: "#/components/schemas/SessionDeliveryAssignment" } }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    MemberCardShareAssignmentInput:
+      type: object
+      required: [staffId, compensationRoleId, allocationBps]
+      properties:
+        staffId: { type: integer, minimum: 1 }
+        compensationRoleId: { type: integer, minimum: 1 }
+        allocationBps: { type: integer, minimum: 1, maximum: 10000 }
+        effectiveFrom: { type: string, format: date, nullable: true }
+        effectiveUntil: { type: string, format: date, nullable: true }
+    ReplaceMemberCardShareAssignmentsRequest:
+      type: object
+      required: [assignments, expectedVersion, reason, commandKey]
+      properties:
+        assignments: { type: array, maxItems: 50, items: { $ref: "#/components/schemas/MemberCardShareAssignmentInput" } }
+        expectedVersion: { type: integer, minimum: 0 }
+        reason: { type: string, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    MemberCardShareAssignment:
+      type: object
+      required: [id, staffId, compensationRoleId, roleType, allocationBps, status, version]
+      properties:
+        id: { type: integer, minimum: 1 }
+        memberCardId: { type: integer, minimum: 1 }
+        staffId: { type: integer, minimum: 1 }
+        staffName: { type: string, nullable: true }
+        compensationRoleId: { type: integer, minimum: 1 }
+        roleName: { type: string, nullable: true }
+        roleType: { $ref: "#/components/schemas/CompensationRoleType" }
+        allocationBps: { type: integer, minimum: 1, maximum: 10000 }
+        effectiveFrom: { type: string, format: date, nullable: true }
+        effectiveUntil: { type: string, format: date, nullable: true }
+        effectiveState: { type: string, enum: [scheduled, current, expired] }
+        status: { $ref: "#/components/schemas/CatalogRecordStatus" }
+        version: { type: integer, minimum: 1 }
+        scopeVersion: { type: integer, minimum: 0 }
+    MemberCardShareAssignmentListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items]
+          properties:
+            memberCardId: { type: integer, minimum: 1 }
+            version: { type: integer, minimum: 0 }
+            items: { type: array, items: { $ref: "#/components/schemas/MemberCardShareAssignment" } }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    ConsumptionPreview:
+      type: object
+      required: [appointmentId, settleable]
+      properties:
+        appointmentId: { type: integer, minimum: 1 }
+        settleable: { type: boolean }
+        businessDate: { type: string, format: date }
+        cardType: { $ref: "#/components/schemas/CardType" }
+        deduction:
+          type: object
+          properties:
+            amountCents: { type: integer, minimum: 0, nullable: true }
+            count: { type: integer, minimum: 0, nullable: true }
+        estimatedConsumedValueCents: { type: integer, minimum: 0, nullable: true }
+        valueProvenance: { type: string, enum: [entitlement, paid_lot, legacy_snapshot, unknown] }
+        existingSettlementId: { type: integer, minimum: 1, nullable: true }
+    ConsumptionPreviewEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/ConsumptionPreview" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    ConsumptionFormulaInputs:
+      type: object
+      properties:
+        paidAmountCents: { type: integer, minimum: 0, nullable: true }
+        entitlementCount: { type: integer, minimum: 0, nullable: true }
+        entitlementDays: { type: integer, minimum: 0, nullable: true }
+        activeDayConsumptionCount: { type: integer, minimum: 0, nullable: true }
+        deductedAmountCents: { type: integer, minimum: 0, nullable: true }
+        deductedCount: { type: integer, minimum: 0, nullable: true }
+        consumedValueCents: { type: integer, minimum: 0, nullable: true }
+        knownValueCents: { type: integer, minimum: 0, nullable: true }
+        unknownCount: { type: integer, minimum: 0 }
+    CommissionSettlementLine:
+      type: object
+      required: [id, staffId, component, lineType, baseValueCents, amountCents, postCloseAdjustment]
+      properties:
+        id: { type: integer, minimum: 1 }
+        staffId: { type: integer, minimum: 1 }
+        staffName: { type: string, nullable: true }
+        compensationRoleId: { type: integer, minimum: 1, nullable: true }
+        roleName: { type: string, nullable: true }
+        roleType:
+          allOf: [{ $ref: "#/components/schemas/CompensationRoleType" }]
+          nullable: true
+        component: { type: string, enum: [session_fee, consumption_commission] }
+        lineType: { type: string, enum: [normal, reversal, adjustment] }
+        baseValueCents: { type: integer }
+        rateBps: { type: integer, minimum: 0, maximum: 10000, nullable: true }
+        allocationBps: { type: integer, minimum: 0, maximum: 10000, nullable: true }
+        amountCents: { type: integer }
+        postCloseAdjustment: { type: boolean }
+        occurredAt: { type: string, format: date-time, nullable: true }
+    ConsumptionSettlement:
+      type: object
+      required: [id, appointmentId, sessionId, courseId, memberId, memberCardId, cardType, deduction, status, viewStatus, formulaVersion, commissionLines, commissionTotalCents]
+      properties:
+        id: { type: integer, minimum: 1 }
+        appointmentId: { type: integer, minimum: 1 }
+        sessionId: { type: integer, minimum: 1 }
+        courseId: { type: integer, minimum: 1 }
+        courseName: { type: string, nullable: true }
+        memberId: { type: integer, minimum: 1 }
+        memberName: { type: string, nullable: true }
+        memberCardId: { type: integer, minimum: 1 }
+        cardName: { type: string, nullable: true }
+        coachStaffId: { type: integer, minimum: 1, nullable: true }
+        coachName: { type: string, nullable: true }
+        businessDate: { type: string, format: date, nullable: true }
+        cardType: { $ref: "#/components/schemas/CardType" }
+        deduction:
+          type: object
+          properties:
+            amountCents: { type: integer, minimum: 0, nullable: true }
+            count: { type: integer, minimum: 0, nullable: true }
+        consumedValueCents: { type: integer, minimum: 0, nullable: true }
+        valueProvenance: { type: string }
+        status: { type: string, enum: [provisional, final, reversed] }
+        viewStatus: { $ref: "#/components/schemas/ConsumptionDisplayStatus" }
+        hasAdjustments: { type: boolean }
+        source: { type: string }
+        courseCompensationRuleVersion: { type: integer, minimum: 1, nullable: true }
+        formulaVersion: { type: integer, minimum: 1 }
+        formulaInputs: { $ref: "#/components/schemas/ConsumptionFormulaInputs" }
+        commissionLines: { type: array, items: { $ref: "#/components/schemas/CommissionSettlementLine" } }
+        commissionTotalCents: { type: integer }
+        occurredAt: { type: string, format: date-time, nullable: true }
+    ConsumptionSettlementEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/ConsumptionSettlement" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    NullableConsumptionSettlementEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          allOf: [{ $ref: "#/components/schemas/ConsumptionSettlement" }]
+          nullable: true
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    ConsumptionReportRow:
+      type: object
+      required: [key, dimensionName, consumptionCount, consumedValueCents, sessionFeeCents, commissionCents]
+      properties:
+        key: { type: integer, minimum: 1 }
+        dimensionName: { type: string }
+        consumptionCount: { type: integer, minimum: 0 }
+        consumedValueCents: { type: integer, minimum: 0 }
+        sessionFeeCents: { type: integer }
+        commissionCents: { type: integer }
+    ConsumptionReportSummary:
+      type: object
+      required: [consumptionCount, pendingCount, consumedValueCents, sessionFeeCents, commissionCents]
+      properties:
+        consumptionCount: { type: integer, minimum: 0 }
+        pendingCount: { type: integer, minimum: 0 }
+        consumedValueCents: { type: integer, minimum: 0 }
+        sessionFeeCents: { type: integer }
+        commissionCents: { type: integer }
+    StaffConsumptionSettlementListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, summary, pagination]
+          properties:
+            dimension: { $ref: "#/components/schemas/ConsumptionReportDimension" }
+            items:
+              type: array
+              items:
+                oneOf:
+                  - { $ref: "#/components/schemas/ConsumptionSettlement" }
+                  - { $ref: "#/components/schemas/ConsumptionReportRow" }
+            summary: { $ref: "#/components/schemas/ConsumptionReportSummary" }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    CreateStaffPayrollPeriodRequest:
+      type: object
+      required: [startsOn, endsOn, reason, commandKey]
+      properties:
+        startsOn: { type: string, format: date }
+        endsOn: { type: string, format: date }
+        reason: { type: string, minLength: 4, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    PayrollPeriod:
+      type: object
+      required: [id, siteId, startsOn, endsOn, status, version, canClose, pendingCount]
+      properties:
+        id: { type: integer, minimum: 1 }
+        siteId: { type: integer, minimum: 1 }
+        startsOn: { type: string, format: date }
+        endsOn: { type: string, format: date }
+        status: { type: string, enum: [open, closed] }
+        version: { type: integer, minimum: 1 }
+        createReason: { type: string, nullable: true }
+        closeReason: { type: string, nullable: true }
+        closedAt: { type: string, format: date-time, nullable: true }
+        metricsSnapshottedAt: { type: string, format: date-time, nullable: true }
+        settlementCount: { type: integer, minimum: 0 }
+        consumedValueCents: { type: integer, minimum: 0 }
+        sessionFeeCents: { type: integer }
+        commissionCents: { type: integer }
+        adjustmentAmountCents: { type: integer }
+        canClose: { type: boolean }
+        pendingCount: { type: integer, minimum: 0 }
+        blockedReason: { type: string, nullable: true, enum: [PAYROLL_PERIOD_NOT_ENDED, PAYROLL_PERIOD_BUCKETS_OPEN, null] }
+    PayrollPeriodEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/PayrollPeriod" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    PayrollPeriodListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/PayrollPeriod" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminSite:
+      type: object
+      required: [id, tenantId, name, code, status, timezone, version]
+      properties:
+        id: { type: integer, minimum: 1 }
+        tenantId: { type: integer, minimum: 1 }
+        name: { type: string }
+        code: { type: string }
+        status: { type: string }
+        timezone: { type: string }
+        version: { type: integer, minimum: 1 }
+    AdminSiteListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminSite" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminGovernanceOption:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: integer, minimum: 1 }
+        name: { type: string }
+        code: { type: string, nullable: true }
+        type: { type: string, nullable: true }
+        status: { type: string, nullable: true }
+        version: { type: integer, minimum: 1 }
+    AdminCardConsumptionOptions:
+      type: object
+      required: [cardProducts, courses, compensationRoles, staff, members, memberCards, sessions]
+      properties:
+        cardProducts: { type: array, items: { $ref: "#/components/schemas/AdminGovernanceOption" } }
+        courses: { type: array, items: { $ref: "#/components/schemas/AdminGovernanceOption" } }
+        compensationRoles: { type: array, items: { $ref: "#/components/schemas/AdminGovernanceOption" } }
+        staff: { type: array, items: { $ref: "#/components/schemas/AdminGovernanceOption" } }
+        members: { type: array, items: { $ref: "#/components/schemas/AdminGovernanceOption" } }
+        memberCards: { type: array, items: { $ref: "#/components/schemas/AdminGovernanceOption" } }
+        sessions: { type: array, items: { $ref: "#/components/schemas/AdminGovernanceOption" } }
+    AdminCardConsumptionOptionsEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/AdminCardConsumptionOptions" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCompensationRoleAssignment:
+      type: object
+      required: [id, roleId, staffId, roleType, status, version]
+      properties:
+        id: { type: integer, minimum: 1 }
+        roleId: { type: integer, minimum: 1 }
+        roleName: { type: string, nullable: true }
+        roleType: { $ref: "#/components/schemas/CompensationRoleType" }
+        staffId: { type: integer, minimum: 1 }
+        staffName: { type: string, nullable: true }
+        employeeNo: { type: string, nullable: true }
+        effectiveFrom: { type: string, format: date, nullable: true }
+        effectiveUntil: { type: string, format: date, nullable: true }
+        status: { $ref: "#/components/schemas/CatalogRecordStatus" }
+        version: { type: integer, minimum: 1 }
+    CreateAdminCompensationRoleAssignmentRequest:
+      type: object
+      required: [roleId, staffId, commandKey]
+      properties:
+        roleId: { type: integer, minimum: 1 }
+        staffId: { type: integer, minimum: 1 }
+        effectiveFrom: { type: string, format: date, nullable: true }
+        effectiveUntil: { type: string, format: date, nullable: true }
+        reason: { type: string, nullable: true, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    EndCompensationRoleAssignmentRequest:
+      type: object
+      required: [version, effectiveUntil, reason, commandKey]
+      properties:
+        version: { type: integer, minimum: 1 }
+        effectiveUntil: { type: string, format: date }
+        reason: { type: string, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    AdminCompensationRoleAssignmentEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/AdminCompensationRoleAssignment" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCompensationRoleAssignmentListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminCompensationRoleAssignment" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminMemberCardShareAssignment:
+      type: object
+      required: [id, memberCardId, staffId, roleId, allocationBps, version, scopeVersion, status]
+      properties:
+        id: { type: integer, minimum: 1 }
+        memberCardId: { type: integer, minimum: 1 }
+        memberCardNo: { type: string, nullable: true }
+        memberName: { type: string, nullable: true }
+        staffId: { type: integer, minimum: 1 }
+        staffName: { type: string, nullable: true }
+        roleId: { type: integer, minimum: 1 }
+        roleName: { type: string, nullable: true }
+        allocationBps: { type: integer, minimum: 1, maximum: 10000 }
+        effectiveFrom: { type: string, format: date, nullable: true }
+        effectiveUntil: { type: string, format: date, nullable: true }
+        version: { type: integer, minimum: 1 }
+        scopeVersion: { type: integer, minimum: 0 }
+        status: { $ref: "#/components/schemas/CatalogRecordStatus" }
+    CreateAdminMemberCardShareAssignmentRequest:
+      type: object
+      required: [memberCardId, compensationRoleId, staffId, allocationBps, expectedVersion, reason, commandKey]
+      properties:
+        memberCardId: { type: integer, minimum: 1 }
+        compensationRoleId: { type: integer, minimum: 1 }
+        staffId: { type: integer, minimum: 1 }
+        allocationBps: { type: integer, minimum: 1, maximum: 10000 }
+        effectiveFrom: { type: string, format: date, nullable: true }
+        effectiveUntil: { type: string, format: date, nullable: true }
+        expectedVersion: { type: integer, minimum: 0 }
+        reason: { type: string, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    AdminMemberCardShareAssignmentListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminMemberCardShareAssignment" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+            scopeVersion: { type: integer, minimum: 0, nullable: true }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminSessionDeliveryAssignment:
+      type: object
+      required: [id, sessionId, sessionLabel, courseName, startsAt, sessionVersion, staffId, roleId, allocationBps, isPrimary, assignmentVersion]
+      properties:
+        id: { type: integer, minimum: 1 }
+        sessionId: { type: integer, minimum: 1 }
+        sessionLabel: { type: string }
+        courseName: { type: string }
+        startsAt: { type: string, format: date-time }
+        sessionVersion: { type: integer, minimum: 1 }
+        staffId: { type: integer, minimum: 1 }
+        staffName: { type: string }
+        roleId: { type: integer, minimum: 1 }
+        roleName: { type: string }
+        allocationBps: { type: integer, minimum: 1, maximum: 10000 }
+        isPrimary: { type: boolean }
+        assignmentVersion: { type: integer, minimum: 1 }
+        updatedAt: { type: string, format: date-time, nullable: true }
+    ReplaceAdminSessionDeliveryAssignmentsRequest:
+      type: object
+      required: [assignments, reason, commandKey]
+      properties:
+        assignments:
+          type: array
+          maxItems: 20
+          items:
+            allOf:
+              - $ref: "#/components/schemas/SessionDeliveryAssignmentInput"
+              - type: object
+                required: [allocationBps, isPrimary]
+        expectedVersion: { type: integer, minimum: 1, nullable: true }
+        reason: { type: string, minLength: 4, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    AdminSessionDeliveryAssignmentListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminSessionDeliveryAssignment" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCardProduct:
+      type: object
+      required: [id, name, cardType, priceCents, saleStatus, catalogStatus, allowedPaymentMethods, version]
+      properties:
+        id: { type: integer, minimum: 1 }
+        name: { type: string }
+        description: { type: string, nullable: true }
+        cardType: { $ref: "#/components/schemas/CardType" }
+        priceCents: { type: integer, minimum: 0 }
+        faceValueCents: { type: integer, minimum: 0, nullable: true }
+        initialCount: { type: integer, minimum: 1, nullable: true }
+        validityDays: { type: integer, minimum: 1, nullable: true }
+        saleStatus: { $ref: "#/components/schemas/CardProductSaleStatus" }
+        catalogStatus: { $ref: "#/components/schemas/CardProductCatalogStatus" }
+        allowedPaymentMethods:
+          type: array
+          minItems: 1
+          maxItems: 2
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/PaymentMethod" }
+        version: { type: integer, minimum: 1 }
+        updatedAt: { type: string, format: date-time, nullable: true }
+    CreateAdminCardProductRequest:
+      allOf:
+        - $ref: "#/components/schemas/CardProductUpsertInput"
+        - type: object
+          required: [commandKey]
+          properties:
+            commandKey: { type: string, format: uuid }
+            reason: { type: string, nullable: true, maxLength: 500 }
+    UpdateAdminCardProductRequest:
+      allOf:
+        - $ref: "#/components/schemas/CardProductUpdateInput"
+        - type: object
+          required: [commandKey]
+          properties:
+            commandKey: { type: string, format: uuid }
+            reason: { type: string, nullable: true, maxLength: 500 }
+    AdminCardProductEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/AdminCardProduct" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCardProductListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminCardProduct" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCourse:
+      type: object
+      required: [id, name, courseType, durationMinutes, catalogStatus, version]
+      properties:
+        id: { type: integer, minimum: 1 }
+        name: { type: string }
+        description: { type: string, nullable: true }
+        courseType: { $ref: "#/components/schemas/CourseType" }
+        durationMinutes: { type: integer, minimum: 1, maximum: 600 }
+        difficulty: { type: integer, minimum: 1, maximum: 5, nullable: true }
+        minCapacity: { type: integer, minimum: 1, nullable: true }
+        maxCapacity: { type: integer, minimum: 1, nullable: true }
+        coachStaffId: { type: integer, minimum: 1, nullable: true }
+        coachName: { type: string, nullable: true }
+        catalogStatus: { $ref: "#/components/schemas/CourseCatalogStatus" }
+        version: { type: integer, minimum: 1 }
+        updatedAt: { type: string, format: date-time, nullable: true }
+    CreateAdminCourseRequest:
+      allOf:
+        - $ref: "#/components/schemas/CourseUpsertInput"
+        - type: object
+          required: [commandKey]
+          properties:
+            commandKey: { type: string, format: uuid }
+            reason: { type: string, nullable: true, maxLength: 500 }
+    UpdateAdminCourseRequest:
+      allOf:
+        - $ref: "#/components/schemas/CourseUpdateInput"
+        - type: object
+          required: [commandKey]
+          properties:
+            commandKey: { type: string, format: uuid }
+            reason: { type: string, nullable: true, maxLength: 500 }
+    AdminCourseEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/AdminCourse" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCourseListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminCourse" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCardProductPaymentMethod:
+      type: object
+      required: [id, name, cardType, priceCents, allowedPaymentMethods, version, status]
+      properties:
+        id: { type: integer, minimum: 1 }
+        name: { type: string }
+        cardType: { $ref: "#/components/schemas/CardType" }
+        priceCents: { type: integer, minimum: 0 }
+        allowedPaymentMethods:
+          type: array
+          minItems: 1
+          maxItems: 2
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/PaymentMethod" }
+        version: { type: integer, minimum: 1 }
+        status: { $ref: "#/components/schemas/CardProductCatalogStatus" }
+        updatedAt: { type: string, format: date-time, nullable: true }
+    UpdateCardProductPaymentMethodsRequest:
+      type: object
+      required: [allowedPaymentMethods, version, reason, commandKey]
+      properties:
+        allowedPaymentMethods:
+          type: array
+          minItems: 1
+          maxItems: 2
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/PaymentMethod" }
+        version: { type: integer, minimum: 1 }
+        reason: { type: string, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    AdminCardProductPaymentMethodEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/AdminCardProductPaymentMethod" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCardProductPaymentMethodListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminCardProductPaymentMethod" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCardCourseRule:
+      type: object
+      required: [id, cardProductId, courseId, deductionKind, version, status]
+      properties:
+        id: { type: integer, minimum: 1 }
+        cardProductId: { type: integer, minimum: 1 }
+        cardProductName: { type: string, nullable: true }
+        cardType: { $ref: "#/components/schemas/CardType" }
+        courseId: { type: integer, minimum: 1 }
+        courseName: { type: string, nullable: true }
+        deductionKind: { $ref: "#/components/schemas/CardCourseDeductionType" }
+        deductionAmountCents: { type: integer, minimum: 1, nullable: true }
+        deductionCount: { type: integer, minimum: 1, nullable: true }
+        version: { type: integer, minimum: 1 }
+        status: { type: string, enum: [active, scheduled, archived] }
+        effectiveAt: { type: string, format: date-time, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+    AdminCardCourseRuleSet:
+      type: object
+      required: [cardProductId, cardProductName, cardType, catalogStatus, rulesVersion, rules]
+      properties:
+        cardProductId: { type: integer, minimum: 1 }
+        cardProductName: { type: string }
+        cardType: { $ref: "#/components/schemas/CardType" }
+        catalogStatus: { $ref: "#/components/schemas/CardProductCatalogStatus" }
+        rulesVersion: { type: integer, minimum: 0 }
+        rules: { type: array, items: { $ref: "#/components/schemas/AdminCardCourseRule" } }
+        updatedAt: { type: string, format: date-time, nullable: true }
+    AdminCardCourseRuleInput:
+      type: object
+      required: [courseId, deductionKind]
+      properties:
+        courseId: { type: integer, minimum: 1 }
+        deductionKind: { $ref: "#/components/schemas/CardCourseDeductionType" }
+        deductionAmountCents: { type: integer, minimum: 1, nullable: true }
+        deductionCount: { type: integer, minimum: 1, nullable: true }
+        effectiveAt: { type: string, format: date-time, nullable: true }
+    ReplaceAdminCardCourseRulesRequest:
+      type: object
+      required: [rules, expectedVersion, reason, commandKey]
+      properties:
+        rules: { type: array, maxItems: 500, items: { $ref: "#/components/schemas/AdminCardCourseRuleInput" } }
+        expectedVersion: { type: integer, minimum: 0 }
+        reason: { type: string, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    AdminCardCourseRuleSetEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [cardProductId, rulesVersion, rules]
+          properties:
+            cardProductId: { type: integer, minimum: 1 }
+            rulesVersion: { type: integer, minimum: 0 }
+            rules: { type: array, items: { $ref: "#/components/schemas/AdminCardCourseRule" } }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCardCourseRuleSetListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminCardCourseRuleSet" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCourseCompensationRule:
+      allOf:
+        - $ref: "#/components/schemas/CourseCompensationRule"
+        - type: object
+          required: [courseName, formulaVersion]
+          properties:
+            courseName: { type: string }
+            formulaVersion: { type: string }
+            updatedAt: { type: string, format: date-time, nullable: true }
+    SaveAdminCourseCompensationRuleRequest:
+      type: object
+      required: [courseId, sessionFeeCents, roleRates, version, reason, commandKey]
+      properties:
+        id: { type: integer, minimum: 1, nullable: true }
+        courseId: { type: integer, minimum: 1 }
+        sessionFeeCents: { type: integer, minimum: 0 }
+        roleRates:
+          type: array
+          items:
+            type: object
+            required: [compensationRoleId, rateBps]
+            properties:
+              compensationRoleId: { type: integer, minimum: 1 }
+              rateBps: { type: integer, minimum: 0, maximum: 10000 }
+        effectiveAt: { type: string, format: date-time, nullable: true }
+        version: { type: integer, minimum: 0 }
+        reason: { type: string, minLength: 2, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    AdminCourseCompensationRuleEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/AdminCourseCompensationRule" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminCourseCompensationRuleListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminCourseCompensationRule" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminMemberWallet:
+      type: object
+      required: [id, memberId, memberNo, memberName, balanceCents, currency, version, status]
+      properties:
+        id: { type: integer, minimum: 0 }
+        memberId: { type: integer, minimum: 1 }
+        memberNo: { type: string }
+        memberName: { type: string }
+        balanceCents: { type: integer, minimum: 0 }
+        currency: { type: string, enum: [CNY] }
+        version: { type: integer, minimum: 1 }
+        lastEntryAt: { type: string, format: date-time, nullable: true }
+        status: { type: string }
+    AdminMemberWalletListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminMemberWallet" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminMemberWalletLedgerEntry:
+      type: object
+      required: [id, entryType, deltaCents, balanceAfterCents, commandKey]
+      properties:
+        id: { type: integer, minimum: 1 }
+        entryType: { type: string }
+        deltaCents: { type: integer }
+        balanceAfterCents: { type: integer, minimum: 0 }
+        referenceType: { type: string, nullable: true }
+        referenceId: { type: integer, minimum: 1, nullable: true }
+        reason: { type: string, nullable: true }
+        actorName: { type: string, nullable: true }
+        commandKey: { type: string, format: uuid }
+        reversalOfId: { type: integer, minimum: 1, nullable: true }
+        occurredAt: { type: string, format: date-time, nullable: true }
+    AdminMemberWalletLedgerListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminMemberWalletLedgerEntry" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminWalletAdjustmentResult:
+      type: object
+      required: [wallet, entry, created]
+      properties:
+        wallet:
+          type: object
+          required: [id, memberId, balanceCents, currency, version]
+          properties:
+            id: { type: integer, minimum: 1 }
+            memberId: { type: integer, minimum: 1 }
+            balanceCents: { type: integer, minimum: 0 }
+            currency: { type: string, enum: [CNY] }
+            version: { type: integer, minimum: 1 }
+        entry: { $ref: "#/components/schemas/MemberWalletLedgerEntry" }
+        created: { type: boolean }
+    AdminWalletAdjustmentEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/AdminWalletAdjustmentResult" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminConsumptionReportRow:
+      type: object
+      required: [key, subjectId, subjectName, consumptionCount, consumedAmountCents, sessionFeeCents, commissionCents, totalCompensationCents]
+      properties:
+        key: { type: string }
+        subjectId: { type: integer, minimum: 1 }
+        subjectName: { type: string }
+        roleType:
+          allOf: [{ $ref: "#/components/schemas/CompensationRoleType" }]
+          nullable: true
+        consumptionCount: { type: integer, minimum: 0 }
+        consumedAmountCents: { type: integer, minimum: 0 }
+        sessionFeeCents: { type: integer }
+        commissionCents: { type: integer }
+        totalCompensationCents: { type: integer }
+        formulaVersion: { type: string, nullable: true }
+    AdminConsumptionReportListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminConsumptionReportRow" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminConsumptionRecipient:
+      type: object
+      required: [staffId, allocationBps]
+      properties:
+        staffId: { type: integer, minimum: 1 }
+        staffName: { type: string, nullable: true }
+        compensationRoleId: { type: integer, minimum: 1, nullable: true }
+        roleName: { type: string, nullable: true }
+        roleType:
+          allOf: [{ $ref: "#/components/schemas/CompensationRoleType" }]
+          nullable: true
+        allocationBps: { type: integer, minimum: 0, maximum: 10000 }
+    AdminValueLotAllocation:
+      type: object
+      required: [count]
+      properties:
+        valueLotId: { type: integer, minimum: 1, nullable: true }
+        count: { type: integer, minimum: 0 }
+        valueCents: { type: integer, minimum: 0, nullable: true }
+    AdminCommissionLine:
+      type: object
+      required: [id, staffId, component, lineType, baseValueCents, deltaCents, netCents, postCloseAdjustment]
+      properties:
+        id: { type: integer, minimum: 1 }
+        staffId: { type: integer, minimum: 1 }
+        staffName: { type: string, nullable: true }
+        compensationRoleId: { type: integer, minimum: 1, nullable: true }
+        roleName: { type: string, nullable: true }
+        roleType:
+          allOf: [{ $ref: "#/components/schemas/CompensationRoleType" }]
+          nullable: true
+        component: { type: string, enum: [session_fee, consumption_commission] }
+        lineType: { type: string, enum: [normal, reversal, adjustment] }
+        baseValueCents: { type: integer }
+        rateBps: { type: integer, minimum: 0, maximum: 10000, nullable: true }
+        allocationBps: { type: integer, minimum: 0, maximum: 10000, nullable: true }
+        deltaCents: { type: integer }
+        netCents: { type: integer }
+        postCloseAdjustment: { type: boolean }
+        occurredAt: { type: string, format: date-time, nullable: true }
+    AdminConsumptionEvent:
+      type: object
+      required: [id, memberName, memberCardNo, courseName, businessDate, cardType, formulaInputs, deliveryRecipients, shareRecipients, valueLotAllocations, commissionLines, calculationVersion, status]
+      properties:
+        id: { type: integer, minimum: 1 }
+        memberName: { type: string, nullable: true }
+        memberCardNo: { type: string, nullable: true }
+        courseName: { type: string, nullable: true }
+        sessionStartsAt: { type: string, format: date-time, nullable: true }
+        businessDate: { type: string, format: date, nullable: true }
+        cardType: { $ref: "#/components/schemas/CardType" }
+        consumedAmountCents: { type: integer, minimum: 0, nullable: true }
+        consumedCount: { type: integer, minimum: 0, nullable: true }
+        formulaInputs:
+          allOf:
+            - $ref: "#/components/schemas/ConsumptionFormulaInputs"
+            - type: object
+              properties:
+                entitlementAmountCents: { type: integer, minimum: 0, nullable: true }
+                courseRuleVersion: { type: integer, minimum: 1, nullable: true }
+                valueProvenance: { type: string }
+        deliveryRecipients: { type: array, items: { $ref: "#/components/schemas/AdminConsumptionRecipient" } }
+        shareRecipients: { type: array, items: { $ref: "#/components/schemas/AdminConsumptionRecipient" } }
+        valueLotAllocations: { type: array, items: { $ref: "#/components/schemas/AdminValueLotAllocation" } }
+        commissionLines: { type: array, items: { $ref: "#/components/schemas/AdminCommissionLine" } }
+        calculationVersion: { type: integer, minimum: 1 }
+        status: { $ref: "#/components/schemas/ConsumptionDisplayStatus" }
+        reversalOfId: { type: integer, minimum: 1, nullable: true }
+    AdminConsumptionEventListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminConsumptionEvent" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminPeriodSettlementDay:
+      type: object
+      required: [id, businessDate, memberCardId, memberCardNo, memberName, activeConsumptionCount, dailyValueCents, commissionCents, calculationVersion, status]
+      properties:
+        id: { type: integer, minimum: 1 }
+        businessDate: { type: string, format: date }
+        memberCardId: { type: integer, minimum: 1 }
+        memberCardNo: { type: string }
+        memberName: { type: string }
+        activeConsumptionCount: { type: integer, minimum: 0 }
+        dailyValueCents: { type: integer, minimum: 0 }
+        commissionCents: { type: integer }
+        calculationVersion: { type: integer, minimum: 1 }
+        status: { type: string, enum: [open, closed] }
+        finalizedAt: { type: string, format: date-time, nullable: true }
+    AdminPeriodSettlementDayListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminPeriodSettlementDay" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminPayrollPeriod:
+      type: object
+      required: [id, year, month, startsOn, endsOn, status, settlementLineCount, consumedValueCents, sessionFeeCents, commissionCents, compensationCents, adjustmentCents, version, canClose, pendingCount]
+      properties:
+        id: { type: integer, minimum: 1 }
+        year: { type: integer, minimum: 2000, maximum: 2200 }
+        month: { type: integer, minimum: 1, maximum: 12 }
+        startsOn: { type: string, format: date }
+        endsOn: { type: string, format: date }
+        status: { type: string, enum: [open, closed] }
+        settlementLineCount: { type: integer, minimum: 0 }
+        consumedValueCents: { type: integer, minimum: 0 }
+        sessionFeeCents: { type: integer }
+        commissionCents: { type: integer }
+        compensationCents: { type: integer }
+        adjustmentCents: { type: integer }
+        version: { type: integer, minimum: 1 }
+        canClose: { type: boolean }
+        pendingCount: { type: integer, minimum: 0 }
+        blockedReason: { type: string, nullable: true, enum: [PAYROLL_PERIOD_NOT_ENDED, PAYROLL_PERIOD_BUCKETS_OPEN, null] }
+        closedAt: { type: string, format: date-time, nullable: true }
+        metricsSnapshottedAt: { type: string, format: date-time, nullable: true }
+    CreateAdminPayrollPeriodRequest:
+      type: object
+      required: [year, month, reason, commandKey]
+      properties:
+        year: { type: integer, minimum: 2000, maximum: 2200 }
+        month: { type: integer, minimum: 1, maximum: 12 }
+        reason: { type: string, minLength: 4, maxLength: 500 }
+        commandKey: { type: string, format: uuid }
+    AdminPayrollPeriodEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/AdminPayrollPeriod" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    AdminPayrollPeriodListEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data:
+          type: object
+          required: [items, pagination]
+          properties:
+            items: { type: array, items: { $ref: "#/components/schemas/AdminPayrollPeriod" } }
+            pagination: { $ref: "#/components/schemas/PaginationMeta" }
         requestId: { $ref: "#/components/schemas/RequestId" }

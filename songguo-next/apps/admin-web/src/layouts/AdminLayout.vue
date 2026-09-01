@@ -12,6 +12,7 @@ import {
   List,
   OfficeBuilding,
   Operation,
+  Money,
   Setting,
   Tickets,
   User,
@@ -22,10 +23,12 @@ import { useRoute, useRouter } from "vue-router";
 
 import { apiRequest } from "@/api/client";
 import { useSessionStore } from "@/stores/session";
+import { useBusinessScopeStore } from "@/stores/businessScope";
 
 const route = useRoute();
 const router = useRouter();
 const session = useSessionStore();
+const businessScope = useBusinessScopeStore();
 const mobileMenuOpen = ref(false);
 const serviceHealth = ref<"checking" | "online" | "offline">("checking");
 let healthTimer: ReturnType<typeof setInterval> | undefined;
@@ -49,6 +52,16 @@ const navGroups = [
     items: [
       { label: "会员卡与权益", to: "/resource/cards", icon: CreditCard },
       { label: "订单管理", to: "/resource/orders", icon: Tickets },
+    ],
+  },
+  {
+    label: "会员卡与耗卡",
+    items: [
+      { label: "业务角色与人员", to: "/card-consumption/roles", icon: UserFilled },
+      { label: "卡课与薪酬规则", to: "/card-consumption/rules", icon: Collection },
+      { label: "会员钱包", to: "/card-consumption/wallets", icon: Money },
+      { label: "耗卡与提成报表", to: "/card-consumption/reports", icon: Histogram },
+      { label: "日结与月结", to: "/card-consumption/settlements", icon: DocumentChecked },
     ],
   },
   {
@@ -95,6 +108,7 @@ async function checkServiceHealth() {
 
 onMounted(() => {
   void checkServiceHealth();
+  void businessScope.loadTenants();
   healthTimer = setInterval(() => void checkServiceHealth(), 60_000);
 });
 
@@ -130,8 +144,8 @@ async function logout() {
 
       <div class="workspace-card">
         <span class="workspace-kicker">当前数据域</span>
-        <strong>平台全局</strong>
-        <span>全部租户与场馆</span>
+        <strong>{{ businessScope.tenant?.name ?? "未选择租户" }}</strong>
+        <span>{{ businessScope.site?.name ?? "请选择场馆" }}</span>
       </div>
 
       <nav class="sidebar-nav">
@@ -174,7 +188,43 @@ async function logout() {
         </div>
 
         <div class="topbar-actions">
-          <div class="site-select platform-scope"><el-icon><House /></el-icon><span>平台全局</span></div>
+          <div class="business-scope-selectors">
+            <el-select
+              :model-value="businessScope.tenantId"
+              class="site-select"
+              filterable
+              clearable
+              placeholder="选择租户"
+              :loading="businessScope.loadingTenants"
+              @update:model-value="businessScope.selectTenant"
+            >
+              <template #prefix><el-icon><OfficeBuilding /></el-icon></template>
+              <el-option
+                v-for="item in businessScope.tenants"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              />
+            </el-select>
+            <el-select
+              :model-value="businessScope.siteId"
+              class="site-select"
+              filterable
+              clearable
+              placeholder="选择场馆"
+              :disabled="!businessScope.tenantId"
+              :loading="businessScope.loadingSites"
+              @update:model-value="businessScope.selectSite"
+            >
+              <template #prefix><el-icon><House /></el-icon></template>
+              <el-option
+                v-for="item in businessScope.sites"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              />
+            </el-select>
+          </div>
           <button class="command-button" type="button"><span>⌘</span> 全局搜索</button>
           <button class="notice-button" type="button" aria-label="通知">
             <el-icon><Bell /></el-icon><i />

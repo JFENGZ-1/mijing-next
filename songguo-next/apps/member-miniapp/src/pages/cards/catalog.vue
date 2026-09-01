@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { onPullDownRefresh, onShow } from "@dcloudio/uni-app";
 import { requireMemberAuth } from "@/auth/guard";
 import {
   getMemberCardProductCatalog,
+  getMemberCashWallet,
   getMemberPurchaseGate,
   submitMemberCardPurchase,
   syncMemberOrderPayment,
 } from "@/api/member";
 import { ensureMemberContext } from "@/composables/member-context";
-import type { MemberCardProductCatalogItem } from "@/types/member";
+import type {
+  MemberCardPaymentMethod,
+  MemberCardProductCatalogItem,
+  MemberCashWallet,
+} from "@/types/member";
 import { formatApiErrorMessage } from "@/utils/api-error";
 import { createCommandKey } from "@/utils/command-key";
 import { cardTypeLabel } from "@/utils/format";
@@ -17,9 +22,25 @@ import { cardTypeLabel } from "@/utils/format";
 const purchasingId = ref<number | null>(null);
 const errorMessage = ref("");
 const products = ref<MemberCardProductCatalogItem[]>([]);
-const purchaseCommandKeys = new Map<number, string>();
+const wallet = ref<MemberCashWallet | null>(null);
+const purchaseCommandKeys = new Map<string, string>();
 
 const loading = ref(true);
+const walletBalance = computed(() => wallet.value?.balance ?? null);
+
+function paymentMethods(product: MemberCardProductCatalogItem): MemberCardPaymentMethod[] {
+  const configured = product.allowedPaymentMethods?.filter(
+    (method): method is MemberCardPaymentMethod => method === "online" || method === "balance",
+  );
+  return configured?.length ? configured : ["online"];
+}
+
+function paymentMethodLabel(method: MemberCardPaymentMethod) {
+  if (method === "online") return "在线支付";
+  return walletBalance.value === null
+    ? "余额支付（余额以服务端为准）"
+    : `余额支付（可用 ¥${walletBalance.value}）`;
+}
 
 function showToast(title: string, _type: "default" | "success" | "error" = "default", duration = 2000) {
   uni.showToast({ title, icon: _type === "success" ? "success" : "none", duration });
@@ -92,6 +113,13 @@ async function loadCatalog() {
 
     const response = await getMemberCardProductCatalog(context.tenantId, context.siteId);
     products.value = response.data.items;
+    try {
+      const walletResponse = await getMemberCashWallet(context.tenantId);
+      wallet.value = walletResponse.data;
+    } catch {
+      // 钱包读取失败不阻断在线购卡；最终支付校验仍由服务端完成。
+      wallet.value = null;
+    }
   } catch (error) {
     errorMessage.value = formatApiErrorMessage(error, "卡品列表加载失败");
   } finally {
@@ -100,14 +128,33 @@ async function loadCatalog() {
 }
 
 function confirmPurchase(product: MemberCardProductCatalogItem) {
+  const methods = paymentMethods(product);
+  if (methods.length > 1) {
+    uni.showActionSheet({
+      itemList: methods.map(paymentMethodLabel),
+      success: (result) => {
+        const method = methods[result.tapIndex];
+        if (method) confirmPurchaseWithMethod(product, method);
+      },
+    });
+    return;
+  }
+
+  confirmPurchaseWithMethod(product, methods[0] ?? "online");
+}
+
+function confirmPurchaseWithMethod(
+  product: MemberCardProductCatalogItem,
+  paymentMethod: MemberCardPaymentMethod,
+) {
   uni.showModal({
     title: "确认购买",
-    content: `确定购买「${product.name}」吗？\n${faceValueText(product)}\n售价 ¥${product.price}`,
+    content: `确定购买「${product.name}」吗？\n${faceValueText(product)}\n售价 ¥${product.price}\n${paymentMethodLabel(paymentMethod)}`,
     confirmText: "确认购买",
     cancelText: "取消",
     success: async (result) => {
       if (!result.confirm) return;
-      await purchaseProduct(product);
+      await purchaseProduct(product, paymentMethod);
     },
   });
 }
@@ -133,28 +180,33 @@ function requestWechatPayment(params: {
   });
 }
 
-async function purchaseProduct(product: MemberCardProductCatalogItem) {
+async function purchaseProduct(
+  product: MemberCardProductCatalogItem,
+  paymentMethod: MemberCardPaymentMethod,
+) {
   const context = await ensureMemberContext();
   if (!context) return;
 
-  let commandKey = purchaseCommandKeys.get(product.id);
+  const commandMapKey = `${product.id}:${paymentMethod}`;
+  let commandKey = purchaseCommandKeys.get(commandMapKey);
   if (!commandKey) {
     commandKey = createCommandKey();
-    purchaseCommandKeys.set(product.id, commandKey);
+    purchaseCommandKeys.set(commandMapKey, commandKey);
   }
 
   purchasingId.value = product.id;
   try {
     const response = await submitMemberCardPurchase(context.tenantId, context.siteId, {
       cardProductId: product.id,
+      paymentMethod,
       commandKey,
     });
-    purchaseCommandKeys.delete(product.id);
+    purchaseCommandKeys.delete(commandMapKey);
 
     const orderId = response.data.order.id;
     const card = response.data.memberCard;
     if (card) {
-      // demo 驱动：下单即发卡
+      // 余额支付或 demo 驱动：同一事务内完成付款和发卡。
       await new Promise((resolve) => setTimeout(resolve, 300));
       uni.redirectTo({ url: `/pages/orders/result?id=${orderId}` });
       return;
@@ -200,6 +252,14 @@ onPullDownRefresh(async () => { await loadCatalog(); uni.stopPullDownRefresh(); 
 
     <u-empty v-if="products.length === 0 && !errorMessage" mode="list" text="~ 没有会员卡出售哦 ~" />
 
+    <view v-if="products.length && wallet" class="wallet-banner">
+      <view>
+        <view class="wallet-label">会员余额</view>
+        <view class="wallet-value">¥{{ wallet.balance }}</view>
+      </view>
+      <view class="wallet-hint">余额支付由服务端原子扣款，不会透支</view>
+    </view>
+
     <view v-if="products.length" class="list-title">共{{ products.length }}种</view>
 
     <view v-for="product in products" :key="product.id" class="product-item">
@@ -228,6 +288,9 @@ onPullDownRefresh(async () => { await loadCatalog(); uni.stopPullDownRefresh(); 
 
       <view v-if="product.description" class="product-desc">{{ product.description }}</view>
       <view class="product-meta">{{ productValidityLabel(product) }}</view>
+      <view class="payment-methods">
+        支持 {{ paymentMethods(product).map(paymentMethodLabel).join("、") }}
+      </view>
     </view>
 
     <bottom-logo v-if="products.length" />
@@ -246,6 +309,35 @@ onPullDownRefresh(async () => { await loadCatalog(); uni.stopPullDownRefresh(); 
   color: $color-text;
   font-size: 28rpx;
   font-weight: 600;
+}
+
+.wallet-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+  padding: 24rpx 28rpx;
+  background: $color-surface;
+  border-radius: $radius-md;
+}
+
+.wallet-label,
+.wallet-hint {
+  color: $color-text-secondary;
+  font-size: 22rpx;
+}
+
+.wallet-value {
+  margin-top: 4rpx;
+  color: $color-text;
+  font-size: 36rpx;
+  font-weight: 700;
+}
+
+.wallet-hint {
+  max-width: 360rpx;
+  text-align: right;
+  line-height: 1.5;
 }
 
 .product-item {
@@ -341,6 +433,12 @@ onPullDownRefresh(async () => { await loadCatalog(); uni.stopPullDownRefresh(); 
 .product-meta {
   padding: 0 28rpx 24rpx;
   color: $color-text-secondary;
+  font-size: 22rpx;
+}
+
+.payment-methods {
+  padding: 0 28rpx 24rpx;
+  color: $color-primary;
   font-size: 22rpx;
 }
 </style>

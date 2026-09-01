@@ -62,6 +62,7 @@ const statItems = computed(() => {
 const menuItems = computed(() => {
   const items = [
     { label: "约课统计", icon: "calendar", action: "stats" },
+    { label: "耗卡明细", icon: "list-dot", action: "consumption" },
     { label: "我的订单", icon: "order", action: "orders" },
     { label: "场馆详情", icon: "home", action: "site" },
     { label: "场馆资料", icon: "edit-pen", action: "profile" },
@@ -177,6 +178,10 @@ function openOrders() {
   uni.navigateTo({ url: "/pages/orders/index" });
 }
 
+function openConsumption() {
+  uni.navigateTo({ url: "/pages/cards/consumption" });
+}
+
 function openLegal() {
   uni.navigateTo({ url: "/pages/legal/index?type=member_terms" });
 }
@@ -268,6 +273,7 @@ function openBenefits() {
 
 function handleMenuAction(action: string) {
   if (action === "stats") openStats();
+  else if (action === "consumption") openConsumption();
   else if (action === "orders") openOrders();
   else if (action === "site") openSiteDetail();
   else if (action === "profile") openProfile();

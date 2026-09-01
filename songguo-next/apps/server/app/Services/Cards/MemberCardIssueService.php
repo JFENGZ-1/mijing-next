@@ -6,6 +6,7 @@ use App\Enums\CardProductCatalogStatus;
 use App\Enums\CardType;
 use App\Enums\EntitlementLedgerDirection;
 use App\Enums\EntitlementLedgerEntryType;
+use App\Enums\MemberCardOrderStatus;
 use App\Enums\MemberCardStatus;
 use App\Models\Account;
 use App\Models\CardProduct;
@@ -13,23 +14,47 @@ use App\Models\CardProductCourseScope;
 use App\Models\EntitlementLedgerEntry;
 use App\Models\Member;
 use App\Models\MemberCard;
+use App\Models\MemberCardOrder;
 use App\Models\Site;
 use App\Models\Staff;
+use App\Services\Compensation\MemberCardShareAssignmentService;
+use App\Services\Compensation\MemberCardValueLotService;
+use App\Services\Wallet\MemberWalletService;
+use App\Support\DomainActor;
+use App\Support\Finance\Money;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class MemberCardIssueService
 {
+    public function __construct(
+        private MemberCardValueLotService $valueLots,
+        private MemberCardShareAssignmentService $shareAssignments,
+        private MemberWalletService $wallets,
+        private CardProductPaymentMethodService $paymentMethods,
+    ) {}
+
     /**
      * @return array{memberCard: MemberCard, created: bool}
      */
     public function issue(Staff $staff, Site $site, Member $member, array $payload): array
     {
+        abort_if(
+            (array_key_exists('actualAmount', $payload) || array_key_exists('paidAmountCents', $payload))
+                && empty($payload['paymentMethod']),
+            422,
+            'MEMBER_CARD_PAYMENT_METHOD_REQUIRED',
+        );
         abort_if($member->app_access_status === 'blocked', 403, 'MEMBER_APP_ACCESS_BLOCKED');
+        abort_unless(
+            $site->tenant_id === $staff->tenant_id && $member->tenant_id === $staff->tenant_id,
+            404,
+        );
 
         $commandKey = $payload['commandKey'];
+        $payloadHash = $this->issuePayloadHash($payload);
 
-        return DB::transaction(function () use ($staff, $site, $member, $payload, $commandKey) {
+        return DB::transaction(function () use ($staff, $site, $member, $payload, $commandKey, $payloadHash) {
             $existingEntry = EntitlementLedgerEntry::query()
                 ->where('tenant_id', $staff->tenant_id)
                 ->where('command_key', $commandKey)
@@ -37,13 +62,7 @@ class MemberCardIssueService
                 ->first();
 
             if ($existingEntry) {
-                return [
-                    'memberCard' => MemberCard::query()
-                        ->where('tenant_id', $staff->tenant_id)
-                        ->whereKey($existingEntry->member_card_id)
-                        ->firstOrFail(),
-                    'created' => false,
-                ];
+                return $this->existingIssueResult($existingEntry, $site, $member, $payload, $payloadHash);
             }
 
             $product = CardProduct::query()
@@ -53,6 +72,16 @@ class MemberCardIssueService
                 ->lockForUpdate()
                 ->firstOrFail();
 
+            // The product lock serializes identical issue commands. Recheck after it is held.
+            $existingEntry = EntitlementLedgerEntry::query()
+                ->where('tenant_id', $staff->tenant_id)
+                ->where('command_key', $commandKey)
+                ->lockForUpdate()
+                ->first();
+            if ($existingEntry) {
+                return $this->existingIssueResult($existingEntry, $site, $member, $payload, $payloadHash);
+            }
+
             abort_if(
                 $product->catalog_status !== CardProductCatalogStatus::Active,
                 409,
@@ -61,7 +90,17 @@ class MemberCardIssueService
 
             $product->load('courseScopes');
             $snapshot = $this->buildProductSnapshot($product);
-            $isImmediate = $product->activation_mode === 'immediate';
+            $openingType = isset($payload['openingType']) ? (string) $payload['openingType'] : null;
+            $activationMode = $this->issueActivationMode((string) $product->activation_mode, $openingType);
+            if ($openingType !== null) {
+                $snapshot['openingType'] = $openingType;
+            }
+            if ($this->openingTypeOverridesActivation($openingType)) {
+                // Card-instance override is a financial/validity fact. It must be
+                // frozen in the same issue transaction and win over later product edits.
+                $snapshot['activationModeOverride'] = $activationMode;
+            }
+            $isImmediate = $activationMode === 'immediate';
             $status = $isImmediate ? MemberCardStatus::Active : MemberCardStatus::PendingActivation;
             [$cachedBalance, $cachedCount, $validFrom, $validUntil] = $this->openingEntitlements(
                 $product,
@@ -99,10 +138,128 @@ class MemberCardIssueService
                 $validUntil,
                 $commandKey,
                 $staff->id,
+                $payloadHash,
             );
 
-            return ['memberCard' => $memberCard->fresh(), 'created' => true];
+            $order = null;
+            if (isset($payload['paymentMethod'])) {
+                $paymentMethod = (string) $payload['paymentMethod'];
+                abort_unless(
+                    in_array($paymentMethod, $this->paymentMethods->methods($product), true),
+                    422,
+                    'CARD_PRODUCT_PAYMENT_METHOD_NOT_ALLOWED',
+                );
+                $paidAmountCents = array_key_exists('actualAmount', $payload)
+                    ? Money::decimalToCents($payload['actualAmount'])
+                    : (array_key_exists('paidAmountCents', $payload)
+                        ? (int) $payload['paidAmountCents']
+                        : Money::decimalToCents($product->price));
+                abort_if($paidAmountCents < 0, 422, 'MEMBER_CARD_PAID_AMOUNT_INVALID');
+
+                $order = MemberCardOrder::create([
+                    'tenant_id' => $staff->tenant_id,
+                    'site_id' => $site->id,
+                    'member_id' => $member->id,
+                    'member_card_id' => $memberCard->id,
+                    'order_no' => 'ORD-'.strtoupper((string) Str::ulid()),
+                    'amount' => Money::centsToDecimal($paidAmountCents),
+                    'payment_method' => $paymentMethod,
+                    'paid_amount_cents' => $paidAmountCents,
+                    'paid_at' => now(),
+                    'status' => MemberCardOrderStatus::Paid,
+                    'command_key' => $commandKey,
+                    'created_by_staff_id' => $staff->id,
+                    'metadata' => [
+                        'channel' => $paymentMethod === 'online'
+                            ? 'manual_staff_confirmed_online'
+                            : 'staff_issue_balance',
+                        'collectionConfirmation' => $paymentMethod === 'online'
+                            ? 'manual_staff_confirmed'
+                            : 'wallet_atomic_debit',
+                        'gatewayTransactionId' => null,
+                        'confirmedByActor' => ['type' => 'staff', 'id' => $staff->id],
+                        'confirmationReason' => $payload['reason'] ?? null,
+                        'cardProductId' => $product->id,
+                        'productVersion' => $product->version,
+                        'issuePayloadHash' => $payloadHash,
+                    ],
+                ]);
+                if ($paymentMethod === 'balance' && $paidAmountCents > 0) {
+                    $this->wallets->debitForOrder(
+                        DomainActor::staff($staff),
+                        $member,
+                        $site,
+                        $order,
+                        $paidAmountCents,
+                        'wallet:staff-issue:'.$order->id,
+                    );
+                }
+                $this->valueLots->recordForOrder($order, $memberCard);
+            } else {
+                $this->valueLots->recordForIssue($memberCard, $payload);
+            }
+
+            if (array_key_exists('shareAssignments', $payload)) {
+                $this->shareAssignments->replace(
+                    $memberCard,
+                    $site,
+                    $payload['shareAssignments'] ?? [],
+                    DomainActor::staff($staff),
+                    'member-card:'.$memberCard->id.':share-assignment',
+                );
+            } else {
+                $this->shareAssignments->assignOwnerDefaults($memberCard, $member, $site);
+            }
+
+            return ['memberCard' => $memberCard->fresh(), 'order' => $order?->fresh(), 'created' => true];
         });
+    }
+
+    private function existingIssueResult(
+        EntitlementLedgerEntry $entry,
+        Site $site,
+        Member $member,
+        array $payload,
+        string $payloadHash,
+    ): array {
+        $card = MemberCard::query()
+            ->where('tenant_id', $site->tenant_id)
+            ->whereKey($entry->member_card_id)
+            ->firstOrFail();
+        abort_unless(
+            $entry->entry_type === EntitlementLedgerEntryType::Issue
+            && (int) $entry->site_id === $site->id
+            && (int) $entry->member_id === $member->id
+            && $card->site_id === $site->id
+            && $card->member_id === $member->id
+            && $card->card_product_id === (int) $payload['cardProductId'],
+            409,
+            'IDEMPOTENCY_KEY_REUSED',
+        );
+        $storedHash = ($entry->metadata ?? [])['issuePayloadHash'] ?? null;
+        abort_if($storedHash !== null && ! hash_equals((string) $storedHash, $payloadHash), 409, 'IDEMPOTENCY_KEY_REUSED');
+
+        $order = MemberCardOrder::query()
+            ->where('tenant_id', $site->tenant_id)
+            ->where('command_key', $entry->command_key)
+            ->first();
+        if (isset($payload['paymentMethod'])) {
+            $expectedCents = array_key_exists('actualAmount', $payload)
+                ? Money::decimalToCents($payload['actualAmount'])
+                : (array_key_exists('paidAmountCents', $payload) ? (int) $payload['paidAmountCents'] : null);
+            abort_unless(
+                $order !== null
+                && $order->member_card_id === $card->id
+                && $order->payment_method === $payload['paymentMethod']
+                && ($expectedCents === null || $order->paid_amount_cents === $expectedCents),
+                409,
+                'IDEMPOTENCY_KEY_REUSED',
+            );
+        } else {
+            abort_if($order !== null, 409, 'IDEMPOTENCY_KEY_REUSED');
+        }
+
+        return ['memberCard' => $card, 'order' => $order, 'created' => false];
     }
 
     /**
@@ -118,6 +275,7 @@ class MemberCardIssueService
         abort_if($member->app_access_status === 'blocked', 403, 'MEMBER_APP_ACCESS_BLOCKED');
 
         return DB::transaction(function () use ($account, $site, $member, $product, $commandKey) {
+            $payloadHash = $this->purchasePayloadHash($account, $site, $member, $product);
             $existingEntry = EntitlementLedgerEntry::query()
                 ->where('tenant_id', $member->tenant_id)
                 ->where('command_key', $commandKey)
@@ -125,13 +283,7 @@ class MemberCardIssueService
                 ->first();
 
             if ($existingEntry) {
-                return [
-                    'memberCard' => MemberCard::query()
-                        ->where('tenant_id', $member->tenant_id)
-                        ->whereKey($existingEntry->member_card_id)
-                        ->firstOrFail(),
-                    'created' => false,
-                ];
+                return $this->existingPurchaseIssueResult($existingEntry, $account, $site, $member, $product, $payloadHash);
             }
 
             abort_unless(
@@ -139,12 +291,27 @@ class MemberCardIssueService
                 404,
             );
 
-            $product->load('courseScopes');
-            $snapshot = $this->buildProductSnapshot($product);
-            $isImmediate = $product->activation_mode === 'immediate';
+            $lockedProduct = CardProduct::query()
+                ->where('tenant_id', $member->tenant_id)
+                ->where('site_id', $site->id)
+                ->whereKey($product->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+            $existingEntry = EntitlementLedgerEntry::query()
+                ->where('tenant_id', $member->tenant_id)
+                ->where('command_key', $commandKey)
+                ->lockForUpdate()
+                ->first();
+            if ($existingEntry) {
+                return $this->existingPurchaseIssueResult($existingEntry, $account, $site, $member, $lockedProduct, $payloadHash);
+            }
+
+            $lockedProduct->load('courseScopes');
+            $snapshot = $this->buildProductSnapshot($lockedProduct);
+            $isImmediate = $lockedProduct->activation_mode === 'immediate';
             $status = $isImmediate ? MemberCardStatus::Active : MemberCardStatus::PendingActivation;
             [$cachedBalance, $cachedCount, $validFrom, $validUntil] = $this->openingEntitlements(
-                $product,
+                $lockedProduct,
                 $snapshot,
                 [],
                 $isImmediate,
@@ -154,8 +321,8 @@ class MemberCardIssueService
                 'tenant_id' => $member->tenant_id,
                 'site_id' => $site->id,
                 'member_id' => $member->id,
-                'card_product_id' => $product->id,
-                'card_type' => $product->card_type,
+                'card_product_id' => $lockedProduct->id,
+                'card_type' => $lockedProduct->card_type,
                 'card_no' => 'MC-'.strtoupper((string) Str::ulid()),
                 'status' => $status,
                 'product_snapshot' => $snapshot,
@@ -172,7 +339,7 @@ class MemberCardIssueService
                 'member_card_id' => $memberCard->id,
                 'member_id' => $member->id,
                 'entry_type' => EntitlementLedgerEntryType::Purchase,
-                'direction' => $product->card_type === CardType::Period
+                'direction' => $lockedProduct->card_type === CardType::Period
                     ? EntitlementLedgerDirection::Neutral
                     : EntitlementLedgerDirection::Credit,
                 'amount_delta' => $cachedBalance,
@@ -181,6 +348,7 @@ class MemberCardIssueService
                 'valid_until_after' => $validUntil,
                 'command_key' => $commandKey,
                 'reason' => 'Member purchase',
+                'metadata' => ['purchasePayloadHash' => $payloadHash],
                 'actor_account_id' => $account->id,
                 'occurred_at' => now(),
             ]);
@@ -221,7 +389,7 @@ class MemberCardIssueService
                 $days = (int) ($snapshot['validityDays'] ?? 0);
                 abort_if($days < 1, 409, 'MEMBER_CARD_ACTIVATION_INVALID');
                 $validFrom = now()->toDateString();
-                $validUntil = now()->addDays($days)->toDateString();
+                $validUntil = now()->addDays($days - 1)->toDateString();
                 $updates['valid_from'] = $validFrom;
                 $updates['valid_until'] = $validUntil;
             }
@@ -272,7 +440,12 @@ class MemberCardIssueService
                 null,
             ],
             CardType::Period => $isImmediate
-                ? [null, null, now()->toDateString(), now()->addDays((int) $product->validity_days)->toDateString()]
+                ? [
+                    null,
+                    null,
+                    now()->toDateString(),
+                    now()->addDays(max(0, (int) $product->validity_days - 1))->toDateString(),
+                ]
                 : [null, null, null, null],
         };
     }
@@ -289,6 +462,7 @@ class MemberCardIssueService
         ?string $validUntil,
         string $commandKey,
         int $staffId,
+        string $payloadHash,
     ): void {
         EntitlementLedgerEntry::create([
             'tenant_id' => $tenantId,
@@ -305,6 +479,7 @@ class MemberCardIssueService
             'valid_until_after' => $validUntil,
             'command_key' => $commandKey,
             'reason' => 'Staff issue',
+            'metadata' => ['issuePayloadHash' => $payloadHash],
             'actor_staff_id' => $staffId,
             'occurred_at' => now(),
         ]);
@@ -322,6 +497,7 @@ class MemberCardIssueService
             'validityDays' => $product->validity_days,
             'validityMode' => $product->validity_mode,
             'activationMode' => $product->activation_mode,
+            'allowedPaymentMethods' => $this->paymentMethods->methods($product),
             'productVersion' => $product->version,
             'scopeConfig' => $product->scope_config,
             'bookingRules' => $product->booking_rules,
@@ -343,6 +519,100 @@ class MemberCardIssueService
 
     private function decimalString(mixed $value): string
     {
-        return number_format((float) $value, 2, '.', '');
+        return Money::centsToDecimal(Money::decimalToCents($value));
+    }
+
+    private function issuePayloadHash(array $payload): string
+    {
+        $shares = collect($payload['shareAssignments'] ?? [])->map(fn ($assignment) => [
+            'staffId' => (int) $assignment['staffId'],
+            'compensationRoleId' => (int) $assignment['compensationRoleId'],
+            'allocationBps' => (int) ($assignment['allocationBps'] ?? 10000),
+            'effectiveFrom' => $assignment['effectiveFrom'] ?? null,
+            'effectiveUntil' => $assignment['effectiveUntil'] ?? null,
+        ])->sortBy(fn ($assignment) => implode(':', [
+            $assignment['compensationRoleId'], $assignment['staffId'],
+            $assignment['effectiveFrom'] ?? '', $assignment['effectiveUntil'] ?? '',
+        ]))->values()->all();
+
+        return hash('sha256', json_encode([
+            'cardProductId' => (int) $payload['cardProductId'],
+            'openingBalanceCents' => array_key_exists('openingBalance', $payload)
+                ? Money::decimalToCents($payload['openingBalance'])
+                : null,
+            'openingCount' => array_key_exists('openingCount', $payload) ? (int) $payload['openingCount'] : null,
+            'openingType' => $payload['openingType'] ?? null,
+            'reason' => $payload['reason'] ?? null,
+            'paymentMethod' => $payload['paymentMethod'] ?? null,
+            'paidAmountCents' => array_key_exists('actualAmount', $payload)
+                ? Money::decimalToCents($payload['actualAmount'])
+                : (array_key_exists('paidAmountCents', $payload) ? (int) $payload['paidAmountCents'] : null),
+            'hasExplicitShareAssignments' => array_key_exists('shareAssignments', $payload),
+            'shareAssignments' => $shares,
+        ], JSON_THROW_ON_ERROR));
+    }
+
+    private function issueActivationMode(string $productMode, ?string $openingType): string
+    {
+        $candidate = $this->openingTypeOverridesActivation($openingType)
+            ? (string) $openingType
+            : $productMode;
+
+        return match ($candidate) {
+            'first_use', 'first-use', 'on_first_use' => 'first-use',
+            'first_class', 'first-class', 'on_first_class' => 'first-class',
+            'keep_pending', 'manual' => 'manual',
+            'delayed' => 'delayed',
+            default => 'immediate',
+        };
+    }
+
+    private function openingTypeOverridesActivation(?string $openingType): bool
+    {
+        return $openingType !== null && ! in_array($openingType, ['new', 'legacy'], true);
+    }
+
+    private function purchasePayloadHash(
+        Account $account,
+        Site $site,
+        Member $member,
+        CardProduct $product,
+    ): string {
+        return hash('sha256', json_encode([
+            'accountId' => $account->id,
+            'tenantId' => $member->tenant_id,
+            'siteId' => $site->id,
+            'memberId' => $member->id,
+            'cardProductId' => $product->id,
+        ], JSON_THROW_ON_ERROR));
+    }
+
+    private function existingPurchaseIssueResult(
+        EntitlementLedgerEntry $entry,
+        Account $account,
+        Site $site,
+        Member $member,
+        CardProduct $product,
+        string $payloadHash,
+    ): array {
+        $card = MemberCard::query()
+            ->where('tenant_id', $member->tenant_id)
+            ->whereKey($entry->member_card_id)
+            ->firstOrFail();
+        $storedHash = ($entry->metadata ?? [])['purchasePayloadHash'] ?? null;
+        abort_unless(
+            $entry->entry_type === EntitlementLedgerEntryType::Purchase
+            && (int) $entry->site_id === $site->id
+            && (int) $entry->member_id === $member->id
+            && (int) $entry->actor_account_id === $account->id
+            && $card->site_id === $site->id
+            && $card->member_id === $member->id
+            && $card->card_product_id === $product->id
+            && ($storedHash === null || hash_equals((string) $storedHash, $payloadHash)),
+            409,
+            'IDEMPOTENCY_KEY_REUSED',
+        );
+
+        return ['memberCard' => $card, 'created' => false];
     }
 }

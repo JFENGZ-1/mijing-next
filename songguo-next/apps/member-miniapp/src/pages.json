@@ -108,6 +108,13 @@
 			}
 		},
 		{
+			"path": "pages/cards/consumption",
+			"style": {
+				"navigationBarTitleText": "耗卡明细",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
 			"path": "pages/cards/transfer",
 			"style": {
 				"navigationBarTitleText": "领取会员卡"

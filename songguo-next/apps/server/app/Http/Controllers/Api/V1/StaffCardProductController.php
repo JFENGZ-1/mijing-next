@@ -9,10 +9,11 @@ use App\Http\Requests\UpdateCardProductRequest;
 use App\Models\CardProduct;
 use App\Models\CardProductCourseScope;
 use App\Models\Staff;
-use App\Services\Cards\CardProductWriteService;
 use App\Services\Cards\CardProductExtrasService;
+use App\Services\Cards\CardProductWriteService;
 use App\Services\Cards\StaffCardProductAccessService;
 use App\Support\ApiResponse;
+use App\Support\DomainActor;
 use Illuminate\Http\Request;
 
 class StaffCardProductController extends Controller
@@ -85,7 +86,7 @@ class StaffCardProductController extends Controller
         $siteModel = $access->site($staff, $site);
         $access->assertPermission($staff, 'card-product.editor.write', $siteModel->id);
         $product = $access->product($staff, $siteModel, $cardProduct);
-        $product = $writer->update($product, $request->validated());
+        $product = $writer->updateForActor(DomainActor::staff($staff), $siteModel, $product, $request->validated());
 
         return ApiResponse::success($this->detailData($product));
     }
@@ -101,7 +102,16 @@ class StaffCardProductController extends Controller
         $siteModel = $access->site($staff, $site);
         $access->assertPermission($staff, 'card-product.archive', $siteModel->id);
         $product = $access->product($staff, $siteModel, $cardProduct);
-        $product = $writer->archive($product)->load('courseScopes');
+        $command = $request->validate([
+            'version' => ['sometimes', 'integer', 'min:1'],
+            'commandKey' => ['sometimes', 'uuid'],
+            'reason' => ['sometimes', 'nullable', 'string', 'max:500'],
+        ]);
+        $product = $writer->archiveForActor(
+            DomainActor::staff($staff), $siteModel, $product,
+            (int) ($command['version'] ?? $product->version),
+            $command['commandKey'] ?? null, $command['reason'] ?? null,
+        )->load('courseScopes');
 
         return ApiResponse::success($this->detailData($product));
     }
@@ -117,7 +127,16 @@ class StaffCardProductController extends Controller
         $siteModel = $access->site($staff, $site);
         $access->assertPermission($staff, 'card-product.archive', $siteModel->id);
         $product = $access->product($staff, $siteModel, $cardProduct);
-        $product = $writer->restore($product)->load('courseScopes');
+        $command = $request->validate([
+            'version' => ['sometimes', 'integer', 'min:1'],
+            'commandKey' => ['sometimes', 'uuid'],
+            'reason' => ['sometimes', 'nullable', 'string', 'max:500'],
+        ]);
+        $product = $writer->restoreForActor(
+            DomainActor::staff($staff), $siteModel, $product,
+            (int) ($command['version'] ?? $product->version),
+            $command['commandKey'] ?? null, $command['reason'] ?? null,
+        )->load('courseScopes');
 
         return ApiResponse::success($this->detailData($product));
     }
@@ -190,6 +209,7 @@ class StaffCardProductController extends Controller
             'catalogStatus' => $product->catalog_status->value,
             'sortOrder' => $product->sort_order,
             'version' => $product->version,
+            'allowedPaymentMethods' => app(\App\Services\Cards\CardProductPaymentMethodService::class)->methods($product),
             'faceStyle' => (int) ($product->scope_config['faceStyle'] ?? 0),
             'faceGradient' => app(\App\Services\Cards\CardFaceLibraryService::class)
                 ->gradientFor((int) ($product->scope_config['faceStyle'] ?? 0)),

@@ -156,6 +156,293 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "ADOPT"
   },
   {
+    "operationId": "listAdminTenantSites",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "getAdminCardConsumptionOptions",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/card-consumption/options",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "listAdminCardCourseRules",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/card-course-rules",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "listAdminCardProductPaymentMethods",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/card-product-payment-methods",
+    "group": "commerce",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "listAdminCardProducts",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/card-products",
+    "group": "entitlement",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "createAdminCardProduct",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/card-products",
+    "group": "entitlement",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "updateAdminCardProduct",
+    "method": "PUT",
+    "path": "/admin/tenants/{tenant}/sites/{site}/card-products/{cardProduct}",
+    "group": "entitlement",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "archiveAdminCardProduct",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/card-products/{cardProduct}/archive",
+    "group": "entitlement",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "replaceAdminCardCourseRules",
+    "method": "PUT",
+    "path": "/admin/tenants/{tenant}/sites/{site}/card-products/{cardProduct}/course-rules",
+    "group": "entitlement",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "updateAdminCardProductPaymentMethods",
+    "method": "PUT",
+    "path": "/admin/tenants/{tenant}/sites/{site}/card-products/{cardProduct}/payment-methods",
+    "group": "entitlement",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "restoreAdminCardProduct",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/card-products/{cardProduct}/restore",
+    "group": "entitlement",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "listAdminCompensationRoleAssignments",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/compensation-role-assignments",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "createAdminCompensationRoleAssignment",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/compensation-role-assignments",
+    "group": "organization",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "endAdminCompensationRoleAssignment",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/compensation-role-assignments/{assignment}/end",
+    "group": "organization",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "listAdminCompensationRoles",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/compensation-roles",
+    "group": "access",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "createAdminCompensationRole",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/compensation-roles",
+    "group": "access",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "updateAdminCompensationRole",
+    "method": "PUT",
+    "path": "/admin/tenants/{tenant}/sites/{site}/compensation-roles/{compensationRole}",
+    "group": "access",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "archiveAdminCompensationRole",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/compensation-roles/{compensationRole}/archive",
+    "group": "access",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "listAdminConsumptionEvents",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/consumption-events",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "reverseAdminConsumptionEvent",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/consumption-events/{consumptionEvent}/reverse",
+    "group": "organization",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "listAdminConsumptionReports",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/consumption-reports",
+    "group": "reporting",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "listAdminCourseCompensationRules",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/course-compensation-rules",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "saveAdminCourseCompensationRule",
+    "method": "PUT",
+    "path": "/admin/tenants/{tenant}/sites/{site}/course-compensation-rules",
+    "group": "organization",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "listAdminCourses",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/courses",
+    "group": "scheduling",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "createAdminCourse",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/courses",
+    "group": "scheduling",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "updateAdminCourse",
+    "method": "PUT",
+    "path": "/admin/tenants/{tenant}/sites/{site}/courses/{course}",
+    "group": "scheduling",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "archiveAdminCourse",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/courses/{course}/archive",
+    "group": "scheduling",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "restoreAdminCourse",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/courses/{course}/restore",
+    "group": "scheduling",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "listAdminSessionDeliveryAssignments",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/delivery-assignments",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "listAdminMemberCardShareAssignments",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/member-card-share-assignments",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "createAdminMemberCardShareAssignment",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/member-card-share-assignments",
+    "group": "organization",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "endAdminMemberCardShareAssignment",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/member-card-share-assignments/{assignment}/end",
+    "group": "organization",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "replaceAdminMemberCardShareAssignments",
+    "method": "PUT",
+    "path": "/admin/tenants/{tenant}/sites/{site}/member-cards/{memberCard}/share-assignments",
+    "group": "entitlement",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "listAdminMemberWallets",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/member-wallets",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "adjustAdminMemberWallet",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/member-wallets/{member}/adjustments",
+    "group": "organization",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "listAdminMemberWalletLedger",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/member-wallets/{member}/ledger",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "listAdminPayrollPeriods",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/payroll-periods",
+    "group": "reporting",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "createAdminPayrollPeriod",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/payroll-periods",
+    "group": "reporting",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "closeAdminPayrollPeriod",
+    "method": "POST",
+    "path": "/admin/tenants/{tenant}/sites/{site}/payroll-periods/{payrollPeriod}/close",
+    "group": "reporting",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "listAdminPeriodSettlementDays",
+    "method": "GET",
+    "path": "/admin/tenants/{tenant}/sites/{site}/period-settlement-days",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "replaceAdminSessionDeliveryAssignments",
+    "method": "PUT",
+    "path": "/admin/tenants/{tenant}/sites/{site}/sessions/{session}/delivery-assignments",
+    "group": "organization",
+    "disposition": "CUSTOM"
+  },
+  {
     "operationId": "logoutCurrentSession",
     "method": "POST",
     "path": "/auth/logout",
@@ -271,6 +558,13 @@ export const apiOperations: ApiOperationSummary[] = [
     "operationId": "claimMemberCardTransfer",
     "method": "POST",
     "path": "/member/card-transfers/{token}/claim",
+    "group": "identity",
+    "disposition": "IGNORE"
+  },
+  {
+    "operationId": "listMemberConsumptionSettlements",
+    "method": "GET",
+    "path": "/member/consumption-settlements",
     "group": "identity",
     "disposition": "IGNORE"
   },
@@ -527,6 +821,13 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "IGNORE"
   },
   {
+    "operationId": "getMemberWallet",
+    "method": "GET",
+    "path": "/member/wallet",
+    "group": "identity",
+    "disposition": "IGNORE"
+  },
+  {
     "operationId": "getPublicBookingShareSession",
     "method": "GET",
     "path": "/public/booking/share/sessions/{token}",
@@ -751,6 +1052,27 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "CUSTOM"
   },
   {
+    "operationId": "previewStaffAppointmentConsumption",
+    "method": "GET",
+    "path": "/staff/sites/{site}/appointments/{appointment}/consumption-preview",
+    "group": "booking",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "getStaffAppointmentConsumptionSettlement",
+    "method": "GET",
+    "path": "/staff/sites/{site}/appointments/{appointment}/consumption-settlement",
+    "group": "booking",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "settleStaffAppointmentConsumption",
+    "method": "POST",
+    "path": "/staff/sites/{site}/appointments/{appointment}/consumption-settlement",
+    "group": "booking",
+    "disposition": "UNCLASSIFIED"
+  },
+  {
     "operationId": "markStaffAppointmentAbsent",
     "method": "POST",
     "path": "/staff/sites/{site}/appointments/{appointment}/mark-absent",
@@ -870,6 +1192,20 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "UNCLASSIFIED"
   },
   {
+    "operationId": "getStaffCardCourseRules",
+    "method": "GET",
+    "path": "/staff/sites/{site}/card-products/{cardProduct}/course-rules",
+    "group": "entitlement",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "replaceStaffCardCourseRules",
+    "method": "PUT",
+    "path": "/staff/sites/{site}/card-products/{cardProduct}/course-rules",
+    "group": "entitlement",
+    "disposition": "UNCLASSIFIED"
+  },
+  {
     "operationId": "getStaffCardProductGroupHistory",
     "method": "GET",
     "path": "/staff/sites/{site}/card-products/{cardProduct}/group-history",
@@ -922,6 +1258,55 @@ export const apiOperations: ApiOperationSummary[] = [
     "operationId": "updateStaffSiteClosure",
     "method": "PATCH",
     "path": "/staff/sites/{site}/closure-calendar/{closure}",
+    "group": "organization",
+    "disposition": "UNCLASSIFIED"
+  },
+  {
+    "operationId": "listStaffCompensationRoles",
+    "method": "GET",
+    "path": "/staff/sites/{site}/compensation-roles",
+    "group": "access",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "createStaffCompensationRole",
+    "method": "POST",
+    "path": "/staff/sites/{site}/compensation-roles",
+    "group": "access",
+    "disposition": "UNCLASSIFIED"
+  },
+  {
+    "operationId": "updateStaffCompensationRole",
+    "method": "PUT",
+    "path": "/staff/sites/{site}/compensation-roles/{compensationRole}",
+    "group": "access",
+    "disposition": "UNCLASSIFIED"
+  },
+  {
+    "operationId": "archiveStaffCompensationRole",
+    "method": "POST",
+    "path": "/staff/sites/{site}/compensation-roles/{compensationRole}/archive",
+    "group": "access",
+    "disposition": "UNCLASSIFIED"
+  },
+  {
+    "operationId": "listStaffConsumptionSettlements",
+    "method": "GET",
+    "path": "/staff/sites/{site}/consumption-settlements",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "getStaffConsumptionSettlement",
+    "method": "GET",
+    "path": "/staff/sites/{site}/consumption-settlements/{event}",
+    "group": "organization",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "reverseStaffConsumptionSettlement",
+    "method": "POST",
+    "path": "/staff/sites/{site}/consumption-settlements/{event}/reverse",
     "group": "organization",
     "disposition": "UNCLASSIFIED"
   },
@@ -985,6 +1370,20 @@ export const apiOperations: ApiOperationSummary[] = [
     "operationId": "archiveStaffCourse",
     "method": "POST",
     "path": "/staff/sites/{site}/courses/{course}/archive",
+    "group": "scheduling",
+    "disposition": "UNCLASSIFIED"
+  },
+  {
+    "operationId": "getStaffCourseCompensationRule",
+    "method": "GET",
+    "path": "/staff/sites/{site}/courses/{course}/compensation-rules",
+    "group": "scheduling",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "saveStaffCourseCompensationRule",
+    "method": "PUT",
+    "path": "/staff/sites/{site}/courses/{course}/compensation-rules",
     "group": "scheduling",
     "disposition": "UNCLASSIFIED"
   },
@@ -1262,6 +1661,20 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "UNCLASSIFIED"
   },
   {
+    "operationId": "listStaffMemberCardShareAssignments",
+    "method": "GET",
+    "path": "/staff/sites/{site}/member-cards/{memberCard}/share-assignments",
+    "group": "entitlement",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "replaceStaffMemberCardShareAssignments",
+    "method": "PUT",
+    "path": "/staff/sites/{site}/member-cards/{memberCard}/share-assignments",
+    "group": "entitlement",
+    "disposition": "UNCLASSIFIED"
+  },
+  {
     "operationId": "issueMemberCardTransferShareToken",
     "method": "POST",
     "path": "/staff/sites/{site}/member-cards/{memberCard}/transfer-share-token",
@@ -1514,6 +1927,20 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "UNCLASSIFIED"
   },
   {
+    "operationId": "getStaffMemberWallet",
+    "method": "GET",
+    "path": "/staff/sites/{site}/members/{member}/wallet",
+    "group": "members",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "adjustStaffMemberWallet",
+    "method": "POST",
+    "path": "/staff/sites/{site}/members/{member}/wallet-adjustments",
+    "group": "members",
+    "disposition": "CUSTOM"
+  },
+  {
     "operationId": "batchImportStaffMembers",
     "method": "POST",
     "path": "/staff/sites/{site}/members/batch-import",
@@ -1603,6 +2030,27 @@ export const apiOperations: ApiOperationSummary[] = [
     "path": "/staff/sites/{site}/payment-marketing",
     "group": "commerce",
     "disposition": "ADOPT"
+  },
+  {
+    "operationId": "listStaffPayrollPeriods",
+    "method": "GET",
+    "path": "/staff/sites/{site}/payroll-periods",
+    "group": "reporting",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "createStaffPayrollPeriod",
+    "method": "POST",
+    "path": "/staff/sites/{site}/payroll-periods",
+    "group": "reporting",
+    "disposition": "CUSTOM"
+  },
+  {
+    "operationId": "closeStaffPayrollPeriod",
+    "method": "POST",
+    "path": "/staff/sites/{site}/payroll-periods/{period}/close",
+    "group": "reporting",
+    "disposition": "CUSTOM"
   },
   {
     "operationId": "getStaffPayrollCoachConfig",
@@ -2018,6 +2466,13 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "CUSTOM"
   },
   {
+    "operationId": "replaceStaffScheduleSessionDeliveryAssignments",
+    "method": "PUT",
+    "path": "/staff/sites/{site}/schedule-sessions/{session}/delivery-assignments",
+    "group": "scheduling",
+    "disposition": "UNCLASSIFIED"
+  },
+  {
     "operationId": "createStaffScheduleSessionShareLink",
     "method": "POST",
     "path": "/staff/sites/{site}/schedule-sessions/{session}/share-link",
@@ -2130,6 +2585,20 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "UNCLASSIFIED"
   },
   {
+    "operationId": "listStaffCompensationRoleAssignments",
+    "method": "GET",
+    "path": "/staff/sites/{site}/staff-directory/{staffMember}/compensation-roles",
+    "group": "access",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "replaceStaffCompensationRoleAssignments",
+    "method": "PUT",
+    "path": "/staff/sites/{site}/staff-directory/{staffMember}/compensation-roles",
+    "group": "access",
+    "disposition": "UNCLASSIFIED"
+  },
+  {
     "operationId": "departStaffDirectoryMember",
     "method": "POST",
     "path": "/staff/sites/{site}/staff-directory/{staffMember}/departure",
@@ -2188,14 +2657,14 @@ export const apiOperations: ApiOperationSummary[] = [
 ];
 
 export const contractReport: ContractReport = {
-  "generatedAt": "2026年8月23日 10:17:17",
-  "sourceHash": "6691048e7615e1fd110a3d5262d5862b7c76942502be80f2fb413a100e325662",
-  "total": 312,
+  "generatedAt": "2026年9月1日 23:35:39",
+  "sourceHash": "741def757960a25e67b51a2910a8c0558490033aed02b5928716cf0fba8b23b0",
+  "total": 379,
   "counts": {
-    "ADOPT": 134,
-    "CUSTOM": 31,
-    "IGNORE": 50,
-    "UNCLASSIFIED": 97
+    "ADOPT": 162,
+    "CUSTOM": 58,
+    "IGNORE": 52,
+    "UNCLASSIFIED": 107
   },
   "changes": {
     "added": [],

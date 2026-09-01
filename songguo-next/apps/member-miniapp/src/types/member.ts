@@ -212,6 +212,8 @@ export interface MemberPurchaseGate {
   redirectHints: { profile: string; cardCatalog: string };
 }
 
+export type MemberCardPaymentMethod = "online" | "balance";
+
 export interface MemberCardProductCatalogItem {
   id: number;
   cardType: "stored_value" | "count" | "period";
@@ -223,6 +225,8 @@ export interface MemberCardProductCatalogItem {
   validityDays: number | null;
   validityMode: string | null;
   activationMode: string;
+  /** Older servers omit this field; clients then keep the historical online-only flow. */
+  allowedPaymentMethods?: MemberCardPaymentMethod[];
 }
 
 export interface MemberCardProductCatalog {
@@ -241,6 +245,7 @@ export interface MemberCardPurchaseResult {
     status: string;
     voidedAt: string | null;
     createdAt: string | null;
+    paymentMethod?: MemberCardPaymentMethod;
   };
   memberCard?: {
     id: number;
@@ -267,6 +272,55 @@ export interface MemberCardPurchaseResult {
       paySign: string;
     };
   };
+}
+
+export interface MemberCashWallet {
+  memberId: number;
+  tenantId: number;
+  balance: string;
+  currency?: string;
+  version?: number;
+  updatedAt?: string | null;
+}
+
+export type MemberConsumptionSettlementStatus =
+  | "provisional"
+  | "final"
+  /** Kept for compatibility with the first settlement API draft. */
+  | "finalized"
+  | "adjusted"
+  | "reversed"
+  | string;
+
+export interface MemberConsumptionSettlementItem {
+  id: number;
+  appointmentId: number;
+  memberCardId: number;
+  memberCardName: string | null;
+  cardType: MemberCardProductCatalogItem["cardType"];
+  courseName: string | null;
+  coachName: string | null;
+  serviceDate: string;
+  startsAt?: string | null;
+  deductionAmount?: string | null;
+  deductionCount?: number | null;
+  /** Null means the historical/manual value cannot be verified; never display it as zero. */
+  consumptionValue: string | null;
+  status: MemberConsumptionSettlementStatus;
+  calculationVersion?: string | number | null;
+  settledAt?: string | null;
+}
+
+export interface MemberConsumptionSettlementList {
+  items: MemberConsumptionSettlementItem[];
+  summary?: {
+    consumptionValue: string;
+    finalizedValue?: string;
+    pendingValue?: string;
+    unvaluedCount?: number;
+    hasUnvalued?: boolean;
+  };
+  pagination: { page: number; perPage: number; total: number; lastPage: number };
 }
 
 export interface MemberMineStats {
@@ -485,6 +539,7 @@ export interface MemberOrderSummary {
   siteName?: string | null;
   productName?: string | null;
   channel?: string | null;
+  paymentMethod?: MemberCardPaymentMethod;
   memberCard?: {
     id: number;
     cardType: MemberCardProductCatalogItem["cardType"];

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Staff extends Model
 {
@@ -60,5 +61,10 @@ class Staff extends Model
             })
             ->whereHas('permissions', fn ($query) => $query->where('code', $permission))
             ->exists();
+    }
+
+    public function compensationRoleAssignments(): HasMany
+    {
+        return $this->hasMany(StaffCompensationRoleAssignment::class);
     }
 }

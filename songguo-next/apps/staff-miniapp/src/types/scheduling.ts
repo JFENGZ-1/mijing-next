@@ -3,6 +3,35 @@ export type ScheduleSessionKind = "group" | "private";
 export type CourseType = "group" | "private";
 export type AppointmentStatus = "confirmed" | "waitlisted" | "cancelled" | "absent" | "completed";
 
+export interface ScheduleSessionDeliveryAssignment {
+  id?: number;
+  staffId: number;
+  staffName?: string | null;
+  compensationRoleId: number;
+  roleName?: string | null;
+  allocationBps: number;
+  isPrimary?: boolean;
+}
+
+export interface ScheduleSessionDeliveryAssignmentInput {
+  staffId: number;
+  compensationRoleId: number;
+  allocationBps: number;
+  isPrimary?: boolean;
+}
+
+export interface ScheduleSessionDeliveryAssignmentsInput {
+  commandKey: string;
+  expectedVersion?: number;
+  assignments: ScheduleSessionDeliveryAssignmentInput[];
+}
+
+export interface ScheduleSessionDeliveryAssignmentsResult {
+  sessionId: number;
+  version: number;
+  assignments: ScheduleSessionDeliveryAssignment[];
+}
+
 export interface ScheduleSession {
   id: number;
   courseId: number;
@@ -11,6 +40,7 @@ export interface ScheduleSession {
   roomName?: string | null;
   coachStaffId: number;
   coachName?: string | null;
+  deliveryAssignments?: ScheduleSessionDeliveryAssignment[];
   startsAt: string;
   endsAt: string;
   capacity: number;
@@ -79,6 +109,8 @@ export interface ScheduleSessionCreateInput {
   endsAt: string;
   capacity: number;
   sessionKind: ScheduleSessionKind;
+  deliveryAssignments: ScheduleSessionDeliveryAssignmentInput[];
+  assignmentCommandKey: string;
 }
 
 export interface ScheduleSessionUpdateInput {
@@ -90,6 +122,8 @@ export interface ScheduleSessionUpdateInput {
   endsAt?: string;
   capacity?: number;
   sessionKind?: ScheduleSessionKind;
+  deliveryAssignments?: ScheduleSessionDeliveryAssignmentInput[];
+  assignmentCommandKey?: string;
   displayColor?: string | null;
   acknowledgeGroupOverlap?: boolean;
 }

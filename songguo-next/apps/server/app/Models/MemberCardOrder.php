@@ -13,6 +13,7 @@ class MemberCardOrder extends Model
     protected $fillable = [
         'tenant_id', 'site_id', 'member_id', 'member_card_id', 'order_no', 'amount',
         'status', 'command_key', 'metadata', 'created_by_staff_id', 'voided_at',
+        'payment_method', 'paid_amount_cents', 'paid_at',
         'payment_expires_at', 'closed_at', 'close_reason', 'payment_transaction_id',
         'payment_state_version',
     ];
@@ -27,6 +28,8 @@ class MemberCardOrder extends Model
             'payment_expires_at' => 'datetime',
             'closed_at' => 'datetime',
             'payment_state_version' => 'integer',
+            'paid_amount_cents' => 'integer',
+            'paid_at' => 'datetime',
         ];
     }
 

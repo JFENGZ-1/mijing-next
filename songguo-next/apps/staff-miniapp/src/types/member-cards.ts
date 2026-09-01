@@ -94,6 +94,7 @@ export interface StaffCardProductCatalogItem {
   faceGradient?: string | null;
   courseScopeCount?: number;
   courseScopeKeys?: number[];
+  allowedPaymentMethods?: Array<"online" | "balance"> | null;
 }
 
 export interface StaffCardProductCatalogList {
@@ -168,6 +169,7 @@ export interface StaffCardProductUpsertPayload {
   bookingRules?: CardProductBookingRules | null;
   scopeConfig?: Record<string, unknown> | null;
   courseScopes?: StaffCardProductCourseScopeInput[];
+  allowedPaymentMethods?: Array<"online" | "balance">;
 }
 
 export interface StaffCardProductUpdatePayload {
@@ -186,6 +188,7 @@ export interface StaffCardProductUpdatePayload {
   bookingRules?: CardProductBookingRules | null;
   scopeConfig?: Record<string, unknown> | null;
   courseScopes?: StaffCardProductCourseScopeInput[];
+  allowedPaymentMethods?: Array<"online" | "balance">;
 }
 
 export interface StaffMemberCardIssued {
@@ -202,6 +205,52 @@ export interface StaffMemberCardIssued {
   validUntil: string | null;
   issuedAt: string;
   issuedByStaffId: number | null;
+}
+
+export interface StaffMemberCardIssueShareAssignment {
+  roleId: number;
+  staffId: number;
+  allocationBps: number;
+}
+
+export interface StaffMemberCardShareAssignment extends StaffMemberCardIssueShareAssignment {
+  id: number;
+  staffName?: string | null;
+  roleName?: string | null;
+  roleType: "share" | string;
+  effectiveFrom?: string | null;
+  effectiveUntil?: string | null;
+  effectiveState: "current" | "scheduled" | "expired" | string;
+  status: string;
+  version: number;
+}
+
+export interface StaffMemberCardShareAssignmentSet {
+  memberCardId: number;
+  version: number;
+  items: StaffMemberCardShareAssignment[];
+}
+
+export interface StaffMemberCardShareAssignmentReplaceInput {
+  assignments: Array<StaffMemberCardIssueShareAssignment & {
+    effectiveFrom?: string | null;
+    effectiveUntil?: string | null;
+  }>;
+  expectedVersion: number;
+  reason: string;
+  commandKey: string;
+}
+
+export interface StaffMemberCardIssueInput {
+  cardProductId: number;
+  commandKey: string;
+  openingBalance?: number;
+  openingCount?: number;
+  openingType?: "immediate" | "first_use" | "first_class" | "keep_pending";
+  reason?: string;
+  actualAmount?: string;
+  paymentMethod?: "online" | "balance";
+  shareAssignments?: StaffMemberCardIssueShareAssignment[];
 }
 
 export interface StaffMemberCardCourseScope {

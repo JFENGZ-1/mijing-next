@@ -1,10 +1,11 @@
 <script setup lang="ts">
-// 设置支持的课及课时费 —— 对标原版 pagesImp/card/card-subject/index
+// 卡课扣费规则 —— 对标原版 pagesImp/card/card-subject/index
 // 每张卡显示可约课统计（N个团课 N个私教 / 可约0个课），点击进入单卡「设置关联课程」
 import { computed, ref } from "vue";
 import { onPullDownRefresh, onShow } from "@dcloudio/uni-app";
-import { fetchCardProducts } from "@/api/card-products";
-import { fetchPrivateCoaches, fetchStaffCourseCatalog } from "@/api/catalog";
+import { fetchAllCardProducts } from "@/api/card-products";
+import { fetchAllStaffCourseCatalog, fetchPrivateCoaches } from "@/api/catalog";
+import { fetchCardProductCourseRuleSets } from "@/api/compensation";
 import type { CoachPrivateProfile } from "@/api/catalog";
 import { requireStaffAuth } from "@/auth/guard";
 import { useSessionStore } from "@/stores/session";
@@ -17,8 +18,10 @@ const loading = ref(true);
 const cards = ref<StaffCardProductCatalogItem[]>([]);
 const courses = ref<CourseCatalogItem[]>([]);
 const profiles = ref<CoachPrivateProfile[]>([]);
+const structuredCourseIds = ref<Record<number, number[]>>({});
 
-const canRead = computed(() => session.can("card-product.catalog.read"));
+const canRead = computed(() => session.can("compensation.rule.read") && session.can("card-product.catalog.read"));
+const canWrite = computed(() => session.can("compensation.rule.write"));
 
 const FACE_FALLBACK = "linear-gradient(135deg, #5f9ea8 0%, #3c7a86 100%)";
 const CARD_TYPE_LABELS: Record<string, string> = {
@@ -49,7 +52,8 @@ const cardStats = computed<CardStat[]>(() =>
   cards.value.map((card) => {
     let teamCount = 0;
     let privateCount = 0;
-    for (const key of card.courseScopeKeys ?? []) {
+    const keys = structuredCourseIds.value[card.id] ?? card.courseScopeKeys ?? [];
+    for (const key of keys) {
       const type = courseTypeById.value.get(key);
       if (type === "private") privateCount++;
       else if (type === "group") teamCount++;
@@ -66,7 +70,7 @@ const noConfigCardCount = computed(
 const noConfigCourseCount = computed(() => {
   const covered = new Set<number>();
   for (const card of cards.value) {
-    for (const key of card.courseScopeKeys ?? []) covered.add(key);
+    for (const key of structuredCourseIds.value[card.id] ?? card.courseScopeKeys ?? []) covered.add(key);
   }
   let count = 0;
   for (const id of courseTypeById.value.keys()) {
@@ -82,16 +86,28 @@ async function load() {
   }
   try {
     const [cardResponse, catalog, profileItems] = await Promise.all([
-      fetchCardProducts(session.currentSiteId, 1, 50, undefined, "active"),
+      fetchAllCardProducts(session.currentSiteId, undefined, "active"),
       session.can("course-catalog.read")
-        ? fetchStaffCourseCatalog(session.currentSiteId, 1, 200, undefined, "group")
+        ? fetchAllStaffCourseCatalog(session.currentSiteId, undefined, "group")
         : Promise.resolve(null),
       session.can("course-catalog.read")
         ? fetchPrivateCoaches(session.currentSiteId).catch(() => [])
         : Promise.resolve([]),
     ]);
-    cards.value = cardResponse.data.items;
-    if (catalog) courses.value = catalog.items;
+    cards.value = cardResponse;
+    const ruleSets = await fetchCardProductCourseRuleSets(
+      session.currentSiteId,
+      cards.value.map((card) => card.id),
+    );
+    structuredCourseIds.value = Object.fromEntries(
+      cards.value.map((card) => [
+        card.id,
+        ruleSets.get(card.id)?.items.length
+          ? ruleSets.get(card.id)!.items.filter((rule) => rule.enabled !== false).map((rule) => rule.courseId)
+          : card.courseScopeKeys ?? [],
+      ]),
+    );
+    if (catalog) courses.value = catalog;
     profiles.value = profileItems;
   } catch (error) {
     uni.showToast({ title: error instanceof Error ? error.message : "加载失败", icon: "none" });
@@ -101,6 +117,10 @@ async function load() {
 }
 
 function openSetting(item: CardStat) {
+  if (!canWrite.value) {
+    uni.showToast({ title: "暂无卡课规则编辑权限", icon: "none" });
+    return;
+  }
   uni.navigateTo({
     url: `/pages/settings/card-products/course-setting?id=${item.card.id}&name=${encodeURIComponent(item.card.name)}`,
   });
@@ -130,7 +150,7 @@ onPullDownRefresh(async () => {
         <!-- 顶部提示（原版 hint） -->
         <view class="hint">
           <u-icon name="bell" size="18" color="#C96A2F" />
-          <text class="hint-text">不同的卡约不同的课，在此设置每张卡可以预约的课程及课时费</text>
+          <text class="hint-text">按卡设置可预约课程：储值扣金额、次卡扣次数、期限卡按日自动分摊</text>
         </view>
 
         <!-- 待设置警示（原版 noRelevancy-num） -->
@@ -166,7 +186,7 @@ onPullDownRefresh(async () => {
         <u-icon name="order" size="64" color="#dadada" />
         <view class="no-data-text">
           <view>请先添加“课目”与“会员卡”后</view>
-          <view>再在此设置会员卡所支持的课程及课时费用</view>
+          <view>再在此设置会员卡所支持的课程及扣卡规则</view>
         </view>
       </view>
 

@@ -23,6 +23,7 @@ import MemberTransferSheet from "@/components/member-transfer-sheet/member-trans
 import MemberIssueSheet from "@/components/member-issue-sheet/member-issue-sheet.vue";
 import MemberClaimSheet from "@/components/member-claim-sheet/member-claim-sheet.vue";
 import { updateMemberCardRemark } from "@/api/member-cards";
+import { fetchMemberWallet } from "@/api/wallet";
 import type {
   CrmMember,
   CrmTag,
@@ -32,6 +33,7 @@ import type {
   StaffMemberCardSummary,
 } from "@/types/crm";
 import type { MemberMarkFlag } from "@/components/member-mark-sheet/member-mark-sheet.vue";
+import type { MemberWallet } from "@/types/wallet";
 
 const session = useSessionStore();
 
@@ -52,6 +54,7 @@ const member = ref<CrmMember | null>(null);
 const notes = ref<MemberNote[]>([]);
 const availableTags = ref<CrmTag[]>([]);
 const cards = ref<StaffMemberCardSummary[]>([]);
+const wallet = ref<MemberWallet | null>(null);
 const archivedCards = ref<StaffMemberCardSummary[]>([]);
 const bookings = ref<StaffBookingHistoryItem[]>([]);
 const loading = ref(true);
@@ -105,6 +108,7 @@ const canReadCards = computed(() => session.can("member-card.read") || session.c
 const canIssueCard = computed(() => session.can("member-card.issue"));
 const canReadBookings = computed(() => session.can("booking.member-history.list"));
 const canReadArchived = computed(() => session.can("member-card.read") || session.can("crm.member.read"));
+const canReadWallet = computed(() => session.can("wallet.read"));
 const canAppAccess = computed(() => session.can("crm.member.app_access.manage"));
 const currentSiteName = computed(
   () => session.sites.find((site) => site.id === session.currentSiteId)?.name || "本馆",
@@ -491,6 +495,7 @@ async function loadMember() {
       .catch(() => { availableTags.value = []; }));
   }
   if (canReadCards.value) tasks.push(loadCards());
+  tasks.push(loadWallet());
   if (canReadBookings.value) tasks.push(loadBookings());
   await Promise.all(tasks);
 }
@@ -505,6 +510,15 @@ async function loadCards() {
     cards.value = [];
   } finally {
     cardsLoading.value = false;
+  }
+}
+
+async function loadWallet() {
+  if (!memberId.value || !session.currentSiteId || !canReadWallet.value) return;
+  try {
+    wallet.value = await fetchMemberWallet(session.currentSiteId, memberId.value);
+  } catch {
+    wallet.value = null;
   }
 }
 
@@ -622,7 +636,15 @@ function onTransferSuccess() {
 
 function onIssueSuccess() {
   void loadCards();
+  void loadWallet();
   void loadMember();
+}
+
+function openWallet() {
+  if (!memberId.value || !canReadWallet.value) return;
+  uni.navigateTo({
+    url: `/pages/members/wallet?memberId=${memberId.value}&name=${encodeURIComponent(nameText.value)}`,
+  });
 }
 
 // 卡详情
@@ -792,6 +814,17 @@ onShow(async () => {
         <view class="card_explain" @tap="openClaimNotice">
           该会员还没领取此卡，通知会员领取
           <u-icon name="arrow-right" size="12" color="#dc3c5c" />
+        </view>
+      </view>
+
+      <view v-if="wallet" class="wallet-card" @tap="openWallet">
+        <view>
+          <text class="wallet-label">会员钱包</text>
+          <text class="wallet-hint">独立余额 · 可用于余额购卡</text>
+        </view>
+        <view class="wallet-side">
+          <text class="wallet-balance">¥{{ wallet.balance }}</text>
+          <u-icon name="arrow-right" size="15" color="#989898" />
         </view>
       </view>
 
@@ -1065,4 +1098,10 @@ onShow(async () => {
 .block-modal-content { font-size: 26rpx; line-height: 1.8; padding: 12rpx 8rpx; }
 .danger { color: #dc3c5c; }
 .reason-input { margin-top: 16rpx; }
+.wallet-card { display: flex; align-items: center; justify-content: space-between; margin: 20rpx 28rpx 0; padding: 24rpx; background: #fff; border-radius: 18rpx; }
+.wallet-label, .wallet-hint { display: block; }
+.wallet-label { color: #181818; font-size: 28rpx; font-weight: 600; }
+.wallet-hint { margin-top: 6rpx; color: #989898; font-size: 21rpx; }
+.wallet-side { display: flex; align-items: center; gap: 10rpx; }
+.wallet-balance { color: #ed920f; font-size: 31rpx; font-weight: 600; }
 </style>

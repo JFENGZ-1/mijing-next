@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Member extends Model
 {
@@ -72,5 +72,15 @@ class Member extends Model
     public function memberCards(): HasMany
     {
         return $this->hasMany(MemberCard::class);
+    }
+
+    public function wallet(): HasOne
+    {
+        return $this->hasOne(MemberWallet::class);
+    }
+
+    public function consumptionEvents(): HasMany
+    {
+        return $this->hasMany(ConsumptionEvent::class);
     }
 }

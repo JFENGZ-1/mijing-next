@@ -14,7 +14,7 @@ class MemberCard extends Model
     protected $fillable = [
         'tenant_id', 'site_id', 'member_id', 'card_product_id', 'card_type', 'card_no',
         'status', 'member_visibility', 'product_snapshot', 'valid_from', 'valid_until',
-        'cached_balance', 'cached_remaining_count', 'freeze_state', 'version',
+        'cached_balance', 'cached_remaining_count', 'freeze_state', 'version', 'share_assignment_version',
         'issued_at', 'issued_by_staff_id', 'archived_at',
     ];
 
@@ -29,6 +29,7 @@ class MemberCard extends Model
             'valid_until' => 'date',
             'cached_balance' => 'decimal:2',
             'freeze_state' => 'array',
+            'share_assignment_version' => 'integer',
             'issued_at' => 'datetime',
             'archived_at' => 'datetime',
         ];
@@ -62,5 +63,20 @@ class MemberCard extends Model
     public function ledgerEntries(): HasMany
     {
         return $this->hasMany(EntitlementLedgerEntry::class);
+    }
+
+    public function valueLots(): HasMany
+    {
+        return $this->hasMany(MemberCardValueLot::class);
+    }
+
+    public function shareAssignments(): HasMany
+    {
+        return $this->hasMany(MemberCardShareAssignment::class);
+    }
+
+    public function consumptionEvents(): HasMany
+    {
+        return $this->hasMany(ConsumptionEvent::class);
     }
 }

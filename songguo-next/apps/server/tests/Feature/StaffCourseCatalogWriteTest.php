@@ -69,6 +69,10 @@ class StaffCourseCatalogWriteTest extends TestCase
             'name' => '李教练',
             'status' => 'active',
         ]);
+        $coach->sites()->attach($site->id, [
+            'tenant_id' => $site->tenant_id,
+            'is_primary' => true,
+        ]);
 
         $this->postJson("/api/v1/staff/sites/{$site->id}/courses", [
             'courseType' => 'private',

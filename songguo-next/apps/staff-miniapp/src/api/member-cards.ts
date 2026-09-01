@@ -1,4 +1,5 @@
 import { useApiClient } from "@/api/client";
+import { decimalToCents } from "@/utils/money";
 import type { StaffMemberCardSummary } from "@/types/crm";
 import type { MemberCardReminderConfig } from "@/types/reports";
 import type {
@@ -9,6 +10,9 @@ import type {
   StaffMemberCardLedgerList,
   StaffMemberCardLifecycleResult,
   StaffMemberCardStateResult,
+  StaffMemberCardIssueInput,
+  StaffMemberCardShareAssignmentReplaceInput,
+  StaffMemberCardShareAssignmentSet,
 } from "@/types/member-cards";
 
 function buildQuery(params: Record<string, string | number | undefined>): string {
@@ -107,18 +111,108 @@ export async function archiveMemberCard(
 export async function issueMemberCard(
   siteId: number,
   memberId: number,
-  payload: {
-    cardProductId: number;
-    commandKey: string;
-    openingBalance?: number;
-    openingCount?: number;
-    reason?: string;
-  },
+  payload: StaffMemberCardIssueInput,
 ) {
+  const data: Record<string, unknown> = {
+    cardProductId: payload.cardProductId,
+    commandKey: payload.commandKey,
+    openingBalance: payload.openingBalance,
+    openingCount: payload.openingCount,
+    openingType: payload.openingType,
+    reason: payload.reason,
+    shareAssignments: payload.shareAssignments?.map((assignment) => ({
+      compensationRoleId: assignment.roleId,
+      staffId: assignment.staffId,
+      allocationBps: assignment.allocationBps,
+    })),
+  };
+  if (payload.actualAmount !== undefined) {
+    data.paidAmountCents = decimalToCents(payload.actualAmount);
+  }
+  if (payload.paymentMethod !== undefined) {
+    data.paymentMethod = payload.paymentMethod;
+  }
+
   return useApiClient().request<StaffMemberCardIssued>(
     `/staff/sites/${siteId}/members/${memberId}/member-cards`,
-    { method: "POST", data: payload },
+    {
+      method: "POST",
+      data,
+    },
   );
+}
+
+interface MemberCardShareAssignmentSetWire {
+  memberCardId: number;
+  version: number;
+  items: Array<{
+    id: number;
+    staffId: number;
+    staffName?: string | null;
+    compensationRoleId: number;
+    roleName?: string | null;
+    roleType?: string;
+    allocationBps: number;
+    effectiveFrom?: string | null;
+    effectiveUntil?: string | null;
+    effectiveState?: string;
+    status?: string;
+    version?: number;
+  }>;
+}
+
+function mapMemberCardShareAssignmentSet(data: MemberCardShareAssignmentSetWire): StaffMemberCardShareAssignmentSet {
+  return {
+    memberCardId: Number(data.memberCardId),
+    version: Number(data.version ?? 0),
+    items: (data.items ?? []).map((item) => ({
+      id: Number(item.id),
+      staffId: Number(item.staffId),
+      staffName: item.staffName,
+      roleId: Number(item.compensationRoleId),
+      roleName: item.roleName,
+      roleType: item.roleType ?? "share",
+      allocationBps: Number(item.allocationBps),
+      effectiveFrom: item.effectiveFrom,
+      effectiveUntil: item.effectiveUntil,
+      effectiveState: item.effectiveState ?? "current",
+      status: item.status ?? "active",
+      version: Number(item.version ?? 1),
+    })),
+  };
+}
+
+export async function fetchMemberCardShareAssignments(siteId: number, memberCardId: number) {
+  const response = await useApiClient().request<MemberCardShareAssignmentSetWire>(
+    cardPath(siteId, memberCardId, "/share-assignments"),
+  );
+  return mapMemberCardShareAssignmentSet(response.data);
+}
+
+export async function replaceMemberCardShareAssignments(
+  siteId: number,
+  memberCardId: number,
+  payload: StaffMemberCardShareAssignmentReplaceInput,
+) {
+  const response = await useApiClient().request<MemberCardShareAssignmentSetWire>(
+    cardPath(siteId, memberCardId, "/share-assignments"),
+    {
+      method: "PUT",
+      data: {
+        assignments: payload.assignments.map((assignment) => ({
+          staffId: assignment.staffId,
+          compensationRoleId: assignment.roleId,
+          allocationBps: assignment.allocationBps,
+          effectiveFrom: assignment.effectiveFrom,
+          effectiveUntil: assignment.effectiveUntil,
+        })),
+        expectedVersion: payload.expectedVersion,
+        reason: payload.reason,
+        commandKey: payload.commandKey,
+      },
+    },
+  );
+  return mapMemberCardShareAssignmentSet(response.data);
 }
 
 export async function createMemberCardTransferShareToken(siteId: number, memberCardId: number) {

@@ -40,6 +40,19 @@ export async function fetchStaffCourseCatalog(
   return response.data;
 }
 
+export async function fetchAllStaffCourseCatalog(siteId: number, q?: string, courseType?: CourseType) {
+  const items: CourseCatalogList["items"] = [];
+  let page = 1;
+  let lastPage = 1;
+  do {
+    const response = await fetchStaffCourseCatalog(siteId, page, 50, q, courseType);
+    items.push(...response.items);
+    lastPage = response.pagination?.lastPage ?? page;
+    page += 1;
+  } while (page <= lastPage);
+  return items;
+}
+
 export async function fetchStaffCourse(siteId: number, courseId: number) {
   const response = await useApiClient().request<CourseDetail>(coursePath(siteId, courseId));
   return response.data;

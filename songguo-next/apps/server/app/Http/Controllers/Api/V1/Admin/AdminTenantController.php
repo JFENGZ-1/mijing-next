@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\Site;
 use App\Models\Staff;
 use App\Models\Tenant;
 use App\Support\ApiResponse;
@@ -45,6 +46,43 @@ class AdminTenantController extends Controller
                 'memberCount' => (int) $tenant->member_count,
                 'staffCount' => (int) $tenant->staff_count,
                 'createdAt' => $tenant->created_at?->toISOString(),
+            ])->values(),
+            'pagination' => [
+                'page' => $paginator->currentPage(),
+                'perPage' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'lastPage' => $paginator->lastPage(),
+            ],
+        ]);
+    }
+
+    public function sites(Request $request, Tenant $tenant)
+    {
+        $validated = $request->validate([
+            'query' => ['sometimes', 'nullable', 'string', 'max:120'],
+            'status' => ['sometimes', 'nullable', 'string', 'max:24'],
+            'perPage' => ['sometimes', 'integer', 'min:1', 'max:100'],
+        ]);
+
+        $paginator = Site::query()
+            ->where('tenant_id', $tenant->id)
+            ->when($validated['status'] ?? null, fn ($query, $status) => $query->where('status', $status))
+            ->when($validated['query'] ?? null, fn ($query, $keyword) => $query
+                ->where(fn ($nested) => $nested
+                    ->where('name', 'like', "%{$keyword}%")
+                    ->orWhere('code', 'like', "%{$keyword}%")))
+            ->orderBy('name')
+            ->paginate($validated['perPage'] ?? 20);
+
+        return ApiResponse::success([
+            'items' => collect($paginator->items())->map(fn (Site $site) => [
+                'id' => $site->id,
+                'tenantId' => $tenant->id,
+                'name' => $site->name,
+                'code' => $site->code,
+                'status' => $site->status,
+                'timezone' => $site->timezone,
+                'version' => $site->version,
             ])->values(),
             'pagination' => [
                 'page' => $paginator->currentPage(),

@@ -2,9 +2,16 @@
 
 namespace Tests\Feature;
 
+use App\Enums\AppointmentStatus;
 use App\Enums\CardType;
+use App\Enums\CourseCatalogStatus;
+use App\Enums\CourseType;
 use App\Enums\MemberCardStatus;
+use App\Enums\ScheduleSessionKind;
+use App\Enums\ScheduleSessionStatus;
 use App\Models\Account;
+use App\Models\Appointment;
+use App\Models\Course;
 use App\Models\LegalConsent;
 use App\Models\LegalDocument;
 use App\Models\Member;
@@ -13,12 +20,13 @@ use App\Models\MemberCrmProfile;
 use App\Models\MemberProfile;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Room;
+use App\Models\ScheduleSession;
 use App\Models\Site;
 use App\Models\Staff;
 use App\Models\Tenant;
 use App\Services\Cards\CardTransferShareTokenService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -94,6 +102,44 @@ class MemberCardTransferTest extends TestCase
 
         $this->getJson("/api/v1/member/card-transfers/{$issued['token']}")
             ->assertStatus(410);
+    }
+
+    public function test_card_with_active_booking_cannot_be_transferred(): void
+    {
+        [$staff, $site, $fromMember] = $this->seedTransferMembers();
+        $toAccount = $this->createClaimant($site, 'MEM-ACTIVE-CLAIM');
+        $card = $this->createCard($site, $fromMember);
+        $this->createActiveAppointment($staff, $site, $fromMember, $card);
+        $token = app(CardTransferShareTokenService::class)->issue($card)['token'];
+
+        Sanctum::actingAs($toAccount, ['api', 'client:member']);
+        $this->getJson("/api/v1/member/card-transfers/{$token}")
+            ->assertOk()
+            ->assertJsonPath('data.claimable', false);
+        $this->postJson("/api/v1/member/card-transfers/{$token}/claim", [
+            'commandKey' => (string) Str::uuid(),
+        ])->assertStatus(409);
+
+        $this->assertSame($fromMember->id, $card->fresh()->member_id);
+    }
+
+    public function test_transfer_command_key_is_bound_to_card_token_and_claimant(): void
+    {
+        [$staff, $site, $fromMember] = $this->seedTransferMembers();
+        $firstAccount = $this->createClaimant($site, 'MEM-FIRST-CLAIM');
+        $secondAccount = $this->createClaimant($site, 'MEM-SECOND-CLAIM');
+        $card = $this->createCard($site, $fromMember);
+        Sanctum::actingAs($staff->account, ['api', 'client:staff', "staff:{$staff->id}", "tenant:{$staff->tenant_id}"]);
+        $token = app(CardTransferShareTokenService::class)->issue($card)['token'];
+        $commandKey = (string) Str::uuid();
+
+        Sanctum::actingAs($firstAccount, ['api', 'client:member']);
+        $this->postJson("/api/v1/member/card-transfers/{$token}/claim", ['commandKey' => $commandKey])
+            ->assertCreated();
+
+        Sanctum::actingAs($secondAccount, ['api', 'client:member']);
+        $this->postJson("/api/v1/member/card-transfers/{$token}/claim", ['commandKey' => $commandKey])
+            ->assertStatus(409);
     }
 
     /**
@@ -183,6 +229,77 @@ class MemberCardTransferTest extends TestCase
             'product_snapshot' => ['name' => '转赠卡'],
             'cached_balance' => 300,
             'issued_at' => now(),
+        ]);
+    }
+
+    private function createClaimant(Site $site, string $memberNo): Account
+    {
+        $account = Account::create(['display_name' => $memberNo, 'status' => 'active']);
+        $member = Member::create([
+            'tenant_id' => $site->tenant_id,
+            'account_id' => $account->id,
+            'member_no' => $memberNo,
+            'registration_site_id' => $site->id,
+            'home_site_id' => $site->id,
+            'status' => 'active',
+            'app_access_status' => 'allowed',
+        ]);
+        MemberProfile::create(['account_id' => $account->id, 'display_name' => $memberNo, 'version' => 1]);
+        MemberCrmProfile::create([
+            'tenant_id' => $site->tenant_id,
+            'member_id' => $member->id,
+            'name' => $memberNo,
+            'version' => 1,
+        ]);
+        $this->publishPrivacyDocument($account);
+
+        return $account;
+    }
+
+    private function createActiveAppointment(
+        Staff $coach,
+        Site $site,
+        Member $member,
+        MemberCard $card,
+    ): Appointment {
+        $room = Room::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'name' => '转赠测试教室',
+            'catalog_status' => CourseCatalogStatus::Active,
+        ]);
+        $course = Course::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'course_type' => CourseType::Group,
+            'name' => '转赠测试课程',
+            'duration_minutes' => 60,
+            'catalog_status' => CourseCatalogStatus::Active,
+        ]);
+        $session = ScheduleSession::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'course_id' => $course->id,
+            'room_id' => $room->id,
+            'coach_staff_id' => $coach->id,
+            'starts_at' => now()->addDay(),
+            'ends_at' => now()->addDay()->addHour(),
+            'capacity' => 10,
+            'booked_count' => 1,
+            'status' => ScheduleSessionStatus::Scheduled,
+            'session_kind' => ScheduleSessionKind::Group,
+            'version' => 1,
+        ]);
+
+        return Appointment::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'session_id' => $session->id,
+            'member_id' => $member->id,
+            'member_card_id' => $card->id,
+            'status' => AppointmentStatus::Confirmed,
+            'command_key' => (string) Str::uuid(),
+            'booked_at' => now(),
         ]);
     }
 
