@@ -121,9 +121,9 @@ async function logout() {
   <div class="admin-shell">
     <aside class="sidebar" :class="{ 'is-open': mobileMenuOpen }">
       <div class="brand-block">
-        <div class="brand-mark"><span>SG</span></div>
+        <div class="brand-mark"><span>MJ</span></div>
         <div>
-          <strong>松果超级管理后台</strong>
+          <strong>觅境超级管理后台</strong>
           <small>PLATFORM CONTROL</small>
         </div>
       </div>

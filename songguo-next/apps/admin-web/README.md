@@ -1,6 +1,6 @@
-# Songguo Admin Web
+# 觅境 Admin Web
 
-松果场馆系统的 Web 运营后台。该应用位于独立 `codex/admin-web` worktree，现有员工端、会员端和业务 API 是持续演进的上游。
+觅境场馆系统的 Web 运营后台。该应用位于独立 `codex/admin-web` worktree，现有员工端、会员端和业务 API 是持续演进的上游。
 
 ## 开发命令
 

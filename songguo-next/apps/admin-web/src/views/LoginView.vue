@@ -38,8 +38,8 @@ async function submitLogin() {
   <main class="login-page">
     <section class="login-story">
       <div class="login-brand">
-        <div class="brand-mark large"><span>SG</span></div>
-        <div><strong>松果超级管理后台</strong><small>SONGGUO PLATFORM CONTROL</small></div>
+        <div class="brand-mark large"><span>MJ</span></div>
+        <div><strong>觅境超级管理后台</strong><small>MIJING PLATFORM CONTROL</small></div>
       </div>
       <div class="story-copy">
         <span class="eyebrow light">PLATFORM OPERATIONS, IN ONE PLACE</span>
