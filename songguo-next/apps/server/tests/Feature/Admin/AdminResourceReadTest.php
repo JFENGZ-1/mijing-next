@@ -78,7 +78,7 @@ class AdminResourceReadTest extends TestCase
     private function createFixture(): array
     {
         $tenant = Tenant::query()->create([
-            'name' => '松果运动',
+            'name' => '觅境运动',
             'code' => 'songguo',
             'status' => 'active',
             'timezone' => 'Asia/Shanghai',

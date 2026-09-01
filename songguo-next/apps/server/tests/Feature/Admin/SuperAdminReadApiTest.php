@@ -50,7 +50,7 @@ class SuperAdminReadApiTest extends TestCase
             ->assertJsonPath('data.totals.members', 1)
             ->assertJsonPath('data.totals.paidRevenue', '2680.00');
 
-        $this->getJson('/api/v1/admin/tenants?query=松果')
+        $this->getJson('/api/v1/admin/tenants?query=觅境')
             ->assertOk()
             ->assertJsonPath('data.items.0.code', 'songguo')
             ->assertJsonPath('data.items.0.siteCount', 1)
@@ -72,7 +72,7 @@ class SuperAdminReadApiTest extends TestCase
     private function createMemberFixture(): array
     {
         $tenant = Tenant::query()->create([
-            'name' => '松果运动',
+            'name' => '觅境运动',
             'code' => 'songguo',
             'status' => 'active',
             'timezone' => 'Asia/Shanghai',
