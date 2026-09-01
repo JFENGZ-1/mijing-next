@@ -3,13 +3,11 @@
 namespace App\Services\Reporting;
 
 use App\Enums\AppointmentStatus;
-use App\Enums\EntitlementLedgerDirection;
-use App\Enums\EntitlementLedgerEntryType;
 use App\Enums\MemberCardOrderStatus;
 use App\Enums\PointLedgerDirection;
 use App\Models\Appointment;
 use App\Models\CardProduct;
-use App\Models\EntitlementLedgerEntry;
+use App\Models\ConsumptionEvent;
 use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\MemberCardOrder;
@@ -17,6 +15,7 @@ use App\Models\PointLedgerEntry;
 use App\Models\Site;
 use App\Models\Staff;
 use App\Services\Orders\MemberCardOrderService;
+use App\Support\Finance\Money;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -45,7 +44,7 @@ class ReportRankingService
             ->where('tenant_id', $staff->tenant_id)
             ->where('site_id', $site->id)
             ->where('status', MemberCardOrderStatus::Paid)
-            ->whereBetween('created_at', [$start, $end])
+            ->wherePaidAtBetween($start, $end)
             ->with(['member.crmProfile', 'member.account', 'amountCorrections'])
             ->get();
 
@@ -256,7 +255,7 @@ class ReportRankingService
             ->where('tenant_id', $staff->tenant_id)
             ->where('site_id', $site->id)
             ->where('status', MemberCardOrderStatus::Paid)
-            ->whereBetween('created_at', [$start, $end])
+            ->wherePaidAtBetween($start, $end)
             ->whereNotNull('created_by_staff_id')
             ->with(['amountCorrections'])
             ->get();
@@ -357,7 +356,7 @@ class ReportRankingService
             ->where('site_id', $site->id)
             ->where('status', MemberCardOrderStatus::Paid)
             ->where('created_by_staff_id', $salesStaff->id)
-            ->whereBetween('created_at', [$start, $end])
+            ->wherePaidAtBetween($start, $end)
             ->with(['member.crmProfile', 'member.account', 'amountCorrections'])
             ->get();
 
@@ -366,7 +365,9 @@ class ReportRankingService
             ->map(function (Collection $memberOrders) {
                 /** @var MemberCardOrder $first */
                 $first = $memberOrders->first();
-                $lastOrder = $memberOrders->sortByDesc('created_at')->first();
+                $lastOrder = $memberOrders
+                    ->sortByDesc(fn (MemberCardOrder $order) => $order->reportingPaidAt())
+                    ->first();
 
                 return [
                     'member' => $first->member,
@@ -374,7 +375,7 @@ class ReportRankingService
                     'revenue' => $this->decimalString(
                         $memberOrders->sum(fn (MemberCardOrder $order) => (float) $this->orders->effectiveAmount($order)),
                     ),
-                    'lastOrderAt' => $lastOrder?->created_at?->toIso8601String(),
+                    'lastOrderAt' => $lastOrder?->reportingPaidAt()?->toIso8601String(),
                 ];
             })
             ->sort(function (array $left, array $right) {
@@ -434,33 +435,38 @@ class ReportRankingService
     ): array {
         [$start, $end] = $this->monthRange($year, $month);
 
-        $entries = EntitlementLedgerEntry::query()
+        $events = ConsumptionEvent::query()
             ->where('tenant_id', $staff->tenant_id)
             ->where('site_id', $site->id)
-            ->where('direction', EntitlementLedgerDirection::Debit)
-            ->whereIn('entry_type', [
-                EntitlementLedgerEntryType::CountDeduct,
-                EntitlementLedgerEntryType::Penalty,
-            ])
-            ->whereBetween('occurred_at', [$start, $end])
+            ->where('status', '!=', 'reversed')
+            ->whereBetween('business_date', [$start->toDateString(), $end->toDateString()])
             ->with(['member.crmProfile', 'member.account'])
             ->get();
 
-        $aggregates = $entries
+        $aggregates = $events
             ->groupBy('member_id')
-            ->map(function (Collection $memberEntries, int $memberId) {
-                /** @var EntitlementLedgerEntry $first */
-                $first = $memberEntries->first();
+            ->map(function (Collection $memberEvents) {
+                /** @var ConsumptionEvent $first */
+                $first = $memberEvents->first();
+                $knownValueCents = (int) $memberEvents->sum(
+                    fn (ConsumptionEvent $event) => (int) ($event->consumed_value_cents ?? 0),
+                );
+                $unvaluedCount = $memberEvents->whereNull('consumed_value_cents')->count();
 
                 return [
                     'member' => $first->member,
-                    'consumptionCount' => (int) $memberEntries->sum(fn (EntitlementLedgerEntry $entry) => abs((int) ($entry->count_delta ?? 0))),
-                    'consumptionAmount' => $this->decimalString(
-                        $memberEntries->sum(fn (EntitlementLedgerEntry $entry) => abs((float) ($entry->amount_delta ?? 0))),
-                    ),
+                    'consumptionCount' => $memberEvents->count(),
+                    'consumptionValueCents' => $knownValueCents,
+                    'consumptionAmount' => Money::centsToDecimal($knownValueCents),
+                    'unvaluedCount' => $unvaluedCount,
+                    'hasUnvalued' => $unvaluedCount > 0,
                 ];
             })
-            ->sort(fn (array $left, array $right) => (float) $right['consumptionAmount'] <=> (float) $left['consumptionAmount'])
+            ->sort(fn (array $left, array $right) => [
+                $right['consumptionValueCents'], $right['consumptionCount'],
+            ] <=> [
+                $left['consumptionValueCents'], $left['consumptionCount'],
+            ])
             ->values();
 
         $paginated = $this->paginateRanked(
@@ -473,6 +479,8 @@ class ReportRankingService
                     'rank' => $rank,
                     'consumptionCount' => $row['consumptionCount'],
                     'consumptionAmount' => $row['consumptionAmount'],
+                    'unvaluedCount' => $row['unvaluedCount'],
+                    'hasUnvalued' => $row['hasUnvalued'],
                 ],
             ),
         );
@@ -482,10 +490,12 @@ class ReportRankingService
             'month' => $month,
             'totals' => [
                 'memberCount' => $aggregates->count(),
-                'consumptionCount' => (int) $entries->sum(fn (EntitlementLedgerEntry $entry) => abs((int) ($entry->count_delta ?? 0))),
-                'consumptionAmount' => $this->decimalString(
-                    $entries->sum(fn (EntitlementLedgerEntry $entry) => abs((float) ($entry->amount_delta ?? 0))),
-                ),
+                'consumptionCount' => $events->count(),
+                'consumptionAmount' => Money::centsToDecimal((int) $events->sum(
+                    fn (ConsumptionEvent $event) => (int) ($event->consumed_value_cents ?? 0),
+                )),
+                'unvaluedCount' => $events->whereNull('consumed_value_cents')->count(),
+                'hasUnvalued' => $events->whereNull('consumed_value_cents')->isNotEmpty(),
             ],
             ...$paginated,
             'asOf' => now()->toIso8601String(),
@@ -511,7 +521,7 @@ class ReportRankingService
             ->where('tenant_id', $staff->tenant_id)
             ->where('site_id', $site->id)
             ->where('status', MemberCardOrderStatus::Paid)
-            ->whereBetween('created_at', [$start, $end])
+            ->wherePaidAtBetween($start, $end)
             ->with(['memberCard', 'amountCorrections'])
             ->get();
 

@@ -13,14 +13,15 @@ const errorMessage = ref("");
 const dashboard = ref<CrmDashboardSummary | null>(null);
 const presets = ref<CrmMemberFilterPresets | null>(null);
 
-const canAnalyze = computed(() => session.can("crm.member.read") || session.can("report.read"));
+const canAnalyze = computed(() => session.can("crm.member.read"));
+const currentSiteName = computed(() => session.sites.find((site) => site.id === session.currentSiteId)?.name || "当前场馆");
 
 const summaryCards = computed(() => [
   { label: "全部会员", value: dashboard.value?.totalCount ?? 0, query: { sumMode: "all" } },
   { label: "本月新增", value: dashboard.value?.monthCount ?? 0, query: { sumMode: "monthNew" } },
   { label: "有效会员", value: dashboard.value?.validUserCount ?? 0, query: { sumMode: "valid" } },
   { label: "无效会员", value: dashboard.value?.invalidUserCount ?? 0, query: { sumMode: "invalid" } },
-  { label: "无卡会员", value: dashboard.value?.nocardUserCount ?? 0, query: { sumMode: "noCard" } },
+  { label: "无卡/访客", value: dashboard.value?.nocardUserCount ?? 0, query: { sumMode: "noCard" } },
   { label: "屏蔽会员", value: dashboard.value?.nologinUserCount ?? 0, query: { sumMode: "blocked" } },
 ]);
 
@@ -30,7 +31,7 @@ const flagPresets = computed(() => (presets.value?.flagPresets ?? []).filter((it
 const hints = [
   "有效会员：名下至少有一张有余额且在有效期内的会员卡",
   "无效会员：名下所有卡均已无余额或已过期",
-  "风险/沉寂/流失会员：有有效卡但长时间未上课（按未上课天数分档）",
+  "续费流失：卡余额为 0 或过期后，超过三个月未续费且未购买新卡",
   "屏蔽会员：开启屏蔽功能后被屏蔽进入的会员",
 ];
 
@@ -57,6 +58,8 @@ async function load() {
     dashboard.value = summaryResponse.data;
     presets.value = presetResponse.data;
   } catch (error) {
+    dashboard.value = null;
+    presets.value = null;
     errorMessage.value = error instanceof Error ? error.message : "会员分析加载失败";
   } finally {
     loading.value = false;
@@ -87,15 +90,29 @@ onPullDownRefresh(async () => {
   <view v-if="!loading" class="page-container">
     <view v-if="!canAnalyze" class="empty-perm">
       <u-empty mode="permission" text="暂无会员分析权限" />
-      <view class="empty-hint">需要 crm.member.read 或 report.read 权限</view>
+      <view class="empty-hint">需要会员资料查看权限</view>
       <u-button type="primary" plain @click="goMembersHome">返回会员管理</u-button>
     </view>
 
     <template v-else>
-      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <view class="page-head">
+        <view>
+          <text class="eyebrow">会员经营</text>
+          <text class="page-title">会员分析</text>
+          <text class="page-subtitle">{{ currentSiteName }} · 点击指标查看对应会员</text>
+        </view>
+      </view>
 
-      <view class="sg-card">
-        <text class="card-title">会员分析</text>
+      <view v-if="errorMessage" class="error-card">
+        <view>
+          <text class="error-title">会员数据暂未更新</text>
+          <text class="error-detail">{{ errorMessage }}</text>
+        </view>
+        <button class="retry-btn" @tap="load">重新加载</button>
+      </view>
+
+      <view v-if="dashboard" class="sg-card">
+        <text class="card-title">会员结构</text>
         <view class="grid">
           <view
             v-for="item in summaryCards"
@@ -109,8 +126,8 @@ onPullDownRefresh(async () => {
         </view>
       </view>
 
-      <view v-if="runOffPresets.length" class="sg-card block-card">
-        <text class="card-title">未上课风险分层</text>
+      <view v-if="dashboard && runOffPresets.length" class="sg-card block-card">
+        <text class="card-title">续费流失预警</text>
         <view
           v-for="item in runOffPresets"
           :key="item.runOff"
@@ -122,8 +139,8 @@ onPullDownRefresh(async () => {
         </view>
       </view>
 
-      <view v-if="flagPresets.length" class="sg-card block-card">
-        <text class="card-title">上课会员</text>
+      <view v-if="dashboard && flagPresets.length" class="sg-card block-card">
+        <text class="card-title">常用会员分组</text>
         <view
           v-for="item in flagPresets"
           :key="item.flag"
@@ -135,7 +152,7 @@ onPullDownRefresh(async () => {
         </view>
       </view>
 
-      <view class="sg-card block-card">
+      <view v-if="dashboard" class="sg-card block-card">
         <text class="card-title">统计说明</text>
         <text v-for="hint in hints" :key="hint" class="hint-line">{{ hint }}</text>
       </view>
@@ -158,6 +175,77 @@ onPullDownRefresh(async () => {
   color: $color-text-secondary;
   font-size: 24rpx;
   text-align: center;
+}
+
+.page-head {
+  margin-bottom: $spacing-md;
+}
+
+.eyebrow,
+.page-title,
+.page-subtitle,
+.error-title,
+.error-detail {
+  display: block;
+}
+
+.eyebrow {
+  color: #d98200;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.page-title {
+  margin-top: 6rpx;
+  color: $color-text;
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.page-subtitle {
+  margin-top: 8rpx;
+  color: $color-text-secondary;
+  font-size: 24rpx;
+}
+
+.error-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+  padding: $spacing-md;
+  border: 1rpx solid rgba(225, 82, 82, 0.18);
+  border-radius: $radius-md;
+  background: #fff6f5;
+}
+
+.error-title {
+  color: $color-danger;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.error-detail {
+  margin-top: 6rpx;
+  color: $color-text-secondary;
+  font-size: 22rpx;
+}
+
+.retry-btn {
+  flex: none;
+  margin: 0;
+  padding: 0 24rpx;
+  color: $color-danger;
+  font-size: 24rpx;
+  line-height: 56rpx;
+  border: 1rpx solid currentColor;
+  border-radius: 999rpx;
+  background: transparent;
+}
+
+.retry-btn::after {
+  border: 0;
 }
 
 .card-title {

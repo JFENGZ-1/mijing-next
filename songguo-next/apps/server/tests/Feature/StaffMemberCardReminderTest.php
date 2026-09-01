@@ -19,7 +19,6 @@ use App\Models\Staff;
 use App\Models\Tenant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -35,6 +34,14 @@ class StaffMemberCardReminderTest extends TestCase
             'status' => MemberCardStatus::Active,
             'valid_until' => now()->addDays(5),
             'card_no' => 'MC-EXP-1',
+            'issued_at' => now(),
+        ]);
+        $this->createCard($site, $member, [
+            'card_type' => CardType::Period,
+            'status' => MemberCardStatus::Active,
+            'valid_until' => now()->addDays(2),
+            'card_no' => 'MC-EXP-URGENT',
+            'issued_at' => now()->subMonth(),
         ]);
         $this->createCard($site, $member, [
             'card_type' => CardType::Period,
@@ -46,11 +53,12 @@ class StaffMemberCardReminderTest extends TestCase
         $this->getJson("/api/v1/staff/sites/{$site->id}/member-card-reminders/expiring")
             ->assertOk()
             ->assertJsonPath('data.config.expiringWithinDays', 30)
-            ->assertJsonCount(1, 'data.items')
-            ->assertJsonPath('data.items.0.cardNo', 'MC-EXP-1');
+            ->assertJsonCount(2, 'data.items')
+            ->assertJsonPath('data.items.0.cardNo', 'MC-EXP-URGENT')
+            ->assertJsonPath('data.items.1.cardNo', 'MC-EXP-1');
     }
 
-    public function test_zero_balance_reminder_returns_stored_value_cards_at_zero(): void
+    public function test_zero_balance_reminder_returns_exhausted_value_and_count_cards_only(): void
     {
         [, $site, $member] = $this->actAsStaff(['member-card.reminder.read']);
         $this->createCard($site, $member, [
@@ -63,11 +71,33 @@ class StaffMemberCardReminderTest extends TestCase
             'cached_balance' => 100,
             'card_no' => 'MC-NONZERO',
         ]);
+        $this->createCard($site, $member, [
+            'card_type' => CardType::Count,
+            'cached_balance' => null,
+            'cached_remaining_count' => 0,
+            'card_no' => 'MC-COUNT-ZERO',
+        ]);
+        $this->createCard($site, $member, [
+            'card_type' => CardType::Count,
+            'cached_balance' => null,
+            'cached_remaining_count' => 2,
+            'card_no' => 'MC-COUNT-AVAILABLE',
+        ]);
+        $this->createCard($site, $member, [
+            'card_type' => CardType::Period,
+            'cached_balance' => 0,
+            'cached_remaining_count' => 0,
+            'card_no' => 'MC-PERIOD-NOT-BALANCE-BASED',
+        ]);
 
         $this->getJson("/api/v1/staff/sites/{$site->id}/member-card-reminders/zero-balance")
             ->assertOk()
-            ->assertJsonCount(1, 'data.items')
-            ->assertJsonPath('data.items.0.cardNo', 'MC-ZERO');
+            ->assertJsonCount(2, 'data.items')
+            ->assertJsonFragment(['cardNo' => 'MC-ZERO'])
+            ->assertJsonFragment(['cardNo' => 'MC-COUNT-ZERO'])
+            ->assertJsonMissing(['cardNo' => 'MC-NONZERO'])
+            ->assertJsonMissing(['cardNo' => 'MC-COUNT-AVAILABLE'])
+            ->assertJsonMissing(['cardNo' => 'MC-PERIOD-NOT-BALANCE-BASED']);
     }
 
     public function test_pending_open_reminder_returns_pending_activation_cards(): void
@@ -148,6 +178,32 @@ class StaffMemberCardReminderTest extends TestCase
 
         $this->getJson("/api/v1/staff/sites/{$site->id}/member-card-reminders/expiring")
             ->assertForbidden();
+    }
+
+    public function test_reminder_read_masks_member_name_without_crm_permission(): void
+    {
+        [, $site, $member] = $this->actAsStaff(['member-card.reminder.read']);
+        $this->createCard($site, $member, [
+            'status' => MemberCardStatus::PendingActivation,
+            'card_no' => 'MC-PII-MASKED',
+        ]);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/member-card-reminders/pending-open")
+            ->assertOk()
+            ->assertJsonPath('data.items.0.memberName', '测***');
+    }
+
+    public function test_reminder_read_returns_full_member_name_with_crm_permission(): void
+    {
+        [, $site, $member] = $this->actAsStaff(['member-card.reminder.read', 'crm.member.read']);
+        $this->createCard($site, $member, [
+            'status' => MemberCardStatus::PendingActivation,
+            'card_no' => 'MC-PII-FULL',
+        ]);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/member-card-reminders/pending-open")
+            ->assertOk()
+            ->assertJsonPath('data.items.0.memberName', '测试会员');
     }
 
     public function test_reminder_queries_are_tenant_isolated(): void

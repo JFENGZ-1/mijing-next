@@ -463,43 +463,43 @@
 		},
 		{
 			"path": "pages/report/finance/index",
-			"style": { "navigationBarTitleText": "财务利润" }
+			"style": { "navigationBarTitleText": "营收统计", "enablePullDownRefresh": true }
 		},
 		{
 			"path": "pages/report/courses/index",
-			"style": { "navigationBarTitleText": "课程统计" }
+			"style": { "navigationBarTitleText": "课程统计", "enablePullDownRefresh": true }
 		},
 		{
 			"path": "pages/report/rankings/index",
-			"style": { "navigationBarTitleText": "排行榜" }
+			"style": { "navigationBarTitleText": "排行榜", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
 		},
 		{
 			"path": "pages/report/member-card-ranks/index",
-			"style": { "navigationBarTitleText": "会员卡排行" }
+			"style": { "navigationBarTitleText": "会员卡排行", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
 		},
 		{
 			"path": "pages/report/card-sales/index",
-			"style": { "navigationBarTitleText": "售卡统计" }
+			"style": { "navigationBarTitleText": "售卡统计", "enablePullDownRefresh": true }
 		},
 		{
 			"path": "pages/report/card-sales/detail",
-			"style": { "navigationBarTitleText": "售卡明细" }
+			"style": { "navigationBarTitleText": "售卡明细", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
 		},
 		{
 			"path": "pages/report/reminders/index",
-			"style": { "navigationBarTitleText": "会员提醒", "enablePullDownRefresh": true }
+			"style": { "navigationBarTitleText": "会员提醒", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
 		},
 		{
 			"path": "pages/report/coaches/index",
-			"style": { "navigationBarTitleText": "教练月报" }
+			"style": { "navigationBarTitleText": "教练月报", "enablePullDownRefresh": true }
 		},
 		{
 			"path": "pages/report/coaches/detail",
-			"style": { "navigationBarTitleText": "教练预约明细", "enablePullDownRefresh": true }
+			"style": { "navigationBarTitleText": "教练预约明细", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
 		},
 		{
 			"path": "pages/report/card-reminders/index",
-			"style": { "navigationBarTitleText": "会员卡提醒", "enablePullDownRefresh": true }
+			"style": { "navigationBarTitleText": "会员卡提醒", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
 		},
 		{
 			"path": "pages/report/chain/index",
@@ -507,11 +507,11 @@
 		},
 		{
 			"path": "pages/report/exports/index",
-			"style": { "navigationBarTitleText": "会员导出", "enablePullDownRefresh": true }
+			"style": { "navigationBarTitleText": "会员导出", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
 		},
 		{
 			"path": "pages/report/payroll/index",
-			"style": { "navigationBarTitleText": "工资报表", "enablePullDownRefresh": true }
+			"style": { "navigationBarTitleText": "工资试算", "enablePullDownRefresh": true }
 		},
 		{
 			"path": "pages/report/consumption/index",
@@ -543,7 +543,7 @@
 		},
 		{
 			"path": "pages/report/change-log/index",
-			"style": { "navigationBarTitleText": "变更记录", "enablePullDownRefresh": true }
+			"style": { "navigationBarTitleText": "变更记录", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
 		}
 	],
 	"tabBar": {

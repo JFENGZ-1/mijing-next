@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Enums\MemberCardOrderStatus;
 use App\Models\Account;
 use App\Models\Member;
+use App\Models\MemberCardOrder;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Site;
@@ -19,6 +21,14 @@ use Tests\TestCase;
 class NewReportTenantIsolationTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_report_read_permission_is_available_for_role_configuration(): void
+    {
+        $this->assertDatabaseHas('permissions', [
+            'code' => 'report.read',
+            'module' => 'reporting',
+        ]);
+    }
 
     public function test_new_report_apis_reject_cross_tenant_site(): void
     {
@@ -65,6 +75,98 @@ class NewReportTenantIsolationTest extends TestCase
         $this->getJson("/api/v1/staff/sites/{$site1->id}/members/{$memberSite2->id}/point-ledger")->assertNotFound();
         // 未被指派的 site2 → 404
         $this->getJson("/api/v1/staff/sites/{$site2->id}/members/{$memberSite2->id}/point-ledger")->assertNotFound();
+    }
+
+    public function test_report_query_contracts_reject_malformed_filters(): void
+    {
+        $staff = $this->makeStaff('report-filter-validation', [
+            'report.read',
+            'member-card.reminder.read',
+        ]);
+        $site = $staff->sites()->firstOrFail();
+        Sanctum::actingAs($staff->account, ['api', 'client:staff', "staff:{$staff->id}", "tenant:{$staff->tenant_id}"]);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/change-log?category=unknown")
+            ->assertUnprocessable();
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/change-log?dateFrom=not-a-date")
+            ->assertUnprocessable();
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/card-sales/summary?month=13")
+            ->assertUnprocessable();
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/card-sales/detail?perPage=51")
+            ->assertUnprocessable();
+        $this->getJson("/api/v1/staff/sites/{$site->id}/member-card-reminders/expiring?withinDays=366")
+            ->assertUnprocessable();
+        $this->getJson("/api/v1/staff/sites/{$site->id}/member-card-reminders/zero-balance?page=0")
+            ->assertUnprocessable();
+    }
+
+    public function test_card_sales_uses_paid_at_for_period_sorting_and_presentation_with_legacy_fallback(): void
+    {
+        $staff = $this->makeStaff('card-sales-paid-at', ['report.read']);
+        $site = $staff->sites()->firstOrFail();
+        $member = Member::create([
+            'tenant_id' => $staff->tenant_id,
+            'member_no' => 'MEM-PAID-AT',
+            'registration_site_id' => $site->id,
+            'home_site_id' => $site->id,
+            'status' => 'active',
+        ]);
+        Sanctum::actingAs($staff->account, ['api', 'client:staff', "staff:{$staff->id}", "tenant:{$staff->tenant_id}"]);
+
+        $paidThisMonth = MemberCardOrder::create([
+            'tenant_id' => $staff->tenant_id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'order_no' => 'ORDER-PAID-THIS-MONTH',
+            'amount' => 300,
+            'status' => MemberCardOrderStatus::Paid,
+            'paid_at' => now(),
+        ]);
+        $paidThisMonth->forceFill(['created_at' => now()->subMonth(), 'updated_at' => now()])->save();
+
+        $paidLastMonth = MemberCardOrder::create([
+            'tenant_id' => $staff->tenant_id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'order_no' => 'ORDER-PAID-LAST-MONTH',
+            'amount' => 900,
+            'status' => MemberCardOrderStatus::Paid,
+            'paid_at' => now()->subMonth(),
+        ]);
+        $paidLastMonth->forceFill(['created_at' => now(), 'updated_at' => now()])->save();
+
+        $legacy = MemberCardOrder::create([
+            'tenant_id' => $staff->tenant_id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'order_no' => 'ORDER-LEGACY-FALLBACK',
+            'amount' => 200,
+            'status' => MemberCardOrderStatus::Paid,
+        ]);
+        $legacy->forceFill(['created_at' => now()->subMinute(), 'updated_at' => now()])->save();
+
+        $year = now()->year;
+        $month = now()->month;
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/card-sales/summary?year={$year}&month={$month}")
+            ->assertOk()
+            ->assertJsonPath('data.totals.salesCount', 2)
+            ->assertJsonPath('data.totals.revenue', '500.00');
+
+        $detail = $this->getJson(
+            "/api/v1/staff/sites/{$site->id}/reports/card-sales/detail?year={$year}&month={$month}",
+        )
+            ->assertOk()
+            ->assertJsonPath('data.pagination.total', 2)
+            ->assertJsonPath('data.items.0.orderNo', 'ORDER-PAID-THIS-MONTH');
+
+        $this->assertSame(
+            $paidThisMonth->paid_at->toIso8601String(),
+            $detail->json('data.items.0.paidAt'),
+        );
+        $this->assertSame(
+            $legacy->created_at->toIso8601String(),
+            $detail->json('data.items.1.paidAt'),
+        );
     }
 
     /**

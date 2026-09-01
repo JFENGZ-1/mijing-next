@@ -183,6 +183,60 @@ class StaffReportDashboardTest extends TestCase
             ->assertJsonPath('code', 'PERMISSION_DENIED');
     }
 
+    public function test_report_dashboard_attributes_paid_orders_to_payment_time_with_legacy_fallback(): void
+    {
+        [$staff, $site] = $this->actAsStaff(['report.dashboard.read']);
+        $member = $this->createMemberAtSite($staff->tenant_id, $site, 'Paid At Member', now());
+
+        $paidToday = MemberCardOrder::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'order_no' => 'ORD-PAID-TODAY',
+            'amount' => 300,
+            'status' => MemberCardOrderStatus::Paid,
+            'paid_at' => now(),
+            'created_by_staff_id' => $staff->id,
+        ]);
+        $paidToday->forceFill([
+            'created_at' => now()->subMonth(),
+            'updated_at' => now(),
+        ])->save();
+
+        $paidLastMonth = MemberCardOrder::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'order_no' => 'ORD-PAID-LAST-MONTH',
+            'amount' => 900,
+            'status' => MemberCardOrderStatus::Paid,
+            'paid_at' => now()->subMonth(),
+            'created_by_staff_id' => $staff->id,
+        ]);
+        $paidLastMonth->forceFill([
+            'created_at' => now(),
+            'updated_at' => now(),
+        ])->save();
+
+        $legacyOrder = MemberCardOrder::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'order_no' => 'ORD-LEGACY-CREATED-TODAY',
+            'amount' => 200,
+            'status' => MemberCardOrderStatus::Paid,
+            'created_by_staff_id' => $staff->id,
+        ]);
+        $legacyOrder->forceFill(['created_at' => now(), 'updated_at' => now()])->save();
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/dashboard-summary")
+            ->assertOk()
+            ->assertJsonPath('data.kpis.todayRevenue', '500.00')
+            ->assertJsonPath('data.kpis.todayCardSalesCount', 2)
+            ->assertJsonPath('data.kpis.monthRevenue', '500.00')
+            ->assertJsonPath('data.kpis.monthCardSalesCount', 2);
+    }
+
     public function test_report_dashboard_summary_is_scoped_to_assigned_site_and_tenant(): void
     {
         [$staff, $site] = $this->actAsStaff(['report.dashboard.read']);

@@ -100,14 +100,14 @@ class ReportFinanceProfitService
             ->where('site_id', $site->id)
             ->where('status', MemberCardOrderStatus::Paid)
             ->with('amountCorrections')
-            ->orderBy('created_at');
+            ->orderByPaidAt();
 
         if ($year !== null && $month !== null) {
             $start = Carbon::create($year, $month, 1)->startOfDay();
-            $query->whereBetween('created_at', [$start, $start->copy()->endOfMonth()]);
+            $query->wherePaidAtBetween($start, $start->copy()->endOfMonth());
         } elseif ($year !== null) {
             $start = Carbon::create($year, 1, 1)->startOfDay();
-            $query->whereBetween('created_at', [$start, $start->copy()->endOfYear()]);
+            $query->wherePaidAtBetween($start, $start->copy()->endOfYear());
         }
 
         return $query->get();
@@ -120,7 +120,7 @@ class ReportFinanceProfitService
     private function yearsWithActivity(Collection $orders): array
     {
         $years = $orders
-            ->map(fn (MemberCardOrder $order) => (int) $order->created_at?->year)
+            ->map(fn (MemberCardOrder $order) => (int) $order->reportingPaidAt()?->year)
             ->filter()
             ->unique()
             ->sortDesc()
@@ -141,7 +141,7 @@ class ReportFinanceProfitService
      */
     private function yearBlock(Staff $staff, Site $site, int $year, Collection $orders): array
     {
-        $yearOrders = $orders->filter(fn (MemberCardOrder $order) => (int) $order->created_at?->year === $year);
+        $yearOrders = $orders->filter(fn (MemberCardOrder $order) => (int) $order->reportingPaidAt()?->year === $year);
         $now = now();
         $maxMonth = $year === (int) $now->year ? (int) $now->month : 12;
         $months = [];
@@ -178,7 +178,7 @@ class ReportFinanceProfitService
         [$start, $end] = $this->periodRange($year, $month, $day);
 
         $periodOrders = $orders->filter(
-            fn (MemberCardOrder $order) => $order->created_at?->betweenIncluded($start, $end) ?? false,
+            fn (MemberCardOrder $order) => $order->reportingPaidAt()?->betweenIncluded($start, $end) ?? false,
         );
 
         $metrics = [

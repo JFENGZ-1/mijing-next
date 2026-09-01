@@ -5,11 +5,9 @@ namespace App\Services\Payroll;
 use App\Enums\AppointmentStatus;
 use App\Enums\MemberCardOrderStatus;
 use App\Enums\PayrollCoachMode;
-use App\Enums\PayrollReportType;
 use App\Enums\PayrollSalesMode;
 use App\Enums\ScheduleSessionKind;
 use App\Enums\ScheduleSessionStatus;
-use App\Models\Appointment;
 use App\Models\MemberCardOrder;
 use App\Models\PayrollCoachConfig;
 use App\Models\PayrollCoachRule;
@@ -18,7 +16,10 @@ use App\Models\ScheduleSession;
 use App\Models\Site;
 use App\Models\Staff;
 use App\Services\Orders\MemberCardOrderService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+
 class PayrollReportEngine
 {
     /** @var list<AppointmentStatus> */
@@ -42,28 +43,119 @@ class PayrollReportEngine
             ->where('site_id', $site->id)
             ->first();
 
-        $mode = $config?->enabled ? $config->mode : null;
         $rule = PayrollCoachRule::query()
             ->where('tenant_id', $actor->tenant_id)
             ->where('site_id', $site->id)
             ->where('staff_id', $coach->id)
             ->first();
-
-        $matrix = $this->ruleMatrix($rule?->matrix ?? []);
         [$start, $end] = $this->periodRange($year, $month);
+        $sessions = $this->coachSessionsQuery($actor, $site, $start, $end, $coach)->get();
 
-        $sessions = ScheduleSession::query()
+        return $this->buildCoachReport($coach, $year, $month, $config, $rule, $sessions);
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    public function computeCoachReportSummaries(Staff $actor, Site $site, int $year, int $month): array
+    {
+        [$start, $end] = $this->periodRange($year, $month);
+        $sessions = $this->coachSessionsQuery($actor, $site, $start, $end)->get();
+        $sessionsByCoach = [];
+        foreach ($sessions as $session) {
+            foreach ($this->deliveryStaffIds($session) as $coachId) {
+                $sessionsByCoach[$coachId][] = $session;
+            }
+        }
+        $coachIds = collect(array_keys($sessionsByCoach));
+
+        $coaches = Staff::query()
+            ->where('tenant_id', $actor->tenant_id)
+            ->whereIn('id', $coachIds)
+            ->orderBy('name')
+            ->get();
+        $config = PayrollCoachConfig::query()
             ->where('tenant_id', $actor->tenant_id)
             ->where('site_id', $site->id)
-            ->where('coach_staff_id', $coach->id)
+            ->first();
+        $rules = PayrollCoachRule::query()
+            ->where('tenant_id', $actor->tenant_id)
+            ->where('site_id', $site->id)
+            ->whereIn('staff_id', $coachIds)
+            ->get()
+            ->keyBy('staff_id');
+
+        return $coaches
+            ->map(function (Staff $coach) use ($config, $rules, $sessionsByCoach, $year, $month) {
+                $report = $this->buildCoachReport(
+                    $coach,
+                    $year,
+                    $month,
+                    $config,
+                    $rules->get($coach->id),
+                    collect($sessionsByCoach[$coach->id] ?? []),
+                );
+
+                return [
+                    'staffId' => $coach->id,
+                    'staffName' => $coach->name,
+                    'employeeNo' => $coach->employee_no,
+                    'mode' => $report['coachConfig']['mode'],
+                    'groupSessionCount' => $report['totals']['groupSessionCount'],
+                    'privateSessionCount' => $report['totals']['privateSessionCount'],
+                    'deliveredSessionCount' => $report['totals']['deliveredSessionCount'],
+                    'totalPayCents' => $report['totals']['totalPayCents'],
+                    'matrixVersion' => $report['matrixVersion'],
+                ];
+            })
+            ->filter(fn (array $row) => $row['deliveredSessionCount'] > 0 || $row['totalPayCents'] > 0)
+            ->values()
+            ->all();
+    }
+
+    private function coachSessionsQuery(
+        Staff $actor,
+        Site $site,
+        Carbon $start,
+        Carbon $end,
+        ?Staff $coach = null,
+    ): Builder {
+        return ScheduleSession::query()
+            ->where('tenant_id', $actor->tenant_id)
+            ->where('site_id', $site->id)
+            ->when($coach, function (Builder $sessions, Staff $coach) {
+                $sessions->where(function (Builder $delivery) use ($coach) {
+                    $delivery->whereHas('deliveryAssignments', fn (Builder $assignments) => $assignments
+                        ->where('staff_id', $coach->id))
+                        ->orWhere(function (Builder $legacy) use ($coach) {
+                            $legacy->where('coach_staff_id', $coach->id)
+                                ->whereDoesntHave('deliveryAssignments');
+                        });
+                });
+            })
             ->where('status', '!=', ScheduleSessionStatus::Cancelled)
             ->whereBetween('starts_at', [$start, $end])
             ->with([
                 'course',
+                'deliveryAssignments',
                 'appointments' => fn ($query) => $query->whereIn('status', self::QUALIFYING_APPOINTMENT_STATUSES),
-            ])
-            ->get();
+            ]);
+    }
 
+    /**
+     * @param  Collection<int, ScheduleSession>  $sessions
+     * @return array<string, mixed>
+     */
+    private function buildCoachReport(
+        Staff $coach,
+        int $year,
+        int $month,
+        ?PayrollCoachConfig $config,
+        ?PayrollCoachRule $rule,
+        Collection $sessions,
+    ): array {
+        $mode = $config?->enabled ? $config->mode : null;
+        $matrix = $this->ruleMatrix($rule?->matrix ?? []);
         $courseLines = [];
         $groupSessionCount = 0;
         $privateSessionCount = 0;
@@ -133,47 +225,6 @@ class PayrollReportEngine
     }
 
     /**
-     * @return list<array<string, mixed>>
-     */
-    public function computeCoachReportSummaries(Staff $actor, Site $site, int $year, int $month): array
-    {
-        $coachIds = ScheduleSession::query()
-            ->where('tenant_id', $actor->tenant_id)
-            ->where('site_id', $site->id)
-            ->where('status', '!=', ScheduleSessionStatus::Cancelled)
-            ->whereBetween('starts_at', $this->periodRange($year, $month))
-            ->whereNotNull('coach_staff_id')
-            ->distinct()
-            ->pluck('coach_staff_id');
-
-        $coaches = Staff::query()
-            ->where('tenant_id', $actor->tenant_id)
-            ->whereIn('id', $coachIds)
-            ->orderBy('name')
-            ->get();
-
-        return $coaches
-            ->map(function (Staff $coach) use ($actor, $site, $year, $month) {
-                $report = $this->computeCoachReport($actor, $site, $coach, $year, $month);
-
-                return [
-                    'staffId' => $coach->id,
-                    'staffName' => $coach->name,
-                    'employeeNo' => $coach->employee_no,
-                    'mode' => $report['coachConfig']['mode'],
-                    'groupSessionCount' => $report['totals']['groupSessionCount'],
-                    'privateSessionCount' => $report['totals']['privateSessionCount'],
-                    'deliveredSessionCount' => $report['totals']['deliveredSessionCount'],
-                    'totalPayCents' => $report['totals']['totalPayCents'],
-                    'matrixVersion' => $report['matrixVersion'],
-                ];
-            })
-            ->filter(fn (array $row) => $row['deliveredSessionCount'] > 0 || $row['totalPayCents'] > 0)
-            ->values()
-            ->all();
-    }
-
-    /**
      * @return array<string, mixed>
      */
     public function computeSalesReport(Staff $actor, Site $site, Staff $salesStaff, int $year, int $month): array
@@ -190,9 +241,9 @@ class PayrollReportEngine
             ->where('site_id', $site->id)
             ->where('created_by_staff_id', $salesStaff->id)
             ->where('status', MemberCardOrderStatus::Paid)
-            ->whereBetween('created_at', [$start, $end])
+            ->wherePaidAtBetween($start, $end)
             ->with('amountCorrections')
-            ->orderBy('created_at')
+            ->orderByPaidAt()
             ->get();
 
         $newSaleRevenueCents = 0;
@@ -222,6 +273,7 @@ class PayrollReportEngine
                 'amountCents' => $amountCents,
                 'commissionCents' => $commissionCents,
                 'createdAt' => $order->created_at?->toIso8601String(),
+                'paidAt' => $order->reportingPaidAt()?->toIso8601String(),
             ];
         }
 
@@ -260,7 +312,7 @@ class PayrollReportEngine
             ->where('tenant_id', $actor->tenant_id)
             ->where('site_id', $site->id)
             ->where('status', MemberCardOrderStatus::Paid)
-            ->whereBetween('created_at', [$start, $end])
+            ->wherePaidAtBetween($start, $end)
             ->whereNotNull('created_by_staff_id')
             ->distinct()
             ->pluck('created_by_staff_id');
@@ -469,7 +521,25 @@ class PayrollReportEngine
             return true;
         }
 
-        return $session->appointments->isNotEmpty();
+        return $session->appointments
+            ->where('status', AppointmentStatus::Completed)
+            ->isNotEmpty();
+    }
+
+    /** @return Collection<int, int> */
+    private function deliveryStaffIds(ScheduleSession $session): Collection
+    {
+        $assignments = $session->relationLoaded('deliveryAssignments')
+            ? $session->deliveryAssignments
+            : $session->deliveryAssignments()->get();
+
+        if ($assignments->isNotEmpty()) {
+            return $assignments->pluck('staff_id')->map(fn ($id) => (int) $id)->unique()->values();
+        }
+
+        return $session->coach_staff_id === null
+            ? collect()
+            : collect([(int) $session->coach_staff_id]);
     }
 
     private function amountToCents(float $amount): int

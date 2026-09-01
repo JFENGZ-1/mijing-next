@@ -22,6 +22,11 @@ export async function listExportJobs(siteId: number, page = 1, perPage = 20) {
   return response.data;
 }
 
+export async function fetchExportJob(siteId: number, jobId: number) {
+  const response = await useApiClient().request<ExportJob>(exportsPath(siteId, `/jobs/${jobId}`));
+  return response.data;
+}
+
 export function downloadExportJobUrl(siteId: number, jobId: number): string {
   return `${import.meta.env.VITE_API_BASE_URL}${exportsPath(siteId, `/jobs/${jobId}/download`)}`;
 }

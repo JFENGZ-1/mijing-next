@@ -14,6 +14,7 @@ import type { ChainCourseSummary, ChainFinanceSummary, ChainMembersSummary, Chai
 
 const session = useSessionStore();
 const loading = ref(true);
+const summariesLoading = ref(false);
 const forbidden = ref(false);
 const errorMessage = ref("");
 const sites = ref<ChainSiteListItem[]>([]);
@@ -21,6 +22,7 @@ const selectedSiteIds = ref<number[]>([]);
 const financeSummary = ref<ChainFinanceSummary | null>(null);
 const courseSummary = ref<ChainCourseSummary | null>(null);
 const memberSummary = ref<ChainMembersSummary | null>(null);
+let summaryRequestSeq = 0;
 
 const canView = computed(() => session.can("org.chain.read"));
 const accessibleSites = computed(() => sites.value.filter((site) => site.accessible));
@@ -100,7 +102,7 @@ function siteName(siteId: number) {
 
 function drillToSiteReport(siteId: number) {
   uni.showActionSheet({
-    itemList: ["财务利润", "课程统计"],
+    itemList: ["营收统计", "课程统计"],
     success: (result) => {
       const path = result.tapIndex === 0
         ? "/pages/report/finance/index"
@@ -113,16 +115,44 @@ function drillToSiteReport(siteId: number) {
 }
 
 async function loadSummaries() {
-  if (!selectedSiteIds.value.length) return;
+  if (!selectedSiteIds.value.length) {
+    summaryRequestSeq += 1;
+    summariesLoading.value = false;
+    financeSummary.value = null;
+    courseSummary.value = null;
+    memberSummary.value = null;
+    return;
+  }
+  const requestSeq = ++summaryRequestSeq;
+  const siteIds = [...selectedSiteIds.value];
+  summariesLoading.value = true;
+  forbidden.value = false;
   errorMessage.value = "";
-  const [finance, courses, members] = await Promise.all([
-    fetchChainFinanceSummary(selectedSiteIds.value),
-    fetchChainCourseSummary(selectedSiteIds.value),
-    fetchChainMemberSummary(selectedSiteIds.value),
+  const [finance, courses, members] = await Promise.allSettled([
+    fetchChainFinanceSummary(siteIds),
+    fetchChainCourseSummary(siteIds),
+    fetchChainMemberSummary(siteIds),
   ]);
-  financeSummary.value = finance;
-  courseSummary.value = courses;
-  memberSummary.value = members;
+  if (requestSeq !== summaryRequestSeq) return;
+
+  financeSummary.value = finance.status === "fulfilled" ? finance.value : null;
+  courseSummary.value = courses.status === "fulfilled" ? courses.value : null;
+  memberSummary.value = members.status === "fulfilled" ? members.value : null;
+
+  const failures = [
+    finance.status === "rejected" ? { label: "营收", error: finance.reason } : null,
+    courses.status === "rejected" ? { label: "课程", error: courses.reason } : null,
+    members.status === "rejected" ? { label: "会员", error: members.reason } : null,
+  ].filter((item): item is { label: string; error: unknown } => item !== null);
+  if (failures.length) {
+    forbidden.value = failures.length === 3
+      && failures.every((item) => item.error instanceof ApiError && item.error.statusCode === 403);
+    const labels = failures.map((item) => item.label).join("、");
+    const firstError = failures[0].error;
+    const detail = firstError instanceof Error ? firstError.message : "服务暂不可用";
+    errorMessage.value = `${labels}汇总加载失败：${detail}`;
+  }
+  summariesLoading.value = false;
 }
 
 async function load() {
@@ -140,6 +170,8 @@ async function load() {
     selectedSiteIds.value = defaults.length ? defaults : roster.sites.map((site) => site.id);
     if (selectedSiteIds.value.length) await loadSummaries();
   } catch (error) {
+    summaryRequestSeq += 1;
+    summariesLoading.value = false;
     financeSummary.value = null;
     courseSummary.value = null;
     memberSummary.value = null;
@@ -160,7 +192,7 @@ onPullDownRefresh(async () => {
 </script>
 
 <template>
-  <u-loading-page :loading="loading" />
+  <u-loading-page :loading="loading || summariesLoading" />
   <view v-if="!loading" class="page-container">
     <view class="header-row">
       <view>
@@ -172,7 +204,7 @@ onPullDownRefresh(async () => {
 
     <u-empty v-if="forbidden || !canView" mode="permission" text="暂无连锁报表权限" />
     <template v-else>
-      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <view v-if="errorMessage" class="error-card"><u-alert type="error" :description="errorMessage" /><button class="retry-btn" @tap="loadSummaries">重新加载汇总</button></view>
 
       <view class="section-title">选择场馆</view>
       <view v-if="accessibleSites.length" class="site-grid">
@@ -317,4 +349,8 @@ onPullDownRefresh(async () => {
   font-size: 32rpx;
   font-weight: 600;
 }
+
+.error-card { margin-top: $spacing-sm; }
+.retry-btn { width: 260rpx; height: 64rpx; margin: 18rpx 0 0; color: $color-primary; background: #fff; border: 1rpx solid rgba(237,146,15,.35); border-radius: 32rpx; font-size: 23rpx; line-height: 62rpx; }
+.retry-btn::after { border: 0; }
 </style>

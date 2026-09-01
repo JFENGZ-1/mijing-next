@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Enums\MemberCardOrderStatus;
+use DateTimeInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use RuntimeException;
 
 class MemberCardOrder extends Model
@@ -51,5 +54,32 @@ class MemberCardOrder extends Model
     public function amountCorrections(): HasMany
     {
         return $this->hasMany(OrderAmountCorrection::class, 'order_id');
+    }
+
+    /**
+     * Reporting attribution uses the payment fact timestamp. Orders created before
+     * paid_at was introduced retain their original created_at as a compatibility
+     * fallback.
+     */
+    public function scopeWherePaidAtBetween(Builder $query, DateTimeInterface $start, DateTimeInterface $end): Builder
+    {
+        return $query->whereRaw(
+            'COALESCE(member_card_orders.paid_at, member_card_orders.created_at) BETWEEN ? AND ?',
+            [$start, $end],
+        );
+    }
+
+    public function scopeOrderByPaidAt(Builder $query, string $direction = 'asc'): Builder
+    {
+        $direction = strtolower($direction) === 'desc' ? 'desc' : 'asc';
+
+        return $query->orderByRaw(
+            "COALESCE(member_card_orders.paid_at, member_card_orders.created_at) {$direction}",
+        );
+    }
+
+    public function reportingPaidAt(): ?Carbon
+    {
+        return $this->paid_at ?? $this->created_at;
     }
 }

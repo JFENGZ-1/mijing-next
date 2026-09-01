@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { onLoad, onShow } from "@dcloudio/uni-app";
+import { onLoad, onPullDownRefresh, onShow } from "@dcloudio/uni-app";
 import { ApiError } from "@songguo/api-client";
 import {
   fetchReportFinanceProfitCalendar,
@@ -23,12 +23,17 @@ const expandedMonth = ref<number | null>(null);
 const dailyByMonth = ref<Record<number, ReportFinanceProfitDaily>>({});
 const querySiteId = ref<number | undefined>();
 const querySiteName = ref("");
+const requestSeq = ref(0);
+const dailyRequestSeq = ref(0);
 
-const canView = computed(() => session.can("report.finance.read"));
 const reportSiteId = computed(() => querySiteId.value ?? session.currentSiteId);
+const canView = computed(() => session.sites
+  .find((site) => site.id === reportSiteId.value)
+  ?.permissions.includes("report.finance.read") ?? false);
 const currentSiteName = computed(() => {
-  if (querySiteName.value) return querySiteName.value;
-  return session.sites.find((site) => site.id === reportSiteId.value)?.name || "当前场馆";
+  return session.sites.find((site) => site.id === reportSiteId.value)?.name
+    || querySiteName.value
+    || "当前场馆";
 });
 const yearOptions = computed(() => {
   if (summaryYears.value.length) return summaryYears.value;
@@ -43,71 +48,98 @@ function resolveError(error: unknown) {
   errorMessage.value = error instanceof Error ? error.message : "财务数据加载失败";
 }
 
-async function loadCalendar() {
-  if (!reportSiteId.value || !canView.value) return;
-  expandedMonth.value = null;
-  dailyByMonth.value = {};
-  try {
-    calendar.value = await fetchReportFinanceProfitCalendar(reportSiteId.value, selectedYear.value);
-  } catch (error) {
-    calendar.value = null;
-    resolveError(error);
-    throw error;
-  }
-}
-
 async function load() {
-  if (!reportSiteId.value || !canView.value) {
+  const siteId = reportSiteId.value;
+  if (!siteId || !canView.value) {
+    requestSeq.value += 1;
+    dailyRequestSeq.value += 1;
     loading.value = false;
+    dailyLoading.value = false;
     return;
   }
+  const requestId = ++requestSeq.value;
+  dailyRequestSeq.value += 1;
+  dailyLoading.value = false;
   loading.value = true;
+  calendar.value = null;
+  summaryYears.value = [];
+  expandedMonth.value = null;
+  dailyByMonth.value = {};
   forbidden.value = false;
   errorMessage.value = "";
   try {
-    const summary = await fetchReportFinanceProfitSummary(reportSiteId.value);
-    summaryYears.value = summary.years.map((item) => item.year);
+    const summary = await fetchReportFinanceProfitSummary(siteId);
+    if (requestId !== requestSeq.value || reportSiteId.value !== siteId) return;
+    const years = summary.years.map((item) => item.year);
     const current = summary.years.find((item) => item.isCurrentYear);
-    if (current) selectedYear.value = current.year;
-    else if (summaryYears.value.length) selectedYear.value = summaryYears.value[0];
-    await loadCalendar();
+    const year = current?.year ?? years[0] ?? selectedYear.value;
+    const response = await fetchReportFinanceProfitCalendar(siteId, year);
+    if (requestId !== requestSeq.value || reportSiteId.value !== siteId) return;
+    summaryYears.value = years;
+    selectedYear.value = year;
+    calendar.value = response;
   } catch (error) {
+    if (requestId !== requestSeq.value || reportSiteId.value !== siteId) return;
     calendar.value = null;
     resolveError(error);
   } finally {
-    loading.value = false;
+    if (requestId === requestSeq.value) loading.value = false;
   }
 }
 
 async function selectYear(year: number) {
   if (selectedYear.value === year) return;
+  const siteId = reportSiteId.value;
+  if (!siteId || !canView.value) return;
   selectedYear.value = year;
+  const requestId = ++requestSeq.value;
+  dailyRequestSeq.value += 1;
   loading.value = true;
+  dailyLoading.value = false;
   errorMessage.value = "";
+  expandedMonth.value = null;
+  dailyByMonth.value = {};
   try {
-    await loadCalendar();
-  } catch {
-    // error already handled
+    const response = await fetchReportFinanceProfitCalendar(siteId, year);
+    if (requestId !== requestSeq.value || reportSiteId.value !== siteId || selectedYear.value !== year) return;
+    calendar.value = response;
+  } catch (error) {
+    if (requestId !== requestSeq.value || reportSiteId.value !== siteId || selectedYear.value !== year) return;
+    calendar.value = null;
+    resolveError(error);
   } finally {
-    loading.value = false;
+    if (requestId === requestSeq.value) loading.value = false;
   }
 }
 
 async function toggleMonth(month: number) {
   if (expandedMonth.value === month) {
     expandedMonth.value = null;
+    dailyRequestSeq.value += 1;
+    dailyLoading.value = false;
     return;
   }
   expandedMonth.value = month;
-  if (!reportSiteId.value || dailyByMonth.value[month]) return;
+  const siteId = reportSiteId.value;
+  const year = selectedYear.value;
+  if (!siteId || dailyByMonth.value[month]) return;
+  const requestId = ++dailyRequestSeq.value;
   dailyLoading.value = true;
   try {
-    dailyByMonth.value[month] = await fetchReportFinanceProfitDaily(reportSiteId.value, selectedYear.value, month);
+    const response = await fetchReportFinanceProfitDaily(siteId, year, month);
+    if (
+      requestId !== dailyRequestSeq.value
+      || reportSiteId.value !== siteId
+      || selectedYear.value !== year
+      || expandedMonth.value !== month
+    ) return;
+    dailyByMonth.value[month] = response;
   } catch (error) {
+    if (requestId !== dailyRequestSeq.value || expandedMonth.value !== month) return;
     expandedMonth.value = null;
     resolveError(error);
   } finally {
-    dailyLoading.value = false;
+    if (requestId === dailyRequestSeq.value) dailyLoading.value = false;
   }
 }
 
@@ -128,6 +160,11 @@ onLoad((query) => {
 onShow(async () => {
   if (await requireStaffAuth()) await load();
 });
+
+onPullDownRefresh(async () => {
+  await load();
+  uni.stopPullDownRefresh();
+});
 </script>
 
 <template>
@@ -135,14 +172,18 @@ onShow(async () => {
   <view v-if="!loading" class="page-container">
     <view class="header-row">
       <view>
-        <text class="title">财务利润</text>
+        <text class="eyebrow">经营营收</text>
+        <text class="title">营收统计</text>
         <text class="subtitle">{{ currentSiteName }}</text>
       </view>
     </view>
 
     <u-empty v-if="forbidden || !canView" mode="permission" text="暂无财务报表权限" />
     <template v-else>
-      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <view v-if="errorMessage" class="error-card">
+        <u-alert type="error" :description="errorMessage" />
+        <button class="retry-btn" @tap="load">重新加载</button>
+      </view>
 
       <view class="section-title">年份</view>
       <scroll-view scroll-x class="chip-scroll" enable-flex>
@@ -212,8 +253,6 @@ onShow(async () => {
 </template>
 
 <style scoped lang="scss">
-.header-row,
-.summary-row,
 .table-head,
 .table-row,
 .daily-head,
@@ -224,11 +263,26 @@ onShow(async () => {
   gap: $spacing-xs;
 }
 
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.eyebrow,
 .title,
 .subtitle,
 .summary-label,
 .summary-value {
   display: block;
+}
+
+.eyebrow {
+  color: $color-primary;
+  font-size: 21rpx;
+  font-weight: 600;
+  letter-spacing: 3rpx;
 }
 
 .title {
@@ -277,13 +331,38 @@ onShow(async () => {
   border-radius: $radius-md;
 }
 
+.summary-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  padding: 28rpx 12rpx;
+}
+
+.summary-row {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 10rpx;
+  text-align: center;
+}
+
 .summary-row + .summary-row {
-  margin-top: $spacing-sm;
+  border-left: 1rpx solid $color-divider;
 }
 
 .summary-value {
-  text-align: right;
+  order: -1;
+  overflow: hidden;
+  font-size: 28rpx;
   font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summary-label {
+  margin-top: 9rpx;
+  font-size: 21rpx;
 }
 
 .table-head,
@@ -315,5 +394,25 @@ onShow(async () => {
   min-height: 64rpx;
   padding: $spacing-xs 0;
   font-size: 24rpx;
+}
+
+.error-card {
+  margin-top: $spacing-md;
+}
+
+.retry-btn {
+  width: 220rpx;
+  height: 64rpx;
+  margin: 18rpx 0 0;
+  color: $color-primary;
+  background: #fff;
+  border: 1rpx solid rgba(237, 146, 15, 0.35);
+  border-radius: 32rpx;
+  font-size: 23rpx;
+  line-height: 62rpx;
+}
+
+.retry-btn::after {
+  border: 0;
 }
 </style>

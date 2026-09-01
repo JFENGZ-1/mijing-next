@@ -33,7 +33,7 @@ class StaffDashboardService
             ->where('tenant_id', $staff->tenant_id)
             ->where('site_id', $site->id)
             ->where('status', MemberCardOrderStatus::Paid)
-            ->whereBetween('created_at', [$todayStart, $todayEnd])
+            ->wherePaidAtBetween($todayStart, $todayEnd)
             ->with('amountCorrections')
             ->get();
 
@@ -88,9 +88,9 @@ class StaffDashboardService
             ->where('tenant_id', $staff->tenant_id)
             ->where('site_id', $site->id)
             ->where('status', MemberCardOrderStatus::Paid)
-            ->whereBetween('created_at', [$todayStart, $todayEnd])
+            ->wherePaidAtBetween($todayStart, $todayEnd)
             ->with(['member.crmProfile', 'member.account', 'memberCard', 'amountCorrections'])
-            ->orderByDesc('created_at')
+            ->orderByPaidAt('desc')
             ->orderByDesc('id')
             ->paginate($perPage, ['*'], 'page', $page);
 
@@ -218,8 +218,8 @@ class StaffDashboardService
             'memberId' => $order->member_id,
             'memberName' => $member?->crmProfile?->name ?? $member?->account?->display_name,
             'memberAvatarUrl' => $member?->account?->avatar_url,
-            'soldAt' => $order->created_at?->toIso8601String(),
-            'isNewMember' => $this->isNewMemberToday($member, $order->created_at),
+            'soldAt' => $order->reportingPaidAt()?->toIso8601String(),
+            'isNewMember' => $this->isNewMemberToday($member, $order->reportingPaidAt()),
             'cardName' => $this->cardName($order),
             'amount' => $this->orders->effectiveAmount($order),
             'paymentChannel' => $metadata['paymentChannel'] ?? null,

@@ -9,11 +9,11 @@ use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\Site;
 use App\Models\Staff;
-use App\Models\Appointment;
 use App\Services\Members\StaffMemberAccessService;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class NotificationReminderService
 {
@@ -43,28 +43,28 @@ class NotificationReminderService
         int $perPage,
     ): array {
         $today = Carbon::today();
-        $query = $this->scopedMembers($staff, $site)
+        $query = $this->withLastCompletedClass(
+            $this->scopedMembers($staff, $site),
+            $staff,
+            $site,
+        )
             ->whereNotNull('members.joined_at')
-            ->with('crmProfile');
+            ->with(['crmProfile', 'account']);
 
         $this->applyMemberStatusFilter($query, $site, $memberStatus);
+        $this->applyRecurringDateWindow($query, 'members.joined_at', $today, $days);
+        $this->orderByNextOccurrence($query, 'members.joined_at', $today);
 
-        $items = $query->get()
-            ->filter(fn (Member $member) => $this->recurringDateWithinDays($member->joined_at, $days, $today))
-            ->sortBy([
-                fn (Member $member) => $this->nextOccurrence($member->joined_at, $today)->timestamp,
-                fn (Member $member) => $member->id,
-            ])
-            ->values();
+        $paginator = $query->paginate($perPage, ['*'], 'page', $page);
 
-        return $this->presentMemberPage($staff, $site, $items, $page, $perPage, [
+        return $this->presentMemberPaginator($staff, $site, $paginator, [
             'thresholdDays' => $days,
             'memberStatus' => $memberStatus,
         ], fn (Member $member) => [
             'joinedAt' => $member->joined_at?->toDateString(),
             'anniversaryOn' => $this->nextOccurrence($member->joined_at, $today)->toDateString(),
             'daysUntilAnniversary' => $today->diffInDays($this->nextOccurrence($member->joined_at, $today)),
-            'lastClassDate' => $this->lastClassDate($staff, $site, $member),
+            'lastClassDate' => $this->formatLastClassDate($member->getAttribute('last_class_at')),
         ]);
     }
 
@@ -80,34 +80,57 @@ class NotificationReminderService
     ): array {
         $today = Carbon::today();
         $cutoff = $today->copy()->subDays($days);
+        $now = now();
 
-        $query = $this->scopedMembers($staff, $site)
-            ->with('crmProfile');
+        $query = $this->withLastCompletedClass(
+            $this->scopedMembers($staff, $site),
+            $staff,
+            $site,
+        )
+            ->with(['crmProfile', 'account'])
+            ->whereNotExists(function ($recentClasses) use ($staff, $site, $cutoff, $now) {
+                $recentClasses->selectRaw('1')
+                    ->from('appointments as recent_appointments')
+                    ->join('schedule_sessions as recent_sessions', 'recent_sessions.id', '=', 'recent_appointments.session_id')
+                    ->whereColumn('recent_appointments.member_id', 'members.id')
+                    ->where('recent_appointments.tenant_id', $staff->tenant_id)
+                    ->where('recent_appointments.site_id', $site->id)
+                    ->where('recent_appointments.status', AppointmentStatus::Completed->value)
+                    ->where('recent_sessions.tenant_id', $staff->tenant_id)
+                    ->where('recent_sessions.site_id', $site->id)
+                    ->where('recent_sessions.starts_at', '>=', $cutoff)
+                    ->where('recent_sessions.starts_at', '<=', $now);
+            })
+            ->orderByDesc('last_class_at')
+            ->orderBy('members.id');
 
         $this->applyValidMemberConstraint($query, $site, $today->toDateString());
 
-        $items = $query->get()
-            ->map(function (Member $member) use ($staff, $site) {
-                $member->setAttribute('last_class_date', $this->lastClassDate($staff, $site, $member));
+        $paginator = $query->paginate($perPage, ['*'], 'page', $page);
+        $canReadMemberNames = $staff->hasPermission('crm.member.read', $site->id);
 
-                return $member;
-            })
-            ->filter(function (Member $member) use ($cutoff) {
-                $lastClass = $member->getAttribute('last_class_date');
-
-                return $lastClass === null || Carbon::parse($lastClass)->lt($cutoff);
-            })
-            ->sortByDesc(fn (Member $member) => $member->getAttribute('last_class_date') ?? '0000-00-00')
-            ->values();
-
-        return $this->presentMemberPage($staff, $site, $items, $page, $perPage, [
+        return [
             'thresholdDays' => $days,
-        ], fn (Member $member) => [
-            'lastClassDate' => $member->getAttribute('last_class_date'),
-            'daysSinceLastClass' => $member->getAttribute('last_class_date')
-                ? $today->diffInDays(Carbon::parse($member->getAttribute('last_class_date')))
-                : null,
-        ]);
+            'items' => collect($paginator->items())
+                ->map(function (Member $member) use ($canReadMemberNames, $today) {
+                    $lastClassDate = $this->formatLastClassDate($member->getAttribute('last_class_at'));
+
+                    return array_merge($this->memberFields($member, $canReadMemberNames), [
+                        'lastClassDate' => $lastClassDate,
+                        'daysSinceLastClass' => $lastClassDate
+                            ? (int) abs($today->diffInDays(Carbon::parse($lastClassDate)))
+                            : null,
+                    ]);
+                })
+                ->all(),
+            'pagination' => [
+                'page' => $paginator->currentPage(),
+                'perPage' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'lastPage' => $paginator->lastPage(),
+            ],
+            'computedAt' => now()->toIso8601String(),
+        ];
     }
 
     /**
@@ -122,28 +145,32 @@ class NotificationReminderService
         int $perPage,
     ): array {
         $today = Carbon::today();
-        $query = $this->scopedMembers($staff, $site)
-            ->whereHas('crmProfile', fn (Builder $profile) => $profile->whereNotNull('birth_date'))
-            ->with('crmProfile');
+        $query = $this->withLastCompletedClass(
+            $this->scopedMembers($staff, $site),
+            $staff,
+            $site,
+        )
+            ->join('member_crm_profiles as birthday_profiles', function ($join) {
+                $join->on('birthday_profiles.member_id', '=', 'members.id')
+                    ->on('birthday_profiles.tenant_id', '=', 'members.tenant_id');
+            })
+            ->whereNotNull('birthday_profiles.birth_date')
+            ->with(['crmProfile', 'account']);
 
         $this->applyMemberStatusFilter($query, $site, $memberStatus);
+        $this->applyRecurringDateWindow($query, 'birthday_profiles.birth_date', $today, $days);
+        $this->orderByNextOccurrence($query, 'birthday_profiles.birth_date', $today);
 
-        $items = $query->get()
-            ->filter(fn (Member $member) => $this->recurringDateWithinDays($member->crmProfile?->birth_date, $days, $today))
-            ->sortBy([
-                fn (Member $member) => $this->nextOccurrence($member->crmProfile?->birth_date, $today)->timestamp,
-                fn (Member $member) => $member->id,
-            ])
-            ->values();
+        $paginator = $query->paginate($perPage, ['*'], 'page', $page);
 
-        return $this->presentMemberPage($staff, $site, $items, $page, $perPage, [
+        return $this->presentMemberPaginator($staff, $site, $paginator, [
             'thresholdDays' => $days,
             'memberStatus' => $memberStatus,
         ], fn (Member $member) => [
             'birthDate' => $member->crmProfile?->birth_date?->format('Y-m-d'),
             'birthdayOn' => $this->nextOccurrence($member->crmProfile?->birth_date, $today)->toDateString(),
             'daysUntilBirthday' => $today->diffInDays($this->nextOccurrence($member->crmProfile?->birth_date, $today)),
-            'lastClassDate' => $this->lastClassDate($staff, $site, $member),
+            'lastClassDate' => $this->formatLastClassDate($member->getAttribute('last_class_at')),
         ]);
     }
 
@@ -160,24 +187,29 @@ class NotificationReminderService
         $today = Carbon::today();
         $since = $today->copy()->subDays($days);
 
-        $query = $this->scopedMembers($staff, $site)
+        $query = $this->withLastCompletedClass(
+            $this->scopedMembers($staff, $site),
+            $staff,
+            $site,
+        )
             ->where('members.status', 'lead')
             ->where('members.joined_at', '>=', $since)
             ->whereDoesntHave('memberCards', fn (Builder $cards) => $this->applyCountableCardConstraint($cards, $site))
-            ->with('crmProfile')
+            ->with(['crmProfile', 'account'])
             ->orderByDesc('members.joined_at');
 
         $paginator = $query->paginate($perPage, ['*'], 'page', $page);
+        $canReadMemberNames = $staff->hasPermission('crm.member.read', $site->id);
 
         return [
             'thresholdDays' => $days,
             'items' => collect($paginator->items())
                 ->map(fn (Member $member) => array_merge(
-                    $this->memberFields($member, $staff, $site),
+                    $this->memberFields($member, $canReadMemberNames),
                     [
                         'status' => $member->status,
                         'joinedAt' => $member->joined_at?->toIso8601String(),
-                        'lastClassDate' => $this->lastClassDate($staff, $site, $member),
+                        'lastClassDate' => $this->formatLastClassDate($member->getAttribute('last_class_at')),
                     ],
                 ))
                 ->values()
@@ -206,6 +238,10 @@ class NotificationReminderService
         $until = Carbon::today()->addDays($days)->toDateString();
 
         $query = MemberCard::query()
+            ->select('member_cards.*')
+            ->addSelect([
+                'last_class_at' => $this->lastCompletedClassSubquery($staff, $site, 'member_cards.member_id'),
+            ])
             ->where('tenant_id', $staff->tenant_id)
             ->where('site_id', $site->id)
             ->whereNull('archived_at')
@@ -218,22 +254,23 @@ class NotificationReminderService
                 "JSON_UNQUOTE(JSON_EXTRACT(freeze_state, '$.holiday.plannedEndAt')) <= ?",
                 [$until],
             )
-            ->with(['member.crmProfile'])
+            ->with(['member.crmProfile', 'member.account'])
             ->orderByRaw("JSON_UNQUOTE(JSON_EXTRACT(freeze_state, '$.holiday.plannedEndAt')) asc");
 
         $paginator = $query->paginate($perPage, ['*'], 'page', $page);
+        $canReadMemberNames = $staff->hasPermission('crm.member.read', $site->id);
 
         return [
             'thresholdDays' => $days,
             'items' => collect($paginator->items())
-                ->map(function (MemberCard $card) use ($staff, $site, $today) {
+                ->map(function (MemberCard $card) use ($canReadMemberNames, $today) {
                     $holiday = is_array($card->freeze_state['holiday'] ?? null)
                         ? $card->freeze_state['holiday']
                         : [];
                     $plannedEndAt = $holiday['plannedEndAt'] ?? null;
 
                     return array_merge(
-                        $this->memberFields($card->member, $staff, $site),
+                        $this->memberFields($card->member, $canReadMemberNames),
                         [
                             'memberCardId' => $card->id,
                             'cardNo' => $card->card_no,
@@ -245,7 +282,7 @@ class NotificationReminderService
                             'daysUntilHolidayEnds' => $plannedEndAt
                                 ? Carbon::parse($today)->diffInDays(Carbon::parse($plannedEndAt))
                                 : null,
-                            'lastClassDate' => $this->lastClassDate($staff, $site, $card->member),
+                            'lastClassDate' => $this->formatLastClassDate($card->getAttribute('last_class_at')),
                         ],
                     );
                 })
@@ -373,17 +410,6 @@ class NotificationReminderService
             ->where('member_cards.status', '!=', MemberCardStatus::Voided);
     }
 
-    private function recurringDateWithinDays(?Carbon $referenceDate, int $days, Carbon $today): bool
-    {
-        if ($referenceDate === null) {
-            return false;
-        }
-
-        $next = $this->nextOccurrence($referenceDate, $today);
-
-        return $next->lte($today->copy()->addDays($days));
-    }
-
     private function nextOccurrence(?Carbon $referenceDate, Carbon $today): Carbon
     {
         $candidate = Carbon::create($today->year, $referenceDate->month, $referenceDate->day)->startOfDay();
@@ -394,47 +420,117 @@ class NotificationReminderService
         return $candidate;
     }
 
-    private function lastClassDate(Staff $staff, Site $site, ?Member $member): ?string
+    private function withLastCompletedClass(Builder $query, Staff $staff, Site $site): Builder
     {
-        if ($member === null) {
-            return null;
+        return $query
+            ->select('members.*')
+            ->addSelect([
+                'last_class_at' => $this->lastCompletedClassSubquery($staff, $site, 'members.id'),
+            ]);
+    }
+
+    private function lastCompletedClassSubquery(
+        Staff $staff,
+        Site $site,
+        string $outerMemberColumn,
+    ): \Illuminate\Database\Query\Builder {
+        return DB::table('appointments as completed_appointments')
+            ->join('schedule_sessions as completed_sessions', 'completed_sessions.id', '=', 'completed_appointments.session_id')
+            ->selectRaw('MAX(completed_sessions.starts_at)')
+            ->whereColumn('completed_appointments.member_id', $outerMemberColumn)
+            ->where('completed_appointments.tenant_id', $staff->tenant_id)
+            ->where('completed_appointments.site_id', $site->id)
+            ->where('completed_appointments.status', AppointmentStatus::Completed->value)
+            ->where('completed_sessions.tenant_id', $staff->tenant_id)
+            ->where('completed_sessions.site_id', $site->id)
+            ->where('completed_sessions.starts_at', '<=', now());
+    }
+
+    private function applyRecurringDateWindow(
+        Builder $query,
+        string $column,
+        Carbon $today,
+        int $days,
+    ): void {
+        [$monthDayExpression] = $this->recurringDateExpressions($column);
+
+        $query->whereIn(DB::raw($monthDayExpression), $this->recurringMonthDays($today, $days));
+    }
+
+    private function orderByNextOccurrence(Builder $query, string $column, Carbon $today): void
+    {
+        [$monthDayExpression, $dateKeyExpression] = $this->recurringDateExpressions($column);
+        $todayKey = ($today->month * 100) + $today->day;
+        $february29 = Carbon::create(2000, 2, 29)->startOfDay();
+        $nextLeapBirthday = $this->nextOccurrence($february29, $today);
+        $february29SortKey = ($nextLeapBirthday->month * 100) + $nextLeapBirthday->day
+            + ($nextLeapBirthday->year > $today->year ? 1200 : 0);
+
+        $query
+            ->orderByRaw(<<<SQL
+                CASE
+                    WHEN {$monthDayExpression} = '02-29' THEN {$february29SortKey}
+                    WHEN {$dateKeyExpression} >= {$todayKey} THEN {$dateKeyExpression}
+                    ELSE {$dateKeyExpression} + 1200
+                END
+                SQL)
+            ->orderBy('members.id');
+    }
+
+    /** @return array{0: string, 1: string} */
+    private function recurringDateExpressions(string $column): array
+    {
+        return match (DB::connection()->getDriverName()) {
+            'sqlite' => [
+                "strftime('%m-%d', {$column})",
+                "(CAST(strftime('%m', {$column}) AS INTEGER) * 100 + CAST(strftime('%d', {$column}) AS INTEGER))",
+            ],
+            'pgsql' => [
+                "TO_CHAR({$column}, 'MM-DD')",
+                "(EXTRACT(MONTH FROM {$column}) * 100 + EXTRACT(DAY FROM {$column}))",
+            ],
+            default => [
+                "DATE_FORMAT({$column}, '%m-%d')",
+                "(MONTH({$column}) * 100 + DAYOFMONTH({$column}))",
+            ],
+        };
+    }
+
+    /** @return list<string> */
+    private function recurringMonthDays(Carbon $today, int $days): array
+    {
+        $monthDays = collect(range(0, $days))
+            ->map(fn (int $offset) => $today->copy()->addDays($offset)->format('m-d'));
+
+        $february29 = Carbon::create(2000, 2, 29)->startOfDay();
+        if ($this->nextOccurrence($february29, $today)->lte($today->copy()->addDays($days))) {
+            $monthDays->push('02-29');
         }
 
-        $sessionStartsAt = Appointment::query()
-            ->where('appointments.tenant_id', $staff->tenant_id)
-            ->where('appointments.site_id', $site->id)
-            ->where('appointments.member_id', $member->id)
-            ->whereIn('appointments.status', [AppointmentStatus::Completed, AppointmentStatus::Confirmed])
-            ->join('schedule_sessions', 'schedule_sessions.id', '=', 'appointments.session_id')
-            ->max('schedule_sessions.starts_at');
+        return $monthDays->unique()->values()->all();
+    }
 
+    private function formatLastClassDate(mixed $sessionStartsAt): ?string
+    {
         return $sessionStartsAt ? Carbon::parse($sessionStartsAt)->toDateString() : null;
     }
 
     /**
-     * @param  Collection<int, Member>  $items
      * @param  array<string, mixed>  $meta
      * @param  callable(Member): array<string, mixed>  $extra
      * @return array<string, mixed>
      */
-    private function presentMemberPage(
+    private function presentMemberPaginator(
         Staff $staff,
         Site $site,
-        Collection $items,
-        int $page,
-        int $perPage,
+        LengthAwarePaginator $paginator,
         array $meta,
         callable $extra,
     ): array {
-        $total = $items->count();
-        $lastPage = max((int) ceil($total / $perPage), 1);
-        $offset = ($page - 1) * $perPage;
-
-        $pageItems = $items
-            ->slice($offset, $perPage)
-            ->values()
+        $canReadMemberNames = $staff->hasPermission('crm.member.read', $site->id);
+        $pageItems = collect($paginator->items())
             ->map(fn (Member $member) => array_merge(
-                $this->memberFields($member, $staff, $site),
+                $this->memberFields($member, $canReadMemberNames),
                 $extra($member),
             ))
             ->all();
@@ -442,10 +538,10 @@ class NotificationReminderService
         return array_merge($meta, [
             'items' => $pageItems,
             'pagination' => [
-                'page' => $page,
-                'perPage' => $perPage,
-                'total' => $total,
-                'lastPage' => $lastPage,
+                'page' => $paginator->currentPage(),
+                'perPage' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'lastPage' => $paginator->lastPage(),
             ],
             'computedAt' => now()->toIso8601String(),
         ]);
@@ -454,7 +550,7 @@ class NotificationReminderService
     /**
      * @return array{memberId: int, memberNo: string, memberName: ?string, memberAvatarUrl: ?string}
      */
-    private function memberFields(?Member $member, Staff $staff, Site $site): array
+    private function memberFields(?Member $member, bool $canReadMemberNames): array
     {
         if ($member === null) {
             return [
@@ -465,7 +561,6 @@ class NotificationReminderService
             ];
         }
 
-        $canReadMemberNames = $staff->hasPermission('crm.member.read', $site->id);
         $rawName = $member->crmProfile?->name ?? $member->account?->display_name;
 
         return [

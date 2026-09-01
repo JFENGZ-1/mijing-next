@@ -10,7 +10,6 @@ use App\Enums\MemberCardOrderStatus;
 use App\Enums\MemberCardStatus;
 use App\Models\Account;
 use App\Models\CardProduct;
-use App\Models\EntitlementLedgerEntry;
 use App\Models\LegalConsent;
 use App\Models\LegalDocument;
 use App\Models\Member;
@@ -128,6 +127,40 @@ class MemberCardPurchaseTest extends TestCase
 
         $this->assertSame(1, MemberCardOrder::query()->where('tenant_id', $tenant->id)->count());
         $this->assertSame(1, MemberCard::query()->where('tenant_id', $tenant->id)->where('member_id', $member->id)->count());
+    }
+
+    public function test_sale_category_distinguishes_same_product_renewal_from_cross_product_purchase(): void
+    {
+        [$account, $tenant, $site] = $this->seedPurchasableMember();
+        $firstProduct = $this->createProduct($site, CardType::StoredValue);
+        $otherProduct = $this->createProduct($site, CardType::Count);
+        $firstCommand = (string) Str::uuid();
+        $this->actAsMember($account);
+
+        $first = $this->postJson($this->purchasePath($tenant, $site), [
+            'cardProductId' => $firstProduct->id,
+            'commandKey' => $firstCommand,
+        ])->assertCreated();
+        $this->assertSame('new', MemberCardOrder::findOrFail($first->json('data.order.id'))->metadata['saleCategory']);
+
+        $replay = $this->postJson($this->purchasePath($tenant, $site), [
+            'cardProductId' => $firstProduct->id,
+            'commandKey' => $firstCommand,
+        ])->assertOk();
+        $this->assertSame($first->json('data.order.id'), $replay->json('data.order.id'));
+        $this->assertSame('new', MemberCardOrder::findOrFail($replay->json('data.order.id'))->metadata['saleCategory']);
+
+        $renewal = $this->postJson($this->purchasePath($tenant, $site), [
+            'cardProductId' => $firstProduct->id,
+            'commandKey' => (string) Str::uuid(),
+        ])->assertCreated();
+        $this->assertSame('renewal', MemberCardOrder::findOrFail($renewal->json('data.order.id'))->metadata['saleCategory']);
+
+        $crossProduct = $this->postJson($this->purchasePath($tenant, $site), [
+            'cardProductId' => $otherProduct->id,
+            'commandKey' => (string) Str::uuid(),
+        ])->assertCreated();
+        $this->assertSame('new', MemberCardOrder::findOrFail($crossProduct->json('data.order.id'))->metadata['saleCategory']);
     }
 
     public function test_incomplete_profile_blocks_member_purchase(): void

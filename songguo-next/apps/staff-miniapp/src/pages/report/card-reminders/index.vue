@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { onPullDownRefresh, onShow } from "@dcloudio/uni-app";
+import { onPullDownRefresh, onReachBottom, onShow } from "@dcloudio/uni-app";
 import { ApiError } from "@songguo/api-client";
 import {
   fetchCardReminderExpiring,
@@ -26,13 +26,15 @@ const page = ref(1);
 const lastPage = ref(1);
 const total = ref(0);
 const items = ref<MemberCardReminderItem[]>([]);
+const requestSeq = ref(0);
+const loadedQueryKey = ref("");
 
 const canView = computed(() => session.can("member-card.reminder.read"));
 const currentSiteName = computed(() => session.sites.find((site) => site.id === session.currentSiteId)?.name || "当前场馆");
 
 const tabs = [
   { key: "expiring" as const, name: "即将到期" },
-  { key: "zero-balance" as const, name: "余额为零" },
+  { key: "zero-balance" as const, name: "权益用尽" },
   { key: "pending-open" as const, name: "待开卡" },
   { key: "penalized" as const, name: "冻结/罚扣" },
 ];
@@ -40,6 +42,14 @@ const tabs = [
 const dayOptions = [7, 14, 30, 60, 90];
 const activeTabIndex = computed(() => tabs.findIndex((tab) => tab.key === activeTab.value));
 const showWithinDays = computed(() => activeTab.value === "expiring");
+
+function currentQueryKey() {
+  return JSON.stringify([
+    session.currentSiteId,
+    activeTab.value,
+    activeTab.value === "expiring" ? withinDays.value : null,
+  ]);
+}
 
 function memberName(name: string | null, cardNo: string) {
   return name?.trim() || cardNo;
@@ -60,53 +70,62 @@ function resetList() {
   total.value = 0;
 }
 
-async function fetchPage(requestedPage: number) {
-  if (!session.currentSiteId) return null;
-  const siteId = session.currentSiteId;
+async function fetchPage(siteId: number, tab: CardReminderTab, days: number | null, requestedPage: number) {
   const query = { page: requestedPage, perPage: 20 };
 
-  if (activeTab.value === "expiring") {
+  if (tab === "expiring") {
     return fetchCardReminderExpiring(siteId, {
       ...query,
-      withinDays: withinDays.value ?? undefined,
+      withinDays: days ?? undefined,
     });
   }
-  if (activeTab.value === "zero-balance") {
+  if (tab === "zero-balance") {
     return fetchCardReminderZeroBalance(siteId, query);
   }
-  if (activeTab.value === "pending-open") {
+  if (tab === "pending-open") {
     return fetchCardReminderPendingOpen(siteId, query);
   }
   return fetchCardReminderPenalized(siteId, query);
 }
 
 async function load(reset = true) {
-  if (!session.currentSiteId || !canView.value) {
+  const siteId = session.currentSiteId;
+  if (!siteId || !canView.value) {
+    requestSeq.value += 1;
     loading.value = false;
+    loadingMore.value = false;
     uni.stopPullDownRefresh();
     return;
   }
+  const tab = activeTab.value;
+  const days = withinDays.value;
+  const queryKey = currentQueryKey();
+  if (!reset && (loading.value || loadingMore.value || page.value >= lastPage.value || loadedQueryKey.value !== queryKey)) return;
+  const requestId = ++requestSeq.value;
+  const requestedPage = reset ? 1 : page.value + 1;
 
   if (reset) {
     loading.value = true;
     forbidden.value = false;
     errorMessage.value = "";
     resetList();
+    loadedQueryKey.value = "";
   } else {
     loadingMore.value = true;
   }
 
   try {
-    const requestedPage = reset ? 1 : page.value + 1;
-    const response = await fetchPage(requestedPage);
-    if (!response) return;
+    const response = await fetchPage(siteId, tab, days, requestedPage);
+    if (requestId !== requestSeq.value || queryKey !== currentQueryKey()) return;
 
     configDays.value = response.config.expiringWithinDays;
     items.value = reset ? response.items : [...items.value, ...response.items];
     page.value = requestedPage;
     total.value = response.pagination.total;
     lastPage.value = response.pagination.lastPage;
+    loadedQueryKey.value = queryKey;
   } catch (error) {
+    if (requestId !== requestSeq.value || queryKey !== currentQueryKey()) return;
     if (reset) {
       resetList();
       resolveError(error);
@@ -114,9 +133,11 @@ async function load(reset = true) {
       uni.showToast({ title: error instanceof Error ? error.message : "加载失败", icon: "none" });
     }
   } finally {
-    loading.value = false;
-    loadingMore.value = false;
-    uni.stopPullDownRefresh();
+    if (requestId === requestSeq.value) {
+      loading.value = false;
+      loadingMore.value = false;
+      uni.stopPullDownRefresh();
+    }
   }
 }
 
@@ -135,12 +156,24 @@ async function selectWithinDays(days: number | null) {
 }
 
 async function loadMore() {
-  if (loadingMore.value || page.value >= lastPage.value) return;
+  if (loading.value || loadingMore.value || page.value >= lastPage.value) return;
   await load(false);
 }
 
 function openReminderConfig() {
   uni.navigateTo({ url: "/pages/settings/defaults/card-reminder-config/index" });
+}
+
+function cardStatusLabel(status: string) {
+  return ({
+    pending_activation: "待激活",
+    active: "使用中",
+    frozen: "已停卡",
+    expired: "已过期",
+    exhausted: "已用尽",
+    archived: "已归档",
+    voided: "已作废",
+  } as Record<string, string>)[status] || "状态待核对";
 }
 
 function itemMeta(item: MemberCardReminderItem) {
@@ -149,13 +182,16 @@ function itemMeta(item: MemberCardReminderItem) {
     return item.validUntil ? `${cardLabel} · 到期 ${item.validUntil}` : `${cardLabel} · 到期日待定`;
   }
   if (activeTab.value === "zero-balance") {
+    if (item.cardType === "count") {
+      return `${cardLabel} · 剩余 ${item.cachedRemainingCount ?? 0} 次`;
+    }
     const balance = item.cachedBalance ?? "0.00";
     return `${cardLabel} · 余额 ¥${balance}`;
   }
   if (activeTab.value === "pending-open") {
     return item.issuedAt ? `${cardLabel} · 发卡 ${item.issuedAt.slice(0, 10)}` : `${cardLabel} · 待会员开卡`;
   }
-  return `${cardLabel} · ${item.status}`;
+  return `${cardLabel} · ${cardStatusLabel(item.status)}`;
 }
 
 onShow(async () => {
@@ -163,6 +199,7 @@ onShow(async () => {
 });
 
 onPullDownRefresh(() => load());
+onReachBottom(() => loadMore());
 </script>
 
 <template>
@@ -170,6 +207,7 @@ onPullDownRefresh(() => load());
   <view v-if="!loading" class="page-container">
     <view class="header-row">
       <view>
+        <text class="eyebrow">卡项待办</text>
         <text class="title">会员卡提醒</text>
         <text class="subtitle">{{ currentSiteName }}</text>
       </view>
@@ -177,11 +215,17 @@ onPullDownRefresh(() => load());
 
     <u-empty v-if="forbidden || !canView" mode="permission" text="暂无会员卡提醒权限" />
     <template v-else>
-      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <view v-if="errorMessage" class="error-card">
+        <view>
+          <text class="error-title">卡项提醒暂未更新</text>
+          <text class="error-detail">{{ errorMessage }}</text>
+        </view>
+        <button class="retry-btn" @tap="load()">重新加载</button>
+      </view>
 
-      <u-tabs :list="tabs.map((tab) => ({ name: tab.name }))" :current="activeTabIndex" @change="switchTab" />
+      <u-tabs v-if="!errorMessage" :list="tabs.map((tab) => ({ name: tab.name }))" :current="activeTabIndex" @change="switchTab" />
 
-      <template v-if="showWithinDays">
+      <template v-if="!errorMessage && showWithinDays">
         <view class="section-title">到期天数（默认 {{ configDays }} 天）</view>
         <view class="chip-row">
           <view
@@ -203,16 +247,16 @@ onPullDownRefresh(() => load());
         </view>
       </template>
 
-      <view class="totals-card">共 {{ total }} 条 · 已加载 {{ items.length }} 条</view>
+      <view v-if="!errorMessage" class="totals-card">共 {{ total }} 条 · 已加载 {{ items.length }} 条</view>
 
       <u-button
-        v-if="session.can('member-card.reminder.config')"
+        v-if="!errorMessage && session.can('member-card.reminder.config')"
         size="small"
         text="提醒阈值设置"
         @click="openReminderConfig"
       />
 
-      <view class="list-card">
+      <view v-if="!errorMessage" class="list-card">
         <view v-for="item in items" :key="item.memberCardId" class="list-row">
           <view class="list-main">
             <text class="list-name">{{ memberName(item.memberName, item.cardNo) }}</text>
@@ -234,8 +278,57 @@ onPullDownRefresh(() => load());
 .title,
 .subtitle,
 .list-name,
-.list-meta {
+.list-meta,
+.eyebrow,
+.error-title,
+.error-detail {
   display: block;
+}
+
+.eyebrow {
+  margin-bottom: 6rpx;
+  color: #d98200;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.error-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  border: 1rpx solid rgba(225, 82, 82, 0.18);
+  border-radius: $radius-md;
+  background: #fff6f5;
+}
+
+.error-title {
+  color: $color-danger;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.error-detail {
+  margin-top: 6rpx;
+  color: $color-text-secondary;
+  font-size: 22rpx;
+}
+
+.retry-btn {
+  flex: none;
+  margin: 0;
+  padding: 0 24rpx;
+  color: $color-danger;
+  font-size: 24rpx;
+  line-height: 56rpx;
+  border: 1rpx solid currentColor;
+  border-radius: 999rpx;
+  background: transparent;
+}
+
+.retry-btn::after {
+  border: 0;
 }
 
 .title {

@@ -494,8 +494,12 @@ class ConsumptionSettlementService
         ];
     }
 
-    public function queryForSite(int $tenantId, int $siteId, array $filters = []): Builder
-    {
+    public function queryForSite(
+        int $tenantId,
+        int $siteId,
+        array $filters = [],
+        bool $canSearchMemberNames = true,
+    ): Builder {
         return ConsumptionEvent::query()
             ->where('tenant_id', $tenantId)
             ->where('site_id', $siteId)
@@ -506,9 +510,16 @@ class ConsumptionSettlementService
             ->when($filters['memberCardId'] ?? null, fn ($query, $id) => $query->where('member_card_id', $id))
             ->when($filters['coachStaffId'] ?? null, fn ($query, $id) => $query->where(function ($nested) use ($id) {
                 $nested->where('coach_staff_id', $id)
-                    ->orWhereRaw("JSON_CONTAINS(metadata, JSON_OBJECT('staffId', ?), '$.deliveryRecipients')", [$id]);
+                    ->orWhereExists(fn ($recipients) => $recipients->selectRaw('1')
+                        ->from('consumption_event_recipient_allocations')
+                        ->whereColumn('consumption_event_recipient_allocations.consumption_event_id', 'consumption_events.id')
+                        ->where('consumption_event_recipient_allocations.recipient_type', 'delivery')
+                        ->where('consumption_event_recipient_allocations.staff_id', $id));
             }))
-            ->when($filters['query'] ?? null, fn ($query, $term) => $this->applySearch($query, (string) $term))
+            ->when(
+                $filters['query'] ?? null,
+                fn ($query, $term) => $this->applySearch($query, (string) $term, $canSearchMemberNames),
+            )
             ->when($filters['status'] ?? null, function ($query, $status) {
                 if ($status === 'adjusted') {
                     return $query->where('status', '!=', 'reversed')
@@ -671,17 +682,18 @@ class ConsumptionSettlementService
         ];
     }
 
-    private function applySearch(Builder $query, string $term): void
+    private function applySearch(Builder $query, string $term, bool $canSearchMemberNames): void
     {
         $term = trim($term);
         if ($term === '') {
             return;
         }
-        $query->where(function (Builder $nested) use ($term) {
+        $query->where(function (Builder $nested) use ($term, $canSearchMemberNames) {
             $nested->whereHas('member', fn (Builder $members) => $members
                 ->where('member_no', 'like', "%{$term}%")
-                ->orWhereHas('crmProfile', fn (Builder $profiles) => $profiles->where('name', 'like', "%{$term}%"))
-                ->orWhereHas('account', fn (Builder $accounts) => $accounts->where('display_name', 'like', "%{$term}%")))
+                ->when($canSearchMemberNames, fn (Builder $allowedNames) => $allowedNames
+                    ->orWhereHas('crmProfile', fn (Builder $profiles) => $profiles->where('name', 'like', "%{$term}%"))
+                    ->orWhereHas('account', fn (Builder $accounts) => $accounts->where('display_name', 'like', "%{$term}%"))))
                 ->orWhereHas('session.course', fn (Builder $courses) => $courses->where('name', 'like', "%{$term}%"))
                 ->orWhereHas('memberCard', fn (Builder $cards) => $cards
                     ->where('card_no', 'like', "%{$term}%")

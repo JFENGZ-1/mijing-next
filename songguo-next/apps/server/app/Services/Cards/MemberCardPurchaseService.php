@@ -17,6 +17,7 @@ use App\Services\Compensation\MemberCardShareAssignmentService;
 use App\Services\Compensation\MemberCardValueLotService;
 use App\Services\Members\MemberPurchaseGateService;
 use App\Services\Orders\MemberCardOrderService;
+use App\Services\Orders\MemberCardSaleCategoryService;
 use App\Services\Wallet\MemberWalletService;
 use App\Support\Finance\Money;
 use Carbon\Carbon;
@@ -35,6 +36,7 @@ class MemberCardPurchaseService
         private readonly MemberCardValueLotService $valueLots,
         private readonly MemberCardShareAssignmentService $shareAssignments,
         private readonly CardProductPaymentMethodService $paymentMethods,
+        private readonly MemberCardSaleCategoryService $saleCategories,
     ) {}
 
     public function paymentGateway(): PaymentGateway
@@ -148,17 +150,18 @@ class MemberCardPurchaseService
                 422,
                 'CARD_PRODUCT_PAYMENT_METHOD_NOT_ALLOWED',
             );
+            $saleCategory = $this->saleCategories->classify($member, $site, $product);
 
             if ($paymentMethod === 'balance') {
-                return $this->submitBalancePaid($account, $member, $site, $product, $commandKey);
+                return $this->submitBalancePaid($account, $member, $site, $product, $commandKey, $saleCategory);
             }
 
             if ($driver === 'demo') {
-                return $this->submitDemoPaid($account, $member, $site, $product, $commandKey);
+                return $this->submitDemoPaid($account, $member, $site, $product, $commandKey, $saleCategory);
             }
 
             return [
-                'order' => $this->createWechatPendingOrder($member, $site, $product, $commandKey),
+                'order' => $this->createWechatPendingOrder($member, $site, $product, $commandKey, $saleCategory),
                 'memberCard' => null,
                 'payment' => null,
                 'created' => true,
@@ -356,6 +359,7 @@ class MemberCardPurchaseService
         Site $site,
         CardProduct $product,
         string $commandKey,
+        string $saleCategory,
     ): array {
         $issueResult = $this->issuer->purchaseIssue($account, $site, $member, $product, $commandKey);
         $memberCard = $issueResult['memberCard'];
@@ -376,6 +380,7 @@ class MemberCardPurchaseService
                 'channel' => 'demo_auto_paid',
                 'cardProductId' => $product->id,
                 'productVersion' => $product->version,
+                'saleCategory' => $saleCategory,
             ],
         ]);
 
@@ -394,6 +399,7 @@ class MemberCardPurchaseService
         Site $site,
         CardProduct $product,
         string $commandKey,
+        string $saleCategory,
     ): array {
         $amountCents = Money::decimalToCents($product->price);
         $issueResult = $this->issuer->purchaseIssue($account, $site, $member, $product, $commandKey);
@@ -414,6 +420,7 @@ class MemberCardPurchaseService
                 'channel' => 'member_wallet',
                 'cardProductId' => $product->id,
                 'productVersion' => $product->version,
+                'saleCategory' => $saleCategory,
             ],
         ]);
         if ($amountCents > 0) {
@@ -440,6 +447,7 @@ class MemberCardPurchaseService
         Site $site,
         CardProduct $product,
         string $commandKey,
+        string $saleCategory,
     ): MemberCardOrder {
         return MemberCardOrder::create([
             'tenant_id' => $member->tenant_id,
@@ -456,6 +464,7 @@ class MemberCardPurchaseService
                 'channel' => 'wechat_pay',
                 'cardProductId' => $product->id,
                 'productVersion' => $product->version,
+                'saleCategory' => $saleCategory,
             ],
         ]);
     }

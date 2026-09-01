@@ -1,4 +1,5 @@
 export type ConsumptionDimension = "coach" | "share" | "member" | "course" | "card";
+export type ConsumptionSettlementFilterStatus = "provisional" | "final" | "adjusted" | "reversed";
 export type ConsumptionSettlementStatus =
   | "reserved"
   | "pending"
@@ -101,7 +102,7 @@ export interface ConsumptionSettlementQuery {
   from?: string;
   to?: string;
   query?: string;
-  status?: string;
+  status?: ConsumptionSettlementFilterStatus;
   page?: number;
   perPage?: number;
 }

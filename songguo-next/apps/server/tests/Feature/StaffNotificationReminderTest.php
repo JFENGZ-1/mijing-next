@@ -22,7 +22,9 @@ use App\Models\ScheduleSession;
 use App\Models\Site;
 use App\Models\Staff;
 use App\Models\Tenant;
+use App\Services\Notifications\NotificationReminderService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
@@ -70,6 +72,26 @@ class StaffNotificationReminderTest extends TestCase
             ->assertJsonPath('data.items.0.memberId', $inactive->id);
     }
 
+    public function test_no_class_uses_only_past_completed_fulfillment_and_database_pagination(): void
+    {
+        [, $site] = $this->actAsStaff(['notification.reminder.read']);
+        $member = $this->createMemberAtSite($site, 'Future Booking Member');
+        $this->createActiveCard($site, $member, 'MC-FUTURE-BOOKING');
+
+        $oldSession = $this->createSession($site, now()->subDays(45));
+        $this->createAppointment($site, $oldSession, $member, AppointmentStatus::Completed);
+        $futureSession = $this->createSession($site, now()->addDays(10));
+        $this->createAppointment($site, $futureSession, $member, AppointmentStatus::Confirmed);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/reminders/no-class?days=30&page=1&perPage=1")
+            ->assertOk()
+            ->assertJsonPath('data.pagination.total', 1)
+            ->assertJsonPath('data.pagination.perPage', 1)
+            ->assertJsonPath('data.items.0.memberId', $member->id)
+            ->assertJsonPath('data.items.0.lastClassDate', now()->subDays(45)->toDateString())
+            ->assertJsonPath('data.items.0.daysSinceLastClass', 45);
+    }
+
     public function test_birthday_reminder_returns_upcoming_birthdays(): void
     {
         [, $site] = $this->actAsStaff(['notification.reminder.read']);
@@ -88,6 +110,47 @@ class StaffNotificationReminderTest extends TestCase
             ->assertJsonCount(1, 'data.items')
             ->assertJsonPath('data.items.0.memberId', $due->id)
             ->assertJsonPath('data.items.0.daysUntilBirthday', 3);
+    }
+
+    public function test_recurring_reminders_paginate_in_global_occurrence_order_with_projected_last_class(): void
+    {
+        $this->travelTo(Carbon::create(2026, 12, 28, 9));
+        [$staff, $site] = $this->actAsStaff(['notification.reminder.read']);
+
+        $dates = [
+            ['name' => 'December Due', 'date' => Carbon::create(2000, 12, 30)],
+            ['name' => 'January First', 'date' => Carbon::create(2000, 1, 1)],
+            ['name' => 'January Second', 'date' => Carbon::create(2000, 1, 2)],
+        ];
+        $members = [];
+        foreach ($dates as $index => $row) {
+            $member = $this->createMemberAtSite($site, $row['name'], joinedAt: $row['date']);
+            $member->crmProfile->update(['birth_date' => $row['date']->toDateString()]);
+            $this->createActiveCard($site, $member, 'MC-RECURRING-'.$index);
+            $members[] = $member;
+        }
+
+        $completed = $this->createSession($site, now()->subDays(10));
+        $this->createAppointment($site, $completed, $members[1], AppointmentStatus::Completed);
+
+        DB::flushQueryLog();
+        DB::enableQueryLog();
+        app(NotificationReminderService::class)->anniversary($staff, $site, 7, 'valid', 1, 3);
+        $this->assertLessThanOrEqual(8, count(DB::getQueryLog()));
+        DB::disableQueryLog();
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/reminders/anniversary?days=7&page=1&perPage=1")
+            ->assertOk()
+            ->assertJsonPath('data.pagination.total', 3)
+            ->assertJsonPath('data.items.0.memberId', $members[0]->id);
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/reminders/anniversary?days=7&page=2&perPage=1")
+            ->assertOk()
+            ->assertJsonPath('data.items.0.memberId', $members[1]->id)
+            ->assertJsonPath('data.items.0.lastClassDate', now()->subDays(10)->toDateString());
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/reminders/birthdays?days=7&page=3&perPage=1")
+            ->assertOk()
+            ->assertJsonPath('data.pagination.total', 3)
+            ->assertJsonPath('data.items.0.memberId', $members[2]->id);
     }
 
     public function test_visitor_reminder_returns_recent_leads_without_cards(): void

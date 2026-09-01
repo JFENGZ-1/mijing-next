@@ -271,6 +271,21 @@ class MemberCardWechatPaymentTest extends TestCase
             'cardProductId' => $product->id,
             'commandKey' => $commandKey,
         ])->json('data.order.orderNo');
+        $pendingOrder = MemberCardOrder::query()->where('order_no', $orderNo)->firstOrFail();
+        $this->assertSame('new', $pendingOrder->metadata['saleCategory']);
+
+        // A later paid order must not retroactively change the pending order's snapshot.
+        MemberCardOrder::create([
+            'tenant_id' => $tenant->id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'order_no' => 'ORD-LATER-PAID-'.Str::upper(Str::random(8)),
+            'amount' => $product->price,
+            'status' => MemberCardOrderStatus::Paid,
+            'command_key' => (string) Str::uuid(),
+            'metadata' => ['cardProductId' => $product->id, 'saleCategory' => 'new'],
+            'paid_at' => now(),
+        ]);
 
         $payload = json_encode([
             'event_type' => 'TRANSACTION.SUCCESS',
@@ -297,6 +312,7 @@ class MemberCardWechatPaymentTest extends TestCase
         $order = MemberCardOrder::query()->where('order_no', $orderNo)->firstOrFail();
         $this->assertSame(MemberCardOrderStatus::Paid, $order->status);
         $this->assertNotNull($order->member_card_id);
+        $this->assertSame('new', $order->metadata['saleCategory']);
         $this->assertSame(1, PaymentNotificationInbox::query()->where('order_no', $orderNo)->count());
 
         $this->assertDatabaseHas('entitlement_ledger_entries', [

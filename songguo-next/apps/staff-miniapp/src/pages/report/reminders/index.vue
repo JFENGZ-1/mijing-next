@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { onPullDownRefresh, onShow } from "@dcloudio/uni-app";
+import { onPullDownRefresh, onReachBottom, onShow } from "@dcloudio/uni-app";
 import { ApiError } from "@songguo/api-client";
 import {
   fetchReminderAnniversary,
@@ -32,6 +32,8 @@ const lastPage = ref(1);
 const total = ref(0);
 const items = ref<ReminderMemberItem[]>([]);
 const holidayItems = ref<ReminderHolidayItem[]>([]);
+const requestSeq = ref(0);
+const loadedQueryKey = ref("");
 
 const canView = computed(() => session.can("notification.reminder.read"));
 const currentSiteName = computed(() => session.sites.find((site) => site.id === session.currentSiteId)?.name || "当前场馆");
@@ -56,6 +58,15 @@ const showMemberStatus = computed(() => activeTab.value === "anniversary" || act
 const isHolidayTab = computed(() => activeTab.value === "holiday-due");
 const listCount = computed(() => (isHolidayTab.value ? holidayItems.value.length : items.value.length));
 
+function currentQueryKey() {
+  return JSON.stringify([
+    session.currentSiteId,
+    activeTab.value,
+    selectedDays.value,
+    showMemberStatus.value ? memberStatus.value : null,
+  ]);
+}
+
 function memberName(name: string | null, memberNo: string) {
   return name?.trim() || memberNo;
 }
@@ -76,48 +87,62 @@ function resetList() {
   total.value = 0;
 }
 
-async function fetchPage(requestedPage: number) {
-  if (!session.currentSiteId) return null;
-  const siteId = session.currentSiteId;
-  const query = { days: selectedDays.value, page: requestedPage, perPage: 20 };
+async function fetchPage(
+  siteId: number,
+  tab: ReminderTab,
+  days: number,
+  status: ReminderMemberStatus,
+  requestedPage: number,
+) {
+  const query = { days, page: requestedPage, perPage: 20 };
 
-  if (activeTab.value === "anniversary") {
-    return fetchReminderAnniversary(siteId, { ...query, memberStatus: memberStatus.value });
+  if (tab === "anniversary") {
+    return fetchReminderAnniversary(siteId, { ...query, memberStatus: status });
   }
-  if (activeTab.value === "no-class") {
+  if (tab === "no-class") {
     return fetchReminderNoClass(siteId, query);
   }
-  if (activeTab.value === "birthdays") {
-    return fetchReminderBirthdays(siteId, { ...query, memberStatus: memberStatus.value });
+  if (tab === "birthdays") {
+    return fetchReminderBirthdays(siteId, { ...query, memberStatus: status });
   }
-  if (activeTab.value === "visitors") {
+  if (tab === "visitors") {
     return fetchReminderVisitors(siteId, query);
   }
   return fetchReminderHolidayDue(siteId, query);
 }
 
 async function load(reset = true) {
-  if (!session.currentSiteId || !canView.value) {
+  const siteId = session.currentSiteId;
+  if (!siteId || !canView.value) {
+    requestSeq.value += 1;
     loading.value = false;
+    loadingMore.value = false;
     uni.stopPullDownRefresh();
     return;
   }
+  const tab = activeTab.value;
+  const days = selectedDays.value;
+  const status = memberStatus.value;
+  const queryKey = currentQueryKey();
+  if (!reset && (loading.value || loadingMore.value || page.value >= lastPage.value || loadedQueryKey.value !== queryKey)) return;
+  const requestId = ++requestSeq.value;
+  const requestedPage = reset ? 1 : page.value + 1;
 
   if (reset) {
     loading.value = true;
     forbidden.value = false;
     errorMessage.value = "";
     resetList();
+    loadedQueryKey.value = "";
   } else {
     loadingMore.value = true;
   }
 
   try {
-    const requestedPage = reset ? 1 : page.value + 1;
-    const response = await fetchPage(requestedPage);
-    if (!response) return;
+    const response = await fetchPage(siteId, tab, days, status, requestedPage);
+    if (requestId !== requestSeq.value || queryKey !== currentQueryKey()) return;
 
-    if (isHolidayTab.value) {
+    if (tab === "holiday-due") {
       const holidayResponse = response as Awaited<ReturnType<typeof fetchReminderHolidayDue>>;
       holidayItems.value = reset
         ? holidayResponse.items
@@ -130,7 +155,9 @@ async function load(reset = true) {
     page.value = requestedPage;
     total.value = response.pagination.total;
     lastPage.value = response.pagination.lastPage;
+    loadedQueryKey.value = queryKey;
   } catch (error) {
+    if (requestId !== requestSeq.value || queryKey !== currentQueryKey()) return;
     if (reset) {
       resetList();
       resolveError(error);
@@ -138,9 +165,11 @@ async function load(reset = true) {
       uni.showToast({ title: error instanceof Error ? error.message : "加载失败", icon: "none" });
     }
   } finally {
-    loading.value = false;
-    loadingMore.value = false;
-    uni.stopPullDownRefresh();
+    if (requestId === requestSeq.value) {
+      loading.value = false;
+      loadingMore.value = false;
+      uni.stopPullDownRefresh();
+    }
   }
 }
 
@@ -165,7 +194,7 @@ async function selectMemberStatus(status: ReminderMemberStatus) {
 }
 
 async function loadMore() {
-  if (loadingMore.value || page.value >= lastPage.value) return;
+  if (loading.value || loadingMore.value || page.value >= lastPage.value) return;
   await load(false);
 }
 
@@ -204,6 +233,7 @@ onShow(async () => {
 });
 
 onPullDownRefresh(() => load());
+onReachBottom(() => loadMore());
 </script>
 
 <template>
@@ -211,6 +241,7 @@ onPullDownRefresh(() => load());
   <view v-if="!loading" class="page-container">
     <view class="header-row">
       <view>
+        <text class="eyebrow">会员待办</text>
         <text class="title">会员提醒</text>
         <text class="subtitle">{{ currentSiteName }}</text>
       </view>
@@ -218,12 +249,18 @@ onPullDownRefresh(() => load());
 
     <u-empty v-if="forbidden || !canView" mode="permission" text="暂无会员提醒权限" />
     <template v-else>
-      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <view v-if="errorMessage" class="error-card">
+        <view>
+          <text class="error-title">提醒数据暂未更新</text>
+          <text class="error-detail">{{ errorMessage }}</text>
+        </view>
+        <button class="retry-btn" @tap="load()">重新加载</button>
+      </view>
 
-      <u-tabs :list="tabs.map((tab) => ({ name: tab.name }))" :current="activeTabIndex" @change="switchTab" />
+      <u-tabs v-if="!errorMessage" :list="tabs.map((tab) => ({ name: tab.name }))" :current="activeTabIndex" @change="switchTab" />
 
-      <view class="section-title">天数阈值</view>
-      <view class="chip-row">
+      <view v-if="!errorMessage" class="section-title">天数阈值</view>
+      <view v-if="!errorMessage" class="chip-row">
         <view
           v-for="days in dayOptions"
           :key="days"
@@ -235,7 +272,7 @@ onPullDownRefresh(() => load());
         </view>
       </view>
 
-      <template v-if="showMemberStatus">
+      <template v-if="!errorMessage && showMemberStatus">
         <view class="section-title">会员状态</view>
         <view class="chip-row">
           <view
@@ -250,9 +287,9 @@ onPullDownRefresh(() => load());
         </view>
       </template>
 
-      <view class="totals-card">共 {{ total }} 条 · 已加载 {{ listCount }} 条</view>
+      <view v-if="!errorMessage" class="totals-card">共 {{ total }} 条 · 已加载 {{ listCount }} 条</view>
 
-      <view v-if="!isHolidayTab" class="list-card">
+      <view v-if="!errorMessage && !isHolidayTab" class="list-card">
         <view v-for="item in items" :key="`${item.memberId}-${item.anniversaryOn || item.birthdayOn || item.lastClassDate || ''}`" class="list-row">
           <view class="list-main">
             <text class="list-name">{{ memberName(item.memberName, item.memberNo) }}</text>
@@ -267,7 +304,7 @@ onPullDownRefresh(() => load());
         />
       </view>
 
-      <view v-else class="list-card">
+      <view v-else-if="!errorMessage" class="list-card">
         <view v-for="item in holidayItems" :key="item.memberCardId" class="list-row">
           <view class="list-main">
             <text class="list-name">{{ memberName(item.memberName, item.memberNo) }}</text>
@@ -289,8 +326,57 @@ onPullDownRefresh(() => load());
 .title,
 .subtitle,
 .list-name,
-.list-meta {
+.list-meta,
+.eyebrow,
+.error-title,
+.error-detail {
   display: block;
+}
+
+.eyebrow {
+  margin-bottom: 6rpx;
+  color: #d98200;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.error-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  border: 1rpx solid rgba(225, 82, 82, 0.18);
+  border-radius: $radius-md;
+  background: #fff6f5;
+}
+
+.error-title {
+  color: $color-danger;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.error-detail {
+  margin-top: 6rpx;
+  color: $color-text-secondary;
+  font-size: 22rpx;
+}
+
+.retry-btn {
+  flex: none;
+  margin: 0;
+  padding: 0 24rpx;
+  color: $color-danger;
+  font-size: 24rpx;
+  line-height: 56rpx;
+  border: 1rpx solid currentColor;
+  border-radius: 999rpx;
+  background: transparent;
+}
+
+.retry-btn::after {
+  border: 0;
 }
 
 .title {

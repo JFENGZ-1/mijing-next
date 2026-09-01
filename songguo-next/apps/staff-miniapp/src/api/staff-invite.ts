@@ -1,4 +1,4 @@
-import { useApiClient } from "@/api/client";
+import { useApiClient, usePublicApiClient } from "@/api/client";
 
 export interface StaffInvitePreview {
   sign: string;
@@ -20,7 +20,7 @@ export interface StaffInvitePreview {
 
 export async function fetchStaffInvitePreview(sign: string, code?: string) {
   const query = code ? `?code=${encodeURIComponent(code)}` : "";
-  const response = await useApiClient().request<StaffInvitePreview>(`/staff/invites/${sign}${query}`);
+  const response = await usePublicApiClient().request<StaffInvitePreview>(`/staff/invites/${sign}${query}`);
   return response.data;
 }
 
@@ -42,13 +42,14 @@ export async function acceptStaffInvite(sign: string, payload: { code: string; p
 }
 
 export async function loginForInvite(sign: string, code: string) {
-  const response = await useApiClient().request<{
+  const response = await usePublicApiClient().request<{
     accessToken: string;
     inviteBootstrap: boolean;
     staff: { tenantId: number; permissions: string[]; sites: { id: number; name: string }[] } | null;
   }>("/auth/wechat/login", {
     method: "POST",
     data: { appType: "staff", code, inviteSign: sign, deviceName: "staff-miniapp" },
+    timeout: 15_000,
   });
   return response.data;
 }

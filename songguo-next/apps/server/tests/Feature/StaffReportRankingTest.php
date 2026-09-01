@@ -3,16 +3,24 @@
 namespace Tests\Feature;
 
 use App\Enums\AppointmentStatus;
+use App\Enums\CardType;
 use App\Enums\CourseCatalogStatus;
 use App\Enums\CourseType;
+use App\Enums\EntitlementLedgerDirection;
+use App\Enums\EntitlementLedgerEntryType;
 use App\Enums\MemberCardOrderStatus;
+use App\Enums\MemberCardStatus;
+use App\Enums\MemberCardVisibility;
 use App\Enums\PointLedgerDirection;
 use App\Enums\ScheduleSessionKind;
 use App\Enums\ScheduleSessionStatus;
 use App\Models\Account;
 use App\Models\Appointment;
+use App\Models\ConsumptionEvent;
 use App\Models\Course;
+use App\Models\EntitlementLedgerEntry;
 use App\Models\Member;
+use App\Models\MemberCard;
 use App\Models\MemberCardOrder;
 use App\Models\MemberCrmProfile;
 use App\Models\Permission;
@@ -90,6 +98,37 @@ class StaffReportRankingTest extends TestCase
         $this->assertSame(2, $items[0]['completedAppointments']);
         $this->assertSame($runnerUp->id, $items[1]['memberId']);
         $this->assertSame(1, $items[1]['completedAppointments']);
+    }
+
+    public function test_order_ranking_uses_payment_month_and_legacy_created_at_fallback(): void
+    {
+        [$staff, $site] = $this->actAsStaff(['report.rankings.read']);
+        $member = $this->createMemberAtSite($staff->tenant_id, $site, 'Payment Month Member');
+
+        $paidThisMonth = $this->createPaidOrder($site, $member, $staff, 300);
+        $paidThisMonth->forceFill([
+            'created_at' => now()->subMonth(),
+            'paid_at' => now(),
+            'updated_at' => now(),
+        ])->save();
+
+        $paidLastMonth = $this->createPaidOrder($site, $member, $staff, 900);
+        $paidLastMonth->forceFill([
+            'created_at' => now(),
+            'paid_at' => now()->subMonth(),
+            'updated_at' => now(),
+        ])->save();
+
+        $this->createPaidOrder($site, $member, $staff, 200);
+
+        $this->getJson(
+            "/api/v1/staff/sites/{$site->id}/reports/rankings/orders?year=".now()->year.'&month='.now()->month,
+        )
+            ->assertOk()
+            ->assertJsonPath('data.totals.orderCount', 2)
+            ->assertJsonPath('data.totals.totalSpend', '500.00')
+            ->assertJsonPath('data.items.0.orderCount', 2)
+            ->assertJsonPath('data.items.0.totalSpend', '500.00');
     }
 
     public function test_points_ranking_returns_members_ordered_by_credits_when_enabled(): void
@@ -170,6 +209,66 @@ class StaffReportRankingTest extends TestCase
         $this->assertSame('1000.00', $detailItems[0]['revenue']);
         $this->assertSame($memberB->id, $detailItems[1]['memberId']);
         $this->assertSame('800.00', $detailItems[1]['revenue']);
+    }
+
+    public function test_member_consumption_ranking_uses_completed_consumption_events_and_excludes_penalties_and_reversals(): void
+    {
+        [$staff, $site] = $this->actAsStaff(['report.rankings.read', 'crm.member.read']);
+        $member = $this->createMemberAtSite($staff->tenant_id, $site, 'Consumption Member');
+        $course = $this->createCourse($site, $staff);
+        $card = $this->createCountCard($site, $member);
+
+        foreach ([[12_000, 'final'], [null, 'final'], [90_000, 'reversed']] as $index => [$valueCents, $status]) {
+            $session = $this->createSession(
+                $site,
+                $course,
+                $staff,
+                now()->startOfMonth()->addDays($index + 1)->setTime(10, 0),
+            );
+            $appointment = $this->createAppointment($site, $session, $member, AppointmentStatus::Completed);
+            ConsumptionEvent::create([
+                'tenant_id' => $site->tenant_id,
+                'site_id' => $site->id,
+                'appointment_id' => $appointment->id,
+                'session_id' => $session->id,
+                'course_id' => $course->id,
+                'member_id' => $member->id,
+                'member_card_id' => $card->id,
+                'coach_staff_id' => $staff->id,
+                'business_date' => $session->starts_at->toDateString(),
+                'card_type' => CardType::Count->value,
+                'deducted_count' => 1,
+                'consumed_value_cents' => $valueCents,
+                'value_provenance' => $valueCents === null ? 'unknown' : 'actual',
+                'status' => $status,
+                'source' => 'manual',
+                'command_key' => (string) Str::uuid(),
+                'occurred_at' => $session->starts_at,
+            ]);
+        }
+        EntitlementLedgerEntry::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'member_card_id' => $card->id,
+            'member_id' => $member->id,
+            'entry_type' => EntitlementLedgerEntryType::Penalty,
+            'direction' => EntitlementLedgerDirection::Debit,
+            'count_delta' => -5,
+            'reason' => 'Absent penalty must not become consumption',
+            'occurred_at' => now(),
+        ]);
+
+        $year = now()->year;
+        $month = now()->month;
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/rankings/member-card-consumption?year={$year}&month={$month}")
+            ->assertOk()
+            ->assertJsonPath('data.totals.consumptionCount', 2)
+            ->assertJsonPath('data.totals.consumptionAmount', '120.00')
+            ->assertJsonPath('data.totals.unvaluedCount', 1)
+            ->assertJsonPath('data.items.0.memberId', $member->id)
+            ->assertJsonPath('data.items.0.consumptionCount', 2)
+            ->assertJsonPath('data.items.0.consumptionAmount', '120.00')
+            ->assertJsonPath('data.items.0.hasUnvalued', true);
     }
 
     public function test_ranking_endpoints_mask_member_pii_without_crm_read(): void
@@ -393,6 +492,22 @@ class StaffReportRankingTest extends TestCase
             'reason' => 'Ranking seed credit',
             'command_key' => (string) Str::uuid(),
             'created_at' => $createdAt,
+        ]);
+    }
+
+    private function createCountCard(Site $site, Member $member): MemberCard
+    {
+        return MemberCard::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'member_id' => $member->id,
+            'card_no' => 'MC-'.Str::upper(Str::random(8)),
+            'card_type' => CardType::Count,
+            'status' => MemberCardStatus::Active,
+            'member_visibility' => MemberCardVisibility::Visible,
+            'cached_remaining_count' => 10,
+            'product_snapshot' => ['name' => 'Ranking Count Card', 'initialCount' => 10],
+            'issued_at' => now(),
         ]);
     }
 }

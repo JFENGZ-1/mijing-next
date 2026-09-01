@@ -29,6 +29,8 @@ class ProcessExportJob implements ShouldQueue
             $this->exportJobId,
             new JobActorContext($this->staffId, $this->requestId),
             $this->filters,
+            max(1, $this->attempts()),
+            $this->tries,
         );
     }
 }

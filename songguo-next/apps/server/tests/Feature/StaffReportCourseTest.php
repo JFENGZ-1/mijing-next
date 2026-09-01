@@ -153,7 +153,7 @@ class StaffReportCourseTest extends TestCase
             ScheduleSessionKind::Private,
             ScheduleSessionStatus::Scheduled,
         );
-        $this->createAppointment($site, $privateSession, $member, AppointmentStatus::Confirmed);
+        $this->createAppointment($site, $privateSession, $member, AppointmentStatus::Completed);
 
         $year = now()->year;
         $month = now()->month;
@@ -182,6 +182,33 @@ class StaffReportCourseTest extends TestCase
             ->assertJsonPath('data.totals.groupScheduledCount', 0)
             ->assertJsonPath('data.totals.privateSessionCount', 1)
             ->assertJsonCount(1, 'data.days');
+    }
+
+    public function test_future_private_reservations_are_not_counted_as_delivered_sessions(): void
+    {
+        $this->travelTo(now()->startOfMonth()->addDay()->setTime(9, 0));
+        [$staff, $site] = $this->actAsStaff(['report.course.read']);
+        $member = $this->createMemberAtSite($staff->tenant_id, $site, 'Future Member');
+        $course = $this->createCourse($site, $staff, CourseType::Private, 'Future Private');
+
+        foreach ([AppointmentStatus::Confirmed, AppointmentStatus::Absent] as $index => $status) {
+            $session = $this->createSession(
+                $site,
+                $course,
+                $staff,
+                now()->addDays($index + 1),
+                ScheduleSessionKind::Private,
+                ScheduleSessionStatus::Scheduled,
+            );
+            $this->createAppointment($site, $session, $member, $status);
+        }
+
+        $this->getJson(
+            "/api/v1/staff/sites/{$site->id}/reports/courses/daily?year=".now()->year.'&month='.now()->month,
+        )
+            ->assertOk()
+            ->assertJsonPath('data.totals.privateSessionCount', 0)
+            ->assertJsonCount(0, 'data.days');
     }
 
     public function test_course_endpoints_require_permission(): void

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { onLoad, onShow } from "@dcloudio/uni-app";
+import { onLoad, onPullDownRefresh, onShow } from "@dcloudio/uni-app";
 import { ApiError } from "@songguo/api-client";
 import {
   fetchReportCourseCalendar,
@@ -24,12 +24,17 @@ const dailyByMonth = ref<Record<number, ReportCourseDaily>>({});
 const courseKind = ref<ReportCourseKind>("all");
 const querySiteId = ref<number | undefined>();
 const querySiteName = ref("");
+const requestSeq = ref(0);
+const dailyRequestSeq = ref(0);
 
-const canView = computed(() => session.can("report.course.read"));
 const reportSiteId = computed(() => querySiteId.value ?? session.currentSiteId);
+const canView = computed(() => session.sites
+  .find((site) => site.id === reportSiteId.value)
+  ?.permissions.includes("report.course.read") ?? false);
 const currentSiteName = computed(() => {
-  if (querySiteName.value) return querySiteName.value;
-  return session.sites.find((site) => site.id === reportSiteId.value)?.name || "当前场馆";
+  return session.sites.find((site) => site.id === reportSiteId.value)?.name
+    || querySiteName.value
+    || "当前场馆";
 });
 const yearOptions = computed(() => {
   if (summaryYears.value.length) return summaryYears.value;
@@ -49,87 +54,113 @@ function resolveError(error: unknown) {
   errorMessage.value = error instanceof Error ? error.message : "课程数据加载失败";
 }
 
-async function loadCalendar() {
-  if (!reportSiteId.value || !canView.value) return;
-  expandedMonth.value = null;
-  dailyByMonth.value = {};
-  try {
-    calendar.value = await fetchReportCourseCalendar(reportSiteId.value, selectedYear.value);
-  } catch (error) {
-    calendar.value = null;
-    resolveError(error);
-    throw error;
-  }
-}
-
 async function load() {
-  if (!reportSiteId.value || !canView.value) {
+  const siteId = reportSiteId.value;
+  if (!siteId || !canView.value) {
+    requestSeq.value += 1;
+    dailyRequestSeq.value += 1;
     loading.value = false;
+    dailyLoading.value = false;
     return;
   }
+  const requestId = ++requestSeq.value;
+  dailyRequestSeq.value += 1;
+  dailyLoading.value = false;
   loading.value = true;
+  calendar.value = null;
+  summaryYears.value = [];
+  expandedMonth.value = null;
+  dailyByMonth.value = {};
   forbidden.value = false;
   errorMessage.value = "";
   try {
-    const summary = await fetchReportCourseSummary(reportSiteId.value);
-    summaryYears.value = summary.years.map((item) => item.year);
+    const summary = await fetchReportCourseSummary(siteId);
+    if (requestId !== requestSeq.value || reportSiteId.value !== siteId) return;
+    const years = summary.years.map((item) => item.year);
     const current = summary.years.find((item) => item.isCurrentYear);
-    if (current) selectedYear.value = current.year;
-    else if (summaryYears.value.length) selectedYear.value = summaryYears.value[0];
-    await loadCalendar();
+    const year = current?.year ?? years[0] ?? selectedYear.value;
+    const response = await fetchReportCourseCalendar(siteId, year);
+    if (requestId !== requestSeq.value || reportSiteId.value !== siteId) return;
+    summaryYears.value = years;
+    selectedYear.value = year;
+    calendar.value = response;
   } catch (error) {
+    if (requestId !== requestSeq.value || reportSiteId.value !== siteId) return;
     calendar.value = null;
     resolveError(error);
   } finally {
-    loading.value = false;
+    if (requestId === requestSeq.value) loading.value = false;
   }
 }
 
 async function selectYear(year: number) {
   if (selectedYear.value === year) return;
+  const siteId = reportSiteId.value;
+  if (!siteId || !canView.value) return;
   selectedYear.value = year;
+  const requestId = ++requestSeq.value;
+  dailyRequestSeq.value += 1;
   loading.value = true;
+  dailyLoading.value = false;
   errorMessage.value = "";
+  expandedMonth.value = null;
+  dailyByMonth.value = {};
   try {
-    await loadCalendar();
-  } catch {
-    // error already handled
+    const response = await fetchReportCourseCalendar(siteId, year);
+    if (requestId !== requestSeq.value || reportSiteId.value !== siteId || selectedYear.value !== year) return;
+    calendar.value = response;
+  } catch (error) {
+    if (requestId !== requestSeq.value || reportSiteId.value !== siteId || selectedYear.value !== year) return;
+    calendar.value = null;
+    resolveError(error);
   } finally {
-    loading.value = false;
+    if (requestId === requestSeq.value) loading.value = false;
   }
 }
 
 async function changeCourseKind(kind: ReportCourseKind) {
   if (courseKind.value === kind) return;
   courseKind.value = kind;
+  dailyRequestSeq.value += 1;
+  dailyLoading.value = false;
+  dailyByMonth.value = {};
   if (expandedMonth.value !== null) {
     const month = expandedMonth.value;
-    delete dailyByMonth.value[month];
     await loadDaily(month);
   }
 }
 
 async function loadDaily(month: number) {
-  if (!reportSiteId.value) return;
+  const siteId = reportSiteId.value;
+  if (!siteId) return;
+  const year = selectedYear.value;
+  const kind = courseKind.value;
+  const requestId = ++dailyRequestSeq.value;
   dailyLoading.value = true;
   try {
-    dailyByMonth.value[month] = await fetchReportCourseDaily(
-      reportSiteId.value,
-      selectedYear.value,
-      month,
-      courseKind.value,
-    );
+    const response = await fetchReportCourseDaily(siteId, year, month, kind);
+    if (
+      requestId !== dailyRequestSeq.value
+      || reportSiteId.value !== siteId
+      || selectedYear.value !== year
+      || courseKind.value !== kind
+      || expandedMonth.value !== month
+    ) return;
+    dailyByMonth.value[month] = response;
   } catch (error) {
+    if (requestId !== dailyRequestSeq.value || expandedMonth.value !== month) return;
     expandedMonth.value = null;
     resolveError(error);
   } finally {
-    dailyLoading.value = false;
+    if (requestId === dailyRequestSeq.value) dailyLoading.value = false;
   }
 }
 
 async function toggleMonth(month: number) {
   if (expandedMonth.value === month) {
     expandedMonth.value = null;
+    dailyRequestSeq.value += 1;
+    dailyLoading.value = false;
     return;
   }
   expandedMonth.value = month;
@@ -153,6 +184,11 @@ onLoad((query) => {
 onShow(async () => {
   if (await requireStaffAuth()) await load();
 });
+
+onPullDownRefresh(async () => {
+  await load();
+  uni.stopPullDownRefresh();
+});
 </script>
 
 <template>
@@ -160,6 +196,7 @@ onShow(async () => {
   <view v-if="!loading" class="page-container">
     <view class="header-row">
       <view>
+        <text class="eyebrow">课程运营</text>
         <text class="title">课程统计</text>
         <text class="subtitle">{{ currentSiteName }}</text>
       </view>
@@ -167,7 +204,10 @@ onShow(async () => {
 
     <u-empty v-if="forbidden || !canView" mode="permission" text="暂无课程报表权限" />
     <template v-else>
-      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <view v-if="errorMessage" class="error-card">
+        <u-alert type="error" :description="errorMessage" />
+        <button class="retry-btn" @tap="load">重新加载</button>
+      </view>
 
       <view class="section-title">年份</view>
       <scroll-view scroll-x class="chip-scroll" enable-flex>
@@ -258,8 +298,6 @@ onShow(async () => {
 </template>
 
 <style scoped lang="scss">
-.header-row,
-.summary-row,
 .table-head,
 .table-row,
 .daily-head,
@@ -270,11 +308,26 @@ onShow(async () => {
   gap: $spacing-xs;
 }
 
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.eyebrow,
 .title,
 .subtitle,
 .summary-label,
 .summary-value {
   display: block;
+}
+
+.eyebrow {
+  color: $color-primary;
+  font-size: 21rpx;
+  font-weight: 600;
+  letter-spacing: 3rpx;
 }
 
 .title {
@@ -328,17 +381,35 @@ onShow(async () => {
   border-radius: $radius-md;
 }
 
+.summary-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16rpx;
+  padding: 20rpx;
+}
+
 .summary-row {
-  grid-template-columns: 1fr auto;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 20rpx;
+  background: $color-surface-grey;
+  border-radius: $radius-sm;
 }
 
 .summary-row + .summary-row {
-  margin-top: $spacing-sm;
+  margin-top: 0;
 }
 
 .summary-value {
-  text-align: right;
+  order: -1;
+  font-size: 32rpx;
   font-weight: 600;
+}
+
+.summary-label {
+  margin-top: 8rpx;
+  font-size: 21rpx;
 }
 
 .table-head,
@@ -371,5 +442,25 @@ onShow(async () => {
   min-height: 64rpx;
   padding: $spacing-xs 0;
   font-size: 22rpx;
+}
+
+.error-card {
+  margin-top: $spacing-md;
+}
+
+.retry-btn {
+  width: 220rpx;
+  height: 64rpx;
+  margin: 18rpx 0 0;
+  color: $color-primary;
+  background: #fff;
+  border: 1rpx solid rgba(237, 146, 15, 0.35);
+  border-radius: 32rpx;
+  font-size: 23rpx;
+  line-height: 62rpx;
+}
+
+.retry-btn::after {
+  border: 0;
 }
 </style>

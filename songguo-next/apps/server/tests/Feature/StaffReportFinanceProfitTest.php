@@ -147,6 +147,51 @@ class StaffReportFinanceProfitTest extends TestCase
             ->assertJsonPath('code', 'PERMISSION_DENIED');
     }
 
+    public function test_profit_calendar_uses_paid_at_month_and_falls_back_for_legacy_orders(): void
+    {
+        [$staff, $site] = $this->actAsStaff(['report.finance.read']);
+        $member = $this->createMemberAtSite($staff->tenant_id, $site, 'Payment Month Member', now());
+        $card = $this->createCard($site, $member);
+
+        $this->createPaidOrder(
+            $site,
+            $member,
+            $card,
+            $staff,
+            'ORD-CREATED-EARLIER',
+            300,
+            now()->subMonth(),
+            now(),
+        );
+        $this->createPaidOrder(
+            $site,
+            $member,
+            $card,
+            $staff,
+            'ORD-PAID-EARLIER',
+            900,
+            now(),
+            now()->subMonth(),
+        );
+        $this->createPaidOrder(
+            $site,
+            $member,
+            $card,
+            $staff,
+            'ORD-LEGACY-FALLBACK',
+            200,
+            now(),
+        );
+
+        $response = $this->getJson(
+            "/api/v1/staff/sites/{$site->id}/reports/finance/profit-calendar?year=".now()->year,
+        )->assertOk();
+
+        $currentMonth = collect($response->json('data.months'))->firstWhere('month', now()->month);
+        $this->assertSame(2, $currentMonth['cardSalesCount']);
+        $this->assertSame('500.00', $currentMonth['revenue']);
+    }
+
     public function test_profit_endpoints_are_scoped_to_assigned_site_and_tenant(): void
     {
         [$staff, $site] = $this->actAsStaff(['report.finance.read']);
@@ -268,6 +313,7 @@ class StaffReportFinanceProfitTest extends TestCase
         string $orderNo,
         float $amount,
         $createdAt,
+        $paidAt = null,
     ): MemberCardOrder {
         $order = MemberCardOrder::create([
             'tenant_id' => $site->tenant_id,
@@ -277,6 +323,7 @@ class StaffReportFinanceProfitTest extends TestCase
             'order_no' => $orderNo,
             'amount' => $amount,
             'status' => MemberCardOrderStatus::Paid,
+            'paid_at' => $paidAt,
             'created_by_staff_id' => $staff->id,
         ]);
         $order->forceFill(['created_at' => $createdAt, 'updated_at' => $createdAt])->save();

@@ -2561,6 +2561,76 @@ paths:
         "403": { $ref: "#/components/responses/Forbidden" }
         "404": { $ref: "#/components/responses/NotFound" }
         "422": { $ref: "#/components/responses/ValidationError" }
+  /staff/sites/{site}/reports/rankings/member-card-consumption:
+    parameters:
+      - $ref: "#/components/parameters/SiteId"
+      - name: year
+        in: query
+        required: true
+        schema: { type: integer, minimum: 2000, maximum: 2100 }
+      - name: month
+        in: query
+        required: true
+        schema: { type: integer, minimum: 1, maximum: 12 }
+      - name: page
+        in: query
+        required: false
+        schema: { type: integer, minimum: 1, default: 1 }
+      - name: perPage
+        in: query
+        required: false
+        schema: { type: integer, minimum: 1, maximum: 50, default: 20 }
+    get:
+      operationId: getStaffReportMemberCardConsumptionRanking
+      x-required-client: staff
+      x-required-permission: report.rankings.read
+      x-capability: report.member-card.consumption-rank
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Members ranked by known, non-reversed card consumption value; unknown-value events remain visible through unvaluedCount/hasUnvalued
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReportMemberCardConsumptionRankingEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+  /staff/sites/{site}/reports/rankings/card-product-sales:
+    parameters:
+      - $ref: "#/components/parameters/SiteId"
+      - name: year
+        in: query
+        required: true
+        schema: { type: integer, minimum: 2000, maximum: 2100 }
+      - name: month
+        in: query
+        required: true
+        schema: { type: integer, minimum: 1, maximum: 12 }
+      - name: page
+        in: query
+        required: false
+        schema: { type: integer, minimum: 1, default: 1 }
+      - name: perPage
+        in: query
+        required: false
+        schema: { type: integer, minimum: 1, maximum: 50, default: 20 }
+    get:
+      operationId: getStaffReportCardProductSalesRanking
+      x-required-client: staff
+      x-required-permission: report.rankings.read
+      x-capability: report.card-product.sales-rank
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Card products ranked by effective paid revenue in the selected calendar month
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReportCardProductSalesRankingEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationError" }
   /staff/sites/{site}/reports/rankings/points:
     parameters:
       - $ref: "#/components/parameters/SiteId"
@@ -2667,6 +2737,157 @@ paths:
           content:
             application/json:
               schema: { $ref: "#/components/schemas/ReportSalesStaffRankingDetailEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+  /staff/sites/{site}/reports/card-product-analytics:
+    parameters:
+      - $ref: "#/components/parameters/SiteId"
+    get:
+      operationId: getStaffReportCardProductAnalytics
+      x-required-client: staff
+      x-required-permission: report.rankings.read
+      x-capability: report.card-product.analytics
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Tenant-wide active card-product issue counts and linked-site counts, anchored to the requested accessible site
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReportCardProductAnalyticsEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /staff/sites/{site}/reports/card-sales/summary:
+    parameters:
+      - $ref: "#/components/parameters/SiteId"
+      - name: year
+        in: query
+        required: false
+        description: Calendar year; defaults to the current year when omitted.
+        schema: { type: integer, minimum: 2000, maximum: 2100 }
+      - name: month
+        in: query
+        required: false
+        description: Calendar month; defaults to the current month when omitted.
+        schema: { type: integer, minimum: 1, maximum: 12 }
+    get:
+      operationId: getStaffReportCardSalesSummary
+      x-required-client: staff
+      x-required-permission: report.read
+      x-capability: report.card-sales.summary
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Effective paid card-order revenue summarized by product for one calendar month
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReportCardSalesSummaryEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+  /staff/sites/{site}/reports/card-sales/detail:
+    parameters:
+      - $ref: "#/components/parameters/SiteId"
+      - name: year
+        in: query
+        required: false
+        description: Calendar year; defaults to the current year when omitted.
+        schema: { type: integer, minimum: 2000, maximum: 2100 }
+      - name: month
+        in: query
+        required: false
+        description: Calendar month; defaults to the current month when omitted.
+        schema: { type: integer, minimum: 1, maximum: 12 }
+      - name: cardProductId
+        in: query
+        required: false
+        description: Filter one product. When omitted, the implementation returns legacy/unknown-product paid orders.
+        schema: { type: integer, minimum: 1, nullable: true }
+      - name: page
+        in: query
+        required: false
+        schema: { type: integer, minimum: 1, default: 1 }
+      - name: perPage
+        in: query
+        required: false
+        schema: { type: integer, minimum: 1, maximum: 50, default: 20 }
+    get:
+      operationId: getStaffReportCardSalesDetail
+      x-required-client: staff
+      x-required-permission: report.read
+      x-capability: report.card-sales.detail
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Paginated effective paid card orders, dated by paidAt with createdAt fallback for legacy paid orders
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReportCardSalesDetailEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+  /staff/sites/{site}/reports/card-analyze/summary:
+    parameters:
+      - $ref: "#/components/parameters/SiteId"
+    get:
+      operationId: getStaffReportCardAnalyzeSummary
+      x-required-client: staff
+      x-required-permission: report.read
+      x-capability: report.card-analyze.summary
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Card lifecycle counts and an explainable estimated liability from effective paid revenue minus known, non-reversed consumption value
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReportCardAnalyzeSummaryEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /staff/sites/{site}/reports/change-log:
+    parameters:
+      - $ref: "#/components/parameters/SiteId"
+      - name: category
+        in: query
+        required: false
+        schema: { $ref: "#/components/schemas/ReportChangeLogCategoryKey" }
+      - name: dateFrom
+        in: query
+        required: false
+        schema: { type: string, format: date, nullable: true }
+      - name: dateTo
+        in: query
+        required: false
+        description: Inclusive end date; must be on or after dateFrom when both are supplied.
+        schema: { type: string, format: date, nullable: true }
+      - name: actorStaffId
+        in: query
+        required: false
+        schema: { type: integer, minimum: 1, nullable: true }
+      - name: page
+        in: query
+        required: false
+        schema: { type: integer, minimum: 1, default: 1 }
+      - name: perPage
+        in: query
+        required: false
+        schema: { type: integer, minimum: 1, maximum: 50, default: 20 }
+    get:
+      operationId: listStaffReportChangeLog
+      x-required-client: staff
+      x-required-permission: report.read
+      x-capability: report.change-log.list
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Paginated staff-authored member-card entitlement changes with member names masked when crm.member.read is absent
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReportChangeLogEnvelope" }
         "403": { $ref: "#/components/responses/Forbidden" }
         "404": { $ref: "#/components/responses/NotFound" }
         "422": { $ref: "#/components/responses/ValidationError" }
@@ -3284,6 +3505,28 @@ paths:
         "403": { $ref: "#/components/responses/Forbidden" }
         "404": { $ref: "#/components/responses/NotFound" }
         "422": { $ref: "#/components/responses/ValidationError" }
+  /staff/sites/{site}/exports/jobs/{job}:
+    parameters:
+      - $ref: "#/components/parameters/SiteId"
+      - name: job
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    get:
+      operationId: getStaffExportJob
+      x-required-client: staff
+      x-authorization: job creator or site-scoped export.job.read
+      x-capability: export.job.status
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Read one export job; allowed for its creator or staff with export.job.read at the target site
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ExportJobEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
   /staff/sites/{site}/exports/jobs/{job}/download:
     parameters:
       - $ref: "#/components/parameters/SiteId"
@@ -3294,7 +3537,7 @@ paths:
     get:
       operationId: downloadStaffExportJob
       x-required-client: staff
-      x-required-permission: export.job.read
+      x-authorization: job creator or site-scoped export.job.read
       x-capability: export.job.download
       security:
         - bearerAuth: []
@@ -9780,6 +10023,286 @@ components:
       required: [data, requestId]
       properties:
         data: { $ref: "#/components/schemas/ReportSalesStaffRankingDetail" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    ReportMemberCardConsumptionRankingItem:
+      allOf:
+        - $ref: "#/components/schemas/ReportRankingMemberItem"
+        - type: object
+          required: [consumptionCount, consumptionAmount, unvaluedCount, hasUnvalued]
+          properties:
+            consumptionCount:
+              type: integer
+              minimum: 0
+              description: Number of non-reversed consumption events in the selected month.
+            consumptionAmount:
+              type: string
+              pattern: "^\\d+\\.\\d{2}$"
+              description: Known consumption value only; events without a provable value are counted by unvaluedCount.
+            unvaluedCount: { type: integer, minimum: 0 }
+            hasUnvalued: { type: boolean }
+    ReportMemberCardConsumptionRanking:
+      type: object
+      required: [year, month, totals, items, pagination, asOf]
+      properties:
+        year: { type: integer, minimum: 2000, maximum: 2100 }
+        month: { type: integer, minimum: 1, maximum: 12 }
+        totals:
+          type: object
+          required: [memberCount, consumptionCount, consumptionAmount, unvaluedCount, hasUnvalued]
+          properties:
+            memberCount: { type: integer, minimum: 0 }
+            consumptionCount: { type: integer, minimum: 0 }
+            consumptionAmount:
+              type: string
+              pattern: "^\\d+\\.\\d{2}$"
+              description: Known value across all non-reversed events in the selected month.
+            unvaluedCount: { type: integer, minimum: 0 }
+            hasUnvalued: { type: boolean }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ReportMemberCardConsumptionRankingItem" }
+        pagination: { $ref: "#/components/schemas/ReportRankingPagination" }
+        asOf: { type: string, format: date-time }
+    ReportMemberCardConsumptionRankingEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/ReportMemberCardConsumptionRanking" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    ReportCardSalesProductItem:
+      type: object
+      required: [cardProductId, cardProductName, salesCount, revenue]
+      properties:
+        cardProductId: { type: integer, minimum: 1, nullable: true }
+        cardProductName: { type: string }
+        salesCount: { type: integer, minimum: 0 }
+        revenue: { type: string, pattern: "^\\d+\\.\\d{2}$" }
+    ReportCardProductSalesRankingItem:
+      allOf:
+        - $ref: "#/components/schemas/ReportCardSalesProductItem"
+        - type: object
+          required: [rank]
+          properties:
+            rank: { type: integer, minimum: 1 }
+    ReportCardProductSalesTotals:
+      type: object
+      required: [cardProductCount, salesCount, revenue]
+      properties:
+        cardProductCount: { type: integer, minimum: 0 }
+        salesCount: { type: integer, minimum: 0 }
+        revenue: { type: string, pattern: "^\\d+\\.\\d{2}$" }
+    ReportCardProductSalesRanking:
+      type: object
+      required: [year, month, totals, items, pagination, asOf]
+      properties:
+        year: { type: integer, minimum: 2000, maximum: 2100 }
+        month: { type: integer, minimum: 1, maximum: 12 }
+        totals: { $ref: "#/components/schemas/ReportCardProductSalesTotals" }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ReportCardProductSalesRankingItem" }
+        pagination: { $ref: "#/components/schemas/ReportRankingPagination" }
+        asOf: { type: string, format: date-time }
+    ReportCardProductSalesRankingEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/ReportCardProductSalesRanking" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    ReportCardProductAnalyticsItem:
+      type: object
+      required: [cardProductId, cardProductName, siteId, siteName, cardType, issuedCount, linkedSiteCount]
+      properties:
+        cardProductId: { type: integer, minimum: 1 }
+        cardProductName: { type: string }
+        siteId: { type: integer, minimum: 1 }
+        siteName: { type: string, nullable: true }
+        cardType: { $ref: "#/components/schemas/CardType" }
+        issuedCount: { type: integer, minimum: 0 }
+        linkedSiteCount: { type: integer, minimum: 0 }
+    ReportCardProductAnalytics:
+      type: object
+      required: [siteId, totals, items, asOf]
+      properties:
+        siteId: { type: integer, minimum: 1 }
+        totals:
+          type: object
+          required: [cardProductCount, issuedCount]
+          properties:
+            cardProductCount: { type: integer, minimum: 0 }
+            issuedCount: { type: integer, minimum: 0 }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ReportCardProductAnalyticsItem" }
+        asOf: { type: string, format: date-time }
+    ReportCardProductAnalyticsEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/ReportCardProductAnalytics" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    ReportCardSalesSummary:
+      type: object
+      required: [year, month, totals, items, asOf]
+      properties:
+        year: { type: integer, minimum: 2000, maximum: 2100 }
+        month: { type: integer, minimum: 1, maximum: 12 }
+        totals: { $ref: "#/components/schemas/ReportCardProductSalesTotals" }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ReportCardSalesProductItem" }
+        asOf: { type: string, format: date-time }
+    ReportCardSalesSummaryEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/ReportCardSalesSummary" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    ReportCardSalesDetailItem:
+      type: object
+      required: [orderId, orderNo, memberId, memberName, amount, paidAt]
+      properties:
+        orderId: { type: integer, minimum: 1 }
+        orderNo: { type: string }
+        memberId: { type: integer, minimum: 1 }
+        memberName:
+          type: string
+          nullable: true
+          description: Full name with crm.member.read; otherwise the service returns a masked name.
+        amount: { type: string, pattern: "^\\d+\\.\\d{2}$", description: Effective order amount after non-reversed corrections. }
+        paidAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: paid_at, or created_at for legacy paid orders whose paid_at was never backfilled.
+    ReportCardSalesDetail:
+      type: object
+      required: [year, month, cardProductId, totals, items, pagination, asOf]
+      properties:
+        year: { type: integer, minimum: 2000, maximum: 2100 }
+        month: { type: integer, minimum: 1, maximum: 12 }
+        cardProductId: { type: integer, minimum: 1, nullable: true }
+        totals:
+          type: object
+          required: [salesCount, revenue]
+          properties:
+            salesCount: { type: integer, minimum: 0 }
+            revenue: { type: string, pattern: "^\\d+\\.\\d{2}$" }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ReportCardSalesDetailItem" }
+        pagination: { $ref: "#/components/schemas/ReportRankingPagination" }
+        asOf: { type: string, format: date-time }
+    ReportCardSalesDetailEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/ReportCardSalesDetail" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    ReportCardAnalyzeCard:
+      type: object
+      required: [key, label, hint, count]
+      properties:
+        key:
+          type: string
+          enum: [total, valid, invalid, expired, zero-balance, expired-with-balance, pending-open, holiday, frozen]
+        label: { type: string }
+        hint: { type: string }
+        count: { type: integer, minimum: 0 }
+    ReportCardAnalyzeBalanceSheet:
+      type: object
+      required: [totalRevenue, consumedValue, remainingValue, excessConsumedValue, unvaluedCount, hasUnvalued, remainingValueIsEstimate, notes]
+      properties:
+        totalRevenue:
+          type: string
+          pattern: "^\\d+\\.\\d{2}$"
+          description: Effective amount of paid card orders; pending, closing, closed and voided orders are excluded.
+        consumedValue:
+          type: string
+          pattern: "^\\d+\\.\\d{2}$"
+          description: Known consumed_value across non-reversed stored-value, count and period-card consumption events.
+        remainingValue:
+          type: string
+          pattern: "^\\d+\\.\\d{2}$"
+          description: max(totalRevenue - consumedValue, 0); an estimate because unknown-value events are not subtracted.
+        excessConsumedValue:
+          type: string
+          pattern: "^\\d+\\.\\d{2}$"
+          description: max(consumedValue - totalRevenue, 0), exposing gift cards, missing historical receipts or other reconciliation gaps.
+        unvaluedCount:
+          type: integer
+          minimum: 0
+          description: Non-reversed consumption events whose value cannot yet be proven.
+        hasUnvalued: { type: boolean }
+        remainingValueIsEstimate: { type: boolean, enum: [true] }
+        notes:
+          type: array
+          items: { type: string }
+    ReportCardAnalyzeSummary:
+      type: object
+      required: [cards, balanceSheet, generatedAt]
+      properties:
+        cards:
+          type: array
+          items: { $ref: "#/components/schemas/ReportCardAnalyzeCard" }
+        balanceSheet: { $ref: "#/components/schemas/ReportCardAnalyzeBalanceSheet" }
+        generatedAt: { type: string, format: date-time }
+    ReportCardAnalyzeSummaryEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/ReportCardAnalyzeSummary" }
+        requestId: { $ref: "#/components/schemas/RequestId" }
+    ReportChangeLogCategoryKey:
+      type: string
+      enum: [all, issue, holiday, freeze, archive, adjust]
+      default: all
+    ReportChangeLogCategory:
+      type: object
+      required: [key, label]
+      properties:
+        key: { $ref: "#/components/schemas/ReportChangeLogCategoryKey" }
+        label: { type: string }
+    ReportChangeLogItem:
+      type: object
+      required: [id, entryType, entryLabel, category, memberId, memberName, memberCardId, cardNo, cardName, amountDelta, countDelta, reason, actorStaffId, actorStaffName, occurredAt]
+      properties:
+        id: { type: integer, minimum: 1 }
+        entryType:
+          type: string
+          enum: [issue, purchase, recharge, holiday_apply, holiday_cancel, freeze, freeze_lift, archive, void, archive_restore, balance_adjust, count_adjust, validity_change]
+        entryLabel: { type: string }
+        category: { $ref: "#/components/schemas/ReportChangeLogCategoryKey" }
+        memberId: { type: integer, minimum: 1, nullable: true }
+        memberName:
+          type: string
+          nullable: true
+          description: Full name with crm.member.read; otherwise the service returns a masked name.
+        memberCardId: { type: integer, minimum: 1, nullable: true }
+        cardNo: { type: string, nullable: true }
+        cardName: { type: string, nullable: true }
+        amountDelta: { type: string, pattern: "^-?\\d+\\.\\d{2}$", nullable: true }
+        countDelta: { type: integer, nullable: true }
+        reason: { type: string, nullable: true }
+        actorStaffId: { type: integer, minimum: 1, nullable: true }
+        actorStaffName: { type: string, nullable: true }
+        occurredAt: { type: string, format: date-time, nullable: true }
+    ReportChangeLog:
+      type: object
+      required: [items, pagination, categories]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ReportChangeLogItem" }
+        pagination: { $ref: "#/components/schemas/ReportRankingPagination" }
+        categories:
+          type: array
+          items: { $ref: "#/components/schemas/ReportChangeLogCategory" }
+    ReportChangeLogEnvelope:
+      type: object
+      required: [data, requestId]
+      properties:
+        data: { $ref: "#/components/schemas/ReportChangeLog" }
         requestId: { $ref: "#/components/schemas/RequestId" }
     ReportCoachSummary:
       type: object

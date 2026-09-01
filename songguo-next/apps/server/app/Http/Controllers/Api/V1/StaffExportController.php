@@ -72,6 +72,20 @@ class StaffExportController extends Controller
         return $exports->download($staff, $siteModel, $jobModel, $request);
     }
 
+    public function showJob(
+        Request $request,
+        int $site,
+        int $job,
+        StaffMemberAccessService $access,
+        ExportJobService $exports,
+    ) {
+        $staff = $this->staff($request);
+        $siteModel = $access->site($staff, $site);
+        $jobModel = $exports->findJob($staff, $siteModel, $job);
+
+        return ApiResponse::success($exports->showJob($staff, $siteModel, $jobModel));
+    }
+
     private function staff(Request $request): Staff
     {
         return $request->attributes->get('staff_context');

@@ -11,6 +11,7 @@ use App\Enums\ScheduleSessionKind;
 use App\Enums\ScheduleSessionStatus;
 use App\Models\Account;
 use App\Models\Appointment;
+use App\Models\CompensationRole;
 use App\Models\Course;
 use App\Models\Member;
 use App\Models\MemberCardOrder;
@@ -20,9 +21,11 @@ use App\Models\PayrollReportSnapshot;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\ScheduleSession;
+use App\Models\ScheduleSessionStaffAssignment;
 use App\Models\Site;
 use App\Models\Staff;
 use App\Models\Tenant;
+use App\Services\Payroll\PayrollReportEngine;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -127,6 +130,97 @@ class StaffPayrollReportTest extends TestCase
             ->assertJsonPath('data.totals.newSaleCommissionCents', 10000)
             ->assertJsonPath('data.totals.renewalCommissionCents', 2500)
             ->assertJsonCount(2, 'data.orderLines');
+    }
+
+    public function test_private_payroll_uses_completed_fulfillment_and_includes_all_delivery_staff(): void
+    {
+        $this->travelTo(now()->startOfMonth()->addDay()->setTime(9, 0));
+        [$viewer, $site] = $this->actAsStaff(['payroll.report.read', 'payroll.config.write']);
+        $primary = $this->createSiteStaff($site, 'Primary Coach');
+        $secondary = $this->createSiteStaff($site, 'Secondary Coach');
+        $member = $this->createMemberAtSite($viewer->tenant_id, $site, 'Private Member');
+        $course = $this->createCourse($site, $viewer, CourseType::Private, 'Private Payroll');
+        $role = CompensationRole::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'code' => 'private-delivery',
+            'name' => '私教授课者',
+            'role_type' => 'delivery',
+            'status' => 'active',
+            'version' => 1,
+        ]);
+
+        $this->putJson("/api/v1/staff/sites/{$site->id}/payroll/coach-config", [
+            'enabled' => true,
+            'mode' => 'fixed_hours',
+        ])->assertOk();
+        foreach ([$primary, $secondary] as $coach) {
+            $this->putJson("/api/v1/staff/sites/{$site->id}/payroll/coach-rules?staffId={$coach->id}", [
+                'groupCourses' => [],
+                'privateCourses' => [['courseId' => $course->id, 'unitPriceCents' => 7000]],
+            ])->assertOk();
+        }
+
+        foreach ([AppointmentStatus::Confirmed, AppointmentStatus::Absent] as $index => $status) {
+            $future = ScheduleSession::create([
+                'tenant_id' => $site->tenant_id,
+                'site_id' => $site->id,
+                'course_id' => $course->id,
+                'coach_staff_id' => $primary->id,
+                'starts_at' => now()->addDays($index + 1),
+                'ends_at' => now()->addDays($index + 1)->addHour(),
+                'capacity' => 1,
+                'booked_count' => 1,
+                'status' => ScheduleSessionStatus::Scheduled,
+                'session_kind' => ScheduleSessionKind::Private,
+                'version' => 1,
+            ]);
+            $this->createAppointment($site, $future, $member, $status);
+        }
+
+        $completed = ScheduleSession::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'course_id' => $course->id,
+            'coach_staff_id' => $primary->id,
+            'delivery_role_id' => $role->id,
+            'starts_at' => now()->subHours(2),
+            'ends_at' => now()->subHour(),
+            'capacity' => 1,
+            'booked_count' => 1,
+            'status' => ScheduleSessionStatus::Scheduled,
+            'session_kind' => ScheduleSessionKind::Private,
+            'version' => 1,
+        ]);
+        $this->createAppointment($site, $completed, $member, AppointmentStatus::Completed);
+        foreach ([[$primary, true], [$secondary, false]] as [$coach, $isPrimary]) {
+            ScheduleSessionStaffAssignment::create([
+                'tenant_id' => $site->tenant_id,
+                'site_id' => $site->id,
+                'schedule_session_id' => $completed->id,
+                'staff_id' => $coach->id,
+                'compensation_role_id' => $role->id,
+                'is_primary' => $isPrimary,
+                'allocation_bps' => 5000,
+                'assignment_version' => 1,
+            ]);
+        }
+
+        $year = now()->year;
+        $month = now()->month;
+        DB::flushQueryLog();
+        DB::enableQueryLog();
+        app(PayrollReportEngine::class)->computeCoachReportSummaries($viewer, $site, $year, $month);
+        $this->assertLessThanOrEqual(8, count(DB::getQueryLog()));
+        DB::disableQueryLog();
+
+        $list = $this->getJson("/api/v1/staff/sites/{$site->id}/payroll/coach-reports?year={$year}&month={$month}")
+            ->assertOk();
+        $rows = collect($list->json('data.items'))->keyBy('staffId');
+        $this->assertSame(1, $rows[$primary->id]['privateSessionCount']);
+        $this->assertSame(7000, $rows[$primary->id]['totalPayCents']);
+        $this->assertSame(1, $rows[$secondary->id]['privateSessionCount']);
+        $this->assertSame(7000, $rows[$secondary->id]['totalPayCents']);
     }
 
     public function test_recompute_job_is_idempotent_and_persists_snapshots(): void

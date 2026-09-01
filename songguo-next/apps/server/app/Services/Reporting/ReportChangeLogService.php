@@ -49,7 +49,7 @@ class ReportChangeLogService
             ->where('site_id', $site->id)
             ->whereNotNull('actor_staff_id')
             ->with([
-                'memberCard:id,card_no,card_type,card_product_id',
+                'memberCard:id,card_no,card_type,card_product_id,product_snapshot',
                 'memberCard.cardProduct:id,name',
                 'member:id',
                 'member.crmProfile:member_id,name',
@@ -73,6 +73,7 @@ class ReportChangeLogService
         }
 
         $paginator = $query->orderByDesc('occurred_at')->orderByDesc('id')->paginate($perPage, ['*'], 'page', $page);
+        $canReadMemberNames = $staff->hasPermission('crm.member.read', $site->id);
 
         return [
             'items' => collect($paginator->items())->map(fn (EntitlementLedgerEntry $entry) => [
@@ -81,10 +82,12 @@ class ReportChangeLogService
                 'entryLabel' => $this->entryLabel($entry->entry_type),
                 'category' => $this->categoryOf($entry->entry_type),
                 'memberId' => $entry->member_id,
-                'memberName' => $entry->member?->crmProfile?->name,
+                'memberName' => $canReadMemberNames
+                    ? $entry->member?->crmProfile?->name
+                    : $this->maskName($entry->member?->crmProfile?->name),
                 'memberCardId' => $entry->member_card_id,
                 'cardNo' => $entry->memberCard?->card_no,
-                'cardName' => $entry->memberCard?->cardProduct?->name,
+                'cardName' => $this->cardName($entry),
                 'amountDelta' => $entry->amount_delta,
                 'countDelta' => $entry->count_delta,
                 'reason' => $entry->reason,
@@ -131,5 +134,34 @@ class ReportChangeLogService
             EntitlementLedgerEntryType::ValidityChange => '延期',
             default => $type->value,
         };
+    }
+
+    private function cardName(EntitlementLedgerEntry $entry): ?string
+    {
+        $metadata = $entry->metadata ?? [];
+        $metadataSnapshot = $metadata['productSnapshot'] ?? $metadata['memberCardSnapshot'] ?? null;
+
+        foreach ([
+            $metadata['cardProductName'] ?? null,
+            $metadata['cardName'] ?? null,
+            is_array($metadataSnapshot) ? ($metadataSnapshot['name'] ?? null) : null,
+            $entry->memberCard?->product_snapshot['name'] ?? null,
+            $entry->memberCard?->cardProduct?->name,
+        ] as $name) {
+            if (is_string($name) && trim($name) !== '') {
+                return $name;
+            }
+        }
+
+        return null;
+    }
+
+    private function maskName(?string $name): ?string
+    {
+        if (! $name) {
+            return null;
+        }
+
+        return mb_substr($name, 0, 1).str_repeat('*', max(mb_strlen($name) - 1, 1));
     }
 }

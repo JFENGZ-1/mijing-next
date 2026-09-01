@@ -6,6 +6,7 @@ use App\Enums\CardType;
 use App\Enums\ExportJobStatus;
 use App\Enums\MemberCardStatus;
 use App\Enums\MemberCardVisibility;
+use App\Jobs\ProcessExportJob;
 use App\Models\Account;
 use App\Models\ExportJob;
 use App\Models\Member;
@@ -16,6 +17,9 @@ use App\Models\Role;
 use App\Models\Site;
 use App\Models\Staff;
 use App\Models\Tenant;
+use App\Services\Exports\ExportJobService;
+use App\Services\Exports\MemberExportGenerator;
+use App\Support\JobActorContext;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -154,6 +158,41 @@ class StaffExportJobTest extends TestCase
         ]);
     }
 
+    public function test_creator_can_follow_own_job_status_without_export_job_read_permission(): void
+    {
+        Storage::fake('local');
+        [$creator, $site] = $this->actAsStaff(['export.member.create']);
+        $this->createMemberAtSite($site, 'Creator Status');
+
+        $jobId = $this->postJson("/api/v1/staff/sites/{$site->id}/exports/members")
+            ->assertCreated()
+            ->json('data.id');
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/exports/jobs/{$jobId}")
+            ->assertOk()
+            ->assertJsonPath('data.id', $jobId)
+            ->assertJsonPath('data.requestedByStaffId', $creator->id)
+            ->assertJsonPath('data.status', ExportJobStatus::Completed->value)
+            ->assertJsonPath('data.downloadAvailable', true);
+    }
+
+    public function test_non_creator_without_export_job_read_cannot_follow_job_status(): void
+    {
+        Storage::fake('local');
+        [$creator, $site] = $this->makeStaff(['export.member.create']);
+        Sanctum::actingAs($creator->account, ['api', 'client:staff', "staff:{$creator->id}", "tenant:{$creator->tenant_id}"]);
+        $jobId = $this->postJson("/api/v1/staff/sites/{$site->id}/exports/members")
+            ->assertCreated()
+            ->json('data.id');
+
+        [$otherStaff] = $this->makeStaff(['export.member.create'], $site->tenant_id, $site);
+        Sanctum::actingAs($otherStaff->account, ['api', 'client:staff', "staff:{$otherStaff->id}", "tenant:{$otherStaff->tenant_id}"]);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/exports/jobs/{$jobId}")
+            ->assertForbidden()
+            ->assertJsonPath('code', 'PERMISSION_DENIED');
+    }
+
     public function test_non_creator_without_export_job_read_cannot_download(): void
     {
         Storage::fake('local');
@@ -172,6 +211,210 @@ class StaffExportJobTest extends TestCase
         $this->get("/api/v1/staff/sites/{$site->id}/exports/jobs/{$jobId}/download")
             ->assertForbidden()
             ->assertJsonPath('code', 'PERMISSION_DENIED');
+    }
+
+    public function test_reader_can_follow_and_download_another_staff_export_job(): void
+    {
+        Storage::fake('local');
+        [$creator, $site] = $this->makeStaff([]);
+        $path = 'exports/reader-job.csv';
+        Storage::disk('local')->put($path, "name\nExport Member");
+
+        $job = ExportJob::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'type' => 'member_export',
+            'status' => ExportJobStatus::Completed,
+            'file_path' => $path,
+            'requested_by_staff_id' => $creator->id,
+            'filters' => [],
+            'completed_at' => now(),
+        ]);
+
+        [$reader] = $this->makeStaff(['export.job.read'], $site->tenant_id, $site);
+        Sanctum::actingAs($reader->account, ['api', 'client:staff', "staff:{$reader->id}", "tenant:{$reader->tenant_id}"]);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/exports/jobs/{$job->id}")
+            ->assertOk()
+            ->assertJsonPath('data.id', $job->id);
+
+        $this->get("/api/v1/staff/sites/{$site->id}/exports/jobs/{$job->id}/download")
+            ->assertOk();
+    }
+
+    public function test_export_job_show_and_download_are_scoped_to_site_and_tenant(): void
+    {
+        [$staff, $site] = $this->actAsStaff(['export.job.read']);
+        $job = ExportJob::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'type' => 'member_export',
+            'status' => ExportJobStatus::Pending,
+            'requested_by_staff_id' => $staff->id,
+            'filters' => [],
+        ]);
+
+        $otherSite = Site::create([
+            'tenant_id' => $site->tenant_id,
+            'name' => 'Other Site',
+            'code' => 'other-site',
+            'status' => 'active',
+        ]);
+        $staff->sites()->attach($otherSite->id, [
+            'tenant_id' => $site->tenant_id,
+            'is_primary' => false,
+        ]);
+
+        $this->getJson("/api/v1/staff/sites/{$otherSite->id}/exports/jobs/{$job->id}")
+            ->assertNotFound();
+        $this->getJson("/api/v1/staff/sites/{$otherSite->id}/exports/jobs/{$job->id}/download")
+            ->assertNotFound();
+
+        $otherTenant = Tenant::create(['name' => 'Other Tenant', 'code' => 'other-export-tenant']);
+        $otherTenantSite = Site::create([
+            'tenant_id' => $otherTenant->id,
+            'name' => 'Other Tenant Site',
+            'code' => 'other-tenant-site',
+            'status' => 'active',
+        ]);
+
+        $this->getJson("/api/v1/staff/sites/{$otherTenantSite->id}/exports/jobs/{$job->id}")
+            ->assertNotFound();
+        $this->getJson("/api/v1/staff/sites/{$otherTenantSite->id}/exports/jobs/{$job->id}/download")
+            ->assertNotFound();
+    }
+
+    public function test_unauthorized_download_does_not_reveal_pending_or_missing_file_state(): void
+    {
+        [$creator, $site] = $this->makeStaff([]);
+        $pendingJob = ExportJob::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'type' => 'member_export',
+            'status' => ExportJobStatus::Pending,
+            'requested_by_staff_id' => $creator->id,
+            'filters' => [],
+        ]);
+        $missingFileJob = ExportJob::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'type' => 'member_export',
+            'status' => ExportJobStatus::Completed,
+            'file_path' => null,
+            'requested_by_staff_id' => $creator->id,
+            'filters' => [],
+            'completed_at' => now(),
+        ]);
+
+        [$otherStaff] = $this->makeStaff([], $site->tenant_id, $site);
+        Sanctum::actingAs($otherStaff->account, ['api', 'client:staff', "staff:{$otherStaff->id}", "tenant:{$otherStaff->tenant_id}"]);
+
+        foreach ([$pendingJob, $missingFileJob] as $job) {
+            $this->getJson("/api/v1/staff/sites/{$site->id}/exports/jobs/{$job->id}/download")
+                ->assertForbidden()
+                ->assertJsonPath('code', 'PERMISSION_DENIED');
+        }
+    }
+
+    public function test_export_job_routes_reject_non_numeric_job_ids(): void
+    {
+        [, $site] = $this->actAsStaff(['export.job.read']);
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/exports/jobs/not-a-number")
+            ->assertNotFound();
+        $this->getJson("/api/v1/staff/sites/{$site->id}/exports/jobs/not-a-number/download")
+            ->assertNotFound();
+    }
+
+    public function test_transient_export_failure_returns_to_pending_and_can_retry(): void
+    {
+        [$staff, $site] = $this->makeStaff([]);
+        $job = ExportJob::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'type' => 'member_export',
+            'status' => ExportJobStatus::Pending,
+            'requested_by_staff_id' => $staff->id,
+            'filters' => [],
+        ]);
+
+        $calls = 0;
+        $generator = $this->mock(MemberExportGenerator::class);
+        $generator->shouldReceive('generate')
+            ->twice()
+            ->andReturnUsing(function () use (&$calls): string {
+                $calls++;
+                if ($calls === 1) {
+                    throw new \RuntimeException('TRANSIENT_EXPORT_FAILURE');
+                }
+
+                return 'exports/retried.csv';
+            });
+
+        $service = app(ExportJobService::class);
+        $queuedJob = new ProcessExportJob($job->id, $staff->id, 'retry-request');
+        try {
+            $queuedJob->handle($service);
+            $this->fail('The first attempt should throw so the queue can retry it.');
+        } catch (\RuntimeException $exception) {
+            $this->assertSame('TRANSIENT_EXPORT_FAILURE', $exception->getMessage());
+        }
+
+        $job->refresh();
+        $this->assertSame(ExportJobStatus::Pending, $job->status);
+        $this->assertNull($job->completed_at);
+        $this->assertDatabaseMissing('audit_events', [
+            'action' => 'export.job.failed',
+            'subject_type' => 'export_job',
+            'subject_id' => $job->id,
+        ]);
+
+        (new ProcessExportJob($job->id, $staff->id, 'retry-request'))->handle($service);
+
+        $job->refresh();
+        $this->assertSame(ExportJobStatus::Completed, $job->status);
+        $this->assertSame('exports/retried.csv', $job->file_path);
+        $this->assertSame(2, $calls);
+    }
+
+    public function test_final_export_failure_is_recorded_after_last_attempt(): void
+    {
+        [$staff, $site] = $this->makeStaff([]);
+        $job = ExportJob::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'type' => 'member_export',
+            'status' => ExportJobStatus::Pending,
+            'requested_by_staff_id' => $staff->id,
+            'filters' => [],
+        ]);
+
+        $generator = $this->mock(MemberExportGenerator::class);
+        $generator->shouldReceive('generate')
+            ->once()
+            ->andThrow(new \RuntimeException('FINAL_EXPORT_FAILURE'));
+
+        try {
+            app(ExportJobService::class)->runExportJob(
+                $job->id,
+                new JobActorContext($staff->id, 'final-request'),
+                [],
+                3,
+                3,
+            );
+            $this->fail('The final attempt should still rethrow the export failure.');
+        } catch (\RuntimeException $exception) {
+            $this->assertSame('FINAL_EXPORT_FAILURE', $exception->getMessage());
+        }
+
+        $job->refresh();
+        $this->assertSame(ExportJobStatus::Failed, $job->status);
+        $this->assertNotNull($job->completed_at);
+        $this->assertDatabaseHas('audit_events', [
+            'action' => 'export.job.failed',
+            'subject_type' => 'export_job',
+            'subject_id' => $job->id,
+        ]);
     }
 
     public function test_completed_export_job_metadata_cannot_be_deleted(): void

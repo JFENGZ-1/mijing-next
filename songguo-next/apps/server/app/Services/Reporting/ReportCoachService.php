@@ -52,7 +52,18 @@ class ReportCoachService
             ->where('appointments.site_id', $site->id)
             ->whereIn('appointments.status', self::DETAIL_APPOINTMENT_STATUSES)
             ->join('schedule_sessions as coach_report_sessions', 'appointments.session_id', '=', 'coach_report_sessions.id')
-            ->where('coach_report_sessions.coach_staff_id', $coach->id)
+            ->where(function ($delivery) use ($coach) {
+                $delivery->whereExists(fn ($assignments) => $assignments->selectRaw('1')
+                    ->from('schedule_session_staff_assignments')
+                    ->whereColumn('schedule_session_staff_assignments.schedule_session_id', 'coach_report_sessions.id')
+                    ->where('schedule_session_staff_assignments.staff_id', $coach->id))
+                    ->orWhere(function ($legacy) use ($coach) {
+                        $legacy->where('coach_report_sessions.coach_staff_id', $coach->id)
+                            ->whereNotExists(fn ($assignments) => $assignments->selectRaw('1')
+                                ->from('schedule_session_staff_assignments')
+                                ->whereColumn('schedule_session_staff_assignments.schedule_session_id', 'coach_report_sessions.id'));
+                    });
+            })
             ->where('coach_report_sessions.status', '!=', ScheduleSessionStatus::Cancelled)
             ->whereBetween('coach_report_sessions.starts_at', [$start, $end]);
 
@@ -121,11 +132,16 @@ class ReportCoachService
             ->where('site_id', $site->id)
             ->where('status', '!=', ScheduleSessionStatus::Cancelled)
             ->whereBetween('starts_at', [$start, $end])
-            ->whereNotNull('coach_staff_id')
-            ->with(['appointments' => fn ($query) => $query->whereIn('status', self::QUALIFYING_APPOINTMENT_STATUSES)])
+            ->with([
+                'appointments' => fn ($query) => $query->whereIn('status', self::QUALIFYING_APPOINTMENT_STATUSES),
+                'deliveryAssignments',
+            ])
             ->get();
 
-        $coachIds = $sessions->pluck('coach_staff_id')->unique()->filter()->values();
+        $coachIds = $sessions
+            ->flatMap(fn (ScheduleSession $session) => $this->deliveryStaffIds($session))
+            ->unique()
+            ->values();
         $coaches = Staff::query()
             ->where('tenant_id', $viewer->tenant_id)
             ->whereIn('id', $coachIds)
@@ -135,7 +151,9 @@ class ReportCoachService
 
         $rows = $coachIds
             ->map(function (int $coachId) use ($sessions, $coaches) {
-                $coachSessions = $sessions->where('coach_staff_id', $coachId);
+                $coachSessions = $sessions->filter(
+                    fn (ScheduleSession $session) => $this->deliveryStaffIds($session)->contains($coachId),
+                );
                 $groupSessionCount = $this->countHeldGroupSessions($coachSessions);
                 $privateSessionCount = $this->countDeliveredPrivateSessions($coachSessions);
                 $coach = $coaches->get($coachId);
@@ -270,7 +288,9 @@ class ReportCoachService
             return true;
         }
 
-        return $session->appointments->isNotEmpty();
+        return $session->appointments
+            ->where('status', AppointmentStatus::Completed)
+            ->isNotEmpty();
     }
 
     private function maskName(?string $name): ?string
@@ -280,6 +300,22 @@ class ReportCoachService
         }
 
         return mb_substr($name, 0, 1).str_repeat('*', max(mb_strlen($name) - 1, 1));
+    }
+
+    /** @return Collection<int, int> */
+    private function deliveryStaffIds(ScheduleSession $session): Collection
+    {
+        $assignments = $session->relationLoaded('deliveryAssignments')
+            ? $session->deliveryAssignments
+            : $session->deliveryAssignments()->get();
+
+        if ($assignments->isNotEmpty()) {
+            return $assignments->pluck('staff_id')->map(fn ($id) => (int) $id)->unique()->values();
+        }
+
+        return $session->coach_staff_id === null
+            ? collect()
+            : collect([(int) $session->coach_staff_id]);
     }
 
     /**

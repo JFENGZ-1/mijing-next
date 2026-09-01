@@ -40,12 +40,12 @@ class ReportDashboardService
             ->where('status', MemberCardOrderStatus::Paid);
 
         $todayOrders = (clone $paidOrdersQuery)
-            ->whereBetween('created_at', [$todayStart, $todayEnd])
+            ->wherePaidAtBetween($todayStart, $todayEnd)
             ->with('amountCorrections')
             ->get();
 
         $monthOrders = (clone $paidOrdersQuery)
-            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->wherePaidAtBetween($monthStart, $monthEnd)
             ->with('amountCorrections')
             ->get();
 
@@ -112,7 +112,7 @@ class ReportDashboardService
                 ->where('tenant_id', $staff->tenant_id)
                 ->where('site_id', $site->id)
                 ->where('status', MemberCardOrderStatus::Paid)
-                ->whereBetween('created_at', [$monthStart, $monthEnd])
+                ->wherePaidAtBetween($monthStart, $monthEnd)
                 ->with('amountCorrections')
                 ->get();
 

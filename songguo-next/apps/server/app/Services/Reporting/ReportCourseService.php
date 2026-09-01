@@ -280,7 +280,7 @@ class ReportCourseService
             return true;
         }
 
-        return $session->appointments->isNotEmpty();
+        return $this->completedAppointmentCount($session) > 0;
     }
 
     private function completedAppointmentCount(ScheduleSession $session): int

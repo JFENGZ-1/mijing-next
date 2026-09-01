@@ -9,12 +9,14 @@ use App\Enums\ScheduleSessionKind;
 use App\Enums\ScheduleSessionStatus;
 use App\Models\Account;
 use App\Models\Appointment;
+use App\Models\CompensationRole;
 use App\Models\Course;
 use App\Models\Member;
 use App\Models\MemberCrmProfile;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\ScheduleSession;
+use App\Models\ScheduleSessionStaffAssignment;
 use App\Models\Site;
 use App\Models\Staff;
 use App\Models\Tenant;
@@ -140,6 +142,96 @@ class StaffReportCoachTest extends TestCase
             ->assertOk()
             ->assertJsonPath('data.items.0.staffId', $privateLeader->id)
             ->assertJsonPath('data.items.1.staffId', $groupLeader->id);
+    }
+
+    public function test_private_ranking_does_not_count_future_confirmed_or_absent_bookings_as_delivered(): void
+    {
+        [$viewer, $site] = $this->actAsStaff(['report.coach.read']);
+        $coach = $this->createSiteStaff($site, 'Private Delivery Coach');
+        $course = $this->createCourse($site, $viewer, CourseType::Private, 'Delivery Private');
+        $member = $this->createMemberAtSite($viewer->tenant_id, $site, 'Delivery Member');
+
+        $this->seedCompletedPrivateSession(
+            $site,
+            $course,
+            $coach,
+            $member,
+            now()->startOfMonth()->addDay(),
+        );
+
+        foreach ([AppointmentStatus::Confirmed, AppointmentStatus::Absent] as $index => $status) {
+            $session = $this->createSession(
+                $site,
+                $course,
+                $coach,
+                now()->addDays($index + 1),
+                ScheduleSessionKind::Private,
+            );
+            $session->update(['status' => ScheduleSessionStatus::Scheduled]);
+            $this->createAppointment($site, $session, $member, $status);
+        }
+
+        $this->getJson(
+            "/api/v1/staff/sites/{$site->id}/reports/coaches/rankings?year=".now()->year.'&month='.now()->month,
+        )
+            ->assertOk()
+            ->assertJsonPath('data.totals.privateSessionCount', 1)
+            ->assertJsonPath('data.items.0.privateSessionCount', 1)
+            ->assertJsonPath('data.items.0.completedSessionCount', 1);
+    }
+
+    public function test_coach_reports_include_every_delivery_staff_from_the_session_snapshot(): void
+    {
+        [$viewer, $site] = $this->actAsStaff(['report.coach.read']);
+        $coachA = $this->createSiteStaff($site, 'Primary Coach');
+        $coachB = $this->createSiteStaff($site, 'Second Coach');
+        $course = $this->createCourse($site, $viewer, CourseType::Group, 'Multi A Group');
+        $member = $this->createMemberAtSite($viewer->tenant_id, $site, 'Multi A Member');
+        $session = $this->createSession(
+            $site,
+            $course,
+            $coachA,
+            now()->startOfMonth()->addDays(2)->setTime(10, 0),
+            ScheduleSessionKind::Group,
+        );
+        $this->createAppointment($site, $session, $member, AppointmentStatus::Completed);
+        $role = CompensationRole::create([
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $site->id,
+            'code' => 'delivery-coach',
+            'name' => '授课教练',
+            'role_type' => 'delivery',
+            'status' => 'active',
+            'version' => 1,
+        ]);
+        foreach ([[$coachA, true], [$coachB, false]] as [$coach, $primary]) {
+            ScheduleSessionStaffAssignment::create([
+                'tenant_id' => $site->tenant_id,
+                'site_id' => $site->id,
+                'schedule_session_id' => $session->id,
+                'staff_id' => $coach->id,
+                'compensation_role_id' => $role->id,
+                'is_primary' => $primary,
+                'allocation_bps' => 5_000,
+                'assignment_version' => 1,
+            ]);
+        }
+
+        $year = now()->year;
+        $month = now()->month;
+        $ranking = $this->getJson("/api/v1/staff/sites/{$site->id}/reports/coaches/rankings?year={$year}&month={$month}")
+            ->assertOk()
+            ->assertJsonPath('data.totals.coachCount', 2)
+            ->assertJsonPath('data.totals.groupSessionCount', 2);
+        $this->assertEqualsCanonicalizing(
+            [$coachA->id, $coachB->id],
+            collect($ranking->json('data.items'))->pluck('staffId')->all(),
+        );
+
+        $this->getJson("/api/v1/staff/sites/{$site->id}/reports/coaches/{$coachB->id}/appointments?year={$year}&month={$month}")
+            ->assertOk()
+            ->assertJsonPath('data.totals.appointmentCount', 1)
+            ->assertJsonPath('data.items.0.sessionId', $session->id);
     }
 
     public function test_coach_report_endpoints_require_permission(): void

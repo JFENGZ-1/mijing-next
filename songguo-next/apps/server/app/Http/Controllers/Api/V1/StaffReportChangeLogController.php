@@ -21,12 +21,20 @@ class StaffReportChangeLogController extends Controller
         $siteModel = $access->site($staff, $site);
         $access->assertPermission($staff, 'report.read', $siteModel->id);
 
-        $category = (string) $request->query('category', 'all');
-        $dateFrom = $request->filled('dateFrom') ? (string) $request->query('dateFrom') : null;
-        $dateTo = $request->filled('dateTo') ? (string) $request->query('dateTo') : null;
-        $actorStaffId = $request->filled('actorStaffId') ? $request->integer('actorStaffId') : null;
-        $page = max(1, $request->integer('page', 1));
-        $perPage = min(50, max(1, $request->integer('perPage', 20)));
+        $filters = $request->validate([
+            'category' => ['sometimes', 'string', 'in:all,issue,holiday,freeze,archive,adjust'],
+            'dateFrom' => ['sometimes', 'nullable', 'date_format:Y-m-d'],
+            'dateTo' => ['sometimes', 'nullable', 'date_format:Y-m-d', 'after_or_equal:dateFrom'],
+            'actorStaffId' => ['sometimes', 'nullable', 'integer', 'min:1'],
+            'page' => ['sometimes', 'integer', 'min:1'],
+            'perPage' => ['sometimes', 'integer', 'min:1', 'max:50'],
+        ]);
+        $category = (string) ($filters['category'] ?? 'all');
+        $dateFrom = $filters['dateFrom'] ?? null;
+        $dateTo = $filters['dateTo'] ?? null;
+        $actorStaffId = isset($filters['actorStaffId']) ? (int) $filters['actorStaffId'] : null;
+        $page = (int) ($filters['page'] ?? 1);
+        $perPage = (int) ($filters['perPage'] ?? 20);
 
         return ApiResponse::success(
             $reports->list($staff, $siteModel, $category, $dateFrom, $dateTo, $actorStaffId, $page, $perPage),

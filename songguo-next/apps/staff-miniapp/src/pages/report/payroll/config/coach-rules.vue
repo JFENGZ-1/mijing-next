@@ -67,7 +67,13 @@ function resolveError(error: unknown) {
 }
 
 async function load() {
-  if (!session.currentSiteId || !staffId.value || !canRead.value) {
+  if (!staffId.value) {
+    loading.value = false;
+    errorMessage.value = "缺少教练信息，请返回工资配置重新选择";
+    uni.stopPullDownRefresh();
+    return;
+  }
+  if (!session.currentSiteId || !canRead.value) {
     loading.value = false;
     return;
   }
@@ -156,12 +162,19 @@ onPullDownRefresh(async () => {
 <template>
   <u-loading-page :loading="loading || saving" />
   <view v-if="!loading" class="page-container">
+    <text class="eyebrow">基础课时规则</text>
     <view class="title">{{ coachLabel }} · 工资规则</view>
     <text v-if="rules" class="subtitle">矩阵版本 v{{ rules.matrixVersion }}</text>
 
     <u-empty v-if="forbidden || !canRead" mode="permission" text="暂无工资配置权限" />
     <template v-else>
-      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <view v-if="errorMessage" class="error-card">
+        <view>
+          <text class="error-title">教练规则暂未加载</text>
+          <text class="error-detail">{{ errorMessage }}</text>
+        </view>
+        <button class="retry-btn" @tap="load">重新加载</button>
+      </view>
 
       <view v-if="rules" class="panel">
         <view class="section-title">团课</view>
@@ -210,10 +223,60 @@ onPullDownRefresh(async () => {
 }
 
 .subtitle,
+.eyebrow,
+.error-title,
+.error-detail,
 .section-title,
 .course-name,
 .field-label {
   display: block;
+}
+
+.eyebrow {
+  margin-bottom: 6rpx;
+  color: #d98200;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.error-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  margin-top: $spacing-md;
+  padding: $spacing-md;
+  border: 1rpx solid rgba(225, 82, 82, 0.18);
+  border-radius: $radius-md;
+  background: #fff6f5;
+}
+
+.error-title {
+  color: $color-danger;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.error-detail {
+  margin-top: 6rpx;
+  color: $color-text-secondary;
+  font-size: 22rpx;
+}
+
+.retry-btn {
+  flex: none;
+  margin: 0;
+  padding: 0 24rpx;
+  color: $color-danger;
+  font-size: 24rpx;
+  line-height: 56rpx;
+  border: 1rpx solid currentColor;
+  border-radius: 999rpx;
+  background: transparent;
+}
+
+.retry-btn::after {
+  border: 0;
 }
 
 .subtitle {

@@ -22,6 +22,9 @@ use App\Models\EntitlementReservation;
 use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\MemberCardValueLot;
+use App\Models\MemberCrmProfile;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\ScheduleSession;
 use App\Models\ScheduleSessionStaffAssignment;
 use App\Models\Site;
@@ -32,6 +35,7 @@ use App\Services\Booking\BookingEntitlementService;
 use App\Services\Cards\MemberCardAdjustService;
 use App\Services\Compensation\CompensationRoleService;
 use App\Services\Compensation\ConsumptionDomainBackfillService;
+use App\Services\Compensation\ConsumptionReportQueryService;
 use App\Services\Compensation\ConsumptionSettlementService;
 use App\Services\Compensation\MemberCardShareAssignmentService;
 use App\Services\Compensation\MemberCardValueLotService;
@@ -39,6 +43,7 @@ use App\Support\DomainActor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
 
@@ -164,6 +169,18 @@ class ConsumptionCompensationCoreTest extends TestCase
         $this->assertSame('reversed', EntitlementReservation::findOrFail($reversed->entitlement_reservation_id)->status);
         $this->assertSame(10, $card->fresh()->cached_remaining_count);
         $this->assertSame(10, $lot->fresh()->remaining_count);
+
+        $reports = app(ConsumptionReportQueryService::class);
+        $reversedPage = $reports->paginate(
+            $site->tenant_id,
+            $site->id,
+            ['status' => 'reversed'],
+            'member',
+        );
+        $reversedRow = $reports->present($reversedPage->items()[0]);
+        $this->assertSame(1, $reversedRow['consumptionCount']);
+        $this->assertSame(20_000, $reversedRow['consumedValueCents']);
+        $this->assertSame(1, $reports->totals($site->tenant_id, $site->id, ['status' => 'reversed'])['consumptionCount']);
     }
 
     public function test_two_members_in_one_session_generate_session_fee_once_across_multiple_delivery_staff(): void
@@ -208,6 +225,12 @@ class ConsumptionCompensationCoreTest extends TestCase
             ->whereIn('consumption_event_id', $events->pluck('id'))->where('component', 'consumption_commission')->sum('amount_cents'));
         $this->assertSame(40_000, (int) DB::table('consumption_event_recipient_allocations')
             ->whereIn('consumption_event_id', $events->pluck('id'))->where('recipient_type', 'delivery')->sum('allocated_value_cents'));
+        $this->assertEqualsCanonicalizing(
+            $events->pluck('id')->all(),
+            $settlements->queryForSite($site->tenant_id, $site->id, ['coachStaffId' => $coachB->id])
+                ->pluck('id')
+                ->all(),
+        );
 
         $replay = $settlements->settle($appointments->first(), 'manual', $coachA->id);
         $this->assertSame($events->first()->id, $replay->id);
@@ -296,6 +319,142 @@ class ConsumptionCompensationCoreTest extends TestCase
         $this->assertSame($reason, $settlements->present($reversed)['reversalReason']);
         $this->assertSame(10_000, $events->last()->fresh()->consumed_value_cents);
         $this->assertSame($lot->id, $events->last()->fresh()->value_lot_id);
+    }
+
+    public function test_staff_consumption_reports_mask_member_names_without_crm_permission(): void
+    {
+        [$site, $staff, $card] = $this->countCardFixture(10);
+        MemberCrmProfile::create([
+            'tenant_id' => $site->tenant_id,
+            'member_id' => $card->member_id,
+            'name' => '张小明',
+        ]);
+        $this->paidLot($card, 200_000, 10, 10);
+        [$course, $deliveryRole] = $this->compensatedCourse($site, $staff, 1_000, 1_000);
+        $session = $this->completedSession($site, $course, $staff, $deliveryRole);
+        $ledger = app(BookingEntitlementService::class)->deductForBooking(
+            $card,
+            $site,
+            (string) Str::uuid(),
+            CardType::Count,
+            1,
+            null,
+        );
+        $appointment = $this->completedAppointment($site, $session, $card, $ledger['ledgerEntryId']);
+        $event = app(ConsumptionSettlementService::class)->settle($appointment, 'manual', $staff->id);
+
+        $role = Role::create([
+            'tenant_id' => $site->tenant_id,
+            'name' => '耗卡查看者',
+            'code' => 'consumption-reader-'.Str::lower(Str::random(6)),
+            'status' => 'active',
+        ]);
+        $consumptionPermission = Permission::firstOrCreate(
+            ['code' => 'consumption.read'],
+            ['name' => '查看耗卡', 'module' => 'compensation'],
+        );
+        $adjustPermission = Permission::firstOrCreate(
+            ['code' => 'consumption.adjust'],
+            ['name' => '调整耗卡', 'module' => 'compensation'],
+        );
+        $role->permissions()->attach([$consumptionPermission->id, $adjustPermission->id]);
+        $staff->roles()->attach($role->id, ['tenant_id' => $site->tenant_id, 'site_id' => $site->id]);
+
+        $crmPermission = Permission::firstOrCreate(
+            ['code' => 'crm.member.read'],
+            ['name' => '查看会员资料', 'module' => 'crm'],
+        );
+        $otherSite = Site::create([
+            'tenant_id' => $site->tenant_id,
+            'name' => '其他有姓名权限的场馆',
+            'code' => 'other-crm-site',
+            'status' => 'active',
+        ]);
+        $staff->sites()->attach($otherSite->id, ['tenant_id' => $site->tenant_id, 'is_primary' => false]);
+        $otherSiteCrmRole = Role::create([
+            'tenant_id' => $site->tenant_id,
+            'name' => '其他场馆会员查看者',
+            'code' => 'other-site-crm-'.Str::lower(Str::random(6)),
+            'status' => 'active',
+        ]);
+        $otherSiteCrmRole->permissions()->attach($crmPermission->id);
+        $staff->roles()->attach($otherSiteCrmRole->id, [
+            'tenant_id' => $site->tenant_id,
+            'site_id' => $otherSite->id,
+        ]);
+        $this->assertTrue($staff->hasPermission('crm.member.read', $otherSite->id));
+        $this->assertFalse($staff->hasPermission('crm.member.read', $site->id));
+
+        Sanctum::actingAs($staff->account, ['api', 'client:staff', "staff:{$staff->id}", "tenant:{$staff->tenant_id}"]);
+
+        $path = "/api/v1/staff/sites/{$site->id}/consumption-settlements";
+        $this->getJson($path)
+            ->assertOk()
+            ->assertJsonPath('data.items.0.memberName', '张**');
+        $this->getJson($path.'?dimension=member')
+            ->assertOk()
+            ->assertJsonPath('data.items.0.dimensionName', '张**');
+        $this->getJson($path."/{$event->id}")
+            ->assertOk()
+            ->assertJsonPath('data.memberName', '张**');
+
+        $encodedName = rawurlencode('张小明');
+        $this->getJson($path.'?query='.$encodedName)
+            ->assertOk()
+            ->assertJsonCount(0, 'data.items')
+            ->assertJsonPath('data.pagination.total', 0)
+            ->assertJsonPath('data.summary.consumptionCount', 0);
+        $this->getJson($path.'?dimension=member&query='.$encodedName)
+            ->assertOk()
+            ->assertJsonCount(0, 'data.items')
+            ->assertJsonPath('data.pagination.total', 0)
+            ->assertJsonPath('data.summary.consumptionCount', 0);
+
+        $memberNo = Member::findOrFail($card->member_id)->member_no;
+        $this->getJson($path.'?query='.rawurlencode($memberNo))
+            ->assertOk()
+            ->assertJsonPath('data.items.0.id', $event->id)
+            ->assertJsonPath('data.items.0.memberName', '张**')
+            ->assertJsonPath('data.pagination.total', 1);
+        $this->getJson($path.'?dimension=member&query='.rawurlencode($memberNo))
+            ->assertOk()
+            ->assertJsonPath('data.items.0.key', $card->member_id)
+            ->assertJsonPath('data.items.0.dimensionName', '张**')
+            ->assertJsonPath('data.pagination.total', 1);
+
+        foreach ([$course->name, $card->card_no, $staff->name, $deliveryRole->name] as $allowedTerm) {
+            $this->getJson($path.'?query='.rawurlencode($allowedTerm))
+                ->assertOk()
+                ->assertJsonPath('data.items.0.id', $event->id);
+        }
+
+        $appointmentPath = "/api/v1/staff/sites/{$site->id}/appointments/{$appointment->id}/consumption-settlement";
+        $this->getJson($appointmentPath)
+            ->assertOk()
+            ->assertJsonPath('data.memberName', '张**');
+        $this->postJson($appointmentPath)
+            ->assertOk()
+            ->assertJsonPath('data.memberName', '张**');
+        $this->postJson($path."/{$event->id}/reverse", [
+            'reason' => '会员申请撤销耗卡',
+            'commandKey' => (string) Str::uuid(),
+        ])
+            ->assertOk()
+            ->assertJsonPath('data.memberName', '张**')
+            ->assertJsonPath('data.status', 'reversed');
+
+        $role->permissions()->attach($crmPermission->id);
+        $this->assertTrue($staff->hasPermission('crm.member.read', $site->id));
+
+        $this->getJson($path.'?query='.$encodedName)
+            ->assertOk()
+            ->assertJsonPath('data.items.0.memberName', '张小明');
+        $this->getJson($path.'?dimension=member&status=reversed&query='.$encodedName)
+            ->assertOk()
+            ->assertJsonPath('data.items.0.dimensionName', '张小明');
+        $this->getJson($path."/{$event->id}")
+            ->assertOk()
+            ->assertJsonPath('data.memberName', '张小明');
     }
 
     public function test_completed_legacy_backfill_is_durably_excluded_from_retroactive_commission(): void

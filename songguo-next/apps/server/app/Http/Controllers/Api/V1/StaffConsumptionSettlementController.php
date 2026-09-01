@@ -31,7 +31,11 @@ class StaffConsumptionSettlementController extends Controller
         $appointmentModel = $this->appointment($staff, $siteModel->id, $appointment);
         $event = $settlements->settle($appointmentModel, 'manual', $staff->id);
 
-        return ApiResponse::success($event === null ? null : $settlements->present($event));
+        return ApiResponse::success($event === null ? null : $this->presentEvent(
+            $settlements,
+            $event,
+            $staff->hasPermission('crm.member.read', $siteModel->id),
+        ));
     }
 
     public function index(
@@ -42,6 +46,7 @@ class StaffConsumptionSettlementController extends Controller
         ConsumptionReportQueryService $reports,
     ) {
         [$staff, $siteModel] = $this->context($request, $site, $access, 'consumption.read');
+        $canReadMemberNames = $staff->hasPermission('crm.member.read', $siteModel->id);
         $filters = $request->validate([
             'from' => ['sometimes', 'nullable', 'date_format:Y-m-d'],
             'to' => ['sometimes', 'nullable', 'date_format:Y-m-d', 'after_or_equal:from'],
@@ -56,22 +61,34 @@ class StaffConsumptionSettlementController extends Controller
             'perPage' => ['sometimes', 'integer', 'min:1', 'max:100'],
         ]);
         if (($filters['dimension'] ?? null) !== null) {
-            $paginator = $reports->paginate($staff->tenant_id, $siteModel->id, $filters, $filters['dimension'], $filters['perPage'] ?? 20);
+            $dimension = (string) $filters['dimension'];
+            $paginator = $reports->paginate(
+                $staff->tenant_id,
+                $siteModel->id,
+                $filters,
+                $filters['dimension'],
+                $filters['perPage'] ?? 20,
+                $canReadMemberNames,
+            );
 
             return ApiResponse::success([
-                'dimension' => $filters['dimension'],
-                'items' => collect($paginator->items())->map(fn ($row) => $reports->present($row))->values(),
-                'summary' => $reports->totals($staff->tenant_id, $siteModel->id, $filters),
+                'dimension' => $dimension,
+                'items' => collect($paginator->items())
+                    ->map(fn ($row) => $this->presentDimension($reports, $row, $dimension, $canReadMemberNames))
+                    ->values(),
+                'summary' => $reports->totals($staff->tenant_id, $siteModel->id, $filters, $canReadMemberNames),
                 'pagination' => $this->pagination($paginator),
             ]);
         }
 
-        $query = $settlements->queryForSite($staff->tenant_id, $siteModel->id, $filters);
+        $query = $settlements->queryForSite($staff->tenant_id, $siteModel->id, $filters, $canReadMemberNames);
         $paginator = $query->paginate($filters['perPage'] ?? 20);
-        $summary = $reports->totals($staff->tenant_id, $siteModel->id, $filters);
+        $summary = $reports->totals($staff->tenant_id, $siteModel->id, $filters, $canReadMemberNames);
 
         return ApiResponse::success([
-            'items' => collect($paginator->items())->map(fn (ConsumptionEvent $event) => $settlements->present($event))->values(),
+            'items' => collect($paginator->items())
+                ->map(fn (ConsumptionEvent $event) => $this->presentEvent($settlements, $event, $canReadMemberNames))
+                ->values(),
             'summary' => $summary,
             'pagination' => $this->pagination($paginator),
         ]);
@@ -83,7 +100,11 @@ class StaffConsumptionSettlementController extends Controller
         $eventModel = ConsumptionEvent::query()
             ->where('tenant_id', $staff->tenant_id)->where('site_id', $siteModel->id)->findOrFail($event);
 
-        return ApiResponse::success($settlements->present($eventModel));
+        return ApiResponse::success($this->presentEvent(
+            $settlements,
+            $eventModel,
+            $staff->hasPermission('crm.member.read', $siteModel->id),
+        ));
     }
 
     public function appointmentSettlement(
@@ -99,7 +120,11 @@ class StaffConsumptionSettlementController extends Controller
             ->where('tenant_id', $staff->tenant_id)->where('site_id', $siteModel->id)
             ->where('appointment_id', $appointmentModel->id)->first();
 
-        return ApiResponse::success($event === null ? null : $settlements->present($event));
+        return ApiResponse::success($event === null ? null : $this->presentEvent(
+            $settlements,
+            $event,
+            $staff->hasPermission('crm.member.read', $siteModel->id),
+        ));
     }
 
     public function reverse(Request $request, int $site, int $event, StaffCardProductAccessService $access, ConsumptionSettlementService $settlements)
@@ -113,7 +138,11 @@ class StaffConsumptionSettlementController extends Controller
             ->where('tenant_id', $staff->tenant_id)->where('site_id', $siteModel->id)->findOrFail($event);
         $reversed = $settlements->reverse($eventModel, $payload['reason'], $payload['commandKey'], DomainActor::staff($staff));
 
-        return ApiResponse::success($settlements->present($reversed));
+        return ApiResponse::success($this->presentEvent(
+            $settlements,
+            $reversed,
+            $staff->hasPermission('crm.member.read', $siteModel->id),
+        ));
     }
 
     public function payrollIndex(Request $request, int $site, StaffCardProductAccessService $access, PayrollPeriodService $periods)
@@ -201,5 +230,43 @@ class StaffConsumptionSettlementController extends Controller
             'page' => $paginator->currentPage(), 'perPage' => $paginator->perPage(),
             'total' => $paginator->total(), 'lastPage' => $paginator->lastPage(),
         ];
+    }
+
+    /** @return array<string, mixed> */
+    private function presentEvent(
+        ConsumptionSettlementService $settlements,
+        ConsumptionEvent $event,
+        bool $canReadMemberNames,
+    ): array {
+        $payload = $settlements->present($event);
+        if (! $canReadMemberNames) {
+            $payload['memberName'] = $this->maskName($payload['memberName'] ?? null);
+        }
+
+        return $payload;
+    }
+
+    /** @return array<string, mixed> */
+    private function presentDimension(
+        ConsumptionReportQueryService $reports,
+        object $row,
+        string $dimension,
+        bool $canReadMemberNames,
+    ): array {
+        $payload = $reports->present($row);
+        if ($dimension === 'member' && ! $canReadMemberNames) {
+            $payload['dimensionName'] = $this->maskName($payload['dimensionName'] ?? null);
+        }
+
+        return $payload;
+    }
+
+    private function maskName(?string $name): ?string
+    {
+        if (! $name) {
+            return null;
+        }
+
+        return mb_substr($name, 0, 1).str_repeat('*', max(mb_strlen($name) - 1, 1));
     }
 }

@@ -32,6 +32,7 @@ interface TierDraft {
 const session = useSessionStore();
 const loading = ref(true);
 const saving = ref(false);
+const loaded = ref(false);
 const forbidden = ref(false);
 const errorMessage = ref("");
 const activeTab = ref<ConfigTab>("coach");
@@ -164,6 +165,7 @@ async function load() {
     return;
   }
   loading.value = true;
+  loaded.value = false;
   forbidden.value = false;
   errorMessage.value = "";
   try {
@@ -176,7 +178,11 @@ async function load() {
     salesConfig.value = sales;
     hydrateTierDrafts(sales);
     coaches.value = coachList.items;
+    loaded.value = true;
   } catch (error) {
+    coaches.value = [];
+    newSaleTierDrafts.value = [];
+    renewalTierDrafts.value = [];
     resolveError(error);
   } finally {
     loading.value = false;
@@ -184,7 +190,7 @@ async function load() {
 }
 
 async function saveCoachConfig() {
-  if (!session.currentSiteId || !canWrite.value || saving.value) return;
+  if (!session.currentSiteId || !canWrite.value || !loaded.value || saving.value) return;
   if (coachConfig.value.enabled && !coachConfig.value.mode) {
     uni.showToast({ title: "请选择教练工资计算方式", icon: "none" });
     return;
@@ -202,7 +208,7 @@ async function saveCoachConfig() {
 }
 
 async function saveSalesConfig() {
-  if (!session.currentSiteId || !canWrite.value || saving.value) return;
+  if (!session.currentSiteId || !canWrite.value || !loaded.value || saving.value) return;
   if (salesConfig.value.enabled && !salesConfig.value.mode) {
     uni.showToast({ title: "请选择销售提成计算方式", icon: "none" });
     return;
@@ -279,6 +285,7 @@ onPullDownRefresh(async () => {
   <view v-if="!loading" class="page-container">
     <view class="header-row">
       <view>
+        <text class="eyebrow">试算规则</text>
         <text class="title">工资配置</text>
         <text class="subtitle">{{ currentSiteName }}</text>
       </view>
@@ -286,9 +293,16 @@ onPullDownRefresh(async () => {
 
     <u-empty v-if="forbidden || !canRead" mode="permission" text="暂无工资配置权限" />
     <template v-else>
-      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <view class="scope-note">此处只配置基础课时费与售卡提成；A/B 角色耗卡分成由耗卡规则管理。</view>
+      <view v-if="errorMessage" class="error-card">
+        <view>
+          <text class="error-title">工资配置暂未加载</text>
+          <text class="error-detail">{{ errorMessage }}</text>
+        </view>
+        <button class="retry-btn" @tap="load">重新加载</button>
+      </view>
 
-      <view class="chip-row">
+      <view v-if="loaded" class="chip-row">
         <view
           v-for="tab in tabs"
           :key="tab.key"
@@ -300,7 +314,7 @@ onPullDownRefresh(async () => {
         </view>
       </view>
 
-      <view v-if="activeTab === 'coach'" class="panel">
+      <view v-if="loaded && activeTab === 'coach'" class="panel">
         <view class="row">
           <text>启用教练工资</text>
           <u-switch :model-value="coachConfig.enabled" :disabled="!canWrite" @change="toggleCoachEnabled" />
@@ -341,7 +355,7 @@ onPullDownRefresh(async () => {
         </view>
       </view>
 
-      <view v-else class="panel">
+      <view v-else-if="loaded" class="panel">
         <view class="row">
           <text>启用销售提成</text>
           <u-switch :model-value="salesConfig.enabled" :disabled="!canWrite" @change="toggleSalesEnabled" />
@@ -454,12 +468,72 @@ onPullDownRefresh(async () => {
 
 .title,
 .subtitle,
+.eyebrow,
+.error-title,
+.error-detail,
 .section-title,
 .coach-name,
 .coach-meta,
 .field-label,
 .hint {
   display: block;
+}
+
+.eyebrow {
+  margin-bottom: 6rpx;
+  color: #d98200;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.scope-note {
+  margin-bottom: $spacing-md;
+  padding: 20rpx 24rpx;
+  border-left: 6rpx solid #ed920f;
+  border-radius: 0 $radius-md $radius-md 0;
+  background: #fff8ea;
+  color: $color-text-secondary;
+  font-size: 23rpx;
+  line-height: 36rpx;
+}
+
+.error-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  border: 1rpx solid rgba(225, 82, 82, 0.18);
+  border-radius: $radius-md;
+  background: #fff6f5;
+}
+
+.error-title {
+  color: $color-danger;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.error-detail {
+  margin-top: 6rpx;
+  color: $color-text-secondary;
+  font-size: 22rpx;
+}
+
+.retry-btn {
+  flex: none;
+  margin: 0;
+  padding: 0 24rpx;
+  color: $color-danger;
+  font-size: 24rpx;
+  line-height: 56rpx;
+  border: 1rpx solid currentColor;
+  border-radius: 999rpx;
+  background: transparent;
+}
+
+.retry-btn::after {
+  border: 0;
 }
 
 .title {

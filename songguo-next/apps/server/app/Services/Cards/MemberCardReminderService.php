@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
 class MemberCardReminderService
 {
     public const DEFAULT_EXPIRING_WITHIN_DAYS = 30;
+
     public const DEFAULT_ZERO_BALANCE_THRESHOLD = 0;
 
     public function configForSite(Staff $staff, Site $site): array
@@ -52,17 +53,29 @@ class MemberCardReminderService
         return $this->activeReminderCardsQuery($staff, $site)
             ->whereNotNull('valid_until')
             ->where('valid_until', '>=', Carbon::today())
-            ->where('valid_until', '<=', $until);
+            ->where('valid_until', '<=', $until)
+            ->reorder()
+            ->orderBy('valid_until')
+            ->orderBy('id');
     }
 
     public function zeroBalanceQuery(Staff $staff, Site $site): Builder
     {
+        $threshold = $this->configForSite($staff, $site)['zeroBalanceThreshold'];
+
         return $this->activeReminderCardsQuery($staff, $site)
-            ->where('card_type', CardType::StoredValue)
-            ->where(function (Builder $query) use ($staff, $site) {
-                $threshold = $this->configForSite($staff, $site)['zeroBalanceThreshold'];
-                $query->where('cached_balance', '<=', $threshold)
-                    ->orWhereNull('cached_balance');
+            ->where(function (Builder $query) use ($threshold) {
+                $query->where(function (Builder $storedValue) use ($threshold) {
+                    $storedValue->where('card_type', CardType::StoredValue)
+                        ->where(function (Builder $balance) use ($threshold) {
+                            $balance->where('cached_balance', '<=', $threshold)
+                                ->orWhereNull('cached_balance');
+                        });
+                })->orWhere(function (Builder $count) {
+                    $count->where('card_type', CardType::Count)
+                        ->whereNotNull('cached_remaining_count')
+                        ->where('cached_remaining_count', '<=', 0);
+                });
             });
     }
 
@@ -97,22 +110,27 @@ class MemberCardReminderService
     /**
      * @return list<array<string, mixed>>
      */
-    public function reminderItems(Collection $cards): array
+    public function reminderItems(Collection $cards, Staff $viewer, Site $site): array
     {
-        return $cards->map(fn (MemberCard $card) => $this->reminderItem($card))->values()->all();
+        $canReadMemberNames = $viewer->hasPermission('crm.member.read', $site->id);
+
+        return $cards->map(fn (MemberCard $card) => $this->reminderItem($card, $canReadMemberNames))->values()->all();
     }
 
     /**
      * @return array<string, mixed>
      */
-    public function reminderItem(MemberCard $card): array
+    public function reminderItem(MemberCard $card, bool $canReadMemberNames): array
     {
         $card->loadMissing('member.crmProfile');
+        $rawName = $card->member?->crmProfile?->name;
 
         return [
             'memberCardId' => $card->id,
             'memberId' => $card->member_id,
-            'memberName' => $card->member?->crmProfile?->name,
+            'memberName' => $canReadMemberNames
+                ? $rawName
+                : $this->maskName($rawName),
             'cardNo' => $card->card_no,
             'cardType' => $card->card_type->value,
             'status' => $card->status->value,
@@ -136,6 +154,15 @@ class MemberCardReminderService
             ->where('member_visibility', MemberCardVisibility::Visible)
             ->whereNull('archived_at')
             ->orderByDesc('issued_at');
+    }
+
+    private function maskName(?string $name): ?string
+    {
+        if (! $name) {
+            return null;
+        }
+
+        return mb_substr($name, 0, 1).str_repeat('*', max(mb_strlen($name) - 1, 1));
     }
 
     /**

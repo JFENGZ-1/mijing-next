@@ -306,6 +306,10 @@ export interface ReportCardAnalyzeSummary {
     totalRevenue: string;
     consumedValue: string;
     remainingValue: string;
+    excessConsumedValue: string;
+    unvaluedCount: number;
+    hasUnvalued: boolean;
+    remainingValueIsEstimate: boolean;
     notes: string[];
   };
   generatedAt: string;

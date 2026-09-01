@@ -10,6 +10,7 @@ import { createCommandKey } from "@/utils/command-key";
 const session = useSessionStore();
 const settlementId = ref(0);
 const loading = ref(true);
+const errorMessage = ref("");
 const detail = ref<ConsumptionSettlement | null>(null);
 const reversing = ref(false);
 const reverseReason = ref("");
@@ -36,10 +37,19 @@ const formulaRows = computed(() => {
 });
 
 async function load() {
-  if (!session.currentSiteId || !settlementId.value || !canRead.value) { loading.value = false; return; }
+  if (!canRead.value) { loading.value = false; return; }
+  if (!session.currentSiteId || !settlementId.value) {
+    errorMessage.value = "缺少有效的耗卡结算编号";
+    loading.value = false;
+    return;
+  }
   loading.value = true;
+  errorMessage.value = "";
   try { detail.value = await fetchConsumptionSettlement(session.currentSiteId, settlementId.value); }
-  catch (error) { uni.showToast({ title: error instanceof Error ? error.message : "结算明细加载失败", icon: "none" }); }
+  catch (error) {
+    detail.value = null;
+    errorMessage.value = error instanceof Error ? error.message : "结算明细加载失败";
+  }
   finally { loading.value = false; }
 }
 async function reverseSettlement() {
@@ -138,6 +148,10 @@ onShow(async () => { if (await requireStaffAuth()) await load(); });
       <button class="reverse-btn" :disabled="reversing" @tap="reverseSettlement">{{ reversing ? "冲正中…" : "确认冲正耗卡" }}</button>
     </view>
   </view>
+  <view v-else-if="!loading && errorMessage" class="page-container error-wrap">
+    <u-alert type="error" :description="errorMessage" />
+    <button class="retry-btn" @tap="load">重新加载</button>
+  </view>
   <u-empty v-else-if="!loading && !canRead" mode="permission" text="暂无耗卡结算查看权限" />
 </template>
 
@@ -165,4 +179,7 @@ onShow(async () => { if (await requireStaffAuth()) await load(); });
 .reverse-reason { width: 100%; height: 140rpx; margin-top: 18rpx; padding: 16rpx; background: #faf4f5; border-radius: 12rpx; font-size: 24rpx; box-sizing: border-box; }
 .reverse-btn { height: 76rpx; margin-top: 20rpx; color: #fff; background: $color-danger; border-radius: 38rpx; font-size: 27rpx; line-height: 76rpx; }
 .reverse-btn::after { border: 0; }
+.error-wrap { padding-top: 30rpx; }
+.retry-btn { width: 240rpx; height: 68rpx; margin: 24rpx auto 0; color: $color-primary; background: #fff; border: 1rpx solid rgba(237,146,15,.35); border-radius: 34rpx; font-size: 24rpx; line-height: 66rpx; }
+.retry-btn::after { border: 0; }
 </style>

@@ -313,15 +313,13 @@ function mapListItem(raw: SettlementListWire["items"][number]): ConsumptionSettl
 }
 
 export async function fetchConsumptionSettlements(siteId: number, query: ConsumptionSettlementQuery) {
-  const wireStatus = query.status === "settled" ? "final"
-    : query.status === "pending_day_close" ? "provisional" : query.status;
   const response = await useApiClient().request<SettlementListWire>(
     `${sitePath(siteId, "/consumption-settlements")}${buildQuery({
       dimension: query.dimension,
       from: query.from,
       to: query.to,
       query: query.query,
-      status: wireStatus,
+      status: query.status,
       page: query.page,
       perPage: query.perPage,
     })}`,

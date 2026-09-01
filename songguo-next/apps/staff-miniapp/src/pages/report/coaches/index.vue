@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { onShow } from "@dcloudio/uni-app";
+import { onPullDownRefresh, onShow } from "@dcloudio/uni-app";
 import { ApiError } from "@songguo/api-client";
 import { fetchCoachRankings } from "@/api/reports";
 import { requireStaffAuth } from "@/auth/guard";
@@ -15,14 +15,11 @@ const selectedYear = ref(new Date().getFullYear());
 const selectedMonth = ref(new Date().getMonth() + 1);
 const sortBy = ref<ReportCoachSortBy>("total");
 const ranking = ref<ReportCoachMonthlyRank | null>(null);
+const requestSeq = ref(0);
 
 const canView = computed(() => session.can("report.coach.read"));
 const currentSiteName = computed(() => session.sites.find((site) => site.id === session.currentSiteId)?.name || "当前场馆");
-const monthOptions = Array.from({ length: 12 }, (_, index) => index + 1);
-const yearOptions = computed(() => {
-  const current = new Date().getFullYear();
-  return [current - 1, current, current + 1];
-});
+const selectedPeriod = computed(() => `${selectedYear.value}-${String(selectedMonth.value).padStart(2, "0")}`);
 const sortOptions = [
   { value: "total" as const, label: "总课时" },
   { value: "group" as const, label: "团课" },
@@ -48,36 +45,42 @@ function resolveError(error: unknown) {
 }
 
 async function load() {
-  if (!session.currentSiteId || !canView.value) {
+  const siteId = session.currentSiteId;
+  if (!siteId || !canView.value) {
+    requestSeq.value += 1;
     loading.value = false;
     return;
   }
+  const year = selectedYear.value;
+  const month = selectedMonth.value;
+  const sort = sortBy.value;
+  const requestId = ++requestSeq.value;
   loading.value = true;
   forbidden.value = false;
   errorMessage.value = "";
   try {
-    ranking.value = await fetchCoachRankings(
-      session.currentSiteId,
-      selectedYear.value,
-      selectedMonth.value,
-      sortBy.value,
-    );
+    const response = await fetchCoachRankings(siteId, year, month, sort);
+    if (
+      requestId !== requestSeq.value
+      || session.currentSiteId !== siteId
+      || selectedYear.value !== year
+      || selectedMonth.value !== month
+      || sortBy.value !== sort
+    ) return;
+    ranking.value = response;
   } catch (error) {
+    if (requestId !== requestSeq.value) return;
     ranking.value = null;
     resolveError(error);
   } finally {
-    loading.value = false;
+    if (requestId === requestSeq.value) loading.value = false;
   }
 }
 
-async function selectYear(year: number) {
-  if (selectedYear.value === year) return;
+async function onPeriodChange(event: { detail: { value: string } }) {
+  const [year, month] = event.detail.value.split("-").map(Number);
+  if (!year || !month || (selectedYear.value === year && selectedMonth.value === month)) return;
   selectedYear.value = year;
-  await load();
-}
-
-async function selectMonth(month: number) {
-  if (selectedMonth.value === month) return;
   selectedMonth.value = month;
   await load();
 }
@@ -97,24 +100,40 @@ function openDetail(item: ReportCoachMonthlyRank["items"][number]) {
 onShow(async () => {
   if (await requireStaffAuth()) await load();
 });
+
+onPullDownRefresh(async () => {
+  await load();
+  uni.stopPullDownRefresh();
+});
 </script>
 
 <template>
   <u-loading-page :loading="loading" />
   <view v-if="!loading" class="page-container">
-    <view class="header-row">
+    <view class="header-row report-head">
       <view>
+        <text class="eyebrow">课程履约</text>
         <text class="title">教练月报</text>
         <text class="subtitle">{{ currentSiteName }}</text>
       </view>
+      <picker mode="date" fields="month" :value="selectedPeriod" @change="onPeriodChange">
+        <view class="period-picker">{{ selectedPeriod.replace("-", " · ") }} <u-icon name="arrow-down" size="13" /></view>
+      </picker>
     </view>
 
     <u-empty v-if="forbidden || !canView" mode="permission" text="暂无教练月报权限" />
     <template v-else>
-      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <view v-if="errorMessage" class="error-card">
+        <view>
+          <text class="error-title">教练月报暂未更新</text>
+          <text class="error-detail">{{ errorMessage }}</text>
+        </view>
+        <button class="retry-btn" @tap="load">重新加载</button>
+      </view>
 
-      <view class="section-title">排序</view>
-      <view class="chip-row">
+      <view v-if="ranking" class="sort-panel">
+        <text class="section-title">统计口径</text>
+        <view class="chip-row">
         <view
           v-for="option in sortOptions"
           :key="option.value"
@@ -124,35 +143,8 @@ onShow(async () => {
         >
           {{ option.label }}
         </view>
-      </view>
-
-      <view class="section-title">年份</view>
-      <view class="chip-row">
-        <view
-          v-for="year in yearOptions"
-          :key="year"
-          class="chip"
-          :class="{ active: year === selectedYear }"
-          @click="selectYear(year)"
-        >
-          {{ year }}
         </view>
       </view>
-
-      <view class="section-title">月份</view>
-      <scroll-view scroll-x class="chip-scroll" enable-flex>
-        <view class="chip-row">
-          <view
-            v-for="month in monthOptions"
-            :key="month"
-            class="chip"
-            :class="{ active: month === selectedMonth }"
-            @click="selectMonth(month)"
-          >
-            {{ month }}月
-          </view>
-        </view>
-      </scroll-view>
 
       <view v-if="totalsLabel" class="totals-card">{{ totalsLabel }}</view>
 
@@ -182,8 +174,23 @@ onShow(async () => {
 .title,
 .subtitle,
 .rank-name,
-.rank-meta {
+.rank-meta,
+.eyebrow,
+.error-title,
+.error-detail {
   display: block;
+}
+
+.report-head {
+  align-items: flex-end;
+  margin-bottom: $spacing-md;
+}
+
+.eyebrow {
+  margin-bottom: 6rpx;
+  color: #d98200;
+  font-size: 22rpx;
+  font-weight: 600;
 }
 
 .title {
@@ -198,23 +205,45 @@ onShow(async () => {
   font-size: 24rpx;
 }
 
-.chip-scroll {
-  width: 100%;
-  white-space: nowrap;
+.period-picker {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 14rpx 22rpx;
+  border: 1rpx solid $color-border;
+  border-radius: 999rpx;
+  background: $color-surface;
+  color: $color-text;
+  font-size: 24rpx;
+}
+
+.sort-panel {
+  padding: $spacing-md;
+  border: 1rpx solid $color-border;
+  border-radius: $radius-md;
+  background: $color-surface;
+}
+
+.section-title {
+  display: block;
+  margin-bottom: 14rpx;
+  color: $color-text-secondary;
+  font-size: 24rpx;
 }
 
 .chip-row {
-  display: inline-flex;
+  display: flex;
   gap: $spacing-sm;
-  padding-bottom: $spacing-xs;
 }
 
 .chip {
+  flex: 1;
   padding: 12rpx 28rpx;
   border: 1rpx solid $color-border;
   border-radius: 999rpx;
   background: $color-surface;
   font-size: 26rpx;
+  text-align: center;
 }
 
 .chip.active {
@@ -230,6 +259,51 @@ onShow(async () => {
   background: $color-surface;
   border: 1rpx solid $color-border;
   border-radius: $radius-md;
+}
+
+.totals-card {
+  color: $color-text;
+  font-size: 26rpx;
+}
+
+.error-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+  padding: $spacing-md;
+  border: 1rpx solid rgba(225, 82, 82, 0.18);
+  border-radius: $radius-md;
+  background: #fff6f5;
+}
+
+.error-title {
+  color: $color-danger;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.error-detail {
+  margin-top: 6rpx;
+  color: $color-text-secondary;
+  font-size: 22rpx;
+}
+
+.retry-btn {
+  flex: none;
+  margin: 0;
+  padding: 0 24rpx;
+  color: $color-danger;
+  font-size: 24rpx;
+  line-height: 56rpx;
+  border: 1rpx solid currentColor;
+  border-radius: 999rpx;
+  background: transparent;
+}
+
+.retry-btn::after {
+  border: 0;
 }
 
 .rank-row {

@@ -80,6 +80,7 @@ class DatabaseSeeder extends Seeder
             ['name' => '查看课程报表', 'code' => 'report.course.read', 'module' => 'reporting', 'created_at' => $now, 'updated_at' => $now],
             ['name' => '查看排行榜', 'code' => 'report.rankings.read', 'module' => 'reporting', 'created_at' => $now, 'updated_at' => $now],
             ['name' => '查看教练报表', 'code' => 'report.coach.read', 'module' => 'reporting', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => '查看会员卡经营报表', 'code' => 'report.read', 'module' => 'reporting', 'created_at' => $now, 'updated_at' => $now],
             ['name' => '查看工资配置', 'code' => 'payroll.config.read', 'module' => 'payroll', 'created_at' => $now, 'updated_at' => $now],
             ['name' => '编辑工资配置', 'code' => 'payroll.config.write', 'module' => 'payroll', 'created_at' => $now, 'updated_at' => $now],
             ['name' => '查看工资报表', 'code' => 'payroll.report.read', 'module' => 'payroll', 'created_at' => $now, 'updated_at' => $now],

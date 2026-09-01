@@ -288,7 +288,8 @@ Route::middleware('auth:sanctum')->prefix('/v1')->group(function () {
         Route::get('/sites/{site}/reports/reminders/holiday-due', [StaffNotificationReminderController::class, 'holidayDue']);
         Route::post('/sites/{site}/exports/members', [StaffExportController::class, 'createMemberExport']);
         Route::get('/sites/{site}/exports/jobs', [StaffExportController::class, 'listJobs']);
-        Route::get('/sites/{site}/exports/jobs/{job}/download', [StaffExportController::class, 'downloadJob']);
+        Route::get('/sites/{site}/exports/jobs/{job}', [StaffExportController::class, 'showJob'])->whereNumber('job');
+        Route::get('/sites/{site}/exports/jobs/{job}/download', [StaffExportController::class, 'downloadJob'])->whereNumber('job');
         Route::get('/sites/{site}/platform/subscription/status', [StaffPlatformSubscriptionController::class, 'siteStatus']);
         Route::get('/sites/{site}/points-config', [StaffPointsConfigController::class, 'show']);
         Route::put('/sites/{site}/points-config', [StaffPointsConfigController::class, 'update']);

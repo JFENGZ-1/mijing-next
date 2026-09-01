@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { onLoad, onPullDownRefresh, onShow } from "@dcloudio/uni-app";
+import { onLoad, onPullDownRefresh, onReachBottom, onShow } from "@dcloudio/uni-app";
 import { ApiError } from "@songguo/api-client";
 import { fetchCoachAppointments } from "@/api/reports";
 import { requireStaffAuth } from "@/auth/guard";
@@ -25,6 +25,8 @@ const errorMessage = ref("");
 const page = ref(1);
 const lastPage = ref(1);
 const detail = ref<ReportCoachAppointmentDetail | null>(null);
+const requestSeq = ref(0);
+const loadedQueryKey = ref("");
 
 const canView = computed(() => session.can("report.coach.read"));
 const currentSiteName = computed(() => session.sites.find((site) => site.id === session.currentSiteId)?.name || "当前场馆");
@@ -50,6 +52,16 @@ const signInLabels: Record<ReportCoachSignInState, string> = {
   waitlisted: "候补",
 };
 
+function currentQueryKey() {
+  return JSON.stringify([
+    session.currentSiteId,
+    staffId.value,
+    selectedYear.value,
+    selectedMonth.value,
+    sessionKind.value,
+  ]);
+}
+
 function memberLabel(line: ReportCoachAppointmentLine) {
   return line.memberName?.trim() || line.memberNo || "会员";
 }
@@ -74,11 +86,30 @@ function resolveError(error: unknown) {
 }
 
 async function load(reset = true) {
-  if (!session.currentSiteId || !staffId.value || !canView.value) {
+  if (!staffId.value) {
+    requestSeq.value += 1;
     loading.value = false;
+    loadingMore.value = false;
+    errorMessage.value = "缺少教练信息，请返回教练月报重新选择";
     uni.stopPullDownRefresh();
     return;
   }
+  const siteId = session.currentSiteId;
+  if (!siteId || !canView.value) {
+    requestSeq.value += 1;
+    loading.value = false;
+    loadingMore.value = false;
+    uni.stopPullDownRefresh();
+    return;
+  }
+  const coachStaffId = staffId.value;
+  const year = selectedYear.value;
+  const month = selectedMonth.value;
+  const kind = sessionKind.value;
+  const queryKey = currentQueryKey();
+  if (!reset && (loading.value || loadingMore.value || page.value >= lastPage.value || loadedQueryKey.value !== queryKey)) return;
+  const requestId = ++requestSeq.value;
+  const requestedPage = reset ? 1 : page.value + 1;
 
   if (reset) {
     loading.value = true;
@@ -87,20 +118,21 @@ async function load(reset = true) {
     page.value = 1;
     lastPage.value = 1;
     detail.value = null;
+    loadedQueryKey.value = "";
   } else {
     loadingMore.value = true;
   }
 
   try {
-    const requestedPage = reset ? 1 : page.value + 1;
     const response = await fetchCoachAppointments(
-      session.currentSiteId,
-      staffId.value,
-      selectedYear.value,
-      selectedMonth.value,
-      sessionKind.value,
+      siteId,
+      coachStaffId,
+      year,
+      month,
+      kind,
       requestedPage,
     );
+    if (requestId !== requestSeq.value || queryKey !== currentQueryKey()) return;
     if (reset) {
       detail.value = response;
     } else if (detail.value) {
@@ -113,7 +145,9 @@ async function load(reset = true) {
     }
     page.value = requestedPage;
     lastPage.value = response.pagination.lastPage;
+    loadedQueryKey.value = queryKey;
   } catch (error) {
+    if (requestId !== requestSeq.value || queryKey !== currentQueryKey()) return;
     if (reset) {
       detail.value = null;
       resolveError(error);
@@ -121,9 +155,11 @@ async function load(reset = true) {
       uni.showToast({ title: error instanceof Error ? error.message : "加载失败", icon: "none" });
     }
   } finally {
-    loading.value = false;
-    loadingMore.value = false;
-    uni.stopPullDownRefresh();
+    if (requestId === requestSeq.value) {
+      loading.value = false;
+      loadingMore.value = false;
+      uni.stopPullDownRefresh();
+    }
   }
 }
 
@@ -134,7 +170,7 @@ async function selectSessionKind(value: ReportCoachSessionKind) {
 }
 
 async function loadMore() {
-  if (loadingMore.value || page.value >= lastPage.value) return;
+  if (loading.value || loadingMore.value || page.value >= lastPage.value) return;
   await load(false);
 }
 
@@ -150,6 +186,7 @@ onShow(async () => {
 });
 
 onPullDownRefresh(() => load());
+onReachBottom(() => loadMore());
 </script>
 
 <template>
@@ -157,6 +194,7 @@ onPullDownRefresh(() => load());
   <view v-if="!loading" class="page-container">
     <view class="header-row">
       <view>
+        <text class="eyebrow">履约明细</text>
         <text class="title">{{ coachLabel }}</text>
         <text class="subtitle">{{ currentSiteName }} · {{ selectedYear }}年{{ selectedMonth }}月</text>
       </view>
@@ -164,10 +202,17 @@ onPullDownRefresh(() => load());
 
     <u-empty v-if="forbidden || !canView" mode="permission" text="暂无教练月报权限" />
     <template v-else>
-      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <view v-if="errorMessage" class="error-card">
+        <view>
+          <text class="error-title">预约明细暂未加载</text>
+          <text class="error-detail">{{ errorMessage }}</text>
+        </view>
+        <button class="retry-btn" @tap="load()">重新加载</button>
+      </view>
 
-      <view class="section-title">课程类型</view>
-      <view class="chip-row">
+      <template v-else>
+        <view class="section-title">课程类型</view>
+        <view class="chip-row">
         <view
           v-for="option in sessionKindOptions"
           :key="option.value"
@@ -177,11 +222,11 @@ onPullDownRefresh(() => load());
         >
           {{ option.label }}
         </view>
-      </view>
+        </view>
 
-      <view v-if="totalsLabel" class="totals-card">{{ totalsLabel }}</view>
+        <view v-if="totalsLabel" class="totals-card">{{ totalsLabel }}</view>
 
-      <view v-if="detail" class="list-card">
+        <view v-if="detail" class="list-card">
         <view v-for="item in detail.items" :key="item.appointmentId" class="list-row">
           <view class="list-main">
             <text class="list-name">{{ memberLabel(item) }}</text>
@@ -194,7 +239,8 @@ onPullDownRefresh(() => load());
           :status="page >= lastPage ? 'nomore' : loadingMore ? 'loading' : 'loadmore'"
           @loadmore="loadMore"
         />
-      </view>
+        </view>
+      </template>
     </template>
   </view>
 </template>
@@ -203,8 +249,57 @@ onPullDownRefresh(() => load());
 .title,
 .subtitle,
 .list-name,
-.list-meta {
+.list-meta,
+.eyebrow,
+.error-title,
+.error-detail {
   display: block;
+}
+
+.eyebrow {
+  margin-bottom: 6rpx;
+  color: #d98200;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.error-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  border: 1rpx solid rgba(225, 82, 82, 0.18);
+  border-radius: $radius-md;
+  background: #fff6f5;
+}
+
+.error-title {
+  color: $color-danger;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.error-detail {
+  margin-top: 6rpx;
+  color: $color-text-secondary;
+  font-size: 22rpx;
+}
+
+.retry-btn {
+  flex: none;
+  margin: 0;
+  padding: 0 24rpx;
+  color: $color-danger;
+  font-size: 24rpx;
+  line-height: 56rpx;
+  border: 1rpx solid currentColor;
+  border-radius: 999rpx;
+  background: transparent;
+}
+
+.retry-btn::after {
+  border: 0;
 }
 
 .title {

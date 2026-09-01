@@ -12,9 +12,6 @@ const errorMessage = ref("");
 const summary = ref<ReportDashboardSummary | null>(null);
 
 const canViewDashboard = computed(() => session.can("report.dashboard.read"));
-const canView = computed(() => canViewDashboard.value
-  || session.can("consumption.read")
-  || session.can("payroll.period.close"));
 const currentSiteName = computed(() => session.sites.find((site) => site.id === session.currentSiteId)?.name || "当前场馆");
 
 const overviewMetrics = computed(() => {
@@ -28,6 +25,11 @@ const overviewMetrics = computed(() => {
 });
 
 const profitTrend = computed(() => summary.value?.profitTrend ?? []);
+const asOfLabel = computed(() => {
+  const value = summary.value?.asOf;
+  if (!value) return "";
+  return value.replace("T", " ").slice(0, 16);
+});
 const maxTrendRevenue = computed(() => {
   const values = profitTrend.value.map((item) => Number.parseFloat(item.revenue)).filter((value) => !Number.isNaN(value));
   return values.length ? Math.max(...values) : 0;
@@ -51,7 +53,7 @@ const reportGroups: ReportGroup[] = [
   {
     title: "经营数据",
     links: [
-      { key: "finance", label: "财务利润", desc: "日/月/年利润报表", route: "/pages/report/finance/index", permission: "report.finance.read" },
+      { key: "finance", label: "营收统计", desc: "日/月/年营业额、售卡与新增会员", route: "/pages/report/finance/index", permission: "report.finance.read" },
       { key: "card-sales", label: "售卡统计", desc: "售卡汇总与明细", route: "/pages/report/card-sales/index", permission: "report.read" },
       { key: "card-analyze", label: "会员卡分析 · 资产负债", desc: "卡状态分层与剩余价值", route: "/pages/report/card-analyze/index", permission: "report.read" },
     ],
@@ -90,7 +92,7 @@ const reportGroups: ReportGroup[] = [
     links: [
       { key: "consumption", label: "耗卡结算与提成", desc: "A履约人/B分成角色/学员/课程/卡项", route: "/pages/report/consumption/index", permission: "consumption.read" },
       { key: "payroll-periods", label: "月结与关账", desc: "创建自然月期间并按后端状态关账", route: "/pages/report/payroll-periods/index", permission: "payroll.period.close" },
-      { key: "payroll", label: "旧版工资报表", desc: "售卡等旧口径，与耗卡提成分列", route: "/pages/report/payroll/index", permission: "payroll.report.read" },
+      { key: "payroll", label: "课时与售卡工资试算", desc: "基础课时/售卡规则；不含 A/B 耗卡提成", route: "/pages/report/payroll/index", permission: "payroll.report.read" },
     ],
   },
   {
@@ -100,6 +102,9 @@ const reportGroups: ReportGroup[] = [
     ],
   },
 ];
+
+const canView = computed(() => canViewDashboard.value
+  || reportGroups.some((group) => group.links.some((link) => canOpenReportLink(link))));
 
 async function load() {
   if (!session.currentSiteId || !canView.value) {
@@ -112,10 +117,12 @@ async function load() {
     return;
   }
   loading.value = true;
+  summary.value = null;
   errorMessage.value = "";
   try {
     summary.value = await fetchReportDashboardSummary(session.currentSiteId);
   } catch (error) {
+    summary.value = null;
     errorMessage.value = error instanceof Error ? error.message : "报表数据加载失败";
   } finally {
     loading.value = false;
@@ -124,7 +131,7 @@ async function load() {
 
 function trendBarWidth(revenue: string) {
   const value = Number.parseFloat(revenue);
-  if (!maxTrendRevenue.value || Number.isNaN(value) || value <= 0) return "8%";
+  if (!maxTrendRevenue.value || Number.isNaN(value) || value <= 0) return "0%";
   return `${Math.max(8, Math.round((value / maxTrendRevenue.value) * 100))}%`;
 }
 
@@ -164,13 +171,24 @@ onPullDownRefresh(async () => {
   <view v-if="!loading" class="page-container">
     <u-empty v-if="!canView" mode="permission" text="暂无报表查看权限" />
     <template v-else>
-      <u-alert v-if="errorMessage" type="error" :description="errorMessage" />
+      <view v-if="errorMessage" class="error-card">
+        <view>
+          <text class="error-title">经营快照暂未更新</text>
+          <text class="error-detail">{{ errorMessage }}</text>
+        </view>
+        <button class="retry-btn" @tap="load">重新加载</button>
+      </view>
 
-      <!-- 顶部收款大卡（对标原版：橙色大字 + 指标行） -->
-      <view v-if="canViewDashboard" class="revenue-card">
-        <text class="revenue-title">本月营业额(元)</text>
+      <view v-if="canViewDashboard && summary" class="revenue-card">
+        <view class="snapshot-head">
+          <view>
+            <text class="snapshot-eyebrow">经营快照</text>
+            <text class="revenue-title">本月营业额（元）</text>
+          </view>
+          <view class="scope-pill">{{ currentSiteName }}</view>
+        </view>
         <text class="revenue-money">{{ summary?.kpis.monthRevenue ?? "0.00" }}</text>
-        <text class="revenue-site">{{ currentSiteName }}</text>
+        <text v-if="asOfLabel" class="revenue-site">更新至 {{ asOfLabel }}</text>
         <view class="revenue-metrics">
           <view v-for="item in overviewMetrics" :key="item.label" class="revenue-metric">
             <text class="metric-value">{{ item.value }}</text>
@@ -179,9 +197,11 @@ onPullDownRefresh(async () => {
         </view>
       </view>
 
-      <!-- 近 12 月趋势 -->
-      <view v-if="canViewDashboard" class="trend-card">
-        <text class="group-title">近 12 月营业额</text>
+      <view v-if="canViewDashboard && summary" class="trend-card">
+        <view class="section-head">
+          <text class="group-title">近 12 月营业额</text>
+          <text class="section-note">按实收金额</text>
+        </view>
         <view v-for="item in profitTrend" :key="item.label" class="trend-row">
           <text class="trend-label">{{ item.label }}</text>
           <view class="trend-bar-track">
@@ -198,13 +218,15 @@ onPullDownRefresh(async () => {
           v-for="link in group.links"
           :key="link.key"
           class="group-row"
+          :class="{ locked: !canOpenReportLink(link) }"
           @tap="openReportLink(link)"
         >
           <view class="group-row-main">
             <text class="row-label">{{ link.label }}</text>
             <text v-if="link.desc" class="row-desc">{{ link.desc }}</text>
           </view>
-          <u-icon name="arrow-right" size="16" color="#bfbfbf" />
+          <text v-if="!canOpenReportLink(link)" class="permission-label">无权限</text>
+          <u-icon v-else name="arrow-right" size="16" color="#bfbfbf" />
         </view>
       </view>
     </template>
@@ -215,13 +237,42 @@ onPullDownRefresh(async () => {
 .revenue-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 48rpx 24rpx 36rpx;
+  padding: 30rpx 24rpx 32rpx;
   background: $color-surface;
   border-radius: $radius-lg;
 }
 
+.snapshot-head,
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.snapshot-eyebrow {
+  display: block;
+  color: $color-primary;
+  font-size: 21rpx;
+  font-weight: 600;
+  letter-spacing: 3rpx;
+}
+
+.scope-pill {
+  max-width: 260rpx;
+  padding: 8rpx 16rpx;
+  overflow: hidden;
+  color: $color-text-secondary;
+  background: $color-page;
+  border-radius: $radius-pill;
+  font-size: 21rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .revenue-title {
+  display: block;
+  margin-top: 5rpx;
   color: $color-text-tertiary;
   font-size: 24rpx;
 }
@@ -232,35 +283,44 @@ onPullDownRefresh(async () => {
   font-size: 72rpx;
   font-weight: 500;
   line-height: 72rpx;
+  text-align: center;
 }
 
 .revenue-site {
   margin-top: 12rpx;
   color: $color-text-disabled;
   font-size: 22rpx;
+  text-align: center;
 }
 
 .revenue-metrics {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rpx;
   width: 100%;
   margin-top: 40rpx;
+  overflow: hidden;
+  background: $color-divider;
+  border-radius: $radius-md;
 }
 
 .revenue-metric {
   display: flex;
-  flex: 1;
+  min-width: 0;
   flex-direction: column;
   align-items: center;
-
-  & + & {
-    border-left: 1rpx solid $color-divider;
-  }
+  padding: 20rpx 10rpx;
+  background: $color-surface-grey;
 }
 
 .metric-value {
+  max-width: 100%;
+  overflow: hidden;
   font-size: 30rpx;
   font-weight: 600;
   color: $color-text;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .metric-label {
@@ -285,6 +345,15 @@ onPullDownRefresh(async () => {
   color: $color-text;
 }
 
+.section-head .group-title {
+  margin-bottom: 0;
+}
+
+.section-note {
+  color: $color-text-disabled;
+  font-size: 21rpx;
+}
+
 .trend-row {
   display: flex;
   align-items: center;
@@ -301,6 +370,10 @@ onPullDownRefresh(async () => {
 
 .trend-bar-track {
   flex: 1;
+  height: 18rpx;
+  overflow: hidden;
+  background: #f0f1f3;
+  border-radius: 9rpx;
 }
 
 .trend-bar {
@@ -330,6 +403,10 @@ onPullDownRefresh(async () => {
   }
 }
 
+.group-row.locked {
+  opacity: 0.52;
+}
+
 .group-row-main {
   display: flex;
   flex-direction: column;
@@ -344,5 +421,59 @@ onPullDownRefresh(async () => {
   margin-top: 6rpx;
   color: $color-text-disabled;
   font-size: 22rpx;
+}
+
+.permission-label {
+  flex-shrink: 0;
+  padding: 5rpx 12rpx;
+  color: $color-text-tertiary;
+  background: $color-page;
+  border-radius: $radius-pill;
+  font-size: 20rpx;
+}
+
+.error-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-bottom: $spacing-md;
+  padding: 22rpx 24rpx;
+  background: #fff5f6;
+  border: 1rpx solid #f2c9d1;
+  border-radius: $radius-lg;
+}
+
+.error-title,
+.error-detail {
+  display: block;
+}
+
+.error-title {
+  color: $color-danger;
+  font-size: 25rpx;
+  font-weight: 600;
+}
+
+.error-detail {
+  margin-top: 6rpx;
+  color: $color-text-secondary;
+  font-size: 21rpx;
+}
+
+.retry-btn {
+  flex-shrink: 0;
+  height: 58rpx;
+  margin: 0;
+  padding: 0 20rpx;
+  color: $color-danger;
+  background: #fff;
+  border-radius: 29rpx;
+  font-size: 22rpx;
+  line-height: 58rpx;
+}
+
+.retry-btn::after {
+  border: 0;
 }
 </style>

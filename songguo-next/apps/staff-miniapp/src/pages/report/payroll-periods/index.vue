@@ -9,6 +9,7 @@ import { createCommandKey } from "@/utils/command-key";
 
 const session = useSessionStore();
 const loading = ref(true);
+const errorMessage = ref("");
 const closingId = ref(0);
 const creating = ref(false);
 const selectedMonth = ref("");
@@ -23,12 +24,14 @@ function currentMonth() {
 async function load() {
   if (!session.currentSiteId || !canRead.value) { loading.value = false; return; }
   loading.value = true;
+  errorMessage.value = "";
   try {
     const [year, month] = selectedMonth.value.split("-").map(Number);
     const response = await fetchPayrollPeriods(session.currentSiteId, { year, month, page: 1, perPage: 20 });
     periods.value = response.items;
   } catch (error) {
-    uni.showToast({ title: error instanceof Error ? error.message : "月结状态加载失败", icon: "none" });
+    periods.value = [];
+    errorMessage.value = error instanceof Error ? error.message : "月结状态加载失败";
   } finally { loading.value = false; }
 }
 function setMonth(event: { detail: { value: string } }) { selectedMonth.value = event.detail.value; void load(); }
@@ -127,7 +130,8 @@ onPullDownRefresh(async () => { await load(); uni.stopPullDownRefresh(); });
     <picker mode="date" fields="month" :value="selectedMonth" @change="setMonth">
       <view class="month-picker"><text>{{ selectedMonth }}</text><u-icon name="arrow-down" size="14" color="#989898" /></view>
     </picker>
-    <view v-if="periods.length" class="period-list">
+    <view v-if="errorMessage" class="error-card"><u-alert type="error" :description="errorMessage" /><button class="retry-btn" @tap="load">重新加载</button></view>
+    <view v-else-if="periods.length" class="period-list">
       <view v-for="period in periods" :key="period.id" class="period-card">
         <view class="period-head"><text class="period-title">{{ period.year }} 年 {{ period.month }} 月</text><text class="status" :class="period.status">{{ statusLabel(period.status) }}</text></view>
         <view class="metrics">
@@ -142,7 +146,7 @@ onPullDownRefresh(async () => { await load(); uni.stopPullDownRefresh(); });
         <button v-if="period.status === 'open' && canManage" class="close-btn" :class="{ disabled: !canClosePeriod(period) }" :disabled="closingId === period.id || !canClosePeriod(period)" @tap="closePeriod(period)">{{ closingId === period.id ? "关账中…" : canClosePeriod(period) ? "关闭本月" : "暂不可关账" }}</button>
       </view>
     </view>
-    <view v-else class="empty-create">
+    <view v-else-if="!errorMessage" class="empty-create">
       <u-empty mode="data" text="该月份尚未创建月结期间" />
       <button v-if="canManage" class="create-btn" :disabled="creating" @tap="createPeriod">{{ creating ? "创建中…" : `创建 ${selectedMonth} 月结期间` }}</button>
     </view>
@@ -170,4 +174,7 @@ onPullDownRefresh(async () => { await load(); uni.stopPullDownRefresh(); });
 .empty-create { padding-top: 30rpx; }
 .create-btn { width: 520rpx; height: 76rpx; margin: 24rpx auto 0; color: $color-text; background: $color-brand-yellow; border-radius: 38rpx; font-size: 26rpx; line-height: 76rpx; }
 .create-btn::after { border: 0; }
+.error-card { margin-top: 18rpx; }
+.retry-btn { width: 220rpx; height: 64rpx; margin: 18rpx auto 0; color: $color-primary; background: #fff; border: 1rpx solid rgba(237,146,15,.35); border-radius: 32rpx; font-size: 23rpx; line-height: 62rpx; }
+.retry-btn::after { border: 0; }
 </style>

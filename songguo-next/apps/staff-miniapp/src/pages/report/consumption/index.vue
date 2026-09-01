@@ -6,6 +6,7 @@ import { requireStaffAuth } from "@/auth/guard";
 import { useSessionStore } from "@/stores/session";
 import type {
   ConsumptionDimension,
+  ConsumptionSettlementFilterStatus,
   ConsumptionSettlementListItem,
   ConsumptionSettlementSummary,
 } from "@/types/consumption";
@@ -13,18 +14,22 @@ import type {
 const session = useSessionStore();
 const loading = ref(true);
 const loadingMore = ref(false);
+const errorMessage = ref("");
 const keyword = ref("");
 type ConsumptionView = "detail" | ConsumptionDimension;
 const dimension = ref<ConsumptionView>("detail");
-const status = ref("");
+const status = ref<ConsumptionSettlementFilterStatus | "">("");
 const from = ref("");
 const to = ref("");
 const page = ref(1);
 const lastPage = ref(1);
 const items = ref<ConsumptionSettlementListItem[]>([]);
 const summary = ref<ConsumptionSettlementSummary | null>(null);
+const requestSeq = ref(0);
+const loadedQueryKey = ref("");
 const canRead = computed(() => session.can("consumption.read"));
 const canManagePayroll = computed(() => session.can("payroll.period.close"));
+const currentSiteName = computed(() => session.sites.find((site) => site.id === session.currentSiteId)?.name || "当前场馆");
 
 const dimensions: Array<{ value: ConsumptionView; label: string }> = [
   { value: "detail", label: "明细" },
@@ -35,6 +40,17 @@ const dimensions: Array<{ value: ConsumptionView; label: string }> = [
   { value: "card", label: "卡项" },
 ];
 const canLoadMore = computed(() => page.value < lastPage.value);
+
+function currentQueryKey() {
+  return JSON.stringify([
+    session.currentSiteId,
+    dimension.value,
+    from.value,
+    to.value,
+    keyword.value.trim(),
+    status.value,
+  ]);
+}
 
 function monthRange() {
   const now = new Date();
@@ -47,34 +63,54 @@ function monthRange() {
 }
 
 async function load(reset = true) {
-  if (!session.currentSiteId || !canRead.value) { loading.value = false; return; }
+  const siteId = session.currentSiteId;
+  if (!siteId || !canRead.value) {
+    requestSeq.value += 1;
+    loading.value = false;
+    loadingMore.value = false;
+    return;
+  }
+  const queryKey = currentQueryKey();
+  if (!reset && (loading.value || loadingMore.value || !canLoadMore.value || loadedQueryKey.value !== queryKey)) return;
+  const requestId = ++requestSeq.value;
+  const requestedPage = reset ? 1 : page.value + 1;
+  const query = {
+    dimension: dimension.value === "detail" ? undefined : dimension.value,
+    from: from.value,
+    to: to.value,
+    query: keyword.value.trim() || undefined,
+    status: status.value || undefined,
+    page: requestedPage,
+    perPage: 20,
+  };
   if (reset) {
     page.value = 1;
     loading.value = true;
+    errorMessage.value = "";
+    items.value = [];
+    summary.value = null;
+    lastPage.value = 1;
+    loadedQueryKey.value = "";
   } else {
-    if (!canLoadMore.value || loadingMore.value) return;
     loadingMore.value = true;
-    page.value += 1;
   }
   try {
-    const response = await fetchConsumptionSettlements(session.currentSiteId, {
-      dimension: dimension.value === "detail" ? undefined : dimension.value,
-      from: from.value,
-      to: to.value,
-      query: keyword.value.trim() || undefined,
-      status: status.value || undefined,
-      page: page.value,
-      perPage: 20,
-    });
+    const response = await fetchConsumptionSettlements(siteId, query);
+    if (requestId !== requestSeq.value || queryKey !== currentQueryKey()) return;
     items.value = reset ? (response.items ?? []) : [...items.value, ...(response.items ?? [])];
     summary.value = response.summary ?? null;
+    page.value = requestedPage;
     lastPage.value = response.pagination?.lastPage ?? 1;
+    loadedQueryKey.value = queryKey;
   } catch (error) {
-    if (!reset) page.value -= 1;
-    uni.showToast({ title: error instanceof Error ? error.message : "耗卡报表加载失败", icon: "none" });
+    if (requestId !== requestSeq.value || queryKey !== currentQueryKey()) return;
+    if (reset) errorMessage.value = error instanceof Error ? error.message : "耗卡报表加载失败";
+    else uni.showToast({ title: error instanceof Error ? error.message : "加载更多失败", icon: "none" });
   } finally {
-    loading.value = false;
-    loadingMore.value = false;
+    if (requestId === requestSeq.value) {
+      loading.value = false;
+      loadingMore.value = false;
+    }
   }
 }
 
@@ -85,11 +121,11 @@ function changeDimension(value: ConsumptionView) {
 }
 
 function chooseStatus() {
-  const options = [
+  const options: Array<{ value: ConsumptionSettlementFilterStatus | ""; label: string }> = [
     { value: "", label: "全部状态" },
-    { value: "pending_day_close", label: "待当日结算" },
-    { value: "settled", label: "已结算" },
-    { value: "adjusted", label: "已调整（派生）" },
+    { value: "provisional", label: "待当日结算" },
+    { value: "final", label: "已结算" },
+    { value: "adjusted", label: "已调整" },
     { value: "reversed", label: "已冲正" },
   ];
   uni.showActionSheet({
@@ -99,7 +135,14 @@ function chooseStatus() {
 }
 
 function statusLabel(value: string) {
-  return ({ pending: "待结算", pending_day_close: "待当日结算", settled: "已结算", adjusted: "已调整", reversed: "已冲正" } as Record<string, string>)[value] || value;
+  return ({
+    provisional: "待当日结算",
+    pending_day_close: "待当日结算",
+    final: "已结算",
+    settled: "已结算",
+    adjusted: "已调整",
+    reversed: "已冲正",
+  } as Record<string, string>)[value] || value;
 }
 function cardTypeLabel(value: string) {
   return ({ stored_value: "储值卡", count: "次卡", period: "期限卡" } as Record<string, string>)[value] || value;
@@ -122,8 +165,24 @@ function openDetail(item: ConsumptionSettlementListItem) {
   uni.navigateTo({ url: `/pages/report/consumption/detail?id=${item.id}` });
 }
 function openPeriods() { uni.navigateTo({ url: "/pages/report/payroll-periods/index" }); }
-function setFrom(event: { detail: { value: string } }) { from.value = event.detail.value; void load(true); }
-function setTo(event: { detail: { value: string } }) { to.value = event.detail.value; void load(true); }
+function setFrom(event: { detail: { value: string } }) {
+  const value = event.detail.value;
+  if (to.value && value > to.value) {
+    uni.showToast({ title: "开始日期不能晚于结束日期", icon: "none" });
+    return;
+  }
+  from.value = value;
+  void load(true);
+}
+function setTo(event: { detail: { value: string } }) {
+  const value = event.detail.value;
+  if (from.value && value < from.value) {
+    uni.showToast({ title: "结束日期不能早于开始日期", icon: "none" });
+    return;
+  }
+  to.value = value;
+  void load(true);
+}
 
 onShow(async () => {
   if (!from.value) monthRange();
@@ -137,7 +196,7 @@ onReachBottom(() => { void load(false); });
   <u-loading-page :loading="loading" />
   <view v-if="!loading && canRead" class="page-container consumption-page">
     <view class="summary-card">
-      <view class="summary-head"><text>耗卡与提成</text><text v-if="canManagePayroll" class="period-link" @tap="openPeriods">月结 / 关账</text></view>
+      <view class="summary-head"><view><text class="summary-eyebrow">经营结算</text><text class="summary-title">耗卡与提成</text><text class="summary-scope">{{ currentSiteName }} · {{ from }} 至 {{ to }}</text></view><text v-if="canManagePayroll" class="period-link" @tap="openPeriods">月结 / 关账</text></view>
       <view class="summary-grid">
         <view><text class="summary-value">{{ summary?.consumptionCount ?? "—" }}</text><text class="summary-label">耗卡次数</text></view>
         <view><text class="summary-value money">{{ summary ? `¥${summary.consumptionValue}` : "—" }}</text><text class="summary-label">耗卡价值</text></view>
@@ -145,6 +204,11 @@ onReachBottom(() => { void load(false); });
         <view><text class="summary-value">{{ summary ? `¥${summary.commissionAmount}` : "—" }}</text><text class="summary-label">提成</text></view>
       </view>
       <text v-if="summary?.pendingCount" class="pending-hint">其中 {{ summary.pendingCount }} 笔待结算</text>
+    </view>
+
+    <view v-if="errorMessage" class="error-card">
+      <u-alert type="error" :description="errorMessage" />
+      <button class="retry-btn" @tap="load(true)">重新加载</button>
     </view>
 
     <scroll-view scroll-x class="dimension-scroll" :show-scrollbar="false">
@@ -163,7 +227,7 @@ onReachBottom(() => { void load(false); });
       </view>
     </view>
 
-    <view v-if="items.length" class="settlement-list">
+    <view v-if="!errorMessage && items.length" class="settlement-list">
       <view v-for="item in items" :key="itemKey(item)" class="settlement-row" :class="{ aggregate: item.isAggregate }" @tap="openDetail(item)">
         <view class="row-head">
           <text class="row-title">{{ itemTitle(item) }}</text>
@@ -183,7 +247,7 @@ onReachBottom(() => { void load(false); });
         </view>
       </view>
     </view>
-    <u-empty v-else mode="data" text="当前筛选暂无耗卡结算" />
+    <u-empty v-else-if="!errorMessage" mode="data" text="当前筛选暂无耗卡结算" />
     <view v-if="loadingMore" class="load-more">加载中…</view>
     <view v-else-if="items.length && !canLoadMore" class="load-more">已加载全部</view>
   </view>
@@ -194,7 +258,11 @@ onReachBottom(() => { void load(false); });
 .consumption-page { padding-bottom: 60rpx; }
 .summary-card, .filter-card, .settlement-row { background: #fff; border-radius: $radius-lg; }
 .summary-card { padding: 28rpx 24rpx; }
-.summary-head { display: flex; align-items: center; justify-content: space-between; font-size: 30rpx; font-weight: 600; }
+.summary-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18rpx; }
+.summary-eyebrow, .summary-title, .summary-scope { display: block; }
+.summary-eyebrow { color: $color-primary; font-size: 20rpx; font-weight: 600; letter-spacing: 3rpx; }
+.summary-title { margin-top: 5rpx; font-size: 30rpx; font-weight: 600; }
+.summary-scope { margin-top: 7rpx; color: $color-text-tertiary; font-size: 20rpx; font-weight: 400; }
 .period-link { color: #5fa3ea; font-size: 23rpx; font-weight: 400; }
 .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24rpx 16rpx; margin-top: 26rpx; }
 .summary-grid > view { display: flex; flex-direction: column; }
@@ -226,4 +294,7 @@ onReachBottom(() => { void load(false); });
 .row-meta { margin-top: 14rpx; color: $color-text-secondary; font-size: 21rpx; }
 .row-foot { justify-content: space-between; margin-top: 15rpx; padding-top: 13rpx; color: $color-text-tertiary; border-top: 1rpx solid #f2f2f2; font-size: 20rpx; }
 .load-more { padding: 20rpx; color: $color-text-disabled; font-size: 22rpx; text-align: center; }
+.error-card { margin-top: 18rpx; }
+.retry-btn { width: 220rpx; height: 64rpx; margin: 18rpx 0 0; color: $color-primary; background: #fff; border: 1rpx solid rgba(237,146,15,.35); border-radius: 32rpx; font-size: 23rpx; line-height: 62rpx; }
+.retry-btn::after { border: 0; }
 </style>

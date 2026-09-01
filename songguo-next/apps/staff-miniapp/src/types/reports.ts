@@ -341,12 +341,20 @@ export interface ReportMemberCardConsumptionItem extends ReportRankingMemberItem
   rank: number;
   consumptionCount: number;
   consumptionAmount: string;
+  unvaluedCount: number;
+  hasUnvalued: boolean;
 }
 
 export interface ReportMemberCardConsumptionRanking {
   year: number;
   month: number;
-  totals: { memberCount: number; consumptionCount: number; consumptionAmount: string };
+  totals: {
+    memberCount: number;
+    consumptionCount: number;
+    consumptionAmount: string;
+    unvaluedCount: number;
+    hasUnvalued: boolean;
+  };
   items: ReportMemberCardConsumptionItem[];
   pagination: ReportRankingPagination;
   asOf: string;

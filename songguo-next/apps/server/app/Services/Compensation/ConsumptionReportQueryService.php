@@ -16,28 +16,46 @@ class ConsumptionReportQueryService
         array $filters,
         string $dimension,
         int $perPage = 20,
+        bool $canSearchMemberNames = true,
     ): LengthAwarePaginator {
         abort_unless(in_array($dimension, ['coach', 'share', 'member', 'course', 'card'], true), 422, 'CONSUMPTION_DIMENSION_INVALID');
 
         if (in_array($dimension, ['coach', 'share'], true)) {
-            $this->ensureRecipientProjection($tenantId, $siteId, $filters, $dimension);
+            $this->ensureRecipientProjection($tenantId, $siteId, $filters, $dimension, $canSearchMemberNames);
         }
 
         return in_array($dimension, ['coach', 'share'], true)
-            ? $this->staffDimension($tenantId, $siteId, $filters, $dimension, $perPage)
-            : $this->entityDimension($tenantId, $siteId, $filters, $dimension, $perPage);
+            ? $this->staffDimension($tenantId, $siteId, $filters, $dimension, $perPage, $canSearchMemberNames)
+            : $this->entityDimension($tenantId, $siteId, $filters, $dimension, $perPage, $canSearchMemberNames);
     }
 
-    public function totals(int $tenantId, int $siteId, array $filters): array
-    {
+    public function totals(
+        int $tenantId,
+        int $siteId,
+        array $filters,
+        bool $canSearchMemberNames = true,
+    ): array {
+        $reversedAudit = ($filters['status'] ?? null) === 'reversed';
+        $countExpression = $reversedAudit
+            ? 'COUNT(consumption_events.id)'
+            : "COUNT(CASE WHEN consumption_events.status <> 'reversed' THEN 1 END)";
+        $valueExpression = $reversedAudit
+            ? 'COALESCE(SUM(consumption_events.consumed_value_cents), 0)'
+            : "COALESCE(SUM(CASE WHEN consumption_events.status <> 'reversed' THEN consumption_events.consumed_value_cents ELSE 0 END), 0)";
         $lines = $this->eventLineTotals($tenantId, $siteId, true);
         $query = DB::table('consumption_events')
             ->leftJoinSub($lines, 'line_totals', fn ($join) => $join->on('line_totals.consumption_event_id', '=', 'consumption_events.id'));
-        $this->applyEventFilters($query, $tenantId, $siteId, $filters);
+        $this->applyEventFilters(
+            $query,
+            $tenantId,
+            $siteId,
+            $filters,
+            canSearchMemberNames: $canSearchMemberNames,
+        );
         $row = $query->selectRaw(
-            "COUNT(CASE WHEN consumption_events.status <> 'reversed' THEN 1 END) AS consumption_count, ".
+            $countExpression.' AS consumption_count, '.
             "COUNT(CASE WHEN consumption_events.status = 'provisional' THEN 1 END) AS pending_count, ".
-            "COALESCE(SUM(CASE WHEN consumption_events.status <> 'reversed' THEN consumption_events.consumed_value_cents ELSE 0 END), 0) AS consumed_value_cents, ".
+            $valueExpression.' AS consumed_value_cents, '.
             'COALESCE(SUM(line_totals.session_fee_cents), 0) AS session_fee_cents, '.
             'COALESCE(SUM(line_totals.commission_cents), 0) AS commission_cents',
         )->first();
@@ -69,7 +87,15 @@ class ConsumptionReportQueryService
         array $filters,
         string $dimension,
         int $perPage,
+        bool $canSearchMemberNames,
     ): LengthAwarePaginator {
+        $reversedAudit = ($filters['status'] ?? null) === 'reversed';
+        $countExpression = $reversedAudit
+            ? 'COUNT(consumption_events.id)'
+            : "COUNT(CASE WHEN consumption_events.status <> 'reversed' THEN consumption_events.id END)";
+        $valueExpression = $reversedAudit
+            ? 'COALESCE(SUM(consumption_events.consumed_value_cents), 0)'
+            : "COALESCE(SUM(CASE WHEN consumption_events.status <> 'reversed' THEN consumption_events.consumed_value_cents ELSE 0 END), 0)";
         $includeSessionFees = $dimension === 'course';
         $lines = $this->eventLineTotals($tenantId, $siteId, $includeSessionFees);
         $query = DB::table('consumption_events')
@@ -96,10 +122,17 @@ class ConsumptionReportQueryService
                     DB::raw('COALESCE(card_products.name, member_cards.card_no) as subject_name'),
                 ]);
         }
-        $this->applyEventFilters($query, $tenantId, $siteId, $filters, effectiveOnly: true);
+        $this->applyEventFilters(
+            $query,
+            $tenantId,
+            $siteId,
+            $filters,
+            effectiveOnly: true,
+            canSearchMemberNames: $canSearchMemberNames,
+        );
         $query->addSelect([
-            DB::raw("COUNT(CASE WHEN consumption_events.status <> 'reversed' THEN consumption_events.id END) as consumption_count"),
-            DB::raw("COALESCE(SUM(CASE WHEN consumption_events.status <> 'reversed' THEN consumption_events.consumed_value_cents ELSE 0 END), 0) as consumed_value_cents"),
+            DB::raw($countExpression.' as consumption_count'),
+            DB::raw($valueExpression.' as consumed_value_cents'),
             $includeSessionFees
                 ? DB::raw('COALESCE(SUM(line_totals.session_fee_cents), 0) as session_fee_cents')
                 : DB::raw('0 as session_fee_cents'),
@@ -115,20 +148,38 @@ class ConsumptionReportQueryService
         array $filters,
         string $dimension,
         int $perPage,
+        bool $canSearchMemberNames,
     ): LengthAwarePaginator {
+        $reversedAudit = ($filters['status'] ?? null) === 'reversed';
+        $countExpression = $reversedAudit
+            ? '1'
+            : "CASE WHEN consumption_events.status <> 'reversed' THEN 1 ELSE 0 END";
+        $valueExpression = $reversedAudit
+            ? 'COALESCE(recipients.allocated_value_cents, 0)'
+            : "CASE WHEN consumption_events.status <> 'reversed' THEN COALESCE(recipients.allocated_value_cents, 0) ELSE 0 END";
+        $legacyValueExpression = $reversedAudit
+            ? 'COALESCE(consumption_events.consumed_value_cents, 0)'
+            : "CASE WHEN consumption_events.status <> 'reversed' THEN COALESCE(consumption_events.consumed_value_cents, 0) ELSE 0 END";
         $recipientType = $dimension === 'coach' ? 'delivery' : 'share';
         $recipientEvents = DB::table('consumption_event_recipient_allocations as recipients')
             ->join('consumption_events', 'consumption_events.id', '=', 'recipients.consumption_event_id')
             ->where('recipients.recipient_type', $recipientType);
-        $this->applyEventFilters($recipientEvents, $tenantId, $siteId, $filters, effectiveOnly: true);
+        $this->applyEventFilters(
+            $recipientEvents,
+            $tenantId,
+            $siteId,
+            $filters,
+            effectiveOnly: true,
+            canSearchMemberNames: $canSearchMemberNames,
+        );
         $recipientEvents->groupBy(
             'consumption_events.id', 'recipients.staff_id',
         )->select([
             'consumption_events.id as consumption_event_id',
             'recipients.staff_id',
-            DB::raw("MAX(CASE WHEN consumption_events.status <> 'reversed' THEN 1 ELSE 0 END) as effective_count"),
+            DB::raw('MAX('.$countExpression.') as effective_count'),
             DB::raw('SUM(COALESCE(recipients.allocation_bps, 10000)) as allocation_bps'),
-            DB::raw("SUM(CASE WHEN consumption_events.status <> 'reversed' THEN COALESCE(recipients.allocated_value_cents, 0) ELSE 0 END) as allocated_value_cents"),
+            DB::raw('SUM('.$valueExpression.') as allocated_value_cents'),
         ]);
 
         if ($dimension === 'coach') {
@@ -140,13 +191,20 @@ class ConsumptionReportQueryService
                     ->from('consumption_event_recipient_allocations')
                     ->whereColumn('consumption_event_recipient_allocations.consumption_event_id', 'consumption_events.id')
                     ->where('consumption_event_recipient_allocations.recipient_type', 'delivery'));
-            $this->applyEventFilters($legacy, $tenantId, $siteId, $filters, effectiveOnly: true);
+            $this->applyEventFilters(
+                $legacy,
+                $tenantId,
+                $siteId,
+                $filters,
+                effectiveOnly: true,
+                canSearchMemberNames: $canSearchMemberNames,
+            );
             $legacy->select([
                 'consumption_events.id as consumption_event_id',
                 'consumption_events.coach_staff_id as staff_id',
-                DB::raw("CASE WHEN consumption_events.status <> 'reversed' THEN 1 ELSE 0 END as effective_count"),
+                DB::raw($countExpression.' as effective_count'),
                 DB::raw('10000 as allocation_bps'),
-                DB::raw("CASE WHEN consumption_events.status <> 'reversed' THEN COALESCE(consumption_events.consumed_value_cents, 0) ELSE 0 END as allocated_value_cents"),
+                DB::raw($legacyValueExpression.' as allocated_value_cents'),
             ]);
             $recipientEvents->unionAll($legacy);
         }
@@ -206,8 +264,13 @@ class ConsumptionReportQueryService
      * projection table existed. Materialize only missing derived rows; this does
      * not alter the consumption or commission facts themselves.
      */
-    private function ensureRecipientProjection(int $tenantId, int $siteId, array $filters, string $dimension): void
-    {
+    private function ensureRecipientProjection(
+        int $tenantId,
+        int $siteId,
+        array $filters,
+        string $dimension,
+        bool $canSearchMemberNames,
+    ): void {
         $type = $dimension === 'coach' ? 'delivery' : 'share';
         $key = $dimension === 'coach' ? 'deliveryRecipients' : 'shareRecipients';
         $query = DB::table('consumption_events')
@@ -215,7 +278,14 @@ class ConsumptionReportQueryService
                 ->from('consumption_event_recipient_allocations')
                 ->whereColumn('consumption_event_recipient_allocations.consumption_event_id', 'consumption_events.id')
                 ->where('consumption_event_recipient_allocations.recipient_type', $type));
-        $this->applyEventFilters($query, $tenantId, $siteId, $filters, effectiveOnly: true);
+        $this->applyEventFilters(
+            $query,
+            $tenantId,
+            $siteId,
+            $filters,
+            effectiveOnly: true,
+            canSearchMemberNames: $canSearchMemberNames,
+        );
         $query->select(['consumption_events.id', 'consumption_events.tenant_id', 'consumption_events.site_id',
             'consumption_events.coach_staff_id', 'consumption_events.consumed_value_cents', 'consumption_events.metadata'])
             ->orderBy('consumption_events.id')
@@ -281,6 +351,7 @@ class ConsumptionReportQueryService
         int $siteId,
         array $filters,
         bool $effectiveOnly = false,
+        bool $canSearchMemberNames = true,
     ): void {
         $query->where('consumption_events.tenant_id', $tenantId)
             ->where('consumption_events.site_id', $siteId)
@@ -319,16 +390,19 @@ class ConsumptionReportQueryService
             $query->where('consumption_events.status', $filters['status']);
         }
         if (($term = trim((string) ($filters['query'] ?? ''))) !== '') {
-            $query->where(function (Builder $search) use ($term) {
+            $query->where(function (Builder $search) use ($term, $canSearchMemberNames) {
                 $like = "%{$term}%";
-                $search->whereExists(fn (Builder $members) => $members->selectRaw('1')
+                $search->whereExists(fn (Builder $members) => $members
+                    ->selectRaw('1')
                     ->from('members')
-                    ->leftJoin('member_crm_profiles', 'member_crm_profiles.member_id', '=', 'members.id')
-                    ->leftJoin('accounts', 'accounts.id', '=', 'members.account_id')
+                    ->when($canSearchMemberNames, fn (Builder $memberNames) => $memberNames
+                        ->leftJoin('member_crm_profiles', 'member_crm_profiles.member_id', '=', 'members.id')
+                        ->leftJoin('accounts', 'accounts.id', '=', 'members.account_id'))
                     ->whereColumn('members.id', 'consumption_events.member_id')
                     ->where(fn (Builder $names) => $names->where('members.member_no', 'like', $like)
-                        ->orWhere('member_crm_profiles.name', 'like', $like)
-                        ->orWhere('accounts.display_name', 'like', $like)))
+                        ->when($canSearchMemberNames, fn (Builder $allowedNames) => $allowedNames
+                            ->orWhere('member_crm_profiles.name', 'like', $like)
+                            ->orWhere('accounts.display_name', 'like', $like))))
                     ->orWhereExists(fn (Builder $courses) => $courses->selectRaw('1')
                         ->from('courses')->whereColumn('courses.id', 'consumption_events.course_id')
                         ->where('courses.name', 'like', $like))

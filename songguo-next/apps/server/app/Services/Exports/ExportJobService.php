@@ -61,8 +61,13 @@ class ExportJobService
     /**
      * @param  array<string, mixed>  $filters
      */
-    public function runExportJob(int $exportJobId, JobActorContext $context, array $filters = []): void
-    {
+    public function runExportJob(
+        int $exportJobId,
+        JobActorContext $context,
+        array $filters = [],
+        int $attempt = 1,
+        int $maxAttempts = 1,
+    ): void {
         $job = ExportJob::query()->whereKey($exportJobId)->firstOrFail();
         $staff = Staff::query()->whereKey($context->staffId)->firstOrFail();
         $site = Site::query()
@@ -74,7 +79,10 @@ class ExportJobService
             return;
         }
 
-        $job->update(['status' => ExportJobStatus::Processing]);
+        $job->update([
+            'status' => ExportJobStatus::Processing,
+            'completed_at' => null,
+        ]);
 
         try {
             $path = match ($job->type) {
@@ -96,19 +104,25 @@ class ExportJobService
                 ['rowCount' => null],
             );
         } catch (Throwable $exception) {
+            $isFinalAttempt = max(1, $attempt) >= max(1, $maxAttempts);
             $job->update([
-                'status' => ExportJobStatus::Failed,
-                'completed_at' => now(),
+                'status' => $isFinalAttempt ? ExportJobStatus::Failed : ExportJobStatus::Pending,
+                'completed_at' => $isFinalAttempt ? now() : null,
             ]);
-            $this->audit->recordForActor(
-                $staff,
-                $site,
-                $job,
-                'export.job.failed',
-                $staff->account_id,
-                $context->requestId,
-                ['error' => $exception->getMessage()],
-            );
+            if ($isFinalAttempt) {
+                $this->audit->recordForActor(
+                    $staff,
+                    $site,
+                    $job,
+                    'export.job.failed',
+                    $staff->account_id,
+                    $context->requestId,
+                    [
+                        'attempt' => max(1, $attempt),
+                        'error' => $exception->getMessage(),
+                    ],
+                );
+            }
 
             throw $exception;
         }
@@ -143,16 +157,9 @@ class ExportJobService
         ExportJob $job,
         Request $request,
     ): StreamedResponse {
-        abort_unless($job->tenant_id === $staff->tenant_id && $job->site_id === $site->id, 404);
+        $this->assertCanReadJob($staff, $site, $job);
         abort_unless($job->status === ExportJobStatus::Completed, 409, 'EXPORT_JOB_NOT_READY');
         abort_if(blank($job->file_path), 404, 'EXPORT_FILE_MISSING');
-
-        $isCreator = $job->requested_by_staff_id === $staff->id;
-        abort_unless(
-            $isCreator || $staff->hasPermission('export.job.read', $site->id),
-            403,
-            'PERMISSION_DENIED',
-        );
 
         $this->audit->record($request, $staff, $site, $job, 'export.job.downloaded');
 
@@ -170,6 +177,19 @@ class ExportJobService
         ]);
     }
 
+    /**
+     * A creator may follow the status of their own asynchronous export even when
+     * they do not have permission to browse every export created for the site.
+     *
+     * @return array<string, mixed>
+     */
+    public function showJob(Staff $staff, Site $site, ExportJob $job): array
+    {
+        $this->assertCanReadJob($staff, $site, $job);
+
+        return $this->jobPayload($job->loadMissing('requestedBy'));
+    }
+
     public function findJob(Staff $staff, Site $site, int $jobId): ExportJob
     {
         return ExportJob::query()
@@ -177,6 +197,16 @@ class ExportJobService
             ->where('tenant_id', $staff->tenant_id)
             ->where('site_id', $site->id)
             ->firstOrFail();
+    }
+
+    private function assertCanReadJob(Staff $staff, Site $site, ExportJob $job): void
+    {
+        abort_unless($job->tenant_id === $staff->tenant_id && $job->site_id === $site->id, 404);
+        abort_unless(
+            $job->requested_by_staff_id === $staff->id || $staff->hasPermission('export.job.read', $site->id),
+            403,
+            'PERMISSION_DENIED',
+        );
     }
 
     private function generateCardExport(Staff $staff, Site $site, ExportJob $job): string
@@ -187,7 +217,7 @@ class ExportJobService
             ->orderBy('sort_order')
             ->get(['id', 'name', 'card_type', 'price', 'sale_status']);
 
-        $lines = ["id,name,cardType,price,saleStatus"];
+        $lines = ['id,name,cardType,price,saleStatus'];
         foreach ($products as $product) {
             $lines[] = implode(',', [
                 $product->id,

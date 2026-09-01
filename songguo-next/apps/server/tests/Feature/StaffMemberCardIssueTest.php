@@ -11,6 +11,7 @@ use App\Models\CardProduct;
 use App\Models\EntitlementLedgerEntry;
 use App\Models\Member;
 use App\Models\MemberCard;
+use App\Models\MemberCardOrder;
 use App\Models\MemberCrmProfile;
 use App\Models\Permission;
 use App\Models\Role;
@@ -164,6 +165,30 @@ class StaffMemberCardIssueTest extends TestCase
         $this->assertDatabaseCount('member_card_orders', 0);
     }
 
+    public function test_paid_staff_issue_snapshots_new_and_renewal_sale_categories(): void
+    {
+        [, $site, $member] = $this->actAsStaff(['member-card.issue']);
+        $product = $this->createProduct($site, CardType::StoredValue);
+
+        $first = $this->postJson($this->issuePath($site, $member), [
+            'cardProductId' => $product->id,
+            'paymentMethod' => 'online',
+            'actualAmount' => '100.00',
+            'reason' => '人工确认首次收款',
+            'commandKey' => (string) Str::uuid(),
+        ])->assertCreated();
+        $this->assertSame('new', MemberCardOrder::findOrFail($first->json('data.order.id'))->metadata['saleCategory']);
+
+        $renewal = $this->postJson($this->issuePath($site, $member), [
+            'cardProductId' => $product->id,
+            'paymentMethod' => 'online',
+            'actualAmount' => '100.00',
+            'reason' => '人工确认续费收款',
+            'commandKey' => (string) Str::uuid(),
+        ])->assertCreated();
+        $this->assertSame('renewal', MemberCardOrder::findOrFail($renewal->json('data.order.id'))->metadata['saleCategory']);
+    }
+
     public function test_issue_creates_opening_ledger_entries(): void
     {
         [$staff, $site, $member] = $this->actAsStaff(['member-card.issue']);
@@ -186,6 +211,8 @@ class StaffMemberCardIssueTest extends TestCase
             'command_key' => $commandKey,
             'actor_staff_id' => $staff->id,
         ]);
+        $entry = EntitlementLedgerEntry::query()->where('member_card_id', $cardId)->sole();
+        $this->assertSame($product->name, $entry->metadata['cardProductName']);
         $this->assertSame(1, EntitlementLedgerEntry::query()->where('member_card_id', $cardId)->count());
     }
 

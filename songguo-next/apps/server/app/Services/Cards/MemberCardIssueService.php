@@ -19,6 +19,7 @@ use App\Models\Site;
 use App\Models\Staff;
 use App\Services\Compensation\MemberCardShareAssignmentService;
 use App\Services\Compensation\MemberCardValueLotService;
+use App\Services\Orders\MemberCardSaleCategoryService;
 use App\Services\Wallet\MemberWalletService;
 use App\Support\DomainActor;
 use App\Support\Finance\Money;
@@ -32,6 +33,7 @@ class MemberCardIssueService
         private MemberCardShareAssignmentService $shareAssignments,
         private MemberWalletService $wallets,
         private CardProductPaymentMethodService $paymentMethods,
+        private MemberCardSaleCategoryService $saleCategories,
     ) {}
 
     /**
@@ -138,6 +140,7 @@ class MemberCardIssueService
                 $validUntil,
                 $commandKey,
                 $staff->id,
+                (string) ($snapshot['name'] ?? $product->name),
                 $payloadHash,
             );
 
@@ -155,6 +158,7 @@ class MemberCardIssueService
                         ? (int) $payload['paidAmountCents']
                         : Money::decimalToCents($product->price));
                 abort_if($paidAmountCents < 0, 422, 'MEMBER_CARD_PAID_AMOUNT_INVALID');
+                $saleCategory = $this->saleCategories->classify($member, $site, $product);
 
                 $order = MemberCardOrder::create([
                     'tenant_id' => $staff->tenant_id,
@@ -181,6 +185,7 @@ class MemberCardIssueService
                         'confirmationReason' => $payload['reason'] ?? null,
                         'cardProductId' => $product->id,
                         'productVersion' => $product->version,
+                        'saleCategory' => $saleCategory,
                         'issuePayloadHash' => $payloadHash,
                     ],
                 ]);
@@ -348,7 +353,10 @@ class MemberCardIssueService
                 'valid_until_after' => $validUntil,
                 'command_key' => $commandKey,
                 'reason' => 'Member purchase',
-                'metadata' => ['purchasePayloadHash' => $payloadHash],
+                'metadata' => [
+                    'purchasePayloadHash' => $payloadHash,
+                    'cardProductName' => (string) ($snapshot['name'] ?? $lockedProduct->name),
+                ],
                 'actor_account_id' => $account->id,
                 'occurred_at' => now(),
             ]);
@@ -462,6 +470,7 @@ class MemberCardIssueService
         ?string $validUntil,
         string $commandKey,
         int $staffId,
+        string $cardProductName,
         string $payloadHash,
     ): void {
         EntitlementLedgerEntry::create([
@@ -479,7 +488,10 @@ class MemberCardIssueService
             'valid_until_after' => $validUntil,
             'command_key' => $commandKey,
             'reason' => 'Staff issue',
-            'metadata' => ['issuePayloadHash' => $payloadHash],
+            'metadata' => [
+                'issuePayloadHash' => $payloadHash,
+                'cardProductName' => $cardProductName,
+            ],
             'actor_staff_id' => $staffId,
             'occurred_at' => now(),
         ]);
