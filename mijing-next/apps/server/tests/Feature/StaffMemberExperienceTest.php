@@ -172,13 +172,13 @@ class StaffMemberExperienceTest extends TestCase
             ->assertOk()
             ->assertJsonFragment([
                 'key' => 'member-warm-hint',
-                'route' => '/pages/settings/member/warm-hint/index',
+                'route' => '/subpackages/settings/member/warm-hint/index',
                 'implemented' => true,
                 'enabled' => true,
             ])
             ->assertJsonFragment([
                 'key' => 'member-home-carousel',
-                'route' => '/pages/settings/member/carousel/index',
+                'route' => '/subpackages/settings/member/carousel/index',
                 'implemented' => true,
             ]);
     }

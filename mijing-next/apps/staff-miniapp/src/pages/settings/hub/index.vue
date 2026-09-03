@@ -88,7 +88,26 @@ function openItem(item: SettingsHubItem) {
     uni.showToast({ title: "暂未开放", icon: "none" });
     return;
   }
-  uni.navigateTo({ url: item.route });
+  const route = resolveSettingsRoute(item.route);
+  uni.navigateTo({
+    url: route,
+    fail(error) {
+      console.error("[settings-hub] navigation failed", { route, error });
+      uni.showToast({ title: "页面打开失败，请重新编译", icon: "none" });
+    },
+  });
+}
+
+function resolveSettingsRoute(route: string) {
+  const migratedPrefixes = [
+    "/pages/settings/",
+    "/pages/course/",
+    "/pages/report/",
+  ];
+
+  return migratedPrefixes.some((prefix) => route.startsWith(prefix))
+    ? route.replace("/pages/", "/subpackages/")
+    : route;
 }
 
 function openSiteProfile() {

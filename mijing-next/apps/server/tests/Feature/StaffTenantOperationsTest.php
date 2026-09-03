@@ -201,22 +201,22 @@ class StaffTenantOperationsTest extends TestCase
             ->assertOk()
             ->assertJsonFragment([
                 'key' => 'membership-agreement',
-                'route' => '/pages/settings/legal/membership-agreement/index',
+                'route' => '/subpackages/settings/legal/membership-agreement/index',
                 'implemented' => true,
             ])
             ->assertJsonFragment([
                 'key' => 'site-closures',
-                'route' => '/pages/settings/operations/closure-calendar/index',
+                'route' => '/subpackages/settings/operations/closure-calendar/index',
                 'implemented' => true,
             ])
             ->assertJsonFragment([
                 'key' => 'announcements',
-                'route' => '/pages/settings/operations/notices/index',
+                'route' => '/subpackages/settings/operations/notices/index',
                 'implemented' => true,
             ])
             ->assertJsonFragment([
                 'key' => 'data-export',
-                'route' => '/pages/report/exports/index',
+                'route' => '/subpackages/report/exports/index',
                 'implemented' => true,
             ]);
     }

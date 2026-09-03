@@ -45,7 +45,7 @@ class ChainStoreCourseService
                         ->map(fn (Site $site) => [
                             'siteId' => $site->id,
                             'siteName' => $site->name,
-                            'editRoute' => '/pages/settings/card-products/edit',
+                            'editRoute' => '/subpackages/settings/card-products/edit',
                         ])
                         ->values()
                         ->all(),

@@ -27,6 +27,7 @@ class TenantSettingsHubTest extends TestCase
             'site.rooms.read',
             'staff.directory.read',
             'card-product.editor.write',
+            'schedule.session.read',
         ]);
 
         $this->getJson("/api/v1/staff/sites/{$site->id}/settings-hub")
@@ -54,28 +55,33 @@ class TenantSettingsHubTest extends TestCase
             ->assertJsonFragment([
                 'key' => 'crm-field-config',
                 'label' => '会员资料',
-                'route' => '/pages/settings/crm/field-config/index',
+                'route' => '/subpackages/settings/crm/field-config/index',
                 'enabled' => true,
                 'implemented' => true,
             ])
             ->assertJsonFragment([
                 'key' => 'booking-policy',
                 'label' => '预约设置',
-                'route' => '/pages/settings/booking-policy/index',
+                'route' => '/subpackages/settings/booking-policy/index',
                 'implemented' => true,
             ])
             ->assertJsonFragment([
                 'key' => 'card-course-links',
-                'route' => '/pages/settings/card-products/course-matrix',
+                'route' => '/subpackages/settings/card-products/course-matrix',
                 'implemented' => true,
             ])
             ->assertJsonFragment([
                 'key' => 'room-catalog',
                 'label' => '教室管理',
-                'route' => '/pages/settings/rooms/index',
+                'route' => '/subpackages/settings/rooms/index',
                 'requiredPermission' => 'site.rooms.read',
                 'implemented' => true,
                 'enabled' => true,
+            ])
+            ->assertJsonFragment([
+                'key' => 'schedule-sessions',
+                'route' => '/subpackages/course/timetable/index',
+                'implemented' => true,
             ]);
     }
 
@@ -118,22 +124,22 @@ class TenantSettingsHubTest extends TestCase
             ->assertOk()
             ->assertJsonFragment([
                 'key' => 'chain-instructions',
-                'route' => '/pages/settings/chain/instructions/index',
+                'route' => '/subpackages/settings/chain/instructions/index',
                 'implemented' => true,
             ])
             ->assertJsonFragment([
                 'key' => 'chain-stores',
-                'route' => '/pages/settings/chain/stores/index',
+                'route' => '/subpackages/settings/chain/stores/index',
                 'implemented' => true,
             ])
             ->assertJsonFragment([
                 'key' => 'customer-service',
-                'route' => '/pages/settings/support/customer-service/index',
+                'route' => '/subpackages/settings/support/customer-service/index',
                 'implemented' => true,
             ])
             ->assertJsonFragment([
                 'key' => 'video-help',
-                'route' => '/pages/settings/support/video-help/index',
+                'route' => '/subpackages/settings/support/video-help/index',
                 'implemented' => true,
             ]);
     }

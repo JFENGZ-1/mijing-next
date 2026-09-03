@@ -292,12 +292,27 @@ class TenantSettingsHubService
             'key' => $key,
             'label' => $label,
             'description' => $description,
-            'route' => $route,
+            'route' => $this->miniappRoute($route),
             'capability' => $capability,
             'requiredPermission' => $requiredPermission,
             'enabled' => $enabled,
             'implemented' => $implemented,
             'setupIncomplete' => $setupIncomplete,
         ];
+    }
+
+    private function miniappRoute(?string $route): ?string
+    {
+        if ($route === null) {
+            return null;
+        }
+
+        foreach (['/pages/settings/', '/pages/course/', '/pages/report/'] as $legacyPrefix) {
+            if (str_starts_with($route, $legacyPrefix)) {
+                return str_replace('/pages/', '/subpackages/', $route);
+            }
+        }
+
+        return $route;
     }
 }
