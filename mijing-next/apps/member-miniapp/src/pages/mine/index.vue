@@ -6,6 +6,7 @@ import { requireMemberAuth } from "@/auth/guard";
 import { ensureMemberTenant, loadJoinableSites, loadJoinedMemberSites, selectMemberSite } from "@/composables/member-context";
 import type { MemberCardWalletSummary, MemberMineDashboard, MemberSiteOption } from "@/types/member";
 import { createCommandKey } from "@/utils/command-key";
+import { syncMemberTabBar } from "@/utils/tab-bar";
 
 const loading = ref(true);
 const errorMessage = ref("");
@@ -283,6 +284,7 @@ function handleMenuAction(action: string) {
 }
 
 onShow(async () => {
+  syncMemberTabBar(2);
   if (await requireMemberAuth()) await loadDashboard();
 });
 </script>

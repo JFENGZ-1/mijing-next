@@ -11,6 +11,7 @@ import {
 } from "@/composables/member-context";
 import type { MemberBookingCatalogItem, MemberSiteClosureStatus, MemberSiteOption } from "@/types/member";
 import { navigateToOnce } from "@/utils/navigate";
+import { syncMemberTabBar } from "@/utils/tab-bar";
 
 // 本地日期键（YYYY-MM-DD），避免 toISOString() 的 UTC 偏移导致"今天"错位。
 function localDateKey(d: Date): string {
@@ -318,6 +319,7 @@ function openCoach(coach: { name: string; sessionId: number; avatarUrl: string |
 }
 
 onShow(async () => {
+  syncMemberTabBar(1);
   if (await requireMemberAuth()) await loadCatalog();
 });
 

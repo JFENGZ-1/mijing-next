@@ -22,6 +22,7 @@ import type {
 import { createCommandKey } from "@/utils/command-key";
 import { formatIsoDate } from "@/utils/format";
 import { navigateToOnce } from "@/utils/navigate";
+import { syncMemberTabBar } from "@/utils/tab-bar";
 
 const loading = ref(true);
 const errorMessage = ref("");
@@ -365,6 +366,7 @@ function callSitePhone() {
 }
 
 onShow(async () => {
+  syncMemberTabBar(0);
   if (await requireMemberAuth()) await loadDashboard();
 });
 

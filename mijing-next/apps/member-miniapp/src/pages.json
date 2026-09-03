@@ -182,6 +182,7 @@
 		}
 	],
 	"tabBar": {
+		"custom": true,
 		"color": "#505050",
 		"selectedColor": "#181818",
 		"backgroundColor": "#FFFFFF",
