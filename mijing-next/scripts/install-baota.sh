@@ -5,6 +5,7 @@ set -Eeuo pipefail
 REPOSITORY_URL="${MIJING_REPOSITORY_URL:-https://github.com/JFENGZ-1/mijing-next.git}"
 REPOSITORY_BRANCH="${MIJING_REPOSITORY_BRANCH:-master}"
 TARGET_DIR="${MIJING_REPO_DIR:-/www/wwwroot/mj.zonrn.cn}"
+SPARSE_CHECKOUT_FILE="${TARGET_DIR}/.git/info/sparse-checkout"
 
 log() {
   printf '\n\033[1;32m[mijing-install]\033[0m %s\n' "$*"
@@ -29,13 +30,23 @@ install_git() {
   fi
 }
 
+configure_server_only_checkout() {
+  git -C "$TARGET_DIR" config core.sparseCheckout true
+  git -C "$TARGET_DIR" config core.sparseCheckoutCone false
+  mkdir -p "$(dirname "$SPARSE_CHECKOUT_FILE")"
+  printf '/mijing-next/apps/server/\n/mijing-next/scripts/\n' > "$SPARSE_CHECKOUT_FILE"
+}
+
 [ "$(id -u)" -eq 0 ] || fail "请在宝塔终端使用 root 用户运行。"
 
 command -v git >/dev/null 2>&1 || install_git
 command -v git >/dev/null 2>&1 || fail "Git 安装失败。"
 
 if [ -d "${TARGET_DIR}/.git" ]; then
-  log "更新现有代码"
+  log "更新现有服务端代码"
+  if [ -n "$(git -C "$TARGET_DIR" status --porcelain --untracked-files=no)" ]; then
+    fail "${TARGET_DIR} 存在未提交的已跟踪文件修改，请先处理后再部署。"
+  fi
   current_origin="$(git -C "$TARGET_DIR" remote get-url origin 2>/dev/null || true)"
   if [ -z "$current_origin" ]; then
     git -C "$TARGET_DIR" remote add origin "$REPOSITORY_URL"
@@ -43,15 +54,18 @@ if [ -d "${TARGET_DIR}/.git" ]; then
        [ "$current_origin" != "git@github.com:JFENGZ-1/mijing-next.git" ]; then
     fail "${TARGET_DIR} 已连接到其他 Git 仓库：${current_origin}"
   fi
+  configure_server_only_checkout
   git -C "$TARGET_DIR" fetch origin "$REPOSITORY_BRANCH"
   git -C "$TARGET_DIR" checkout "$REPOSITORY_BRANCH"
   git -C "$TARGET_DIR" pull --ff-only origin "$REPOSITORY_BRANCH"
+  git -C "$TARGET_DIR" read-tree -mu HEAD
 else
-  log "拉取项目到 ${TARGET_DIR}"
+  log "仅拉取服务端到 ${TARGET_DIR}"
   mkdir -p "$TARGET_DIR"
   git -C "$TARGET_DIR" init
   git -C "$TARGET_DIR" remote add origin "$REPOSITORY_URL"
-  git -C "$TARGET_DIR" fetch origin "$REPOSITORY_BRANCH"
+  configure_server_only_checkout
+  git -C "$TARGET_DIR" fetch --depth=1 origin "$REPOSITORY_BRANCH"
   git -C "$TARGET_DIR" checkout -B "$REPOSITORY_BRANCH" "origin/${REPOSITORY_BRANCH}"
 fi
 

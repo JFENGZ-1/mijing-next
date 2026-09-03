@@ -6,7 +6,6 @@ DOMAIN="${MIJING_DOMAIN:-mj.zonrn.cn}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APP_DIR="${MIJING_APP_DIR:-$(cd "${SCRIPT_DIR}/.." && pwd)}"
 SERVER_DIR="${APP_DIR}/apps/server"
-ADMIN_DIR="${APP_DIR}/apps/admin-web"
 PUBLIC_DIR="${SERVER_DIR}/public"
 ENV_FILE="${SERVER_DIR}/.env"
 SERVICE_NAME="mijing-queue"
@@ -28,19 +27,19 @@ install_base_tools() {
   log "安装缺失的系统基础工具"
   if command -v apt-get >/dev/null 2>&1; then
     DEBIAN_FRONTEND=noninteractive apt-get update
-    DEBIAN_FRONTEND=noninteractive apt-get install -y git curl ca-certificates tar xz-utils unzip gawk coreutils grep findutils
+    DEBIAN_FRONTEND=noninteractive apt-get install -y git curl ca-certificates unzip gawk coreutils grep findutils
   elif command -v dnf >/dev/null 2>&1; then
-    dnf install -y git curl ca-certificates tar xz unzip gawk coreutils grep findutils
+    dnf install -y git curl ca-certificates unzip gawk coreutils grep findutils
   elif command -v yum >/dev/null 2>&1; then
-    yum install -y git curl ca-certificates tar xz unzip gawk coreutils grep findutils
+    yum install -y git curl ca-certificates unzip gawk coreutils grep findutils
   else
-    fail "无法识别系统包管理器，请先安装 git、curl、ca-certificates、tar、xz、unzip、awk、coreutils。"
+    fail "无法识别系统包管理器，请先安装 git、curl、ca-certificates、unzip、awk、coreutils。"
   fi
 }
 
 ensure_base_tools() {
   local command_name missing=0
-  for command_name in git curl tar xz awk sort sha256sum; do
+  for command_name in git curl unzip awk sort sha256sum; do
     if ! command -v "$command_name" >/dev/null 2>&1; then
       missing=1
       break
@@ -49,7 +48,7 @@ ensure_base_tools() {
   if [ "$missing" -eq 1 ]; then
     install_base_tools
   fi
-  for command_name in git curl tar xz awk sort sha256sum; do
+  for command_name in git curl unzip awk sort sha256sum; do
     require_command "$command_name"
   done
 }
@@ -121,47 +120,6 @@ install_composer() {
   rm -rf "$temporary"
 }
 
-install_node22() {
-  local machine_arch node_arch temporary sums_file archive_name install_name install_dir
-  machine_arch="$(uname -m)"
-  case "$machine_arch" in
-    x86_64|amd64) node_arch="x64" ;;
-    aarch64|arm64) node_arch="arm64" ;;
-    *) fail "暂不支持自动安装 Node.js 的服务器架构：${machine_arch}" ;;
-  esac
-
-  temporary="$(mktemp -d)"
-  sums_file="${temporary}/SHASUMS256.txt"
-  curl --fail --silent --show-error \
-    https://nodejs.org/dist/latest-v22.x/SHASUMS256.txt \
-    -o "$sums_file"
-  archive_name="$(awk -v arch="$node_arch" '$2 ~ ("linux-" arch "\\.tar\\.xz$") { print $2; exit }' "$sums_file")"
-  if [ -z "$archive_name" ]; then
-    rm -rf "$temporary"
-    fail "无法从 Node.js 官方校验清单解析 Linux ${node_arch} 安装包。"
-  fi
-
-  curl --fail --silent --show-error \
-    "https://nodejs.org/dist/latest-v22.x/${archive_name}" \
-    -o "${temporary}/${archive_name}"
-  if ! (cd "$temporary" && grep "  ${archive_name}$" SHASUMS256.txt | sha256sum --check --status -); then
-    rm -rf "$temporary"
-    fail "Node.js 安装包 SHA-256 校验失败，已停止安装。"
-  fi
-
-  install_name="${archive_name%.tar.xz}"
-  install_dir="/opt/nodejs/${install_name}"
-  mkdir -p "$install_dir"
-  tar -xJf "${temporary}/${archive_name}" --strip-components=1 -C "$install_dir"
-  for executable in node npm npx corepack; do
-    if [ -x "${install_dir}/bin/${executable}" ]; then
-      ln -sfn "${install_dir}/bin/${executable}" "/usr/local/bin/${executable}"
-    fi
-  done
-  rm -rf "$temporary"
-  hash -r
-}
-
 prompt_value() {
   local variable_name="$1" label="$2" default_value="${3:-}" current_value
   current_value="${!variable_name:-}"
@@ -219,21 +177,11 @@ set_env() {
 
 [ "$(id -u)" -eq 0 ] || fail "请在宝塔终端使用 root 用户运行。"
 [ -f "${SERVER_DIR}/artisan" ] || fail "Laravel 目录不存在：${SERVER_DIR}"
-[ -f "${ADMIN_DIR}/package.json" ] || fail "Admin Web 目录不存在：${ADMIN_DIR}"
 
 ensure_base_tools
 
 REPO_DIR="$(git -C "$APP_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
 [ -n "$REPO_DIR" ] || fail "无法从 ${APP_DIR} 定位 Git 仓库，请先按文档中的一键命令拉取项目。"
-
-NODE_VERSION="$(node -p 'process.versions.node' 2>/dev/null || true)"
-if [ -z "$NODE_VERSION" ] || ! version_at_least "$NODE_VERSION" "20.19.0"; then
-  log "安装 Node.js 22 官方 Linux 二进制包"
-  install_node22
-  NODE_VERSION="$(node -p 'process.versions.node' 2>/dev/null || true)"
-fi
-version_at_least "$NODE_VERSION" "20.19.0" || fail "Node.js 自动安装后版本仍不满足要求：${NODE_VERSION:-未安装}"
-require_command npm
 
 PHP_BIN="$(detect_php || true)"
 [ -n "$PHP_BIN" ] || fail "未找到 PHP >= 8.2。请先在宝塔软件商店安装 PHP 8.2 或更高版本。"
@@ -255,18 +203,6 @@ log "同步 master 分支"
 git -C "$REPO_DIR" fetch origin master
 git -C "$REPO_DIR" checkout master
 git -C "$REPO_DIR" pull --ff-only origin master
-
-cd "$APP_DIR"
-
-log "安装前端依赖并构建运营后台"
-if command -v corepack >/dev/null 2>&1; then
-  corepack enable >/dev/null 2>&1 || true
-fi
-if ! command -v pnpm >/dev/null 2>&1 || [ "$(pnpm --version 2>/dev/null || true)" != "11.7.0" ]; then
-  npm install --global pnpm@11.7.0
-fi
-pnpm install --frozen-lockfile
-VITE_API_BASE_URL=/api/v1 VITE_ENABLE_DEMO_SESSION=false pnpm --filter @mijing/admin-web build
 
 log "安装 Laravel 生产依赖"
 cd "$SERVER_DIR"
@@ -337,16 +273,8 @@ fi
 "$PHP_BIN" artisan route:cache
 "$PHP_BIN" artisan view:cache
 
-log "发布 Admin Web 静态文件"
-ADMIN_DIST="${ADMIN_DIR}/dist"
-[ -f "${ADMIN_DIST}/index.html" ] || fail "Admin Web 构建产物不存在。"
-rm -rf "${PUBLIC_DIR}/admin-assets"
-cp -a "${ADMIN_DIST}/admin-assets" "${PUBLIC_DIR}/admin-assets"
-cp -a "${ADMIN_DIST}/index.html" "${PUBLIC_DIR}/index.html"
-find "$ADMIN_DIST" -maxdepth 1 -type f ! -name index.html -exec cp -a {} "$PUBLIC_DIR/" \;
-
 log "设置运行目录权限"
-chown -R www:www "${SERVER_DIR}/storage" "${SERVER_DIR}/bootstrap/cache" "${SERVER_DIR}/public/admin-assets" "${SERVER_DIR}/public/index.html"
+chown -R www:www "${SERVER_DIR}/storage" "${SERVER_DIR}/bootstrap/cache"
 find "${SERVER_DIR}/storage" "${SERVER_DIR}/bootstrap/cache" -type d -exec chmod 775 {} \;
 find "${SERVER_DIR}/storage" "${SERVER_DIR}/bootstrap/cache" -type f -exec chmod 664 {} \;
 
@@ -387,7 +315,7 @@ chmod 644 /etc/cron.d/mijing-scheduler
 
 "$PHP_BIN" artisan queue:restart
 
-printf '\n\033[1;32m应用文件与后台任务部署完成。\033[0m\n'
+printf '\n\033[1;32mLaravel 服务端与后台任务部署完成。\033[0m\n'
 printf '宝塔站点运行目录：%s\n' "$PUBLIC_DIR"
 printf '脚本未读取、修改或重载任何 Nginx 配置。\n'
 printf '配置完成后验证： https://%s/api/v1/health\n' "$DOMAIN"
