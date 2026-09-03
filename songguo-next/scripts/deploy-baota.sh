@@ -3,7 +3,8 @@
 set -Eeuo pipefail
 
 DOMAIN="${MIJING_DOMAIN:-mj.zonrn.cn}"
-APP_DIR="${MIJING_APP_DIR:-/www/wwwroot/mijing-next}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+APP_DIR="${MIJING_APP_DIR:-$(cd "${SCRIPT_DIR}/.." && pwd)}"
 SERVER_DIR="${APP_DIR}/apps/server"
 ADMIN_DIR="${APP_DIR}/apps/admin-web"
 PUBLIC_DIR="${SERVER_DIR}/public"

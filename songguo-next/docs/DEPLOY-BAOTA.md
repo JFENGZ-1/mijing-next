@@ -16,7 +16,7 @@
 服务器已安装并登录 GitHub CLI 时，在宝塔终端以 `root` 执行：
 
 ```bash
-APP_DIR=/www/wwwroot/mijing-next; if [ -d "$APP_DIR/.git" ]; then git -C "$APP_DIR" pull --ff-only origin master; else gh repo clone JFENGZ-1/mijing-next "$APP_DIR"; fi; bash "$APP_DIR/scripts/deploy-baota.sh"
+REPO_DIR=/www/wwwroot/mijing-next; if [ -d "$REPO_DIR/.git" ]; then git -C "$REPO_DIR" pull --ff-only origin master; else gh repo clone JFENGZ-1/mijing-next "$REPO_DIR"; fi; bash "$REPO_DIR/songguo-next/scripts/deploy-baota.sh"
 ```
 
 首次运行会询问数据库和两个微信小程序的 AppID/AppSecret。后续运行保留服务器 `.env`，只更新代码、依赖、数据库迁移、Admin Web、缓存、Nginx、队列与定时任务。
