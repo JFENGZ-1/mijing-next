@@ -30,11 +30,15 @@ if ! command -v git >/dev/null 2>&1; then
     exit 1
   fi
 fi
-REPO_DIR=/www/wwwroot/mijing-next
+REPO_DIR=/www/wwwroot/mj.zonrn.cn
 if [ -d "$REPO_DIR/.git" ]; then
   git -C "$REPO_DIR" pull --ff-only origin master
 else
-  git clone https://github.com/JFENGZ-1/mijing-next.git "$REPO_DIR"
+  mkdir -p "$REPO_DIR"
+  git -C "$REPO_DIR" init
+  git -C "$REPO_DIR" remote add origin https://github.com/JFENGZ-1/mijing-next.git
+  git -C "$REPO_DIR" fetch origin master
+  git -C "$REPO_DIR" checkout -B master origin/master
 fi
 bash "$REPO_DIR/songguo-next/scripts/deploy-baota.sh"
 ```
@@ -44,7 +48,7 @@ bash "$REPO_DIR/songguo-next/scripts/deploy-baota.sh"
 脚本完成后，宝塔站点运行目录应手动设置为：
 
 ```text
-/www/wwwroot/mijing-next/songguo-next/apps/server/public
+/www/wwwroot/mj.zonrn.cn/songguo-next/apps/server/public
 ```
 
 ## 小程序发布
