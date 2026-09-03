@@ -218,11 +218,13 @@ set_env() {
 }
 
 [ "$(id -u)" -eq 0 ] || fail "请在宝塔终端使用 root 用户运行。"
-[ -d "${APP_DIR}/.git" ] || fail "${APP_DIR} 不是 Git 仓库，请先按文档中的一键命令克隆项目。"
 [ -f "${SERVER_DIR}/artisan" ] || fail "Laravel 目录不存在：${SERVER_DIR}"
 [ -f "${ADMIN_DIR}/package.json" ] || fail "Admin Web 目录不存在：${ADMIN_DIR}"
 
 ensure_base_tools
+
+REPO_DIR="$(git -C "$APP_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
+[ -n "$REPO_DIR" ] || fail "无法从 ${APP_DIR} 定位 Git 仓库，请先按文档中的一键命令拉取项目。"
 
 NODE_VERSION="$(node -p 'process.versions.node' 2>/dev/null || true)"
 if [ -z "$NODE_VERSION" ] || ! version_at_least "$NODE_VERSION" "20.19.0"; then
@@ -249,12 +251,12 @@ else
   COMPOSER_CMD=("$COMPOSER_BIN")
 fi
 
-cd "$APP_DIR"
-
 log "同步 master 分支"
-git fetch origin master
-git checkout master
-git pull --ff-only origin master
+git -C "$REPO_DIR" fetch origin master
+git -C "$REPO_DIR" checkout master
+git -C "$REPO_DIR" pull --ff-only origin master
+
+cd "$APP_DIR"
 
 log "安装前端依赖并构建运营后台"
 if command -v corepack >/dev/null 2>&1; then
