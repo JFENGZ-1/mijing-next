@@ -10,6 +10,7 @@ ADMIN_DIR="${APP_DIR}/apps/admin-web"
 PUBLIC_DIR="${SERVER_DIR}/public"
 ENV_FILE="${SERVER_DIR}/.env"
 SERVICE_NAME="mijing-queue"
+STAFF_DEMO_AUTO_PROVISION="${MIJING_STAFF_DEMO_AUTO_PROVISION:-true}"
 
 log() {
   printf '\n\033[1;32m[mijing-deploy]\033[0m %s\n' "$*"
@@ -218,6 +219,8 @@ set_env() {
 }
 
 [ "$(id -u)" -eq 0 ] || fail "请在宝塔终端使用 root 用户运行。"
+[ "$STAFF_DEMO_AUTO_PROVISION" = "true" ] || [ "$STAFF_DEMO_AUTO_PROVISION" = "false" ] \
+  || fail "MIJING_STAFF_DEMO_AUTO_PROVISION 只能是 true 或 false。"
 [ -f "${SERVER_DIR}/artisan" ] || fail "Laravel 目录不存在：${SERVER_DIR}"
 [ -f "${ADMIN_DIR}/package.json" ] || fail "Admin Web 目录不存在：${ADMIN_DIR}"
 
@@ -322,6 +325,9 @@ else
   set_env APP_DEBUG "false"
   set_env APP_URL "https://${DOMAIN}"
 fi
+set_env WECHAT_STAFF_DEMO_AUTO_PROVISION "$STAFF_DEMO_AUTO_PROVISION"
+set_env WECHAT_STAFF_DEMO_TENANT_CODE "mijing"
+set_env WECHAT_STAFF_DEMO_SITE_CODE "main"
 
 if ! grep -Eq '^APP_KEY=.+$' "$ENV_FILE"; then
   "$PHP_BIN" artisan key:generate --force
@@ -330,6 +336,10 @@ fi
 log "迁移数据库并生成 Laravel 缓存"
 "$PHP_BIN" artisan optimize:clear
 "$PHP_BIN" artisan migrate --force
+if [ "$STAFF_DEMO_AUTO_PROVISION" = "true" ]; then
+  log "初始化线上测试版演示场馆、权限与业务数据"
+  "$PHP_BIN" artisan demo-data:generate
+fi
 if [ "$FIRST_INSTALL" -eq 1 ]; then
   prompt_value ADMIN_LOGIN "超级管理员登录名" "platform-admin"
   "$PHP_BIN" artisan admin:create "$ADMIN_LOGIN"

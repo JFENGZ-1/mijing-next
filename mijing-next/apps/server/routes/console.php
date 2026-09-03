@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Admin\AdminDemoDataService;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
@@ -7,6 +8,18 @@ use Illuminate\Support\Facades\Schedule;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
+
+Artisan::command('demo-data:generate', function (AdminDemoDataService $demoData) {
+    $result = $demoData->generate();
+
+    $this->info(sprintf(
+        'Demo data ready: tenant=%s, site=%s, staff=%d, members=%d.',
+        $result['tenant']['code'],
+        $result['site']['code'],
+        $result['counts']['staff'],
+        $result['counts']['members'],
+    ));
+})->purpose('Idempotently prepare the online demo workspace and permissions');
 
 // 「购卡X天后自动开卡」：每小时扫描到期卡自动激活（另有用卡时懒激活兜底）
 Schedule::command('cards:activate-due')

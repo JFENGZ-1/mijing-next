@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\Staff;
 use App\Models\SuperAdmin;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -69,5 +70,19 @@ class AdminDemoDataTest extends TestCase
             'path' => '/api/v1/admin/demo-data/generate',
             'status_code' => 200,
         ]);
+    }
+
+    public function test_console_command_generates_demo_data_for_deployment(): void
+    {
+        config()->set('wechat.staff_demo', [
+            'auto_provision' => true,
+            'tenant_code' => 'mijing',
+            'site_code' => 'main',
+        ]);
+
+        $this->assertSame(0, Artisan::call('demo-data:generate'));
+        $this->assertStringContainsString('Demo data ready: tenant=mijing, site=main', Artisan::output());
+        $this->assertDatabaseHas('roles', ['code' => 'demo-operator', 'status' => 'active']);
+        $this->assertGreaterThan(50, Permission::query()->count());
     }
 }
