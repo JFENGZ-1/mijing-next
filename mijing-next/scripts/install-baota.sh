@@ -64,7 +64,7 @@ if [ -d "${TARGET_DIR}/.git" ]; then
   configure_server_checkout
   git -C "$TARGET_DIR" fetch origin "$REPOSITORY_BRANCH"
   git -C "$TARGET_DIR" checkout "$REPOSITORY_BRANCH"
-  git -C "$TARGET_DIR" pull --ff-only origin "$REPOSITORY_BRANCH"
+  git -C "$TARGET_DIR" merge --ff-only "origin/${REPOSITORY_BRANCH}"
   git -C "$TARGET_DIR" read-tree -mu HEAD
 else
   log "仅拉取 Laravel 服务端和 Web 后台到 ${TARGET_DIR}"
@@ -80,4 +80,4 @@ DEPLOY_SCRIPT="${TARGET_DIR}/mijing-next/scripts/deploy-baota.sh"
 [ -f "$DEPLOY_SCRIPT" ] || fail "部署脚本不存在：${DEPLOY_SCRIPT}"
 
 log "启动应用部署"
-exec bash "$DEPLOY_SCRIPT"
+MIJING_SKIP_GIT_SYNC=1 exec bash "$DEPLOY_SCRIPT"

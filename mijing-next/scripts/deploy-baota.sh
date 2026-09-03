@@ -251,10 +251,12 @@ else
   COMPOSER_CMD=("$COMPOSER_BIN")
 fi
 
-log "同步 master 分支"
-git -C "$REPO_DIR" fetch origin master
-git -C "$REPO_DIR" checkout master
-git -C "$REPO_DIR" pull --ff-only origin master
+if [ "${MIJING_SKIP_GIT_SYNC:-0}" != "1" ]; then
+  log "同步 master 分支"
+  git -C "$REPO_DIR" fetch origin master
+  git -C "$REPO_DIR" checkout master
+  git -C "$REPO_DIR" merge --ff-only origin/master
+fi
 
 cd "$APP_DIR"
 
