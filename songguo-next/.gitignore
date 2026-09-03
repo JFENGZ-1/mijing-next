@@ -17,4 +17,6 @@ Thumbs.db
 .codex-artifacts/
 apps/*-miniapp/.tmp-shot-*.png
 apps/server/public/generated/schedule-exports/
+apps/server/public/admin-assets/
+apps/server/public/index.html
 apps/server/tmp/

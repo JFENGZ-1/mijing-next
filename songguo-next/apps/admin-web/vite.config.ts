@@ -4,6 +4,11 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [vue()],
+  build: {
+    // Keep the SPA bundle isolated from Laravel's own public assets so the
+    // Baota deploy script can replace one release atomically.
+    assetsDir: "admin-assets",
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
