@@ -13,34 +13,10 @@
 
 ## 首次部署 / 后续更新
 
-在宝塔终端以 `root` 整段执行：
+在宝塔终端以 `root` 执行一条命令：
 
 ```bash
-set -e
-if ! command -v git >/dev/null 2>&1; then
-  if command -v apt-get >/dev/null 2>&1; then
-    apt-get update
-    apt-get install -y git ca-certificates
-  elif command -v dnf >/dev/null 2>&1; then
-    dnf install -y git ca-certificates
-  elif command -v yum >/dev/null 2>&1; then
-    yum install -y git ca-certificates
-  else
-    echo "无法识别系统包管理器" >&2
-    exit 1
-  fi
-fi
-REPO_DIR=/www/wwwroot/mj.zonrn.cn
-if [ -d "$REPO_DIR/.git" ]; then
-  git -C "$REPO_DIR" pull --ff-only origin master
-else
-  mkdir -p "$REPO_DIR"
-  git -C "$REPO_DIR" init
-  git -C "$REPO_DIR" remote add origin https://github.com/JFENGZ-1/mijing-next.git
-  git -C "$REPO_DIR" fetch origin master
-  git -C "$REPO_DIR" checkout -B master origin/master
-fi
-bash "$REPO_DIR/songguo-next/scripts/deploy-baota.sh"
+dnf install -y curl ca-certificates && curl -fsSL https://raw.githubusercontent.com/JFENGZ-1/mijing-next/master/songguo-next/scripts/install-baota.sh | bash
 ```
 
 首次运行会询问数据库和两个微信小程序的 AppID/AppSecret。后续运行保留服务器 `.env`，只更新代码、依赖、数据库迁移、Admin Web、缓存、队列与定时任务。脚本不会读取、修改或重载 Nginx。
