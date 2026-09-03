@@ -5,7 +5,7 @@
 在宝塔中完成以下一次性准备：
 
 1. 安装 Nginx、MySQL 8、PHP 8.2 或更高版本、Composer、Node.js 20.19+（建议 Node 22）。
-2. 创建站点 `mj.zonrn.cn`，PHP 版本选择 8.2 或更高版本。
+2. 创建站点 `mj.zonrn.cn`，PHP 版本选择 8.2 或更高版本；Nginx 配置由管理员自行维护。
 3. 创建 MySQL 数据库和独立数据库用户，字符集选择 `utf8mb4`。
 4. 服务器完成 GitHub CLI 登录，或为私有仓库配置只读 Deploy Key。
 
@@ -19,7 +19,13 @@
 REPO_DIR=/www/wwwroot/mijing-next; if [ -d "$REPO_DIR/.git" ]; then git -C "$REPO_DIR" pull --ff-only origin master; else gh repo clone JFENGZ-1/mijing-next "$REPO_DIR"; fi; bash "$REPO_DIR/songguo-next/scripts/deploy-baota.sh"
 ```
 
-首次运行会询问数据库和两个微信小程序的 AppID/AppSecret。后续运行保留服务器 `.env`，只更新代码、依赖、数据库迁移、Admin Web、缓存、Nginx、队列与定时任务。
+首次运行会询问数据库和两个微信小程序的 AppID/AppSecret。后续运行保留服务器 `.env`，只更新代码、依赖、数据库迁移、Admin Web、缓存、队列与定时任务。脚本不会读取、修改或重载 Nginx。
+
+脚本完成后，宝塔站点运行目录应手动设置为：
+
+```text
+/www/wwwroot/mijing-next/songguo-next/apps/server/public
+```
 
 若使用 Deploy Key，可将命令中的 `gh repo clone` 替换为：
 

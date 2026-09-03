@@ -9,9 +9,6 @@ SERVER_DIR="${APP_DIR}/apps/server"
 ADMIN_DIR="${APP_DIR}/apps/admin-web"
 PUBLIC_DIR="${SERVER_DIR}/public"
 ENV_FILE="${SERVER_DIR}/.env"
-BT_VHOST="/www/server/panel/vhost/nginx/${DOMAIN}.conf"
-BT_REWRITE="/www/server/panel/vhost/rewrite/${DOMAIN}.conf"
-BT_CERT_DIR="/www/server/panel/vhost/cert/${DOMAIN}"
 SERVICE_NAME="mijing-queue"
 
 log() {
@@ -118,18 +115,6 @@ set_env() {
   mv "$temporary" "$ENV_FILE"
 }
 
-rollback_nginx() {
-  local vhost_backup="$1" rewrite_backup="$2"
-  if [ -n "$vhost_backup" ] && [ -f "$vhost_backup" ]; then
-    cp -a "$vhost_backup" "$BT_VHOST"
-  fi
-  if [ -n "$rewrite_backup" ] && [ -f "$rewrite_backup" ]; then
-    cp -a "$rewrite_backup" "$BT_REWRITE"
-  elif [ -f "$BT_REWRITE" ]; then
-    rm -f "$BT_REWRITE"
-  fi
-}
-
 [ "$(id -u)" -eq 0 ] || fail "请在宝塔终端使用 root 用户运行。"
 [ -d "${APP_DIR}/.git" ] || fail "${APP_DIR} 不是 Git 仓库，请先按文档中的一键命令克隆项目。"
 [ -f "${SERVER_DIR}/artisan" ] || fail "Laravel 目录不存在：${SERVER_DIR}"
@@ -139,7 +124,6 @@ require_command git
 require_command node
 require_command npm
 require_command awk
-require_command sed
 require_command sort
 
 NODE_VERSION="$(node -p 'process.versions.node')"
@@ -254,55 +238,6 @@ chown -R www:www "${SERVER_DIR}/storage" "${SERVER_DIR}/bootstrap/cache" "${SERV
 find "${SERVER_DIR}/storage" "${SERVER_DIR}/bootstrap/cache" -type d -exec chmod 775 {} \;
 find "${SERVER_DIR}/storage" "${SERVER_DIR}/bootstrap/cache" -type f -exec chmod 664 {} \;
 
-log "配置宝塔 Nginx 站点"
-[ -f "$BT_VHOST" ] || fail "未找到宝塔站点配置 ${BT_VHOST}。请先在宝塔网站面板创建 ${DOMAIN}，PHP 选择 8.2+。"
-TIMESTAMP="$(date +%Y%m%d%H%M%S)"
-VHOST_BACKUP="${BT_VHOST}.bak.${TIMESTAMP}"
-REWRITE_BACKUP=""
-cp -a "$BT_VHOST" "$VHOST_BACKUP"
-if [ -f "$BT_REWRITE" ]; then
-  REWRITE_BACKUP="${BT_REWRITE}.bak.${TIMESTAMP}"
-  cp -a "$BT_REWRITE" "$REWRITE_BACKUP"
-fi
-
-sed -i -E "0,/^[[:space:]]*root[[:space:]]+[^;]+;/s|^[[:space:]]*root[[:space:]]+[^;]+;|    root ${PUBLIC_DIR};|" "$BT_VHOST"
-sed -i -E "0,/^[[:space:]]*index[[:space:]]+[^;]+;/s|^[[:space:]]*index[[:space:]]+[^;]+;|    index index.html index.php index.htm;|" "$BT_VHOST"
-
-if ! grep -Fq "$BT_REWRITE" "$BT_VHOST"; then
-  rollback_nginx "$VHOST_BACKUP" "$REWRITE_BACKUP"
-  fail "宝塔站点未引用 ${BT_REWRITE}，已恢复原配置。请把站点配置发给我适配。"
-fi
-
-mkdir -p "$(dirname "$BT_REWRITE")"
-cat > "$BT_REWRITE" <<'NGINX'
-location ^~ /api/ {
-    try_files $uri $uri/ /index.php?$query_string;
-}
-
-location ^~ /webhooks/ {
-    try_files $uri $uri/ /index.php?$query_string;
-}
-
-location / {
-    try_files $uri $uri/ /index.html;
-}
-NGINX
-
-NGINX_BIN="$(command -v nginx 2>/dev/null || true)"
-if [ -z "$NGINX_BIN" ] && [ -x /www/server/nginx/sbin/nginx ]; then
-  NGINX_BIN=/www/server/nginx/sbin/nginx
-fi
-[ -n "$NGINX_BIN" ] || {
-  rollback_nginx "$VHOST_BACKUP" "$REWRITE_BACKUP"
-  fail "未找到 Nginx 命令，已恢复原配置。"
-}
-if ! "$NGINX_BIN" -t; then
-  rollback_nginx "$VHOST_BACKUP" "$REWRITE_BACKUP"
-  "$NGINX_BIN" -t || true
-  fail "Nginx 配置验证失败，已自动恢复原配置。"
-fi
-"$NGINX_BIN" -s reload
-
 log "配置队列 worker 与 Laravel 调度器"
 cat > "/etc/systemd/system/${SERVICE_NAME}.service" <<EOF
 [Unit]
@@ -340,22 +275,10 @@ chmod 644 /etc/cron.d/mijing-scheduler
 
 "$PHP_BIN" artisan queue:restart
 
-log "验证 API"
-HEALTH_URL="http://127.0.0.1/api/v1/health"
-CURL_OPTIONS=(--header "Host: ${DOMAIN}")
-if [ -f "${BT_CERT_DIR}/fullchain.pem" ] && [ -f "${BT_CERT_DIR}/privkey.pem" ]; then
-  HEALTH_URL="https://${DOMAIN}/api/v1/health"
-  CURL_OPTIONS=(--resolve "${DOMAIN}:443:127.0.0.1")
-fi
-if command -v curl >/dev/null 2>&1; then
-  HEALTH_STATUS="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' "${CURL_OPTIONS[@]}" "$HEALTH_URL" || true)"
-  [ "$HEALTH_STATUS" = "200" ] \
-    || fail "部署完成，但本机健康检查失败：HTTP ${HEALTH_STATUS:-000}，${HEALTH_URL}"
-fi
-
-printf '\n\033[1;32m部署完成。\033[0m\n'
-printf '后台： https://%s/\n' "$DOMAIN"
-printf 'API：  https://%s/api/v1/health\n' "$DOMAIN"
+printf '\n\033[1;32m应用文件与后台任务部署完成。\033[0m\n'
+printf '宝塔站点运行目录：%s\n' "$PUBLIC_DIR"
+printf '脚本未读取、修改或重载任何 Nginx 配置。\n'
+printf '配置完成后验证： https://%s/api/v1/health\n' "$DOMAIN"
 if [ "$FIRST_INSTALL" -eq 1 ]; then
-  printf '\n然后在宝塔为 %s 申请 Let\x27s Encrypt 证书并开启强制 HTTPS。\n' "$DOMAIN"
+  printf '\n请在宝塔自行完成站点、PHP、路由规则、SSL 与强制 HTTPS 配置。\n'
 fi
