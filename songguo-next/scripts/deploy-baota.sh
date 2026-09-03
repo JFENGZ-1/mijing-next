@@ -24,6 +24,36 @@ require_command() {
   command -v "$1" >/dev/null 2>&1 || fail "缺少命令：$1"
 }
 
+install_base_tools() {
+  log "安装缺失的系统基础工具"
+  if command -v apt-get >/dev/null 2>&1; then
+    DEBIAN_FRONTEND=noninteractive apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install -y git curl ca-certificates tar xz-utils unzip gawk coreutils grep findutils
+  elif command -v dnf >/dev/null 2>&1; then
+    dnf install -y git curl ca-certificates tar xz unzip gawk coreutils grep findutils
+  elif command -v yum >/dev/null 2>&1; then
+    yum install -y git curl ca-certificates tar xz unzip gawk coreutils grep findutils
+  else
+    fail "无法识别系统包管理器，请先安装 git、curl、ca-certificates、tar、xz、unzip、awk、coreutils。"
+  fi
+}
+
+ensure_base_tools() {
+  local command_name missing=0
+  for command_name in git curl tar xz awk sort sha256sum; do
+    if ! command -v "$command_name" >/dev/null 2>&1; then
+      missing=1
+      break
+    fi
+  done
+  if [ "$missing" -eq 1 ]; then
+    install_base_tools
+  fi
+  for command_name in git curl tar xz awk sort sha256sum; do
+    require_command "$command_name"
+  done
+}
+
 version_at_least() {
   [ "$(printf '%s\n' "$2" "$1" | sort -V | head -n 1)" = "$2" ]
 }
@@ -46,6 +76,19 @@ detect_php() {
   return 1
 }
 
+check_php_extensions() {
+  local extension modules missing=()
+  modules="$($PHP_BIN -m | tr '[:upper:]' '[:lower:]')"
+  for extension in ctype curl dom fileinfo filter mbstring openssl pdo pdo_mysql session tokenizer xml; do
+    if ! grep -Fxq "$extension" <<<"$modules"; then
+      missing+=("$extension")
+    fi
+  done
+  if [ "${#missing[@]}" -gt 0 ]; then
+    fail "PHP 8.2 缺少扩展：${missing[*]}。请在宝塔 PHP 8.2 扩展管理中安装或启用后重试。"
+  fi
+}
+
 detect_composer() {
   local candidate
   for candidate in \
@@ -58,6 +101,65 @@ detect_composer() {
     return 0
   done
   return 1
+}
+
+install_composer() {
+  local temporary expected_checksum actual_checksum
+  temporary="$(mktemp -d)"
+  expected_checksum="$(curl --fail --silent --show-error https://composer.github.io/installer.sig)"
+  curl --fail --silent --show-error https://getcomposer.org/installer -o "${temporary}/composer-setup.php"
+  actual_checksum="$($PHP_BIN -r "echo hash_file('sha384', '${temporary}/composer-setup.php');")"
+  if [ -z "$expected_checksum" ] || [ "$expected_checksum" != "$actual_checksum" ]; then
+    rm -rf "$temporary"
+    fail "Composer 安装器校验失败，已停止安装。"
+  fi
+  "$PHP_BIN" "${temporary}/composer-setup.php" \
+    --quiet \
+    --install-dir=/usr/local/bin \
+    --filename=composer
+  chmod 755 /usr/local/bin/composer
+  rm -rf "$temporary"
+}
+
+install_node22() {
+  local machine_arch node_arch temporary sums_file archive_name install_name install_dir
+  machine_arch="$(uname -m)"
+  case "$machine_arch" in
+    x86_64|amd64) node_arch="x64" ;;
+    aarch64|arm64) node_arch="arm64" ;;
+    *) fail "暂不支持自动安装 Node.js 的服务器架构：${machine_arch}" ;;
+  esac
+
+  temporary="$(mktemp -d)"
+  sums_file="${temporary}/SHASUMS256.txt"
+  curl --fail --silent --show-error \
+    https://nodejs.org/dist/latest-v22.x/SHASUMS256.txt \
+    -o "$sums_file"
+  archive_name="$(awk -v arch="$node_arch" '$2 ~ ("linux-" arch "\\.tar\\.xz$") { print $2; exit }' "$sums_file")"
+  if [ -z "$archive_name" ]; then
+    rm -rf "$temporary"
+    fail "无法从 Node.js 官方校验清单解析 Linux ${node_arch} 安装包。"
+  fi
+
+  curl --fail --silent --show-error \
+    "https://nodejs.org/dist/latest-v22.x/${archive_name}" \
+    -o "${temporary}/${archive_name}"
+  if ! (cd "$temporary" && grep "  ${archive_name}$" SHASUMS256.txt | sha256sum --check --status -); then
+    rm -rf "$temporary"
+    fail "Node.js 安装包 SHA-256 校验失败，已停止安装。"
+  fi
+
+  install_name="${archive_name%.tar.xz}"
+  install_dir="/opt/nodejs/${install_name}"
+  mkdir -p "$install_dir"
+  tar -xJf "${temporary}/${archive_name}" --strip-components=1 -C "$install_dir"
+  for executable in node npm npx corepack; do
+    if [ -x "${install_dir}/bin/${executable}" ]; then
+      ln -sfn "${install_dir}/bin/${executable}" "/usr/local/bin/${executable}"
+    fi
+  done
+  rm -rf "$temporary"
+  hash -r
 }
 
 prompt_value() {
@@ -120,19 +222,27 @@ set_env() {
 [ -f "${SERVER_DIR}/artisan" ] || fail "Laravel 目录不存在：${SERVER_DIR}"
 [ -f "${ADMIN_DIR}/package.json" ] || fail "Admin Web 目录不存在：${ADMIN_DIR}"
 
-require_command git
-require_command node
-require_command npm
-require_command awk
-require_command sort
+ensure_base_tools
 
-NODE_VERSION="$(node -p 'process.versions.node')"
-version_at_least "$NODE_VERSION" "20.19.0" || fail "Node.js 版本必须 >= 20.19，当前为 ${NODE_VERSION}。建议在宝塔安装 Node 22。"
+NODE_VERSION="$(node -p 'process.versions.node' 2>/dev/null || true)"
+if [ -z "$NODE_VERSION" ] || ! version_at_least "$NODE_VERSION" "20.19.0"; then
+  log "安装 Node.js 22 官方 Linux 二进制包"
+  install_node22
+  NODE_VERSION="$(node -p 'process.versions.node' 2>/dev/null || true)"
+fi
+version_at_least "$NODE_VERSION" "20.19.0" || fail "Node.js 自动安装后版本仍不满足要求：${NODE_VERSION:-未安装}"
+require_command npm
 
 PHP_BIN="$(detect_php || true)"
 [ -n "$PHP_BIN" ] || fail "未找到 PHP >= 8.2。请先在宝塔软件商店安装 PHP 8.2 或更高版本。"
+check_php_extensions
 COMPOSER_BIN="$(detect_composer || true)"
-[ -n "$COMPOSER_BIN" ] || fail "未找到 Composer。请先在宝塔安装 Composer。"
+if [ -z "$COMPOSER_BIN" ]; then
+  log "安装经过 SHA-384 校验的 Composer"
+  install_composer
+  COMPOSER_BIN="$(detect_composer || true)"
+fi
+[ -n "$COMPOSER_BIN" ] || fail "Composer 自动安装失败。"
 if head -n 1 "$COMPOSER_BIN" | grep -qi php; then
   COMPOSER_CMD=("$PHP_BIN" "$COMPOSER_BIN")
 else
@@ -150,7 +260,7 @@ log "安装前端依赖并构建运营后台"
 if command -v corepack >/dev/null 2>&1; then
   corepack enable >/dev/null 2>&1 || true
 fi
-if ! command -v pnpm >/dev/null 2>&1; then
+if ! command -v pnpm >/dev/null 2>&1 || [ "$(pnpm --version 2>/dev/null || true)" != "11.7.0" ]; then
   npm install --global pnpm@11.7.0
 fi
 pnpm install --frozen-lockfile
