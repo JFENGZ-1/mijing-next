@@ -20,7 +20,7 @@ for (const f of files) {
   while ((m = re.exec(s))) {
     const u = m[2];
     if (u.startsWith('/page') || u.startsWith('/pages')) continue;
-    if (u.startsWith('http') && !u.includes('songguoyueke')) continue;
+    if (u.startsWith('http') && !u.includes('mijingyueke')) continue;
     if (/\.(png|jpg|svg|gif)/.test(u)) continue;
     const key = m[1].toUpperCase() + ' ' + u;
     (hits[key] = hits[key] || new Set()).add(path.relative(root, f).split(path.sep).join('/'));

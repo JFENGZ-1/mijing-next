@@ -4,9 +4,9 @@ const fs = require('fs');
 const path = require('path');
 
 const root = 'D:/Users/Zhong/Desktop/微信小程序原项目';
-const memberProject = `${root}/songguo-next/apps/member-miniapp/dist/build/mp-weixin`;
+const memberProject = `${root}/mijing-next/apps/member-miniapp/dist/build/mp-weixin`;
 const outDir = `${root}/docs/generated`;
-const asciiTempDir = 'C:/Users/Zhong/AppData/Local/Temp/songguo-acceptance-shots';
+const asciiTempDir = 'C:/Users/Zhong/AppData/Local/Temp/mijing-acceptance-shots';
 const client = 'Codex';
 const env = { ...process.env, PATH: 'C:\\nvm4w\\nodejs;' + process.env.PATH };
 
@@ -57,7 +57,7 @@ function shot(page, file, query) {
 
 const seedOut = execSync(
   `php artisan tinker --execute="include '${outDir.replace(/\\/g, '/')}/seed-overnight-batch-fixtures.php';"`,
-  { cwd: `${root}/songguo-next/apps/server`, encoding: 'utf8' },
+  { cwd: `${root}/mijing-next/apps/server`, encoding: 'utf8' },
 );
 const seed = JSON.parse(seedOut.trim().split('\n').pop());
 console.log('seed', seed);

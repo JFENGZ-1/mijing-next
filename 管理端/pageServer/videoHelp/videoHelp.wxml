@@ -26,7 +26,7 @@
                 <image class="logo data-v-65f85306" src="{{$root.m5}}"></image>
             </view>
             <view class="name-box data-v-65f85306">
-                <view class="name data-v-65f85306">松果约课管理系统<view class="v-icon-box data-v-65f85306">
+                <view class="name data-v-65f85306">觅境约课管理系统<view class="v-icon-box data-v-65f85306">
                         <image class="v-icon data-v-65f85306" src="{{$root.m6}}"></image>
                     </view>
                 </view>

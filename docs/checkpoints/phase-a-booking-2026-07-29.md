@@ -73,15 +73,15 @@
 ### 当日涉及的主要文件（增量焦点）
 
 ```
-songguo-next/apps/server/app/Services/Booking/PrivateCoachAvailabilityService.php
-songguo-next/apps/server/app/Services/Schedule/ScheduleSessionWriteService.php
-songguo-next/apps/server/app/Services/Catalog/CoachPrivateProfileService.php
-songguo-next/apps/server/app/Http/Requests/UpdateScheduleSessionRequest.php
-songguo-next/apps/server/tests/Feature/PrivateCoachBookingPolicyTest.php
-songguo-next/apps/server/tests/Feature/MemberPrivateCoachBookingTest.php
-songguo-next/apps/staff-miniapp/src/pages/course/coach-board.vue
-songguo-next/apps/staff-miniapp/src/types/scheduling.ts
-songguo-next/apps/member-miniapp/src/pages/booking/coach.vue
+mijing-next/apps/server/app/Services/Booking/PrivateCoachAvailabilityService.php
+mijing-next/apps/server/app/Services/Schedule/ScheduleSessionWriteService.php
+mijing-next/apps/server/app/Services/Catalog/CoachPrivateProfileService.php
+mijing-next/apps/server/app/Http/Requests/UpdateScheduleSessionRequest.php
+mijing-next/apps/server/tests/Feature/PrivateCoachBookingPolicyTest.php
+mijing-next/apps/server/tests/Feature/MemberPrivateCoachBookingTest.php
+mijing-next/apps/staff-miniapp/src/pages/course/coach-board.vue
+mijing-next/apps/staff-miniapp/src/types/scheduling.ts
+mijing-next/apps/member-miniapp/src/pages/booking/coach.vue
 ```
 
 ---
@@ -117,15 +117,15 @@ songguo-next/apps/member-miniapp/src/pages/booking/coach.vue
 ## 建议测试命令
 
 ```bash
-cd songguo-next/apps/server
+cd mijing-next/apps/server
 php artisan test --filter=PrivateCoachBookingPolicyTest
 php artisan test --filter=MemberPrivateCoachBookingTest
 php artisan test --filter=ScheduleSessionManagementTest
 ```
 
 ```bash
-cd songguo-next/apps/staff-miniapp && pnpm run build:mp-weixin
-cd songguo-next/apps/member-miniapp && pnpm run build:mp-weixin
+cd mijing-next/apps/staff-miniapp && pnpm run build:mp-weixin
+cd mijing-next/apps/member-miniapp && pnpm run build:mp-weixin
 ```
 
 ## 还原方式

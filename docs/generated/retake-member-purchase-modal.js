@@ -3,7 +3,7 @@ const WECHAT_IDE_CLIENT = process.env.WECHAT_IDE_CLIENT || 'cursor';
 const fs = require('fs');
 const path = require('path');
 
-const memberProject = 'D:/Users/Zhong/Desktop/微信小程序原项目/songguo-next/apps/member-miniapp/dist/build/mp-weixin';
+const memberProject = 'D:/Users/Zhong/Desktop/微信小程序原项目/mijing-next/apps/member-miniapp/dist/build/mp-weixin';
 const outDir = 'D:/Users/Zhong/Desktop/微信小程序原项目/docs/generated';
 const env = { ...process.env, PATH: 'C:\\nvm4w\\nodejs;' + process.env.PATH };
 

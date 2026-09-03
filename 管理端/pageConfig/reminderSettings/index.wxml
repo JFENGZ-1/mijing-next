@@ -7,7 +7,7 @@
                 <view class="top data-v-1e300f2e">
                     <u-icon bind:__l="__l" class="icon data-v-1e300f2e" color="#C96B30" name="bell" vueId="b395fee4-2"></u-icon>
                     <view class="top-info data-v-1e300f2e">
-                        <view class="data-v-1e300f2e">关注“松果约课管理系统”公众号，以下情况将通过公众号发送通知</view>
+                        <view class="data-v-1e300f2e">关注“觅境约课管理系统”公众号，以下情况将通过公众号发送通知</view>
                     </view>
                 </view>
                 <view class="setting_group first data-v-1e300f2e">

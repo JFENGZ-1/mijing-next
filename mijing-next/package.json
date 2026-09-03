@@ -1,0 +1,13 @@
+{
+  "name": "mijing-next",
+  "private": true,
+  "packageManager": "pnpm@11.7.0",
+  "scripts": {
+    "dev:member": "pnpm --filter @mijing/member-miniapp dev:mp-weixin",
+    "dev:staff": "pnpm --filter @mijing/staff-miniapp dev:mp-weixin",
+    "build:member": "pnpm --filter @mijing/member-miniapp build:mp-weixin",
+    "build:staff": "pnpm --filter @mijing/staff-miniapp build:mp-weixin",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test"
+  }
+}

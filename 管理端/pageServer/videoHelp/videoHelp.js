@@ -127,7 +127,7 @@
                   num: 9218,
                 },
                 {
-                  title: "新用户如何使用松果",
+                  title: "新用户如何使用觅境",
                   src: "/static/imgs/video_help/video_cover_15.jpg",
                   feedId:
                     "export/UzFfAgtgekIEAQAAAAAAylABs1f19wAAAAstQy6ubaLX4KHWvLEZgBPE4qBkdSYSY4mHzNPgMJqUi4bfwv9UvvBIW_MfOZg3",
@@ -301,7 +301,7 @@
             s = e.isShowBack
               ? null
               : e.imgsrc("/static/imgs/back_home_white.png"),
-            c = e.imgsrc("/static/imgs/songguo_logo.png"),
+            c = e.imgsrc("/static/imgs/mijing_logo.png"),
             A = e.imgsrc("/static/imgs/video_help/v_icon.png"),
             a = e.imgsrc("/static/imgs/video_help/important_icon.png"),
             g = e.imgsrc("/static/imgs/video_help/important_icon.png"),

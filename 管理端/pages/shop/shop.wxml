@@ -129,7 +129,7 @@
                 <view bindtap="__e" class="shop-service data-v-ccc6af4c" data-event-opts="{{[ [ 'tap',[ [ 'jumpShopService',['$event'] ] ] ] ]}}" style="margin-bottom:25rpx;" wx:if="{{permissionInfo&&permissionInfo.shop_service_center}}">
                     <image class="data-v-ccc6af4c" src="{{$root.m11}}"></image>
                     <view class="text data-v-ccc6af4c">
-                        <view class="first-text data-v-ccc6af4c">松果服务中心</view>
+                        <view class="first-text data-v-ccc6af4c">觅境服务中心</view>
                         <view class="last-text data-v-ccc6af4c">客服・续费・协议・我们</view>
                     </view>
                     <u-icon bind:__l="__l" class="data-v-ccc6af4c" color="#385161" name="arrow-right" size="25rpx" vueId="73adca00-4"></u-icon>

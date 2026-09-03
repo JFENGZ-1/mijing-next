@@ -16,7 +16,7 @@
 
 | 路径 | 分类 | 原因 |
 |---|---|---|
-| `songguo-next/` | **CORE** | 活跃 uni-app + Laravel 系统 |
+| `mijing-next/` | **CORE** | 活跃 uni-app + Laravel 系统 |
 | `会员端/`、`管理端/` | **ARCHAEOLOGY** | 只读考古证据；禁止修改 |
 | `docs/traceability-*.csv` | **CORE** | 追溯主账 |
 | `docs/generated/` | **ARTIFACTS** | L5 脚本与 PNG 证据（活跃） |

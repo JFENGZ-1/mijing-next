@@ -4,8 +4,8 @@ const fs = require('fs');
 const path = require('path');
 
 const root = 'D:/Users/Zhong/Desktop/微信小程序原项目';
-const staffProject = `${root}/songguo-next/apps/staff-miniapp/dist/build/mp-weixin`;
-const memberProject = `${root}/songguo-next/apps/member-miniapp/dist/build/mp-weixin`;
+const staffProject = `${root}/mijing-next/apps/staff-miniapp/dist/build/mp-weixin`;
+const memberProject = `${root}/mijing-next/apps/member-miniapp/dist/build/mp-weixin`;
 const outDir = `${root}/docs/generated`;
 const env = { ...process.env, PATH: 'C:\\nvm4w\\nodejs;' + process.env.PATH };
 
@@ -34,7 +34,7 @@ function sleep(ms) {
 console.log('=== seed site-2 fixtures ===');
 const seedOut = execSync(
   `php artisan tinker --execute="include '${outDir.replace(/\\/g, '/')}/seed-acceptance-fixtures.php';"`,
-  { cwd: `${root}/songguo-next/apps/server`, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
+  { cwd: `${root}/mijing-next/apps/server`, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
 );
 console.log(seedOut.trim());
 const seed = JSON.parse(seedOut.trim().split('\n').pop());

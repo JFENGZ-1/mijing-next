@@ -8,10 +8,10 @@ const fs = require('fs');
 const path = require('path');
 
 const root = 'D:/Users/Zhong/Desktop/微信小程序原项目';
-const staffProject = `${root}/songguo-next/apps/staff-miniapp/dist/build/mp-weixin`;
-const memberProject = `${root}/songguo-next/apps/member-miniapp/dist/build/mp-weixin`;
+const staffProject = `${root}/mijing-next/apps/staff-miniapp/dist/build/mp-weixin`;
+const memberProject = `${root}/mijing-next/apps/member-miniapp/dist/build/mp-weixin`;
 const outDir = `${root}/docs/generated`;
-const asciiTempDir = 'C:/Users/Zhong/AppData/Local/Temp/songguo-acceptance-shots';
+const asciiTempDir = 'C:/Users/Zhong/AppData/Local/Temp/mijing-acceptance-shots';
 const client = process.env.WECHAT_IDE_CLIENT || 'Cursor';
 const env = { ...process.env, PATH: 'C:\\nvm4w\\nodejs;' + process.env.PATH };
 
@@ -85,14 +85,14 @@ const pngBefore = fs.readdirSync(outDir).filter((f) => f.endsWith('.png'));
 console.log('=== seed fixtures ===');
 const seedAcceptOut = execSync(
   `php artisan tinker --execute="include '${outDir.replace(/\\/g, '/')}/seed-acceptance-fixtures.php';"`,
-  { cwd: `${root}/songguo-next/apps/server`, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
+  { cwd: `${root}/mijing-next/apps/server`, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
 );
 const acceptSeed = JSON.parse(seedAcceptOut.trim().split('\n').pop());
 console.log('acceptSeed:', acceptSeed);
 
 const seedOvernightOut = execSync(
   `php artisan tinker --execute="include '${outDir.replace(/\\/g, '/')}/seed-overnight-batch-fixtures.php';"`,
-  { cwd: `${root}/songguo-next/apps/server`, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
+  { cwd: `${root}/mijing-next/apps/server`, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
 );
 const seed = JSON.parse(seedOvernightOut.trim().split('\n').pop());
 console.log('overnightSeed:', seed);

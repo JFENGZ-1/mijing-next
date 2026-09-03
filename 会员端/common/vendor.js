@@ -19418,8 +19418,8 @@ var e = require("../@babel/runtime/helpers/typeof");
       a || (a = "development");
       var n = {
         baseUrl: {
-          development: { baseUrl: "https://test.songguoyueke.com/api" },
-          production: { baseUrl: "https://interface.songguoyueke.com/api" },
+          development: { baseUrl: "https://test.mijingyueke.com/api" },
+          production: { baseUrl: "https://interface.mijingyueke.com/api" },
         }[a].baseUrl,
       };
       t.default = n;

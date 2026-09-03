@@ -39,10 +39,10 @@
 
 两端均是 uni-app/Vue 2 编译产物，采用 webpack 模块运行时、Vuex 状态和 uView 组件。请求基址在编译包中硬编码：
 
-- 生产：`https://interface.songguoyueke.com/api`
-- 测试：`https://test.songguoyueke.com/api`
+- 生产：`https://interface.mijingyueke.com/api`
+- 测试：`https://test.mijingyueke.com/api`
 
-两个基址当前均可建立 HTTPS 连接，根路径返回 404。通过微信开发者工具运行管理端后，生产接口 `POST /common/dict` 已实测返回 HTTP 200，响应包含 `uploadURL: https://static.songguoyueke.com/` 和默认课程、用户、员工、会员卡图片名。这证明旧生产后端至少公共字典服务仍在线，但仍不能证明登录、业务数据、支付和写接口完整可用。
+两个基址当前均可建立 HTTPS 连接，根路径返回 404。通过微信开发者工具运行管理端后，生产接口 `POST /common/dict` 已实测返回 HTTP 200，响应包含 `uploadURL: https://static.mijingyueke.com/` 和默认课程、用户、员工、会员卡图片名。这证明旧生产后端至少公共字典服务仍在线，但仍不能证明登录、业务数据、支付和写接口完整可用。
 
 接口全部使用 POST，载荷混用 JSON 与 `application/x-www-form-urlencoded`。会员端请求统一在 URL query 中加入 `deviceId`，登录后加入 `tokenId`。查询请求可发送 `dsname: slave`；写操作后的约两秒内查询被强制走主库，显示旧后端可能采用主从读写分离和短暂读后写一致性策略。
 

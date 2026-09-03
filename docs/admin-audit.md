@@ -10,7 +10,7 @@
 
 当前至少有以下上线阻断项：
 
-1. **后端完全缺失。** 生产 API 固定为 `https://interface.songguoyueke.com/api`，管理端共发现 274 个 API 导出、264 个唯一端点、440 个调用点。没有兼容后端时，登录后绝大多数页面不可用。
+1. **后端完全缺失。** 生产 API 固定为 `https://interface.mijingyueke.com/api`，管理端共发现 274 个 API 导出、264 个唯一端点、440 个调用点。没有兼容后端时，登录后绝大多数页面不可用。
 2. **主包体积越界风险。** 静态盘点主包约 2.016 MiB（2,114,098 字节），已经高于常见 2 MiB 主包上限；`app.json` 内嵌了五组 tabBar base64 图标，是明显膨胀源。必须用当前微信开发者工具实际预览/上传复核。
 3. **身份体系无法独立恢复。** 登录依赖 `wx.login` code、设备 UUID、服务端 `/b/staffuser/wxlogin?deviceId=`、服务端下发 `tokenId`、站点和权限列表。仅复制前端无法伪造完整权限语义。
 4. **明确存在失效页面跳转。** 6 个文件共 12 次跳转指向未在 `app.json` 注册、磁盘也未发现的 `pageReport/coach/privateDetail` 和 `pageReport/coach/leagueDelete`。
@@ -50,7 +50,7 @@
 
 - 微信小程序 AppID：`wx144915b575a7792d`。
 - 开发者工具基础库：`3.16.1`（来自 `project.private.config.json`）。
-- 标题/品牌：松果约课。
+- 标题/品牌：觅境约课。
 - 构建来源特征：uni-app + Vue 2 + Vuex 3.6.2 + uView UI。
 - 入口 `app.js` 只加载 `common/runtime.js`、`common/vendor.js`、`common/main.js`。
 - `common/vendor.js` 包含框架、请求库、store、API 模块和配置；页面 `.js` 是 webpack chunk。
@@ -114,10 +114,10 @@ Vuex store 持久化或使用的关键键包括：
 
 打包配置模块固定：
 
-- 生产 API：`https://interface.songguoyueke.com/api`
-- 测试 API：`https://test.songguoyueke.com/api`
+- 生产 API：`https://interface.mijingyueke.com/api`
+- 测试 API：`https://test.mijingyueke.com/api`
 - 关联开放小程序 AppID：`wxb72f22dbc5dfba4c`
-- 另有硬编码测试图片：`https://test.songguoyueke.com/upload/imgs/triangle_02.png`
+- 另有硬编码测试图片：`https://test.mijingyueke.com/upload/imgs/triangle_02.png`
 
 当前常量 `n="production"`，因此产物默认走生产域名。上线恢复必须确认域名所有权、HTTPS 证书、ICP备案、微信 request/upload/download 合法域名白名单和 CORS/防盗链策略。若旧域名已不受控制，应立即更换，不能继续信任 DNS 指向。
 

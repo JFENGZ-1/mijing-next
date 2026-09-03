@@ -1,4 +1,4 @@
-# DevTools acceptance notes — songguo-next P1–P4 + Phase D batch
+# DevTools acceptance notes — mijing-next P1–P4 + Phase D batch
 
 **Verified at:** 2026-07-13T05:45+08:00 (live-login capture refactor; sample run blocked by MCP timeout)  
 **DevTools client (this machine):** `cursor` (lowercase — per Cursor agent registration)  
@@ -157,7 +157,7 @@ Canonical runner: `docs/generated/capture-acceptance-shots-cache-clear.js` (uses
 
 ## Build
 
-From `songguo-next/`:
+From `mijing-next/`:
 
 ```bash
 pnpm build:staff
@@ -168,8 +168,8 @@ Both completed successfully (Sass deprecation warnings only; `DONE Build complet
 
 Dist targets opened in DevTools:
 
-- `songguo-next/apps/staff-miniapp/dist/build/mp-weixin`
-- `songguo-next/apps/member-miniapp/dist/build/mp-weixin`
+- `mijing-next/apps/staff-miniapp/dist/build/mp-weixin`
+- `mijing-next/apps/member-miniapp/dist/build/mp-weixin`
 
 ## Auth
 

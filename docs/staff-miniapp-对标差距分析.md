@@ -1,7 +1,7 @@
 # 新管理端（staff-miniapp）对标原版差距分析
 
 > 基准：`管理端/`（原版编译产物，264 个真实接口已提取至 `docs/原版管理端接口清单.txt`）
-> 对象：`songguo-next/apps/staff-miniapp`（67 页）+ `songguo-next/apps/server`（Laravel 11，228+ 接口）
+> 对象：`mijing-next/apps/staff-miniapp`（67 页）+ `mijing-next/apps/server`（Laravel 11，228+ 接口）
 > 参考：`docs/traceability-apis.csv`（313 条映射：210 REPLACE / 45 MERGE / 9 REJECT）、`docs/traceability-pages.csv`
 > 日期：2026-07-26
 

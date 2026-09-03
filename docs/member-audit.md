@@ -13,7 +13,7 @@
 
 1. 后端整体遗失。前端依赖 49 个唯一 HTTP 接口、上传接口、微信支付下单、微信卡包签名、动态字典和大量远程静态资源。
 2. `project.config.json` 没有 `appid`；需要找回原会员端小程序主体、AppID、支付商户绑定、服务类目及管理员权限。
-3. 生产接口固定为 `https://interface.songguoyueke.com/api`，隐私协议固定为 `https://www.songguoyueke.com/propre.html`；必须确认域名、证书、备案、所有权和微信后台白名单。
+3. 生产接口固定为 `https://interface.mijingyueke.com/api`，隐私协议固定为 `https://www.mijingyueke.com/propre.html`；必须确认域名、证书、备案、所有权和微信后台白名单。
 4. 本地只有 8 个 PNG（6 个 tabBar 图标、`startlogo.png`、`laba.png`）。约 129 处业务图片引用依赖 `/common/dict` 返回的 `uploadURL` 和原对象存储目录，后端静态资源丢失会造成大面积空图。
 5. 登录、手机号、支付、微信卡包和分享链路都依赖原后端签名/密钥。仅仿造 JSON 无法完成上线。
 6. 请求协议把 `tokenId` 与 `deviceId` 放在 URL 查询串；新后端若不兼容则全部登录态接口失败，若照搬则有日志泄漏风险。
@@ -72,8 +72,8 @@ Store 核心状态：
 
 ### 3.3 网络协议
 
-- 生产基址硬编码：`https://interface.songguoyueke.com/api`。
-- 测试基址存在但编译常量固定 `production`：`https://test.songguoyueke.com/api` 实际不可切换。
+- 生产基址硬编码：`https://interface.mijingyueke.com/api`。
+- 测试基址存在但编译常量固定 `production`：`https://test.mijingyueke.com/api` 实际不可切换。
 - 全部业务接口使用 POST；大多为 `application/x-www-form-urlencoded`，3 个写接口为 JSON。
 - 请求拦截器将原 URL 参数、`deviceId`、登录后的 `tokenId` 拼入 query string，并从 body 删除同名字段。
 - 查询接口通常附加 `dsname=slave`；发生写请求后的 2 秒内不走从库。
@@ -98,7 +98,7 @@ Store 核心状态：
 | `pages/receiveCard/.../phone` | 分享领卡手机号、UnionID、领取卡 | 手机号、wx.login、UnionID、领取 |
 | `pages/receiveCard/index` | 赠卡/领卡落地页 | `sharekey`、卡详情、分享 |
 | `pages/not/index` | 未注册/不可用过渡页 | `authorizationInfo` |
-| `pages/webView/index` | 固定外链协议页面 | `www.songguoyueke.com/propre.html` |
+| `pages/webView/index` | 固定外链协议页面 | `www.mijingyueke.com/propre.html` |
 | `pages/myOrder/index` | 订单列表，支持登录态和 `jscode` 免 token 查询 | 订单接口、wx.login |
 
 ### 4.2 `pageHome` 分包
@@ -304,10 +304,10 @@ Store 核心状态：
 
 ### 9.3 必须配置的微信后台域名
 
-- request/uploadFile：`https://interface.songguoyueke.com`（或新 API 域名）。
-- web-view 业务域名：`https://www.songguoyueke.com`。
+- request/uploadFile：`https://interface.mijingyueke.com`（或新 API 域名）。
+- web-view 业务域名：`https://www.mijingyueke.com`。
 - downloadFile/图片域名：由 `/common/dict.uploadURL` 决定，必须纳入 downloadFile 合法域名并保持 HTTPS。
-- 测试域名：`https://test.songguoyueke.com`（若恢复环境切换）。
+- 测试域名：`https://test.mijingyueke.com`（若恢复环境切换）。
 
 ## 10. 明显缺陷与安全问题
 
@@ -410,7 +410,7 @@ Store 核心状态：
 ## 13. 仍需外部证据确认的问题
 
 1. 原 AppID、商户号、公众号/开放平台绑定关系是什么？
-2. `interface.songguoyueke.com` 和对象存储是否仍可访问，数据库是否存在备份？
+2. `interface.mijingyueke.com` 和对象存储是否仍可访问，数据库是否存在备份？
 3. `/common/dict.uploadURL` 的真实值及完整资源目录是什么？
 4. `code=210/220/560` 和其他错误码的精确定义是什么？
 5. 各卡型、扣费、排队、取消退款、停业策略的业务规则是什么？

@@ -36,8 +36,8 @@
             <view bindtap="__e" class="data-v-9c1189dc" data-event-opts="{{[ [ 'tap',[ ['guestToHome'] ] ] ]}}">游客进入</view>
             <u-icon bind:__l="__l" class="arrow arrow-right data-v-9c1189dc" name="arrow-left" vueId="45ddd13e-3"></u-icon>
         </view>
-        <view class="data-v-9c1189dc">北京小松果未来科技有限公司</view>
-        <view class="data-v-9c1189dc">Beijing Xiaosongguo Future Technology Co.Ltd</view>
+        <view class="data-v-9c1189dc">北京小觅境未来科技有限公司</view>
+        <view class="data-v-9c1189dc">Beijing Xiaomijing Future Technology Co.Ltd</view>
     </view>
     <privacy bind:__l="__l" class="data-v-9c1189dc" vueId="45ddd13e-4"></privacy>
 </view>

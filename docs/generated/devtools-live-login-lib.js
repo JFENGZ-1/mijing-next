@@ -7,10 +7,10 @@ const fs = require('fs');
 const path = require('path');
 
 const root = 'D:/Users/Zhong/Desktop/微信小程序原项目';
-const staffProject = `${root}/songguo-next/apps/staff-miniapp/dist/build/mp-weixin`;
-const memberProject = `${root}/songguo-next/apps/member-miniapp/dist/build/mp-weixin`;
+const staffProject = `${root}/mijing-next/apps/staff-miniapp/dist/build/mp-weixin`;
+const memberProject = `${root}/mijing-next/apps/member-miniapp/dist/build/mp-weixin`;
 const outDir = `${root}/docs/generated`;
-const asciiTempDir = 'C:/Users/Zhong/AppData/Local/Temp/songguo-acceptance-shots';
+const asciiTempDir = 'C:/Users/Zhong/AppData/Local/Temp/mijing-acceptance-shots';
 const wechatClient = process.env.CURSOR_WECHAT_CLIENT || process.env.WECHAT_IDE_CLIENT || 'cursor';
 const env = {
   ...process.env,

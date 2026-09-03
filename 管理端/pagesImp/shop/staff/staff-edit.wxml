@@ -79,7 +79,7 @@
         <confirm-modal bind:__l="__l" class="data-v-74af7f6f vue-ref" customBtn="{{true}}" data-ref="confirmModalFail" title="转让失败！" vueId="326b3e80-19" vueSlots="{{['content','btn']}}">
             <view class="data-v-74af7f6f" slot="content">
                 <view class="data-v-74af7f6f">{{'「'+model.staffName+'」已经注册了另外一个场馆，造成转让失败！'}}</view>
-                <view class="data-v-74af7f6f">需要先注销其创建的场馆后才可转让，请联系松果客服协助您解决</view>
+                <view class="data-v-74af7f6f">需要先注销其创建的场馆后才可转让，请联系觅境客服协助您解决</view>
             </view>
             <view class="data-v-74af7f6f" slot="btn">
                 <view bindtap="__e" class="modal-btn button data-v-74af7f6f" data-event-opts="{{[ [ 'tap',[ [ 'confirmbtnFail',['$event'] ] ] ] ]}}">知道了</view>

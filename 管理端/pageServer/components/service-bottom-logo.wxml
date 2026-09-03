@@ -4,7 +4,7 @@
         <image class="data-v-0e79ad11" src="{{$root.m1}}" style="width:214rpx;height:86rpx;" wx:if="{{dataType==0}}"></image>
     </view>
     <view class="bottom-text data-v-0e79ad11">
-        <view class="data-v-0e79ad11">北京小松果未来科技有限公司</view>
-        <view class="data-v-0e79ad11">Beijing Xiaosongguo Future Technology Co.Ltd</view>
+        <view class="data-v-0e79ad11">北京小觅境未来科技有限公司</view>
+        <view class="data-v-0e79ad11">Beijing Xiaomijing Future Technology Co.Ltd</view>
     </view>
 </view>

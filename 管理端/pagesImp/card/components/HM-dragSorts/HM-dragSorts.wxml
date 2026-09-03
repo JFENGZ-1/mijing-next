@@ -75,7 +75,7 @@
                             <view bindtouchend="{{drag.touchend}}" bindtouchmove="{{drag.touchmove}}" bindtouchstart="{{drag.touchstart}}" class="drag-bt-wrap data-v-86ed9c82" data-id="{{row.$orig.HMDrag_id}}">
                                 <view class="{{['tips-box','data-v-86ed9c82',showDragTips?'show':'']}}" hidden="{{!(showDragTips&&index==0)}}">
                                     <view class="frame-box data-v-86ed9c82">
-                                        <image class="tips-frame data-v-86ed9c82" src="https://test.songguoyueke.com/upload/imgs/triangle_02.png"></image>
+                                        <image class="tips-frame data-v-86ed9c82" src="https://test.mijingyueke.com/upload/imgs/triangle_02.png"></image>
                                     </view>
                                     <view class="tips data-v-86ed9c82">
                                         <view class="data-v-86ed9c82">按住此处</view>

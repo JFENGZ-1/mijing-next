@@ -1,7 +1,7 @@
 <view class="data-v-80c17f42">
     <view class="welcome-text data-v-80c17f42">
         <view class="data-v-80c17f42">欢迎使用</view>
-        <view class="data-v-80c17f42">松果约课商家版</view>
+        <view class="data-v-80c17f42">觅境约课商家版</view>
     </view>
     <view class="profile-photo data-v-80c17f42">
         <image class="data-v-80c17f42" src="{{avatarUrl}}"></image>
@@ -11,7 +11,7 @@
         <button bindgetphonenumber="__e" class="data-v-80c17f42" data-event-opts="{{[ [ 'getphonenumber',[ [ 'getPhoneNumber',['$event'] ] ] ] ]}}" openType="getPhoneNumber">授权手机号码</button>
     </view>
     <view class="bottom-text data-v-80c17f42">
-        <view class="data-v-80c17f42">北京小松果未来科技有限公司</view>
-        <view class="data-v-80c17f42">beijing xiaosongguo Future Technology Co.Ltd</view>
+        <view class="data-v-80c17f42">北京小觅境未来科技有限公司</view>
+        <view class="data-v-80c17f42">beijing xiaomijing Future Technology Co.Ltd</view>
     </view>
 </view>

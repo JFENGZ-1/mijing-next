@@ -1,7 +1,7 @@
 <?php
 
-require __DIR__ . '/../../songguo-next/apps/server/vendor/autoload.php';
-$app = require __DIR__ . '/../../songguo-next/apps/server/bootstrap/app.php';
+require __DIR__ . '/../../mijing-next/apps/server/vendor/autoload.php';
+$app = require __DIR__ . '/../../mijing-next/apps/server/bootstrap/app.php';
 $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
 use App\Models\Member;

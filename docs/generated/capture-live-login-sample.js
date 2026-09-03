@@ -26,14 +26,14 @@ assertDevToolsReady();
 console.log('=== seed fixtures ===');
 const seedOut = execSync(
   `php artisan tinker --execute="include '${outDir.replace(/\\/g, '/')}/seed-overnight-batch-fixtures.php';"`,
-  { cwd: `${root}/songguo-next/apps/server`, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
+  { cwd: `${root}/mijing-next/apps/server`, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
 );
 const seed = JSON.parse(seedOut.trim().split('\n').pop());
 console.log('seed:', seed);
 
 const acceptSeedOut = execSync(
   `php artisan tinker --execute="include '${outDir.replace(/\\/g, '/')}/seed-acceptance-fixtures.php';"`,
-  { cwd: `${root}/songguo-next/apps/server`, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
+  { cwd: `${root}/mijing-next/apps/server`, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
 );
 const acceptSeed = JSON.parse(acceptSeedOut.trim().split('\n').pop());
 

@@ -32,8 +32,8 @@
     </view>
     <view class="bottom-text data-v-30c40a40">
         <view class="visitor-wrap data-v-30c40a40"></view>
-        <view class="data-v-30c40a40">北京小松果未来科技有限公司</view>
-        <view class="data-v-30c40a40">Beijing Xiaosongguo Future Technology Co.Ltd</view>
+        <view class="data-v-30c40a40">北京小觅境未来科技有限公司</view>
+        <view class="data-v-30c40a40">Beijing Xiaomijing Future Technology Co.Ltd</view>
     </view>
     <privacy bind:__l="__l" class="data-v-30c40a40" vueId="23f97356-2"></privacy>
 </view>

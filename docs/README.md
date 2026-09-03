@@ -1,6 +1,6 @@
-# 松果约课小程序复原资料
+# 觅境约课小程序复原资料
 
-> **活跃开发**见 `songguo-next/`；模型交接首选 [`songguo-next/docs/HANDOFF-2026-07-13.md`](../songguo-next/docs/HANDOFF-2026-07-13.md)。本目录侧重**旧系统考古**与追溯主账。
+> **活跃开发**见 `mijing-next/`；模型交接首选 [`mijing-next/docs/HANDOFF-2026-07-13.md`](../mijing-next/docs/HANDOFF-2026-07-13.md)。本目录侧重**旧系统考古**与追溯主账。
 
 本目录记录对遗留微信小程序编译产物的静态审计与复原依据。当前工作区包含两个应用：
 
@@ -45,4 +45,4 @@ pwsh -File .\tools\audit-mini-programs.ps1
 | API 调用位置 | 62 | 440 |
 | 主包估算 | 1.700 MiB | 2.016 MiB |
 
-生产接口基址为 `https://interface.songguoyueke.com/api`，测试接口基址为 `https://test.songguoyueke.com/api`。根路径当前可建立 HTTPS 连接但返回 404；具体接口是否可用必须使用合法账号、AppID、微信登录凭据及业务数据逐一验证。
+生产接口基址为 `https://interface.mijingyueke.com/api`，测试接口基址为 `https://test.mijingyueke.com/api`。根路径当前可建立 HTTPS 连接但返回 404；具体接口是否可用必须使用合法账号、AppID、微信登录凭据及业务数据逐一验证。

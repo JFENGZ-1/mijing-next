@@ -2,7 +2,7 @@
   "verifiedAt": "2026-07-11T12:11+08:00",
   "buildCommand": "pnpm build:member && pnpm build:staff",
   "mode": "production",
-  "memberClientJs": "songguo-next/apps/member-miniapp/dist/build/mp-weixin/api/client.js",
-  "staffClientJs": "songguo-next/apps/staff-miniapp/dist/build/mp-weixin/api/client.js",
+  "memberClientJs": "mijing-next/apps/member-miniapp/dist/build/mp-weixin/api/client.js",
+  "staffClientJs": "mijing-next/apps/staff-miniapp/dist/build/mp-weixin/api/client.js",
   "baseUrlEmbedded": "http://127.0.0.1:8010/api/v1"
 }

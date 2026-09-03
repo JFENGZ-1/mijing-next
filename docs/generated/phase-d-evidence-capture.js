@@ -8,8 +8,8 @@ const fs = require('fs');
 const path = require('path');
 
 const root = 'D:/Users/Zhong/Desktop/微信小程序原项目';
-const staffProject = `${root}/songguo-next/apps/staff-miniapp/dist/build/mp-weixin`;
-const memberProject = `${root}/songguo-next/apps/member-miniapp/dist/build/mp-weixin`;
+const staffProject = `${root}/mijing-next/apps/staff-miniapp/dist/build/mp-weixin`;
+const memberProject = `${root}/mijing-next/apps/member-miniapp/dist/build/mp-weixin`;
 const outDir = `${root}/docs/generated`;
 const asciiTempDir = 'C:/Users/Zhong/AppData/Local/Temp';
 const env = { ...process.env, PATH: 'C:\\nvm4w\\nodejs;' + process.env.PATH };

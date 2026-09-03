@@ -68,7 +68,7 @@
 
 ### 3.1 网络基础契约
 
-- 会员端编译包硬编码环境：测试 `https://test.songguoyueke.com/api`，生产 `https://interface.songguoyueke.com/api`。
+- 会员端编译包硬编码环境：测试 `https://test.mijingyueke.com/api`，生产 `https://interface.mijingyueke.com/api`。
 - 管理端同样通过 `baseUrl` 常量和统一请求实例访问后端；上线前必须从其 vendor 模块确认并替换为当前所有者可控制的域名。
 - 所有已发现业务接口使用 POST。
 - 请求体主要为 `application/json` 或 `application/x-www-form-urlencoded`。

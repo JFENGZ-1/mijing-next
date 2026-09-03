@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const root = 'D:/Users/Zhong/Desktop/微信小程序原项目';
-const project = `${root}/songguo-next/apps/member-miniapp/dist/build/mp-weixin`;
+const project = `${root}/mijing-next/apps/member-miniapp/dist/build/mp-weixin`;
 const outDir = `${root}/docs/generated`;
 const out = `${outDir}/member-card-purchase-success-live.png`;
 const env = { ...process.env, PATH: 'C:\\nvm4w\\nodejs;' + process.env.PATH };

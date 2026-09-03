@@ -5,7 +5,7 @@
 本文件只负责旧系统考古、证据和需求追溯。新系统当前实现进度见：
 
 ```text
-songguo-next/docs/AI-HANDOFF.md
+mijing-next/docs/AI-HANDOFF.md
 ```
 
 ## 1. 考古目标已经改变
@@ -364,8 +364,8 @@ pwsh -File .\tools\build-traceability.ps1
 docs/traceability-pages.csv 和 docs/traceability-apis.csv。
 旧目录“会员端/”和“管理端/”只读，不修改编译产物。
 禁止运行 tools/build-traceability.ps1，因为它会清空现有人工分类。
-当前门禁 **PASS**：Pages UNREVIEWED=0、APIs UNREVIEWED=0（Stage 05–10 考古规格见 `songguo-next/docs/stage-09-reporting-analytics.md` 与 `stage-10-identity-staff-tenant-cleanup.md`）。
+当前门禁 **PASS**：Pages UNREVIEWED=0、APIs UNREVIEWED=0（Stage 05–10 考古规格见 `mijing-next/docs/stage-09-reporting-analytics.md` 与 `stage-10-identity-staff-tenant-cleanup.md`）。
 按业务域继续考古，每个结论必须有旧文件/调用点证据、处置状态、新能力 ID、
 验收用例和对抗式审查；不确定时保持 UNREVIEWED，不得猜测关闭。
-同时阅读 songguo-next/docs/AI-HANDOFF.md，确保考古结论同步进入新系统规格。
+同时阅读 mijing-next/docs/AI-HANDOFF.md，确保考古结论同步进入新系统规格。
 ```
