@@ -4,7 +4,7 @@
 
 在宝塔中完成以下一次性准备：
 
-1. 安装 Nginx、MySQL 8、PHP 8.2 或更高版本。Git、curl、Composer 等服务端依赖由部署流程检测并在缺失时安装。
+1. 安装 Nginx、MySQL 8、PHP 8.2 或更高版本。Git、curl、Node.js 22、pnpm、Composer 等部署依赖由流程检测并在缺失时安装。
 2. 创建站点 `mj.zonrn.cn`，PHP 版本选择 8.2 或更高版本；Nginx 配置由管理员自行维护。
 3. 创建 MySQL 数据库和独立数据库用户，字符集选择 `utf8mb4`。
 4. GitHub 仓库为公开仓库，服务器拉取代码不需要登录 GitHub，也不需要配置 Token 或 Deploy Key。
@@ -19,9 +19,9 @@
 dnf install -y curl ca-certificates && curl -fsSL https://raw.githubusercontent.com/JFENGZ-1/mijing-next/master/mijing-next/scripts/install-baota.sh | bash
 ```
 
-安装器使用 Git 稀疏检出，服务器只保留 `mijing-next/apps/server` 与 `mijing-next/scripts`，不会检出、安装或构建 Admin Web、会员端和员工端，也不会安装 Node.js、npm 或 pnpm。
+安装器使用 Git 稀疏检出，服务器只保留 Laravel 服务端、Web 后台、部署脚本及 Web 构建所需的工作区清单。会员端和员工端小程序不会检出、安装或构建。
 
-首次运行会询问数据库和两个微信小程序的 AppID/AppSecret。后续运行保留服务器 `.env`，只更新 Laravel 服务端、Composer 依赖、数据库迁移、缓存、队列与定时任务。脚本不会读取、修改或重载 Nginx。
+首次运行会询问数据库和两个微信小程序的 AppID/AppSecret。后续运行保留服务器 `.env`，更新 Laravel 服务端、Web 后台、依赖、数据库迁移、缓存、队列与定时任务。脚本不会读取、修改或重载 Nginx。
 
 脚本完成后，宝塔站点运行目录应手动设置为：
 

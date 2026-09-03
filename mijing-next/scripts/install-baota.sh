@@ -30,11 +30,18 @@ install_git() {
   fi
 }
 
-configure_server_only_checkout() {
+configure_server_checkout() {
   git -C "$TARGET_DIR" config core.sparseCheckout true
   git -C "$TARGET_DIR" config core.sparseCheckoutCone false
   mkdir -p "$(dirname "$SPARSE_CHECKOUT_FILE")"
-  printf '/mijing-next/apps/server/\n/mijing-next/scripts/\n' > "$SPARSE_CHECKOUT_FILE"
+  printf '%s\n' \
+    '/mijing-next/apps/server/' \
+    '/mijing-next/apps/admin-web/' \
+    '/mijing-next/scripts/' \
+    '/mijing-next/package.json' \
+    '/mijing-next/pnpm-lock.yaml' \
+    '/mijing-next/pnpm-workspace.yaml' \
+    > "$SPARSE_CHECKOUT_FILE"
 }
 
 [ "$(id -u)" -eq 0 ] || fail "请在宝塔终端使用 root 用户运行。"
@@ -54,17 +61,17 @@ if [ -d "${TARGET_DIR}/.git" ]; then
        [ "$current_origin" != "git@github.com:JFENGZ-1/mijing-next.git" ]; then
     fail "${TARGET_DIR} 已连接到其他 Git 仓库：${current_origin}"
   fi
-  configure_server_only_checkout
+  configure_server_checkout
   git -C "$TARGET_DIR" fetch origin "$REPOSITORY_BRANCH"
   git -C "$TARGET_DIR" checkout "$REPOSITORY_BRANCH"
   git -C "$TARGET_DIR" pull --ff-only origin "$REPOSITORY_BRANCH"
   git -C "$TARGET_DIR" read-tree -mu HEAD
 else
-  log "仅拉取服务端到 ${TARGET_DIR}"
+  log "仅拉取 Laravel 服务端和 Web 后台到 ${TARGET_DIR}"
   mkdir -p "$TARGET_DIR"
   git -C "$TARGET_DIR" init
   git -C "$TARGET_DIR" remote add origin "$REPOSITORY_URL"
-  configure_server_only_checkout
+  configure_server_checkout
   git -C "$TARGET_DIR" fetch --depth=1 origin "$REPOSITORY_BRANCH"
   git -C "$TARGET_DIR" checkout -B "$REPOSITORY_BRANCH" "origin/${REPOSITORY_BRANCH}"
 fi
