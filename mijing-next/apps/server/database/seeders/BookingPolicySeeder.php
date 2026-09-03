@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\BookingPolicy;
-use App\Models\Site;
 use App\Services\Booking\BookingPolicyService;
+use Database\Seeders\Support\DemoSeedTarget;
 use Illuminate\Database\Seeder;
 
 class BookingPolicySeeder extends Seeder
@@ -15,7 +15,7 @@ class BookingPolicySeeder extends Seeder
             return;
         }
 
-        $site = Site::query()->find(1);
+        $site = DemoSeedTarget::site();
         if (! $site) {
             $this->command?->warn('BookingPolicySeeder skipped: site 1 missing.');
 

@@ -8,8 +8,8 @@ use App\Models\LegalDocument;
 use App\Models\Member;
 use App\Models\MemberCrmProfile;
 use App\Models\MemberLinkRequest;
-use App\Models\Site;
 use App\Services\Members\MobileProtectionService;
+use Database\Seeders\Support\DemoSeedTarget;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -28,7 +28,7 @@ class MemberLinkRequestSeeder extends Seeder
             ->whereNull('account_id')
             ->where('status', 'lead')
             ->first();
-        $site = Site::query()->find(1);
+        $site = DemoSeedTarget::site();
         $profile = $memberAccount?->memberProfile;
 
         if (! $memberAccount || ! $leadMember || ! $site || ! $profile?->mobile_verified_at || ! $profile->mobile_ciphertext) {

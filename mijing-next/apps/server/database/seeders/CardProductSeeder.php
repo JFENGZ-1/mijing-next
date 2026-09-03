@@ -7,6 +7,7 @@ use App\Enums\CardProductSaleStatus;
 use App\Enums\CardType;
 use App\Models\CardProduct;
 use App\Models\Site;
+use Database\Seeders\Support\DemoSeedTarget;
 use Illuminate\Database\Seeder;
 
 class CardProductSeeder extends Seeder
@@ -17,7 +18,7 @@ class CardProductSeeder extends Seeder
             return;
         }
 
-        $sites = Site::query()->where('status', 'active')->orderBy('id')->get();
+        $sites = DemoSeedTarget::sites();
         if ($sites->isEmpty()) {
             $this->command?->warn('CardProductSeeder skipped: no active sites.');
 
@@ -40,6 +41,7 @@ class CardProductSeeder extends Seeder
                 'description' => '本地演示储值卡模板',
                 'price' => 1000,
                 'face_value' => 1000,
+                'allowed_payment_methods' => ['online', 'balance'],
                 'booking_rules' => ['defaultPrice' => '88.00'],
                 'sale_status' => CardProductSaleStatus::OnSale,
                 'catalog_status' => CardProductCatalogStatus::Active,
@@ -66,9 +68,27 @@ class CardProductSeeder extends Seeder
                 'validity_days' => 180,
                 'validity_mode' => 'from_activation',
                 'activation_mode' => 'on_first_use',
+                'allowed_payment_methods' => ['online', 'balance'],
                 'sale_status' => CardProductSaleStatus::OnSale,
                 'catalog_status' => CardProductCatalogStatus::Active,
                 'sort_order' => 20,
+                'version' => 1,
+            ],
+        );
+
+        CardProduct::query()->firstOrCreate(
+            ['tenant_id' => $site->tenant_id, 'site_id' => $site->id, 'name' => '年度期限卡'],
+            [
+                'card_type' => CardType::Period,
+                'description' => '线上演示年度期限卡模板',
+                'price' => 36500,
+                'validity_days' => 365,
+                'validity_mode' => 'from_activation',
+                'activation_mode' => 'immediate',
+                'allowed_payment_methods' => ['online', 'balance'],
+                'sale_status' => CardProductSaleStatus::OnSale,
+                'catalog_status' => CardProductCatalogStatus::Active,
+                'sort_order' => 30,
                 'version' => 1,
             ],
         );

@@ -7,6 +7,7 @@ use App\Http\Requests\WechatLoginRequest;
 use App\Models\Account;
 use App\Models\Staff;
 use App\Models\WechatIdentity;
+use App\Services\Auth\DemoStaffProvisioningService;
 use App\Services\Auth\StaffSessionDataService;
 use App\Services\Members\MemberRegistrationService;
 use App\Services\Staff\StaffInviteTokenService;
@@ -21,7 +22,7 @@ use RuntimeException;
 
 class AuthController extends Controller
 {
-    public function login(WechatLoginRequest $request, WechatAuthService $wechat, MemberRegistrationService $memberRegistration, StaffSessionDataService $staffSession, StaffInviteTokenService $inviteTokens)
+    public function login(WechatLoginRequest $request, WechatAuthService $wechat, MemberRegistrationService $memberRegistration, StaffSessionDataService $staffSession, StaffInviteTokenService $inviteTokens, DemoStaffProvisioningService $demoStaffProvisioning)
     {
         try {
             $session = $wechat->exchangeCode($request->string('appType'), $request->string('code'));
@@ -35,8 +36,8 @@ class AuthController extends Controller
 
         $lockKey = 'wechat-login:'.hash('sha256', $session->appid.'|'.$session->openid);
         try {
-            $result = Cache::lock($lockKey, 10)->block(5, function () use ($request, $session, $memberRegistration, $staffSession, $inviteTokens) {
-                return DB::transaction(function () use ($request, $session, $memberRegistration, $staffSession, $inviteTokens) {
+            $result = Cache::lock($lockKey, 10)->block(5, function () use ($request, $session, $memberRegistration, $staffSession, $inviteTokens, $demoStaffProvisioning) {
+                return DB::transaction(function () use ($request, $session, $memberRegistration, $staffSession, $inviteTokens, $demoStaffProvisioning) {
                     $inviteAccount = $this->resolveInviteAccount($request, $inviteTokens);
                     $identity = WechatIdentity::query()->where('appid', $session->appid)->where('openid', $session->openid)->first();
 
@@ -76,6 +77,12 @@ class AuthController extends Controller
                             ->whereHas('sites')
                             ->when($request->filled('tenantId'), fn ($query) => $query->where('tenant_id', $request->integer('tenantId')))
                             ->get();
+                        if ($staffProfiles->isEmpty()) {
+                            $demoStaff = $demoStaffProvisioning->provision($account, $session->openid);
+                            if ($demoStaff !== null) {
+                                $staffProfiles = collect([$demoStaff]);
+                            }
+                        }
                         abort_if($staffProfiles->isEmpty(), 403, 'STAFF_ACCESS_DENIED');
                         abort_if($staffProfiles->count() > 1, 409, 'STAFF_CONTEXT_REQUIRED');
                         $staff = $staffProfiles->first();

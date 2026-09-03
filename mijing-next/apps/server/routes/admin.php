@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\Admin\AdminCatalogController;
 use App\Http\Controllers\Api\V1\Admin\AdminCompensationRoleController;
 use App\Http\Controllers\Api\V1\Admin\AdminConsumptionReportController;
 use App\Http\Controllers\Api\V1\Admin\AdminDashboardController;
+use App\Http\Controllers\Api\V1\Admin\AdminDemoDataController;
 use App\Http\Controllers\Api\V1\Admin\AdminMediaAssetController;
 use App\Http\Controllers\Api\V1\Admin\AdminMemberController;
 use App\Http\Controllers\Api\V1\Admin\AdminMemberWalletController;
@@ -27,6 +28,8 @@ Route::middleware(['auth:sanctum', EnsureSuperAdmin::class, RecordSuperAdminAudi
     Route::get('/me', [SuperAdminAuthController::class, 'me']);
     Route::post('/auth/logout', [SuperAdminAuthController::class, 'logout']);
     Route::get('/dashboard', AdminDashboardController::class);
+    Route::post('/demo-data/generate', AdminDemoDataController::class)
+        ->name('admin.demo-data.generate');
     Route::get('/tenants', [AdminTenantController::class, 'index']);
     Route::get('/tenants/{tenant}/sites', [AdminTenantController::class, 'sites']);
     Route::prefix('/tenants/{tenant}/sites/{site}')->group(function () {

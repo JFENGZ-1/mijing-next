@@ -1,6 +1,6 @@
 {
     "name" : "觅境工作台",
-    "appid" : "wx7c5af75c6472033d",
+    "appid" : "wxcd4bca244f092713",
     "description" : "觅境员工管理小程序",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx7c5af75c6472033d",
+        "appid" : "wxcd4bca244f092713",
         "libVersion" : "3.15.2",
         "setting" : {
             "urlCheck" : false

@@ -1,5 +1,5 @@
 {
-  "sourceHash": "741def757960a25e67b51a2910a8c0558490033aed02b5928716cf0fba8b23b0",
+  "sourceHash": "e7888ccb5e6a79c3a301c34b3d3366c5f4782bee59c0fe505c095dcb93bcbf15",
   "operations": [
     {
       "operationId": "listAdminAuditLogs",
@@ -32,6 +32,14 @@
       "group": "platform",
       "disposition": "ADOPT",
       "signature": "2eae70a0127843faed30ce9a56be9cd9f0a17f46ed9002f2ff1129e423ff9f9f"
+    },
+    {
+      "operationId": "generateAdminDemoData",
+      "method": "POST",
+      "path": "/admin/demo-data/generate",
+      "group": "platform",
+      "disposition": "CUSTOM",
+      "signature": "9bb766cf167fb06406ad2a6279837b9128a9f310aedf690fe909a9808df053ca"
     },
     {
       "operationId": "getSuperAdminProfile",
@@ -1674,6 +1682,14 @@
       "signature": "5d2ce45b9204b7ffe0bc65ab786329833fcdda2f3e8f4c34e41edd40ecec7450"
     },
     {
+      "operationId": "getStaffExportJob",
+      "method": "GET",
+      "path": "/staff/sites/{site}/exports/jobs/{job}",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "460e5c00402121fb55a0bc71c1233dc0918cfb5f5116df565beb7901849c5e82"
+    },
+    {
       "operationId": "downloadStaffExportJob",
       "method": "GET",
       "path": "/staff/sites/{site}/exports/jobs/{job}/download",
@@ -2506,6 +2522,46 @@
       "signature": "da8aa0d3834339b7b47a90969db0ed6911d9760fd12c612be5258537ef9f4961"
     },
     {
+      "operationId": "getStaffReportCardAnalyzeSummary",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/card-analyze/summary",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "88f5f3497c84fe47df939e02d87d28e78f0863c42a715e9fcf028ae8c4bb6b2b"
+    },
+    {
+      "operationId": "getStaffReportCardProductAnalytics",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/card-product-analytics",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "376c9e2b96113c6c7ad01c4b4030132c1cefe49ad99f302413960ecd75c37f39"
+    },
+    {
+      "operationId": "getStaffReportCardSalesDetail",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/card-sales/detail",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "009c1b6bc4ca052015811582b0e5318fedb14c0a0cf2b8a82ed0a2eedd7c842d"
+    },
+    {
+      "operationId": "getStaffReportCardSalesSummary",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/card-sales/summary",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "2b185b8f9015af92573891bd60966298c30bac7fd1d9b846ec1c7412df6307a8"
+    },
+    {
+      "operationId": "listStaffReportChangeLog",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/change-log",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "b1570c225cc3ee17fc52c63d09469928e541219db5b4caf8789aab49df89ddb1"
+    },
+    {
       "operationId": "getStaffReportCoachAppointmentDetail",
       "method": "GET",
       "path": "/staff/sites/{site}/reports/coaches/{coachStaff}/appointments",
@@ -2578,12 +2634,28 @@
       "signature": "40601cd24005334d8cb02430d70e0a2f0508f78b9ce9e7330ffe733c7abfa66f"
     },
     {
+      "operationId": "getStaffReportCardProductSalesRanking",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/rankings/card-product-sales",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "46c923794dae7fa5fb01bbe5969ffce00b7a5aa2fd3d65976e83ffb0b0ad2bae"
+    },
+    {
       "operationId": "getStaffReportCourseAttendanceRanking",
       "method": "GET",
       "path": "/staff/sites/{site}/reports/rankings/course-attendance",
       "group": "reporting",
       "disposition": "ADOPT",
       "signature": "85ce81770986bcd656f1ced9f40f673e172416e4b5e8cf587932ab6e345b15ed"
+    },
+    {
+      "operationId": "getStaffReportMemberCardConsumptionRanking",
+      "method": "GET",
+      "path": "/staff/sites/{site}/reports/rankings/member-card-consumption",
+      "group": "reporting",
+      "disposition": "ADOPT",
+      "signature": "24beace3be5c67bf28fd59cfba08f0be8f229dd051be05b8f134522c86738aa6"
     },
     {
       "operationId": "getStaffReportOrderRanking",

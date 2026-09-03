@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Refresh } from "@element-plus/icons-vue";
-import { ElMessage } from "element-plus";
+import { MagicStick, Refresh } from "@element-plus/icons-vue";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { computed, onMounted, ref } from "vue";
 
 import { ApiError, apiRequest } from "@/api/client";
@@ -29,7 +29,23 @@ interface DashboardData {
   generatedAt: string;
 }
 
+interface DemoDataResult {
+  tenant: { id: number; name: string; code: string };
+  site: { id: number; name: string; code: string };
+  counts: {
+    staff: number;
+    members: number;
+    cardProducts: number;
+    memberCards: number;
+    orders: number;
+    courses: number;
+    scheduleSessions: number;
+  };
+  generatedAt: string;
+}
+
 const loading = ref(false);
+const generatingDemo = ref(false);
 const dashboard = ref<DashboardData | null>(null);
 const generatedAt = computed(() => dashboard.value?.generatedAt
   ? new Intl.DateTimeFormat("zh-CN", { dateStyle: "medium", timeStyle: "medium" }).format(new Date(dashboard.value.generatedAt))
@@ -51,12 +67,38 @@ async function loadDashboard() {
   }
 }
 
+async function generateDemoData() {
+  try {
+    await ElMessageBox.confirm(
+      "将补齐演示租户、场馆、全权限员工、会员、卡项、课程、排课、会员卡和订单。重复执行不会清空现有数据。",
+      "一键生成演示数据",
+      { type: "warning", confirmButtonText: "确认生成", cancelButtonText: "取消" },
+    );
+  } catch {
+    return;
+  }
+
+  generatingDemo.value = true;
+  try {
+    const result = (await apiRequest<DemoDataResult>("/admin/demo-data/generate", { method: "POST" })).data;
+    ElMessage.success(
+      `已补齐 ${result.site.name}：${result.counts.members} 名会员、${result.counts.cardProducts} 个卡项、${result.counts.courses} 门课程`,
+    );
+    await loadDashboard();
+  } catch (error) {
+    ElMessage.error(error instanceof ApiError ? error.payload.message : "演示数据生成失败");
+  } finally {
+    generatingDemo.value = false;
+  }
+}
+
 onMounted(loadDashboard);
 </script>
 
 <template>
   <div class="dashboard-page" v-loading="loading">
     <PageHeading eyebrow="PLATFORM OVERVIEW" title="平台总览" description="跨租户查看平台真实数据；统计结果由超管接口在服务端聚合。">
+      <el-button type="primary" plain :icon="MagicStick" :loading="generatingDemo" @click="generateDemoData">一键生成演示数据</el-button>
       <el-button :icon="Refresh" @click="loadDashboard">刷新数据</el-button>
     </PageHeading>
 

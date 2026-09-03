@@ -6,7 +6,7 @@ use App\Enums\PointLedgerDirection;
 use App\Models\Member;
 use App\Models\MemberPointBalance;
 use App\Models\PointLedgerEntry;
-use App\Models\Site;
+use Database\Seeders\Support\DemoSeedTarget;
 use Illuminate\Database\Seeder;
 
 class PointLedgerSeeder extends Seeder
@@ -17,7 +17,7 @@ class PointLedgerSeeder extends Seeder
             return;
         }
 
-        $site = Site::query()->find(1);
+        $site = DemoSeedTarget::site();
         if (! $site) {
             $this->command?->warn('PointLedgerSeeder skipped: site 1 missing.');
 

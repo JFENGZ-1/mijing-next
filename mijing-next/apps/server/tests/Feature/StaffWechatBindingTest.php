@@ -87,6 +87,49 @@ class StaffWechatBindingTest extends TestCase
             ->assertJsonPath('data.staff.tenantId', $staff->tenant_id);
     }
 
+    public function test_staff_login_auto_provisions_an_isolated_employee_in_demo_mode(): void
+    {
+        [$administrator] = $this->seedAdministrator();
+        config()->set('wechat.staff_demo', [
+            'auto_provision' => true,
+            'tenant_code' => 'mijing',
+            'site_code' => 'main',
+        ]);
+        $this->fakeStaffWechat('new-demo-openid');
+
+        $login = $this->postJson('/api/v1/auth/wechat/login', [
+            'appType' => 'staff',
+            'code' => 'staff-login-code',
+            'deviceName' => 'staff-miniapp',
+        ])->assertOk();
+
+        $staffId = $login->json('data.staff.id');
+        $this->assertNotSame($administrator->id, $staffId);
+        $this->assertDatabaseHas('staff', [
+            'id' => $staffId,
+            'tenant_id' => $administrator->tenant_id,
+            'status' => 'active',
+        ]);
+        $this->assertDatabaseHas('wechat_identities', [
+            'appid' => 'staff-appid',
+            'openid' => 'new-demo-openid',
+            'account_id' => $login->json('data.account.id'),
+        ]);
+        $this->assertContains(
+            'organization.site.manage',
+            $login->json('data.staff.permissions'),
+        );
+
+        $secondLogin = $this->postJson('/api/v1/auth/wechat/login', [
+            'appType' => 'staff',
+            'code' => 'second-staff-login-code',
+            'deviceName' => 'staff-miniapp',
+        ])->assertOk();
+
+        $this->assertSame($staffId, $secondLogin->json('data.staff.id'));
+        $this->assertSame(2, Staff::query()->count());
+    }
+
     public function test_bind_openid_command_is_blocked_outside_local_environments(): void
     {
         config()->set('app.env', 'production');

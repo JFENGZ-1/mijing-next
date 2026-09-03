@@ -6,7 +6,7 @@ use App\Enums\CourseCatalogStatus;
 use App\Enums\CourseType;
 use App\Models\Course;
 use App\Models\Room;
-use App\Models\Site;
+use Database\Seeders\Support\DemoSeedTarget;
 use Illuminate\Database\Seeder;
 
 class CourseCatalogSeeder extends Seeder
@@ -17,7 +17,7 @@ class CourseCatalogSeeder extends Seeder
             return;
         }
 
-        $site = Site::query()->find(1);
+        $site = DemoSeedTarget::site();
         if (! $site) {
             $this->command?->warn('CourseCatalogSeeder skipped: site 1 missing.');
 

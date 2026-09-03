@@ -11,9 +11,9 @@ use App\Models\CardProductCourseScope;
 use App\Models\EntitlementLedgerEntry;
 use App\Models\Member;
 use App\Models\MemberCard;
-use App\Models\Site;
 use App\Models\Staff;
 use App\Services\Cards\MemberCardBookingRulesPatchService;
+use Database\Seeders\Support\DemoSeedTarget;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -30,7 +30,7 @@ class MemberCardSeeder extends Seeder
             $this->command?->info("MemberCardSeeder: patched booking rules on {$patched} stored-value card(s).");
         }
 
-        $site = Site::query()->find(1);
+        $site = DemoSeedTarget::site();
         $product = $site
             ? CardProduct::query()
                 ->where('tenant_id', $site->tenant_id)
@@ -40,6 +40,10 @@ class MemberCardSeeder extends Seeder
             : null;
         $member = $site
             ? Member::query()
+                ->where('tenant_id', $site->tenant_id)
+                ->where('member_no', 'DEMO-MEMBER-001')
+                ->first()
+            ?? Member::query()
                 ->where('tenant_id', $site->tenant_id)
                 ->where('account_id', 2)
                 ->first()

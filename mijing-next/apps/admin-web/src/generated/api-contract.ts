@@ -30,6 +30,13 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "ADOPT"
   },
   {
+    "operationId": "generateAdminDemoData",
+    "method": "POST",
+    "path": "/admin/demo-data/generate",
+    "group": "platform",
+    "disposition": "CUSTOM"
+  },
+  {
     "operationId": "getSuperAdminProfile",
     "method": "GET",
     "path": "/admin/me",
@@ -1465,6 +1472,13 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "ADOPT"
   },
   {
+    "operationId": "getStaffExportJob",
+    "method": "GET",
+    "path": "/staff/sites/{site}/exports/jobs/{job}",
+    "group": "reporting",
+    "disposition": "ADOPT"
+  },
+  {
     "operationId": "downloadStaffExportJob",
     "method": "GET",
     "path": "/staff/sites/{site}/exports/jobs/{job}/download",
@@ -2193,6 +2207,41 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "ADOPT"
   },
   {
+    "operationId": "getStaffReportCardAnalyzeSummary",
+    "method": "GET",
+    "path": "/staff/sites/{site}/reports/card-analyze/summary",
+    "group": "reporting",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "getStaffReportCardProductAnalytics",
+    "method": "GET",
+    "path": "/staff/sites/{site}/reports/card-product-analytics",
+    "group": "reporting",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "getStaffReportCardSalesDetail",
+    "method": "GET",
+    "path": "/staff/sites/{site}/reports/card-sales/detail",
+    "group": "reporting",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "getStaffReportCardSalesSummary",
+    "method": "GET",
+    "path": "/staff/sites/{site}/reports/card-sales/summary",
+    "group": "reporting",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "listStaffReportChangeLog",
+    "method": "GET",
+    "path": "/staff/sites/{site}/reports/change-log",
+    "group": "reporting",
+    "disposition": "ADOPT"
+  },
+  {
     "operationId": "getStaffReportCoachAppointmentDetail",
     "method": "GET",
     "path": "/staff/sites/{site}/reports/coaches/{coachStaff}/appointments",
@@ -2256,9 +2305,23 @@ export const apiOperations: ApiOperationSummary[] = [
     "disposition": "ADOPT"
   },
   {
+    "operationId": "getStaffReportCardProductSalesRanking",
+    "method": "GET",
+    "path": "/staff/sites/{site}/reports/rankings/card-product-sales",
+    "group": "reporting",
+    "disposition": "ADOPT"
+  },
+  {
     "operationId": "getStaffReportCourseAttendanceRanking",
     "method": "GET",
     "path": "/staff/sites/{site}/reports/rankings/course-attendance",
+    "group": "reporting",
+    "disposition": "ADOPT"
+  },
+  {
+    "operationId": "getStaffReportMemberCardConsumptionRanking",
+    "method": "GET",
+    "path": "/staff/sites/{site}/reports/rankings/member-card-consumption",
     "group": "reporting",
     "disposition": "ADOPT"
   },
@@ -2657,12 +2720,12 @@ export const apiOperations: ApiOperationSummary[] = [
 ];
 
 export const contractReport: ContractReport = {
-  "generatedAt": "2026年9月1日 23:35:39",
-  "sourceHash": "741def757960a25e67b51a2910a8c0558490033aed02b5928716cf0fba8b23b0",
-  "total": 379,
+  "generatedAt": "2026年9月4日 00:36:51",
+  "sourceHash": "e7888ccb5e6a79c3a301c34b3d3366c5f4782bee59c0fe505c095dcb93bcbf15",
+  "total": 388,
   "counts": {
-    "ADOPT": 162,
-    "CUSTOM": 58,
+    "ADOPT": 170,
+    "CUSTOM": 59,
     "IGNORE": 52,
     "UNCLASSIFIED": 107
   },

@@ -12,4 +12,10 @@ return [
         ],
     ],
     'dev_staff_openid' => env('WECHAT_DEV_STAFF_OPENID'),
+
+    'staff_demo' => [
+        'auto_provision' => (bool) env('WECHAT_STAFF_DEMO_AUTO_PROVISION', false),
+        'tenant_code' => env('WECHAT_STAFF_DEMO_TENANT_CODE', 'mijing'),
+        'site_code' => env('WECHAT_STAFF_DEMO_SITE_CODE', 'main'),
+    ],
 ];

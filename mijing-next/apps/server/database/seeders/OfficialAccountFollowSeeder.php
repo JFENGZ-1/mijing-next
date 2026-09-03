@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Site;
 use App\Models\SiteOfficialAccountFollow;
+use Database\Seeders\Support\DemoSeedTarget;
 use Illuminate\Database\Seeder;
 
 class OfficialAccountFollowSeeder extends Seeder
@@ -14,7 +14,7 @@ class OfficialAccountFollowSeeder extends Seeder
             return;
         }
 
-        $site = Site::query()->find(1);
+        $site = DemoSeedTarget::site();
         if (! $site) {
             $this->command?->warn('OfficialAccountFollowSeeder skipped: site 1 missing.');
 

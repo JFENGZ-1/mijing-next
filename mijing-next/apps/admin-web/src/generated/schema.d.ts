@@ -84,6 +84,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/demo-data/generate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["generateAdminDemoData"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/tenants": {
         parameters: {
             query?: never;
@@ -1731,6 +1747,52 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/staff/sites/{site}/reports/rankings/member-card-consumption": {
+        parameters: {
+            query: {
+                year: number;
+                month: number;
+                page?: number;
+                perPage?: number;
+            };
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        get: operations["getStaffReportMemberCardConsumptionRanking"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/staff/sites/{site}/reports/rankings/card-product-sales": {
+        parameters: {
+            query: {
+                year: number;
+                month: number;
+                page?: number;
+                perPage?: number;
+            };
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        get: operations["getStaffReportCardProductSalesRanking"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/staff/sites/{site}/reports/rankings/points": {
         parameters: {
             query: {
@@ -1793,6 +1855,118 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getStaffReportSalesStaffRankingDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/staff/sites/{site}/reports/card-product-analytics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        get: operations["getStaffReportCardProductAnalytics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/staff/sites/{site}/reports/card-sales/summary": {
+        parameters: {
+            query?: {
+                /** @description Calendar year; defaults to the current year when omitted. */
+                year?: number;
+                /** @description Calendar month; defaults to the current month when omitted. */
+                month?: number;
+            };
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        get: operations["getStaffReportCardSalesSummary"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/staff/sites/{site}/reports/card-sales/detail": {
+        parameters: {
+            query?: {
+                /** @description Calendar year; defaults to the current year when omitted. */
+                year?: number;
+                /** @description Calendar month; defaults to the current month when omitted. */
+                month?: number;
+                /** @description Filter one product. When omitted, the implementation returns legacy/unknown-product paid orders. */
+                cardProductId?: number | null;
+                page?: number;
+                perPage?: number;
+            };
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        get: operations["getStaffReportCardSalesDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/staff/sites/{site}/reports/card-analyze/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        get: operations["getStaffReportCardAnalyzeSummary"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/staff/sites/{site}/reports/change-log": {
+        parameters: {
+            query?: {
+                category?: components["schemas"]["ReportChangeLogCategoryKey"];
+                dateFrom?: string | null;
+                /** @description Inclusive end date; must be on or after dateFrom when both are supplied. */
+                dateTo?: string | null;
+                actorStaffId?: number | null;
+                page?: number;
+                perPage?: number;
+            };
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        get: operations["listStaffReportChangeLog"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2151,6 +2325,25 @@ export interface paths {
             cookie?: never;
         };
         get: operations["listStaffExportJobs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/staff/sites/{site}/exports/jobs/{job}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+                job: number;
+            };
+            cookie?: never;
+        };
+        get: operations["getStaffExportJob"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6985,6 +7178,198 @@ export interface components {
             data: components["schemas"]["ReportSalesStaffRankingDetail"];
             requestId: components["schemas"]["RequestId"];
         };
+        ReportMemberCardConsumptionRankingItem: components["schemas"]["ReportRankingMemberItem"] & {
+            /** @description Number of non-reversed consumption events in the selected month. */
+            consumptionCount: number;
+            /** @description Known consumption value only; events without a provable value are counted by unvaluedCount. */
+            consumptionAmount: string;
+            unvaluedCount: number;
+            hasUnvalued: boolean;
+        };
+        ReportMemberCardConsumptionRanking: {
+            year: number;
+            month: number;
+            totals: {
+                memberCount: number;
+                consumptionCount: number;
+                /** @description Known value across all non-reversed events in the selected month. */
+                consumptionAmount: string;
+                unvaluedCount: number;
+                hasUnvalued: boolean;
+            };
+            items: components["schemas"]["ReportMemberCardConsumptionRankingItem"][];
+            pagination: components["schemas"]["ReportRankingPagination"];
+            /** Format: date-time */
+            asOf: string;
+        };
+        ReportMemberCardConsumptionRankingEnvelope: {
+            data: components["schemas"]["ReportMemberCardConsumptionRanking"];
+            requestId: components["schemas"]["RequestId"];
+        };
+        ReportCardSalesProductItem: {
+            cardProductId: number | null;
+            cardProductName: string;
+            salesCount: number;
+            revenue: string;
+        };
+        ReportCardProductSalesRankingItem: components["schemas"]["ReportCardSalesProductItem"] & {
+            rank: number;
+        };
+        ReportCardProductSalesTotals: {
+            cardProductCount: number;
+            salesCount: number;
+            revenue: string;
+        };
+        ReportCardProductSalesRanking: {
+            year: number;
+            month: number;
+            totals: components["schemas"]["ReportCardProductSalesTotals"];
+            items: components["schemas"]["ReportCardProductSalesRankingItem"][];
+            pagination: components["schemas"]["ReportRankingPagination"];
+            /** Format: date-time */
+            asOf: string;
+        };
+        ReportCardProductSalesRankingEnvelope: {
+            data: components["schemas"]["ReportCardProductSalesRanking"];
+            requestId: components["schemas"]["RequestId"];
+        };
+        ReportCardProductAnalyticsItem: {
+            cardProductId: number;
+            cardProductName: string;
+            siteId: number;
+            siteName: string | null;
+            cardType: components["schemas"]["CardType"];
+            issuedCount: number;
+            linkedSiteCount: number;
+        };
+        ReportCardProductAnalytics: {
+            siteId: number;
+            totals: {
+                cardProductCount: number;
+                issuedCount: number;
+            };
+            items: components["schemas"]["ReportCardProductAnalyticsItem"][];
+            /** Format: date-time */
+            asOf: string;
+        };
+        ReportCardProductAnalyticsEnvelope: {
+            data: components["schemas"]["ReportCardProductAnalytics"];
+            requestId: components["schemas"]["RequestId"];
+        };
+        ReportCardSalesSummary: {
+            year: number;
+            month: number;
+            totals: components["schemas"]["ReportCardProductSalesTotals"];
+            items: components["schemas"]["ReportCardSalesProductItem"][];
+            /** Format: date-time */
+            asOf: string;
+        };
+        ReportCardSalesSummaryEnvelope: {
+            data: components["schemas"]["ReportCardSalesSummary"];
+            requestId: components["schemas"]["RequestId"];
+        };
+        ReportCardSalesDetailItem: {
+            orderId: number;
+            orderNo: string;
+            memberId: number;
+            /** @description Full name with crm.member.read; otherwise the service returns a masked name. */
+            memberName: string | null;
+            /** @description Effective order amount after non-reversed corrections. */
+            amount: string;
+            /**
+             * Format: date-time
+             * @description paid_at, or created_at for legacy paid orders whose paid_at was never backfilled.
+             */
+            paidAt: string | null;
+        };
+        ReportCardSalesDetail: {
+            year: number;
+            month: number;
+            cardProductId: number | null;
+            totals: {
+                salesCount: number;
+                revenue: string;
+            };
+            items: components["schemas"]["ReportCardSalesDetailItem"][];
+            pagination: components["schemas"]["ReportRankingPagination"];
+            /** Format: date-time */
+            asOf: string;
+        };
+        ReportCardSalesDetailEnvelope: {
+            data: components["schemas"]["ReportCardSalesDetail"];
+            requestId: components["schemas"]["RequestId"];
+        };
+        ReportCardAnalyzeCard: {
+            /** @enum {string} */
+            key: "total" | "valid" | "invalid" | "expired" | "zero-balance" | "expired-with-balance" | "pending-open" | "holiday" | "frozen";
+            label: string;
+            hint: string;
+            count: number;
+        };
+        ReportCardAnalyzeBalanceSheet: {
+            /** @description Effective amount of paid card orders; pending, closing, closed and voided orders are excluded. */
+            totalRevenue: string;
+            /** @description Known consumed_value across non-reversed stored-value, count and period-card consumption events. */
+            consumedValue: string;
+            /** @description max(totalRevenue - consumedValue, 0); an estimate because unknown-value events are not subtracted. */
+            remainingValue: string;
+            /** @description max(consumedValue - totalRevenue, 0), exposing gift cards, missing historical receipts or other reconciliation gaps. */
+            excessConsumedValue: string;
+            /** @description Non-reversed consumption events whose value cannot yet be proven. */
+            unvaluedCount: number;
+            hasUnvalued: boolean;
+            /** @enum {boolean} */
+            remainingValueIsEstimate: true;
+            notes: string[];
+        };
+        ReportCardAnalyzeSummary: {
+            cards: components["schemas"]["ReportCardAnalyzeCard"][];
+            balanceSheet: components["schemas"]["ReportCardAnalyzeBalanceSheet"];
+            /** Format: date-time */
+            generatedAt: string;
+        };
+        ReportCardAnalyzeSummaryEnvelope: {
+            data: components["schemas"]["ReportCardAnalyzeSummary"];
+            requestId: components["schemas"]["RequestId"];
+        };
+        /**
+         * @default all
+         * @enum {string}
+         */
+        ReportChangeLogCategoryKey: "all" | "issue" | "holiday" | "freeze" | "archive" | "adjust";
+        ReportChangeLogCategory: {
+            key: components["schemas"]["ReportChangeLogCategoryKey"];
+            label: string;
+        };
+        ReportChangeLogItem: {
+            id: number;
+            /** @enum {string} */
+            entryType: "issue" | "purchase" | "recharge" | "holiday_apply" | "holiday_cancel" | "freeze" | "freeze_lift" | "archive" | "void" | "archive_restore" | "balance_adjust" | "count_adjust" | "validity_change";
+            entryLabel: string;
+            category: components["schemas"]["ReportChangeLogCategoryKey"];
+            memberId: number | null;
+            /** @description Full name with crm.member.read; otherwise the service returns a masked name. */
+            memberName: string | null;
+            memberCardId: number | null;
+            cardNo: string | null;
+            cardName: string | null;
+            amountDelta: string | null;
+            countDelta: number | null;
+            reason: string | null;
+            actorStaffId: number | null;
+            actorStaffName: string | null;
+            /** Format: date-time */
+            occurredAt: string | null;
+        };
+        ReportChangeLog: {
+            items: components["schemas"]["ReportChangeLogItem"][];
+            pagination: components["schemas"]["ReportRankingPagination"];
+            categories: components["schemas"]["ReportChangeLogCategory"][];
+        };
+        ReportChangeLogEnvelope: {
+            data: components["schemas"]["ReportChangeLog"];
+            requestId: components["schemas"]["RequestId"];
+        };
         ReportCoachSummary: {
             staffId: number;
             staffName: string | null;
@@ -9318,6 +9703,32 @@ export interface components {
             };
             requestId: components["schemas"]["RequestId"];
         };
+        AdminDemoDataEnvelope: {
+            data: {
+                tenant: {
+                    id: number;
+                    name: string;
+                    code: string;
+                };
+                site: {
+                    id: number;
+                    name: string;
+                    code: string;
+                };
+                counts: {
+                    staff: number;
+                    members: number;
+                    cardProducts: number;
+                    memberCards: number;
+                    orders: number;
+                    courses: number;
+                    scheduleSessions: number;
+                };
+                /** Format: date-time */
+                generatedAt: string;
+            };
+            requestId: components["schemas"]["RequestId"];
+        };
         AdminTenantListEnvelope: {
             data: {
                 items: components["schemas"]["AdminTenantSummary"][];
@@ -10990,6 +11401,29 @@ export interface operations {
             };
             401: components["responses"]["Unauthorized"];
             403: components["responses"]["Forbidden"];
+        };
+    };
+    generateAdminDemoData: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Idempotently creates or completes the configured online demo workspace */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminDemoDataEnvelope"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            409: components["responses"]["Conflict"];
         };
     };
     listAdminTenants: {
@@ -14024,6 +14458,66 @@ export interface operations {
             422: components["responses"]["ValidationError"];
         };
     };
+    getStaffReportMemberCardConsumptionRanking: {
+        parameters: {
+            query: {
+                year: number;
+                month: number;
+                page?: number;
+                perPage?: number;
+            };
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Members ranked by known, non-reversed card consumption value; unknown-value events remain visible through unvaluedCount/hasUnvalued */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportMemberCardConsumptionRankingEnvelope"];
+                };
+            };
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            422: components["responses"]["ValidationError"];
+        };
+    };
+    getStaffReportCardProductSalesRanking: {
+        parameters: {
+            query: {
+                year: number;
+                month: number;
+                page?: number;
+                perPage?: number;
+            };
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Card products ranked by effective paid revenue in the selected calendar month */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportCardProductSalesRankingEnvelope"];
+                };
+            };
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            422: components["responses"]["ValidationError"];
+        };
+    };
     getStaffReportPointsRanking: {
         parameters: {
             query: {
@@ -14108,6 +14602,151 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ReportSalesStaffRankingDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            422: components["responses"]["ValidationError"];
+        };
+    };
+    getStaffReportCardProductAnalytics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Tenant-wide active card-product issue counts and linked-site counts, anchored to the requested accessible site */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportCardProductAnalyticsEnvelope"];
+                };
+            };
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    getStaffReportCardSalesSummary: {
+        parameters: {
+            query?: {
+                /** @description Calendar year; defaults to the current year when omitted. */
+                year?: number;
+                /** @description Calendar month; defaults to the current month when omitted. */
+                month?: number;
+            };
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Effective paid card-order revenue summarized by product for one calendar month */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportCardSalesSummaryEnvelope"];
+                };
+            };
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            422: components["responses"]["ValidationError"];
+        };
+    };
+    getStaffReportCardSalesDetail: {
+        parameters: {
+            query?: {
+                /** @description Calendar year; defaults to the current year when omitted. */
+                year?: number;
+                /** @description Calendar month; defaults to the current month when omitted. */
+                month?: number;
+                /** @description Filter one product. When omitted, the implementation returns legacy/unknown-product paid orders. */
+                cardProductId?: number | null;
+                page?: number;
+                perPage?: number;
+            };
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated effective paid card orders, dated by paidAt with createdAt fallback for legacy paid orders */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportCardSalesDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            422: components["responses"]["ValidationError"];
+        };
+    };
+    getStaffReportCardAnalyzeSummary: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Card lifecycle counts and an explainable estimated liability from effective paid revenue minus known, non-reversed consumption value */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportCardAnalyzeSummaryEnvelope"];
+                };
+            };
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    listStaffReportChangeLog: {
+        parameters: {
+            query?: {
+                category?: components["schemas"]["ReportChangeLogCategoryKey"];
+                dateFrom?: string | null;
+                /** @description Inclusive end date; must be on or after dateFrom when both are supplied. */
+                dateTo?: string | null;
+                actorStaffId?: number | null;
+                page?: number;
+                perPage?: number;
+            };
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated staff-authored member-card entitlement changes with member names masked when crm.member.read is absent */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportChangeLogEnvelope"];
                 };
             };
             403: components["responses"]["Forbidden"];
@@ -14765,6 +15404,31 @@ export interface operations {
             403: components["responses"]["Forbidden"];
             404: components["responses"]["NotFound"];
             422: components["responses"]["ValidationError"];
+        };
+    };
+    getStaffExportJob: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                site: components["parameters"]["SiteId"];
+                job: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read one export job; allowed for its creator or staff with export.job.read at the target site */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExportJobEnvelope"];
+                };
+            };
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
         };
     };
     downloadStaffExportJob: {

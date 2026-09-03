@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Site;
 use App\Models\SiteCarouselItem;
+use Database\Seeders\Support\DemoSeedTarget;
 use Illuminate\Database\Seeder;
 
 class CarouselSeeder extends Seeder
@@ -14,7 +14,7 @@ class CarouselSeeder extends Seeder
             return;
         }
 
-        $site = Site::query()->find(1);
+        $site = DemoSeedTarget::site();
         if (! $site) {
             $this->command?->warn('CarouselSeeder skipped: site 1 missing.');
 

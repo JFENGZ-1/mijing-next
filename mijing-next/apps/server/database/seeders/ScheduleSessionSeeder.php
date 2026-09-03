@@ -2,15 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Enums\CourseCatalogStatus;
 use App\Enums\CourseType;
 use App\Enums\ScheduleSessionKind;
 use App\Enums\ScheduleSessionStatus;
 use App\Models\Course;
 use App\Models\Room;
 use App\Models\ScheduleSession;
-use App\Models\Site;
 use App\Models\Staff;
+use Database\Seeders\Support\DemoSeedTarget;
 use Illuminate\Database\Seeder;
 
 class ScheduleSessionSeeder extends Seeder
@@ -21,7 +20,7 @@ class ScheduleSessionSeeder extends Seeder
             return;
         }
 
-        $site = Site::query()->find(1);
+        $site = DemoSeedTarget::site();
         if (! $site) {
             $this->command?->warn('ScheduleSessionSeeder skipped: site 1 missing.');
 

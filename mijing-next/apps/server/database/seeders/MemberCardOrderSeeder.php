@@ -14,6 +14,7 @@ use App\Models\MemberCard;
 use App\Models\MemberCardOrder;
 use App\Models\Site;
 use App\Models\Staff;
+use Database\Seeders\Support\DemoSeedTarget;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -25,9 +26,13 @@ class MemberCardOrderSeeder extends Seeder
             return;
         }
 
-        $site = Site::query()->find(1);
+        $site = DemoSeedTarget::site();
         $member = $site
             ? Member::query()
+                ->where('tenant_id', $site->tenant_id)
+                ->where('member_no', 'DEMO-MEMBER-001')
+                ->first()
+            ?? Member::query()
                 ->where('tenant_id', $site->tenant_id)
                 ->where('account_id', 2)
                 ->first()
