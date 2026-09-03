@@ -93,19 +93,19 @@ function openItem(item: SettingsHubItem) {
 
 function openSiteProfile() {
   if (!canReadSite.value) return;
-  uni.navigateTo({ url: "/pages/settings/site/index" });
+  uni.navigateTo({ url: "/subpackages/settings/site/index" });
 }
 
 function openPersonal() {
-  uni.navigateTo({ url: "/pages/settings/personal/index" });
+  uni.navigateTo({ url: "/subpackages/settings/personal/index" });
 }
 
 function openCustomerService() {
-  uni.navigateTo({ url: "/pages/settings/support/customer-service/index" });
+  uni.navigateTo({ url: "/subpackages/settings/support/customer-service/index" });
 }
 
 function openVideoHelp() {
-  uni.navigateTo({ url: "/pages/settings/support/video-help/index" });
+  uni.navigateTo({ url: "/subpackages/settings/support/video-help/index" });
 }
 
 function openBusinessSetting(route: string, permission: string) {
@@ -258,15 +258,15 @@ onPageScroll(({ scrollTop }) => {
         <view v-if="canReadCompensationSettings" class="module-group business-module module-group--first">
           <view class="title"><text>耗卡与薪酬</text></view>
           <view class="group">
-            <view v-if="canReadCompensationRoles" class="group-item" @tap="openBusinessSetting('/pages/settings/business-roles/index', 'compensation.role.read')">
+            <view v-if="canReadCompensationRoles" class="group-item" @tap="openBusinessSetting('/subpackages/settings/business-roles/index', 'compensation.role.read')">
               <view class="logo-wrap" style="background: #696b99"><u-icon name="account-fill" :size="32" color="#ffffff" /></view>
               <view class="text-wrap">业务角色</view>
             </view>
-            <view v-if="canReadCompensationRules" class="group-item" @tap="openBusinessSetting('/pages/settings/compensation/index', 'compensation.rule.read')">
+            <view v-if="canReadCompensationRules" class="group-item" @tap="openBusinessSetting('/subpackages/settings/compensation/index', 'compensation.rule.read')">
               <view class="logo-wrap" style="background: #42c598"><u-icon name="rmb-circle-fill" :size="32" color="#ffffff" /></view>
               <view class="text-wrap">课程薪酬</view>
             </view>
-            <view v-if="canReadCompensationRules" class="group-item" @tap="openBusinessSetting('/pages/settings/card-products/course-matrix', 'compensation.rule.read')">
+            <view v-if="canReadCompensationRules" class="group-item" @tap="openBusinessSetting('/subpackages/settings/card-products/course-matrix', 'compensation.rule.read')">
               <view class="logo-wrap" style="background: #f2a33c"><u-icon name="list-dot" :size="32" color="#ffffff" /></view>
               <view class="text-wrap">卡课扣费</view>
             </view>

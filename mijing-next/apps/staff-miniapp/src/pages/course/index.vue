@@ -269,12 +269,12 @@ function onCalendarConfirm(value: string[] | string) {
 }
 
 function openSessionDetail(sessionId: number) {
-  uni.navigateTo({ url: `/pages/course/session-detail?id=${sessionId}` });
+  uni.navigateTo({ url: `/subpackages/course/session-detail?id=${sessionId}` });
 }
 
 function openCoachBoard(coach: { id: number; name: string }) {
   uni.navigateTo({
-    url: `/pages/course/coach-board?staffId=${coach.id}&name=${encodeURIComponent(coach.name)}`,
+    url: `/subpackages/course/coach-board?staffId=${coach.id}&name=${encodeURIComponent(coach.name)}`,
   });
 }
 
@@ -341,7 +341,7 @@ function tapStatusButton(item: StaffBookingDailyBoardItem) {
     openSessionDetail(item.id);
     return;
   }
-  uni.navigateTo({ url: `/pages/course/session-detail?id=${item.id}&action=book` });
+  uni.navigateTo({ url: `/subpackages/course/session-detail?id=${item.id}&action=book` });
 }
 
 function coachInitial(name?: string | null) {

@@ -53,52 +53,52 @@ const reportGroups: ReportGroup[] = [
   {
     title: "经营数据",
     links: [
-      { key: "finance", label: "营收统计", desc: "日/月/年营业额、售卡与新增会员", route: "/pages/report/finance/index", permission: "report.finance.read" },
-      { key: "card-sales", label: "售卡统计", desc: "售卡汇总与明细", route: "/pages/report/card-sales/index", permission: "report.read" },
-      { key: "card-analyze", label: "会员卡分析 · 资产负债", desc: "卡状态分层与剩余价值", route: "/pages/report/card-analyze/index", permission: "report.read" },
+      { key: "finance", label: "营收统计", desc: "日/月/年营业额、售卡与新增会员", route: "/subpackages/report/finance/index", permission: "report.finance.read" },
+      { key: "card-sales", label: "售卡统计", desc: "售卡汇总与明细", route: "/subpackages/report/card-sales/index", permission: "report.read" },
+      { key: "card-analyze", label: "会员卡分析 · 资产负债", desc: "卡状态分层与剩余价值", route: "/subpackages/report/card-analyze/index", permission: "report.read" },
     ],
   },
   {
     title: "待办提醒",
     links: [
-      { key: "reminders", label: "会员提醒", desc: "生日/纪念日/未上课/访客", route: "/pages/report/reminders/index", permission: "notification.reminder.read" },
-      { key: "card-reminders", label: "会员卡提醒", desc: "到期/余额/待开卡/处罚", route: "/pages/report/card-reminders/index", permission: "member-card.reminder.read" },
+      { key: "reminders", label: "会员提醒", desc: "生日/纪念日/未上课/访客", route: "/subpackages/report/reminders/index", permission: "notification.reminder.read" },
+      { key: "card-reminders", label: "会员卡提醒", desc: "到期/余额/待开卡/处罚", route: "/subpackages/report/card-reminders/index", permission: "member-card.reminder.read" },
     ],
   },
   {
     title: "会员分析",
     links: [
-      { key: "member-analyze", label: "会员分析", desc: "有效/无效/风险/沉寂/流失", route: "/pages/report/member-analyze/index", permission: "crm.member.read" },
-      { key: "exports", label: "会员导出", desc: "导出会员资料", route: "/pages/report/exports/index", permission: "export.member.create" },
+      { key: "member-analyze", label: "会员分析", desc: "有效/无效/风险/沉寂/流失", route: "/subpackages/report/member-analyze/index", permission: "crm.member.read" },
+      { key: "exports", label: "会员导出", desc: "导出会员资料", route: "/subpackages/report/exports/index", permission: "export.member.create" },
     ],
   },
   {
     title: "排行与分析",
     links: [
-      { key: "rankings", label: "排行榜", desc: "消费/上课/积分/销售", route: "/pages/report/rankings/index", permission: "report.rankings.read" },
-      { key: "member-card-ranks", label: "会员卡排行", desc: "耗卡与卡种排行", route: "/pages/report/member-card-ranks/index", permission: "report.rankings.read" },
-      { key: "change-log", label: "变更记录", desc: "发卡/请假/停卡/删卡日志", route: "/pages/report/change-log/index", permission: "report.read" },
+      { key: "rankings", label: "排行榜", desc: "消费/上课/积分/销售", route: "/subpackages/report/rankings/index", permission: "report.rankings.read" },
+      { key: "member-card-ranks", label: "会员卡排行", desc: "耗卡与卡种排行", route: "/subpackages/report/member-card-ranks/index", permission: "report.rankings.read" },
+      { key: "change-log", label: "变更记录", desc: "发卡/请假/停卡/删卡日志", route: "/subpackages/report/change-log/index", permission: "report.read" },
     ],
   },
   {
     title: "课程分析",
     links: [
-      { key: "courses", label: "课程统计", desc: "团课/私教统计", route: "/pages/report/courses/index", permission: "report.course.read" },
-      { key: "coaches", label: "教练月报", desc: "教练课时与预约明细", route: "/pages/report/coaches/index", permission: "report.coach.read" },
+      { key: "courses", label: "课程统计", desc: "团课/私教统计", route: "/subpackages/report/courses/index", permission: "report.course.read" },
+      { key: "coaches", label: "教练月报", desc: "教练课时与预约明细", route: "/subpackages/report/coaches/index", permission: "report.coach.read" },
     ],
   },
   {
     title: "耗卡与薪酬",
     links: [
-      { key: "consumption", label: "耗卡结算与提成", desc: "A履约人/B分成角色/学员/课程/卡项", route: "/pages/report/consumption/index", permission: "consumption.read" },
-      { key: "payroll-periods", label: "月结与关账", desc: "创建自然月期间并按后端状态关账", route: "/pages/report/payroll-periods/index", permission: "payroll.period.close" },
-      { key: "payroll", label: "课时与售卡工资试算", desc: "基础课时/售卡规则；不含 A/B 耗卡提成", route: "/pages/report/payroll/index", permission: "payroll.report.read" },
+      { key: "consumption", label: "耗卡结算与提成", desc: "A履约人/B分成角色/学员/课程/卡项", route: "/subpackages/report/consumption/index", permission: "consumption.read" },
+      { key: "payroll-periods", label: "月结与关账", desc: "创建自然月期间并按后端状态关账", route: "/subpackages/report/payroll-periods/index", permission: "payroll.period.close" },
+      { key: "payroll", label: "课时与售卡工资试算", desc: "基础课时/售卡规则；不含 A/B 耗卡提成", route: "/subpackages/report/payroll/index", permission: "payroll.report.read" },
     ],
   },
   {
     title: "连锁",
     links: [
-      { key: "chain", label: "连锁汇总", desc: "分店经营对比", route: "/pages/report/chain/index", permission: "org.chain.read" },
+      { key: "chain", label: "连锁汇总", desc: "分店经营对比", route: "/subpackages/report/chain/index", permission: "org.chain.read" },
     ],
   },
 ];

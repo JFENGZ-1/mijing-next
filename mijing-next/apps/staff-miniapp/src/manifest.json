@@ -53,7 +53,15 @@
         "appid" : "wxcd4bca244f092713",
         "libVersion" : "3.15.2",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "es6" : true,
+            "enhance" : true,
+            "postcss" : true,
+            "minified" : true,
+            "minifyWXSS" : true,
+            "minifyWXML" : true,
+            "ignoreUploadUnusedFiles" : true,
+            "uploadWithSourceMap" : false
         },
         "usingComponents" : true
     },

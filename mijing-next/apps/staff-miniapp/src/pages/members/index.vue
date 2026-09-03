@@ -321,19 +321,19 @@ async function refresh() {
 }
 
 function openSearch() {
-  uni.navigateTo({ url: "/pages/members/search" });
+  uni.navigateTo({ url: "/subpackages/members/search" });
 }
 
 function openBatch() {
-  uni.navigateTo({ url: "/pages/members/batch-ops" });
+  uni.navigateTo({ url: "/subpackages/members/batch-ops" });
 }
 
 function openFilter() {
-  uni.navigateTo({ url: "/pages/members/filter" });
+  uni.navigateTo({ url: "/subpackages/members/filter" });
 }
 
 function openDeleted() {
-  uni.navigateTo({ url: "/pages/members/deleted" });
+  uni.navigateTo({ url: "/subpackages/members/deleted" });
 }
 
 function openMoreAnalysis() {
@@ -341,11 +341,11 @@ function openMoreAnalysis() {
     uni.showToast({ title: "暂无分析权限", icon: "none" });
     return;
   }
-  uni.navigateTo({ url: "/pages/report/member-analyze/index" });
+  uni.navigateTo({ url: "/subpackages/report/member-analyze/index" });
 }
 
 function openMember(member: CrmMember) {
-  uni.navigateTo({ url: `/pages/members/detail?id=${member.id}` });
+  uni.navigateTo({ url: `/subpackages/members/detail?id=${member.id}` });
 }
 
 function openCards(member: CrmMember) {
@@ -354,7 +354,7 @@ function openCards(member: CrmMember) {
 }
 
 function createMember() {
-  uni.navigateTo({ url: "/pages/members/form" });
+  uni.navigateTo({ url: "/subpackages/members/form" });
 }
 
 function onIncludeVisitorsChange(checked: boolean) {

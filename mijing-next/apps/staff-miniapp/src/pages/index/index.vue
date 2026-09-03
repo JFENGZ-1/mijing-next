@@ -122,7 +122,7 @@ function memberInitial(name?: string | null) {
 }
 
 function openSiteSwitcher() {
-  uni.navigateTo({ url: "/pages/sites/index" });
+  uni.navigateTo({ url: "/subpackages/misc/sites/index" });
 }
 </script>
 

@@ -60,14 +60,14 @@ function done(updated: ScheduleSession) {
 function editSession() {
   if (!current.value) return;
   close();
-  uni.navigateTo({ url: `/pages/course/session-form?id=${current.value.id}` });
+  uni.navigateTo({ url: `/subpackages/course/session-form?id=${current.value.id}` });
 }
 
 function openAllArrange() {
   if (!current.value) return;
   close();
   uni.navigateTo({
-    url: `/pages/course/timetable/all-course?courseId=${current.value.courseId}&name=${encodeURIComponent(current.value.courseName || "")}`,
+    url: `/subpackages/course/timetable/all-course?courseId=${current.value.courseId}&name=${encodeURIComponent(current.value.courseName || "")}`,
   });
 }
 

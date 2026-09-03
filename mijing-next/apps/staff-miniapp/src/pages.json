@@ -1,593 +1,810 @@
 {
-	"easycom": {
-		"autoscan": true,
-		"custom": {
-			"^u-(.*)": "uview-plus/components/u-$1/u-$1.vue"
-		}
-	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/login/index",
-			"style": { "navigationBarTitleText": "员工登录" }
-		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "觅境工作台",
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/course/index",
-			"style": {
-				"navigationBarTitleText": "约课管理",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/course/coach-board",
-			"style": {
-				"navigationBarTitleText": "私教预约",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/course/session-detail",
-			"style": {
-				"navigationBarTitleText": "课程详情",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/course/session-form",
-			"style": {
-				"navigationBarTitleText": "排课"
-			}
-		},
-		{
-			"path": "pages/course/timetable/index",
-			"style": {
-				"navigationBarTitleText": "课程/排课",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128",
-				"enablePullDownRefresh": false,
-				"onReachBottomDistance": 50
-			}
-		},
-		{
-			"path": "pages/settings/courses/private-edit",
-			"style": { "navigationBarTitleText": "编辑私教课" }
-		},
-		{
-			"path": "pages/settings/courses/card-fee",
-			"style": {
-				"navigationBarTitleText": "课程扣卡规则",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128"
-			}
-		},
-		{
-			"path": "pages/course/timetable/all-course",
-			"style": {
-				"navigationBarTitleText": "全部课表",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128"
-			}
-		},
-		{
-			"path": "pages/course/timetable/display-config",
-			"style": { "navigationBarTitleText": "课表展示设置" }
-		},
-		{
-			"path": "pages/sites/index",
-			"style": { "navigationBarTitleText": "场馆管理" }
-		},
-		{
-			"path": "pages/members/index",
-			"style": {
-				"navigationBarTitleText": "会员管理",
-				"navigationStyle": "custom",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/members/search",
-			"style": {
-				"navigationBarTitleText": "搜索会员",
-				"navigationStyle": "custom",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128"
-			}
-		},
-		{
-			"path": "pages/members/batch-ops",
-			"style": { "navigationBarTitleText": "批量操作" }
-		},
-		{
-			"path": "pages/members/batch-workbench",
-			"style": { "navigationBarTitleText": "批量卡操作", "enablePullDownRefresh": false }
-		},
-		{
-			"path": "pages/members/detail",
-			"style": {
-				"navigationBarTitleText": "会员档案",
-				"navigationStyle": "custom",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#F5F5F5"
-			}
-		},
-		{
-			"path": "pages/members/card-detail",
-			"style": {
-				"navigationBarTitleText": "会员卡详情",
-				"navigationStyle": "custom",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#F5F5F5"
-			}
-		},
-		{
-			"path": "pages/members/card-share-assignments",
-			"style": { "navigationBarTitleText": "耗卡分成归属", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/members/issue-card",
-			"style": { "navigationBarTitleText": "发卡" }
-		},
-		{
-			"path": "pages/members/wallet",
-			"style": { "navigationBarTitleText": "会员钱包" }
-		},
-		{
-			"path": "pages/members/form",
-			"style": {
-				"navigationBarTitleText": "会员资料",
-				"navigationStyle": "custom",
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTextStyle": "black"
-			}
-		},
-		{
-			"path": "pages/members/recharge-amount",
-			"style": {
-				"navigationBarTitleText": "累计消费",
-				"navigationStyle": "custom",
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTextStyle": "black",
-				"onReachBottomDistance": 80
-			}
-		},
-		{
-			"path": "pages/members/course-stats",
-			"style": {
-				"navigationBarTitleText": "上课统计",
-				"navigationStyle": "custom",
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTextStyle": "black"
-			}
-		},
-		{
-			"path": "pages/members/link-requests",
-			"style": { "navigationBarTitleText": "档案关联审核" }
-		},
-		{
-			"path": "pages/members/filter",
-			"style": { "navigationBarTitleText": "会员筛选" }
-		},
-		{
-			"path": "pages/members/deleted",
-			"style": { "navigationBarTitleText": "已删除会员", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/members/batch-import",
-			"style": { "navigationBarTitleText": "批量导入会员" }
-		},
-		{
-			"path": "pages/course/batch-tools",
-			"style": {
-				"navigationBarTitleText": "批量操作",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128"
-			}
-		},
-		{
-			"path": "pages/members/archived-cards/index",
-			"style": {
-				"navigationBarTitleText": "删除的卡",
-				"navigationStyle": "custom",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/members/points",
-			"style": {
-				"navigationBarTitleText": "会员积分",
-				"navigationStyle": "custom",
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/settings/points-config/index",
-			"style": { "navigationBarTitleText": "积分设置" }
-		},
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^u-(.*)": "uview-plus/components/u-$1/u-$1.vue"
+    }
+  },
+  "pages": [
+    {
+      "path": "pages/login/index",
+      "style": {
+        "navigationBarTitleText": "员工登录"
+      }
+    },
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "觅境工作台",
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/course/index",
+      "style": {
+        "navigationBarTitleText": "约课管理",
+        "navigationBarBackgroundColor": "#FBD128",
+        "navigationBarTextStyle": "black",
+        "backgroundColor": "#FBD128",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/members/index",
+      "style": {
+        "navigationBarTitleText": "会员管理",
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#FBD128",
+        "navigationBarTextStyle": "black",
+        "backgroundColor": "#FBD128",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/settings/hub/index",
+      "style": {
+        "navigationBarTitleText": "场馆",
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#FBD128",
+        "navigationBarTextStyle": "black",
+        "backgroundColor": "#FBD128",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/report/index",
+      "style": {
+        "navigationBarTitleText": "报表中心",
+        "enablePullDownRefresh": true
+      }
+    }
+  ],
+  "subPackages": [
+    {
+      "root": "subpackages/course",
+      "pages": [
         {
-			"path": "pages/settings/hub/index",
-			"style": {
-				"navigationBarTitleText": "场馆",
-				"navigationStyle": "custom",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/settings/crm/field-config/index",
-			"style": { "navigationBarTitleText": "会员资料字段" }
-		},
-		{
-			"path": "pages/settings/member/warm-hint/index",
-			"style": { "navigationBarTitleText": "温馨提示" }
-		},
-		{
-			"path": "pages/settings/member/carousel/index",
-			"style": { "navigationBarTitleText": "场馆展示图" }
-		},
-		{
-			"path": "pages/settings/member/miniapp-layout/index",
-			"style": { "navigationBarTitleText": "显示/隐藏" }
-		},
-		{
-			"path": "pages/settings/member/onboarding-help/index",
-			"style": { "navigationBarTitleText": "会员如何约课" }
-		},
-		{
-			"path": "pages/settings/legal/membership-agreement/index",
-			"style": { "navigationBarTitleText": "会员协议" }
-		},
-		{
-			"path": "pages/settings/defaults/notification-channels/index",
-			"style": { "navigationBarTitleText": "提醒设置" }
-		},
-		{
-			"path": "pages/settings/defaults/payment-marketing/index",
-			"style": { "navigationBarTitleText": "收款帐户" }
-		},
-		{
-			"path": "pages/settings/booking-policy/index",
-			"style": {
-				"navigationBarTitleText": "预约设置",
-				"navigationStyle": "custom",
-				"navigationBarBackgroundColor": "#FBD128",
-				"backgroundColor": "#FBD128"
-			}
-		},
-		{
-			"path": "pages/settings/defaults/card-reminder-config/index",
-			"style": { "navigationBarTitleText": "会员卡提醒阈值" }
-		},
-		{
-			"path": "pages/settings/sharing/staff-miniapp-code/index",
-			"style": { "navigationBarTitleText": "员工小程序码" }
-		},
-		{
-			"path": "pages/settings/platform/subscription-orders/index",
-			"style": { "navigationBarTitleText": "平台订阅订单", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/settings/platform/subscription/index",
-			"style": { "navigationBarTitleText": "订阅续费", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/settings/platform/subscription/agreement",
-			"style": { "navigationBarTitleText": "平台服务协议" }
-		},
-		{
-			"path": "pages/settings/chain/cross-site-cards/index",
-			"style": { "navigationBarTitleText": "连锁卡种关联" }
-		},
-		{
-			"path": "pages/settings/chain/instructions/index",
-			"style": { "navigationBarTitleText": "如何设置连锁" }
-		},
-		{
-			"path": "pages/settings/chain/stores/index",
-			"style": { "navigationBarTitleText": "分店管理", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/settings/chain/store-courses/index",
-			"style": { "navigationBarTitleText": "适用店与课", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/settings/chain/staff/index",
-			"style": { "navigationBarTitleText": "总店员工", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/settings/support/customer-service/index",
-			"style": { "navigationBarTitleText": "联系客服" }
-		},
-		{
-			"path": "pages/settings/support/video-help/index",
-			"style": { "navigationBarTitleText": "视频帮助" }
-		},
-		{
-			"path": "pages/check-in/scan/index",
-			"style": { "navigationBarTitleText": "扫码签到" }
-		},
-		{
-			"path": "pages/settings/operations/closure-calendar/index",
-			"style": { "navigationBarTitleText": "节假日闭店" }
-		},
-		{
-			"path": "pages/settings/operations/staff-vacations/index",
-			"style": { "navigationBarTitleText": "教练请假" }
-		},
-		{
-			"path": "pages/settings/operations/staff-vacations/detail",
-			"style": { "navigationBarTitleText": "请假详情" }
-		},
-		{
-			"path": "pages/settings/operations/notices/index",
-			"style": { "navigationBarTitleText": "发布公告" }
-		},
-		{
-			"path": "pages/settings/personal/index",
-			"style": { "navigationBarTitleText": "我的资料" }
-		},
-		{
-			"path": "pages/settings/site/index",
-			"style": { "navigationBarTitleText": "场馆资料" }
-		},
-		{
-			"path": "pages/settings/rooms/index",
-			"style": { "navigationBarTitleText": "教室管理", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/settings/rooms/edit",
-			"style": { "navigationBarTitleText": "教室资料" }
-		},
-		{
-			"path": "pages/settings/staff/index",
-			"style": {
-				"navigationBarTitleText": "员工/教练",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/settings/staff/edit",
-			"style": {
-				"navigationBarTitleText": "编辑教练",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128"
-			}
-		},
-		{
-			"path": "pages/settings/business-roles/index",
-			"style": { "navigationBarTitleText": "业务角色", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/settings/business-roles/edit",
-			"style": { "navigationBarTitleText": "编辑业务角色" }
-		},
-		{
-			"path": "pages/settings/business-roles/assignments",
-			"style": { "navigationBarTitleText": "员工业务角色", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/settings/compensation/index",
-			"style": { "navigationBarTitleText": "课程薪酬", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/settings/compensation/course-rule",
-			"style": { "navigationBarTitleText": "课程薪酬规则" }
-		},
-		{
-			"path": "pages/settings/card-products/index",
-			"style": {
-				"navigationBarTitleText": "会员卡种类",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/settings/card-products/edit",
-			"style": { "navigationBarTitleText": "创建会员卡" }
-		},
-		{
-			"path": "pages/settings/card-products/course-matrix",
-			"style": {
-				"navigationBarTitleText": "卡课扣费规则",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/settings/card-products/course-setting",
-			"style": {
-				"navigationBarTitleText": "设置关联课程",
-				"navigationBarBackgroundColor": "#ffffff",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#F5F5F5"
-			}
-		},
-		{
-			"path": "pages/settings/courses/index",
-			"style": {
-				"navigationBarTitleText": "排课/课程",
-				"navigationBarBackgroundColor": "#FBD128",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#FBD128",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/settings/courses/edit",
-			"style": { "navigationBarTitleText": "课程资料" }
-		},
-		{
-			"path": "pages/settings/roles/edit",
-			"style": { "navigationBarTitleText": "角色权限" }
-		},
-		{
-			"path": "pages/invite/accept",
-			"style": { "navigationBarTitleText": "接受邀请" }
-		},
-		{
-			"path": "pages/report/index",
-			"style": { "navigationBarTitleText": "报表中心", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/finance/index",
-			"style": { "navigationBarTitleText": "营收统计", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/courses/index",
-			"style": { "navigationBarTitleText": "课程统计", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/rankings/index",
-			"style": { "navigationBarTitleText": "排行榜", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
-		},
-		{
-			"path": "pages/report/member-card-ranks/index",
-			"style": { "navigationBarTitleText": "会员卡排行", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
-		},
-		{
-			"path": "pages/report/card-sales/index",
-			"style": { "navigationBarTitleText": "售卡统计", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/card-sales/detail",
-			"style": { "navigationBarTitleText": "售卡明细", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
-		},
-		{
-			"path": "pages/report/reminders/index",
-			"style": { "navigationBarTitleText": "会员提醒", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
-		},
-		{
-			"path": "pages/report/coaches/index",
-			"style": { "navigationBarTitleText": "教练月报", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/coaches/detail",
-			"style": { "navigationBarTitleText": "教练预约明细", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
-		},
-		{
-			"path": "pages/report/card-reminders/index",
-			"style": { "navigationBarTitleText": "会员卡提醒", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
-		},
-		{
-			"path": "pages/report/chain/index",
-			"style": { "navigationBarTitleText": "连锁汇总", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/exports/index",
-			"style": { "navigationBarTitleText": "会员导出", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
-		},
-		{
-			"path": "pages/report/payroll/index",
-			"style": { "navigationBarTitleText": "工资试算", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/consumption/index",
-			"style": { "navigationBarTitleText": "耗卡与提成", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
-		},
-		{
-			"path": "pages/report/consumption/detail",
-			"style": { "navigationBarTitleText": "耗卡结算明细" }
-		},
-		{
-			"path": "pages/report/payroll-periods/index",
-			"style": { "navigationBarTitleText": "月结与关账", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/payroll/config/index",
-			"style": { "navigationBarTitleText": "工资配置", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/payroll/config/coach-rules",
-			"style": { "navigationBarTitleText": "教练工资规则", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/member-analyze/index",
-			"style": { "navigationBarTitleText": "会员分析", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/card-analyze/index",
-			"style": { "navigationBarTitleText": "会员卡分析", "enablePullDownRefresh": true }
-		},
-		{
-			"path": "pages/report/change-log/index",
-			"style": { "navigationBarTitleText": "变更记录", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }
-		}
-	],
-	"tabBar": {
-		"color": "#505050",
-		"selectedColor": "#181818",
-		"backgroundColor": "#FFFFFF",
-		"borderStyle": "black",
-		"list": [
-			{
-				"pagePath": "pages/index/index",
-				"text": "今天",
-				"iconPath": "static/tabbar/today.png",
-				"selectedIconPath": "static/tabbar/today-active.png"
-			},
-			{
-				"pagePath": "pages/course/index",
-				"text": "课程",
-				"iconPath": "static/tabbar/course.png",
-				"selectedIconPath": "static/tabbar/course-active.png"
-			},
-			{
-				"pagePath": "pages/members/index",
-				"text": "会员",
-				"iconPath": "static/tabbar/member.png",
-				"selectedIconPath": "static/tabbar/member-active.png"
-			},
-			{
-				"pagePath": "pages/report/index",
-				"text": "报表",
-				"iconPath": "static/tabbar/report.png",
-				"selectedIconPath": "static/tabbar/report-active.png"
-			},
-			{
-				"pagePath": "pages/settings/hub/index",
-				"text": "场馆",
-				"iconPath": "static/tabbar/shop.png",
-				"selectedIconPath": "static/tabbar/shop-active.png"
-			}
-		]
-	},
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "觅境约课",
-		"navigationBarBackgroundColor": "#F5F5F5",
-		"backgroundColor": "#F5F5F5"
-	}
+          "path": "coach-board",
+          "style": {
+            "navigationBarTitleText": "私教预约",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "session-detail",
+          "style": {
+            "navigationBarTitleText": "课程详情",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "session-form",
+          "style": {
+            "navigationBarTitleText": "排课"
+          }
+        },
+        {
+          "path": "timetable/index",
+          "style": {
+            "navigationBarTitleText": "课程/排课",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#FBD128",
+            "enablePullDownRefresh": false,
+            "onReachBottomDistance": 50
+          }
+        },
+        {
+          "path": "timetable/all-course",
+          "style": {
+            "navigationBarTitleText": "全部课表",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#FBD128"
+          }
+        },
+        {
+          "path": "timetable/display-config",
+          "style": {
+            "navigationBarTitleText": "课表展示设置"
+          }
+        },
+        {
+          "path": "batch-tools",
+          "style": {
+            "navigationBarTitleText": "批量操作",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#FBD128"
+          }
+        }
+      ]
+    },
+    {
+      "root": "subpackages/members",
+      "pages": [
+        {
+          "path": "search",
+          "style": {
+            "navigationBarTitleText": "搜索会员",
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#FBD128"
+          }
+        },
+        {
+          "path": "batch-ops",
+          "style": {
+            "navigationBarTitleText": "批量操作"
+          }
+        },
+        {
+          "path": "batch-workbench",
+          "style": {
+            "navigationBarTitleText": "批量卡操作",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "detail",
+          "style": {
+            "navigationBarTitleText": "会员档案",
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#F5F5F5"
+          }
+        },
+        {
+          "path": "card-detail",
+          "style": {
+            "navigationBarTitleText": "会员卡详情",
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#F5F5F5"
+          }
+        },
+        {
+          "path": "card-share-assignments",
+          "style": {
+            "navigationBarTitleText": "耗卡分成归属",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "issue-card",
+          "style": {
+            "navigationBarTitleText": "发卡"
+          }
+        },
+        {
+          "path": "wallet",
+          "style": {
+            "navigationBarTitleText": "会员钱包"
+          }
+        },
+        {
+          "path": "form",
+          "style": {
+            "navigationBarTitleText": "会员资料",
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#FFFFFF",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "recharge-amount",
+          "style": {
+            "navigationBarTitleText": "累计消费",
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#FFFFFF",
+            "navigationBarTextStyle": "black",
+            "onReachBottomDistance": 80
+          }
+        },
+        {
+          "path": "course-stats",
+          "style": {
+            "navigationBarTitleText": "上课统计",
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#FFFFFF",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "link-requests",
+          "style": {
+            "navigationBarTitleText": "档案关联审核"
+          }
+        },
+        {
+          "path": "filter",
+          "style": {
+            "navigationBarTitleText": "会员筛选"
+          }
+        },
+        {
+          "path": "deleted",
+          "style": {
+            "navigationBarTitleText": "已删除会员",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "batch-import",
+          "style": {
+            "navigationBarTitleText": "批量导入会员"
+          }
+        },
+        {
+          "path": "archived-cards/index",
+          "style": {
+            "navigationBarTitleText": "删除的卡",
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "points",
+          "style": {
+            "navigationBarTitleText": "会员积分",
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#FFFFFF",
+            "navigationBarTextStyle": "black",
+            "enablePullDownRefresh": true
+          }
+        }
+      ]
+    },
+    {
+      "root": "subpackages/settings",
+      "pages": [
+        {
+          "path": "courses/private-edit",
+          "style": {
+            "navigationBarTitleText": "编辑私教课"
+          }
+        },
+        {
+          "path": "courses/card-fee",
+          "style": {
+            "navigationBarTitleText": "课程扣卡规则",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#FBD128"
+          }
+        },
+        {
+          "path": "points-config/index",
+          "style": {
+            "navigationBarTitleText": "积分设置"
+          }
+        },
+        {
+          "path": "crm/field-config/index",
+          "style": {
+            "navigationBarTitleText": "会员资料字段"
+          }
+        },
+        {
+          "path": "member/warm-hint/index",
+          "style": {
+            "navigationBarTitleText": "温馨提示"
+          }
+        },
+        {
+          "path": "member/carousel/index",
+          "style": {
+            "navigationBarTitleText": "场馆展示图"
+          }
+        },
+        {
+          "path": "member/miniapp-layout/index",
+          "style": {
+            "navigationBarTitleText": "显示/隐藏"
+          }
+        },
+        {
+          "path": "member/onboarding-help/index",
+          "style": {
+            "navigationBarTitleText": "会员如何约课"
+          }
+        },
+        {
+          "path": "legal/membership-agreement/index",
+          "style": {
+            "navigationBarTitleText": "会员协议"
+          }
+        },
+        {
+          "path": "defaults/notification-channels/index",
+          "style": {
+            "navigationBarTitleText": "提醒设置"
+          }
+        },
+        {
+          "path": "defaults/payment-marketing/index",
+          "style": {
+            "navigationBarTitleText": "收款帐户"
+          }
+        },
+        {
+          "path": "booking-policy/index",
+          "style": {
+            "navigationBarTitleText": "预约设置",
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#FBD128",
+            "backgroundColor": "#FBD128"
+          }
+        },
+        {
+          "path": "defaults/card-reminder-config/index",
+          "style": {
+            "navigationBarTitleText": "会员卡提醒阈值"
+          }
+        },
+        {
+          "path": "sharing/staff-miniapp-code/index",
+          "style": {
+            "navigationBarTitleText": "员工小程序码"
+          }
+        },
+        {
+          "path": "platform/subscription-orders/index",
+          "style": {
+            "navigationBarTitleText": "平台订阅订单",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "platform/subscription/index",
+          "style": {
+            "navigationBarTitleText": "订阅续费",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "platform/subscription/agreement",
+          "style": {
+            "navigationBarTitleText": "平台服务协议"
+          }
+        },
+        {
+          "path": "chain/cross-site-cards/index",
+          "style": {
+            "navigationBarTitleText": "连锁卡种关联"
+          }
+        },
+        {
+          "path": "chain/instructions/index",
+          "style": {
+            "navigationBarTitleText": "如何设置连锁"
+          }
+        },
+        {
+          "path": "chain/stores/index",
+          "style": {
+            "navigationBarTitleText": "分店管理",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "chain/store-courses/index",
+          "style": {
+            "navigationBarTitleText": "适用店与课",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "chain/staff/index",
+          "style": {
+            "navigationBarTitleText": "总店员工",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "support/customer-service/index",
+          "style": {
+            "navigationBarTitleText": "联系客服"
+          }
+        },
+        {
+          "path": "support/video-help/index",
+          "style": {
+            "navigationBarTitleText": "视频帮助"
+          }
+        },
+        {
+          "path": "operations/closure-calendar/index",
+          "style": {
+            "navigationBarTitleText": "节假日闭店"
+          }
+        },
+        {
+          "path": "operations/staff-vacations/index",
+          "style": {
+            "navigationBarTitleText": "教练请假"
+          }
+        },
+        {
+          "path": "operations/staff-vacations/detail",
+          "style": {
+            "navigationBarTitleText": "请假详情"
+          }
+        },
+        {
+          "path": "operations/notices/index",
+          "style": {
+            "navigationBarTitleText": "发布公告"
+          }
+        },
+        {
+          "path": "personal/index",
+          "style": {
+            "navigationBarTitleText": "我的资料"
+          }
+        },
+        {
+          "path": "site/index",
+          "style": {
+            "navigationBarTitleText": "场馆资料"
+          }
+        },
+        {
+          "path": "rooms/index",
+          "style": {
+            "navigationBarTitleText": "教室管理",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "rooms/edit",
+          "style": {
+            "navigationBarTitleText": "教室资料"
+          }
+        },
+        {
+          "path": "staff/index",
+          "style": {
+            "navigationBarTitleText": "员工/教练",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#FBD128",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "staff/edit",
+          "style": {
+            "navigationBarTitleText": "编辑教练",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#FBD128"
+          }
+        },
+        {
+          "path": "business-roles/index",
+          "style": {
+            "navigationBarTitleText": "业务角色",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "business-roles/edit",
+          "style": {
+            "navigationBarTitleText": "编辑业务角色"
+          }
+        },
+        {
+          "path": "business-roles/assignments",
+          "style": {
+            "navigationBarTitleText": "员工业务角色",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "compensation/index",
+          "style": {
+            "navigationBarTitleText": "课程薪酬",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "compensation/course-rule",
+          "style": {
+            "navigationBarTitleText": "课程薪酬规则"
+          }
+        },
+        {
+          "path": "card-products/index",
+          "style": {
+            "navigationBarTitleText": "会员卡种类",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#FBD128",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "card-products/edit",
+          "style": {
+            "navigationBarTitleText": "创建会员卡"
+          }
+        },
+        {
+          "path": "card-products/course-matrix",
+          "style": {
+            "navigationBarTitleText": "卡课扣费规则",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#FBD128",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "card-products/course-setting",
+          "style": {
+            "navigationBarTitleText": "设置关联课程",
+            "navigationBarBackgroundColor": "#ffffff",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#F5F5F5"
+          }
+        },
+        {
+          "path": "courses/index",
+          "style": {
+            "navigationBarTitleText": "排课/课程",
+            "navigationBarBackgroundColor": "#FBD128",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#FBD128",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "courses/edit",
+          "style": {
+            "navigationBarTitleText": "课程资料"
+          }
+        },
+        {
+          "path": "roles/edit",
+          "style": {
+            "navigationBarTitleText": "角色权限"
+          }
+        }
+      ]
+    },
+    {
+      "root": "subpackages/report",
+      "pages": [
+        {
+          "path": "finance/index",
+          "style": {
+            "navigationBarTitleText": "营收统计",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "courses/index",
+          "style": {
+            "navigationBarTitleText": "课程统计",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "rankings/index",
+          "style": {
+            "navigationBarTitleText": "排行榜",
+            "enablePullDownRefresh": true,
+            "onReachBottomDistance": 80
+          }
+        },
+        {
+          "path": "member-card-ranks/index",
+          "style": {
+            "navigationBarTitleText": "会员卡排行",
+            "enablePullDownRefresh": true,
+            "onReachBottomDistance": 80
+          }
+        },
+        {
+          "path": "card-sales/index",
+          "style": {
+            "navigationBarTitleText": "售卡统计",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "card-sales/detail",
+          "style": {
+            "navigationBarTitleText": "售卡明细",
+            "enablePullDownRefresh": true,
+            "onReachBottomDistance": 80
+          }
+        },
+        {
+          "path": "reminders/index",
+          "style": {
+            "navigationBarTitleText": "会员提醒",
+            "enablePullDownRefresh": true,
+            "onReachBottomDistance": 80
+          }
+        },
+        {
+          "path": "coaches/index",
+          "style": {
+            "navigationBarTitleText": "教练月报",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "coaches/detail",
+          "style": {
+            "navigationBarTitleText": "教练预约明细",
+            "enablePullDownRefresh": true,
+            "onReachBottomDistance": 80
+          }
+        },
+        {
+          "path": "card-reminders/index",
+          "style": {
+            "navigationBarTitleText": "会员卡提醒",
+            "enablePullDownRefresh": true,
+            "onReachBottomDistance": 80
+          }
+        },
+        {
+          "path": "chain/index",
+          "style": {
+            "navigationBarTitleText": "连锁汇总",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "exports/index",
+          "style": {
+            "navigationBarTitleText": "会员导出",
+            "enablePullDownRefresh": true,
+            "onReachBottomDistance": 80
+          }
+        },
+        {
+          "path": "payroll/index",
+          "style": {
+            "navigationBarTitleText": "工资试算",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "consumption/index",
+          "style": {
+            "navigationBarTitleText": "耗卡与提成",
+            "enablePullDownRefresh": true,
+            "onReachBottomDistance": 80
+          }
+        },
+        {
+          "path": "consumption/detail",
+          "style": {
+            "navigationBarTitleText": "耗卡结算明细"
+          }
+        },
+        {
+          "path": "payroll-periods/index",
+          "style": {
+            "navigationBarTitleText": "月结与关账",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "payroll/config/index",
+          "style": {
+            "navigationBarTitleText": "工资配置",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "payroll/config/coach-rules",
+          "style": {
+            "navigationBarTitleText": "教练工资规则",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "member-analyze/index",
+          "style": {
+            "navigationBarTitleText": "会员分析",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "card-analyze/index",
+          "style": {
+            "navigationBarTitleText": "会员卡分析",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "change-log/index",
+          "style": {
+            "navigationBarTitleText": "变更记录",
+            "enablePullDownRefresh": true,
+            "onReachBottomDistance": 80
+          }
+        }
+      ]
+    },
+    {
+      "root": "subpackages/misc",
+      "pages": [
+        {
+          "path": "sites/index",
+          "style": {
+            "navigationBarTitleText": "场馆管理"
+          }
+        },
+        {
+          "path": "invite/accept",
+          "style": {
+            "navigationBarTitleText": "接受邀请"
+          }
+        },
+        {
+          "path": "check-in/scan/index",
+          "style": {
+            "navigationBarTitleText": "扫码签到"
+          }
+        }
+      ]
+    }
+  ],
+  "tabBar": {
+    "color": "#505050",
+    "selectedColor": "#181818",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "今天",
+        "iconPath": "static/tabbar/today.png",
+        "selectedIconPath": "static/tabbar/today-active.png"
+      },
+      {
+        "pagePath": "pages/course/index",
+        "text": "课程",
+        "iconPath": "static/tabbar/course.png",
+        "selectedIconPath": "static/tabbar/course-active.png"
+      },
+      {
+        "pagePath": "pages/members/index",
+        "text": "会员",
+        "iconPath": "static/tabbar/member.png",
+        "selectedIconPath": "static/tabbar/member-active.png"
+      },
+      {
+        "pagePath": "pages/report/index",
+        "text": "报表",
+        "iconPath": "static/tabbar/report.png",
+        "selectedIconPath": "static/tabbar/report-active.png"
+      },
+      {
+        "pagePath": "pages/settings/hub/index",
+        "text": "场馆",
+        "iconPath": "static/tabbar/shop.png",
+        "selectedIconPath": "static/tabbar/shop-active.png"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "觅境约课",
+    "navigationBarBackgroundColor": "#F5F5F5",
+    "backgroundColor": "#F5F5F5"
+  }
 }

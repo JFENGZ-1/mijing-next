@@ -81,20 +81,20 @@ function openCardDetail(card: StaffMemberCardSummary) {
   if (!props.memberId) return;
   close();
   uni.navigateTo({
-    url: `/pages/members/card-detail?memberId=${props.memberId}&memberCardId=${card.id}`,
+    url: `/subpackages/members/card-detail?memberId=${props.memberId}&memberCardId=${card.id}`,
   });
 }
 
 function openMemberDetail() {
   if (!props.memberId) return;
   close();
-  uni.navigateTo({ url: `/pages/members/detail?id=${props.memberId}` });
+  uni.navigateTo({ url: `/subpackages/members/detail?id=${props.memberId}` });
 }
 
 function issueCard() {
   if (!props.memberId) return;
   close();
-  uni.navigateTo({ url: `/pages/members/issue-card?memberId=${props.memberId}` });
+  uni.navigateTo({ url: `/subpackages/members/issue-card?memberId=${props.memberId}` });
 }
 </script>
 
