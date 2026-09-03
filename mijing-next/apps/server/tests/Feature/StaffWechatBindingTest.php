@@ -130,6 +130,41 @@ class StaffWechatBindingTest extends TestCase
         $this->assertSame(2, Staff::query()->count());
     }
 
+    public function test_existing_demo_staff_receives_full_demo_permissions_when_logging_in(): void
+    {
+        [$staff] = $this->seedAdministrator();
+        Permission::query()->create([
+            'name' => 'View staff dashboard',
+            'code' => 'staff.dashboard.read',
+            'module' => 'identity',
+        ]);
+        config()->set('wechat.staff_demo', [
+            'auto_provision' => true,
+            'tenant_code' => 'mijing',
+            'site_code' => 'main',
+        ]);
+        $this->fakeStaffWechat('existing-demo-openid');
+        Artisan::call('staff:bind-openid', [
+            'openid' => 'existing-demo-openid',
+            '--employee-no' => $staff->employee_no,
+        ]);
+
+        $login = $this->postJson('/api/v1/auth/wechat/login', [
+            'appType' => 'staff',
+            'code' => 'staff-login-code',
+            'deviceName' => 'staff-miniapp',
+        ])->assertOk();
+
+        $this->assertContains('staff.dashboard.read', $login->json('data.staff.permissions'));
+        $this->assertCount(Permission::query()->count(), $login->json('data.staff.permissions'));
+        $this->assertDatabaseHas('role_staff', [
+            'staff_id' => $staff->id,
+            'role_id' => Role::query()->where('code', 'demo-operator')->value('id'),
+            'tenant_id' => $staff->tenant_id,
+            'site_id' => null,
+        ]);
+    }
+
     public function test_bind_openid_command_is_blocked_outside_local_environments(): void
     {
         config()->set('app.env', 'production');

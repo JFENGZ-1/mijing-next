@@ -83,6 +83,8 @@ class AuthController extends Controller
                                 $staffProfiles = collect([$demoStaff]);
                             }
                         }
+                        $staffProfiles = $staffProfiles
+                            ->map(fn (Staff $profile) => $demoStaffProvisioning->grantFullAccess($profile));
                         abort_if($staffProfiles->isEmpty(), 403, 'STAFF_ACCESS_DENIED');
                         abort_if($staffProfiles->count() > 1, 409, 'STAFF_CONTEXT_REQUIRED');
                         $staff = $staffProfiles->first();

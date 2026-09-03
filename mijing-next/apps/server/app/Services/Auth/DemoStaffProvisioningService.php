@@ -52,6 +52,33 @@ class DemoStaffProvisioningService
             ],
         );
 
+        return $this->grantFullAccess($staff);
+    }
+
+    public function grantFullAccess(Staff $staff): Staff
+    {
+        if (! config('wechat.staff_demo.auto_provision', false)) {
+            return $staff;
+        }
+
+        $tenant = Tenant::query()
+            ->whereKey($staff->tenant_id)
+            ->where('code', config('wechat.staff_demo.tenant_code', 'mijing'))
+            ->where('status', 'active')
+            ->first();
+        if (! $tenant) {
+            return $staff;
+        }
+
+        $site = Site::query()
+            ->where('tenant_id', $tenant->id)
+            ->where('code', config('wechat.staff_demo.site_code', 'main'))
+            ->where('status', 'active')
+            ->first();
+        if (! $site) {
+            return $staff;
+        }
+
         $role = Role::query()->firstOrCreate(
             ['tenant_id' => $tenant->id, 'code' => 'demo-operator'],
             ['name' => '演示操作员', 'is_system' => true, 'status' => 'active'],
@@ -68,6 +95,6 @@ class DemoStaffProvisioningService
             $role->id => ['tenant_id' => $tenant->id, 'site_id' => null],
         ]);
 
-        return $staff->load(['sites', 'roles.permissions']);
+        return $staff->fresh(['sites', 'roles.permissions']);
     }
 }
